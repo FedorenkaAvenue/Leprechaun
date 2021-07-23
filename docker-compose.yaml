@@ -9,16 +9,21 @@ services:
   # redis:
   #   restart: unless-stopped
 
-  client:
-    restart: unless-stopped
+  # client:
+  #   restart: unless-stopped
 
   server:
     restart: unless-stopped
+    build: ./server
+    volumes:
+      - ./server:/app
+    environment:
+      - IS_DEV=true
 
   nginx:
     restart: unless-stopped
     ports:
       - 80:80
 
-  adm:
-    restart: unless-stopped
+  # adm:
+  #   restart: unless-stopped

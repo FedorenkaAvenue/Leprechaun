@@ -12,8 +12,8 @@ services:
   #   ports:
   #     - ${REDIS_PORT}:${REDIS_PORT} # только для GUI базы
 
-  client:
-    container_name: leprechaun_client
+  # client:
+  #   container_name: leprechaun_client
 
   server:
     container_name: leprechaun_server
@@ -21,5 +21,5 @@ services:
   nginx:
     container_name: leprechaun_nginx
 
-  adm:
-    container_name: leprechaun_adm
+  # adm:
+  #   container_name: leprechaun_adm
