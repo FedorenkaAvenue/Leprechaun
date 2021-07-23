@@ -3,9 +3,11 @@ version: '3.8'
 services:
   postgres:
     restart: unless-stopped
+    volumes:
+      - ./postgres/postgresql.conf:/app/postgresql.conf
 
-  redis:
-    restart: unless-stopped
+  # redis:
+  #   restart: unless-stopped
 
   client:
     restart: unless-stopped
