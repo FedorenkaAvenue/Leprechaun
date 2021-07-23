@@ -1,2 +1,5 @@
-# Leprechaun
-boilerplate for web store
+# Leprechaun💰
+
+## Description
+
+Boilerplate for web store

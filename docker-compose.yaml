@@ -1,0 +1,22 @@
+version: '3.8'
+
+services:
+  postgres:
+    restart: unless-stopped
+
+  redis:
+    restart: unless-stopped
+
+  client:
+    restart: unless-stopped
+
+  server:
+    restart: unless-stopped
+
+  nginx:
+    restart: unless-stopped
+    ports:
+      - 80:80
+
+  adm:
+    restart: unless-stopped
