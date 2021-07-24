@@ -6,6 +6,8 @@ services:
     build: ./postgres
     ports:
       - ${PGPORT}:${PGPORT} # только для GUI базы
+    environment:
+      - POSTGRES_PASSWORD=PGPASSWORD
 
   # redis:
   #   container_name: leprechaun_redis
@@ -20,6 +22,7 @@ services:
 
   nginx:
     container_name: leprechaun_nginx
+    build: ./nginx
 
   # adm:
   #   container_name: leprechaun_adm

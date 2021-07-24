@@ -6,3 +6,6 @@ docker-compose.* linguist-language=Dockerfile
 
 Dockerfile.prod linguist-detectable=true
 Dockerfile.prod linguist-language=Dockerfile
+
+*.conf linguist-detectable=true
+*.yaml linguist-detectable=true

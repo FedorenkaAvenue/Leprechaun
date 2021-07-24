@@ -1,2 +1,5 @@
 # common
 node_modules
+
+# server
+/server/lol
