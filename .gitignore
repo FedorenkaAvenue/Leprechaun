@@ -1,5 +1,23 @@
 # common
 node_modules
 
+# client
+client/prerender.js.map
+client/server.js.map
+client/server.js
+client/dist
+dist-server
+client/static
+
 # server
 /server/lol
+
+# IDE - VSCode
+.vscode
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+
+
