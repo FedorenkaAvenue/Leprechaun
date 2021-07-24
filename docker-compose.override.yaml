@@ -1,0 +1,28 @@
+version: '3.8'
+
+services:
+  postgres:
+    container_name: leprechaun_postgres
+    build: ./postgres
+    ports:
+      - ${PGPORT}:${PGPORT} # только для GUI базы
+    environment:
+      - POSTGRES_PASSWORD=PGPASSWORD
+
+  # redis:
+  #   container_name: leprechaun_redis
+  #   ports:
+  #     - ${REDIS_PORT}:${REDIS_PORT} # только для GUI базы
+
+  # client:
+  #   container_name: leprechaun_client
+
+  server:
+    container_name: leprechaun_server
+
+  nginx:
+    container_name: leprechaun_nginx
+    build: ./nginx
+
+  # adm:
+  #   container_name: leprechaun_adm
