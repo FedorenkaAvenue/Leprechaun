@@ -1,3 +1,20 @@
+enum FilterOptionType {
+    List = 1,
+    Range,
+
+}
+
+enum FilterType {
+    Price = 1,
+    Producer,
+    Universal
+}
+
+interface RangeMinMax {
+    min: number;
+    max: number;
+}
+
 interface Catagory {
     id: number
     title: string
@@ -43,3 +60,46 @@ interface ProductLabel {
 }
 
 // filters
+
+interface ProductBaseFilter {
+
+}
+
+interface ProductFilter {
+    chosen: any;
+    options: Array<FilterProductPrice | FilterProductProducer | FilterProductUniversal>;
+}
+
+
+
+interface FilterProductBase {
+    type: FilterType;
+    optionId: number;
+    optionName: string;
+    optionTitle: string;
+    optionType: FilterOptionType;
+// TODO orderType - ?????
+    order: number;
+}
+
+
+interface FilterProductPrice {
+    chosenValues: RangeMinMax;
+    range_values: RangeMinMax
+}
+
+
+interface FilterProductProducer {
+    option_values: Array<any>;
+    totalFiltered: number;
+    totalFound: number;
+}
+
+interface FilterProductUniversal {
+    option_values: Array<any>;
+    totalFiltered: number;
+    totalFound: number;
+}
+
+
+
