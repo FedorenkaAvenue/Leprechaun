@@ -10,7 +10,6 @@ dist-server
 client/static
 
 # server
-/server/lol
 
 # IDE - VSCode
 .vscode
@@ -19,5 +18,3 @@ client/static
 !.vscode/tasks.json
 !.vscode/launch.json
 !.vscode/extensions.json
-
-

@@ -11,6 +11,11 @@ services:
 
   # client:
   #   restart: unless-stopped
+  #   build: ./client
+  #   volumes:
+  #     - ./client:/app
+  #   environment:
+  #     - IS_DEV=true
 
   server:
     restart: unless-stopped

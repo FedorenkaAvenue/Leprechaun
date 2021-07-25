@@ -8,6 +8,8 @@ services:
       - ${PGPORT}:${PGPORT} # только для GUI базы
     environment:
       - POSTGRES_PASSWORD=PGPASSWORD
+      - POSTGRES_USER=PGUSER
+      - POSTGRES_DATABASE=PGDATABASE
 
   # redis:
   #   container_name: leprechaun_redis
