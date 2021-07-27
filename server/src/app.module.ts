@@ -2,9 +2,8 @@ import { Module } from '@nestjs/common';
 import { RouterModule } from '@nestjs/core';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
-import { CategoryModule } from './modules/category/module';
-
-const { POSTGRES_HOST, POSTGRES_PORT, POSTGRES_USER, POSTGRES_PASSWORD, POSTGRES_DATABASE } = process.env;
+import { CategoryModule } from '@modules/category/module';
+import ConfigService from '@services/config';
 
 @Module({
 	imports: [
@@ -19,16 +18,7 @@ const { POSTGRES_HOST, POSTGRES_PORT, POSTGRES_USER, POSTGRES_PASSWORD, POSTGRES
 			]
 		),
 		// db
-		TypeOrmModule.forRoot({
-			type: 'postgres',
-			host: POSTGRES_HOST,
-			port: Number(POSTGRES_PORT),
-			username: POSTGRES_USER,
-			password: POSTGRES_PASSWORD,
-			database: POSTGRES_DATABASE,
-			synchronize: true,
-			autoLoadEntities: true
-		})
+		TypeOrmModule.forRoot(new ConfigService().getTypeOrmConfig())
 	]
 })
 export class AppModule { }

@@ -11,11 +11,16 @@ export class CategoryService {
 		@InjectRepository(CategoryEntity)
 		private readonly categoryRepo: Repository<CategoryEntity>
 	) {}
-	// getCategory(categoryName: string): string {
-	// 	return categoryName;
-	// }
 
-	createCategory(newCategory: ICategory) {
+	getMainCategories(): Promise<CategoryEntity[]> {
+		return this.categoryRepo.find();
+	}
+
+	getCategory(categoryUrl: string): Promise<CategoryEntity> {
+		return this.categoryRepo.findOne({ url: categoryUrl });
+	}
+
+	createCategory(newCategory: ICategory): Promise<CategoryEntity> {
 		return this.categoryRepo.save(newCategory);
 	}
 }

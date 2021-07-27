@@ -1,15 +1,19 @@
 import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 
-import { ICategory } from "./interface";
-
 @Entity('category')
 export class CategoryEntity {
-    @PrimaryGeneratedColumn()
+    @PrimaryGeneratedColumn("uuid")
     id: number;
 
-    @Column({ default: 'body' })
-    body: string;
+    @Column({ unique: true })
+    title: string;
 
-    @Column({ default: 'create at))' })
-    createAt: string;
+    @Column({ unique: true })
+    url: string;
+
+    @Column({ nullable: true })
+    icon: string;
+
+    @Column({ nullable: true })
+    children: string;
 }
