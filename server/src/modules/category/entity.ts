@@ -2,8 +2,11 @@ import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity('category')
 export class CategoryEntity {
-    @PrimaryGeneratedColumn("uuid")
+    @PrimaryGeneratedColumn()
     id: number;
+
+    @Column()
+    isMain: boolean;
 
     @Column({ unique: true })
     title: string;

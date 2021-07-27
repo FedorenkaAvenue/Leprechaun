@@ -13,6 +13,10 @@ export class CategoryService {
 	) {}
 
 	getMainCategories(): Promise<CategoryEntity[]> {
+		return this.categoryRepo.find({ isMain: true });
+	}
+
+	getAllCategories(): Promise<CategoryEntity[]> {
 		return this.categoryRepo.find();
 	}
 
