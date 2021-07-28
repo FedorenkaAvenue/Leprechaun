@@ -13,18 +13,26 @@ export class CategoryService {
 	) {}
 
 	getMainCategories(): Promise<CategoryEntity[]> {
-		return this.categoryRepo.find({ isMain: true });
+		return this.categoryRepo.find({ parentCategoryId: null });
 	}
 
 	getAllCategories(): Promise<CategoryEntity[]> {
 		return this.categoryRepo.find();
 	}
 
-	getCategory(categoryUrl: string): Promise<CategoryEntity> {
-		return this.categoryRepo.findOne({ url: categoryUrl });
+	getCategory(category: string): Promise<CategoryEntity> {
+		return isNaN(Number(category)) ?
+			this.categoryRepo.findOne({ url: category }) :
+			this.categoryRepo.findOne({ id: Number(category) });
 	}
 
 	createCategory(newCategory: ICategory): Promise<CategoryEntity> {
 		return this.categoryRepo.save(newCategory);
+	}
+
+	deleteCategory(category: string) {
+		return isNaN(Number(category)) ?
+			this.categoryRepo.delete({ url: category }) :
+			this.categoryRepo.delete({ id: Number(category) });
 	}
 }

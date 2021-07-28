@@ -3,7 +3,7 @@ import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 
 import { AppModule } from './app.module';
 
-const { IS_DEV } = process.env;
+const { IS_DEV, APP_NAME } = process.env;
 
 async function runServer() {
 	const app = await NestFactory.create(AppModule);
@@ -12,9 +12,7 @@ async function runServer() {
 
 	if (IS_DEV) {
 		const config = new DocumentBuilder()
-			.setTitle('Leprechaun')
-			.setDescription('API description')
-			.setVersion('1.0')
+			.setTitle(APP_NAME)
 			.build();
 
 		const document = SwaggerModule.createDocument(app, config);

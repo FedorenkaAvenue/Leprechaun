@@ -16,7 +16,7 @@
       "@src/*": ["./*"],
       "@modules/*": ["modules/*"],
       "@services/*": ["services/*"],
-      "@interseptors": ["interseptors"]
+      "@interceptors/*": ["interceptors/*"]
     },
   }
 }

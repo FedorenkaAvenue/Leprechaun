@@ -5,8 +5,8 @@ export class CategoryEntity {
     @PrimaryGeneratedColumn()
     id: number;
 
-    @Column()
-    isMain: boolean;
+    @Column({ nullable: true })
+    parentCategoryId: number;
 
     @Column({ unique: true })
     title: string;
