@@ -1,8 +1,9 @@
-import { Controller, Get, Put, Param, HttpCode, Body } from '@nestjs/common';
+import { Controller, Get, Put, Param, HttpCode, Body, UseInterceptors } from '@nestjs/common';
 
 import { CategoryService } from './service';
 import { ICategory } from './interface';
 import { CategoryEntity } from './entity';
+import { NotFoundInterceptor } from '@src/interseptors';
 
 @Controller()
 export class CategoryController {
@@ -19,6 +20,7 @@ export class CategoryController {
 	}
 
 	@Get(':category')
+	@UseInterceptors(NotFoundInterceptor)
 	getCategory(@Param('category') category: string): Promise<CategoryEntity> {
 		return this.categoryService.getCategory(category);
 	}

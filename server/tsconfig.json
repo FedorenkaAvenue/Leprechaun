@@ -15,7 +15,8 @@
     "paths": {
       "@src/*": ["./*"],
       "@modules/*": ["modules/*"],
-      "@services/*": ["services/*"]
+      "@services/*": ["services/*"],
+      "@interseptors": ["interseptors"]
     },
   }
 }
