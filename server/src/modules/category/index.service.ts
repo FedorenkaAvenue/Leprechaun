@@ -3,7 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
 import { CategoryEntity } from './index.entity';
-import { ICategory } from './interface';
+import { CreateCategoryDTO } from './index.dto';
 
 @Injectable()
 export class CategoryService {
@@ -26,11 +26,11 @@ export class CategoryService {
 			this.categoryRepo.findOne({ id: Number(category) });
 	}
 
-	createCategory(newCategory: ICategory): Promise<CategoryEntity> {
+	createCategory(newCategory: CreateCategoryDTO): Promise<CategoryEntity> {
 		return this.categoryRepo.save(newCategory);
 	}
 
-	updateCategory(category: ICategory): Promise<CategoryEntity> {
+	updateCategory(category: CreateCategoryDTO): Promise<CategoryEntity> {
 		return this.categoryRepo.save(category);
 	}
 
