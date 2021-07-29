@@ -15,7 +15,7 @@ import { LeprachaunIconColor, leprachaunIconColorsList } from '../../leprachaun-
 import {LeprachaunIconRegistryService} from '../../services/leprachaun-icon-registry.service';
 
 @Component({
-  selector: 'app-seazone-icon',
+  selector: 'app-leprachaun-icon',
   templateUrl: './leprachaun-icons.component.html',
   styleUrls: ['./leprachaun-icons.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,

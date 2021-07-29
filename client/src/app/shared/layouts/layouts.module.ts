@@ -9,8 +9,7 @@ import { TranslateModule } from '@ngx-translate/core';
     RouterModule,
     TranslateModule,
   ],
-  declarations: [
-  ],
+  declarations: [],
   exports: [
   ],
 })

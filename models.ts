@@ -1,13 +1,17 @@
 enum FilterOptionType {
     List = 1,
     Range,
-
 }
 
 enum FilterType {
     Price = 1,
     Producer,
     Universal
+}
+
+enum ProductBillboardType {
+    New = 1,
+    Popular
 }
 
 interface RangeMinMax {
@@ -25,8 +29,8 @@ interface Catagory {
 
 // главная
 
-interface PopularProductShortList {
-    categoryId: number
+interface ProductBillboard {
+    type: ProductBillboardType
     title: string
     list: Array<ProductShortInfo>
 }
