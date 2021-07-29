@@ -11,20 +11,6 @@ import { CreateCategoryDTO } from './index.dto';
 export class CategoryController {
 	constructor(private readonly categoryService: CategoryService) {}
 
-	@Get()
-	@ApiOperation({ summary: 'get main categories' })
-	@ApiOkResponse({ type: CategoryEntity, isArray: true })
-	getMainCategories(): Promise<CategoryEntity[]> {
-		return this.categoryService.getMainCategories();
-	}
-
-	@Get('/all')
-	@ApiOperation({ summary: 'get all categories' })
-	@ApiOkResponse({ type: CategoryEntity, isArray: true })
-	getAllCategories(): Promise<CategoryEntity[]> {
-		return this.categoryService.getAllCategories();
-	}
-
 	@Get(':category')
 	@UseInterceptors(NotFoundInterceptor)
 	@ApiOperation({ summary: 'get exact category' })
@@ -56,5 +42,25 @@ export class CategoryController {
 	@ApiNotFoundResponse({ description: 'category not found' })
 	deleteCategory(@Param('category') category: string) {
 		return this.categoryService.deleteCategory(category);
+	}
+}
+
+@ApiTags('Categories')
+@Controller('categories')
+export class CategoriesController {
+	constructor(private readonly categoryService: CategoryService) {}
+
+	@Get()
+	@ApiOperation({ summary: 'get main categories' })
+	@ApiOkResponse({ type: CategoryEntity, isArray: true })
+	getMainCategories(): Promise<CategoryEntity[]> {
+		return this.categoryService.getMainCategories();
+	}
+
+	@Get('/all')
+	@ApiOperation({ summary: 'get all categories' })
+	@ApiOkResponse({ type: CategoryEntity, isArray: true })
+	getAllCategories(): Promise<CategoryEntity[]> {
+		return this.categoryService.getAllCategories();
 	}
 }
