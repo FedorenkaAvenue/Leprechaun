@@ -32,6 +32,8 @@ services:
   nginx:
     container_name: leprechaun_nginx
     build: ./nginx
+    volumes:
+      - ./nginx/.http_auth:/etc/nginx/.http_auth
 
   # adm:
   #   container_name: leprechaun_adm
