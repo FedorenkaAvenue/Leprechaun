@@ -1,19 +1,13 @@
 import { Module } from '@nestjs/common';
-import { RouterModule } from '@nestjs/core';
+import { TypeOrmModule } from '@nestjs/typeorm';
 
-import { CategoryModule } from './modules/category/api.module';
+import { CategoryModule } from '@modules/category/index.module';
+import ConfigService from '@services/config';
 
 @Module({
-  imports: [
-    CategoryModule,
-    RouterModule.register(
-      [
-        {
-          path: 'category',
-          module: CategoryModule
-        }
-      ]
-    )
-  ]
+	imports: [
+		CategoryModule,
+		TypeOrmModule.forRoot(new ConfigService().getTypeOrmConfig())
+	]
 })
-export class AppModule {}
+export class AppModule { }
