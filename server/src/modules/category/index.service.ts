@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
-import { CategoryEntity } from './entity';
+import { CategoryEntity } from './index.entity';
 import { ICategory } from './interface';
 
 @Injectable()
@@ -28,6 +28,10 @@ export class CategoryService {
 
 	createCategory(newCategory: ICategory): Promise<CategoryEntity> {
 		return this.categoryRepo.save(newCategory);
+	}
+
+	updateCategory(category: ICategory): Promise<CategoryEntity> {
+		return this.categoryRepo.save(category);
 	}
 
 	deleteCategory(category: string) {

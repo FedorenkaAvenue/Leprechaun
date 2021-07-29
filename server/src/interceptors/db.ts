@@ -1,5 +1,5 @@
 import { CallHandler, ExecutionContext, Injectable, NestInterceptor, NotFoundException } from "@nestjs/common";
-import { Observable, tap } from "rxjs";
+import { map, Observable, tap } from "rxjs";
 
 @Injectable()
 export class NotFoundInterceptor implements NestInterceptor {
@@ -20,9 +20,12 @@ export class DeletedInterceptor implements NestInterceptor {
         return next
             .handle()
             .pipe(
-                tap(data => {
-                    if (!data.affected) throw new NotFoundException();
+                tap(({ affected }) => {
+                    if (!affected) throw new NotFoundException();
                 })
+            //TODO: rebuild 200 Responce
+            ).pipe(
+                map(() => {})
             );
     }
 }

@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
-import { CategoryModule } from '@modules/category/module';
+import { CategoryModule } from '@modules/category/index.module';
 import ConfigService from '@services/config';
 
 @Module({

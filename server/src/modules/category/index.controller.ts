@@ -1,15 +1,15 @@
-import { Controller, Get, Put, Param, HttpCode, Body, UseInterceptors, Delete } from '@nestjs/common';
+import { Controller, Get, Put, Param, HttpCode, Body, UseInterceptors, Delete, Patch } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 
-import { CategoryService } from './service';
-import { ICategory } from './interface';
-import { CategoryEntity } from './entity';
+import { CategoryService } from './index.service';
+import { CategoryEntity } from './index.entity';
 import { NotFoundInterceptor, DeletedInterceptor } from '@interceptors/db';
+import { CreateCategoryDTO } from './index.dto';
 
-@ApiTags('category')
+@ApiTags('Category')
 @Controller('category')
 export class CategoryController {
-	constructor(private readonly categoryService: CategoryService) { }
+	constructor(private readonly categoryService: CategoryService) {}
 
 	@Get()
 	getMainCategories(): Promise<CategoryEntity[]> {
@@ -29,8 +29,13 @@ export class CategoryController {
 
 	@Put()
 	@HttpCode(201)
-	addCategory(@Body() body: ICategory): Promise<CategoryEntity> {
+	addCategory(@Body() body: CreateCategoryDTO): Promise<CategoryEntity> {
 		return this.categoryService.createCategory(body);
+	}
+
+	@Patch()
+	updateCategory(@Body() body: CreateCategoryDTO): Promise<CategoryEntity> {
+		return this.categoryService.updateCategory(body);
 	}
 
 	@Delete(':category')
