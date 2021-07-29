@@ -9,8 +9,14 @@
     "target": "es2017",
     "sourceMap": true,
     "outDir": "./dist",
-    "baseUrl": "./",
     "incremental": true,
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "baseUrl": "./src",
+    "paths": {
+      "@src/*": ["./*"],
+      "@modules/*": ["modules/*"],
+      "@services/*": ["services/*"],
+      "@interceptors/*": ["interceptors/*"]
+    },
   }
 }

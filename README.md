@@ -6,4 +6,11 @@ Boilerplate for web store
 
 ## Deploy
 
- * `make build` to deploy and up containers
+ * local🐳
+
+    * `make build` to deploy and up containers
+    * open http://loclahost:80
+
+## Docs
+
+ * **SwaggerAPI**: http://localhost/docs
