@@ -1,0 +1,13 @@
+mat-drawer {
+    background-color: aqua;
+}
+
+.mat-drawer-container .mat-drawer-content {
+    min-height: calc(100vh - 64px);
+    display: flex;
+    flex-direction: column;
+}
+
+.mat-drawer {
+    min-width: 280px;
+}
