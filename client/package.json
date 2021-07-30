@@ -2,9 +2,13 @@
   "name": "universal-demo",
   "version": "11.0.0",
   "license": "MIT",
+  "engines": {
+    "node": "14.17.3",
+    "yarn": "1.x"
+  },
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
+    "start": "ng serve --port 80 --host 0.0.0.0 --disable-host-check --poll 500",
     "ssr": "ng run universal-demo:serve-ssr ",
     "ssr:watch": "ng run universal-demo:serve-ssr:dev",
     "format:check": "prettier --write --config ./.prettierrc --list-different \"src/{app,environments,styles}/**/*{.ts,.json,.scss}\"",

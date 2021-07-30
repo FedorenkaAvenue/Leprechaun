@@ -1,5 +1,5 @@
 # Web application
 
-# Join
+## Join
 
 http://localhost/api

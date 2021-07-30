@@ -1,12 +1,23 @@
-enum FilterOptionType {
-    List = 1,
-    Range,
+// ! КАТЕГОРИИ
+
+interface Category {
+    id: number
+    title: string
+    url: string
+    children: Array<Category> | null
+    icon: string | null
+    parentCategoryId: number;
+
 }
 
-enum FilterType {
-    Price = 1,
-    Producer,
-    Universal
+// ! ГЛАВНАЯ
+
+
+// бигборд товаров для главной страницы
+interface ProductBillboard {
+    type: ProductBillboardType
+    title: string
+    list: Array<ProductShortInfo>
 }
 
 enum ProductBillboardType {
@@ -14,28 +25,7 @@ enum ProductBillboardType {
     Popular
 }
 
-interface RangeMinMax {
-    min: number;
-    max: number;
-}
-
-interface Catagory {
-    id: number
-    title: string
-    url: string
-    children: Array<Catagory> | null
-    icon: string | null
-}
-
-// главная
-
-interface ProductBillboard {
-    type: ProductBillboardType
-    title: string
-    list: Array<ProductShortInfo>
-}
-
-// продукт
+// ! ПРОДУКТ
 
 interface BaseProductItem {
     title: string
@@ -63,7 +53,23 @@ interface ProductLabel {
     value: string
 }
 
-// filters
+// ! ФИЛЬТРЫ
+
+enum FilterType {
+    Price = 1,
+    Producer,
+    Universal
+}
+
+enum FilterOptionType {
+    List = 1,
+    Range,
+}
+
+interface RangeMinMax {
+    min: number;
+    max: number;
+}
 
 interface ProductBaseFilter {
 
@@ -73,8 +79,6 @@ interface ProductFilter {
     chosen: any;
     options: Array<FilterProductPrice | FilterProductProducer | FilterProductUniversal>;
 }
-
-
 
 interface FilterProductBase {
     type: FilterType;
@@ -86,12 +90,10 @@ interface FilterProductBase {
     order: number;
 }
 
-
 interface FilterProductPrice {
     chosenValues: RangeMinMax;
     range_values: RangeMinMax
 }
-
 
 interface FilterProductProducer {
     option_values: Array<any>;
@@ -104,6 +106,3 @@ interface FilterProductUniversal {
     totalFiltered: number;
     totalFound: number;
 }
-
-
-

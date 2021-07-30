@@ -9,7 +9,7 @@ import { CookieService, CookieModule } from '@gorniv/ngx-universal';
 import { TransferHttpCacheModule } from '@nguniversal/common';
 // shared
 import { SharedModule } from '@shared/shared.module';
-import { AuthService } from '@shared/services/auth.service';
+import { AuthService } from '@shared/services/auth/auth.service';
 // components
 import { AppRoutes } from './app.routing';
 import { AppComponent } from './app.component';

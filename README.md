@@ -4,13 +4,17 @@
 
 Boilerplate for web store
 
-## Deploy
+## Deploy🐳(local)
 
- * local🐳
+Run `make build` to deploy and start all containers
 
-    * `make build` to deploy and up containers
-    * open http://loclahost:80
+## Links
 
-## Docs
+ * http://localhost user client
+ * http://localhost/admin admin client
+ * http://localhost/docs *Swagger* docs
 
- * **SwaggerAPI**: http://localhost/docs
+## Tools
+
+ * `make start` to start all containers (without build)
+ * `make stop` to stop all containers
