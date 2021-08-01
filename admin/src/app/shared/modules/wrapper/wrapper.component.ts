@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { SIDENAV_LINKS } from '../../static/layout';
 
 @Component({
   selector: 'app-wrapper',
@@ -8,7 +9,7 @@ import { Component, OnInit } from '@angular/core';
 export class WrapperComponent implements OnInit {
 
   public showFiller = true;
-
+  public sidenavLinks = SIDENAV_LINKS;
   constructor() { }
 
   ngOnInit(): void {

@@ -9,5 +9,11 @@ mat-drawer {
 }
 
 .mat-drawer {
+    display: flex;
+    flex-direction: column;
     min-width: 280px;
+}
+
+.sidenav_link {
+    display: flex;
 }

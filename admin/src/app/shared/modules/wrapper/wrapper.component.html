@@ -1,11 +1,23 @@
 <mat-toolbar color="primary">
-    <button (click)="drawer.toggle()" mat-icon-button class="example-icon" aria-label="Example icon-button with menu icon">
-      <mat-icon>menu</mat-icon>
-    </button>
-    <span>My App</span>
-  </mat-toolbar>
+  <button
+    (click)="drawer.toggle()"
+    mat-icon-button
+    class="example-icon"
+    aria-label="Example icon-button with menu icon"
+  >
+    <mat-icon>menu</mat-icon>
+  </button>
+  <span>My App</span>
+</mat-toolbar>
 <mat-drawer-container class="mat-drawer-container" [hasBackdrop]="true">
-  <mat-drawer class="mat-drawer" #drawer [mode]="'over'"></mat-drawer>
+  <mat-drawer class="mat-drawer" #drawer [mode]="'over'">
+    <ng-container *ngFor="let link of sidenavLinks">
+      <a class="sidenav_link" [routerLink]="link?.url">
+        <mat-icon>{{ link?.icon }}</mat-icon>
+        <span>{{ link?.label }}</span>
+      </a>
+    </ng-container>
+  </mat-drawer>
   <mat-drawer-content class="mat-drawer-content">
     <router-outlet></router-outlet>
   </mat-drawer-content>

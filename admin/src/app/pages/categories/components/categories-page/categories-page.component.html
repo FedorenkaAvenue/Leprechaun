@@ -1,0 +1,14 @@
+<!-- <ng-container *ngIf="categories$ | async as categories"> -->
+<section>
+    <h1>Categories</h1>
+    <ng-container *ngFor="let category of categories$ | async">
+        <div>
+            <span>{{category?.title}}</span>
+            <img stubImage
+            src=""
+            class="img"
+            >
+        </div>
+    </ng-container>
+</section>
+<!-- </ng-container> -->
