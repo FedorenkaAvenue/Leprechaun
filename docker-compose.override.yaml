@@ -16,9 +16,6 @@ services:
   #   ports:
   #     - ${REDIS_PORT}:${REDIS_PORT} # только для GUI базы
 
-  # client:
-  #   container_name: leprechaun_client
-
   server:
     container_name: leprechaun_server
     environment:
@@ -35,6 +32,10 @@ services:
   nginx:
     container_name: leprechaun_nginx
     build: ./nginx
+    depends_on:
+      - admin
+      - server
+      - client
     volumes:
       - ./nginx/.http_auth:/etc/nginx/.http_auth
 
