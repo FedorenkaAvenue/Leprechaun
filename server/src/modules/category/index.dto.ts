@@ -1,4 +1,6 @@
 import { ApiProperty } from "@nestjs/swagger";
+import { CategoryEntity } from "./index.entity";
+
 import { ICategory } from "./index.interface";
 
 export class CreateCategoryDTO implements ICategory {
@@ -15,5 +17,5 @@ export class CreateCategoryDTO implements ICategory {
     parentCategoryId: number;
 
     @ApiProperty({ required: false })
-    children: string;
+    children: Array<CategoryEntity>;
 }

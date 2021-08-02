@@ -4,14 +4,12 @@ interface Category {
     id: number
     title: string
     url: string
-    children: Array<Category> | null
+    children: Array<Category> | null //список вложенных категорий
     icon: string | null
-    parentCategoryId: number;
-
+    parentCategoryId: number | null;
 }
 
 // ! ГЛАВНАЯ
-
 
 // бигборд товаров для главной страницы
 interface ProductBillboard {

@@ -6,11 +6,13 @@ import { CategoryEntity } from './index.entity';
 import { CreateCategoryDTO } from './index.dto';
 
 @Injectable()
-export class CategoryService {
+export class CategoriesService {
 	constructor(
 		@InjectRepository(CategoryEntity)
 		private readonly categoryRepo: Repository<CategoryEntity>
 	) {}
+
+	// * categories
 
 	getMainCategories(): Promise<CategoryEntity[]> {
 		return this.categoryRepo.find({ parentCategoryId: null });
@@ -19,6 +21,14 @@ export class CategoryService {
 	getAllCategories(): Promise<CategoryEntity[]> {
 		return this.categoryRepo.find();
 	}
+}
+
+@Injectable()
+export class CategoryService {
+	constructor(
+		@InjectRepository(CategoryEntity)
+		private readonly categoryRepo: Repository<CategoryEntity>
+	) {}
 
 	getCategory(category: string): Promise<CategoryEntity> {
 		return isNaN(Number(category)) ?

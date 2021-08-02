@@ -25,7 +25,11 @@ export class CategoryEntity implements ICategory {
     @ApiProperty({ required: false })
     icon: string;
 
-    @Column({ nullable: true })
+    @Column({
+        nullable: true,
+        type: "int",
+        array: true
+    })
     @ApiProperty({ required: false })
-    children: string;
+    children: CategoryEntity[];
 }
