@@ -33,7 +33,7 @@ export class CategoryController {
 
 	@Get(':category')
 	@UseInterceptors(NotFoundInterceptor)
-	@ApiOperation({ summary: 'get exact category' })
+	@ApiOperation({ summary: 'get category by url' })
 	@ApiOkResponse({ type: CategoryEntity })
 	@ApiNotFoundResponse({ description: 'category not found' })
 	getCategory(@Param('category') category: string): Promise<CategoryEntity> {
@@ -51,15 +51,15 @@ export class CategoryController {
 	@ApiOperation({ summary: 'update category' })
 	@ApiOkResponse({ type: CategoryEntity })
 	updateCategory(@Body() body: CategoryEntity): Promise<CategoryEntity> {
-		return this.categoryService.updateCategory(body);
+		return this.categoryService.createCategory(body);
 	}
 
 	@Delete(':category')
 	@UseInterceptors(DeletedInterceptor)
-	@ApiOperation({ summary: 'delete category' })
+	@ApiOperation({ summary: 'delete category by url' })
 	@ApiOkResponse({ description: 'success' })
 	@ApiNotFoundResponse({ description: 'category not found' })
 	deleteCategory(@Param('category') category: string) {
-		return this.categoryService.deleteCategory(Number(category));
+		return this.categoryService.deleteCategory(category);
 	}
 }

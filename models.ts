@@ -1,9 +1,8 @@
 // ! КАТЕГОРИИ
 
 interface Category {
-    id: number
+    url: string // вместо ID
     title: string
-    url: string
     icon: string | null
     // children: Array<Category> | null //список вложенных категорий
     // parentCategoryId: number | null
@@ -35,7 +34,7 @@ interface ProductShortInfo extends ProductBase {
 
 interface ProductBase {
     title: string
-    id: number
+    id: string
     categoryId: number
     price: number
     labels: Array<ProductLabel> | null

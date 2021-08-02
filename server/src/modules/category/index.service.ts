@@ -28,21 +28,15 @@ export class CategoryService {
 		private readonly categoryRepo: Repository<CategoryEntity>
 	) {}
 
-	getCategory(category: string): Promise<CategoryEntity> {
-		return isNaN(Number(category)) ?
-			this.categoryRepo.findOne({ url: category }) :
-			this.categoryRepo.findOne({ id: Number(category)})
+	getCategory(categoryUrl: string): Promise<CategoryEntity> {
+		return this.categoryRepo.findOne({ url: categoryUrl })
 	}
 
 	createCategory(newCategory: CreateCategoryDTO): Promise<CategoryEntity> {
 		return this.categoryRepo.save(newCategory);
 	}
 
-	updateCategory(category: CreateCategoryDTO): Promise<CategoryEntity> {
-		return this.categoryRepo.save(category);
-	}
-
-	deleteCategory(categoryId: number): Promise<DeleteResult> {
-		return this.categoryRepo.delete({ id: categoryId });
+	deleteCategory(categoryUrl: string): Promise<DeleteResult> {
+		return this.categoryRepo.delete({ url: categoryUrl });
 	}
 }

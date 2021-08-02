@@ -1,21 +1,17 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, PrimaryColumn, PrimaryGeneratedColumn } from "typeorm";
 
 import { ICategory } from "./index.interface";
 
 @Entity('category')
 export class CategoryEntity implements ICategory {
-    @PrimaryGeneratedColumn()
+    @PrimaryColumn()
     @ApiProperty()
-    id: number;
+    url: string;
 
     @Column({ unique: true })
     @ApiProperty()
     title: string;
-
-    @Column({ unique: true })
-    @ApiProperty()
-    url: string;
 
     @Column({ nullable: true })
     @ApiProperty({ required: false })

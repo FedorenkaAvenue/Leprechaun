@@ -10,7 +10,7 @@ export class ProductEntity implements IProduct {
     @ApiProperty()
     id: string;
 
-    @ManyToOne(() => CategoryEntity, category => category.id)
+    @ManyToOne(() => CategoryEntity, category => category.url)
     @JoinColumn()
     @ApiProperty({ required: true })
     categoryId: number;

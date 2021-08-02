@@ -5,10 +5,10 @@ import { ICategory } from "./index.interface";
 
 export class CreateCategoryDTO implements ICategory {
     @ApiProperty()
-    title: string;
-  
-    @ApiProperty()
     url: string;
+
+    @ApiProperty()
+    title: string;
 
     @ApiProperty({ required: false })
     icon: string;
