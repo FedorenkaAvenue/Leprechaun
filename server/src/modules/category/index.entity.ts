@@ -9,10 +9,6 @@ export class CategoryEntity implements ICategory {
     @ApiProperty()
     id: number;
 
-    @Column({ nullable: true })
-    @ApiProperty()
-    parentCategoryId: number;
-
     @Column({ unique: true })
     @ApiProperty()
     title: string;
@@ -25,11 +21,11 @@ export class CategoryEntity implements ICategory {
     @ApiProperty({ required: false })
     icon: string;
 
-    @Column({
-        nullable: true,
-        type: "int",
-        array: true
-    })
-    @ApiProperty({ required: false })
-    children: CategoryEntity[];
+    // @Column({ unique: true })
+    // @ApiProperty({ required: false })
+    // parentCategoryId: number;
+
+    // @Column({ nullable: true, array: true })
+    // @ApiProperty({ required: false })
+    // children: CategoryEntity[];
 }

@@ -6,19 +6,19 @@ import { CategoriesService, CategoryService } from './index.service';
 import { CategoryEntity } from './index.entity';
 import { CreateCategoryDTO } from './index.dto';
 
-@ApiTags('Categories')
 @Controller('categories')
+@ApiTags('Categories')
 export class CategoriesController {
 	constructor(private readonly categoryService: CategoriesService) {}
 
-	@Get()
-	@ApiOperation({ summary: 'get main categories' })
-	@ApiOkResponse({ type: CategoryEntity, isArray: true })
-	getMainCategories(): Promise<CategoryEntity[]> {
-		return this.categoryService.getMainCategories();
-	}
+	// @Get()
+	// @ApiOperation({ summary: 'get main categories' })
+	// @ApiOkResponse({ type: CategoryEntity, isArray: true })
+	// getMainCategories(): Promise<CategoryEntity[]> {
+	// 	return this.categoryService.getMainCategories();
+	// }
 
-	@Get('/all')
+	@Get('/list')
 	@ApiOperation({ summary: 'get all categories' })
 	@ApiOkResponse({ type: CategoryEntity, isArray: true })
 	getAllCategories(): Promise<CategoryEntity[]> {
@@ -61,6 +61,6 @@ export class CategoryController {
 	@ApiOkResponse({ description: 'success' })
 	@ApiNotFoundResponse({ description: 'category not found' })
 	deleteCategory(@Param('category') category: string) {
-		return this.categoryService.deleteCategory(category);
+		return this.categoryService.deleteCategory(Number(category));
 	}
 }

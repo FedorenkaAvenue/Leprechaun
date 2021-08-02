@@ -4,9 +4,9 @@ interface Category {
     id: number
     title: string
     url: string
-    children: Array<Category> | null //список вложенных категорий
     icon: string | null
-    parentCategoryId: number | null;
+    // children: Array<Category> | null //список вложенных категорий
+    // parentCategoryId: number | null
 }
 
 // ! ГЛАВНАЯ
@@ -25,25 +25,25 @@ enum ProductBillboardType {
 
 // ! ПРОДУКТ
 
-interface BaseProductItem {
+interface Product extends ProductBase {
+    images: Array<string>
+}
+
+interface ProductShortInfo extends ProductBase {
+    image: string
+}
+
+interface ProductBase {
     title: string
     id: number
     price: number
     labels: Array<ProductLabel> | null
-    properties: Array<ProductPropertyItem>
+    properties: Array<ProductProperty>
 }
 
-interface Product {
-    images: Array<string>
-}
-
-interface ProductPropertyItem {
+interface ProductProperty {
     property: string
     value: string
-}
-
-interface ProductShortInfo extends BaseProductItem {
-    image: string
 }
 
 interface ProductLabel {

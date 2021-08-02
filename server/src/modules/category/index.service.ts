@@ -12,11 +12,9 @@ export class CategoriesService {
 		private readonly categoryRepo: Repository<CategoryEntity>
 	) {}
 
-	// * categories
-
-	getMainCategories(): Promise<CategoryEntity[]> {
-		return this.categoryRepo.find({ parentCategoryId: null });
-	}
+	// getMainCategories(): Promise<CategoryEntity[]> {
+	// 	return this.categoryRepo.find({ parentCategoryId: null });
+	// }
 
 	getAllCategories(): Promise<CategoryEntity[]> {
 		return this.categoryRepo.find();
@@ -33,7 +31,7 @@ export class CategoryService {
 	getCategory(category: string): Promise<CategoryEntity> {
 		return isNaN(Number(category)) ?
 			this.categoryRepo.findOne({ url: category }) :
-			this.categoryRepo.findOne({ id: Number(category) });
+			this.categoryRepo.findOne({ id: Number(category)})
 	}
 
 	createCategory(newCategory: CreateCategoryDTO): Promise<CategoryEntity> {
@@ -44,9 +42,7 @@ export class CategoryService {
 		return this.categoryRepo.save(category);
 	}
 
-	deleteCategory(category: string) {
-		return isNaN(Number(category)) ?
-			this.categoryRepo.delete({ url: category }) :
-			this.categoryRepo.delete({ id: Number(category) });
+	deleteCategory(categoryId: number) {
+		return this.categoryRepo.delete({ id: categoryId });
 	}
 }
