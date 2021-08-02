@@ -36,6 +36,7 @@ interface ProductShortInfo extends ProductBase {
 interface ProductBase {
     title: string
     id: number
+    categoryId: number
     price: number
     labels: Array<ProductLabel> | null
     properties: Array<ProductProperty>

@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { DeleteResult, Repository } from 'typeorm';
 
 import { CategoryEntity } from './index.entity';
 import { CreateCategoryDTO } from './index.dto';
@@ -42,7 +42,7 @@ export class CategoryService {
 		return this.categoryRepo.save(category);
 	}
 
-	deleteCategory(categoryId: number) {
+	deleteCategory(categoryId: number): Promise<DeleteResult> {
 		return this.categoryRepo.delete({ id: categoryId });
 	}
 }

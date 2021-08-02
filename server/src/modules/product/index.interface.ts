@@ -7,7 +7,8 @@ interface IProductShortInfo extends IProductBase {
 }
 
 interface IProductBase {
-    id: number
+    id?: string
+    categoryId: number
     title: string
     price: number
     // labels: Array<IProductLabel> | null

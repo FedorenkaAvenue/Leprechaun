@@ -41,7 +41,6 @@ export class CategoryController {
 	}
 
 	@Put()
-	@HttpCode(201)
 	@ApiOperation({ summary: 'add new category' })
 	@ApiCreatedResponse({ type: CategoryEntity })
 	addCategory(@Body() body: CreateCategoryDTO): Promise<CategoryEntity> {
