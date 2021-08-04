@@ -12,12 +12,17 @@ export class ProductService {
 		private readonly productRepo: Repository<ProductEntity>
 	) {}
 
-	createProduct(product: CreateProductDTO): Promise<ProductEntity> {
+	createProduct(product: CreateProductDTO) {
 		return this.productRepo.save(product);
 	}
 
 	getProduct(productId: string): Promise<ProductEntity> {
-		return this.productRepo.findOne({ id: productId });
+		return this.productRepo.findOne({
+			where: {
+				id: productId
+			},
+			relations: ['category']
+		})
 	}
 
 	deleteProduct(productId: string): Promise<DeleteResult> {

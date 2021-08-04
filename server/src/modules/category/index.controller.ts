@@ -48,7 +48,7 @@ export class CategoryController {
 	}
 
 	@Patch()
-	@ApiOperation({ summary: 'update category' })
+	@ApiOperation({ summary: 'update category info' })
 	@ApiOkResponse({ type: CategoryEntity })
 	updateCategory(@Body() body: CategoryEntity): Promise<CategoryEntity> {
 		return this.categoryService.createCategory(body);

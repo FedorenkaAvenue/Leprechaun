@@ -29,7 +29,12 @@ export class CategoryService {
 	) {}
 
 	getCategory(categoryUrl: string): Promise<CategoryEntity> {
-		return this.categoryRepo.findOne({ url: categoryUrl })
+		return this.categoryRepo.findOne({
+			where: {
+				url: categoryUrl
+			},
+			relations: ['products']
+		})
 	}
 
 	createCategory(newCategory: CreateCategoryDTO): Promise<CategoryEntity> {

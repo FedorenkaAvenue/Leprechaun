@@ -1,11 +1,16 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { Column, Entity, PrimaryColumn, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 
+import { ProductEntity } from "@modules/product/index.entity";
 import { ICategory } from "./index.interface";
 
 @Entity('category')
 export class CategoryEntity implements ICategory {
-    @PrimaryColumn()
+    @PrimaryGeneratedColumn('increment')
+    @ApiProperty()
+    id: number;
+
+    @Column({ unique: true })
     @ApiProperty()
     url: string;
 
@@ -17,11 +22,7 @@ export class CategoryEntity implements ICategory {
     @ApiProperty({ required: false })
     icon: string;
 
-    // @Column({ unique: true })
-    // @ApiProperty({ required: false })
-    // parentCategoryId: number;
-
-    // @Column({ nullable: true, array: true })
-    // @ApiProperty({ required: false })
-    // children: CategoryEntity[];
+    @OneToMany(() => ProductEntity, product => product.id)
+    @ApiProperty()
+    products: ProductEntity[]
 }

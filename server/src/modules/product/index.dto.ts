@@ -1,4 +1,5 @@
 import { ApiProperty } from "@nestjs/swagger";
+
 import { IProduct } from "./index.interface";
 
 export class CreateProductDTO implements IProduct {
@@ -9,7 +10,7 @@ export class CreateProductDTO implements IProduct {
     price: number;
 
     @ApiProperty({ required: true })
-    categoryId: number;
+    category: number;
     
     // labels: Array<IProductLabel> | null;
     // properties: Array<IProductProperty>;

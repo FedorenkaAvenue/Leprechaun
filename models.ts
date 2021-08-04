@@ -1,9 +1,14 @@
 // ! КАТЕГОРИИ
 
-interface Category {
-    url: string // вместо ID
+interface CategoryBase {
+    id: number
+    url: string
     title: string
     icon: string | null
+}
+
+interface Category extends CategoryBase {
+    products?: Array<Product> | null
     // children: Array<Category> | null //список вложенных категорий
     // parentCategoryId: number | null
 }

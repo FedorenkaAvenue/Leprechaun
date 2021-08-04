@@ -1,7 +1,7 @@
 import { ApiProperty } from "@nestjs/swagger";
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
-import { CategoryEntity } from "../category/index.entity";
 
+import { CategoryEntity } from "@modules/category/index.entity";
 import { IProduct } from "./index.interface";
 
 @Entity('product')
@@ -10,10 +10,10 @@ export class ProductEntity implements IProduct {
     @ApiProperty()
     id: string;
 
-    @ManyToOne(() => CategoryEntity, category => category.url)
-    @JoinColumn()
+    @ManyToOne(() => CategoryEntity, category => category.id)
+    @JoinColumn({ name: "category" })
     @ApiProperty({ required: true })
-    categoryId: number;
+    category: number;
 
     @Column()
     @ApiProperty({ required: true })

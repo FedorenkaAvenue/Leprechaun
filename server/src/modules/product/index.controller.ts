@@ -1,5 +1,5 @@
 import { Body, Controller, Delete, Get, Param, Patch, Put, UseInterceptors } from "@nestjs/common";
-import { ApiOkResponse, ApiOperation, ApiTags } from "@nestjs/swagger";
+import { ApiNotFoundResponse, ApiOkResponse, ApiOperation, ApiTags } from "@nestjs/swagger";
 import { DeleteResult } from "typeorm";
 
 import { CreateProductDTO } from "./index.dto";
@@ -29,13 +29,14 @@ export class ProductController {
     @Patch()
     @ApiOperation({ summary: 'update product' })
     @ApiOkResponse({ type: ProductEntity })
-    updateProduct(@Body() product: ProductEntity): Promise<ProductEntity> {
+    updateProduct(@Body() product: CreateProductDTO): Promise<ProductEntity> {
         return this.productService.createProduct(product);
     }
 
     @Delete(':productId')
     @ApiOperation({ summary: 'delete product by id' })
     @UseInterceptors(DeletedInterceptor)
+    @ApiNotFoundResponse({ description: 'product not found' })
     deleteProduct(@Param('productId') productId: string): Promise<DeleteResult> {
         return this.productService.deleteProduct(productId);
     }

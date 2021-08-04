@@ -1,5 +1,4 @@
 import { ApiProperty } from "@nestjs/swagger";
-// import { CategoryEntity } from "./index.entity";
 
 import { ICategory } from "./index.interface";
 
