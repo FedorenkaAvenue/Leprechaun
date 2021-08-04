@@ -1,0 +1,38 @@
+<!-- <div>
+    <span>{{category?.title}}</span>
+    <img stubImage
+    [src]="category?.icon || ''"
+    class="img"
+    >
+</div> -->
+
+<!-- <article class="category-card__wrapper"> -->
+<mat-card class="category-card">
+  <mat-card-header>
+    <!-- <div mat-card-avatar class="example-header-image"></div> -->
+    <mat-card-title>{{ category?.title }}</mat-card-title>
+    <div class="card__actions">
+      <button
+        mat-mini-fab
+        color="warn"
+      >
+        <mat-icon>delete</mat-icon>
+      </button>
+      <button
+        mat-mini-fab
+        color="primary"
+      >
+        <mat-icon>mode_edit</mat-icon>
+      </button>
+    </div>
+  </mat-card-header>
+  <img
+    stubImage
+    mat-card-image
+    [src]="category?.icon || ''"
+    [alt]="category?.title"
+  />
+  <!-- <mat-card-content>
+  </mat-card-content> -->
+</mat-card>
+<!-- </article> -->

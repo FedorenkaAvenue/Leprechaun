@@ -22,7 +22,7 @@ export class CategoryDto implements CategoryI{
       this.title = title,
       this.url = url,
       this.children = children,
-      this.icon = icon,
+      this.icon = icon ? icon : '',
       this.parentCategoryId = parentCategoryId
   }
 }
