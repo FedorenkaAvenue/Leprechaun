@@ -1,17 +1,19 @@
 // ! КАТЕГОРИИ
 
-interface Category {
+interface CategoryBase {
     id: number
-    title: string
     url: string
-    children: Array<Category> | null
+    title: string
     icon: string | null
-    parentCategoryId: number;
+}
 
+interface Category extends CategoryBase {
+    products?: Array<Product> | null
+    // children: Array<Category> | null //список вложенных категорий
+    // parentCategoryId: number | null
 }
 
 // ! ГЛАВНАЯ
-
 
 // бигборд товаров для главной страницы
 interface ProductBillboard {
@@ -27,25 +29,26 @@ enum ProductBillboardType {
 
 // ! ПРОДУКТ
 
-interface BaseProductItem {
-    title: string
-    id: number
-    price: number
-    labels: Array<ProductLabel> | null
-    properties: Array<ProductPropertyItem>
-}
-
-interface Product {
+interface Product extends ProductBase {
     images: Array<string>
 }
 
-interface ProductPropertyItem {
-    property: string
-    value: string
+interface ProductShortInfo extends ProductBase {
+    image: string
 }
 
-interface ProductShortInfo extends BaseProductItem {
-    image: string
+interface ProductBase {
+    title: string
+    id: string
+    categoryId: number
+    price: number
+    labels: Array<ProductLabel> | null
+    properties: Array<ProductProperty>
+}
+
+interface ProductProperty {
+    property: string
+    value: string
 }
 
 interface ProductLabel {
