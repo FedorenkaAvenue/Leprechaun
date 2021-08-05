@@ -12,4 +12,7 @@ export class CreateCategoryComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  public saveForm(formData: any) {
+    console.log('save form'); 
+  }
 }

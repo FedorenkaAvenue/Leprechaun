@@ -14,6 +14,7 @@ import { CategoryPreviewCardComponent } from './components/category-preview-card
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
+import { ReactiveFormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -31,7 +32,8 @@ import { MatIconModule } from '@angular/material/icon';
     DefaultImageModule,
     MatCardModule,
     MatButtonModule,
-    MatIconModule
+    MatIconModule,
+    ReactiveFormsModule,
 
   ],
   providers: [
