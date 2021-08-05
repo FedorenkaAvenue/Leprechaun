@@ -1,8 +1,8 @@
-// import { CategoryEntity } from "../category/index.entity";
+import { ICategory } from "@modules/category/index.interface";
 
 interface IProductBase {
     id?: string
-    category: number
+    category: ICategory
     title: string
     price: number
     // labels: Array<IProductLabel> | null

@@ -12,7 +12,7 @@ export class ProductService {
 		private readonly productRepo: Repository<ProductEntity>
 	) {}
 
-	createProduct(product: CreateProductDTO) {
+	createProduct(product: CreateProductDTO): Promise<ProductEntity> {
 		return this.productRepo.save(product);
 	}
 

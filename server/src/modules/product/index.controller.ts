@@ -29,13 +29,14 @@ export class ProductController {
     @Patch()
     @ApiOperation({ summary: 'update product' })
     @ApiOkResponse({ type: ProductEntity })
-    updateProduct(@Body() product: CreateProductDTO): Promise<ProductEntity> {
+    updateProduct(@Body() product: ProductEntity): Promise<ProductEntity> {
         return this.productService.createProduct(product);
     }
 
     @Delete(':productId')
     @ApiOperation({ summary: 'delete product by id' })
     @UseInterceptors(DeletedInterceptor)
+    @ApiOkResponse({ description: 'success' })
     @ApiNotFoundResponse({ description: 'product not found' })
     deleteProduct(@Param('productId') productId: string): Promise<DeleteResult> {
         return this.productService.deleteProduct(productId);

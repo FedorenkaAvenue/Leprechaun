@@ -12,6 +12,7 @@ export class CategoriesService {
 		private readonly categoryRepo: Repository<CategoryEntity>
 	) {}
 
+	//TODO
 	// getMainCategories(): Promise<CategoryEntity[]> {
 	// 	return this.categoryRepo.find({ parentCategoryId: null });
 	// }

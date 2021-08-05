@@ -10,11 +10,6 @@ export class ProductEntity implements IProduct {
     @ApiProperty()
     id: string;
 
-    @ManyToOne(() => CategoryEntity, category => category.id)
-    @JoinColumn({ name: "category" })
-    @ApiProperty({ required: true })
-    category: number;
-
     @Column()
     @ApiProperty({ required: true })
     title: string;
@@ -22,4 +17,9 @@ export class ProductEntity implements IProduct {
     @Column()
     @ApiProperty({ required: true })
     price: number;
+
+    @ManyToOne(() => CategoryEntity, ({ products }) => products)
+    @JoinColumn({ name: "category" })
+    @ApiProperty({ type: () => CategoryEntity })
+    category: CategoryEntity;
 }
