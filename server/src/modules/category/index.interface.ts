@@ -1,8 +1,9 @@
+import { IProduct } from "@modules/product/index.interface";
+
 export interface ICategory {
     id?: number;
-    title: string;
     url: string;
-    icon: string;
-    parentCategoryId: number;
-    children: string;
+    title: string;
+    icon: string | null;
+    products?: Array<IProduct> | null;
 }
