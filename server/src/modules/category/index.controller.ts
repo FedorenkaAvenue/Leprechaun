@@ -1,4 +1,4 @@
-import { Controller, Get, Put, Param, Body, UseInterceptors, Delete, Patch } from '@nestjs/common';
+import { Controller, Get, Param, Body, UseInterceptors, Delete, Patch, Post } from '@nestjs/common';
 import { ApiCreatedResponse, ApiNotFoundResponse, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 
 import { NotFoundInterceptor, DeletedInterceptor } from '@interceptors/db';
@@ -40,7 +40,7 @@ export class CategoryController {
 		return this.categoryService.getCategory(category);
 	}
 
-	@Put()
+	@Post()
 	@ApiOperation({ summary: 'add new category' })
 	@ApiCreatedResponse({ type: CategoryBaseEntity })
 	addCategory(@Body() body: CreateCategoryDTO): Promise<CategoryBaseEntity> {

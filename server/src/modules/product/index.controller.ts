@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, Patch, Put, UseInterceptors } from "@nestjs/common";
+import { Body, Controller, Delete, Get, Param, Patch, Post, UseInterceptors } from "@nestjs/common";
 import { ApiNotFoundResponse, ApiOkResponse, ApiOperation, ApiTags } from "@nestjs/swagger";
 import { DeleteResult } from "typeorm";
 
@@ -12,7 +12,7 @@ import { DeletedInterceptor } from "@interceptors/db";
 export class ProductController {
     constructor(private readonly productService: ProductService) {}
 
-    @Put()
+    @Post()
     @ApiOperation({ summary: 'create new product' })
 	@ApiOkResponse({ type: ProductEntity })
     createProduct(@Body() product: CreateProductDTO): Promise<ProductEntity> {
