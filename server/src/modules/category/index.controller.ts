@@ -5,6 +5,7 @@ import { NotFoundInterceptor, DeletedInterceptor } from '@interceptors/db';
 import { CategoriesService, CategoryService } from './index.service';
 import { CategoryBaseEntity, CategoryEntity } from './index.entity';
 import { CreateCategoryDTO } from './index.dto';
+import { ProductEntity } from '@modules/product/index.entity';
 
 @Controller('categories')
 @ApiTags('Categories')
@@ -40,6 +41,13 @@ export class CategoryController {
 		return this.categoryService.getCategory(category);
 	}
 
+	@Get(':category/products')
+	@ApiOperation({ summary: 'get category products' })
+	@ApiOkResponse({ type: ProductEntity, isArray: true })
+	getCategoryProducts(@Param('category') categoryUrl: string): Promise<ProductEntity[]> {
+		return this.categoryService.getCategoryProducts(categoryUrl);
+	}
+
 	@Post()
 	@ApiOperation({ summary: 'add new category' })
 	@ApiCreatedResponse({ type: CategoryBaseEntity })
@@ -48,7 +56,7 @@ export class CategoryController {
 	}
 
 	@Patch()
-	@ApiOperation({ summary: 'update category info' })
+	@ApiOperation({ summary: 'update category' })
 	@ApiOkResponse({ type: CategoryBaseEntity })
 	updateCategory(@Body() body: CategoryBaseEntity): Promise<CategoryBaseEntity> {
 		return this.categoryService.createCategory(body);

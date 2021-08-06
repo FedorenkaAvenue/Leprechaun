@@ -25,6 +25,6 @@ export class CategoryBaseEntity implements ICategory {
 @Entity('category')
 export class CategoryEntity extends CategoryBaseEntity implements ICategory {
     @OneToMany(() => ProductEntity, ({ category }) => category)
-    @ApiProperty({ type: ProductEntity, isArray: true })
+    // @ApiProperty({ type: ProductEntity, isArray: true })
     products: ProductEntity[]
 }
