@@ -1,10 +1,11 @@
-import { Controller, Get, Put, Param, Body, UseInterceptors, Delete, Patch } from '@nestjs/common';
+import { Controller, Get, Param, Body, UseInterceptors, Delete, Patch, Post } from '@nestjs/common';
 import { ApiCreatedResponse, ApiNotFoundResponse, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 
 import { NotFoundInterceptor, DeletedInterceptor } from '@interceptors/db';
 import { CategoriesService, CategoryService } from './index.service';
 import { CategoryBaseEntity, CategoryEntity } from './index.entity';
 import { CreateCategoryDTO } from './index.dto';
+import { ProductEntity } from '@modules/product/index.entity';
 
 @Controller('categories')
 @ApiTags('Categories')
@@ -40,7 +41,14 @@ export class CategoryController {
 		return this.categoryService.getCategory(category);
 	}
 
-	@Put()
+	@Get(':category/products')
+	@ApiOperation({ summary: 'get category products' })
+	@ApiOkResponse({ type: ProductEntity, isArray: true })
+	getCategoryProducts(@Param('category') categoryUrl: string): Promise<ProductEntity[]> {
+		return this.categoryService.getCategoryProducts(categoryUrl);
+	}
+
+	@Post()
 	@ApiOperation({ summary: 'add new category' })
 	@ApiCreatedResponse({ type: CategoryBaseEntity })
 	addCategory(@Body() body: CreateCategoryDTO): Promise<CategoryBaseEntity> {
@@ -48,7 +56,7 @@ export class CategoryController {
 	}
 
 	@Patch()
-	@ApiOperation({ summary: 'update category info' })
+	@ApiOperation({ summary: 'update category' })
 	@ApiOkResponse({ type: CategoryBaseEntity })
 	updateCategory(@Body() body: CategoryBaseEntity): Promise<CategoryBaseEntity> {
 		return this.categoryService.createCategory(body);
