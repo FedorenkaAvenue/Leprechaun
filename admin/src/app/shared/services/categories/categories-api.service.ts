@@ -4,11 +4,12 @@ import { Observable, of } from 'rxjs';
 import { CategoryDto } from '../../models/categories.model';
 import { catchError}   from 'rxjs/operators';
 import { CATEGORY_SHORT_LIST } from 'src/app/mock/category';
+import { ThrowStmt } from '@angular/compiler';
 
 @Injectable()
 export class CategoriesApiService {
 
-  private readonly apiUrl = '?????'
+  private readonly apiUrl = 'api'
   constructor(
     private readonly http: HttpClient
   ) { }
@@ -20,6 +21,11 @@ export class CategoriesApiService {
           return new CategoryDto(el)
         }))
       })
+    )
+  }
+
+  public createCategory(data: any): Observable<any> {
+    return this.http.put<any>(`${this.apiUrl}/category`, data).pipe(
     )
   }
 }

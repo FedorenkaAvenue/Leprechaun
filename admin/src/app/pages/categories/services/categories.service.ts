@@ -13,4 +13,8 @@ export class CategoriesService {
   public getCategories(): Observable<CategoryDto[]> {
     return this.categoriesApiService.getCategories()
   }
+
+  public createCategory(data: any): Observable<any> {
+    return this.categoriesApiService.createCategory(data)
+  }
 }

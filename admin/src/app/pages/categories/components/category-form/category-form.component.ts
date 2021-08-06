@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-category-form',
@@ -8,14 +8,27 @@ import { FormGroup } from '@angular/forms';
 })
 export class CategoryFormComponent implements OnInit {
 
+  @Output() saveFormEvent = new EventEmitter<any>();
   public form: FormGroup;
-  
-  constructor() { }
+
+  constructor(
+    private readonly fb: FormBuilder
+  ) { }
 
   ngOnInit(): void {
+    this.initForm();
   }
 
   private initForm() {
-    this.form
+    this.form = this.fb.group({
+      url: this.fb.control(null, Validators.required),
+      title: this.fb.control(null, Validators.required),
+    })
+  }
+
+  public saveForm() {
+    const data = this.form.value;
+    this.saveFormEvent.emit(data)
+    
   }
 }

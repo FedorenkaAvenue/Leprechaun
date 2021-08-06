@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { CategoriesApiService } from 'src/app/shared/services/categories/categories-api.service';
 
 @Component({
   selector: 'app-create-category',
@@ -7,12 +8,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CreateCategoryComponent implements OnInit {
 
-  constructor() { }
+  constructor(public categoriesApiService: CategoriesApiService) { }
 
   ngOnInit(): void {
   }
 
   public saveForm(formData: any) {
-    console.log('save form'); 
+    console.log(formData); 
+    this.categoriesApiService.createCategory(formData).subscribe(res => {
+      console.log(res);
+    });
   }
 }

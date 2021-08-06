@@ -1,2 +1,5 @@
 <form [formGroup]="form">
+  <input formControlName="url" placeholder="url" type="text" />
+  <input formControlName="title" placeholder="title" type="text" />
+  <button (click)="saveForm()" type="button">Save</button>
 </form>
