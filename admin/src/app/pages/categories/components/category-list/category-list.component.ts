@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { CategoryDto } from 'src/app/shared/models/categories.model';
 
 @Component({
@@ -9,10 +9,14 @@ import { CategoryDto } from 'src/app/shared/models/categories.model';
 export class CategoryListComponent implements OnInit {
 
   @Input() categories: CategoryDto[];
+  @Output() onGoToCategProds = new EventEmitter<string>();
 
   constructor() { }
 
   ngOnInit(): void {
   }
 
+  public goToCategProds(url: string): void {
+    this.onGoToCategProds.emit(url)
+  }
 }

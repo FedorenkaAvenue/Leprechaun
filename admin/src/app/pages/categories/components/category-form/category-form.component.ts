@@ -1,22 +1,27 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output, SimpleChange } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { CategoryDto } from 'src/app/shared/models/categories.model';
 
 @Component({
   selector: 'app-category-form',
   templateUrl: './category-form.component.html',
-  styleUrls: ['./category-form.component.scss']
+  styleUrls: ['./category-form.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CategoryFormComponent implements OnInit {
 
   @Output() saveFormEvent = new EventEmitter<any>();
+  @Input() categoryData: CategoryDto;
   public form: FormGroup;
 
   constructor(
     private readonly fb: FormBuilder
-  ) { }
+  ) {
+    this.initForm();
+  }
 
   ngOnInit(): void {
-    this.initForm();
+
   }
 
   private initForm() {
@@ -26,9 +31,18 @@ export class CategoryFormComponent implements OnInit {
     })
   }
 
+  ngOnChanges(changes: SimpleChange): void {
+    if ('categoryData' in changes) {
+      this.updateForm(this.categoryData);
+    }
+  }
+
+  private updateForm(data: CategoryDto) {
+    this.form.patchValue(data);
+  }
+
   public saveForm() {
     const data = this.form.value;
     this.saveFormEvent.emit(data)
-    
   }
 }

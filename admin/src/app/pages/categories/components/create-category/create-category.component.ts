@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { CategoriesApiService } from 'src/app/shared/services/categories/categories-api.service';
+import { CategoriesService } from '../../services/categories.service';
 
 @Component({
   selector: 'app-create-category',
@@ -8,15 +10,17 @@ import { CategoriesApiService } from 'src/app/shared/services/categories/categor
 })
 export class CreateCategoryComponent implements OnInit {
 
-  constructor(public categoriesApiService: CategoriesApiService) { }
+  constructor(
+    private readonly categoriesApiService: CategoriesService,
+    private readonly router: Router
+    ) { }
 
   ngOnInit(): void {
   }
 
   public saveForm(formData: any) {
-    console.log(formData); 
     this.categoriesApiService.createCategory(formData).subscribe(res => {
-      console.log(res);
+     this.router.navigate(['/admin/categories'])
     });
   }
 }

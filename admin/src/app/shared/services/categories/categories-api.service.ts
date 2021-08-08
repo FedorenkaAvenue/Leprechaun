@@ -15,7 +15,7 @@ export class CategoriesApiService {
   ) { }
 
   public getCategories(): Observable<CategoryDto[]> {
-    return this.http.get<CategoryDto[]>(`${this.apiUrl}/categories`).pipe(
+    return this.http.get<CategoryDto[]>(`${this.apiUrl}/categories/list`).pipe(
       catchError( () => {
         return of(CATEGORY_SHORT_LIST.map( el => {
           return new CategoryDto(el)
@@ -24,8 +24,16 @@ export class CategoriesApiService {
     )
   }
 
-  public createCategory(data: any): Observable<any> {
-    return this.http.put<any>(`${this.apiUrl}/category`, data).pipe(
+  public getCategoryByUrl(url: string): Observable<CategoryDto> {
+    return this.http.get<CategoryDto>(`${this.apiUrl}/category/${url}`)
+  }
+
+  public createCategory(data: any): Observable<CategoryDto> {
+    return this.http.post<any>(`${this.apiUrl}/category`, data).pipe(
+    )
+  }
+  public editCategory(data: any): Observable<CategoryDto> {
+    return this.http.patch<any>(`${this.apiUrl}/category`, data).pipe(
     )
   }
 }

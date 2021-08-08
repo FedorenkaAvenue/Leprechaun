@@ -4,6 +4,7 @@ import { DeleteResult, Repository } from 'typeorm';
 
 import { CategoryEntity } from './index.entity';
 import { CreateCategoryDTO } from './index.dto';
+import { ProductEntity } from '../product/index.entity';
 
 @Injectable()
 export class CategoriesService {
@@ -30,12 +31,17 @@ export class CategoryService {
 	) {}
 
 	getCategory(categoryUrl: string): Promise<CategoryEntity> {
-		return this.categoryRepo.findOne({
-			where: {
-				url: categoryUrl
-			},
+		return this.categoryRepo.findOne({ url: categoryUrl });
+	}
+
+	//! переделать нахуй
+	async getCategoryProducts(categoryUrl: string): Promise<ProductEntity[]> {
+		const { products } = await this.categoryRepo.findOne({
+			where: { url: categoryUrl },
 			relations: ['products']
-		})
+		});
+
+		return products;
 	}
 
 	createCategory(newCategory: CreateCategoryDTO): Promise<CategoryEntity> {

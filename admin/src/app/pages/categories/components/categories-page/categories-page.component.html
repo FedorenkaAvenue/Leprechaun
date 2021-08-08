@@ -11,6 +11,9 @@
         <mat-icon>add</mat-icon>
     </a>
     </header>
-    <app-category-list [categories]="categories"></app-category-list>
+    <app-category-list
+    [categories]="categories"
+    (onGoToCategProds)="goToCategProds($event)"
+    ></app-category-list>
 </section>
 </ng-container>

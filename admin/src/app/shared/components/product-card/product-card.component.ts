@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { ProductCardDto } from '../../models/product.model';
 
 @Component({
   selector: 'app-product-card',
@@ -7,6 +8,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ProductCardComponent implements OnInit {
 
+  @Input() product: ProductCardDto;
   constructor() { }
 
   ngOnInit(): void {

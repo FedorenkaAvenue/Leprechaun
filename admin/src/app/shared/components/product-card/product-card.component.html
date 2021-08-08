@@ -1,1 +1,26 @@
-<p>product-card works!</p>
+<mat-card class="category-card">
+    <mat-card-header>
+      <mat-card-title>{{ product?.title }}</mat-card-title>
+      <div class="card__actions">
+        <button
+          mat-mini-fab
+          color="warn"
+        >
+          <mat-icon>delete</mat-icon>
+        </button>
+        <button
+          mat-mini-fab
+          color="primary"
+        >
+          <mat-icon>mode_edit</mat-icon>
+        </button>
+      </div>
+    </mat-card-header>
+    <img
+      stubImage
+      mat-card-image
+      [src]="''"
+      [alt]="product?.title"
+    />
+  </mat-card>
+  

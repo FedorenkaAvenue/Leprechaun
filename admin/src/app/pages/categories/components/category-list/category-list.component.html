@@ -1,11 +1,10 @@
 <div class="category-list">
   <ng-container *ngFor="let category of categories">
-    <a [routerLink]="['/', 'admin', 'products', 'list', 12]">
       <app-category-preview-card
         class="category-card"
         [category]="category"
+        (onGoToCategProds)="goToCategProds($event)"
       ></app-category-preview-card>
-    </a>
   </ng-container>
   <div class="category-card">sadasdasd</div>
 </div>

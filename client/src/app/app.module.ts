@@ -9,7 +9,6 @@ import { CookieService, CookieModule } from '@gorniv/ngx-universal';
 import { TransferHttpCacheModule } from '@nguniversal/common';
 // shared
 import { SharedModule } from '@shared/shared.module';
-import { AuthService } from '@shared/services/auth/auth.service';
 // components
 import { AppRoutes } from './app.routing';
 import { AppComponent } from './app.component';
@@ -17,6 +16,7 @@ import { UniversalStorage } from '@shared/storage/universal.storage';
 import { CustomMetaModule } from './core/modules/custom-meta/custom-meta.module';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 import { LeprachaunIconsModule } from '@shared/modules/leprachaun-icons';
+import { AuthService } from '@shared/services/auth/auth.service';
 // interceptors
 
 @NgModule({
@@ -43,3 +43,4 @@ import { LeprachaunIconsModule } from '@shared/modules/leprachaun-icons';
 })
 export class AppModule {
 }
+

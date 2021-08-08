@@ -11,10 +11,19 @@ export class CategoriesService {
   ) { }
 
   public getCategories(): Observable<CategoryDto[]> {
-    return this.categoriesApiService.getCategories()
+    return this.categoriesApiService.getCategories();
   }
 
+  public getCategoryByUrl(url: string): Observable<CategoryDto> {
+    return this.categoriesApiService.getCategoryByUrl(url);
+  }
+
+
   public createCategory(data: any): Observable<any> {
-    return this.categoriesApiService.createCategory(data)
+    return this.categoriesApiService.createCategory(data);
+  }
+
+  public editCategory(data: any): Observable<any> {
+    return this.categoriesApiService.editCategory(data);
   }
 }

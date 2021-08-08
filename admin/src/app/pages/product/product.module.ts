@@ -9,6 +9,14 @@ import { CreateProductComponent } from './components/create-product/create-produ
 import { ProductsListComponent } from './components/products-list/products-list.component';
 import { ProductsService } from './sevices/products.service';
 import { ProductsApiService } from 'src/app/shared/services/products/products-api.service';
+import { DefaultImageModule } from 'src/app/shared/directives/default-image/default-image.module';
+import { MatCardModule } from '@angular/material/card';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { ReactiveFormsModule } from '@angular/forms';
+import { ProductCardModule } from 'src/app/shared/components/product-card/product-card.module';
+import {MatSelectModule} from '@angular/material/select';
+import { CategoriesApiService } from 'src/app/shared/services/categories/categories-api.service';
 
 
 @NgModule({
@@ -21,11 +29,19 @@ import { ProductsApiService } from 'src/app/shared/services/products/products-ap
   ],
   imports: [
     CommonModule,
-    ProductRoutingModule
+    ProductRoutingModule,
+    DefaultImageModule,
+    MatCardModule,
+    MatButtonModule,
+    MatIconModule,
+    ReactiveFormsModule,
+    ProductCardModule,
+    MatSelectModule,
   ],
   providers: [
     ProductsService,
     ProductsApiService,
+    CategoriesApiService,
   ]
 })
 export class ProductModule { }

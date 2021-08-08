@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { CategoryDto } from 'src/app/shared/models/categories.model';
 
 @Component({
@@ -9,11 +9,14 @@ import { CategoryDto } from 'src/app/shared/models/categories.model';
 })
 export class CategoryPreviewCardComponent implements OnInit {
 
-  @Input() category: CategoryDto
-
+  @Input() category: CategoryDto;
+  @Output() onGoToCategProds = new EventEmitter<string>();
   constructor() { }
 
   ngOnInit(): void {
   }
 
+  public goToCategProds(url: string): void {
+    this.onGoToCategProds.emit(url)
+  }
 }
