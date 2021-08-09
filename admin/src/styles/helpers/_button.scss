@@ -22,9 +22,14 @@ button {
 }
 
 .card__actions {
-  color: red;
-  button:not(:last-child) {
+  display: flex;
+  justify-content: center;
+  button,a:not(:last-child) {
     margin-right: 10px;
   }
 }
 
+.mat-preview_btn {
+  background-color: green;
+  color: #fff;
+}

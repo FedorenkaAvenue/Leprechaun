@@ -4,29 +4,30 @@
 //     padding: 5px 10px;
 //     height: 100%;
 // }
-.category-card {
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-}
-.mat-card {
-    padding: 0
-}
 
-.mat-card-image {
-    width: 100%;
-    margin: 0;
-    height: 1%;
-    flex-grow: 2;
-    object-fit: cover;
-}
+// .category-card {
+//     display: flex;
+//     flex-direction: column;
+//     height: 100%;
+// }
+// .mat-card {
+//     padding: 0
+// }
 
-.mat-card-header {
-    justify-content: space-between;
-    padding: 10px
-}
+// .mat-card-image {
+//     width: 100%;
+//     margin: 0;
+//     height: 1%;
+//     flex-grow: 2;
+//     object-fit: cover;
+// }
 
-.category-card__actions {
+// .mat-card-header {
+//     justify-content: space-between;
+//     padding: 10px
+// }
+
+// .category-card__actions {
     // display: flex;
     // flex-direction: column;
-}
+// }

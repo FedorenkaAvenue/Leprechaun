@@ -1,5 +1,10 @@
-mat-drawer {
-    background-color: aqua;
+@import '/src/styles/core/variables';
+
+.mat-drawer {
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    background-color: $martime-blue;
 }
 
 .mat-drawer-container .mat-drawer-content {
@@ -8,15 +13,23 @@ mat-drawer {
     display: flex;
     flex-direction: column;
     margin: 0 auto;
-    padding: 0 20px;
-}
-
-.mat-drawer {
-    display: flex;
-    flex-direction: column;
-    min-width: 280px;
 }
 
 .sidenav_link {
     display: flex;
+    &.active > .sidenav_icon {
+        color: $lavender-earl;
+    }
+}
+
+.sidenav_icon {
+    height: 36px;
+    width: 36px;
+    margin: 5px 0;
+    font-size: 36px;
+    color: $water-ouzel;
+    &:hover {
+        color: $lavender-earl;
+        transition: color, 0.4s, Cubic;
+    }
 }

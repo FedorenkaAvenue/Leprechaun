@@ -1,20 +1,10 @@
-<mat-toolbar color="primary">
-  <button
-    (click)="drawer.toggle()"
-    mat-icon-button
-    class="example-icon"
-    aria-label="Example icon-button with menu icon"
-  >
-    <mat-icon>menu</mat-icon>
-  </button>
-  <span>My App</span>
-</mat-toolbar>
-<mat-drawer-container class="mat-drawer-container" [hasBackdrop]="true">
+<app-app-header (onToggleDrawer)="drawer.toggle()"></app-app-header>
+<mat-drawer-container #matDrawer class="mat-drawer-container" [hasBackdrop]="true">
   <mat-drawer class="mat-drawer" #drawer [mode]="'over'">
     <ng-container *ngFor="let link of sidenavLinks">
-      <a class="sidenav_link" [routerLink]="link?.url">
-        <mat-icon>{{ link?.icon }}</mat-icon>
-        <span>{{ link?.label }}</span>
+      <a class="sidenav_link" routerLinkActive="active" [routerLink]="link?.url">
+        <mat-icon class="sidenav_icon">{{ link?.icon }}</mat-icon>
+        <!-- <span>{{ link?.label }}</span> -->
       </a>
     </ng-container>
   </mat-drawer>
