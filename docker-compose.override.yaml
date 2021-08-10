@@ -28,6 +28,8 @@ services:
 
   client:
     container_name: leprechaun_client
+    environment:
+      - APP_NAME
 
   nginx:
     container_name: leprechaun_nginx
@@ -41,3 +43,5 @@ services:
 
   admin:
     container_name: leprechaun_admin
+    environment:
+      - APP_NAME
