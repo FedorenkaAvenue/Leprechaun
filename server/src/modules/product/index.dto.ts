@@ -10,6 +10,9 @@ export class CreateProductDTO implements IProduct {
     @ApiProperty({ required: true })
     price: number;
 
+    @ApiProperty({ required: false })
+    isPublic: boolean;
+
     @ApiProperty({
         required: true,
         type: 'number',

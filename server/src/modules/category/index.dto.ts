@@ -10,6 +10,9 @@ export class CreateCategoryDTO implements ICategory {
     title: string;
 
     @ApiProperty({ required: false })
+    isPublic: boolean;
+
+    @ApiProperty({ required: false })
     icon: string;
 
     // @ApiProperty({ required: false })

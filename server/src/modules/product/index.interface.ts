@@ -4,6 +4,7 @@ interface IProductBase {
     id?: string
     category: ICategory
     title: string
+    isPublic: boolean
     price: number
     // labels: Array<IProductLabel> | null
     // properties: Array<IProductProperty>

@@ -14,6 +14,10 @@ export class ProductEntity implements IProduct {
     @ApiProperty({ required: true })
     title: string;
 
+    @Column({ default: true })
+    @ApiProperty()
+    isPublic: boolean;
+
     @Column()
     @ApiProperty({ required: true })
     price: number;
