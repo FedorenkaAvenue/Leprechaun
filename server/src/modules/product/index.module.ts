@@ -5,7 +5,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { ProductController } from './index.controller';
 import { ProductEntity } from './index.entity';
 import { ProductService } from './index.service';
-import { MulterService } from '@services/multer';
+import { MulterService } from '@services/Multer';
 
 @Module({
 	imports: [

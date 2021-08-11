@@ -4,7 +4,7 @@ import { DeleteResult, Repository } from "typeorm";
 
 import { CreateProductDTO } from "./index.dto";
 import { ProductEntity } from "./index.entity";
-import { FOLDER_TYPES, MulterService } from "@services/multer";
+import { FOLDER_TYPES, MulterService } from "@services/Multer";
 
 @Injectable()
 export class ProductService {

@@ -1,5 +1,9 @@
 import { TypeOrmModuleOptions } from '@nestjs/typeorm';
 
+interface IHostingParams {
+    HOSTING_PATH: string
+}
+
 export default class ConfigService {
     getVal(key: string): string {
         const envVariable = process.env[key];
@@ -20,5 +24,11 @@ export default class ConfigService {
 			synchronize: true,
 			autoLoadEntities: true
         });
+    }
+
+    getHostingParams(): IHostingParams {
+        return ({
+            HOSTING_PATH: this.getVal('HOSTING_PATH')
+        })
     }
 }

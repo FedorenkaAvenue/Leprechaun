@@ -3,7 +3,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 
 import { CategoryModule } from '@modules/category/index.module';
 import { ProductModule } from '@modules/product/index.module';
-import ConfigService from '@services/envConfig';
+import ConfigService from '@services/Config';
 
 @Module({
 	imports: [

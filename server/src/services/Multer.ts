@@ -3,15 +3,17 @@ import { MulterModuleOptions, MulterOptionsFactory } from "@nestjs/platform-expr
 import { memoryStorage } from "multer";
 import { promises } from 'fs';
 
+import ConfigService from '@services/Config';
+
+const { HOSTING_PATH } = new ConfigService().getHostingParams();
+
 export enum FOLDER_TYPES {
-    CATEGORY = '/category',
-    PRODUCT = '/product'
+    CATEGORY = 'img/category/',
+    PRODUCT = 'img/product/'
 }
 
 @Injectable()
 export class MulterService implements MulterOptionsFactory {
-    private static IMAGE_HOSTING_FOLDER = '/var/www/img';
-
     createMulterOptions(): MulterModuleOptions {
         return {
             storage: memoryStorage()
@@ -23,35 +25,35 @@ export class MulterService implements MulterOptionsFactory {
         folderId: string,
         files: Array<Express.Multer.File>
     ): Promise<string[]> {
-        const itemDirPath = `${MulterService.IMAGE_HOSTING_FOLDER}/${itemType}/${folderId}`;
+        const itemDirPath = `${HOSTING_PATH}/${itemType}/${folderId}`;
     
         try {
             await promises.mkdir(itemDirPath, { recursive: true });
     
             return await Promise.all(files.map(async ({ originalname, buffer }) => {
-                const imageHref = `${itemType}/${folderId}/${originalname}`;
+                const imageHref = `${itemType}${folderId}/${originalname}`;
     
-                await promises.appendFile(`${MulterService.IMAGE_HOSTING_FOLDER}/${imageHref}`, buffer);
+                await promises.appendFile(`${HOSTING_PATH}/${imageHref}`, buffer);
     
-                return `/img${imageHref}`;
+                return imageHref;
             }));
         } catch(err) {
             throw new InternalServerErrorException();
         }
     }
 
-    async removeFile(imgName: string): Promise<void> {
-        try {
-            await promises.rm(MulterService.IMAGE_HOSTING_FOLDER + imgName.replace('/img', ''));
-        } catch(err) {
-            throw new InternalServerErrorException();
-        }
-    }
+    // async removeFile(imgName: string): Promise<void> {
+    //     try {
+    //         await promises.rm(HOSTING_PATH + imgName);
+    //     } catch(err) {
+    //         throw new InternalServerErrorException();
+    //     }
+    // }
 
     async removeFolder(folderType: FOLDER_TYPES, folderName: string): Promise<void> {
         try {
             await promises.rmdir(
-                `${MulterService.IMAGE_HOSTING_FOLDER}${folderType}/${folderName}`,
+                `${HOSTING_PATH}${folderType}/${folderName}`,
                 { recursive: true }
             );
         } catch(err) {

@@ -25,6 +25,7 @@ services:
       - POSTGRES_PASSWORD
       - POSTGRES_USER
       - POSTGRES_DATABASE
+      - HOSTING_PATH
     volumes:
       - image_hosting:/var/www/img:rw
 
@@ -35,7 +36,11 @@ services:
 
   nginx:
     container_name: leprechaun_nginx
-    build: ./nginx
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+      args:
+        - HOSTING_PATH
     depends_on:
       - admin
       - server
