@@ -26,7 +26,7 @@ services:
       - POSTGRES_USER
       - POSTGRES_DATABASE
     volumes:
-      - image_hosting:/var/www/images
+      - image_hosting:/var/www/img:rw
 
   client:
     container_name: leprechaun_client
@@ -41,7 +41,7 @@ services:
       - server
       - client
     volumes:
-      - image_hosting:/var/www/images
+      - image_hosting:/var/www/img:rw
       - ./nginx/.http_auth:/etc/nginx/.http_auth
 
   admin:

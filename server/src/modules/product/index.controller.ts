@@ -1,6 +1,7 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post, UseInterceptors } from "@nestjs/common";
+import { Body, Controller, Delete, Get, Param, Patch, Post, UploadedFiles, UseInterceptors } from "@nestjs/common";
 import { ApiNotFoundResponse, ApiOkResponse, ApiOperation, ApiTags } from "@nestjs/swagger";
 import { DeleteResult } from "typeorm";
+import { FilesInterceptor } from "@nestjs/platform-express";
 
 import { CreateProductDTO } from "./index.dto";
 import { ProductEntity } from "./index.entity";
@@ -13,10 +14,14 @@ export class ProductController {
     constructor(private readonly productService: ProductService) {}
 
     @Post()
+    @UseInterceptors(FilesInterceptor('images'))
     @ApiOperation({ summary: 'create new product' })
 	@ApiOkResponse({ type: ProductEntity })
-    createProduct(@Body() product: CreateProductDTO): Promise<ProductEntity> {
-        return this.productService.createProduct(product);
+    createProduct(
+        @Body() product: CreateProductDTO,
+        @UploadedFiles() images: Array<Express.Multer.File>
+    ): Promise<ProductEntity> {
+        return this.productService.createProduct(product, images);
     }
 
     @Get(':productId')

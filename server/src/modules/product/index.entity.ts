@@ -15,12 +15,20 @@ export class ProductEntity implements IProduct {
     title: string;
 
     @Column({ default: true })
-    @ApiProperty()
+    @ApiProperty({ required: false })
     isPublic: boolean;
 
     @Column()
     @ApiProperty({ required: true })
     price: number;
+
+    @Column({
+        type: 'text',
+        array: true,
+        nullable: true
+    })
+    @ApiProperty({ required: false })
+    images: string[]
 
     @ManyToOne(() => CategoryEntity, ({ products }) => products)
     @JoinColumn({ name: "category" })

@@ -11,14 +11,14 @@ interface IProductBase {
 }
 
 export interface IProduct extends IProductBase {
-    // images: Array<string>
+    images: Array<string> | null
 }
 
-interface IProductShortInfo extends IProductBase {
-    image: string
-}
+// interface IProductShortInfo extends IProductBase {
+//     image: string
+// }
 
-export interface IProductProperty {
-    property: string
-    value: string
-}
+// export interface IProductProperty {
+//     property: string
+//     value: string
+// }

@@ -19,8 +19,10 @@ export class CreateProductDTO implements IProduct {
         description: 'category id'
     })
     category: ICategory;
-    
+
+    @ApiProperty({ type: 'file', isArray: true })
+    images: string[];
+
     // labels: Array<IProductLabel> | null;
     // properties: Array<IProductProperty>;
-    // images: Array<string>;
 }

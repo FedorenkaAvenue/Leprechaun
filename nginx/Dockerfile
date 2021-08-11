@@ -2,7 +2,7 @@ FROM nginx:1.14
 
 RUN rm /etc/nginx/conf.d/default.conf && \
     apt update && \
-    apt install -y apache2-utils
+    apt install -y apache2-utils tree
 
 ### nginx-module-image-filter
 RUN echo "deb http://nginx.org/packages/mainline/debian/ stretch nginx" >> /etc/apt/sources.list && \
