@@ -51,7 +51,7 @@ export class MulterService implements MulterOptionsFactory {
     async removeFolder(folderType: FOLDER_TYPES, folderName: string): Promise<void> {
         try {
             await promises.rmdir(
-                MulterService.IMAGE_HOSTING_FOLDER + folderType + folderName,
+                `${MulterService.IMAGE_HOSTING_FOLDER}${folderType}/${folderName}`,
                 { recursive: true }
             );
         } catch(err) {

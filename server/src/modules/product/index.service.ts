@@ -1,4 +1,4 @@
-import { Injectable, InternalServerErrorException } from "@nestjs/common";
+import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { DeleteResult, Repository } from "typeorm";
 
@@ -15,15 +15,11 @@ export class ProductService {
 	) {}
 
 	async createProduct(product: CreateProductDTO, images?: Array<Express.Multer.File>): Promise<ProductEntity> {
-		try {
-			const productItem = await this.productRepo.save(product);
-			const uploadedImgArr = await this.multerModule.saveFiles(FOLDER_TYPES.PRODUCT, productItem.id, images);
-			const updProductItem = await this.productRepo.save({ ...productItem, images: uploadedImgArr });
+		const productItem = await this.productRepo.save(product);
+		const uploadedImgArr = await this.multerModule.saveFiles(FOLDER_TYPES.PRODUCT, productItem.id, images);
+		const updProductItem = await this.productRepo.save({ ...productItem, images: uploadedImgArr });
 
-			return updProductItem;
-		} catch(err) {
-			throw new InternalServerErrorException();
-		}
+		return updProductItem;
 	}
 
 	getProduct(productId: string): Promise<ProductEntity> {
@@ -35,7 +31,10 @@ export class ProductService {
 		})
 	}
 
-	deleteProduct(productId: string): Promise<DeleteResult> {
-		return this.productRepo.delete({ id: productId });
+	async deleteProduct(productId: string): Promise<DeleteResult> {
+		const res = await this.productRepo.delete({ id: productId });
+		this.multerModule.removeFolder(FOLDER_TYPES.PRODUCT, productId);
+
+		return res;
 	}
 }

@@ -6,7 +6,6 @@ import { FilesInterceptor } from "@nestjs/platform-express";
 import { CreateProductDTO } from "./index.dto";
 import { ProductEntity } from "./index.entity";
 import { ProductService } from "./index.service";
-import { DeletedInterceptor } from "@interceptors/db";
 
 @Controller('product')
 @ApiTags('Product')
@@ -27,6 +26,7 @@ export class ProductController {
     @Get(':productId')
     @ApiOperation({ summary: 'get product by id' })
     @ApiOkResponse({ type: ProductEntity })
+    @ApiNotFoundResponse({ description: 'product not found' })
     getProduct(@Param('productId') productId: string): Promise<ProductEntity> {
         return this.productService.getProduct(productId);
     }
@@ -40,7 +40,6 @@ export class ProductController {
 
     @Delete(':productId')
     @ApiOperation({ summary: 'delete product by id' })
-    @UseInterceptors(DeletedInterceptor)
     @ApiOkResponse({ description: 'success' })
     @ApiNotFoundResponse({ description: 'product not found' })
     deleteProduct(@Param('productId') productId: string): Promise<DeleteResult> {
