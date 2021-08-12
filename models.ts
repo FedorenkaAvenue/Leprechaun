@@ -4,13 +4,9 @@ interface CategoryBase {
     id: number
     url: string
     title: string
+    isPublic: boolean
     icon: string | null
-}
-
-interface Category extends CategoryBase {
     products?: Array<Product> | null
-    // children: Array<Category> | null //список вложенных категорий
-    // parentCategoryId: number | null
 }
 
 // ! ГЛАВНАЯ
@@ -40,10 +36,11 @@ interface ProductShortInfo extends ProductBase {
 interface ProductBase {
     title: string
     id: string
-    categoryId: number
+    category: number
+    isPublic: boolean
     price: number
-    labels: Array<ProductLabel> | null
-    properties: Array<ProductProperty>
+    // labels: Array<ProductLabel> | null
+    // properties: Array<ProductProperty>
 }
 
 interface ProductProperty {

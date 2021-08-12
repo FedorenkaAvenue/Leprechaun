@@ -1,11 +1,12 @@
 import { Controller, Get, Param, Body, UseInterceptors, Delete, Patch, Post } from '@nestjs/common';
 import { ApiCreatedResponse, ApiNotFoundResponse, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
+import { UpdateResult } from 'typeorm';
 
-import { NotFoundInterceptor, DeletedInterceptor } from '@interceptors/db';
+import { NotFoundInterceptor, AffectedInterceptor } from '@interceptors/DB';
 import { CategoriesService, CategoryService } from './index.service';
 import { CategoryBaseEntity, CategoryEntity } from './index.entity';
-import { CreateCategoryDTO } from './index.dto';
-import { ProductEntity } from '@modules/product/index.entity';
+import { CreateCategoryDTO, UpdateCategoryDTO } from './index.dto';
+import { ProductBaseEntity, ProductEntity } from '@modules/product/index.entity';
 
 @Controller('categories')
 @ApiTags('Categories')
@@ -34,7 +35,7 @@ export class CategoryController {
 
 	@Get(':category')
 	@UseInterceptors(NotFoundInterceptor)
-	@ApiOperation({ summary: 'get category by url' })
+	@ApiOperation({ summary: 'get category info by url' })
 	@ApiOkResponse({ type: CategoryEntity })
 	@ApiNotFoundResponse({ description: 'category not found' })
 	getCategory(@Param('category') category: string): Promise<CategoryEntity> {
@@ -43,7 +44,8 @@ export class CategoryController {
 
 	@Get(':category/products')
 	@ApiOperation({ summary: 'get category products' })
-	@ApiOkResponse({ type: ProductEntity, isArray: true })
+	@ApiOkResponse({ type: ProductBaseEntity, isArray: true })
+	@ApiNotFoundResponse({ description: 'category not found' })
 	getCategoryProducts(@Param('category') categoryUrl: string): Promise<ProductEntity[]> {
 		return this.categoryService.getCategoryProducts(categoryUrl);
 	}
@@ -56,14 +58,15 @@ export class CategoryController {
 	}
 
 	@Patch()
+	@UseInterceptors(AffectedInterceptor)
 	@ApiOperation({ summary: 'update category' })
-	@ApiOkResponse({ type: CategoryBaseEntity })
-	updateCategory(@Body() body: CategoryBaseEntity): Promise<CategoryBaseEntity> {
-		return this.categoryService.createCategory(body);
+	@ApiOkResponse({ status: 200 })
+	updateCategory(@Body() body: UpdateCategoryDTO): Promise<UpdateResult> {
+		return this.categoryService.updateCategory(body);
 	}
 
 	@Delete(':category')
-	@UseInterceptors(DeletedInterceptor)
+	@UseInterceptors(AffectedInterceptor)
 	@ApiOperation({ summary: 'delete category by url' })
 	@ApiOkResponse({ description: 'success' })
 	@ApiNotFoundResponse({ description: 'category not found' })
