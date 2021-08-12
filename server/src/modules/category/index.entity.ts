@@ -17,6 +17,10 @@ export class CategoryBaseEntity implements ICategory {
     @ApiProperty()
     title: string;
 
+    @Column({ default: true })
+    @ApiProperty()
+    isPublic: boolean;
+
     @Column({ nullable: true })
     @ApiProperty({ required: false })
     icon: string;
