@@ -17,6 +17,12 @@ Run `make build` to deploy and start all containers
 
 ## Tools
 
- * `make start` to start all containers (without build)
- * `make stop` to stop all containers
- * `make logs` watch all logs
+ * container managing
+
+    * `make start` to start all containers (without build)
+    * `make stop` to stop all containers
+    * `make logs` watch all logs
+
+ * other
+
+    * `open_image_hosting` open image hosting GUI folder (*linux*)

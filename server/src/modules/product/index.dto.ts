@@ -10,14 +10,40 @@ export class CreateProductDTO implements IProduct {
     @ApiProperty({ required: true })
     price: number;
 
+    @ApiProperty({ required: false })
+    isPublic: boolean;
+
     @ApiProperty({
         required: true,
         type: 'number',
         description: 'category id'
     })
     category: ICategory;
-    
-    // labels: Array<IProductLabel> | null;
-    // properties: Array<IProductProperty>;
-    // images: Array<string>;
+
+    @ApiProperty({ type: 'file', isArray: true })
+    images: string[];
+}
+
+export class UpdateProductDTO implements IProduct {
+    @ApiProperty({ type: 'number', required: true })
+    id: string;
+
+    @ApiProperty({ required: false })
+    title: string;
+
+    @ApiProperty({ required: false })
+    price: number;
+
+    @ApiProperty({ required: false })
+    isPublic: boolean;
+
+    @ApiProperty({
+        required: false,
+        type: 'number',
+        description: 'category id'
+    })
+    category: ICategory;
+
+    @ApiProperty({ type: 'file', isArray: true, required: false })
+    images: string[];
 }
