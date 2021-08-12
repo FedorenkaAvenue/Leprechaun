@@ -1,3 +1,4 @@
+
 import { Component, Input, OnInit } from '@angular/core';
 import { ProductCardDto } from '../../models/product.model';
 
@@ -14,4 +15,5 @@ export class ProductCardComponent implements OnInit {
   ngOnInit(): void {
   }
 
+ 
 }

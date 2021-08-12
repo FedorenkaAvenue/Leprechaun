@@ -18,21 +18,23 @@
   />
 </mat-card> -->
 
-<section class="category-card">
-  <span class="category-title">My Category</span>
+<section (click)="goToCategProds(category.url)" class="category-card">
+  <span class="category-title">{{ category?.title }}</span>
   <img stubImage class="category-image" [src]="category?.icon || ''" alt="" />
   <span class="category-status">published</span>
   <div class="category-actions card__actions">
     <a
-    class="btn-preview_min"
-    [routerLink]="['edit', category?.url]"
-    mat-mini-fab color="preview_btn">
+      class="btn-preview_min"
+      [routerLink]="['view', category?.url]"
+      mat-mini-fab
+      color="preview_btn"
+    >
       <mat-icon>visibility</mat-icon>
     </a>
     <a [routerLink]="['edit', category?.url]" mat-mini-fab color="primary">
       <mat-icon>mode_edit</mat-icon>
     </a>
-    <button mat-mini-fab color="warn">
+    <button disabled mat-mini-fab color="warn">
       <mat-icon>delete</mat-icon>
     </button>
   </div>

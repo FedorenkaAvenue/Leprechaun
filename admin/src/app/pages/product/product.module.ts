@@ -17,6 +17,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { ProductCardModule } from 'src/app/shared/components/product-card/product-card.module';
 import {MatSelectModule} from '@angular/material/select';
 import { CategoriesApiService } from 'src/app/shared/services/categories/categories-api.service';
+import {DragDropModule} from '@angular/cdk/drag-drop';
 
 
 @NgModule({
@@ -37,6 +38,7 @@ import { CategoriesApiService } from 'src/app/shared/services/categories/categor
     ReactiveFormsModule,
     ProductCardModule,
     MatSelectModule,
+    DragDropModule,
   ],
   providers: [
     ProductsService,
