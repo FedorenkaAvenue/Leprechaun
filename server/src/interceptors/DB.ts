@@ -15,7 +15,7 @@ export class NotFoundInterceptor implements NestInterceptor {
 }
 
 @Injectable()
-export class DeletedInterceptor implements NestInterceptor {
+export class AffectedInterceptor implements NestInterceptor {
     intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
         return next
             .handle()

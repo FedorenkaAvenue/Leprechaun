@@ -1,10 +1,10 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { DeleteResult, Repository } from 'typeorm';
+import { DeleteResult, Repository, UpdateResult } from 'typeorm';
 
 import { CategoryEntity } from './index.entity';
-import { CreateCategoryDTO } from './index.dto';
-import { ProductEntity } from '../product/index.entity';
+import { CreateCategoryDTO, UpdateCategoryDTO } from './index.dto';
+import { ProductEntity } from '@modules/product/index.entity';
 
 @Injectable()
 export class CategoriesService {
@@ -13,7 +13,6 @@ export class CategoriesService {
 		private readonly categoryRepo: Repository<CategoryEntity>
 	) {}
 
-	//TODO
 	// getMainCategories(): Promise<CategoryEntity[]> {
 	// 	return this.categoryRepo.find({ parentCategoryId: null });
 	// }
@@ -36,16 +35,27 @@ export class CategoryService {
 
 	//! переделать нахуй
 	async getCategoryProducts(categoryUrl: string): Promise<ProductEntity[]> {
-		const { products } = await this.categoryRepo.findOne({
-			where: { url: categoryUrl },
-			relations: ['products']
-		});
+		try {
+			const { products } = await this.categoryRepo.findOne({
+				where: { url: categoryUrl },
+				relations: ['products']
+			});
 
-		return products;
+			return products;
+		} catch(err) {
+			throw new NotFoundException();
+		}
 	}
 
 	createCategory(newCategory: CreateCategoryDTO): Promise<CategoryEntity> {
 		return this.categoryRepo.save(newCategory);
+	}
+
+	updateCategory(category: UpdateCategoryDTO): Promise<UpdateResult> {
+		return this.categoryRepo.update(
+			{ id: category.id },
+			category
+		);
 	}
 
 	deleteCategory(categoryUrl: string): Promise<DeleteResult> {

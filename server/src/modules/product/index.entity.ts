@@ -4,8 +4,7 @@ import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "t
 import { CategoryEntity } from "@modules/category/index.entity";
 import { IProduct } from "./index.interface";
 
-@Entity('product')
-export class ProductEntity implements IProduct {
+export class ProductBaseEntity implements IProduct {
     @PrimaryGeneratedColumn('uuid')
     @ApiProperty()
     id: string;
@@ -29,7 +28,10 @@ export class ProductEntity implements IProduct {
     })
     @ApiProperty({ required: false })
     images: string[]
+}
 
+@Entity('product')
+export class ProductEntity extends ProductBaseEntity implements IProduct {
     @ManyToOne(() => CategoryEntity, ({ products }) => products)
     @JoinColumn({ name: "category" })
     @ApiProperty({ type: () => CategoryEntity })

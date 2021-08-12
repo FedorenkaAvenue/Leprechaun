@@ -22,7 +22,28 @@ export class CreateProductDTO implements IProduct {
 
     @ApiProperty({ type: 'file', isArray: true })
     images: string[];
+}
 
-    // labels: Array<IProductLabel> | null;
-    // properties: Array<IProductProperty>;
+export class UpdateProductDTO implements IProduct {
+    @ApiProperty({ type: 'number', required: true })
+    id: string;
+
+    @ApiProperty({ required: false })
+    title: string;
+
+    @ApiProperty({ required: false })
+    price: number;
+
+    @ApiProperty({ required: false })
+    isPublic: boolean;
+
+    @ApiProperty({
+        required: false,
+        type: 'number',
+        description: 'category id'
+    })
+    category: ICategory;
+
+    @ApiProperty({ type: 'file', isArray: true, required: false })
+    images: string[];
 }

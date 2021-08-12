@@ -14,10 +14,21 @@ export class CreateCategoryDTO implements ICategory {
 
     @ApiProperty({ required: false })
     icon: string;
+}
 
-    // @ApiProperty({ required: false })
-    // parentCategoryId: number;
+export class UpdateCategoryDTO implements ICategory {
+    @ApiProperty({ required: true })
+    id: number;
 
-    // @ApiProperty({ required: false })
-    // children: Array<CategoryEntity>;
+    @ApiProperty({ required: false })
+    url: string;
+
+    @ApiProperty({ required: false })
+    title: string;
+
+    @ApiProperty({ required: false })
+    isPublic: boolean;
+
+    @ApiProperty({ required: false })
+    icon: string;
 }

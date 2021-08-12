@@ -2,7 +2,7 @@ import { ICategory } from "@modules/category/index.interface";
 
 interface IProductBase {
     id?: string
-    category: ICategory
+    category?: ICategory
     title: string
     isPublic: boolean
     price: number
