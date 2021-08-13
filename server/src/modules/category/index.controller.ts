@@ -1,12 +1,14 @@
-import { Controller, Get, Param, Body, UseInterceptors, Delete, Patch, Post } from '@nestjs/common';
+import { Controller, Get, Param, Body, UseInterceptors, Delete, Patch, Post, UploadedFile } from '@nestjs/common';
 import { ApiCreatedResponse, ApiNotFoundResponse, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
-import { UpdateResult } from 'typeorm';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { DeleteResult, UpdateResult } from 'typeorm';
 
 import { NotFoundInterceptor, AffectedInterceptor } from '@interceptors/DB';
 import { CategoriesService, CategoryService } from './index.service';
 import { CategoryBaseEntity, CategoryEntity } from './index.entity';
 import { CreateCategoryDTO, UpdateCategoryDTO } from './index.dto';
 import { ProductBaseEntity, ProductEntity } from '@modules/product/index.entity';
+import { MulterService } from '@services/Multer';
 
 @Controller('categories')
 @ApiTags('Categories')
@@ -51,10 +53,17 @@ export class CategoryController {
 	}
 
 	@Post()
+	@UseInterceptors(FileInterceptor(
+		'icon',
+		{ fileFilter: new MulterService().fileFilterOption('svg') }
+	))
 	@ApiOperation({ summary: 'add new category' })
 	@ApiCreatedResponse({ type: CategoryBaseEntity })
-	addCategory(@Body() body: CreateCategoryDTO): Promise<CategoryBaseEntity> {
-		return this.categoryService.createCategory(body);
+	addCategory(
+		@Body() body: CreateCategoryDTO,
+		@UploadedFile() icon: Express.Multer.File
+	): Promise<CategoryBaseEntity> {
+		return this.categoryService.createCategory(body, icon);
 	}
 
 	@Patch()
@@ -67,10 +76,10 @@ export class CategoryController {
 
 	@Delete(':category')
 	@UseInterceptors(AffectedInterceptor)
-	@ApiOperation({ summary: 'delete category by url' })
+	@ApiOperation({ summary: 'delete category by id' })
 	@ApiOkResponse({ description: 'success' })
 	@ApiNotFoundResponse({ description: 'category not found' })
-	deleteCategory(@Param('category') category: string) {
-		return this.categoryService.deleteCategory(category);
+	deleteCategory(@Param('category') categoryId: number): Promise<DeleteResult> {
+		return this.categoryService.deleteCategory(categoryId);
 	}
 }

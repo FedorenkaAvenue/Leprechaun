@@ -16,9 +16,12 @@ export class ProductService {
 	async createProduct(product: CreateProductDTO, images?: Array<Express.Multer.File>): Promise<ProductEntity> {
 		const productItem = await this.productRepo.save(product);
 		const uploadedImgArr = await this.multerModule.saveFiles(FOLDER_TYPES.PRODUCT, productItem.id, images);
-		const updProductItem = await this.productRepo.save({ ...productItem, images: uploadedImgArr });
+		await this.productRepo.update(
+			{ id: productItem.id },
+			{ images: uploadedImgArr }
+		);
 
-		return updProductItem;
+		return ({ ...productItem, images: uploadedImgArr });
 	}
 
 	getProduct(productId: string): Promise<ProductEntity> {

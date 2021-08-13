@@ -5,6 +5,7 @@ import { DeleteResult, Repository, UpdateResult } from 'typeorm';
 import { CategoryEntity } from './index.entity';
 import { CreateCategoryDTO, UpdateCategoryDTO } from './index.dto';
 import { ProductEntity } from '@modules/product/index.entity';
+import { FOLDER_TYPES, MulterService } from '@services/Multer';
 
 @Injectable()
 export class CategoriesService {
@@ -25,8 +26,8 @@ export class CategoriesService {
 @Injectable()
 export class CategoryService {
 	constructor(
-		@InjectRepository(CategoryEntity)
-		private readonly categoryRepo: Repository<CategoryEntity>
+		@InjectRepository(CategoryEntity) private readonly categoryRepo: Repository<CategoryEntity>,
+		private readonly multerModule: MulterService
 	) {}
 
 	getCategory(categoryUrl: string): Promise<CategoryEntity> {
@@ -47,8 +48,15 @@ export class CategoryService {
 		}
 	}
 
-	createCategory(newCategory: CreateCategoryDTO): Promise<CategoryEntity> {
-		return this.categoryRepo.save(newCategory);
+	async createCategory(newCategory: CreateCategoryDTO, icon: Express.Multer.File): Promise<CategoryEntity> {
+		const category = await this.categoryRepo.save(newCategory);
+		const [ uploadedIcon ] = await this.multerModule.saveFiles(FOLDER_TYPES.CATEGORY, category.id, [ icon ]);
+		await this.categoryRepo.update(
+			{ id: category.id },
+			{ icon: uploadedIcon }
+		);
+
+		return ({ ...category, icon: uploadedIcon });
 	}
 
 	updateCategory(category: UpdateCategoryDTO): Promise<UpdateResult> {
@@ -58,7 +66,10 @@ export class CategoryService {
 		);
 	}
 
-	deleteCategory(categoryUrl: string): Promise<DeleteResult> {
-		return this.categoryRepo.delete({ url: categoryUrl });
+	async deleteCategory(categoryId: number): Promise<DeleteResult> {
+		const res = await this.categoryRepo.delete({ id: categoryId });
+		this.multerModule.removeFolder(FOLDER_TYPES.CATEGORY, categoryId);
+
+		return res;
 	}
 }
