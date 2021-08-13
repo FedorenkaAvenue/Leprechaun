@@ -12,7 +12,7 @@ export class CreateCategoryDTO implements ICategory {
     @ApiProperty({ required: false })
     isPublic: boolean;
 
-    @ApiProperty({ required: false })
+    @ApiProperty({ type: 'file', required: false })
     icon: string;
 }
 
