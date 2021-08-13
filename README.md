@@ -25,4 +25,4 @@ Run `make build` to deploy and start all containers
 
  * other
 
-    * `open_image_hosting` open image hosting GUI folder (*linux*)
+    * `make open_image_hosting` open image hosting GUI folder (*linux*)
