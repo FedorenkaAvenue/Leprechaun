@@ -1,6 +1,9 @@
 import { CallHandler, ExecutionContext, Injectable, NestInterceptor, NotFoundException } from "@nestjs/common";
 import { map, Observable, tap } from "rxjs";
 
+/**
+ * @description check if value === undefined and throw NotFoundException
+ */
 @Injectable()
 export class NotFoundInterceptor implements NestInterceptor {
     intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
@@ -14,6 +17,9 @@ export class NotFoundInterceptor implements NestInterceptor {
     }
 }
 
+/**
+ * @description check if result is not affected and throw NotFoundException
+ */
 @Injectable()
 export class AffectedInterceptor implements NestInterceptor {
     intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
