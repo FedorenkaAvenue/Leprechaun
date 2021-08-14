@@ -55,7 +55,7 @@ export class CategoryController {
 	@Post()
 	@UseInterceptors(FileInterceptor(
 		'icon',
-		{ fileFilter: new MulterService().fileFilterOption('svg') }
+		{ fileFilter: MulterService.fileFilterOption('svg') }
 	))
 	@ApiOperation({ summary: 'add new category' })
 	@ApiCreatedResponse({ type: CategoryBaseEntity })
@@ -67,11 +67,18 @@ export class CategoryController {
 	}
 
 	@Patch()
+	@UseInterceptors(FileInterceptor(
+		'icon',
+		{ fileFilter: MulterService.fileFilterOption('svg') }
+	))
 	@UseInterceptors(AffectedInterceptor)
 	@ApiOperation({ summary: 'update category' })
 	@ApiOkResponse({ status: 200 })
-	updateCategory(@Body() body: UpdateCategoryDTO): Promise<UpdateResult> {
-		return this.categoryService.updateCategory(body);
+	updateCategory(
+		@Body() body: UpdateCategoryDTO,
+		@UploadedFile() icon: Express.Multer.File
+	): Promise<UpdateResult> {
+		return this.categoryService.updateCategory(body, icon);
 	}
 
 	@Delete(':category')

@@ -16,12 +16,40 @@ export enum FOLDER_TYPES {
 
 @Injectable()
 export class MulterService implements MulterOptionsFactory {
+    /**
+     * @description method to filter file's extensions for MulterOptions
+     * @param extentions spreaded extensions ('svg', 'png' etc)
+    */
+    public static fileFilterOption(...extentions: Array<string>): MulterOptions['fileFilter'] {
+        return function(_, { originalname }, cb) {
+            try {
+                extentions.forEach(ext => {
+                    if (extname(originalname) !== `.${ext}`) throw Error;
+                });
+            } catch(err) {
+                return cb(new BadRequestException(), false);
+            }
+
+            cb(null, true);
+        }
+    }
+
+    /**
+     * @returns Multer settings object
+     */
     createMulterOptions(): MulterModuleOptions {
         return {
             storage: memoryStorage()
         };
     }
 
+    /**
+     * @description save array of files
+     * @param itemType folder type (with existing path)
+     * @param folderId folder name
+     * @param files array of binary files
+     * @returns array of downloaded file paths
+     */
     async saveFiles(
         itemType: FOLDER_TYPES,
         folderId: string | number,
@@ -44,28 +72,23 @@ export class MulterService implements MulterOptionsFactory {
         }
     }
 
-    fileFilterOption(...extentions: Array<string>): MulterOptions['fileFilter'] {
-        return function(_, { originalname }, cb) {
-            try {
-                extentions.forEach(ext => {
-                    if (extname(originalname) !== `.${ext}`) throw Error;
-                });
-            } catch(err) {
-                return cb(new BadRequestException(), false);
-            }
-
-            cb(null, true);
+    /**
+     * @description remove one file
+     * @param fileHref file path
+     */
+    async removeFile(fileHref: string): Promise<void> {
+        try {
+            await promises.rm(HOSTING_PATH + fileHref);
+        } catch(err) {
+            throw new InternalServerErrorException();
         }
     }
 
-    // async removeFile(imgName: string): Promise<void> {
-    //     try {
-    //         await promises.rm(HOSTING_PATH + imgName);
-    //     } catch(err) {
-    //         throw new InternalServerErrorException();
-    //     }
-    // }
-
+    /**
+     * @description force folder removing
+     * @param folderType folder type (with existing path)
+     * @param folderName folder name
+     */
     async removeFolder(folderType: FOLDER_TYPES, folderName: string | number): Promise<void> {
         try {
             await promises.rmdir(
