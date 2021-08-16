@@ -12,7 +12,11 @@ export class CreateCategoryDTO implements ICategory {
     @ApiProperty({ required: false })
     isPublic: boolean;
 
-    @ApiProperty({ type: 'file', required: false })
+    @ApiProperty({
+        type: 'file',
+        required: false,
+        description: 'only SVG extension'
+    })
     icon: string;
 }
 
@@ -29,6 +33,10 @@ export class UpdateCategoryDTO implements ICategory {
     @ApiProperty({ required: false })
     isPublic: boolean;
 
-    @ApiProperty({ required: false })
+    @ApiProperty({
+        required: false,
+        type: 'file',
+        description: 'only SVG extension'
+    })
     icon: string;
 }
