@@ -13,11 +13,15 @@ export class ProductFormComponent implements OnInit {
   @Input() categories: CategoryDto[] | null;
   @Input() mode: CategoryDto[] | null;
   public form: FormGroup;
-  public categoryControl = new FormControl(null)
+  public categoryControl = new FormControl(null, Validators.required)
   constructor( private readonly fb: FormBuilder) { }
 
   ngOnInit(): void {
     this.initForm();
+    this.form.get('files')?.valueChanges.subscribe(el => {
+      console.log(el);
+      
+    })
   }
 
 
@@ -26,9 +30,18 @@ export class ProductFormComponent implements OnInit {
       price: this.fb.control(null, Validators.required),
       title: this.fb.control(null, Validators.required),
       category: this.categoryControl,
+      isPublic: this.fb.control(true),
+      images: this.fb.control([], Validators.required)
     })
   }
   
+  public uploadFiles(event: Event) {
+    const target = event.target as HTMLInputElement;
+    console.log(target.files);
+    this.form.get('images')?.setValue(target.files);
+    console.log(this.form.value);
+  }
+
   public saveForm() {
     const data = this.form.value;
     this.saveFormEvent.emit(data)

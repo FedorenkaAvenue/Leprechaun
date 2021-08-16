@@ -15,5 +15,9 @@ export class ProductCardComponent implements OnInit {
   ngOnInit(): void {
   }
 
+
+  public goToProdView(): void {
+    
+  }
  
 }

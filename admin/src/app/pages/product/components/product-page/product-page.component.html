@@ -1,16 +1,18 @@
 <section>
-  <header>
+  <header class="products-header">
     <h1>Products</h1>
     <a
       routerLink="../../add"
-      class="categories-add"
+      class="products-add"
       mat-raised-button
       color="accent"
     >
       <mat-icon>add</mat-icon>
     </a>
   </header>
-  <ng-container *ngIf="products$ | async as products">
-    <app-products-list [products]="products"></app-products-list>
-  </ng-container>
+  <div class="products-list_wrapper">
+    <ng-container *ngIf="products$ | async as products">
+      <app-products-list [products]="products"></app-products-list>
+    </ng-container>
+  </div>
 </section>

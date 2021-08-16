@@ -4,5 +4,11 @@
       "secure": true,
       "changeOrigin": true,
       "logLevel": "debug"
+    },
+    "/img": {
+      "target": "http://leprechaun_nginx",
+      "secure": true,
+      "changeOrigin": true,
+      "logLevel": "debug"
     }
   }
