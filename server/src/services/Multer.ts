@@ -1,7 +1,9 @@
-import { Injectable, InternalServerErrorException } from "@nestjs/common";
+import { BadRequestException, Injectable, InternalServerErrorException } from "@nestjs/common";
 import { MulterModuleOptions, MulterOptionsFactory } from "@nestjs/platform-express";
 import { memoryStorage } from "multer";
 import { promises } from 'fs';
+import { MulterOptions } from "@nestjs/platform-express/multer/interfaces/multer-options.interface";
+import { extname } from "path";
 
 import ConfigService from '@services/Config';
 
@@ -22,7 +24,7 @@ export class MulterService implements MulterOptionsFactory {
 
     async saveFiles(
         itemType: FOLDER_TYPES,
-        folderId: string,
+        folderId: string | number,
         files: Array<Express.Multer.File>
     ): Promise<string[]> {
         const itemDirPath = `${HOSTING_PATH}/${itemType}/${folderId}`;
@@ -42,6 +44,20 @@ export class MulterService implements MulterOptionsFactory {
         }
     }
 
+    fileFilterOption(...extentions: Array<string>): MulterOptions['fileFilter'] {
+        return function(_, { originalname }, cb) {
+            try {
+                extentions.forEach(ext => {
+                    if (extname(originalname) !== `.${ext}`) throw Error;
+                });
+            } catch(err) {
+                return cb(new BadRequestException(), false);
+            }
+
+            cb(null, true);
+        }
+    }
+
     // async removeFile(imgName: string): Promise<void> {
     //     try {
     //         await promises.rm(HOSTING_PATH + imgName);
@@ -50,7 +66,7 @@ export class MulterService implements MulterOptionsFactory {
     //     }
     // }
 
-    async removeFolder(folderType: FOLDER_TYPES, folderName: string): Promise<void> {
+    async removeFolder(folderType: FOLDER_TYPES, folderName: string | number): Promise<void> {
         try {
             await promises.rmdir(
                 `${HOSTING_PATH}${folderType}/${folderName}`,
