@@ -1,0 +1,28 @@
+@import '/src/styles/components/card.scss';
+
+:host {
+    width: 100%;
+    padding: 10px 0;
+    border-bottom: 2px solid #eee;
+    
+}
+.product {
+  &-card {
+      display: flex;
+    width: 100%;
+  }
+  &-title {
+    width: 20%;
+  }
+  &-image {
+    width: 15%;
+    height: 100px;
+    object-fit: contain;
+  }
+  &-status {
+    width: 15%;
+  }
+  &-actions {
+    width: 50%;
+  }
+}

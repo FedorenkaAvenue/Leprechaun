@@ -1,4 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { MatDrawerContainer } from '@angular/material/sidenav';
+import { Router } from '@angular/router';
+import { SIDENAV_LINKS } from '../../static/layout';
 
 @Component({
   selector: 'app-wrapper',
@@ -8,10 +11,19 @@ import { Component, OnInit } from '@angular/core';
 export class WrapperComponent implements OnInit {
 
   public showFiller = true;
-
-  constructor() { }
+  public sidenavLinks = SIDENAV_LINKS;
+  @ViewChild('matDrawer') matDrawer: MatDrawerContainer
+  constructor(
+    private readonly router: Router
+  ) { }
 
   ngOnInit(): void {
+    this.closeSidenav();
   }
 
+  private closeSidenav(): void {
+    this.router.events.subscribe( () => {
+      this.matDrawer.close();
+    })
+  }
 }

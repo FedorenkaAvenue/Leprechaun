@@ -1,0 +1,15 @@
+:host {
+    display: flex;
+    justify-content: center;
+    padding: 50px;
+}
+.product-form {
+    display: flex;
+    flex-direction: column;
+    &_toogle {
+        margin-bottom: 18px;
+    }
+    &_file {
+        margin-bottom: 18px;
+    }
+}

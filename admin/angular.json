@@ -35,6 +35,7 @@
             ],
             "styles": [
               "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
+              "node_modules/ngx-toastr/toastr.css",
               "src/styles.scss"
             ],
             "scripts": []
@@ -81,6 +82,10 @@
             "development": {
               "browserTarget": "admin:build:development"
             }
+          },
+          "options": {
+            "browserTarget": "admin:build",
+            "proxyConfig": "proxy.conf.json"
           },
           "defaultConfiguration": "development"
         },

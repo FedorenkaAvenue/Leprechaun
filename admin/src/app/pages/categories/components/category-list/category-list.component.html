@@ -1,0 +1,9 @@
+<div class="category-list">
+  <ng-container *ngFor="let category of categories">
+      <app-category-preview-card
+        class="category-card"
+        [category]="category"
+        (onGoToCategProds)="goToCategProds($event)"
+      ></app-category-preview-card>
+  </ng-container>
+</div>

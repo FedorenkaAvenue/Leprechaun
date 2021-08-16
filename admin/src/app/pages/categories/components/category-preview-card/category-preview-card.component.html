@@ -1,0 +1,41 @@
+<!-- <mat-card (click)="goToCategProds(category.url)" class="category-card">
+  <mat-card-header>
+    <mat-card-title>{{ category?.title }}</mat-card-title>
+    <div class="card__actions">
+      <button mat-mini-fab color="warn">
+        <mat-icon>delete</mat-icon>
+      </button>
+      <a [routerLink]="['edit', category?.url]" mat-mini-fab color="primary">
+        <mat-icon>mode_edit</mat-icon>
+      </a>
+    </div>
+  </mat-card-header>
+  <img
+    stubImage
+    mat-card-image
+    [src]="category?.icon || ''"
+    [alt]="category?.title"
+  />
+</mat-card> -->
+
+<section (click)="goToCategProds(category.url)" class="category-card">
+  <span class="category-title">{{ category?.title }}</span>
+  <img stubImage class="category-image" [src]="category?.icon || ''" alt="" />
+  <span class="category-status">published</span>
+  <div class="category-actions card__actions">
+    <a
+      class="btn-preview_min"
+      [routerLink]="['view', category?.url]"
+      mat-mini-fab
+      color="preview_btn"
+    >
+      <mat-icon>visibility</mat-icon>
+    </a>
+    <a [routerLink]="['edit', category?.url]" mat-mini-fab color="primary">
+      <mat-icon>mode_edit</mat-icon>
+    </a>
+    <button disabled mat-mini-fab color="warn">
+      <mat-icon>delete</mat-icon>
+    </button>
+  </div>
+</section>

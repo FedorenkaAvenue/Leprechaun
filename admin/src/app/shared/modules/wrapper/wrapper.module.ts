@@ -5,9 +5,9 @@ import { WrapperRoutingModule } from './wrapper-routing.module';
 import { WrapperComponent } from './wrapper.component';
 
 import {MatSidenavModule} from '@angular/material/sidenav';
-import {MatToolbarModule} from '@angular/material/toolbar';
 
 import {MatIconModule} from '@angular/material/icon';
+import { AppHeaderModule } from '../app-header/app-header.module';
 
 
 @NgModule({
@@ -18,8 +18,8 @@ import {MatIconModule} from '@angular/material/icon';
     CommonModule,
     WrapperRoutingModule,
     MatSidenavModule,
-    MatToolbarModule,
     MatIconModule,
+    AppHeaderModule,
   ]
 })
 export class WrapperModule { }
