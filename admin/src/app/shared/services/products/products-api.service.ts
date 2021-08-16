@@ -25,8 +25,6 @@ export class ProductsApiService {
   }
 
   public createProduct(data: any): Observable<any> {
-    console.log(data);
-    
     const formData  = new FormData();
     formData.append('category', data.category),
     formData.append('isPublic', data.isPublic),
@@ -35,10 +33,6 @@ export class ProductsApiService {
     Object.keys(data.images).forEach((key: any) => {
         formData.append('images', data.images[key])
       });
-    // data.images.forEach((element: any) => {
-    //   formData.append('images', element)
-    // });
-    // formData.append('images', data.images)
     return this.http.post<any>(`${this.apiUrl}/product`, formData)
   }
 

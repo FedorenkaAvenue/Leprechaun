@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 import { CategoriesApiService } from 'src/app/shared/services/categories/categories-api.service';
 import { CategoriesService } from '../../services/categories.service';
 
@@ -12,7 +13,8 @@ export class CreateCategoryComponent implements OnInit {
 
   constructor(
     private readonly categoriesApiService: CategoriesService,
-    private readonly router: Router
+    private readonly router: Router,
+    private readonly toastr: ToastrService
     ) { }
 
   ngOnInit(): void {
@@ -20,7 +22,8 @@ export class CreateCategoryComponent implements OnInit {
 
   public saveForm(formData: any) {
     this.categoriesApiService.createCategory(formData).subscribe(res => {
-     this.router.navigate(['/admin/categories'])
+      this.toastr.success('category was created');
+      this.router.navigate(['/admin/categories'])
     });
   }
 }

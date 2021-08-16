@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 import { Observable } from 'rxjs';
 import { CategoryDto } from 'src/app/shared/models/categories.model';
 import { CategoriesService } from '../../services/categories.service';
@@ -15,7 +16,7 @@ export class CategoriesPageComponent implements OnInit {
   
   constructor(
     private readonly categoriesService: CategoriesService,
-    private readonly router: Router
+    private readonly router: Router,
   ) { }
 
   ngOnInit(): void {

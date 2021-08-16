@@ -29,10 +29,16 @@ export class CategoriesApiService {
   }
 
   public createCategory(data: any): Observable<CategoryDto> {
-    return this.http.post<any>(`${this.apiUrl}/category`, data).pipe(
+    const formData  = new FormData();
+    formData.append('isActive', data.isActive),
+    formData.append('url', data.url),
+    formData.append('title', data.title),
+    formData.append('icon', data.icon)
+    return this.http.post<any>(`${this.apiUrl}/category`, formData).pipe(
     )
   }
   public editCategory(data: any): Observable<CategoryDto> {
+
     return this.http.patch<any>(`${this.apiUrl}/category`, data).pipe(
     )
   }

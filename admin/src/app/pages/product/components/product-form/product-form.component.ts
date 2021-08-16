@@ -18,10 +18,6 @@ export class ProductFormComponent implements OnInit {
 
   ngOnInit(): void {
     this.initForm();
-    this.form.get('files')?.valueChanges.subscribe(el => {
-      console.log(el);
-      
-    })
   }
 
 
@@ -37,9 +33,7 @@ export class ProductFormComponent implements OnInit {
   
   public uploadFiles(event: Event) {
     const target = event.target as HTMLInputElement;
-    console.log(target.files);
     this.form.get('images')?.setValue(target.files);
-    console.log(this.form.value);
   }
 
   public saveForm() {

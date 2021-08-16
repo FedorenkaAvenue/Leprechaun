@@ -1,5 +1,42 @@
-<form [formGroup]="form">
-  <input formControlName="url" placeholder="url" type="text" />
-  <input formControlName="title" placeholder="title" type="text" />
-  <button (click)="saveForm()" type="button">Save</button>
+<form class="category-form" [formGroup]="form">
+  <mat-form-field appearance="fill">
+    <mat-label>Url</mat-label>
+    <input matInput formControlName="url" />
+  </mat-form-field>
+
+  <!-- <input formControlName="url" placeholder="url" type="text" /> -->
+
+  <mat-form-field appearance="fill">
+    <mat-label>Title</mat-label>
+    <input matInput formControlName="title" />
+  </mat-form-field>
+
+
+  <mat-slide-toggle
+  class="product-form_toogle"
+  [checked]="true"
+  [disabled]="false"
+>
+  public
+</mat-slide-toggle>
+
+  <!-- <input formControlName="title" placeholder="title" type="text" /> -->
+  <input
+    class="category-form_file"
+    (change)="uploadFiles($event)"
+    #image
+    type="file"
+  />
+
+  <!-- <button (click)="saveForm()" type="button">Save</button> -->
+
+  <button
+    [disabled]="!form?.valid"
+    (click)="saveForm()"
+    type="button"
+    mat-raised-button
+    color="primary"
+  >
+    Save
+  </button>
 </form>

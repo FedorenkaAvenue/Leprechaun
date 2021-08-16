@@ -28,6 +28,8 @@ export class CategoryFormComponent implements OnInit {
     this.form = this.fb.group({
       url: this.fb.control(null, Validators.required),
       title: this.fb.control(null, Validators.required),
+      isPublic: this.fb.control(true),
+      icon: this.fb.control(null, Validators.required),
     })
   }
 
@@ -39,6 +41,15 @@ export class CategoryFormComponent implements OnInit {
 
   private updateForm(data: CategoryDto) {
     this.form.patchValue(data);
+  }
+
+  public uploadFiles(event: Event) {
+    const target = event.target as HTMLInputElement;
+    const files = target.files;
+    if (!(files && files.length)) {
+      return;
+    }
+    this.form.get('icon')?.setValue(files[0]);
   }
 
   public saveForm() {
