@@ -37,12 +37,15 @@ export class ProductController {
         return this.productService.getProduct(productId);
     }
 
-    //TODO: пока без обновлений фото
     @Patch()
+    @UseInterceptors(FilesInterceptor('images'))
     @UseInterceptors(AffectedInterceptor)
     @ApiOperation({ summary: 'update product' })
-    updateProduct(@Body() product: UpdateProductDTO): Promise<UpdateResult> {
-        return this.productService.updateProduct(product);
+    updateProduct(
+        @Body() product: UpdateProductDTO,
+        @UploadedFiles() images: Array<Express.Multer.File>
+    ): Promise<UpdateResult> {
+        return this.productService.updateProduct(product, images);
     }
 
     @Delete(':productId')

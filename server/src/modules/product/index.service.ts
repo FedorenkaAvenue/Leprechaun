@@ -31,14 +31,15 @@ export class ProductService {
 		})
 	}
 
-	//TODO: обновление фоток
-	async updateProduct(product: UpdateProductDTO): Promise<UpdateResult> {
-		return this.productRepo.update(
+	async updateProduct(product: UpdateProductDTO, images: Array<Express.Multer.File>): Promise<UpdateResult> {
+		const res = await this.productRepo.update(
 			{ id: product.id },
-			product
+			{ ...product }
 		);
-		// const uploadedImgArr = await this.multerModule.saveFiles(FOLDER_TYPES.PRODUCT, productItem.id, images);
-		// const updProductItem = await this.productRepo.save({ ...productItem, images: uploadedImgArr });
+		
+		if (res.affected && images.length) await this.multerModule.saveFiles(FOLDER_TYPES.PRODUCT, product.id, images);
+
+		return res;
 	}
 
 	async deleteProduct(productId: string): Promise<DeleteResult> {

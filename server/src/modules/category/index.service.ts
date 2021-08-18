@@ -59,11 +59,15 @@ export class CategoryService {
 		return ({ ...category, icon: uploadedIcon });
 	}
 
-	updateCategory(category: UpdateCategoryDTO): Promise<UpdateResult> {
-		return this.categoryRepo.update(
+	async updateCategory(category: UpdateCategoryDTO, icon: Express.Multer.File): Promise<UpdateResult> {
+		const res = await this.categoryRepo.update(
 			{ id: category.id },
-			category
+			{ ...category }
 		);
+
+		if (res.affected && icon) await this.multerModule.saveFiles(FOLDER_TYPES.CATEGORY, category.id, [ icon ]);
+
+		return res;
 	}
 
 	async deleteCategory(categoryId: number): Promise<DeleteResult> {
