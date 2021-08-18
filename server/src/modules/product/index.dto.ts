@@ -47,3 +47,11 @@ export class UpdateProductDTO implements IProduct {
     @ApiProperty({ type: 'file', isArray: true, required: false })
     images: string[];
 }
+
+export class RemoveStaticImageDTO {
+    @ApiProperty()
+    productId: string;
+
+    @ApiProperty({ description: 'file url' })
+    fileSrc: string;
+}

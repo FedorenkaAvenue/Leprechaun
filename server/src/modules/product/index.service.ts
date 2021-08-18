@@ -1,4 +1,4 @@
-import { Injectable } from "@nestjs/common";
+import { Injectable, NotFoundException } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { DeleteResult, Repository, UpdateResult } from "typeorm";
 
@@ -47,5 +47,22 @@ export class ProductService {
 		this.multerModule.removeFolder(FOLDER_TYPES.PRODUCT, productId);
 
 		return res;
+	}
+
+	//! переделать нахуй
+	async removeStatic(productId: string, fileSrc: string): Promise<boolean> {
+		const product = await this.productRepo.findOne({ id: productId });
+		
+		if (!product) throw new NotFoundException(null, 'product not found');
+		if (!product.images.includes(fileSrc)) throw new NotFoundException(null, 'file not found');
+
+		const updImageArr = product.images.filter(img => img !== fileSrc);
+		this.productRepo.update(
+			{ id: productId },
+			{ images: updImageArr }
+		);
+		this.multerModule.removeFile(fileSrc);
+
+		return true;
 	}
 }

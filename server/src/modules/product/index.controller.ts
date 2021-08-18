@@ -1,12 +1,12 @@
 import {
     Body, Controller, Delete, Get, Param, ParseUUIDPipe, Patch, Post,
-    UploadedFiles, UseInterceptors
+    UploadedFiles, UseInterceptors, Put
 } from "@nestjs/common";
 import { ApiBadRequestResponse, ApiNotFoundResponse, ApiOkResponse, ApiOperation, ApiTags } from "@nestjs/swagger";
 import { DeleteResult, UpdateResult } from "typeorm";
 import { FilesInterceptor } from "@nestjs/platform-express";
 
-import { CreateProductDTO, UpdateProductDTO } from "./index.dto";
+import { CreateProductDTO, RemoveStaticImageDTO, UpdateProductDTO } from "./index.dto";
 import { ProductBaseEntity, ProductEntity } from "./index.entity";
 import { ProductService } from "./index.service";
 import { AffectedInterceptor, NotFoundInterceptor } from "@interceptors/DB";
@@ -56,5 +56,13 @@ export class ProductController {
     @ApiNotFoundResponse({ description: 'product not found' })
     deleteProduct(@Param('productId', ParseUUIDPipe) productId: string): Promise<DeleteResult> {
         return this.productService.deleteProduct(productId);
+    }
+
+    @Put('remove')
+    @ApiOperation({ summary: 'remove static file' })
+    @ApiOkResponse({ description: 'success' })
+    @ApiNotFoundResponse({ description: 'product or file not found' })
+    removeStaticImage(@Body() { productId, fileSrc }: RemoveStaticImageDTO): Promise<boolean> {
+        return this.productService.removeStatic(productId, fileSrc);
     }
 }
