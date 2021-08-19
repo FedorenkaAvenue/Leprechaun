@@ -17,7 +17,7 @@ class="product-card">
   <a [routerLink]="['edit', product?.id]" mat-mini-fab color="primary">
     <mat-icon>mode_edit</mat-icon>
   </a>
-  <button disabled mat-mini-fab color="warn">
+  <button (click)="removeProduct(product.id)" mat-mini-fab color="warn">
     <mat-icon>delete</mat-icon>
   </button>
 </div>

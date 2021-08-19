@@ -12,4 +12,23 @@ app-wrapper {
   }
 }
 
+.cdk-overlay-backdrop.cdk-overlay-backdrop-showing {
+  &.dark-backdrop {
+    background: #000;
+    opacity: 0.85 !important;
+  }
+}
 
+.cdk-overlay-container > div {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal__wrap {
+  min-width: 300px;
+  background: #fff;
+  padding: 10px 20px 20px;
+}

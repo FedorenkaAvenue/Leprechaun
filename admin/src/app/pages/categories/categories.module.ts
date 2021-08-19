@@ -18,6 +18,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { ModalModule } from 'src/app/shared/modules/modal/modal.module';
 
 
 @NgModule({
@@ -40,6 +41,7 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
     MatFormFieldModule,
     MatInputModule,
     MatSlideToggleModule,
+    ModalModule,
   ],
   providers: [
     CategoriesApiService,

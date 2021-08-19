@@ -1,5 +1,5 @@
 
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { ProductCardDto } from '../../models/product.model';
 
 @Component({
@@ -10,11 +10,15 @@ import { ProductCardDto } from '../../models/product.model';
 export class ProductCardComponent implements OnInit {
 
   @Input() product: ProductCardDto;
+  @Output() onRemoveProduct = new EventEmitter<number>();
   constructor() { }
 
   ngOnInit(): void {
   }
 
+  public removeProduct(id?: number): void {
+    this.onRemoveProduct.next(id);
+  }
 
   public goToProdView(): void {
     
