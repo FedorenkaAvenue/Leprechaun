@@ -42,6 +42,10 @@ export class CategoriesApiService {
     return this.http.patch<any>(`${this.apiUrl}/category`, data).pipe(
     )
   }
+
+  public deleteCategory(id: number): Observable<any> {
+    return this.http.delete(`${this.apiUrl}/category/${id}`)
+  }
 }
 
 

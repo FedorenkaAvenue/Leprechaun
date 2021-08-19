@@ -11,6 +11,8 @@ export class CategoryPreviewCardComponent implements OnInit {
 
   @Input() category: CategoryDto;
   @Output() onGoToCategProds = new EventEmitter<string>();
+  @Output() onRemoveCategory = new EventEmitter<number>();
+
   constructor() { }
 
   ngOnInit(): void {
@@ -18,5 +20,10 @@ export class CategoryPreviewCardComponent implements OnInit {
 
   public goToCategProds(url: string): void {
     this.onGoToCategProds.emit(url)
+  }
+
+  public removeCategory(event: Event, id?: number): void {
+    event.stopPropagation();
+    this.onRemoveCategory.next(id);
   }
 }
