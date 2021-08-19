@@ -1,22 +1,3 @@
-<!-- <mat-card (click)="goToCategProds(category.url)" class="category-card">
-  <mat-card-header>
-    <mat-card-title>{{ category?.title }}</mat-card-title>
-    <div class="card__actions">
-      <button mat-mini-fab color="warn">
-        <mat-icon>delete</mat-icon>
-      </button>
-      <a [routerLink]="['edit', category?.url]" mat-mini-fab color="primary">
-        <mat-icon>mode_edit</mat-icon>
-      </a>
-    </div>
-  </mat-card-header>
-  <img
-    stubImage
-    mat-card-image
-    [src]="category?.icon || ''"
-    [alt]="category?.title"
-  />
-</mat-card> -->
 
 <section (click)="goToCategProds(category.url)" class="category-card">
   <span class="category-title">{{ category?.title }}</span>
@@ -34,7 +15,7 @@
     <a [routerLink]="['edit', category?.url]" mat-mini-fab color="primary">
       <mat-icon>mode_edit</mat-icon>
     </a>
-    <button disabled mat-mini-fab color="warn">
+    <button (click)="removeCategory($event, category?.id)" mat-mini-fab color="warn">
       <mat-icon>delete</mat-icon>
     </button>
   </div>

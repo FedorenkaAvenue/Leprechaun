@@ -21,6 +21,8 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { ModalModule } from 'src/app/shared/modules/modal/modal.module';
+import { ConfirmationDialogModule } from 'src/app/shared/components/confirmation-dialog/confirmation-dialog.module';
 
 @NgModule({
   declarations: [
@@ -44,6 +46,8 @@ import { MatInputModule } from '@angular/material/input';
     MatSlideToggleModule,
     MatFormFieldModule,
     MatInputModule,
+    ModalModule,
+    ConfirmationDialogModule,
   ],
   providers: [ProductsService, ProductsApiService, CategoriesApiService],
 })

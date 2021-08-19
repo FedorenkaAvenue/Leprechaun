@@ -1,0 +1,16 @@
+
+.confirmation {
+  &-header {
+    display: flex;
+    justify-content: flex-end;
+  }
+  &-content {
+      padding: 10px 0;
+      display: flex;
+      justify-content: center;
+  }
+  &-controls {
+      display: flex;
+      justify-content: space-evenly;
+  }
+}

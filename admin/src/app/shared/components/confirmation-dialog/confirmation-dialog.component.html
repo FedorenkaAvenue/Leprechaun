@@ -1,0 +1,10 @@
+<div class="confirmation">
+    <header class="confirmation-header">
+        <button (click)="reject()" class="btn-close">+</button>
+    </header>
+    <div class="confirmation-content">You really want to delete?</div>
+    <div class="confirmation-controls">
+        <button (click)="confirm()" mat-button color="warn">yes</button>
+        <button (click)="reject()" mat-button color="primary">no</button>
+    </div>
+</div>

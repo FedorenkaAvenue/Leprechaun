@@ -3,6 +3,7 @@
         <app-product-card
           class="product-card"
           [product]="product"
+          (onRemoveProduct)="removeProduct($event)"
         ></app-product-card>
     </ng-container>
   </div>

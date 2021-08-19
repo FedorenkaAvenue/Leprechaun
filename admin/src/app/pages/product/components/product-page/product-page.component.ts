@@ -1,7 +1,12 @@
+import { OverlayRef } from '@angular/cdk/overlay';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Observable } from 'rxjs';
+import { ToastrService } from 'ngx-toastr';
+import { EMPTY, Observable, of } from 'rxjs';
+import { switchMap, take } from 'rxjs/operators';
+import { ConfirmationDialogComponent } from 'src/app/shared/components/confirmation-dialog/confirmation-dialog.component';
 import { ProductCardDto } from 'src/app/shared/models/product.model';
+import { OverlayService } from 'src/app/shared/modules/modal/services/overlay.service';
 import { ProductsService } from '../../sevices/products.service';
 
 @Component({
@@ -15,15 +20,14 @@ export class ProductPageComponent implements OnInit {
   
   constructor(
     private readonly route: ActivatedRoute,
-    private readonly productsService: ProductsService
+    private readonly productsService: ProductsService,
+    private readonly overlayService: OverlayService,
+    private readonly toastr: ToastrService
     ) { }
 
   ngOnInit(): void {
+    this.productsService.init();
    this.getProducts();
-   this.products$.subscribe(res => {
-     console.log(res);
-     
-   })
   }
 
   private getCategoryUrl(): string | null {
@@ -39,6 +43,22 @@ export class ProductPageComponent implements OnInit {
   }
 
   public deleteProducts(id: number): void {
-    
+    this.overlayService.open(
+      ConfirmationDialogComponent,
+      {}
+    ).afterClosed$.pipe(
+      take(1),
+      switchMap((res) => {
+        if(res.data) {
+          return this.productsService.deleteProduct(id);
+        }
+        return EMPTY
+      },
+      )
+    ).subscribe(res => {
+      this.toastr.success('product was deleted');
+     this.productsService.updateProducts();
+    }
+    )
   }
 }
