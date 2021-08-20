@@ -15,13 +15,6 @@ import { MulterService } from '@services/Multer';
 export class CategoriesController {
 	constructor(private readonly categoryService: CategoriesService) {}
 
-	// @Get()
-	// @ApiOperation({ summary: 'get main categories' })
-	// @ApiOkResponse({ type: CategoryEntity, isArray: true })
-	// getMainCategories(): Promise<CategoryEntity[]> {
-	// 	return this.categoryService.getMainCategories();
-	// }
-
 	@Get('/list')
 	@ApiOperation({ summary: 'get all categories' })
 	@ApiOkResponse({ type: CategoryBaseEntity, isArray: true })
@@ -66,20 +59,20 @@ export class CategoryController {
 		return this.categoryService.createCategory(body, icon);
 	}
 
-	@Patch()
-	@UseInterceptors(FileInterceptor(
-		'icon',
-		{ fileFilter: MulterService.fileFilterOption('svg') }
-	))
-	@UseInterceptors(AffectedInterceptor)
-	@ApiOperation({ summary: 'update category' })
-	@ApiOkResponse({ status: 200 })
-	updateCategory(
-		@Body() body: UpdateCategoryDTO,
-		@UploadedFile() icon: Express.Multer.File
-	): Promise<UpdateResult> {
-		return this.categoryService.updateCategory(body, icon);
-	}
+	// @Patch()
+	// @UseInterceptors(FileInterceptor(
+	// 	'icon',
+	// 	{ fileFilter: MulterService.fileFilterOption('svg') }
+	// ))
+	// @UseInterceptors(AffectedInterceptor)
+	// @ApiOperation({ summary: 'update category' })
+	// @ApiOkResponse({ status: 200 })
+	// updateCategory(
+	// 	@Body() body: UpdateCategoryDTO,
+	// 	@UploadedFile() icon: Express.Multer.File
+	// ): Promise<UpdateResult> {
+	// 	return this.categoryService.updateCategory(body, icon);
+	// }
 
 	@Delete(':category')
 	@UseInterceptors(AffectedInterceptor)

@@ -76,9 +76,11 @@ export class MulterService implements MulterOptionsFactory {
      * @description remove one file
      * @param fileHref file path
      */
-    async removeFile(fileHref: string): Promise<void> {
+    async removeFiles(files: Array<string>): Promise<void> {
         try {
-            await promises.rm(HOSTING_PATH + fileHref);
+            await Promise.all(files.map(file => {
+                return promises.rm(HOSTING_PATH + file);
+            }));
         } catch(err) {
             throw new InternalServerErrorException();
         }

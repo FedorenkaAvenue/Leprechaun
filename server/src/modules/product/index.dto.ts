@@ -20,7 +20,11 @@ export class CreateProductDTO implements IProduct {
     })
     category: ICategory;
 
-    @ApiProperty({ type: 'file', isArray: true })
+    @ApiProperty({
+        description: 'array of binary files',
+        type: 'file',
+        isArray: true
+    })
     images: string[];
 }
 
@@ -44,14 +48,24 @@ export class UpdateProductDTO implements IProduct {
     })
     category: ICategory;
 
-    @ApiProperty({ type: 'file', isArray: true, required: false })
+    @ApiProperty({
+        description: 'array of the new images as binary files',
+        type: 'file',
+        isArray: true,
+        required: false
+    })
     images: string[];
-}
 
-export class RemoveStaticImageDTO {
-    @ApiProperty()
-    productId: string;
+    @ApiProperty({
+        description: 'array of the removed images urls',
+        isArray: true,
+        required: false
+    })
+    removedImages: string[];
 
-    @ApiProperty({ description: 'file url' })
-    fileSrc: string;
+    @ApiProperty({
+        required: false,
+        description: 'index of primary image url'
+    })
+    mainImg: number;
 }

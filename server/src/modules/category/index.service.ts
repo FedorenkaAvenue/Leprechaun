@@ -14,10 +14,6 @@ export class CategoriesService {
 		private readonly categoryRepo: Repository<CategoryEntity>
 	) {}
 
-	// getMainCategories(): Promise<CategoryEntity[]> {
-	// 	return this.categoryRepo.find({ parentCategoryId: null });
-	// }
-
 	getAllCategories(): Promise<CategoryEntity[]> {
 		return this.categoryRepo.find();
 	}
@@ -59,16 +55,16 @@ export class CategoryService {
 		return ({ ...category, icon: uploadedIcon });
 	}
 
-	async updateCategory(category: UpdateCategoryDTO, icon: Express.Multer.File): Promise<UpdateResult> {
-		const res = await this.categoryRepo.update(
-			{ id: category.id },
-			{ ...category }
-		);
+	// async updateCategory(category: UpdateCategoryDTO, icon: Express.Multer.File): Promise<UpdateResult> {
+	// 	const res = await this.categoryRepo.update(
+	// 		{ id: category.id },
+	// 		{ ...category }
+	// 	);
 
-		if (res.affected && icon) await this.multerModule.saveFiles(FOLDER_TYPES.CATEGORY, category.id, [ icon ]);
+	// 	if (res.affected && icon) await this.multerModule.saveFiles(FOLDER_TYPES.CATEGORY, category.id, [ icon ]);
 
-		return res;
-	}
+	// 	return res;
+	// }
 
 	async deleteCategory(categoryId: number): Promise<DeleteResult> {
 		const res = await this.categoryRepo.delete({ id: categoryId });

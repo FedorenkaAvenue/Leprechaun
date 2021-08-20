@@ -6,7 +6,7 @@ import { ApiBadRequestResponse, ApiNotFoundResponse, ApiOkResponse, ApiOperation
 import { DeleteResult, UpdateResult } from "typeorm";
 import { FilesInterceptor } from "@nestjs/platform-express";
 
-import { CreateProductDTO, RemoveStaticImageDTO, UpdateProductDTO } from "./index.dto";
+import { CreateProductDTO, UpdateProductDTO } from "./index.dto";
 import { ProductBaseEntity, ProductEntity } from "./index.entity";
 import { ProductService } from "./index.service";
 import { AffectedInterceptor, NotFoundInterceptor } from "@interceptors/DB";
@@ -37,16 +37,16 @@ export class ProductController {
         return this.productService.getProduct(productId);
     }
 
-    @Patch()
-    @UseInterceptors(FilesInterceptor('images'))
-    @UseInterceptors(AffectedInterceptor)
-    @ApiOperation({ summary: 'update product' })
-    updateProduct(
-        @Body() product: UpdateProductDTO,
-        @UploadedFiles() images: Array<Express.Multer.File>
-    ): Promise<UpdateResult> {
-        return this.productService.updateProduct(product, images);
-    }
+    // @Patch()
+    // @UseInterceptors(FilesInterceptor('staticImages'))
+    // @UseInterceptors(AffectedInterceptor)
+    // @ApiOperation({ summary: 'update product' })
+    // updateProduct(
+    //     @Body() product: UpdateProductDTO,
+    //     @UploadedFiles() staticImages: Array<Express.Multer.File>
+    // ): Promise<UpdateResult> {
+    //     return this.productService.updateProduct(product, staticImages);
+    // }
 
     @Delete(':productId')
     @UseInterceptors(AffectedInterceptor)
@@ -56,13 +56,5 @@ export class ProductController {
     @ApiNotFoundResponse({ description: 'product not found' })
     deleteProduct(@Param('productId', ParseUUIDPipe) productId: string): Promise<DeleteResult> {
         return this.productService.deleteProduct(productId);
-    }
-
-    @Put('remove')
-    @ApiOperation({ summary: 'remove static file' })
-    @ApiOkResponse({ description: 'success' })
-    @ApiNotFoundResponse({ description: 'product or file not found' })
-    removeStaticImage(@Body() { productId, fileSrc }: RemoveStaticImageDTO): Promise<boolean> {
-        return this.productService.removeStatic(productId, fileSrc);
     }
 }
