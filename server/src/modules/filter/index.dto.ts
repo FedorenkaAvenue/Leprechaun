@@ -1,25 +1,40 @@
 import { ApiProperty } from "@nestjs/swagger";
 
-import { ICategory } from "@modules/category/index.interface";
-// import { IProduct } from "./index.interface";
+import { FilterOptionType, IFilter, IFilterGroup } from "./index.interface";
 
-// export class CreateProductDTO implements IProduct {
-//     @ApiProperty({ required: true })
-//     title: string;
+export class CreateFilterGroupDTO implements IFilterGroup {
+    @ApiProperty()
+    title: string;
 
-//     @ApiProperty({ required: true })
-//     price: number;
+    @ApiProperty({ enum: FilterOptionType })
+    type: FilterOptionType;
 
-//     @ApiProperty({ required: false })
-//     isPublic: boolean;
+    @ApiProperty()
+    altName: string;
 
-//     @ApiProperty({
-//         required: true,
-//         type: 'number',
-//         description: 'category id'
-//     })
-//     category: ICategory;
+    @ApiProperty({ required: false })
+    isPublic: boolean;
 
-//     @ApiProperty({ type: 'file', isArray: true })
-//     images: string[];
-// }
+    @ApiProperty({ required: false })
+    comment: string;
+}
+
+export class CreateFilterDTO implements IFilter {
+    @ApiProperty({
+        type: 'number',
+        description: 'filter group ID'
+    })
+    filterGroup: IFilterGroup;
+
+    @ApiProperty()
+    title: string;
+
+    @ApiProperty()
+    altName: string;
+
+    @ApiProperty({ required: false })
+    isPublic: boolean;
+
+    @ApiProperty({ required: false })
+    comment: string;
+}

@@ -1,25 +1,25 @@
 export interface IFilterGroup {
-    id: number
+    id?: number
     title: string
     type: FilterOptionType
     altName: string
     isPublic: boolean
     comment?: string
-    filters?: Array<IFilter>
+    filters?: Array<IFilter> | null
 }
 
 export interface IFilter {
-    id: number
-    groupId: number
+    id?: number
+    filterGroup?: IFilterGroup
     title: string
     altName: string
     isPublic: boolean
     comment?: string
 }
 
-enum FilterOptionType {
-    List = 1,
-    Range,
+export enum FilterOptionType {
+    List = 'list',
+    Range = 'range',
 }
 
 // interface RangeMinMax {

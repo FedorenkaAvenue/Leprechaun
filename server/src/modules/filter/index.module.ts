@@ -1,15 +1,15 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
-import { FilterController } from './index.controller';
+import { FilterController, FilterGroupController } from './index.controller';
 import { FilterEntity, FilterGroupEntity } from './index.entity';
-import { FilterService } from './index.service';
+import { FilterGroupService, FilterService } from './index.service';
 
 @Module({
 	imports: [
 		TypeOrmModule.forFeature([ FilterGroupEntity, FilterEntity ])
 	],
-	controllers: [ FilterController ],
-	providers: [ FilterService ],
+	controllers: [ FilterGroupController, FilterController ],
+	providers: [ FilterGroupService, FilterService ],
 })
 export class FilterModule {}
