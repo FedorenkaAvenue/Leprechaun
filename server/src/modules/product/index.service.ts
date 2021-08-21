@@ -1,4 +1,4 @@
-import { Injectable } from "@nestjs/common";
+import { Injectable, NotFoundException } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { DeleteResult, Repository, UpdateResult } from "typeorm";
 
@@ -13,15 +13,18 @@ export class ProductService {
 		private readonly multerModule: MulterService
 	) {}
 
-	async createProduct(product: CreateProductDTO, images?: Array<Express.Multer.File>): Promise<ProductEntity> {
-		const productItem = await this.productRepo.save(product);
-		const uploadedImgArr = await this.multerModule.saveFiles(FOLDER_TYPES.PRODUCT, productItem.id, images);
+	async createProduct(
+		productDTO: CreateProductDTO,
+		images: Array<Express.Multer.File>
+	): Promise<ProductEntity> {
+		const product = await this.productRepo.save(productDTO);
+		const uploadedImgArr = await this.multerModule.saveFiles(FOLDER_TYPES.PRODUCT, product.id, images);
 		await this.productRepo.update(
-			{ id: productItem.id },
+			{ id: product.id },
 			{ images: uploadedImgArr }
 		);
 
-		return ({ ...productItem, images: uploadedImgArr });
+		return ({ ...product, images: uploadedImgArr });
 	}
 
 	getProduct(productId: string): Promise<ProductEntity> {
@@ -31,15 +34,49 @@ export class ProductService {
 		})
 	}
 
-	//TODO: обновление фоток
-	async updateProduct(product: UpdateProductDTO): Promise<UpdateResult> {
-		return this.productRepo.update(
-			{ id: product.id },
-			product
-		);
-		// const uploadedImgArr = await this.multerModule.saveFiles(FOLDER_TYPES.PRODUCT, productItem.id, images);
-		// const updProductItem = await this.productRepo.save({ ...productItem, images: uploadedImgArr });
-	}
+	// async updateProduct(
+	// 	productDTO: UpdateProductDTO,
+	// 	newImages: Array<Express.Multer.File>
+	// ): Promise<UpdateResult> {
+	// 	const product = await this.productRepo.findOne({ id: productDTO.id });
+
+	// 	if (!product) throw new NotFoundException();
+
+	// 	const { images: imagesDTO, removedImages, mainImg } = productDTO;
+	// 	let { images } = product;
+
+	// 	if (removedImages.length) {
+	// 		this.multerModule.removeFiles(removedImages);
+	// 		// images = [].
+	// 	}
+
+	// 	if (images.length) await this.multerModule.saveFiles(FOLDER_TYPES.PRODUCT, productDTO.id, newImages);
+		
+	// 	// updImages = [ mainImg, ...prod.images.filter(img => img !== mainImg)];
+		
+	// 	const res = await this.productRepo.update(
+	// 		{ id: product.id },
+	// 		{ ...productDTO }
+	// 	);
+
+	// 	return res;
+
+	// 	// async removeStatic(productId: string, fileSrc: string): Promise<boolean> {
+	// 	// 	const product = await this.productRepo.findOne({ id: productId });
+			
+	// 	// 	if (!product) throw new NotFoundException(null, 'product not found');
+	// 	// 	if (!product.images.includes(fileSrc)) throw new NotFoundException(null, 'file not found');
+
+	// 	// 	const updImageArr = product.images.filter(img => img !== fileSrc);
+	// 	// 	this.productRepo.update(
+	// 	// 		{ id: productId },
+	// 	// 		{ images: updImageArr }
+	// 	// 	);
+	// 	// 	this.multerModule.removeFile(fileSrc);
+
+	// 	// 	return true;
+	// 	// }
+	// }
 
 	async deleteProduct(productId: string): Promise<DeleteResult> {
 		const res = await this.productRepo.delete({ id: productId });
