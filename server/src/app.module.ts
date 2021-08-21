@@ -3,12 +3,14 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 
 import { CategoryModule } from '@modules/category/index.module';
 import { ProductModule } from '@modules/product/index.module';
+import { FilterModule } from '@modules/filter/index.module';
 import ConfigService from '@services/Config';
 
 @Module({
 	imports: [
 		CategoryModule,
 		ProductModule,
+		FilterModule,
 		TypeOrmModule.forRoot(new ConfigService().getTypeOrmConfig())
 	]
 })
