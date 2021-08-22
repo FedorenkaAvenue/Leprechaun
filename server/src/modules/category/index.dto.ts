@@ -1,5 +1,6 @@
 import { ApiProperty } from "@nestjs/swagger";
 
+import { IFilterGroup } from "@modules/filter/index.interface";
 import { ICategory } from "./index.interface";
 
 export class CreateCategoryDTO implements ICategory {
@@ -18,6 +19,15 @@ export class CreateCategoryDTO implements ICategory {
         description: 'only SVG extension'
     })
     icon: string;
+
+    @ApiProperty({
+        required: false,
+        type: 'number',
+        description: 'array of the filter groups ID',
+        isArray: true
+    })
+    // ! хуйня из-за добавления группы фильтров
+    filterGroups: IFilterGroup[] | any;
 }
 
 export class UpdateCategoryDTO implements ICategory {
@@ -39,4 +49,12 @@ export class UpdateCategoryDTO implements ICategory {
         description: 'only SVG extension'
     })
     icon: string;
+
+    @ApiProperty({
+        required: false,
+        type: 'number',
+        description: 'array of the filter groups ID',
+        isArray: true
+    })
+    filterGroups: IFilterGroup[];
 }

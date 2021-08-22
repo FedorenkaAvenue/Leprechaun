@@ -16,10 +16,7 @@ export class FilterGroupService {
 	}
 
 	getGroup(groupId: number): Promise<FilterGroupEntity> {
-		return this.filterGroupRepo.findOne({
-			where: { id: groupId },
-			relations: ['filters']
-		});
+		return this.filterGroupRepo.findOne({ id: groupId });
 	}
 
 	getAllGroups(): Promise<FilterGroupEntity[]> {
@@ -30,7 +27,6 @@ export class FilterGroupService {
 		return this.filterGroupRepo.delete({ id: groupId });
 	}
 }
-
 
 @Injectable()
 export class FilterService {

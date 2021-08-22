@@ -26,14 +26,23 @@ export class FilterGroupBaseEntity implements IFilterGroup {
 
     @Column({ nullable: true })
     @ApiProperty({ required: false })
-    comment: string;
+    _comment: string;
 }
 
 @Entity('filter_group')
 export class FilterGroupEntity extends FilterGroupBaseEntity implements IFilterGroup {
-    @OneToMany(() => FilterEntity, ({ filterGroup }) => filterGroup)
+    @OneToMany(
+        () => FilterEntity,
+        ({ filterGroup }) => filterGroup,
+        { eager: true }
+    )
     @ApiProperty({ type: () => FilterEntity, isArray: true })
     filters: FilterEntity[];
+
+    constructor(id: number) {
+        super();
+        this.id = id;
+    }
 }
 
 export class FilterBaseEntity implements IFilter {
@@ -55,7 +64,7 @@ export class FilterBaseEntity implements IFilter {
 
     @Column({ nullable: true })
     @ApiProperty({ required: false })
-    comment: string;
+    _comment: string;
 }
 
 @Entity('filter')

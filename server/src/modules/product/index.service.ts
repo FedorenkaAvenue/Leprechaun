@@ -28,10 +28,7 @@ export class ProductService {
 	}
 
 	getProduct(productId: string): Promise<ProductEntity> {
-		return this.productRepo.findOne({
-			where: { id: productId },
-			relations: ['category']
-		})
+		return this.productRepo.findOne({ id: productId });
 	}
 
 	// async updateProduct(

@@ -35,9 +35,9 @@ export class ProductEntity extends ProductBaseEntity implements IProduct {
     @ManyToOne(
         () => CategoryEntity,
         ({ products }) => products,
-        { onDelete: 'CASCADE' }
+        { onDelete: 'CASCADE', eager: true }
     )
-    @JoinColumn({ name: "category" })
+    @JoinColumn({ name: "category", referencedColumnName: 'id' })
     @ApiProperty({ type: () => CategoryEntity })
     category: CategoryEntity;
 }
