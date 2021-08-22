@@ -22,7 +22,11 @@ export class FilterGroupService {
 		});
 	}
 
-	deleteGroup(groupId): Promise<DeleteResult> {
+	getAllGroups(): Promise<FilterGroupEntity[]> {
+		return this.filterGroupRepo.find();
+	}
+
+	deleteGroup(groupId: number): Promise<DeleteResult> {
 		return this.filterGroupRepo.delete({ id: groupId });
 	}
 }

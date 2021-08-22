@@ -4,11 +4,11 @@ import { Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColum
 import { FilterOptionType, IFilter, IFilterGroup } from "./index.interface";
 
 export class FilterGroupBaseEntity implements IFilterGroup {
-    @PrimaryGeneratedColumn('increment')
+    @PrimaryGeneratedColumn('rowid')
     @ApiProperty()
     id: number;
 
-    @Column()
+    @Column({ unique: true })
     @ApiProperty()
     title: string;
 
@@ -16,7 +16,7 @@ export class FilterGroupBaseEntity implements IFilterGroup {
     @ApiProperty({ enum: FilterOptionType })
     type: FilterOptionType;
 
-    @Column()
+    @Column({ unique: true })
     @ApiProperty()
     altName: string;
 
@@ -37,15 +37,15 @@ export class FilterGroupEntity extends FilterGroupBaseEntity implements IFilterG
 }
 
 export class FilterBaseEntity implements IFilter {
-    @PrimaryGeneratedColumn('increment')
+    @PrimaryGeneratedColumn('rowid')
     @ApiProperty()
     id: number;
 
-    @Column()
+    @Column({ unique: true })
     @ApiProperty()
     title: string;
 
-    @Column()
+    @Column({ unique: true })
     @ApiProperty()
     altName: string;
 
