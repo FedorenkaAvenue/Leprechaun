@@ -1,8 +1,10 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 
 import { CategoryEntity } from "@modules/category/index.entity";
 import { IProduct } from "./index.interface";
+import { ImageEntity } from "@modules/image/index.entity";
+import { ICategory } from "@modules/category/index.interface";
 
 export class ProductBaseEntity implements IProduct {
     @PrimaryGeneratedColumn('uuid')
@@ -18,16 +20,16 @@ export class ProductBaseEntity implements IProduct {
     isPublic: boolean;
 
     @Column()
-    @ApiProperty({ required: true })
+    @ApiProperty()
     price: number;
 
-    @Column({
-        type: 'text',
-        array: true,
-        nullable: true
-    })
-    @ApiProperty({ required: false })
-    images: string[]
+    @OneToMany(
+        () => ImageEntity,
+        ({ product }) => product,
+        { eager: true }
+    )
+    @ApiProperty()
+    images: string[];
 }
 
 @Entity('product')
@@ -39,5 +41,5 @@ export class ProductEntity extends ProductBaseEntity implements IProduct {
     )
     @JoinColumn({ name: "category", referencedColumnName: 'id' })
     @ApiProperty({ type: () => CategoryEntity })
-    category: CategoryEntity;
+    category: ICategory;
 }

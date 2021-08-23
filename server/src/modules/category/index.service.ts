@@ -4,8 +4,8 @@ import { DeleteResult, Repository, UpdateResult } from 'typeorm';
 
 import { CategoryEntity } from './index.entity';
 import { CreateCategoryDTO, UpdateCategoryDTO } from './index.dto';
-import { ProductEntity } from '@modules/product/index.entity';
 import { FOLDER_TYPES, MulterService } from '@services/Multer';
+import { IProduct } from '@modules/product/index.interface';
 
 @Injectable()
 export class CategoriesService {
@@ -30,7 +30,7 @@ export class CategoryService {
 		return this.categoryRepo.findOne({url: categoryUrl });
 	}
 
-	async createCategory(categoryDTO: CreateCategoryDTO, icon: Express.Multer.File): Promise<CategoryEntity> {
+	async createCategory(categoryDTO: CreateCategoryDTO, icon: Express.Multer.File): Promise<void> {
 		const category = await this.categoryRepo.save({
 			...categoryDTO,
 			filterGroups: categoryDTO.filterGroups.map((filterId: number ) => ({ id: filterId }))
@@ -43,12 +43,10 @@ export class CategoryService {
 			{ id: category.id },
 			{ icon: uploadedIcon }
 		);
-
-		return ({ ...category, icon: uploadedIcon });
 	}
 
 	// ! переделать нахуй
-	async getCategoryProducts(categoryUrl: string): Promise<ProductEntity[]> {
+	async getCategoryProducts(categoryUrl: string): Promise<IProduct[]> {
 		try {
 			const { products } = await this.categoryRepo.findOne({
 				where: { url: categoryUrl },
@@ -61,17 +59,17 @@ export class CategoryService {
 		}
 	}
 
-	//TODO: группы фильтров и иконка
-	async updateCategory(category: UpdateCategoryDTO, icon: Express.Multer.File): Promise<UpdateResult> {	
-		const res = await this.categoryRepo.update(
-			{ id: category.id },
-			{ ...category }
-		);
+	//TODO: группы фильтров
+	// async updateCategory(category: UpdateCategoryDTO, icon: Express.Multer.File): Promise<UpdateResult> {	
+	// 	const res = await this.categoryRepo.update(
+	// 		{ id: category.id },
+	// 		{ ...category }
+	// 	);
 
-		// if (res.affected && icon) await this.multerModule.saveFiles(FOLDER_TYPES.CATEGORY, category.id, [ icon ]);
+	// 	// if (res.affected && icon) await this.multerModule.saveFiles(FOLDER_TYPES.CATEGORY, category.id, [ icon ]);
 
-		return res;
-	}
+	// 	return res;
+	// }
 
 	async deleteCategory(categoryId: number): Promise<DeleteResult> {
 		const res = await this.categoryRepo.delete({ id: categoryId });

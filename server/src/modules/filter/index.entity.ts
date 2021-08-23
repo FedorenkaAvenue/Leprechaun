@@ -37,7 +37,7 @@ export class FilterGroupEntity extends FilterGroupBaseEntity implements IFilterG
         { eager: true }
     )
     @ApiProperty({ type: () => FilterEntity, isArray: true })
-    filters: FilterEntity[];
+    filters: IFilter[];
 
     constructor(id: number) {
         super();
@@ -76,5 +76,5 @@ export class FilterEntity extends FilterBaseEntity implements IFilter {
     )
     @JoinColumn({ name: "filterGroup" })
     @ApiProperty()
-    filterGroup: FilterGroupEntity;
+    filterGroup: IFilterGroup;
 }

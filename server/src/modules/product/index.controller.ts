@@ -23,7 +23,7 @@ export class ProductController {
     createProduct(
         @Body() product: CreateProductDTO,
         @UploadedFiles() images: Array<Express.Multer.File>
-    ): Promise<ProductEntity> {
+    ): Promise<void> {
         return this.productService.createProduct(product, images);
     }
 

@@ -5,30 +5,36 @@ import { DeleteResult, Repository, UpdateResult } from "typeorm";
 import { CreateProductDTO, UpdateProductDTO } from "./index.dto";
 import { ProductEntity } from "./index.entity";
 import { FOLDER_TYPES, MulterService } from "@services/Multer";
+import { ImageService } from "@modules/image/index.service";
 
 @Injectable()
 export class ProductService {
     constructor(
 		@InjectRepository(ProductEntity) private readonly productRepo: Repository<ProductEntity>,
-		private readonly multerModule: MulterService
+		private readonly multerModule: MulterService,
+		private readonly imageService: ImageService
 	) {}
 
 	async createProduct(
 		productDTO: CreateProductDTO,
 		images: Array<Express.Multer.File>
-	): Promise<ProductEntity> {
-		const product = await this.productRepo.save(productDTO);
-		const uploadedImgArr = await this.multerModule.saveFiles(FOLDER_TYPES.PRODUCT, product.id, images);
-		await this.productRepo.update(
-			{ id: product.id },
-			{ images: uploadedImgArr }
-		);
+	): Promise<void> {
+		const { id } = await this.productRepo.save(productDTO);
+		const uploadedImgArr = await this.multerModule.saveFiles(FOLDER_TYPES.PRODUCT, id, images);
 
-		return ({ ...product, images: uploadedImgArr });
+		await this.imageService.addImageArr(id, uploadedImgArr);
 	}
 
-	getProduct(productId: string): Promise<ProductEntity> {
-		return this.productRepo.findOne({ id: productId });
+	async getProduct(productId: string): Promise<ProductEntity> {
+		const product = await this.productRepo.findOne({ id: productId });
+		const producty = {
+			...product,
+			//! пизда с переобразованием картинки
+			//@ts-ignore
+			images: product.images.map(img => img.src)
+		}
+		
+		return producty;
 	}
 
 	// async updateProduct(

@@ -9,13 +9,14 @@ import { CategoryBaseEntity, CategoryEntity } from './index.entity';
 import { CreateCategoryDTO, UpdateCategoryDTO } from './index.dto';
 import { ProductBaseEntity, ProductEntity } from '@modules/product/index.entity';
 import { MulterService } from '@services/Multer';
+import { IProduct } from '@modules/product/index.interface';
 
 @Controller('categories')
 @ApiTags('Categories')
 export class CategoriesController {
 	constructor(private readonly categoryService: CategoriesService) {}
 
-	@Get('/list')
+	@Get('list')
 	@ApiOperation({ summary: 'get all categories' })
 	@ApiOkResponse({ type: CategoryBaseEntity, isArray: true })
 	getAllCategories(): Promise<CategoryBaseEntity[]> {
@@ -41,7 +42,7 @@ export class CategoryController {
 	@ApiOperation({ summary: 'get category products' })
 	@ApiOkResponse({ type: ProductBaseEntity, isArray: true })
 	@ApiNotFoundResponse({ description: 'category not found' })
-	getCategoryProducts(@Param('category') categoryUrl: string): Promise<ProductEntity[]> {
+	getCategoryProducts(@Param('category') categoryUrl: string): Promise<IProduct[]> {
 		return this.categoryService.getCategoryProducts(categoryUrl);
 	}
 
@@ -55,24 +56,24 @@ export class CategoryController {
 	addCategory(
 		@Body() body: CreateCategoryDTO,
 		@UploadedFile() icon: Express.Multer.File
-	): Promise<CategoryBaseEntity> {
+	): Promise<void> {
 		return this.categoryService.createCategory(body, icon);
 	}
 
-	@Patch()
-	@UseInterceptors(FileInterceptor(
-		'icon',
-		{ fileFilter: MulterService.fileFilterOption('svg') }
-	))
-	@UseInterceptors(AffectedInterceptor)
-	@ApiOperation({ summary: 'update category' })
-	@ApiOkResponse({ status: 200 })
-	updateCategory(
-		@Body() body: UpdateCategoryDTO,
-		@UploadedFile() icon: Express.Multer.File
-	): Promise<UpdateResult> {
-		return this.categoryService.updateCategory(body, icon);
-	}
+	// @Patch()
+	// @UseInterceptors(FileInterceptor(
+	// 	'icon',
+	// 	{ fileFilter: MulterService.fileFilterOption('svg') }
+	// ))
+	// @UseInterceptors(AffectedInterceptor)
+	// @ApiOperation({ summary: 'update category' })
+	// @ApiOkResponse({ status: 200 })
+	// updateCategory(
+	// 	@Body() body: UpdateCategoryDTO,
+	// 	@UploadedFile() icon: Express.Multer.File
+	// ): Promise<UpdateResult> {
+	// 	return this.categoryService.updateCategory(body, icon);
+	// }
 
 	@Delete(':category')
 	@UseInterceptors(AffectedInterceptor)
