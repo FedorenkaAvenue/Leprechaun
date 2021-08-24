@@ -4,8 +4,8 @@ import { DeleteResult, Repository, UpdateResult } from 'typeorm';
 
 import { CategoryEntity } from './index.entity';
 import { CreateCategoryDTO, UpdateCategoryDTO } from './index.dto';
-import { ProductEntity } from '@modules/product/index.entity';
 import { FOLDER_TYPES, MulterService } from '@services/Multer';
+import { IProduct } from '@modules/product/index.interface';
 
 @Injectable()
 export class CategoriesService {
@@ -13,10 +13,6 @@ export class CategoriesService {
 		@InjectRepository(CategoryEntity)
 		private readonly categoryRepo: Repository<CategoryEntity>
 	) {}
-
-	// getMainCategories(): Promise<CategoryEntity[]> {
-	// 	return this.categoryRepo.find({ parentCategoryId: null });
-	// }
 
 	getAllCategories(): Promise<CategoryEntity[]> {
 		return this.categoryRepo.find();
@@ -31,11 +27,26 @@ export class CategoryService {
 	) {}
 
 	getCategory(categoryUrl: string): Promise<CategoryEntity> {
-		return this.categoryRepo.findOne({ url: categoryUrl });
+		return this.categoryRepo.findOne({url: categoryUrl });
 	}
 
-	//! переделать нахуй
-	async getCategoryProducts(categoryUrl: string): Promise<ProductEntity[]> {
+	async createCategory(categoryDTO: CreateCategoryDTO, icon: Express.Multer.File): Promise<void> {
+		const category = await this.categoryRepo.save({
+			...categoryDTO,
+			filterGroups: categoryDTO.filterGroups.map((filterId: number ) => ({ id: filterId }))
+		});
+		let uploadedIcon: string | null = null;
+
+		if (icon) uploadedIcon = await this.multerModule.saveFiles(FOLDER_TYPES.CATEGORY, category.id, [ icon ])[0];
+
+		await this.categoryRepo.update(
+			{ id: category.id },
+			{ icon: uploadedIcon }
+		);
+	}
+
+	// ! переделать нахуй
+	async getCategoryProducts(categoryUrl: string): Promise<IProduct[]> {
 		try {
 			const { products } = await this.categoryRepo.findOne({
 				where: { url: categoryUrl },
@@ -48,23 +59,17 @@ export class CategoryService {
 		}
 	}
 
-	async createCategory(newCategory: CreateCategoryDTO, icon: Express.Multer.File): Promise<CategoryEntity> {
-		const category = await this.categoryRepo.save(newCategory);
-		const [ uploadedIcon ] = await this.multerModule.saveFiles(FOLDER_TYPES.CATEGORY, category.id, [ icon ]);
-		await this.categoryRepo.update(
-			{ id: category.id },
-			{ icon: uploadedIcon }
-		);
+	//TODO: группы фильтров
+	// async updateCategory(category: UpdateCategoryDTO, icon: Express.Multer.File): Promise<UpdateResult> {	
+	// 	const res = await this.categoryRepo.update(
+	// 		{ id: category.id },
+	// 		{ ...category }
+	// 	);
 
-		return ({ ...category, icon: uploadedIcon });
-	}
+	// 	// if (res.affected && icon) await this.multerModule.saveFiles(FOLDER_TYPES.CATEGORY, category.id, [ icon ]);
 
-	updateCategory(category: UpdateCategoryDTO): Promise<UpdateResult> {
-		return this.categoryRepo.update(
-			{ id: category.id },
-			category
-		);
-	}
+	// 	return res;
+	// }
 
 	async deleteCategory(categoryId: number): Promise<DeleteResult> {
 		const res = await this.categoryRepo.delete({ id: categoryId });

@@ -4,7 +4,7 @@ import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { AppModule } from './app.module';
 
 const { IS_DEV, APP_NAME } = process.env;
-const GLOBAL_API_PREFIX = '/api';
+const GLOBAL_API_PREFIX: string = '/api';
 
 async function runServer() {
 	const app = await NestFactory.create(AppModule);

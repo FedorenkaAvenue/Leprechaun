@@ -5,14 +5,22 @@ interface IHostingParams {
 }
 
 export default class ConfigService {
+    /**
+     * @description get environment variable value by key
+     * @param key environment variable key
+     * @returns variable value
+     */
     getVal(key: string): string {
         const envVariable = process.env[key];
 
-        if (typeof envVariable === 'undefined') throw new Error(`config error: missing env.${key}`);
+        if (typeof envVariable === 'undefined') throw new Error(`config error: missing env ${key}`);
 
         return envVariable;
     }
 
+    /**
+     * @description get TypeORM config object
+     */
     getTypeOrmConfig(): TypeOrmModuleOptions {
         return ({
             type: 'postgres',
@@ -26,6 +34,9 @@ export default class ConfigService {
         });
     }
 
+    /**
+     * @description get hosting folder's paths
+     */
     getHostingParams(): IHostingParams {
         return ({
             HOSTING_PATH: this.getVal('HOSTING_PATH')
