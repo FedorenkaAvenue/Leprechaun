@@ -28,7 +28,7 @@ export class ProductBaseEntity implements IProduct {
         ({ product }) => product,
         { eager: true }
     )
-    @ApiProperty()
+    @ApiProperty({ type: ImageEntity })
     images: string[];
 }
 

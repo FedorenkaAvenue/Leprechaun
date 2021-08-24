@@ -26,15 +26,11 @@ export class ProductService {
 	}
 
 	async getProduct(productId: string): Promise<ProductEntity> {
-		const product = await this.productRepo.findOne({ id: productId });
-		const producty = {
-			...product,
-			//! пизда с переобразованием картинки
-			//@ts-ignore
-			images: product.images.map(img => img.src)
-		}
-		
-		return producty;
+		return this.productRepo.findOne({ id: productId });
+	}
+
+	async getAllProducts(): Promise<ProductEntity[]> {
+		return this.productRepo.find();
 	}
 
 	// async updateProduct(

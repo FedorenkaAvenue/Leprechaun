@@ -27,6 +27,13 @@ export class ProductController {
         return this.productService.createProduct(product, images);
     }
 
+    @Get('list')
+    @ApiOperation({ summary: 'get all products' })
+    @ApiOkResponse({ type: ProductBaseEntity, isArray: true })
+    getAllProducts(): Promise<ProductEntity[]> {
+        return this.productService.getAllProducts();
+    }
+
     @Get(':productId')
     @UseInterceptors(NotFoundInterceptor)
     @ApiOperation({ summary: 'get product by id' })

@@ -38,7 +38,7 @@ export class CategoryController {
 		return this.categoryService.getCategory(category);
 	}
 
-	@Get(':category/products')
+	@Get('products/:category')
 	@ApiOperation({ summary: 'get category products' })
 	@ApiOkResponse({ type: ProductBaseEntity, isArray: true })
 	@ApiNotFoundResponse({ description: 'category not found' })
