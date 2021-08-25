@@ -1,6 +1,6 @@
 import {
     Body, Controller, Delete, Get, Param, ParseUUIDPipe, Patch, Post,
-    UploadedFiles, UseInterceptors
+    UploadedFiles, UseInterceptors, Put
 } from "@nestjs/common";
 import { ApiBadRequestResponse, ApiNotFoundResponse, ApiOkResponse, ApiOperation, ApiTags } from "@nestjs/swagger";
 import { DeleteResult, UpdateResult } from "typeorm";
@@ -23,8 +23,15 @@ export class ProductController {
     createProduct(
         @Body() product: CreateProductDTO,
         @UploadedFiles() images: Array<Express.Multer.File>
-    ): Promise<ProductEntity> {
+    ): Promise<void> {
         return this.productService.createProduct(product, images);
+    }
+
+    @Get('list')
+    @ApiOperation({ summary: 'get all products' })
+    @ApiOkResponse({ type: ProductBaseEntity, isArray: true })
+    getAllProducts(): Promise<ProductEntity[]> {
+        return this.productService.getAllProducts();
     }
 
     @Get(':productId')
@@ -37,13 +44,16 @@ export class ProductController {
         return this.productService.getProduct(productId);
     }
 
-    //TODO: пока без обновлений фото
-    @Patch()
-    @UseInterceptors(AffectedInterceptor)
-    @ApiOperation({ summary: 'update product' })
-    updateProduct(@Body() product: UpdateProductDTO): Promise<UpdateResult> {
-        return this.productService.updateProduct(product);
-    }
+    // @Patch()
+    // @UseInterceptors(FilesInterceptor('staticImages'))
+    // @UseInterceptors(AffectedInterceptor)
+    // @ApiOperation({ summary: 'update product' })
+    // updateProduct(
+    //     @Body() product: UpdateProductDTO,
+    //     @UploadedFiles() staticImages: Array<Express.Multer.File>
+    // ): Promise<UpdateResult> {
+    //     return this.productService.updateProduct(product, staticImages);
+    // }
 
     @Delete(':productId')
     @UseInterceptors(AffectedInterceptor)

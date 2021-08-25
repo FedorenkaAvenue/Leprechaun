@@ -1,22 +1,16 @@
 import { ICategory } from "@modules/category/index.interface";
+import { IImage } from "@modules/image/index.interface";
 
-interface IProductBase {
+export interface IProduct {
     id?: string
     category?: ICategory
     title: string
     isPublic: boolean
     price: number
+    images: Array<IImage> | Array<string>
     // labels: Array<IProductLabel> | null
     // properties: Array<IProductProperty>
 }
-
-export interface IProduct extends IProductBase {
-    images: Array<string> | null
-}
-
-// interface IProductShortInfo extends IProductBase {
-//     image: string
-// }
 
 // export interface IProductProperty {
 //     property: string
