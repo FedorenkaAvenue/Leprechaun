@@ -32,7 +32,7 @@ export class ProductController {
     @Get('list')
     @UseInterceptors(PaginationEmptyInterceptor)
     @ApiOperation({ summary: 'get all products' })
-    @ApiOkResponse({ type: ProductBaseEntity, isArray: true })
+    @ApiOkResponse({ type: ProductEntity, isArray: true })
     getAllProducts(
         @Req() { cookies: { pageLimit } }: Request,
         @Query('page', ParseIntPipe) page

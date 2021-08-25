@@ -27,7 +27,10 @@ export class CategoryService {
 	) {}
 
 	getCategory(categoryUrl: string): Promise<CategoryEntity> {
-		return this.categoryRepo.findOne({url: categoryUrl });
+		return this.categoryRepo.findOne({
+			where: { url: categoryUrl },
+			relations: ['filterGroups']
+		});
 	}
 
 	async createCategory(categoryDTO: CreateCategoryDTO, icon: Express.Multer.File): Promise<void> {

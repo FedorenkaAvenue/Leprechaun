@@ -34,7 +34,8 @@ export class ProductService {
 	async getAllProducts({ page, limit }: IPaginationOptions): Promise<SearchResult> {
 		const [ result, count ] = await this.productRepo.findAndCount({
 			take: limit,
-			skip: (page - 1) * limit
+			skip: (page - 1) * limit,
+			relations: ['category']
 		});
 
 		return new SearchResult(page, count, result);

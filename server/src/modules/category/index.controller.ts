@@ -32,7 +32,7 @@ export class CategoryController {
 	@Get(':category')
 	@UseInterceptors(NotFoundInterceptor)
 	@ApiOperation({ summary: 'get category info by url' })
-	@ApiOkResponse({ type: CategoryEntity })
+	@ApiOkResponse({ type: CategoryBaseEntity })
 	@ApiNotFoundResponse({ description: 'category not found' })
 	getCategory(@Param('category') category: string): Promise<CategoryEntity> {
 		return this.categoryService.getCategory(category);
