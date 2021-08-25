@@ -1,8 +1,8 @@
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
-import { DeleteResult, Repository, UpdateResult } from "typeorm";
+import { DeleteResult, Repository } from "typeorm";
 
-import { CreateProductDTO, UpdateProductDTO } from "./index.dto";
+import { CreateProductDTO } from "./index.dto";
 import { ProductEntity } from "./index.entity";
 import { FOLDER_TYPES, MulterService } from "@services/Multer";
 import { ImageService } from "@modules/image/index.service";
@@ -17,14 +17,17 @@ export class ProductService {
 		private readonly imageService: ImageService
 	) {}
 
-	async createProduct(
-		productDTO: CreateProductDTO,
-		images: Array<Express.Multer.File>
-	): Promise<void> {
-		const { id } = await this.productRepo.save(productDTO);
-		const uploadedImgArr = await this.multerModule.saveFiles(FOLDER_TYPES.PRODUCT, id, images);
+	async createProduct(productDTO: CreateProductDTO, images: Array<Express.Multer.File>): Promise<void> {
+		const { id } = await this.productRepo.save({
+			...productDTO,
+			labels: productDTO.labels.map(label => ({ id: label }))
+		});
 
-		await this.imageService.addImageArr(id, uploadedImgArr);
+		if (images) {
+			const uploadedImgArr = await this.multerModule.saveFiles(FOLDER_TYPES.PRODUCT, id, images);
+
+			this.imageService.addImageArr(id, uploadedImgArr);
+		}
 	}
 
 	async getProduct(productId: string): Promise<ProductEntity> {

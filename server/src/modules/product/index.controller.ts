@@ -9,7 +9,7 @@ import { DeleteResult, UpdateResult } from "typeorm";
 import { FilesInterceptor } from "@nestjs/platform-express";
 import { Request } from "express";
 
-import { CreateProductDTO, UpdateProductDTO } from "./index.dto";
+import { CreateProductDTO } from "./index.dto";
 import { ProductBaseEntity, ProductEntity } from "./index.entity";
 import { ProductService } from "./index.service";
 import { AffectedInterceptor, NotFoundInterceptor } from "@interceptors/DB";

@@ -1,10 +1,12 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, JoinColumn, JoinTable, ManyToMany, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 
 import { CategoryEntity } from "@modules/category/index.entity";
 import { IProduct } from "./index.interface";
 import { ImageEntity } from "@modules/image/index.entity";
 import { ICategory } from "@modules/category/index.interface";
+import { LabelEntity } from "@modules/label/index.entity";
+import { ILabel } from "@modules/label/index.interface";
 
 export class ProductBaseEntity implements IProduct {
     @PrimaryGeneratedColumn('uuid')
@@ -28,8 +30,30 @@ export class ProductBaseEntity implements IProduct {
         ({ product }) => product,
         { eager: true }
     )
-    @ApiProperty({ type: ImageEntity })
+    @ApiProperty({ type: ImageEntity, isArray: true })
     images: string[];
+
+    @ManyToMany(
+        () => LabelEntity,
+        { eager: true, cascade: true }
+    )
+    @JoinTable({
+        name: '_products_to_labels',
+        joinColumn: {
+            name: 'product_id',
+            referencedColumnName: 'id'
+        },
+        inverseJoinColumn: {
+            name: 'label_id',
+            referencedColumnName: 'id'
+        }
+    })
+    @ApiProperty({
+        type: LabelEntity,
+        required: false,
+        isArray: true
+    })
+    labels: ILabel[];
 }
 
 @Entity('product')

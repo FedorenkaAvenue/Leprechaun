@@ -1,5 +1,6 @@
 import { ICategory } from "@modules/category/index.interface";
 import { IImage } from "@modules/image/index.interface";
+import { ILabel } from "@modules/label/index.interface";
 
 export interface IProduct {
     id?: string
@@ -8,11 +9,5 @@ export interface IProduct {
     isPublic: boolean
     price: number
     images: Array<IImage> | Array<string>
-    // labels: Array<IProductLabel> | null
-    // properties: Array<IProductProperty>
+    labels: Array<ILabel>
 }
-
-// export interface IProductProperty {
-//     property: string
-//     value: string
-// }
