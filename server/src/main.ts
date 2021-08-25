@@ -1,5 +1,6 @@
 import { NestFactory } from '@nestjs/core';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
+import * as cookieParser from 'cookie-parser';
 
 import { AppModule } from './app.module';
 
@@ -10,6 +11,7 @@ async function runServer() {
 	const app = await NestFactory.create(AppModule);
 
 	app.setGlobalPrefix(GLOBAL_API_PREFIX);
+	app.use(cookieParser());
 
 	if (IS_DEV) {
 		const config = new DocumentBuilder()

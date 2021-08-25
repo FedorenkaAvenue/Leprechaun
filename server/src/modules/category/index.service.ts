@@ -5,7 +5,8 @@ import { DeleteResult, Repository, UpdateResult } from 'typeorm';
 import { CategoryEntity } from './index.entity';
 import { CreateCategoryDTO, UpdateCategoryDTO } from './index.dto';
 import { FOLDER_TYPES, MulterService } from '@services/Multer';
-import { IProduct } from '@modules/product/index.interface';
+import { SearchResult } from '@dto/search';
+import { IPaginationOptions } from '@interface/search';
 
 @Injectable()
 export class CategoriesService {
@@ -27,7 +28,10 @@ export class CategoryService {
 	) {}
 
 	getCategory(categoryUrl: string): Promise<CategoryEntity> {
-		return this.categoryRepo.findOne({url: categoryUrl });
+		return this.categoryRepo.findOne({
+			where: { url: categoryUrl },
+			relations: ['filterGroups']
+		});
 	}
 
 	async createCategory(categoryDTO: CreateCategoryDTO, icon: Express.Multer.File): Promise<void> {
@@ -45,18 +49,22 @@ export class CategoryService {
 		);
 	}
 
-	// ! переделать нахуй
-	async getCategoryProducts(categoryUrl: string): Promise<IProduct[]> {
+	async getCategoryProducts(categoryUrl: string, { page, limit }: IPaginationOptions): Promise<SearchResult> {
+		// check if category is exist
 		try {
-			const { products } = await this.categoryRepo.findOne({
-				where: { url: categoryUrl },
-				relations: ['products']
-			});
-
-			return products;
+			await this.categoryRepo.findOneOrFail({ url: categoryUrl });
 		} catch(err) {
 			throw new NotFoundException();
 		}
+
+		const [ result, count ] = await this.categoryRepo.findAndCount({
+			where: { url: categoryUrl },
+			take: limit,
+			skip: (page - 1) * limit,
+			relations: ['products']
+		});
+
+		return new SearchResult(page, count, result.map(({ products }) => products));
 	}
 
 	//TODO: группы фильтров

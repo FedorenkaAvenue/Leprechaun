@@ -30,7 +30,7 @@ export class CategoryBaseEntity implements ICategory {
 
     @ManyToMany(
         () => FilterGroupEntity,
-        { eager: true, cascade: true }
+        { cascade: true }
     )
     @JoinTable({
         name: '_categories_to_filtergroups',

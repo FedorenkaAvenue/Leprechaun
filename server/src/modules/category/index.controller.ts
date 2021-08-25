@@ -1,15 +1,22 @@
-import { Controller, Get, Param, Body, UseInterceptors, Delete, Patch, Post, UploadedFile } from '@nestjs/common';
-import { ApiCreatedResponse, ApiNotFoundResponse, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
+import {
+	Controller, Get, Param, Body, UseInterceptors, Delete, Patch, Post, UploadedFile, Req, Query
+} from '@nestjs/common';
+import {
+	ApiCreatedResponse, ApiNotAcceptableResponse, ApiNotFoundResponse, ApiOkResponse, ApiOperation, ApiQuery,
+	ApiTags
+} from '@nestjs/swagger';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { DeleteResult, UpdateResult } from 'typeorm';
+import { Request } from 'express';
 
 import { NotFoundInterceptor, AffectedInterceptor } from '@interceptors/DB';
 import { CategoriesService, CategoryService } from './index.service';
 import { CategoryBaseEntity, CategoryEntity } from './index.entity';
 import { CreateCategoryDTO, UpdateCategoryDTO } from './index.dto';
-import { ProductBaseEntity, ProductEntity } from '@modules/product/index.entity';
+import { ProductBaseEntity } from '@modules/product/index.entity';
 import { MulterService } from '@services/Multer';
-import { IProduct } from '@modules/product/index.interface';
+import { PaginationOptionsDTO, SearchResult } from '@dto/search';
+import { PaginationEmptyInterceptor } from '@interceptors/search';
 
 @Controller('categories')
 @ApiTags('Categories')
@@ -32,18 +39,25 @@ export class CategoryController {
 	@Get(':category')
 	@UseInterceptors(NotFoundInterceptor)
 	@ApiOperation({ summary: 'get category info by url' })
-	@ApiOkResponse({ type: CategoryEntity })
+	@ApiOkResponse({ type: CategoryBaseEntity })
 	@ApiNotFoundResponse({ description: 'category not found' })
 	getCategory(@Param('category') category: string): Promise<CategoryEntity> {
 		return this.categoryService.getCategory(category);
 	}
 
 	@Get('products/:category')
+	@UseInterceptors(PaginationEmptyInterceptor)
 	@ApiOperation({ summary: 'get category products' })
+	@ApiQuery({ name: 'page', required: false, description: 'page number' })
 	@ApiOkResponse({ type: ProductBaseEntity, isArray: true })
 	@ApiNotFoundResponse({ description: 'category not found' })
-	getCategoryProducts(@Param('category') categoryUrl: string): Promise<IProduct[]> {
-		return this.categoryService.getCategoryProducts(categoryUrl);
+	@ApiNotAcceptableResponse({ description: 'pagination page is empty' })
+	getCategoryProducts(
+		@Req() { cookies: { pageLimit } }: Request,
+		@Query('page') page: number,
+		@Param('category') categoryUrl: string
+	): Promise<SearchResult> {
+		return this.categoryService.getCategoryProducts(categoryUrl, new PaginationOptionsDTO(page, pageLimit));
 	}
 
 	@Post()
