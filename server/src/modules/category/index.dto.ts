@@ -1,4 +1,5 @@
 import { ApiProperty } from "@nestjs/swagger";
+import { BadRequestException, InternalServerErrorException } from "@nestjs/common";
 
 import { IFilterGroup } from "@modules/filter/index.interface";
 import { ICategory } from "./index.interface";
@@ -28,33 +29,43 @@ export class CreateCategoryDTO implements ICategory {
     })
     // ! хуйня из-за добавления группы фильтров
     filterGroups: IFilterGroup[] | any;
+
+    constructor({ url, title, isPublic, filterGroups }: CreateCategoryDTO) {
+        if (!url || !title) throw new BadRequestException();
+
+        this.url = url;
+        this.title = title;
+        this.isPublic = isPublic;
+        //@ts-ignore
+        this.filterGroups = filterGroups ? filterGroups.map((filterId: number ) => ({ id: filterId })) : null;
+    }
 }
 
-export class UpdateCategoryDTO implements ICategory {
-    @ApiProperty({ required: true })
-    id: number;
+// export class UpdateCategoryDTO implements ICategory {
+//     @ApiProperty({ required: true })
+//     id: number;
 
-    @ApiProperty({ required: false })
-    url: string;
+//     @ApiProperty({ required: false })
+//     url: string;
 
-    @ApiProperty({ required: false })
-    title: string;
+//     @ApiProperty({ required: false })
+//     title: string;
 
-    @ApiProperty({ required: false })
-    isPublic: boolean;
+//     @ApiProperty({ required: false })
+//     isPublic: boolean;
 
-    @ApiProperty({
-        required: false,
-        type: 'file',
-        description: 'only SVG extension'
-    })
-    icon: string;
+//     @ApiProperty({
+//         required: false,
+//         type: 'file',
+//         description: 'only SVG extension'
+//     })
+//     icon: string;
 
-    @ApiProperty({
-        required: false,
-        type: 'number',
-        description: 'array of the filter groups ID',
-        isArray: true
-    })
-    filterGroups: IFilterGroup[];
-}
+//     @ApiProperty({
+//         required: false,
+//         type: 'number',
+//         description: 'array of the filter groups ID',
+//         isArray: true
+//     })
+//     filterGroups: IFilterGroup[];
+// }

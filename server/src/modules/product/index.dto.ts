@@ -1,3 +1,4 @@
+import { BadRequestException } from "@nestjs/common";
 import { ApiProperty } from "@nestjs/swagger";
 
 import { ICategory } from "@modules/category/index.interface";
@@ -31,6 +32,16 @@ export class CreateProductDTO implements IProduct {
     @ApiProperty({ description: 'array of label', isArray: true })
     //! хуйня
     labels: ILabel[] | any;
+
+    constructor({ title, price, isPublic, category, labels }: CreateProductDTO) {
+        if (!title || !category) throw new BadRequestException();
+
+        this.title = title;
+        this.price = price;
+        this.isPublic = isPublic;
+        this.category = category;
+        this.labels = labels ? labels.map(label => ({ id: label })) : [];
+    }
 }
 
 // export class UpdateProductDTO implements IProduct {

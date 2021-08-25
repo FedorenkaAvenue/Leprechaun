@@ -3,7 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { DeleteResult, Repository, UpdateResult } from 'typeorm';
 
 import { CategoryEntity } from './index.entity';
-import { CreateCategoryDTO, UpdateCategoryDTO } from './index.dto';
+import { CreateCategoryDTO } from './index.dto';
 import { FOLDER_TYPES, MulterService } from '@services/Multer';
 import { SearchResult } from '@dto/search';
 import { IPaginationOptions } from '@interface/search';
@@ -34,21 +34,20 @@ export class CategoryService {
 		});
 	}
 
-	async createCategory(categoryDTO: CreateCategoryDTO, icon: Express.Multer.File): Promise<void> {
-		const category = await this.categoryRepo.save({
-			...categoryDTO,
-			filterGroups: categoryDTO.filterGroups.map((filterId: number ) => ({ id: filterId }))
-		});
-		let uploadedIcon: string | null = null;
+	async createCategory(newCategory: CreateCategoryDTO, icon: Express.Multer.File): Promise<void> {
+		const { id } = await this.categoryRepo.save(new CreateCategoryDTO(newCategory));
 
-		if (icon) uploadedIcon = await this.multerModule.saveFiles(FOLDER_TYPES.CATEGORY, category.id, [ icon ])[0];
+		if (icon) {
+			const uploadedIcon = await this.multerModule.saveFiles(FOLDER_TYPES.CATEGORY, id, [ icon ])[0];
 
-		await this.categoryRepo.update(
-			{ id: category.id },
-			{ icon: uploadedIcon }
-		);
+			await this.categoryRepo.update(
+				{ id },
+				{ icon: uploadedIcon }
+			);
+		}
 	}
 
+	// ! переделать нахуй
 	async getCategoryProducts(categoryUrl: string, { page, limit }: IPaginationOptions): Promise<SearchResult> {
 		// check if category is exist
 		try {

@@ -11,8 +11,8 @@ export class FilterGroupService {
 		@InjectRepository(FilterGroupEntity) private readonly filterGroupRepo: Repository<FilterGroupEntity>
 	) {}
 
-	createGroup(group: CreateFilterGroupDTO): Promise<FilterGroupBaseEntity> {
-		return this.filterGroupRepo.save(group);
+	createGroup(newGroup: CreateFilterGroupDTO): Promise<FilterGroupBaseEntity> {
+		return this.filterGroupRepo.save(new CreateFilterGroupDTO(newGroup));
 	}
 
 	getGroup(groupId: number): Promise<FilterGroupEntity> {
@@ -35,7 +35,7 @@ export class FilterService {
 	) {}
 
 	createFilter(filter: CreateFilterDTO): Promise<FilterEntity> {
-		return this.filterRepo.save(filter);
+		return this.filterRepo.save(new CreateFilterDTO(filter));
 	}
 
 	getFilter(filterId: number): Promise<FilterEntity> {

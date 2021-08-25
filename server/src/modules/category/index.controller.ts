@@ -12,7 +12,7 @@ import { Request } from 'express';
 import { NotFoundInterceptor, AffectedInterceptor } from '@interceptors/DB';
 import { CategoriesService, CategoryService } from './index.service';
 import { CategoryBaseEntity, CategoryEntity } from './index.entity';
-import { CreateCategoryDTO, UpdateCategoryDTO } from './index.dto';
+import { CreateCategoryDTO } from './index.dto';
 import { ProductBaseEntity } from '@modules/product/index.entity';
 import { MulterService } from '@services/Multer';
 import { PaginationOptionsDTO, SearchResult } from '@dto/search';
