@@ -1,15 +1,17 @@
 import {
-    Body, Controller, Delete, Get, Param, ParseUUIDPipe, Patch, Post,
-    UploadedFiles, UseInterceptors, Put
+    Body, Controller, Delete, Get, Param, ParseUUIDPipe, Patch, Post,UploadedFiles, UseInterceptors, Query, Req, ParseIntPipe
 } from "@nestjs/common";
 import { ApiBadRequestResponse, ApiNotFoundResponse, ApiOkResponse, ApiOperation, ApiTags } from "@nestjs/swagger";
 import { DeleteResult, UpdateResult } from "typeorm";
 import { FilesInterceptor } from "@nestjs/platform-express";
+import { Request } from "express";
 
 import { CreateProductDTO, UpdateProductDTO } from "./index.dto";
 import { ProductBaseEntity, ProductEntity } from "./index.entity";
 import { ProductService } from "./index.service";
 import { AffectedInterceptor, NotFoundInterceptor } from "@interceptors/DB";
+import { PaginationOptionsDTO, SearchResult } from "@dto/search";
+import { PaginationEmptyInterceptor } from "@interceptors/search";
 
 @Controller('product')
 @ApiTags('Product')
@@ -28,10 +30,14 @@ export class ProductController {
     }
 
     @Get('list')
+    @UseInterceptors(PaginationEmptyInterceptor)
     @ApiOperation({ summary: 'get all products' })
     @ApiOkResponse({ type: ProductBaseEntity, isArray: true })
-    getAllProducts(): Promise<ProductEntity[]> {
-        return this.productService.getAllProducts();
+    getAllProducts(
+        @Req() { cookies: { pageLimit } }: Request,
+        @Query('page', ParseIntPipe) page
+    ): Promise<SearchResult> {
+        return this.productService.getAllProducts(new PaginationOptionsDTO(page, pageLimit));
     }
 
     @Get(':productId')

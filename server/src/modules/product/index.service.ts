@@ -6,6 +6,8 @@ import { CreateProductDTO, UpdateProductDTO } from "./index.dto";
 import { ProductEntity } from "./index.entity";
 import { FOLDER_TYPES, MulterService } from "@services/Multer";
 import { ImageService } from "@modules/image/index.service";
+import { IPaginationOptions } from "@interface/search";
+import { SearchResult } from "@dto/search";
 
 @Injectable()
 export class ProductService {
@@ -29,8 +31,13 @@ export class ProductService {
 		return this.productRepo.findOne({ id: productId });
 	}
 
-	async getAllProducts(): Promise<ProductEntity[]> {
-		return this.productRepo.find();
+	async getAllProducts({ page, limit }: IPaginationOptions): Promise<SearchResult> {
+		const [ result, count ] = await this.productRepo.findAndCount({
+			take: limit,
+			skip: (page - 1) * limit
+		});
+
+		return new SearchResult(page, count, result);
 	}
 
 	// async updateProduct(
