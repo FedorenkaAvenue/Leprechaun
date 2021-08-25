@@ -1,5 +1,5 @@
-import { CallHandler, ExecutionContext, Injectable, NestInterceptor, NotFoundException } from "@nestjs/common";
-import { map, Observable, tap } from "rxjs";
+import { CallHandler, ExecutionContext, Injectable, NestInterceptor, NotAcceptableException } from "@nestjs/common";
+import { Observable, tap } from "rxjs";
 
 import { ISearchResult } from "@interface/search";
 
@@ -9,8 +9,8 @@ export class PaginationEmptyInterceptor implements NestInterceptor {
         return next
             .handle()
             .pipe(
-                tap(({ result }) => {
-                    if (!result.length) throw new NotFoundException();
+                tap(({ result }: ISearchResult) => {
+                    if (!result.length) throw new NotAcceptableException();
                 })
             );
     }
