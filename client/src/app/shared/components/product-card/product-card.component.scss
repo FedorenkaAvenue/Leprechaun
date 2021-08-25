@@ -1,0 +1,37 @@
+.product {
+    width: 100%;
+    min-width: 236px;
+    max-width: 300px;
+    display: flex;
+    flex-direction: column;
+    padding: 0 5px 10px;
+    &-preview__wrap {
+        background-color: aqua;
+    }
+    &-preview__image {
+        height: 340px;
+    }
+    &-preview__under {
+
+    }
+
+    &-main {
+        background-color: aqua;
+    }
+    &-main {
+
+    }
+    &-title {
+
+    }
+}
+
+@media screen and (min-width: 768px) {
+    .product {
+
+    }
+}
+
+@media screen and (min-width: 900px) {
+    
+}

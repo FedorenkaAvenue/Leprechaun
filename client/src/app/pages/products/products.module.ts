@@ -6,6 +6,7 @@ import { ProductsPageComponent } from './components/products-page/products-page.
 import { ProductsListComponent } from './components/products-list/products-list.component';
 import { ProductsFilterComponent } from './components/products-filter/products-filter.component';
 import { ProductsService } from './services/products.service';
+import { ProductCardModule } from '@shared/components/product-card/product-card.module';
 
 
 @NgModule({
@@ -16,7 +17,8 @@ import { ProductsService } from './services/products.service';
   ],
   imports: [
     CommonModule,
-    ProductsRoutingModule
+    ProductsRoutingModule,
+    ProductCardModule,
   ],
   providers: [
     ProductsService

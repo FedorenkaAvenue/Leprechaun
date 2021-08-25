@@ -10,13 +10,13 @@ import { catchError } from 'rxjs/operators';
 })
 export class ProductsApiService {
 
-  private readonly apiUrl = 'someApi'
+  private readonly apiUrl = 'api/product'
   constructor(
     private readonly http: TransferHttpService
   ) { }
 
   public getProducts(data: any): Observable<ProductCardDto[]> {
-    return this.http.get<ProductCardDto[]>('someApi').pipe(
+    return this.http.get<ProductCardDto[]>(`${this.apiUrl}/list`).pipe(
       catchError(() => {
         return of(PRODUCTS_LIST)
       })
