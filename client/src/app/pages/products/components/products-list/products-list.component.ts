@@ -1,5 +1,5 @@
 import { Component, OnInit, ChangeDetectionStrategy, Input } from '@angular/core';
-import { ProductCardDto } from '@shared/models/products/products.model';
+import { ProductCardDto, Products } from '@shared/models/products/products.model';
 
 @Component({
   selector: 'app-products-list',
@@ -9,7 +9,7 @@ import { ProductCardDto } from '@shared/models/products/products.model';
 })
 export class ProductsListComponent implements OnInit {
 
-  @Input() products: ProductCardDto[];
+  @Input() products: Products;
   
   constructor() { }
 

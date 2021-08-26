@@ -7,6 +7,7 @@ import { ProductsListComponent } from './components/products-list/products-list.
 import { ProductsFilterComponent } from './components/products-filter/products-filter.component';
 import { ProductsService } from './services/products.service';
 import { ProductCardModule } from '@shared/components/product-card/product-card.module';
+import { PaginatorModule } from '@shared/modules/paginator';
 
 
 @NgModule({
@@ -19,6 +20,7 @@ import { ProductCardModule } from '@shared/components/product-card/product-card.
     CommonModule,
     ProductsRoutingModule,
     ProductCardModule,
+    PaginatorModule,
   ],
   providers: [
     ProductsService

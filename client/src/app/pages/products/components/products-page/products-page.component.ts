@@ -1,5 +1,5 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
-import { ProductCardDto } from '@shared/models/products/products.model';
+import { ProductCardDto, Products } from '@shared/models/products/products.model';
 import { Observable } from 'rxjs';
 import { ProductsService } from '../../services/products.service';
 
@@ -12,11 +12,15 @@ import { ProductsService } from '../../services/products.service';
 export class ProductsPageComponent implements OnInit {
 
   public productsCount = 1019;
-  public productsList$: Observable<ProductCardDto[]>
+  public productsList$: Observable<Products>
   constructor(private readonly productsService: ProductsService) { }
 
   ngOnInit(): void {
     this.productsList$ = this.productsService.getProducts();
+    this.productsList$.subscribe(el => {  
+      console.log(el);
+      
+    })
   }
 
 }
