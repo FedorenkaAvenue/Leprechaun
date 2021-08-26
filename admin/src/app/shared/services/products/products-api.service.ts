@@ -14,7 +14,7 @@ export class ProductsApiService {
   ) { }
 
   getProductsList(url: string): Observable<ProductCardDto[]> {
-    return this.http.get<ProductCardDto[]>(`${this.apiUrl}/category/${url}/products`).pipe(
+    return this.http.get<ProductCardDto[]>(`${this.apiUrl}/category/products/${url}`).pipe(
       map(res => res.map( el => new ProductCardDto(el))),
       // catchError( () => {
       //   return of(PRODUCTS_LIST.map( el => {

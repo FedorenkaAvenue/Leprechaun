@@ -9,10 +9,20 @@
         background-color: aqua;
     }
     &-preview__image {
+        display: flex;
         height: 340px;
+        background-size: cover;
     }
     &-preview__under {
 
+    }
+
+    &-preview__curtain {
+        width: 100%;
+    }
+
+    &-preview__curtain.active {
+        border-top: 3px solid #888;
     }
 
     &-main {
