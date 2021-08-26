@@ -17,7 +17,9 @@
       "@modules/*": ["modules/*"],
       "@services/*": ["services/*"],
       "@interceptors/*": ["interceptors/*"],
-      "@entity/*": ["entity/*"]
+      "@entity/*": ["entity/*"],
+      "@interface/*": ["interface/*"],
+      "@dto/*": ["dto/*"]
     },
   }
 }
