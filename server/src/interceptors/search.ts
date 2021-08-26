@@ -9,8 +9,8 @@ export class PaginationEmptyInterceptor implements NestInterceptor {
         return next
             .handle()
             .pipe(
-                tap(({ result }: ISearchResult) => {
-                    if (!result.length) throw new NotAcceptableException();
+                tap(({ data }: ISearchResult) => {
+                    if (!data.length) throw new NotAcceptableException();
                 })
             );
     }

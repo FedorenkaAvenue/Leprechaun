@@ -5,7 +5,7 @@ import { DeleteResult, Repository, UpdateResult } from 'typeorm';
 import { CategoryEntity } from './index.entity';
 import { CreateCategoryDTO } from './index.dto';
 import { FOLDER_TYPES, MulterService } from '@services/Multer';
-import { SearchResult } from '@dto/search';
+import { SearchResultDTO } from '@dto/search';
 import { IPaginationOptions } from '@interface/search';
 
 @Injectable()
@@ -48,7 +48,10 @@ export class CategoryService {
 	}
 
 	// ! переделать нахуй
-	async getCategoryProducts(categoryUrl: string, { page, limit }: IPaginationOptions): Promise<SearchResult> {
+	async getCategoryProducts(
+		categoryUrl: string,
+		{ page, limit }: IPaginationOptions
+	): Promise<SearchResultDTO> {
 		// check if category is exist
 		try {
 			await this.categoryRepo.findOneOrFail({ url: categoryUrl });
@@ -63,7 +66,14 @@ export class CategoryService {
 			relations: ['products']
 		});
 
-		return new SearchResult(page, count, result.map(({ products }) => products));
+		return new SearchResultDTO(
+			result.map(({ products }) => products),
+			{
+				currentPage: page,
+				totalCount: count,
+				itemPortion: limit
+			}
+		);
 	}
 
 	//TODO: группы фильтров

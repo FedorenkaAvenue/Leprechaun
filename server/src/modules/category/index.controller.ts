@@ -15,7 +15,7 @@ import { CategoryBaseEntity, CategoryEntity } from './index.entity';
 import { CreateCategoryDTO } from './index.dto';
 import { ProductBaseEntity } from '@modules/product/index.entity';
 import { MulterService } from '@services/Multer';
-import { PaginationOptionsDTO, SearchResult } from '@dto/search';
+import { PaginationOptionsDTO, SearchResultDTO } from '@dto/search';
 import { PaginationEmptyInterceptor } from '@interceptors/search';
 
 @Controller('categories')
@@ -56,8 +56,11 @@ export class CategoryController {
 		@Req() { cookies: { pageLimit } }: Request,
 		@Query('page') page: number,
 		@Param('category') categoryUrl: string
-	): Promise<SearchResult> {
-		return this.categoryService.getCategoryProducts(categoryUrl, new PaginationOptionsDTO(page, pageLimit));
+	): Promise<SearchResultDTO> {
+		return this.categoryService.getCategoryProducts(
+			categoryUrl,
+			new PaginationOptionsDTO(page, pageLimit)
+		);
 	}
 
 	@Post()
