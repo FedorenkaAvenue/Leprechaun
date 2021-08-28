@@ -1,5 +1,8 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { Column, Entity, JoinColumn, JoinTable, ManyToMany, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import {
+    AfterRemove, Column, Connection, Entity, EntitySubscriberInterface, EventSubscriber, JoinColumn, JoinTable,
+    ManyToMany, ManyToOne, OneToMany, PrimaryGeneratedColumn, RemoveEvent
+} from "typeorm";
 
 import { CategoryEntity } from "@modules/category/index.entity";
 import { IProduct } from "./index.interface";
@@ -54,6 +57,11 @@ export class ProductBaseEntity implements IProduct {
         isArray: true
     })
     labels: ILabel[];
+
+    @AfterRemove()
+    removeStaticImage() {
+        console.log('product:', this);
+    }
 }
 
 @Entity('product')
@@ -61,9 +69,24 @@ export class ProductEntity extends ProductBaseEntity implements IProduct {
     @ManyToOne(
         () => CategoryEntity,
         ({ products }) => products,
-        { onDelete: 'CASCADE' }
+        { onDelete: 'NO ACTION' }
     )
     @JoinColumn({ name: "category", referencedColumnName: 'id' })
     @ApiProperty({ type: () => CategoryEntity })
     category: ICategory;
 }
+
+// @EventSubscriber()
+// export class ProductEntitySubscriber implements EntitySubscriberInterface<ProductEntity> {
+//     constructor(connection: Connection) {
+//         connection.subscribers.push(this);
+//     }
+
+//     listenTo() {
+//         return ProductEntity;
+//     }
+
+//     afterRemove(e: RemoveEvent<ProductEntity>) {
+//         console.log(`AFTER ENTITY WITH ID ${e.entityId} REMOVED: `, e.entity);
+//     }
+// }
