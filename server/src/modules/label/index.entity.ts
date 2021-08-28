@@ -9,6 +9,10 @@ export class LabelEntity implements ILabel {
     @ApiProperty()
     id: number;
 
+    @Column()
+    @ApiProperty({ description: 'label type' })
+    type: string
+
     @Column({ nullable: true })
     @ApiProperty({ required: false, description: 'label text' })
     value: string;
