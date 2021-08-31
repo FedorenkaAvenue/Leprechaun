@@ -1,5 +1,5 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { IsBoolean, IsNotEmpty, IsNumber, IsOptional, IsString } from "class-validator";
+import { IsBoolean, IsNotEmpty, IsNumber, IsNumberString, IsOptional, IsString } from "class-validator";
 
 import { ICategory } from "@modules/category/index.interface";
 import { IProduct } from "./index.interface";
@@ -12,7 +12,7 @@ export class CreateProductDTO implements IProduct {
     title: string;
 
     @IsNotEmpty()
-    @IsNumber()
+    @IsNumberString()
     @ApiProperty({ required: true })
     price: number;
 
@@ -22,7 +22,7 @@ export class CreateProductDTO implements IProduct {
     isPublic: boolean;
 
     @IsNotEmpty()
-    @IsNumber()
+    @IsNumberString()
     @ApiProperty({
         required: true,
         type: 'number',
@@ -51,7 +51,7 @@ export class CreateProductDTOConstructor extends CreateProductDTO {
         this.price = price;
         this.isPublic = isPublic;
         this.category = category;
-        //@ts-ignore for table relations
+        // @ts-ignore for table relations
         this.labels = labels ? labels.map(label => ({ id: label })) : [];
     }
 }

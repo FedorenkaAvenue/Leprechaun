@@ -45,7 +45,7 @@ export class CreateCategoryDTOСonstructor extends CreateCategoryDTO {
         this.url = url;
         this.title = title;
         this.isPublic = isPublic;
-        //@ts-ignore for table relations
+        // @ts-ignore for table relations
         this.filterGroups = filterGroups ? filterGroups.map((filterId: number ) => ({ id: filterId })) : null;
     }
 }

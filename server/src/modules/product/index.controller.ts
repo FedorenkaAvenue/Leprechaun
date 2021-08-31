@@ -45,6 +45,24 @@ export class ProductController {
         return this.productService.getAllProducts(new PaginationOptionsDTO(page, pageLimit));
     }
 
+    @Get('category/:categoryId')
+	@UseInterceptors(PaginationEmptyInterceptor)
+	@ApiOperation({ summary: 'get products by category ID' })
+	@ApiQuery({ name: 'page', required: false, description: 'page number' })
+	@ApiOkResponse({ type: ProductBaseEntity, isArray: true })
+	@ApiNotFoundResponse({ description: 'category not found' })
+	@ApiNotAcceptableResponse({ description: 'pagination page is empty' })
+	getCategoryProducts(
+		@Req() { cookies: { pageLimit } }: Request,
+		@Query('page') page: number,
+		@Param('categoryId') categoryUrl: string
+	): Promise<SearchResultDTO> {
+		return this.productService.getCategoryProducts(
+			categoryUrl,
+			new PaginationOptionsDTO(page, pageLimit)
+		);
+	}
+
     @Get(':productId')
     @UseInterceptors(NotFoundInterceptor)
     @ApiOperation({ summary: 'get product by id' })

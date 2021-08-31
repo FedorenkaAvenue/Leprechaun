@@ -48,6 +48,26 @@ export class ProductService {
 		);
 	}
 
+	async getCategoryProducts(
+		categoryUrl: string,
+		{ page, limit }: IPaginationOptions
+	): Promise<SearchResultDTO> {
+		const [ result, count ] = await this.productRepo.findAndCount({
+			where: { category: categoryUrl },
+			take: limit,
+			skip: (page - 1) * limit
+		});
+
+		return new SearchResultDTO(
+			result,
+			{
+				currentPage: page,
+				totalCount: count,
+				itemPortion: limit
+			}
+		);
+	}
+
 	// async updateProduct(
 	// 	productDTO: UpdateProductDTO,
 	// 	newImages: Array<Express.Multer.File>
