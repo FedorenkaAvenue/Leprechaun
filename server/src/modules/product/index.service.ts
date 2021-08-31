@@ -1,13 +1,13 @@
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
-import { DeleteResult, Repository, UpdateResult } from "typeorm";
+import { DeleteResult, Repository } from "typeorm";
 
-import { CreateProductDTO, UpdateProductDTO } from "./index.dto";
+import { CreateProductDTO } from "./index.dto";
 import { ProductEntity } from "./index.entity";
 import { FOLDER_TYPES, MulterService } from "@services/Multer";
 import { ImageService } from "@modules/image/index.service";
 import { IPaginationOptions } from "@interface/search";
-import { SearchResult } from "@dto/search";
+import { SearchResultDTO } from "@dto/search";
 
 @Injectable()
 export class ProductService {
@@ -17,28 +17,35 @@ export class ProductService {
 		private readonly imageService: ImageService
 	) {}
 
-	async createProduct(
-		productDTO: CreateProductDTO,
-		images: Array<Express.Multer.File>
-	): Promise<void> {
-		const { id } = await this.productRepo.save(productDTO);
-		const uploadedImgArr = await this.multerModule.saveFiles(FOLDER_TYPES.PRODUCT, id, images);
+	async createProduct(productDTO: CreateProductDTO, images: Array<Express.Multer.File>): Promise<void> {
+		const { id } = await this.productRepo.save(new CreateProductDTO(productDTO));
 
-		await this.imageService.addImageArr(id, uploadedImgArr);
+		if (images) {
+			const uploadedImgArr = await this.multerModule.saveFiles(FOLDER_TYPES.PRODUCT, id, images);
+
+			this.imageService.addImageArr(id, uploadedImgArr);
+		}
 	}
 
 	async getProduct(productId: string): Promise<ProductEntity> {
 		return this.productRepo.findOne({ id: productId });
 	}
 
-	async getAllProducts({ page, limit }: IPaginationOptions): Promise<SearchResult> {
+	async getAllProducts({ page, limit }: IPaginationOptions): Promise<SearchResultDTO> {
 		const [ result, count ] = await this.productRepo.findAndCount({
 			take: limit,
 			skip: (page - 1) * limit,
 			relations: ['category']
 		});
 
-		return new SearchResult(page, count, result);
+		return new SearchResultDTO(
+			result,
+			{
+				currentPage: page,
+				totalCount: count,
+				itemPortion: limit
+			}
+		);
 	}
 
 	// async updateProduct(

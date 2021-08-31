@@ -5,8 +5,13 @@ export interface IPaginationOptions {
     page: number
 }
 
-export interface ISearchResult<TResultItem = IProduct> {
+export interface IPagination {
     currentPage: number
-    resultCount: number
-    result: Array<TResultItem>
+    totalCount: number
+    pageCount: number
+}
+
+export interface ISearchResult<TResultItem = IProduct> {
+    pagination: IPagination
+    data: Array<TResultItem>
 }

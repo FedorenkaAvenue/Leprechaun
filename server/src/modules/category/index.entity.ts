@@ -43,7 +43,11 @@ export class CategoryBaseEntity implements ICategory {
             referencedColumnName: 'id'
         }
     })
-    @ApiProperty({ type: FilterGroupBaseEntity, isArray: true })
+    @ApiProperty({
+        type: FilterGroupBaseEntity,
+        isArray: true,
+        required: false
+    })
     filterGroups: IFilterGroup[]
 }
 

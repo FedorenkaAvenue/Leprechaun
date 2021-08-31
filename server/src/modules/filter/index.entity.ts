@@ -38,11 +38,6 @@ export class FilterGroupEntity extends FilterGroupBaseEntity implements IFilterG
     )
     @ApiProperty({ type: () => FilterEntity, isArray: true })
     filters: IFilter[];
-
-    constructor(id: number) {
-        super();
-        this.id = id;
-    }
 }
 
 export class FilterBaseEntity implements IFilter {

@@ -1,4 +1,10 @@
-import { IPaginationOptions, ISearchResult } from "@interface/search";
+import { IPagination, IPaginationOptions, ISearchResult } from "@interface/search";
+
+interface ICreatePagintaion {
+    totalCount: number
+    currentPage: number
+    itemPortion: number
+}
 
 /**
  * @description create object for pagination search
@@ -16,19 +22,35 @@ export class PaginationOptionsDTO implements IPaginationOptions {
 }
 
 /**
+ * @description pagination data result
+ * @param pageCount page's length amount
+ * @param currentPage current active page
+ * @param totalCount all items count
+ */
+export class PaginationDTO implements IPagination {
+    currentPage: number
+    totalCount: number
+    pageCount: number
+
+    constructor({ totalCount, currentPage, itemPortion }: ICreatePagintaion) {
+        this.currentPage = Number(currentPage);
+        this.totalCount = totalCount;
+        this.pageCount = Math.ceil(totalCount / itemPortion);
+    }
+}
+
+/**
  * @description create search result
  * @param currentPage current requested page
  * @param resultCount count of all result (without pagination)
  * @param result array of result
  */
-export class SearchResult implements ISearchResult {
-    currentPage: number
-    resultCount: number
-    result: any
+export class SearchResultDTO implements ISearchResult {
+    pagination: IPagination
+    data: Array<any>
 
-    constructor(currentPage: number, resultCount: number, result: any) {
-        this.currentPage = currentPage;
-        this.resultCount = resultCount;
-        this.result = result;
+    constructor(data: any, paginationDTO: ICreatePagintaion) {
+        this.pagination = new PaginationDTO(paginationDTO);
+        this.data = data;
     }
 }

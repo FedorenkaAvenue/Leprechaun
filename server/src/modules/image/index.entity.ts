@@ -1,5 +1,5 @@
-import { ApiProperty } from "@nestjs/swagger";
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { ApiProperty } from "@nestjs/swagger";
 
 import { ProductEntity } from "@modules/product/index.entity";
 import { IImage } from "./index.interface";

@@ -1,3 +1,5 @@
+import { BadRequestException } from "@nestjs/common";
+
 import { IImage } from "./index.interface";
 
 export class CreateImageDTO implements IImage<string> {
@@ -5,6 +7,8 @@ export class CreateImageDTO implements IImage<string> {
     product: string;
 
     constructor(productId: string, imgUrl: string) {
+        if (!productId || !imgUrl) throw new BadRequestException();
+
         this.product = productId;
         this.src = imgUrl;
     }
