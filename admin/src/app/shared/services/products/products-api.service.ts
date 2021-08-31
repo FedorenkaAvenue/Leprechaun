@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import { PRODUCTS_LIST } from 'src/app/mock/product';
-import { ProductCardDto } from '../../models/product.model';
+import { ProductCardDto, Products } from '../../models/product.model';
 
 @Injectable()
 export class ProductsApiService {
@@ -13,15 +13,8 @@ export class ProductsApiService {
     private readonly http: HttpClient
   ) { }
 
-  getProductsList(url: string): Observable<ProductCardDto[]> {
-    return this.http.get<ProductCardDto[]>(`${this.apiUrl}/category/${url}/products`).pipe(
-      map(res => res.map( el => new ProductCardDto(el))),
-      // catchError( () => {
-      //   return of(PRODUCTS_LIST.map( el => {
-      //     return new ProductCardDto(el)
-      //   }))
-      // })
-    )
+  getProductsList(url: string): Observable<Products> {
+    return this.http.get<Products>(`${this.apiUrl}/category/products/${url}`)
   }
 
   public createProduct(data: any): Observable<any> {

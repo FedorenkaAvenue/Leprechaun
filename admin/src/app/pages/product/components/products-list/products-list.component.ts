@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { ProductCardDto } from 'src/app/shared/models/product.model';
+import { ProductCardDto, Products } from 'src/app/shared/models/product.model';
 
 @Component({
   selector: 'app-products-list',
@@ -8,7 +8,7 @@ import { ProductCardDto } from 'src/app/shared/models/product.model';
 })
 export class ProductsListComponent implements OnInit {
 
-  @Input() products: ProductCardDto[];
+  @Input() products: Products;
   @Output() onRemoveProduct = new EventEmitter<number>();
   constructor() { }
 
