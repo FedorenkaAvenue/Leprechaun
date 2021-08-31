@@ -1,5 +1,5 @@
 import {
-    Body, Controller, Delete, Get, Param, ParseUUIDPipe, Patch, Post,UploadedFiles, UseInterceptors, Query, Req
+    Body, Controller, Delete, Get, Param, ParseUUIDPipe, Patch, Post,UploadedFiles, UseInterceptors, Query, Req, ValidationPipe
 } from "@nestjs/common";
 import {
     ApiBadRequestResponse, ApiNotAcceptableResponse, ApiNotFoundResponse, ApiOkResponse,
@@ -26,7 +26,7 @@ export class ProductController {
     @ApiOperation({ summary: 'create new product' })
 	@ApiOkResponse({ type: ProductBaseEntity })
     createProduct(
-        @Body() product: CreateProductDTO,
+        @Body(new ValidationPipe({ transform: true })) product: CreateProductDTO,
         @UploadedFiles() images: Array<Express.Multer.File>
     ): Promise<void> {
         return this.productService.createProduct(product, images);

@@ -1,20 +1,28 @@
-import { BadRequestException } from "@nestjs/common";
 import { ApiProperty } from "@nestjs/swagger";
+import { IsBoolean, IsNotEmpty, IsNumber, IsOptional, IsString } from "class-validator";
 
 import { ICategory } from "@modules/category/index.interface";
 import { IProduct } from "./index.interface";
 import { ILabel } from "@modules/label/index.interface";
 
 export class CreateProductDTO implements IProduct {
+    @IsNotEmpty()
+    @IsString()
     @ApiProperty({ required: true })
     title: string;
 
+    @IsNotEmpty()
+    @IsNumber()
     @ApiProperty({ required: true })
     price: number;
 
+    @IsOptional()
+    @IsBoolean()
     @ApiProperty({ required: false })
     isPublic: boolean;
 
+    @IsNotEmpty()
+    @IsNumber()
     @ApiProperty({
         required: true,
         type: 'number',
@@ -22,6 +30,7 @@ export class CreateProductDTO implements IProduct {
     })
     category: ICategory;
 
+    @IsOptional()
     @ApiProperty({
         description: 'array of binary files',
         type: 'file',
@@ -29,17 +38,20 @@ export class CreateProductDTO implements IProduct {
     })
     images: string[];
 
+    @IsOptional()
+    @IsNumber({}, { each: true })
     @ApiProperty({ description: 'array of label', isArray: true })
-    //! хуйня
-    labels: ILabel[] | any;
+    labels: ILabel[];
+}
 
+export class CreateProductDTOConstructor extends CreateProductDTO {
     constructor({ title, price, isPublic, category, labels }: CreateProductDTO) {
-        if (!title || !category) throw new BadRequestException();
-
+        super();
         this.title = title;
         this.price = price;
         this.isPublic = isPublic;
         this.category = category;
+        //@ts-ignore for table relations
         this.labels = labels ? labels.map(label => ({ id: label })) : [];
     }
 }

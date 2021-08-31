@@ -12,6 +12,11 @@ async function runServer() {
 
 	app.setGlobalPrefix(GLOBAL_API_PREFIX);
 	app.use(cookieParser());
+	// app.useGlobalPipes(
+	// 	new ValidationPipe({
+	// 		transform: true
+	// 	}),
+	// );
 
 	if (IS_DEV) {
 		const config = new DocumentBuilder()

@@ -1,9 +1,10 @@
 import {
-	Controller, Get, Param, Body, UseInterceptors, Delete, Patch, Post, UploadedFile, Req, Query
+	Controller, Get, Param, Body, UseInterceptors, Delete, Patch, Post, UploadedFile,
+	Req, Query, ValidationPipe
 } from '@nestjs/common';
 import {
-	ApiCreatedResponse, ApiNotAcceptableResponse, ApiNotFoundResponse, ApiOkResponse, ApiOperation, ApiQuery,
-	ApiTags
+	ApiCreatedResponse, ApiNotAcceptableResponse, ApiNotFoundResponse, ApiOkResponse,
+	ApiOperation, ApiQuery, ApiTags
 } from '@nestjs/swagger';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { DeleteResult, UpdateResult } from 'typeorm';
@@ -71,7 +72,7 @@ export class CategoryController {
 	@ApiOperation({ summary: 'add new category' })
 	@ApiCreatedResponse({ type: CategoryBaseEntity })
 	addCategory(
-		@Body() body: CreateCategoryDTO,
+		@Body(new ValidationPipe({ transform: true })) body: CreateCategoryDTO,
 		@UploadedFile() icon: Express.Multer.File
 	): Promise<void> {
 		return this.categoryService.createCategory(body, icon);

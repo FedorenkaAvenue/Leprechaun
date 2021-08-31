@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, Post, UseInterceptors } from "@nestjs/common";
+import { Body, Controller, Delete, Get, Param, Post, UseInterceptors, ValidationPipe } from "@nestjs/common";
 import { ApiOkResponse, ApiOperation, ApiTags } from "@nestjs/swagger";
 import { DeleteResult } from "typeorm";
 
@@ -15,7 +15,7 @@ export class FilterGroupController {
     @Post()
     @ApiOperation({ summary: 'add new filter group' })
     @ApiOkResponse({ type: FilterGroupBaseEntity })
-    createGroup(@Body() group: CreateFilterGroupDTO): Promise<FilterGroupBaseEntity> {
+    createGroup(@Body(new ValidationPipe({ transform: true })) group: CreateFilterGroupDTO): Promise<FilterGroupBaseEntity> {
         return this.filtergroupService.createGroup(group);
     }
 
@@ -50,7 +50,7 @@ export class FilterController {
     @Post()
     @ApiOperation({ summary: 'add new filter' })
     @ApiOkResponse({ type: FilterBaseEntity })
-    createFilter(@Body() filter: CreateFilterDTO): Promise<FilterEntity> {
+    createFilter(@Body(new ValidationPipe({ transform: true })) filter: CreateFilterDTO): Promise<FilterEntity> {
         return this.filterService.createFilter(filter);
     }
 
