@@ -1,5 +1,5 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { IsBoolean, IsNotEmpty, IsNumber, IsOptional, IsString } from "class-validator";
+import { IsBooleanString, IsNotEmpty, IsNumber, IsOptional, IsString } from "class-validator";
 
 import { IFilterGroup } from "@modules/filter/index.interface";
 import { ICategory } from "./index.interface";
@@ -16,7 +16,7 @@ export class CreateCategoryDTO implements ICategory {
     title: string;
 
     @IsOptional()
-    @IsBoolean()
+    @IsBooleanString()
     @ApiProperty({ required: false })
     isPublic: boolean;
 

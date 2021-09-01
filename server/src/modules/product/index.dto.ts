@@ -1,5 +1,5 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { IsBoolean, IsNotEmpty, IsNumber, IsNumberString, IsOptional, IsString } from "class-validator";
+import { IsBooleanString, IsNotEmpty, IsNumber, IsNumberString, IsOptional, IsString } from "class-validator";
 
 import { ICategory } from "@modules/category/index.interface";
 import { IProduct } from "./index.interface";
@@ -17,7 +17,7 @@ export class CreateProductDTO implements IProduct {
     price: number;
 
     @IsOptional()
-    @IsBoolean()
+    @IsBooleanString()
     @ApiProperty({ required: false })
     isPublic: boolean;
 
