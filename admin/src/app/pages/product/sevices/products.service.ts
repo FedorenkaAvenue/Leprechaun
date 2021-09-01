@@ -17,10 +17,10 @@ export class ProductsService {
     private readonly categoriesApiService: CategoriesApiService
     ) { }
 
-  public getProductsList(url: string): Observable<ProductCardDto[]> {
+  public getProductsList(id: number): Observable<ProductCardDto[]> {
     return this.updateProducts$.pipe(
       startWith(null),
-      switchMap( res => this.productsApiService.getProductsList(url))
+      switchMap( res => this.productsApiService.getProductsList(id))
     )
   }
 
