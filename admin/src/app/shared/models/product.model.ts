@@ -1,3 +1,5 @@
+import { PaginationDto } from "./pagination.model";
+
 export interface ProductCardI {
     id?: number,
     title: string,
@@ -5,6 +7,11 @@ export interface ProductCardI {
     category: string,
     images: Array<string>;
     isPublic: boolean,
+  }
+  
+  export interface Products {
+    data: ProductCardDto[],
+    pagination: PaginationDto
   }
   
   export class ProductCardDto implements ProductCardI {

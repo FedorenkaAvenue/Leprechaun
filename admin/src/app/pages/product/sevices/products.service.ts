@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 import { startWith, switchMap } from 'rxjs/operators';
 import { CategoryDto } from 'src/app/shared/models/categories.model';
-import { ProductCardDto } from 'src/app/shared/models/product.model';
+import { ProductCardDto, Products } from 'src/app/shared/models/product.model';
 import { CategoriesApiService } from 'src/app/shared/services/categories/categories-api.service';
 import { ProductsApiService } from 'src/app/shared/services/products/products-api.service';
 
@@ -17,7 +17,7 @@ export class ProductsService {
     private readonly categoriesApiService: CategoriesApiService
     ) { }
 
-  public getProductsList(url: string): Observable<ProductCardDto[]> {
+  public getProductsList(url: string): Observable<Products> {
     return this.updateProducts$.pipe(
       startWith(null),
       switchMap( res => this.productsApiService.getProductsList(url))
