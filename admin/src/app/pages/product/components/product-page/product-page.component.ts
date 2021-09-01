@@ -30,16 +30,17 @@ export class ProductPageComponent implements OnInit {
    this.getProducts();
   }
 
-  private getCategoryUrl(): string | null {
-    return this.route.snapshot.paramMap.get('url')
+  private getCategoryId(): string | null {
+    return this.route.snapshot.paramMap.get('id')
   }
 
   private getProducts(): void {
-    const url = this.getCategoryUrl();
-    if(!url) {
+    const id = this.getCategoryId();
+    if(!id) {
       return;
     }
-    this.products$ = this.productsService.getProductsList(url);
+    const categoryId = Number(id)
+    this.products$ = this.productsService.getProductsList(categoryId);
   }
 
   public deleteProducts(id: number): void {

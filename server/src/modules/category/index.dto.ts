@@ -1,19 +1,26 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { BadRequestException, InternalServerErrorException } from "@nestjs/common";
+import { IsBoolean, IsNotEmpty, IsNumber, IsOptional, IsString } from "class-validator";
 
 import { IFilterGroup } from "@modules/filter/index.interface";
 import { ICategory } from "./index.interface";
 
 export class CreateCategoryDTO implements ICategory {
+    @IsNotEmpty()
+    @IsString()
     @ApiProperty()
     url: string;
 
+    @IsNotEmpty()
+    @IsString()
     @ApiProperty()
     title: string;
 
+    @IsOptional()
+    @IsBoolean()
     @ApiProperty({ required: false })
     isPublic: boolean;
 
+    @IsOptional()
     @ApiProperty({
         type: 'file',
         required: false,
@@ -21,22 +28,24 @@ export class CreateCategoryDTO implements ICategory {
     })
     icon: string;
 
+    @IsOptional()
+    @IsNumber({}, { each: true })
     @ApiProperty({
         required: false,
         type: 'number',
         description: 'array of the filter groups ID',
         isArray: true
     })
-    // ! хуйня из-за добавления группы фильтров
-    filterGroups: IFilterGroup[] | any;
+    filterGroups: IFilterGroup[];
+}
 
+export class CreateCategoryDTOСonstructor extends CreateCategoryDTO {
     constructor({ url, title, isPublic, filterGroups }: CreateCategoryDTO) {
-        if (!url || !title) throw new BadRequestException();
-
+        super();
         this.url = url;
         this.title = title;
         this.isPublic = isPublic;
-        //@ts-ignore
+        // @ts-ignore for table relations
         this.filterGroups = filterGroups ? filterGroups.map((filterId: number ) => ({ id: filterId })) : null;
     }
 }

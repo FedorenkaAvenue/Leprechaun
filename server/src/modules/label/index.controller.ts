@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, Post, UseInterceptors } from "@nestjs/common";
+import { Body, Controller, Delete, Get, Param, Post, UseInterceptors, ValidationPipe } from "@nestjs/common";
 import { ApiNotFoundResponse, ApiOperation, ApiResponse, ApiTags } from "@nestjs/swagger";
 import { DeleteResult } from "typeorm";
 
@@ -14,7 +14,7 @@ export class LabelController {
 
     @Post()
     @ApiOperation({ summary: 'create new label' })
-    createLabel(@Body() body: CreateLabelDTO) {
+    createLabel(@Body(new ValidationPipe({ transform: true })) body: CreateLabelDTO) {
         this.labelService.createLabel(body);
     }
 

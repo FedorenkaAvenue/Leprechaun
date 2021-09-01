@@ -2,7 +2,9 @@ import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { DeleteResult, Repository } from "typeorm";
 
-import { CreateFilterDTO, CreateFilterGroupDTO } from "./index.dto";
+import {
+	CreateFilterDTO, CreateFilterDTOConstructor, CreateFilterGroupDTO, CreateFilterGroupDTOConstructor
+} from "./index.dto";
 import { FilterGroupEntity, FilterEntity, FilterGroupBaseEntity } from "./index.entity";
 
 @Injectable()
@@ -12,7 +14,7 @@ export class FilterGroupService {
 	) {}
 
 	createGroup(newGroup: CreateFilterGroupDTO): Promise<FilterGroupBaseEntity> {
-		return this.filterGroupRepo.save(new CreateFilterGroupDTO(newGroup));
+		return this.filterGroupRepo.save(new CreateFilterGroupDTOConstructor(newGroup));
 	}
 
 	getGroup(groupId: number): Promise<FilterGroupEntity> {
@@ -35,7 +37,7 @@ export class FilterService {
 	) {}
 
 	createFilter(filter: CreateFilterDTO): Promise<FilterEntity> {
-		return this.filterRepo.save(new CreateFilterDTO(filter));
+		return this.filterRepo.save(new CreateFilterDTOConstructor(filter));
 	}
 
 	getFilter(filterId: number): Promise<FilterEntity> {

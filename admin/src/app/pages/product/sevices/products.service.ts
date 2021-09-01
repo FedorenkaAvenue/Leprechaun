@@ -20,7 +20,7 @@ export class ProductsService {
   public getProductsList(url: string): Observable<Products> {
     return this.updateProducts$.pipe(
       startWith(null),
-      switchMap( res => this.productsApiService.getProductsList(url))
+      switchMap( res => this.productsApiService.getProductsList(id))
     )
   }
 
