@@ -1,5 +1,5 @@
 import {
-    Body, Controller, Delete, Get, Param, ParseUUIDPipe, Patch, Post,UploadedFiles, UseInterceptors, Query, Req
+    Body, Controller, Delete, Get, Param, ParseUUIDPipe, Patch, Post,UploadedFiles, UseInterceptors, Query, Req, ValidationPipe
 } from "@nestjs/common";
 import {
     ApiBadRequestResponse, ApiNotAcceptableResponse, ApiNotFoundResponse, ApiOkResponse,
@@ -26,7 +26,7 @@ export class ProductController {
     @ApiOperation({ summary: 'create new product' })
 	@ApiOkResponse({ type: ProductBaseEntity })
     createProduct(
-        @Body() product: CreateProductDTO,
+        @Body(new ValidationPipe({ transform: true })) product: CreateProductDTO,
         @UploadedFiles() images: Array<Express.Multer.File>
     ): Promise<void> {
         return this.productService.createProduct(product, images);
@@ -44,6 +44,24 @@ export class ProductController {
     ): Promise<SearchResultDTO> {
         return this.productService.getAllProducts(new PaginationOptionsDTO(page, pageLimit));
     }
+
+    @Get('category/:categoryId')
+	@UseInterceptors(PaginationEmptyInterceptor)
+	@ApiOperation({ summary: 'get products by category ID' })
+	@ApiQuery({ name: 'page', required: false, description: 'page number' })
+	@ApiOkResponse({ type: ProductBaseEntity, isArray: true })
+	@ApiNotFoundResponse({ description: 'category not found' })
+	@ApiNotAcceptableResponse({ description: 'pagination page is empty' })
+	getCategoryProducts(
+		@Req() { cookies: { pageLimit } }: Request,
+		@Query('page') page: number,
+		@Param('categoryId') categoryUrl: string
+	): Promise<SearchResultDTO> {
+		return this.productService.getCategoryProducts(
+			categoryUrl,
+			new PaginationOptionsDTO(page, pageLimit)
+		);
+	}
 
     @Get(':productId')
     @UseInterceptors(NotFoundInterceptor)

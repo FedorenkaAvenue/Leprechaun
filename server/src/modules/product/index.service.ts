@@ -2,7 +2,7 @@ import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { DeleteResult, Repository } from "typeorm";
 
-import { CreateProductDTO } from "./index.dto";
+import { CreateProductDTO, CreateProductDTOConstructor } from "./index.dto";
 import { ProductEntity } from "./index.entity";
 import { FOLDER_TYPES, MulterService } from "@services/Multer";
 import { ImageService } from "@modules/image/index.service";
@@ -18,7 +18,7 @@ export class ProductService {
 	) {}
 
 	async createProduct(productDTO: CreateProductDTO, images: Array<Express.Multer.File>): Promise<void> {
-		const { id } = await this.productRepo.save(new CreateProductDTO(productDTO));
+		const { id } = await this.productRepo.save(new CreateProductDTOConstructor(productDTO));
 
 		if (images) {
 			const uploadedImgArr = await this.multerModule.saveFiles(FOLDER_TYPES.PRODUCT, id, images);
@@ -36,6 +36,26 @@ export class ProductService {
 			take: limit,
 			skip: (page - 1) * limit,
 			relations: ['category']
+		});
+
+		return new SearchResultDTO(
+			result,
+			{
+				currentPage: page,
+				totalCount: count,
+				itemPortion: limit
+			}
+		);
+	}
+
+	async getCategoryProducts(
+		categoryUrl: string,
+		{ page, limit }: IPaginationOptions
+	): Promise<SearchResultDTO> {
+		const [ result, count ] = await this.productRepo.findAndCount({
+			where: { category: categoryUrl },
+			take: limit,
+			skip: (page - 1) * limit
 		});
 
 		return new SearchResultDTO(
