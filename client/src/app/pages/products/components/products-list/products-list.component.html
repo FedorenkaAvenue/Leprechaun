@@ -1,0 +1,6 @@
+<section>
+  <ng-container *ngFor="let product of products?.result">
+    <app-product-card [product]="product"></app-product-card>
+  </ng-container>
+  <app-paginator></app-paginator>
+</section>

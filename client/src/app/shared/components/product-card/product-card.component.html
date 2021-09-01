@@ -1,0 +1,16 @@
+<section class="product">
+  <div class="product-preview__wrap">
+    <div
+      class="product-preview__image"
+      [ngStyle]="{ 'background-image': 'url(' + product?.images[0].src + ')' }"
+    >
+    <ng-container *ngFor="let image of product.images">
+        <div class="product-preview__curtain" [appCurtains]="image.src"></div>
+    </ng-container></div>
+  
+  </div>
+  <div class="product-main">
+    <span class="product-price">{{ product?.price }}</span>
+    <span class="product-title">{{ product?.title }}</span>
+  </div>
+</section>

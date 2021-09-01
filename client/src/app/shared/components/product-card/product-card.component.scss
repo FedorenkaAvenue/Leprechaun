@@ -1,0 +1,47 @@
+.product {
+    width: 100%;
+    min-width: 236px;
+    max-width: 300px;
+    display: flex;
+    flex-direction: column;
+    padding: 0 5px 10px;
+    &-preview__wrap {
+        background-color: aqua;
+    }
+    &-preview__image {
+        display: flex;
+        height: 340px;
+        background-size: cover;
+    }
+    &-preview__under {
+
+    }
+
+    &-preview__curtain {
+        width: 100%;
+    }
+
+    &-preview__curtain.active {
+        border-top: 3px solid #888;
+    }
+
+    &-main {
+        background-color: aqua;
+    }
+    &-main {
+
+    }
+    &-title {
+
+    }
+}
+
+@media screen and (min-width: 768px) {
+    .product {
+
+    }
+}
+
+@media screen and (min-width: 900px) {
+    
+}

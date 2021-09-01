@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { WrapperComponent } from './wrapper.component';
 import { HeaderModule } from '../header/header.module';
 import { WrapperRoutingModule } from './wrapper.routing.module';
+import { RouterModule } from '@angular/router';
 
 
 
@@ -13,7 +14,8 @@ import { WrapperRoutingModule } from './wrapper.routing.module';
   imports: [
     CommonModule,
     WrapperRoutingModule,
-    HeaderModule
+    HeaderModule,
+    RouterModule,
   ]
 })
 export class WrapperModule { }

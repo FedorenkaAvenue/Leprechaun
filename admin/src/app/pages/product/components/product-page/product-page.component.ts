@@ -5,7 +5,7 @@ import { ToastrService } from 'ngx-toastr';
 import { EMPTY, Observable, of } from 'rxjs';
 import { switchMap, take } from 'rxjs/operators';
 import { ConfirmationDialogComponent } from 'src/app/shared/components/confirmation-dialog/confirmation-dialog.component';
-import { ProductCardDto } from 'src/app/shared/models/product.model';
+import { ProductCardDto, Products } from 'src/app/shared/models/product.model';
 import { OverlayService } from 'src/app/shared/modules/modal/services/overlay.service';
 import { ProductsService } from '../../sevices/products.service';
 
@@ -16,7 +16,7 @@ import { ProductsService } from '../../sevices/products.service';
 })
 export class ProductPageComponent implements OnInit {
 
-  public products$: Observable<ProductCardDto[]>;
+  public products$: Observable<Products>;
   
   constructor(
     private readonly route: ActivatedRoute,

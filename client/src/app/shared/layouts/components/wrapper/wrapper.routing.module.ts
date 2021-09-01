@@ -5,7 +5,13 @@ import { WrapperComponent } from "./wrapper.component";
 const routes: Routes = [
     {
         path: "",
-        component: WrapperComponent
+        component: WrapperComponent,
+        children: [
+            {
+                path: 'products',
+                loadChildren: () => import('../../../../pages/products/products.module').then( m => m.ProductsModule)
+            }
+        ]
     }
 ]
 @NgModule({

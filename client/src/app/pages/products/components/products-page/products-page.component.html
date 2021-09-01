@@ -1,0 +1,8 @@
+<header>
+    <h1>Постельное белье</h1>
+    <span>{{productsCount}} товаров</span>
+</header>
+<section class="products-page__wrap">
+    <app-products-filter></app-products-filter>
+    <app-products-list [products]="productsList$ | async"></app-products-list>
+</section>
