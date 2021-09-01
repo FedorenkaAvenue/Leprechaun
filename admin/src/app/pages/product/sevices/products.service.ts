@@ -17,7 +17,7 @@ export class ProductsService {
     private readonly categoriesApiService: CategoriesApiService
     ) { }
 
-  public getProductsList(url: string): Observable<Products> {
+  public getProductsList(id: number): Observable<Products> {
     return this.updateProducts$.pipe(
       startWith(null),
       switchMap( res => this.productsApiService.getProductsList(id))
