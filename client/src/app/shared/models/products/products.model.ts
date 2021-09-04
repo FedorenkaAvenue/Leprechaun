@@ -16,7 +16,7 @@ export interface ProductCardI {
 
 
   export interface Products {
-    result: ProductCardDto[],
+    data: ProductCardDto[],
     pagination: PaginationDto
   }
 

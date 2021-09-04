@@ -18,5 +18,4 @@ export class ProductsListComponent implements OnInit {
   public removeProduct(id: number): void {
     this.onRemoveProduct.next(id);
   }
-  
 }

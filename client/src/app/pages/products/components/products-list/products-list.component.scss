@@ -1,5 +1,8 @@
 :host {
+    width: 100%;
+}
+
+.products-list {
     display: flex;
     flex-wrap: wrap;
-    width: 100%;
 }

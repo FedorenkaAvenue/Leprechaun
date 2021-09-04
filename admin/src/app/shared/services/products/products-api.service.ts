@@ -1,5 +1,6 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Params } from '@angular/router';
 import { Observable, of } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import { PRODUCTS_LIST } from 'src/app/mock/product';
@@ -13,8 +14,9 @@ export class ProductsApiService {
     private readonly http: HttpClient
   ) { }
 
-  getProductsList(id: number): Observable<Products> {
-    return this.http.get<Products>(`${this.apiUrl}/product/category/${id}`)
+  getProductsList(id: number, param: Params): Observable<Products> {
+    const params = new HttpParams().set('page', param.page);
+    return this.http.get<Products>(`${this.apiUrl}/product/category/${id}`, {params})
   }
 
   public createProduct(data: any): Observable<any> {
