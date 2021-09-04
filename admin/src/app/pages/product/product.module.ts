@@ -23,6 +23,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { ModalModule } from 'src/app/shared/modules/modal/modal.module';
 import { ConfirmationDialogModule } from 'src/app/shared/components/confirmation-dialog/confirmation-dialog.module';
+import { PaginatorModule } from 'src/app/shared/modules/paginator';
 
 @NgModule({
   declarations: [
@@ -48,6 +49,7 @@ import { ConfirmationDialogModule } from 'src/app/shared/components/confirmation
     MatInputModule,
     ModalModule,
     ConfirmationDialogModule,
+    PaginatorModule,
   ],
   providers: [ProductsService, ProductsApiService, CategoriesApiService],
 })

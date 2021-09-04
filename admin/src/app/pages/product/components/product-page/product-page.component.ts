@@ -1,6 +1,6 @@
 import { OverlayRef } from '@angular/cdk/overlay';
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { EMPTY, Observable, of } from 'rxjs';
 import { switchMap, take } from 'rxjs/operators';
@@ -17,17 +17,19 @@ import { ProductsService } from '../../sevices/products.service';
 export class ProductPageComponent implements OnInit {
 
   public products$: Observable<Products>;
-  
+
   constructor(
     private readonly route: ActivatedRoute,
     private readonly productsService: ProductsService,
     private readonly overlayService: OverlayService,
-    private readonly toastr: ToastrService
+    private readonly toastr: ToastrService,
+    private readonly router: Router,
     ) { }
 
   ngOnInit(): void {
     this.productsService.init();
-   this.getProducts();
+    this.getProducts();
+    this.changeParams();
   }
 
   private getCategoryId(): string | null {
@@ -41,6 +43,13 @@ export class ProductPageComponent implements OnInit {
     }
     const categoryId = Number(id)
     this.products$ = this.productsService.getProductsList(categoryId);
+  }
+
+  public changeParams(): void {
+    this.route.queryParams.subscribe( params => {
+      this.productsService.changeParams(params)
+    }
+    )
   }
 
   public deleteProducts(id: number): void {
@@ -61,5 +70,13 @@ export class ProductPageComponent implements OnInit {
      this.productsService.updateProducts();
     }
     )
+  }
+
+  public changePage(page: number): void {
+    this.navigateToRouteWithParams({page})
+  }
+
+  public navigateToRouteWithParams(params: Params): void {
+    this.router.navigate(['.'], {relativeTo: this.route, queryParams: params, queryParamsHandling: 'merge'});
   }
 }

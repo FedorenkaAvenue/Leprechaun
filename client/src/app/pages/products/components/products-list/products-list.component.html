@@ -1,6 +1,5 @@
-<section>
-  <ng-container *ngFor="let product of products?.result">
+<section class="products-list">
+  <ng-container *ngFor="let product of products?.data">
     <app-product-card [product]="product"></app-product-card>
   </ng-container>
-  <app-paginator></app-paginator>
 </section>
