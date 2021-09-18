@@ -33,8 +33,7 @@ export class FilterGroupBaseEntity implements IFilterGroup {
 export class FilterGroupEntity extends FilterGroupBaseEntity implements IFilterGroup {
     @OneToMany(
         () => FilterEntity,
-        ({ filterGroup }) => filterGroup,
-        { eager: true }
+        ({ filterGroup }) => filterGroup
     )
     @ApiProperty({ type: () => FilterEntity, isArray: true })
     filters: IFilter[];
@@ -67,7 +66,7 @@ export class FilterEntity extends FilterBaseEntity implements IFilter {
     @ManyToOne(
         () => FilterGroupEntity,
         ({ filters }) => filters,
-        { onDelete: 'CASCADE' }
+        { onDelete: 'CASCADE', eager: true }
     )
     @JoinColumn({ name: "filterGroup" })
     @ApiProperty()

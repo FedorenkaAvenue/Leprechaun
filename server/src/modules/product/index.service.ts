@@ -59,7 +59,14 @@ export class ProductService {
 		});
 
 		return new SearchResultDTO(
-			result,
+			// ? переделать map для свойств
+			result.map(prod => ({
+				...prod,
+				properties: prod.properties.map(prop => ({
+					key: prop.filterGroup.title,
+					val: prop.title
+				}))
+			})),
 			{
 				currentPage: page,
 				totalCount: count,

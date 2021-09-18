@@ -4,6 +4,7 @@ import { IsBooleanString, IsNotEmpty, IsNumber, IsNumberString, IsOptional, IsSt
 import { ICategory } from "@modules/category/index.interface";
 import { IProduct } from "./index.interface";
 import { ILabel } from "@modules/label/index.interface";
+import { IFilter } from "@modules/filter/index.interface";
 
 export class CreateProductDTO implements IProduct {
     @IsNotEmpty()
@@ -42,10 +43,15 @@ export class CreateProductDTO implements IProduct {
     @IsNumber({}, { each: true })
     @ApiProperty({ description: 'array of label', isArray: true })
     labels: ILabel[];
+
+    @IsOptional()
+    @IsNumber({}, { each: true })
+    @ApiProperty({ description: 'array of properties', isArray: true })
+    properties: IFilter[];
 }
 
 export class CreateProductDTOConstructor extends CreateProductDTO {
-    constructor({ title, price, isPublic, category, labels }: CreateProductDTO) {
+    constructor({ title, price, isPublic, category, labels, properties }: CreateProductDTO) {
         super();
         this.title = title;
         this.price = price;
@@ -53,6 +59,8 @@ export class CreateProductDTOConstructor extends CreateProductDTO {
         this.category = category;
         // @ts-ignore for table relations
         this.labels = labels ? labels.map(label => ({ id: label })) : [];
+        // @ts-ignore for properties relation
+        this.properties = properties ? properties.map(property => ({ id: property })) : [];
     }
 }
 

@@ -1,8 +1,5 @@
 import { ApiProperty } from "@nestjs/swagger";
-import {
-    AfterRemove, Column, Connection, Entity, EntitySubscriberInterface, EventSubscriber, JoinColumn, JoinTable,
-    ManyToMany, ManyToOne, OneToMany, PrimaryGeneratedColumn, RemoveEvent
-} from "typeorm";
+import { Column, Entity, JoinColumn, JoinTable, ManyToMany, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 
 import { CategoryEntity } from "@modules/category/index.entity";
 import { IProduct } from "./index.interface";
@@ -10,6 +7,8 @@ import { ImageEntity } from "@modules/image/index.entity";
 import { ICategory } from "@modules/category/index.interface";
 import { LabelEntity } from "@modules/label/index.entity";
 import { ILabel } from "@modules/label/index.interface";
+import { IFilter } from "@modules/filter/index.interface";
+import { FilterEntity } from "@modules/filter/index.entity";
 
 export class ProductBaseEntity implements IProduct {
     @PrimaryGeneratedColumn('uuid')
@@ -57,11 +56,6 @@ export class ProductBaseEntity implements IProduct {
         isArray: true
     })
     labels: ILabel[];
-
-    @AfterRemove()
-    removeStaticImage() {
-        console.log('product:', this);
-    }
 }
 
 @Entity('product')
@@ -74,6 +68,28 @@ export class ProductEntity extends ProductBaseEntity implements IProduct {
     @JoinColumn({ name: "category", referencedColumnName: 'id' })
     @ApiProperty({ type: () => CategoryEntity })
     category: ICategory;
+
+    @ManyToMany(
+        () => FilterEntity,
+        { eager: true, cascade: true }
+    )
+    @JoinTable({
+        name: '_products_properties',
+        joinColumn: {
+            name: 'product_id',
+            referencedColumnName: 'id'
+        },
+        inverseJoinColumn: {
+            name: 'filter_id',
+            referencedColumnName: 'id'
+        }
+    })
+    @ApiProperty({
+        type: FilterEntity,
+        required: true,
+        isArray: true
+    })
+    properties: Array<IFilter>;
 }
 
 // @EventSubscriber()
