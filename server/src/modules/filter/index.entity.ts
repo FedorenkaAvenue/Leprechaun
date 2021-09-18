@@ -26,7 +26,7 @@ export class FilterGroupBaseEntity implements IFilterGroup {
 
     @Column({ nullable: true })
     @ApiProperty({ required: false })
-    _comment: string;
+    comment: string;
 }
 
 @Entity('filter_group')
@@ -59,7 +59,7 @@ export class FilterBaseEntity implements IFilter {
 
     @Column({ nullable: true })
     @ApiProperty({ required: false })
-    _comment: string;
+    comment: string;
 }
 
 @Entity('filter')

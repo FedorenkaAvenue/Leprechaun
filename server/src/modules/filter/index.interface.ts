@@ -5,7 +5,7 @@ export interface IFilterGroup {
     altName: string
     isPublic: boolean
     filters?: Array<IFilter> | null
-    _comment?: string
+    comment?: string
 }
 
 export interface IFilter {
@@ -14,7 +14,7 @@ export interface IFilter {
     title: string
     altName: string
     isPublic: boolean
-    _comment?: string
+    comment?: string
 }
 
 export enum FilterOptionType {
