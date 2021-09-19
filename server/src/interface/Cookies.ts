@@ -1,7 +1,8 @@
 export enum CookieSortType {
     POPULAR = 1,
-    PRICE_UP = 2,
-    PRICE_DOWN = 3
+    PRICE_UP,
+    PRICE_DOWN ,
+    NEW
 }
 
 export interface ICookies {

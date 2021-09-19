@@ -1,10 +1,4 @@
-import { IPagination, IPaginationOptions } from "@interface/Pagination";
-
-export interface ICreatePagintaion {
-    totalCount: number
-    currentPage: number
-    itemPortion: number
-}
+import { ICreatePagintaion, IPagination } from "@interface/Pagination";
 
 /**
  * @description pagination data result

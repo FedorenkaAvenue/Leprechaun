@@ -8,3 +8,9 @@ export interface IPagination {
     totalCount: number
     pageCount: number
 }
+
+export interface ICreatePagintaion {
+    totalCount: number
+    currentPage: number
+    itemPortion: number
+}

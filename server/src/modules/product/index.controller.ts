@@ -1,5 +1,6 @@
 import {
-    Body, Controller, Delete, Get, Param, ParseUUIDPipe, Patch, Post,UploadedFiles, UseInterceptors, Query, Req, ValidationPipe
+    Body, Controller, Delete, Get, Param, ParseUUIDPipe, Patch, Post,UploadedFiles,
+    UseInterceptors, Query, Req, ValidationPipe
 } from "@nestjs/common";
 import {
     ApiBadRequestResponse, ApiNotAcceptableResponse, ApiNotFoundResponse, ApiOkResponse,
@@ -15,7 +16,7 @@ import { ProductService } from "./index.service";
 import { AffectedInterceptor, NotFoundInterceptor } from "@interceptors/DB";
 import { PaginationEmptyInterceptor } from "@interceptors/search";
 import { ISearchReqQueries } from "@interface/Queries";
-import { SearchResultDTO } from "@dto/search";
+import { SearchResultDTO } from "@dto/SearchResult";
 
 @Controller('product')
 @ApiTags('Product')

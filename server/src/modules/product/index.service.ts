@@ -8,9 +8,9 @@ import { FOLDER_TYPES, MulterService } from "@services/Multer";
 import { ImageService } from "@modules/image/index.service";
 import { ICookies } from "@interface/Cookies";
 import { ISearchReqQueries } from "@interface/Queries";
-import { SearchResultDTO } from "@dto/search";
-import { SearchQueriesDTO } from "@dto/queries";
-import { CookieDTO } from "@dto/cookies";
+import { SearchResultDTO } from "@dto/SearchResult";
+import { SearchQueriesDTO } from "@dto/SearchQueries";
+import { CookieDTO } from "@dto/Cookies";
 
 @Injectable()
 export class ProductService {
@@ -107,23 +107,6 @@ export class ProductService {
 	// 	);
 
 	// 	return res;
-
-	// 	// async removeStatic(productId: string, fileSrc: string): Promise<boolean> {
-	// 	// 	const product = await this.productRepo.findOne({ id: productId });
-			
-	// 	// 	if (!product) throw new NotFoundException(null, 'product not found');
-	// 	// 	if (!product.images.includes(fileSrc)) throw new NotFoundException(null, 'file not found');
-
-	// 	// 	const updImageArr = product.images.filter(img => img !== fileSrc);
-	// 	// 	this.productRepo.update(
-	// 	// 		{ id: productId },
-	// 	// 		{ images: updImageArr }
-	// 	// 	);
-	// 	// 	this.multerModule.removeFile(fileSrc);
-
-	// 	// 	return true;
-	// 	// }
-	// }
 
 	async deleteProduct(productId: string): Promise<DeleteResult> {
 		const res = await this.productRepo.delete({ id: productId });
