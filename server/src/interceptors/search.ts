@@ -1,7 +1,7 @@
 import { CallHandler, ExecutionContext, Injectable, NestInterceptor, NotAcceptableException } from "@nestjs/common";
 import { Observable, tap } from "rxjs";
 
-import { ISearchResult } from "@interface/search";
+import { ISearchResult } from "@interface/SearchResult";
 
 @Injectable()
 export class PaginationEmptyInterceptor implements NestInterceptor {

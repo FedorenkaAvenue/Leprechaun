@@ -6,8 +6,11 @@ import { CreateProductDTO, CreateProductDTOConstructor } from "./index.dto";
 import { ProductEntity } from "./index.entity";
 import { FOLDER_TYPES, MulterService } from "@services/Multer";
 import { ImageService } from "@modules/image/index.service";
-import { IPaginationOptions } from "@interface/search";
+import { ICookies } from "@interface/Cookies";
+import { ISearchReqQueries } from "@interface/Queries";
 import { SearchResultDTO } from "@dto/search";
+import { SearchQueriesDTO } from "@dto/queries";
+import { CookieDTO } from "@dto/cookies";
 
 @Injectable()
 export class ProductService {
@@ -31,10 +34,16 @@ export class ProductService {
 		return this.productRepo.findOne({ id: productId });
 	}
 
-	async getAllProducts({ page, limit }: IPaginationOptions): Promise<SearchResultDTO> {
+	async getAllProducts(
+		queries: ISearchReqQueries,
+		cookies: ICookies
+	): Promise<SearchResultDTO> {
+		const { page, filters } = new SearchQueriesDTO(queries);
+		const { portion, sort } = new CookieDTO(cookies);
+
 		const [ result, count ] = await this.productRepo.findAndCount({
-			take: limit,
-			skip: (page - 1) * limit,
+			take: portion,
+			skip: (page - 1) * portion,
 			relations: ['category']
 		});
 
@@ -43,34 +52,31 @@ export class ProductService {
 			{
 				currentPage: page,
 				totalCount: count,
-				itemPortion: limit
+				itemPortion: portion
 			}
 		);
 	}
 
 	async getCategoryProducts(
 		categoryUrl: string,
-		{ page, limit }: IPaginationOptions
+		queries: ISearchReqQueries,
+		cookies: ICookies
 	): Promise<SearchResultDTO> {
+		const { page, filters } = new SearchQueriesDTO(queries);
+		const { portion, sort } = new CookieDTO(cookies);
+
 		const [ result, count ] = await this.productRepo.findAndCount({
 			where: { category: categoryUrl },
-			take: limit,
-			skip: (page - 1) * limit
+			take: portion,
+			skip: (page - 1) * portion
 		});
 
 		return new SearchResultDTO(
-			// ? переделать map для свойств
-			result.map(prod => ({
-				...prod,
-				properties: prod.properties.map(prop => ({
-					key: prop.filterGroup.title,
-					val: prop.title
-				}))
-			})),
+			result,
 			{
 				currentPage: page,
 				totalCount: count,
-				itemPortion: limit
+				itemPortion: portion
 			}
 		);
 	}
