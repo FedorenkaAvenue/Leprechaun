@@ -1,6 +1,8 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { Column, Entity, JoinColumn, JoinTable, ManyToMany, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
-
+import {
+    Column, CreateDateColumn, Entity, JoinColumn, JoinTable, ManyToMany, ManyToOne,
+    OneToMany, PrimaryGeneratedColumn
+} from "typeorm";
 import { CategoryEntity } from "@modules/category/index.entity";
 import { IProduct } from "./index.interface";
 import { ImageEntity } from "@modules/image/index.entity";
@@ -14,6 +16,10 @@ export class ProductBaseEntity implements IProduct {
     @PrimaryGeneratedColumn('uuid')
     @ApiProperty()
     id: string;
+
+    @CreateDateColumn()
+    @ApiProperty({ required: false })
+    createdAt: Date;
 
     @Column()
     @ApiProperty({ required: true })
@@ -60,6 +66,14 @@ export class ProductBaseEntity implements IProduct {
         isArray: true
     })
     labels: ILabel[];
+
+    @Column({ default: 0 })
+    @ApiProperty({
+        required: false,
+        default: 0,
+        description: 'product rating by sellering'
+    })
+    rating: number;
 }
 
 @Entity('product')

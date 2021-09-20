@@ -10,7 +10,7 @@ export class CookieDTO implements ICookies {
     portion: number
 
     constructor({ sort, portion }: ICookies) {
-        this.sort = sort || CookieSortType.POPULAR;
-        this.portion = portion || 10;
+        this.sort = Number(sort) || CookieSortType.POPULAR;
+        this.portion = Number(portion) || 10;
     }
 }

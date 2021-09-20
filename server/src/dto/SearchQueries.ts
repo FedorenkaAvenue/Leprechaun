@@ -20,6 +20,8 @@ class PriceSearchQueryDTO implements IPriceSearchQuery {
 /**
  * @description rebuild url queries to object
  * @param page page number
+ * @param price price range filter
+ * @param sell item is selling
  * @param filters selected filters as string
  */
 export class SearchQueriesDTO implements ISearchQeuries {
