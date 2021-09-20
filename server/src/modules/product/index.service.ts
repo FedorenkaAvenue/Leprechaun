@@ -9,15 +9,15 @@ import { ImageService } from "@modules/image/index.service";
 import { ICookies } from "@interface/Cookies";
 import { ISearchReqQueries } from "@interface/Queries";
 import { SearchResultDTO } from "@dto/SearchResult";
-import { SearchQueriesDTO } from "@dto/SearchQueries";
-import { CookieDTO } from "@dto/Cookies";
+import { SearchResultService } from "@services/SearchResult";
 
 @Injectable()
 export class ProductService {
     constructor(
 		@InjectRepository(ProductEntity) private readonly productRepo: Repository<ProductEntity>,
 		private readonly multerModule: MulterService,
-		private readonly imageService: ImageService
+		private readonly imageService: ImageService,
+		private readonly searchResultService: SearchResultService
 	) {}
 
 	async createProduct(productDTO: CreateProductDTO, images: Array<Express.Multer.File>): Promise<void> {
@@ -34,40 +34,13 @@ export class ProductService {
 		return this.productRepo.findOne({ id: productId });
 	}
 
-	async getAllProducts(
-		queries: ISearchReqQueries,
-		cookies: ICookies
-	): Promise<SearchResultDTO> {
-		const { page, price, filters } = new SearchQueriesDTO(queries);
-		const { portion, sort } = new CookieDTO(cookies);
-
+	async getAllProducts(queries: ISearchReqQueries, cookies: ICookies): Promise<SearchResultDTO> {
 		const qb = this.productRepo
 			.createQueryBuilder('product')
 			.leftJoinAndSelect('product.properties', 'properties')
 			.leftJoinAndSelect('properties.filterGroup', 'filterGroup');
 
-		// if (filters) qb.having('product.properties IN (:...filters)', { filters });
-		if (price) qb.andWhere('product.price >= :from AND product.price <= :to', { ...price });
-
-		const [ result, resCount ] = await qb
-			.take(portion)
-			.skip((page - 1) * portion)
-			.getManyAndCount();
-
-		return new SearchResultDTO(
-			result.map(({ properties, ...product }) => ({
-				...product,
-				properties: properties.map(({ filterGroup, ...prop }) => ({
-					prop: filterGroup,
-					val: prop
-				}))
-			})),
-			{
-				currentPage: page,
-				totalCount: resCount,
-				itemPortion: portion
-			}
-		);
+		return this.searchResultService.renderResult(qb, queries, cookies);
 	}
 
 	async getCategoryProducts(
@@ -75,37 +48,13 @@ export class ProductService {
 		queries: ISearchReqQueries,
 		cookies: ICookies
 	): Promise<SearchResultDTO> {
-		const { page, price, filters } = new SearchQueriesDTO(queries);
-		const { portion, sort } = new CookieDTO(cookies);
-
 		const qb = this.productRepo
 			.createQueryBuilder('product')
 			.leftJoinAndSelect('product.properties', 'properties')
 			.leftJoinAndSelect('properties.filterGroup', 'filterGroup')
-			.where('product.category = :category', { category: categoryUrl })
+			.where('product.category = :category', { category: categoryUrl });
 
-		// if (filters) qb.andWhere('properties.id IN (:...filters)', { filters });
-		if (price) qb.andWhere('product.price >= :from AND product.price <= :to', { ...price });
-
-		const [ result, resCount ] = await qb
-			.take(portion)
-			.skip((page - 1) * portion)
-			.getManyAndCount();
-
-		return new SearchResultDTO(
-			result.map(({ properties, ...product }) => ({
-				...product,
-				properties: properties.map(({ filterGroup, ...prop }) => ({
-					prop: filterGroup,
-					val: prop
-				}))
-			})),
-			{
-				currentPage: page,
-				totalCount: resCount,
-				itemPortion: portion
-			}
-		);
+		return this.searchResultService.renderResult(qb, queries, cookies);
 	}
 
 	// async updateProduct(

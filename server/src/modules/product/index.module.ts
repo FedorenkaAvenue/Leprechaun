@@ -7,6 +7,7 @@ import { ProductEntity } from './index.entity';
 import { ProductService } from './index.service';
 import { MulterService } from '@services/Multer';
 import { ImageModule } from '@modules/image/index.module';
+import { SearchResultService } from '@services/SearchResult';
 
 @Module({
 	imports: [
@@ -15,6 +16,6 @@ import { ImageModule } from '@modules/image/index.module';
 		ImageModule
 	],
 	controllers: [ ProductController ],
-	providers: [ ProductService, MulterService ]
+	providers: [ ProductService, MulterService, SearchResultService ]
 })
 export class ProductModule {}
