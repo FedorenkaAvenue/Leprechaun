@@ -23,6 +23,10 @@ export class ProductBaseEntity implements IProduct {
     @ApiProperty({ required: false })
     isPublic: boolean;
 
+    @Column({ default: true })
+    @ApiProperty({ required: false })
+    isAvailable: boolean;
+
     @Column()
     @ApiProperty()
     price: number;

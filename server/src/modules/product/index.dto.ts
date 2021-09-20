@@ -22,6 +22,11 @@ export class CreateProductDTO implements IProduct {
     @ApiProperty({ required: false })
     isPublic: boolean;
 
+    @IsOptional()
+    @IsBooleanString()
+    @ApiProperty({ required: false })
+    isAvailable: boolean;
+
     @IsNotEmpty()
     @IsNumberString()
     @ApiProperty({

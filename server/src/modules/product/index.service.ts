@@ -38,7 +38,7 @@ export class ProductService {
 		queries: ISearchReqQueries,
 		cookies: ICookies
 	): Promise<SearchResultDTO> {
-		const { page, filters } = new SearchQueriesDTO(queries);
+		const { page, price, filters } = new SearchQueriesDTO(queries);
 		const { portion, sort } = new CookieDTO(cookies);
 
 		const qb = this.productRepo
@@ -47,6 +47,7 @@ export class ProductService {
 			.leftJoinAndSelect('properties.filterGroup', 'filterGroup');
 
 		// if (filters) qb.having('product.properties IN (:...filters)', { filters });
+		if (price) qb.andWhere('product.price >= :from AND product.price <= :to', { ...price });
 
 		const [ result, resCount ] = await qb
 			.take(portion)
@@ -74,7 +75,7 @@ export class ProductService {
 		queries: ISearchReqQueries,
 		cookies: ICookies
 	): Promise<SearchResultDTO> {
-		const { page, filters } = new SearchQueriesDTO(queries);
+		const { page, price, filters } = new SearchQueriesDTO(queries);
 		const { portion, sort } = new CookieDTO(cookies);
 
 		const qb = this.productRepo
@@ -84,6 +85,7 @@ export class ProductService {
 			.where('product.category = :category', { category: categoryUrl })
 
 		// if (filters) qb.andWhere('properties.id IN (:...filters)', { filters });
+		if (price) qb.andWhere('product.price >= :from AND product.price <= :to', { ...price });
 
 		const [ result, resCount ] = await qb
 			.take(portion)

@@ -9,6 +9,7 @@ export interface IProduct {
     properties?: Array<IFilter>
     title: string
     isPublic: boolean
+    isAvailable: boolean
     price: number
     images: Array<IImage> | Array<string>
     labels: Array<ILabel>
