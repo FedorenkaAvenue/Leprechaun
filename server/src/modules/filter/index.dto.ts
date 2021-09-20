@@ -20,23 +20,17 @@ export class CreateFilterGroupDTO implements IFilterGroup {
     altName: string;
 
     @IsOptional()
-    @IsBoolean()
-    @ApiProperty({ required: false })
-    isPublic: boolean;
-
-    @IsOptional()
     @IsString()
     @ApiProperty({ required: false })
     comment: string;
 }
 
 export class CreateFilterGroupDTOConstructor extends CreateFilterGroupDTO {
-    constructor({ title, type, altName, isPublic, comment }: CreateFilterGroupDTO) {
+    constructor({ title, type, altName, comment }: CreateFilterGroupDTO) {
         super();
         this.title = title;
         this.type = type;
         this.altName = altName;
-        this.isPublic = isPublic;
         this.comment = comment || null;
     }
 }
@@ -61,23 +55,17 @@ export class CreateFilterDTO implements IFilter {
     altName: string;
 
     @IsOptional()
-    @IsBoolean()
-    @ApiProperty({ required: false })
-    isPublic: boolean;
-
-    @IsOptional()
     @IsString()
     @ApiProperty({ required: false })
     comment: string;
 }
 
 export class CreateFilterDTOConstructor extends CreateFilterDTO {
-    constructor({ title, altName, isPublic, comment, filterGroup }: CreateFilterDTO) {
+    constructor({ title, altName, comment, filterGroup }: CreateFilterDTO) {
         super();
         this.filterGroup = filterGroup;
         this.title = title;
         this.altName = altName;
-        this.isPublic = isPublic;
         this.comment = comment || null;
     }
 }

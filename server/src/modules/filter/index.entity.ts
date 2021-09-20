@@ -20,10 +20,6 @@ export class FilterGroupBaseEntity implements IFilterGroup {
     @ApiProperty()
     altName: string;
 
-    @Column({ default: true })
-    @ApiProperty({ required: false })
-    isPublic: boolean;
-
     @Column({ nullable: true })
     @ApiProperty({ required: false })
     comment: string;
@@ -51,10 +47,6 @@ export class FilterBaseEntity implements IFilter {
     @Column({ unique: true })
     @ApiProperty()
     altName: string;
-
-    @Column({ default: true })
-    @ApiProperty({ required: false })
-    isPublic: boolean;
 
     @Column({ nullable: true })
     @ApiProperty({ required: false })

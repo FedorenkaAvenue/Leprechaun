@@ -41,17 +41,29 @@ export class ProductService {
 		const { page, filters } = new SearchQueriesDTO(queries);
 		const { portion, sort } = new CookieDTO(cookies);
 
-		const [ result, count ] = await this.productRepo.findAndCount({
-			take: portion,
-			skip: (page - 1) * portion,
-			relations: ['category']
-		});
+		const qb = this.productRepo
+			.createQueryBuilder('product')
+			.leftJoinAndSelect('product.properties', 'properties')
+			.leftJoinAndSelect('properties.filterGroup', 'filterGroup');
+
+		// if (filters) qb.having('product.properties IN (:...filters)', { filters });
+
+		const [ result, resCount ] = await qb
+			.take(portion)
+			.skip((page - 1) * portion)
+			.getManyAndCount();
 
 		return new SearchResultDTO(
-			result,
+			result.map(({ properties, ...product }) => ({
+				...product,
+				properties: properties.map(({ filterGroup, ...prop }) => ({
+					prop: filterGroup,
+					val: prop
+				}))
+			})),
 			{
 				currentPage: page,
-				totalCount: count,
+				totalCount: resCount,
 				itemPortion: portion
 			}
 		);
@@ -65,17 +77,30 @@ export class ProductService {
 		const { page, filters } = new SearchQueriesDTO(queries);
 		const { portion, sort } = new CookieDTO(cookies);
 
-		const [ result, count ] = await this.productRepo.findAndCount({
-			where: { category: categoryUrl },
-			take: portion,
-			skip: (page - 1) * portion
-		});
+		const qb = this.productRepo
+			.createQueryBuilder('product')
+			.leftJoinAndSelect('product.properties', 'properties')
+			.leftJoinAndSelect('properties.filterGroup', 'filterGroup')
+			.where('product.category = :category', { category: categoryUrl })
+
+		// if (filters) qb.andWhere('properties.id IN (:...filters)', { filters });
+
+		const [ result, resCount ] = await qb
+			.take(portion)
+			.skip((page - 1) * portion)
+			.getManyAndCount();
 
 		return new SearchResultDTO(
-			result,
+			result.map(({ properties, ...product }) => ({
+				...product,
+				properties: properties.map(({ filterGroup, ...prop }) => ({
+					prop: filterGroup,
+					val: prop
+				}))
+			})),
 			{
 				currentPage: page,
-				totalCount: count,
+				totalCount: resCount,
 				itemPortion: portion
 			}
 		);
