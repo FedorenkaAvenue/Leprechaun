@@ -3,7 +3,6 @@ export interface IFilterGroup {
     title: string
     type: FilterOptionType
     altName: string
-    isPublic: boolean
     filters?: Array<IFilter> | null
     comment?: string
 }
@@ -13,7 +12,6 @@ export interface IFilter {
     filterGroup?: IFilterGroup
     title: string
     altName: string
-    isPublic: boolean
     comment?: string
 }
 

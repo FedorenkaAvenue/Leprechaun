@@ -1,20 +1,25 @@
 import { ApiProperty } from "@nestjs/swagger";
 import {
-    AfterRemove, Column, Connection, Entity, EntitySubscriberInterface, EventSubscriber, JoinColumn, JoinTable,
-    ManyToMany, ManyToOne, OneToMany, PrimaryGeneratedColumn, RemoveEvent
+    Column, CreateDateColumn, Entity, JoinColumn, JoinTable, ManyToMany, ManyToOne,
+    OneToMany, PrimaryGeneratedColumn
 } from "typeorm";
-
 import { CategoryEntity } from "@modules/category/index.entity";
 import { IProduct } from "./index.interface";
 import { ImageEntity } from "@modules/image/index.entity";
 import { ICategory } from "@modules/category/index.interface";
 import { LabelEntity } from "@modules/label/index.entity";
 import { ILabel } from "@modules/label/index.interface";
+import { IFilter } from "@modules/filter/index.interface";
+import { FilterEntity } from "@modules/filter/index.entity";
 
 export class ProductBaseEntity implements IProduct {
     @PrimaryGeneratedColumn('uuid')
     @ApiProperty()
     id: string;
+
+    @CreateDateColumn()
+    @ApiProperty({ required: false })
+    createdAt: Date;
 
     @Column()
     @ApiProperty({ required: true })
@@ -23,6 +28,10 @@ export class ProductBaseEntity implements IProduct {
     @Column({ default: true })
     @ApiProperty({ required: false })
     isPublic: boolean;
+
+    @Column({ default: true })
+    @ApiProperty({ required: false })
+    isAvailable: boolean;
 
     @Column()
     @ApiProperty()
@@ -58,10 +67,13 @@ export class ProductBaseEntity implements IProduct {
     })
     labels: ILabel[];
 
-    @AfterRemove()
-    removeStaticImage() {
-        console.log('product:', this);
-    }
+    @Column({ default: 0 })
+    @ApiProperty({
+        required: false,
+        default: 0,
+        description: 'product rating by sellering'
+    })
+    rating: number;
 }
 
 @Entity('product')
@@ -74,6 +86,28 @@ export class ProductEntity extends ProductBaseEntity implements IProduct {
     @JoinColumn({ name: "category", referencedColumnName: 'id' })
     @ApiProperty({ type: () => CategoryEntity })
     category: ICategory;
+
+    @ManyToMany(
+        () => FilterEntity,
+        { eager: true, cascade: true }
+    )
+    @JoinTable({
+        name: '_products_properties',
+        joinColumn: {
+            name: 'product_id',
+            referencedColumnName: 'id'
+        },
+        inverseJoinColumn: {
+            name: 'filter_id',
+            referencedColumnName: 'id'
+        }
+    })
+    @ApiProperty({
+        type: FilterEntity,
+        required: true,
+        isArray: true
+    })
+    properties: Array<IFilter>;
 }
 
 // @EventSubscriber()

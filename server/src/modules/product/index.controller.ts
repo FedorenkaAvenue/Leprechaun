@@ -1,5 +1,6 @@
 import {
-    Body, Controller, Delete, Get, Param, ParseUUIDPipe, Patch, Post,UploadedFiles, UseInterceptors, Query, Req, ValidationPipe
+    Body, Controller, Delete, Get, Param, ParseUUIDPipe, Patch, Post,UploadedFiles,
+    UseInterceptors, Query, Req, ValidationPipe
 } from "@nestjs/common";
 import {
     ApiBadRequestResponse, ApiNotAcceptableResponse, ApiNotFoundResponse, ApiOkResponse,
@@ -13,8 +14,9 @@ import { CreateProductDTO } from "./index.dto";
 import { ProductBaseEntity, ProductEntity } from "./index.entity";
 import { ProductService } from "./index.service";
 import { AffectedInterceptor, NotFoundInterceptor } from "@interceptors/DB";
-import { PaginationOptionsDTO, SearchResultDTO } from "@dto/search";
 import { PaginationEmptyInterceptor } from "@interceptors/search";
+import { ISearchReqQueries } from "@interface/Queries";
+import { SearchResultDTO } from "@dto/SearchResult";
 
 @Controller('product')
 @ApiTags('Product')
@@ -39,10 +41,10 @@ export class ProductController {
     @ApiOkResponse({ type: ProductEntity, isArray: true })
     @ApiNotAcceptableResponse({ description: 'pagination page is empty' })
     getAllProducts(
-        @Req() { cookies: { pageLimit } }: Request,
-        @Query('page') page: number
+        @Query() queries: ISearchReqQueries,
+        @Req() { cookies }: Request
     ): Promise<SearchResultDTO> {
-        return this.productService.getAllProducts(new PaginationOptionsDTO(page, pageLimit));
+        return this.productService.getAllProducts(queries, cookies);
     }
 
     @Get('category/:categoryId')
@@ -53,14 +55,11 @@ export class ProductController {
 	@ApiNotFoundResponse({ description: 'category not found' })
 	@ApiNotAcceptableResponse({ description: 'pagination page is empty' })
 	getCategoryProducts(
-		@Req() { cookies: { pageLimit } }: Request,
-		@Query('page') page: number,
+		@Query() queries: ISearchReqQueries,
+        @Req() { cookies }: Request,
 		@Param('categoryId') categoryUrl: string
 	): Promise<SearchResultDTO> {
-		return this.productService.getCategoryProducts(
-			categoryUrl,
-			new PaginationOptionsDTO(page, pageLimit)
-		);
+		return this.productService.getCategoryProducts(categoryUrl, queries, cookies);
 	}
 
     @Get(':productId')

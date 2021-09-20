@@ -18,7 +18,10 @@ export class FilterGroupService {
 	}
 
 	getGroup(groupId: number): Promise<FilterGroupEntity> {
-		return this.filterGroupRepo.findOne({ id: groupId });
+		return this.filterGroupRepo.findOne({
+			where: { id: groupId },
+			relations: [ 'filters' ]
+		});
 	}
 
 	getAllGroups(): Promise<FilterGroupEntity[]> {

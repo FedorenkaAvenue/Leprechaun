@@ -1,13 +1,16 @@
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
-import { DeleteResult, Repository } from "typeorm";
+import { DeleteResult, Repository, SelectQueryBuilder } from "typeorm";
 
 import { CreateProductDTO, CreateProductDTOConstructor } from "./index.dto";
 import { ProductEntity } from "./index.entity";
 import { FOLDER_TYPES, MulterService } from "@services/Multer";
 import { ImageService } from "@modules/image/index.service";
-import { IPaginationOptions } from "@interface/search";
-import { SearchResultDTO } from "@dto/search";
+import { CookieSortType, ICookies } from "@interface/Cookies";
+import { ISearchReqQueries } from "@interface/Queries";
+import { SearchResultDTO } from "@dto/SearchResult";
+import { SearchQueriesDTO } from "@dto/SearchQueries";
+import { CookieDTO } from "@dto/Cookies";
 
 @Injectable()
 export class ProductService {
@@ -31,41 +34,30 @@ export class ProductService {
 		return this.productRepo.findOne({ id: productId });
 	}
 
-	async getAllProducts({ page, limit }: IPaginationOptions): Promise<SearchResultDTO> {
-		const [ result, count ] = await this.productRepo.findAndCount({
-			take: limit,
-			skip: (page - 1) * limit,
-			relations: ['category']
-		});
+	async getAllProducts(
+		queries: ISearchReqQueries,
+		cookies: ICookies
+	): Promise<SearchResultDTO> {
+		const qb = this.productRepo
+			.createQueryBuilder('product')
+			.leftJoinAndSelect('product.properties', 'properties')
+			.leftJoinAndSelect('properties.filterGroup', 'filterGroup');
 
-		return new SearchResultDTO(
-			result,
-			{
-				currentPage: page,
-				totalCount: count,
-				itemPortion: limit
-			}
-		);
+		return this.renderResult(qb, queries, cookies);
 	}
 
 	async getCategoryProducts(
 		categoryUrl: string,
-		{ page, limit }: IPaginationOptions
+		queries: ISearchReqQueries,
+		cookies: ICookies
 	): Promise<SearchResultDTO> {
-		const [ result, count ] = await this.productRepo.findAndCount({
-			where: { category: categoryUrl },
-			take: limit,
-			skip: (page - 1) * limit
-		});
+		const qb = this.productRepo
+			.createQueryBuilder('product')
+			.leftJoinAndSelect('product.properties', 'properties')
+			.leftJoinAndSelect('properties.filterGroup', 'filterGroup')
+			.where('product.category = :category', { category: categoryUrl });
 
-		return new SearchResultDTO(
-			result,
-			{
-				currentPage: page,
-				totalCount: count,
-				itemPortion: limit
-			}
-		);
+		return this.renderResult(qb, queries, cookies);
 	}
 
 	// async updateProduct(
@@ -95,27 +87,71 @@ export class ProductService {
 
 	// 	return res;
 
-	// 	// async removeStatic(productId: string, fileSrc: string): Promise<boolean> {
-	// 	// 	const product = await this.productRepo.findOne({ id: productId });
-			
-	// 	// 	if (!product) throw new NotFoundException(null, 'product not found');
-	// 	// 	if (!product.images.includes(fileSrc)) throw new NotFoundException(null, 'file not found');
-
-	// 	// 	const updImageArr = product.images.filter(img => img !== fileSrc);
-	// 	// 	this.productRepo.update(
-	// 	// 		{ id: productId },
-	// 	// 		{ images: updImageArr }
-	// 	// 	);
-	// 	// 	this.multerModule.removeFile(fileSrc);
-
-	// 	// 	return true;
-	// 	// }
-	// }
-
 	async deleteProduct(productId: string): Promise<DeleteResult> {
 		const res = await this.productRepo.delete({ id: productId });
 		this.multerModule.removeFolder(FOLDER_TYPES.PRODUCT, productId);
 
 		return res;
 	}
+
+	/**
+	 * @description render product search result with filters, sorting and pagination
+	 * @param qb current query builder to continue building query
+	 * @param queries
+	 * @param cookies
+	 * @returns completed search result with pagination
+	 */
+	async renderResult(
+        qb: SelectQueryBuilder<ProductEntity>,
+        queries: ISearchReqQueries,
+        cookies: ICookies
+    ): Promise<SearchResultDTO> {
+        const { page, price, sell, filters } = new SearchQueriesDTO(queries);
+		const { portion, sort } = new CookieDTO(cookies);
+
+        // if (filters) qb.having('product.properties IN (:...filters)', { filters });
+		if (price) qb.andWhere('product.price >= :from AND product.price <= :to', { ...price });
+
+		if (typeof sell === 'number') qb.andWhere('product.isAvailable = :sell', { sell });
+		
+		switch (sort) {
+			case CookieSortType.PRICE_UP: {
+				qb.orderBy('product.price', 'ASC');
+				break;
+			}
+
+			case CookieSortType.PRICE_DOWN: {
+				qb.orderBy('product.price', 'DESC');
+				break;
+			}
+
+			case CookieSortType.NEW: {
+				qb.orderBy('product.createdAt', 'DESC');
+				break;
+			}
+
+			default: // CookieSortType.POPULAR (cookie === 1)
+				qb.orderBy('product.rating', 'DESC');
+		}
+
+		const [ result, resCount ] = await qb
+			.take(portion)
+			.skip((page - 1) * portion)
+			.getManyAndCount();
+
+		return new SearchResultDTO(
+			result.map(({ properties, ...product }) => ({
+				...product,
+				properties: properties.map(({ filterGroup, ...prop }) => ({
+					prop: filterGroup,
+					val: prop
+				}))
+			})),
+			{
+				currentPage: page,
+				totalCount: resCount,
+				itemPortion: portion
+			}
+		);
+    }
 }
