@@ -22,11 +22,12 @@ export class SearchResultService {
         queries: ISearchReqQueries,
         cookies: ICookies
     ): Promise<SearchResultDTO> {
-        const { page, price, filters } = new SearchQueriesDTO(queries);
+        const { page, price, sell, filters } = new SearchQueriesDTO(queries);
 		const { portion, sort } = new CookieDTO(cookies);
 
         // if (filters) qb.having('product.properties IN (:...filters)', { filters });
 		if (price) qb.andWhere('product.price >= :from AND product.price <= :to', { ...price });
+		if (typeof sell === 'number') qb.andWhere('product.isAvailable = :sell', { sell });
 
 		const [ result, resCount ] = await qb
 			.take(portion)

@@ -26,10 +26,14 @@ export class SearchQueriesDTO implements ISearchQeuries {
     page: number
     price: IPriceSearchQuery
     filters: Array<number> | null
+    sell: number
 
-    constructor({ page, price, filters }: ISearchReqQueries) {
+    constructor({ page, price, sell, filters }: ISearchReqQueries) {
         this.page = Number(page) || 1;
         this.price = price ? new PriceSearchQueryDTO(price) : null;
+        this.sell = typeof sell === 'string'
+            ? isNaN(+sell) ? null: Number(sell)
+            : null;
         this.filters = filters ? filters.split(';').map(filter => Number(filter)) : null;
     }
 }
