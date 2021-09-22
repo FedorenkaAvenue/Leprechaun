@@ -109,11 +109,18 @@ export class ProductService {
         const { page, price, sell, filters } = new SearchQueriesDTO(queries);
 		const { portion, sort } = new CookieDTO(cookies);
 
-        // if (filters) qb.having('product.properties IN (:...filters)', { filters });
-		if (price) qb.andWhere('product.price >= :from AND product.price <= :to', { ...price });
+		// filtering by filters
+        if (filters) {
+			filters.forEach(filterId => {
+				qb.andWhere('properties.id = :filterId', { filterId });
+			});
+		}
 
-		if (typeof sell === 'number') qb.andWhere('product.isAvailable = :sell', { sell });
+		if (price) qb.andWhere('product.price >= :from AND product.price <= :to', { ...price }); // filtering by price
+
+		if (typeof sell === 'number') qb.andWhere('product.isAvailable = :sell', { sell }); // filtering by sell status
 		
+		// sorting
 		switch (sort) {
 			case CookieSortType.PRICE_UP: {
 				qb.orderBy('product.price', 'ASC');
