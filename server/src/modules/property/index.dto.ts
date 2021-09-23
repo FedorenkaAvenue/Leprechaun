@@ -1,9 +1,9 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { IsBoolean, IsEnum, IsNotEmpty, IsNumber, IsOptional, IsString } from "class-validator";
+import { IsEnum, IsNotEmpty, IsNumber, IsOptional, IsString } from "class-validator";
 
-import { FilterOptionType, IFilter, IFilterGroup } from "./index.interface";
+import { FilterOptionType, IProperty, IPropertyGroup } from "./index.interface";
 
-export class CreateFilterGroupDTO implements IFilterGroup {
+export class CreatePropertyGroupDTO implements IPropertyGroup {
     @IsNotEmpty()
     @IsString()
     @ApiProperty()
@@ -25,8 +25,8 @@ export class CreateFilterGroupDTO implements IFilterGroup {
     comment: string;
 }
 
-export class CreateFilterGroupDTOConstructor extends CreateFilterGroupDTO {
-    constructor({ title, type, altName, comment }: CreateFilterGroupDTO) {
+export class CreatePropertyGroupDTOConstructor extends CreatePropertyGroupDTO {
+    constructor({ title, type, altName, comment }: CreatePropertyGroupDTO) {
         super();
         this.title = title;
         this.type = type;
@@ -35,14 +35,14 @@ export class CreateFilterGroupDTOConstructor extends CreateFilterGroupDTO {
     }
 }
 
-export class CreateFilterDTO implements IFilter {
+export class CreatePropertyDTO implements IProperty {
     @IsNotEmpty()
     @IsNumber()
     @ApiProperty({
         type: 'number',
         description: 'filter group ID'
     })
-    filterGroup: IFilterGroup;
+    filterGroup: IPropertyGroup;
 
     @IsNotEmpty()
     @IsString()
@@ -60,8 +60,8 @@ export class CreateFilterDTO implements IFilter {
     comment: string;
 }
 
-export class CreateFilterDTOConstructor extends CreateFilterDTO {
-    constructor({ title, altName, comment, filterGroup }: CreateFilterDTO) {
+export class CreateFilterDTOConstructor extends CreatePropertyDTO {
+    constructor({ title, altName, comment, filterGroup }: CreatePropertyDTO) {
         super();
         this.filterGroup = filterGroup;
         this.title = title;

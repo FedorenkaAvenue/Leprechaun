@@ -3,9 +3,9 @@ import { ApiProperty } from "@nestjs/swagger";
 
 import { ProductEntity } from "@modules/product/index.entity";
 import { ICategory } from "./index.interface";
-import { FilterGroupBaseEntity, FilterGroupEntity } from "@modules/filter/index.entity";
+import { ProductGroupBaseEntity, PropertyGroupEntity } from "@modules/property/index.entity";
 import { IProduct } from "@modules/product/index.interface";
-import { IFilterGroup } from "@modules/filter/index.interface";
+import { IPropertyGroup } from "@modules/property/index.interface";
 
 export class CategoryBaseEntity implements ICategory {
     @PrimaryGeneratedColumn('rowid')
@@ -29,7 +29,7 @@ export class CategoryBaseEntity implements ICategory {
     icon: string;
 
     @ManyToMany(
-        () => FilterGroupEntity,
+        () => PropertyGroupEntity,
         { cascade: true }
     )
     @JoinTable({
@@ -44,11 +44,11 @@ export class CategoryBaseEntity implements ICategory {
         }
     })
     @ApiProperty({
-        type: FilterGroupBaseEntity,
+        type: ProductGroupBaseEntity,
         isArray: true,
         required: false
     })
-    filterGroups: IFilterGroup[]
+    filterGroups: IPropertyGroup[]
 }
 
 @Entity('category')

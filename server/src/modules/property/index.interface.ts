@@ -1,15 +1,15 @@
-export interface IFilterGroup {
+export interface IPropertyGroup {
     id?: number
     title: string
     type: FilterOptionType
     altName: string
-    filters?: Array<IFilter> | null
+    filters?: Array<IProperty> | null
     comment?: string
 }
 
-export interface IFilter {
+export interface IProperty {
     id?: number
-    filterGroup?: IFilterGroup
+    filterGroup?: IPropertyGroup
     title: string
     altName: string
     comment?: string

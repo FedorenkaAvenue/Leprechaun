@@ -4,7 +4,7 @@ import { IsBooleanString, IsNotEmpty, IsNumber, IsNumberString, IsOptional, IsSt
 import { ICategory } from "@modules/category/index.interface";
 import { IProduct } from "./index.interface";
 import { ILabel } from "@modules/label/index.interface";
-import { IFilter } from "@modules/filter/index.interface";
+import { IProperty } from "@modules/property/index.interface";
 
 export class CreateProductDTO implements IProduct {
     @IsNotEmpty()
@@ -52,7 +52,7 @@ export class CreateProductDTO implements IProduct {
     @IsOptional()
     @IsNumber({}, { each: true })
     @ApiProperty({ description: 'array of properties', isArray: true })
-    properties: IFilter[];
+    properties: IProperty[];
 }
 
 export class CreateProductDTOConstructor extends CreateProductDTO {

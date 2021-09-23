@@ -1,9 +1,9 @@
 import { ApiProperty } from "@nestjs/swagger";
 import { Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 
-import { FilterOptionType, IFilter, IFilterGroup } from "./index.interface";
+import { FilterOptionType, IProperty, IPropertyGroup } from "./index.interface";
 
-export class FilterGroupBaseEntity implements IFilterGroup {
+export class ProductGroupBaseEntity implements IPropertyGroup {
     @PrimaryGeneratedColumn('rowid')
     @ApiProperty()
     id: number;
@@ -26,16 +26,16 @@ export class FilterGroupBaseEntity implements IFilterGroup {
 }
 
 @Entity('filter_group')
-export class FilterGroupEntity extends FilterGroupBaseEntity implements IFilterGroup {
+export class PropertyGroupEntity extends ProductGroupBaseEntity implements IPropertyGroup {
     @OneToMany(
-        () => FilterEntity,
+        () => PropertyEntity,
         ({ filterGroup }) => filterGroup
     )
-    @ApiProperty({ type: () => FilterEntity, isArray: true })
-    filters: IFilter[];
+    @ApiProperty({ type: () => PropertyEntity, isArray: true })
+    filters: IProperty[];
 }
 
-export class FilterBaseEntity implements IFilter {
+export class PropertyBaseEntity implements IProperty {
     @PrimaryGeneratedColumn('rowid')
     @ApiProperty()
     id: number;
@@ -54,13 +54,13 @@ export class FilterBaseEntity implements IFilter {
 }
 
 @Entity('filter')
-export class FilterEntity extends FilterBaseEntity implements IFilter {
+export class PropertyEntity extends PropertyBaseEntity implements IProperty {
     @ManyToOne(
-        () => FilterGroupEntity,
+        () => PropertyGroupEntity,
         ({ filters }) => filters,
         { onDelete: 'CASCADE', eager: true }
     )
     @JoinColumn({ name: "filterGroup" })
     @ApiProperty()
-    filterGroup: IFilterGroup;
+    filterGroup: IPropertyGroup;
 }

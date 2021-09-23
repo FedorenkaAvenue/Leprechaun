@@ -1,7 +1,7 @@
 import { ApiProperty } from "@nestjs/swagger";
 import { IsBooleanString, IsNotEmpty, IsNumber, IsOptional, IsString } from "class-validator";
 
-import { IFilterGroup } from "@modules/filter/index.interface";
+import { IPropertyGroup } from "@modules/property/index.interface";
 import { ICategory } from "./index.interface";
 
 export class CreateCategoryDTO implements ICategory {
@@ -36,7 +36,7 @@ export class CreateCategoryDTO implements ICategory {
         description: 'array of the filter groups ID',
         isArray: true
     })
-    filterGroups: IFilterGroup[];
+    filterGroups: IPropertyGroup[];
 }
 
 export class CreateCategoryDTOСonstructor extends CreateCategoryDTO {

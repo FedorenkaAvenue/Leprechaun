@@ -1,5 +1,5 @@
 import { IProduct } from "@modules/product/index.interface";
-import { IFilterGroup } from "@modules/filter/index.interface";
+import { IPropertyGroup } from "@modules/property/index.interface";
 
 export interface ICategory<TIcon = string> {
     id?: number
@@ -8,5 +8,5 @@ export interface ICategory<TIcon = string> {
     isPublic: boolean
     icon: TIcon | null
     products?: Array<IProduct> | null
-    filterGroups?: Array<IFilterGroup> | null
+    filterGroups?: Array<IPropertyGroup> | null
 }

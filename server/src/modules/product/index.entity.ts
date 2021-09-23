@@ -9,8 +9,8 @@ import { ImageEntity } from "@modules/image/index.entity";
 import { ICategory } from "@modules/category/index.interface";
 import { LabelEntity } from "@modules/label/index.entity";
 import { ILabel } from "@modules/label/index.interface";
-import { IFilter } from "@modules/filter/index.interface";
-import { FilterEntity } from "@modules/filter/index.entity";
+import { IProperty } from "@modules/property/index.interface";
+import { PropertyEntity } from "@modules/property/index.entity";
 
 export class ProductBaseEntity implements IProduct {
     @PrimaryGeneratedColumn('uuid')
@@ -88,7 +88,7 @@ export class ProductEntity extends ProductBaseEntity implements IProduct {
     category: ICategory;
 
     @ManyToMany(
-        () => FilterEntity,
+        () => PropertyEntity,
         ({ id }) => id,
         { eager: true, cascade: true }
     )
@@ -98,11 +98,11 @@ export class ProductEntity extends ProductBaseEntity implements IProduct {
         inverseJoinColumn: { name: 'filter_id' }
     })
     @ApiProperty({
-        type: FilterEntity,
+        type: PropertyEntity,
         required: true,
         isArray: true
     })
-    properties: Array<IFilter>;
+    properties: Array<IProperty>;
 }
 
 // @EventSubscriber()
