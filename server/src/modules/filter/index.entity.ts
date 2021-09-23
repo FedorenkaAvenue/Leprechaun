@@ -20,7 +20,7 @@ export class FilterGroupBaseEntity implements IFilterGroup {
     @ApiProperty()
     altName: string;
 
-    @Column({ nullable: true })
+    @Column({ nullable: true, select: false })
     @ApiProperty({ required: false })
     comment: string;
 }
@@ -48,7 +48,7 @@ export class FilterBaseEntity implements IFilter {
     @ApiProperty()
     altName: string;
 
-    @Column({ nullable: true })
+    @Column({ nullable: true, select: false })
     @ApiProperty({ required: false })
     comment: string;
 }

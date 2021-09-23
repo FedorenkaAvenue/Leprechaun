@@ -89,18 +89,13 @@ export class ProductEntity extends ProductBaseEntity implements IProduct {
 
     @ManyToMany(
         () => FilterEntity,
+        ({ id }) => id,
         { eager: true, cascade: true }
     )
     @JoinTable({
         name: '_products_properties',
-        joinColumn: {
-            name: 'product_id',
-            referencedColumnName: 'id'
-        },
-        inverseJoinColumn: {
-            name: 'filter_id',
-            referencedColumnName: 'id'
-        }
+        joinColumn: { name: 'product_id' },
+        inverseJoinColumn: { name: 'filter_id' }
     })
     @ApiProperty({
         type: FilterEntity,

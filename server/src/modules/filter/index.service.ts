@@ -25,7 +25,9 @@ export class FilterGroupService {
 	}
 
 	getAllGroups(): Promise<FilterGroupEntity[]> {
-		return this.filterGroupRepo.find();
+		return this.filterGroupRepo.find({
+			relations: [ 'filters' ]
+		});
 	}
 
 	deleteGroup(groupId: number): Promise<DeleteResult> {

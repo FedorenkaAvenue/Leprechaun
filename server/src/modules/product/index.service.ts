@@ -112,7 +112,7 @@ export class ProductService {
 		// filtering by filters
         if (filters) {
 			filters.forEach(filterId => {
-				qb.andWhere('properties.id = :filterId', { filterId });
+				qb.andWhere(':filterId = ANY(product.properties)', { filterId });
 			});
 		}
 
