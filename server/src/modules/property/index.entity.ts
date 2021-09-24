@@ -25,7 +25,7 @@ export class ProductGroupBaseEntity implements IPropertyGroup {
     comment: string;
 }
 
-@Entity('filter_group')
+@Entity('property_group')
 export class PropertyGroupEntity extends ProductGroupBaseEntity implements IPropertyGroup {
     @OneToMany(
         () => PropertyEntity,
@@ -53,7 +53,7 @@ export class PropertyBaseEntity implements IProperty {
     comment: string;
 }
 
-@Entity('filter')
+@Entity('property')
 export class PropertyEntity extends PropertyBaseEntity implements IProperty {
     @ManyToOne(
         () => PropertyGroupEntity,
