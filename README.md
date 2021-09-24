@@ -26,3 +26,4 @@ Run `make build` to deploy and start all containers
  * other
 
     * `make open_image_hosting` open image hosting GUI folder (*linux*)
+    * `make migrations` run DB migrations
