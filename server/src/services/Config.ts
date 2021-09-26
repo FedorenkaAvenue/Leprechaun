@@ -19,6 +19,14 @@ export default class ConfigService {
     }
 
     /**
+     * @description get environment status
+     * @returns boolean environment status
+     */
+    isDev() {
+        return Boolean(this.getVal('IS_DEV'))
+    }
+
+    /**
      * @description get TypeORM config object
      */
     getTypeOrmConfig(): TypeOrmModuleOptions {
@@ -29,7 +37,7 @@ export default class ConfigService {
 			username: this.getVal('POSTGRES_USER'),
 			password: this.getVal('POSTGRES_PASSWORD'),
 			database: this.getVal('POSTGRES_DATABASE'),
-			synchronize: true,
+			synchronize: this.isDev(),
 			autoLoadEntities: true
         });
     }
