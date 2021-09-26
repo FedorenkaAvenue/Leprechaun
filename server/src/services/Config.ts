@@ -29,7 +29,7 @@ export default class ConfigService {
 			username: this.getVal('POSTGRES_USER'),
 			password: this.getVal('POSTGRES_PASSWORD'),
 			database: this.getVal('POSTGRES_DATABASE'),
-			synchronize: false,
+			synchronize: true,
 			autoLoadEntities: true
         });
     }

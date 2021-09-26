@@ -41,7 +41,8 @@ export class ProductService {
 		const qb = this.productRepo
 			.createQueryBuilder('product')
 			.leftJoinAndSelect('product.properties', 'properties')
-			.leftJoinAndSelect('properties.filterGroup', 'filterGroup');
+			.leftJoinAndSelect('properties.filterGroup', 'filterGroup')
+			.leftJoinAndSelect('product.images', 'images');
 
 		return this.renderResult(qb, queries, cookies);
 	}
@@ -55,6 +56,7 @@ export class ProductService {
 			.createQueryBuilder('product')
 			.leftJoinAndSelect('product.properties', 'properties')
 			.leftJoinAndSelect('properties.filterGroup', 'filterGroup')
+			.leftJoinAndSelect('product.images', 'images')
 			.where('product.category = :category', { category: categoryUrl });
 
 		return this.renderResult(qb, queries, cookies);
