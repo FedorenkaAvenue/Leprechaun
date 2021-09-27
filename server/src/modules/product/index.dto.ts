@@ -1,5 +1,5 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { IsBooleanString, IsNotEmpty, IsNumber, IsNumberString, IsOptional, IsString } from "class-validator";
+import { IsBooleanString, IsNotEmpty, IsNumberString, IsOptional, IsString } from "class-validator";
 
 import { ICategory } from "@modules/category/index.interface";
 import { IProduct } from "./index.interface";
@@ -50,7 +50,7 @@ export class CreateProductDTO implements IProduct {
     labels: ILabel[];
 
     @IsOptional()
-    @IsNumber({}, { each: true })
+    @IsNumberString({}, { each: true })
     @ApiProperty({ description: 'array of properties', isArray: true })
     properties: IProperty[];
 }

@@ -12,7 +12,7 @@ export class ProductGroupBaseEntity implements IPropertyGroup {
     @ApiProperty()
     title: string;
 
-    @Column()
+    @Column({ select: false })
     @ApiProperty({ enum: FilterOptionType })
     type: FilterOptionType;
 
