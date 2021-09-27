@@ -45,7 +45,7 @@ export class CreateProductDTO implements IProduct {
     images: string[];
 
     @IsOptional()
-    @IsNumber({}, { each: true })
+    @IsNumberString({}, { each: true })
     @ApiProperty({ description: 'array of label', isArray: true })
     labels: ILabel[];
 
@@ -63,9 +63,9 @@ export class CreateProductDTOConstructor extends CreateProductDTO {
         this.isPublic = isPublic;
         this.category = category;
         // @ts-ignore for table relations
-        this.labels = labels ? labels.map(label => ({ id: label })) : [];
+        this.labels = labels ? labels.map(label => ({ id: Number(label) })) : [];
         // @ts-ignore for properties relation
-        this.properties = properties ? properties.map(property => ({ id: property })) : [];
+        this.properties = properties ? properties.map(property => ({ id: Number(property) })) : [];
     }
 }
 

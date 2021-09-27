@@ -22,7 +22,7 @@ export class ProductService {
 
 	async createProduct(productDTO: CreateProductDTO, images: Array<Express.Multer.File>): Promise<void> {
 		const { id } = await this.productRepo.save(new CreateProductDTOConstructor(productDTO));
-
+		
 		if (images) {
 			const uploadedImgArr = await this.multerModule.saveFiles(FOLDER_TYPES.PRODUCT, id, images);
 
