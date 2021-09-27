@@ -1,5 +1,5 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { IsBooleanString, IsNotEmpty, IsNumber, IsOptional, IsString } from "class-validator";
+import { IsBooleanString, IsNotEmpty, IsNumberString, IsOptional, IsString } from "class-validator";
 
 import { IPropertyGroup } from "@modules/property/index.interface";
 import { ICategory } from "./index.interface";
@@ -29,7 +29,7 @@ export class CreateCategoryDTO implements ICategory {
     icon: string;
 
     @IsOptional()
-    @IsNumber({}, { each: true })
+    @IsNumberString({}, { each: true })
     @ApiProperty({
         required: false,
         type: 'number',

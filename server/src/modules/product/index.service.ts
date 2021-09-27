@@ -41,7 +41,7 @@ export class ProductService {
 		const qb = this.productRepo
 			.createQueryBuilder('product')
 			.leftJoinAndSelect('product.properties', 'properties')
-			.leftJoinAndSelect('properties.filterGroup', 'filterGroup')
+			.leftJoinAndSelect('properties.propertyGroup', 'propertyGroup')
 			.leftJoinAndSelect('product.images', 'images');
 
 		return this.renderResult(qb, queries, cookies);
@@ -55,9 +55,9 @@ export class ProductService {
 		const qb = this.productRepo
 			.createQueryBuilder('product')
 			.leftJoinAndSelect('product.properties', 'properties')
-			.leftJoinAndSelect('properties.filterGroup', 'filterGroup')
+			.leftJoinAndSelect('properties.propertyGroup', 'propertyGroup')
 			.leftJoinAndSelect('product.images', 'images')
-			.where('product.category = :category', { category: categoryUrl });
+			.where('product.category = :categoryUrl', { categoryUrl });
 
 		return this.renderResult(qb, queries, cookies);
 	}
@@ -108,15 +108,15 @@ export class ProductService {
         queries: ISearchReqQueries,
         cookies: ICookies
     ): Promise<SearchResultDTO> {
-        const { page, price, sell, filters } = new SearchQueriesDTO(queries);
+        const { page, price, sell, restQueries } = new SearchQueriesDTO(queries);
 		const { portion, sort } = new CookieDTO(cookies);
 
-		// filtering by filters
-        if (filters) {
-			filters.forEach(filterId => {
-				qb.andWhere(':filterId = ANY(product.properties)', { filterId });
-			});
-		}
+		// filtering by dinamical filters
+        // if (restQueries) {
+		// 	for (let propGroup in restQueries) {
+		// 		qb.andWhere(':propGroup = ANY(properties)', { propGroup, val: restQueries[propGroup] });
+		// 	}
+		// }
 
 		if (price) qb.andWhere('product.price >= :from AND product.price <= :to', { ...price }); // filtering by price
 
@@ -151,8 +151,8 @@ export class ProductService {
 		return new SearchResultDTO(
 			result.map(({ properties, ...product }) => ({
 				...product,
-				properties: properties.map(({ filterGroup, ...prop }) => ({
-					prop: filterGroup,
+				properties: properties.map(({ propertyGroup, ...prop }) => ({
+					prop: propertyGroup,
 					val: prop
 				}))
 			})),

@@ -20,13 +20,13 @@ export class PropertyGroupService {
 	getGroup(groupId: number): Promise<PropertyGroupEntity> {
 		return this.propertyGroupRepo.findOne({
 			where: { id: groupId },
-			relations: [ 'filters' ]
+			relations: [ 'properties' ]
 		});
 	}
 
 	getAllGroups(): Promise<PropertyGroupEntity[]> {
 		return this.propertyGroupRepo.find({
-			relations: [ 'filters' ]
+			relations: [ 'properties' ]
 		});
 	}
 

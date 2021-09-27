@@ -12,7 +12,7 @@ export interface ISearchQeuries {
     page: number
     price: IPriceSearchQuery | null
     sell: SellStatus | null
-    filters: Array<number> | null
+    restQueries: Object // dinamical filters
 }
 
 // queries from ulr
@@ -20,5 +20,4 @@ export interface ISearchReqQueries {
     page: string
     price: string
     sell: string
-    filters: string
 }

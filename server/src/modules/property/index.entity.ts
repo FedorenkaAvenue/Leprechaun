@@ -29,10 +29,10 @@ export class ProductGroupBaseEntity implements IPropertyGroup {
 export class PropertyGroupEntity extends ProductGroupBaseEntity implements IPropertyGroup {
     @OneToMany(
         () => PropertyEntity,
-        ({ filterGroup }) => filterGroup
+        ({ propertyGroup }) => propertyGroup
     )
     @ApiProperty({ type: () => PropertyEntity, isArray: true })
-    filters: IProperty[];
+    properties: IProperty[];
 }
 
 export class PropertyBaseEntity implements IProperty {
@@ -57,10 +57,10 @@ export class PropertyBaseEntity implements IProperty {
 export class PropertyEntity extends PropertyBaseEntity implements IProperty {
     @ManyToOne(
         () => PropertyGroupEntity,
-        ({ filters }) => filters,
+        ({ properties }) => properties,
         { onDelete: 'CASCADE', eager: true }
     )
-    @JoinColumn({ name: "filterGroup" })
+    @JoinColumn({ name: "propertyGroup" })
     @ApiProperty()
-    filterGroup: IPropertyGroup;
+    propertyGroup: IPropertyGroup;
 }

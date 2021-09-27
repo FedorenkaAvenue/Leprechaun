@@ -33,13 +33,13 @@ export class CategoryBaseEntity implements ICategory {
         { cascade: true }
     )
     @JoinTable({
-        name: '_categories_to_filtergroups',
+        name: '_categories_to_propertygroups',
         joinColumn: {
             name: 'category_id',
             referencedColumnName: 'id'
         },
         inverseJoinColumn: {
-            name: 'filter_group_id',
+            name: 'propertygroup_id',
             referencedColumnName: 'id'
         }
     })

@@ -95,7 +95,7 @@ export class ProductEntity extends ProductBaseEntity implements IProduct {
     @JoinTable({
         name: '_products_properties',
         joinColumn: { name: 'product_id' },
-        inverseJoinColumn: { name: 'filter_id' }
+        inverseJoinColumn: { name: 'property_id' }
     })
     @ApiProperty({
         type: PropertyEntity,
