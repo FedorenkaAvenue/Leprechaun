@@ -1,4 +1,4 @@
-import { CookieSortType, ICookies } from "@interface/Cookies";
+import { CookieSortType, ICookies } from '@interfaces/Cookies';
 
 /**
  * @description DTO for cookie's default values

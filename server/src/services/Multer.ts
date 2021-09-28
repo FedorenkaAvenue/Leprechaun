@@ -1,9 +1,9 @@
-import { BadRequestException, Injectable, InternalServerErrorException } from "@nestjs/common";
-import { MulterModuleOptions, MulterOptionsFactory } from "@nestjs/platform-express";
-import { memoryStorage } from "multer";
+import { BadRequestException, Injectable, InternalServerErrorException } from '@nestjs/common';
+import { MulterModuleOptions, MulterOptionsFactory } from '@nestjs/platform-express';
+import { memoryStorage } from 'multer';
 import { promises } from 'fs';
-import { MulterOptions } from "@nestjs/platform-express/multer/interfaces/multer-options.interface";
-import { extname } from "path";
+import { MulterOptions } from '@nestjs/platform-express/multer/interfaces/multer-options.interface';
+import { extname } from 'path';
 
 import ConfigService from '@services/Config';
 

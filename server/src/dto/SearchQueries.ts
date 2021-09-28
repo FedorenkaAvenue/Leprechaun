@@ -1,4 +1,4 @@
-import { IPriceSearchQuery, ISearchQeuries, ISearchReqQueries } from "@interface/Queries";
+import { IPriceSearchQuery, ISearchQeuries, ISearchReqQueries } from '@interfaces/Queries';
 
 /**
  * @description create price range object for filters

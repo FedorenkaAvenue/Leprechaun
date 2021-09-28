@@ -1,4 +1,4 @@
-import { ICreatePagintaion, IPagination } from "@interface/Pagination";
+import { ICreatePagintaion, IPagination } from '@interfaces/Pagination';
 
 /**
  * @description pagination data result

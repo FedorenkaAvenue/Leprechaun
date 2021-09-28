@@ -1,6 +1,6 @@
-import { ISearchResult } from "@interface/SearchResult";
-import { PaginationDTO } from "@dto/Pagination";
-import { ICreatePagintaion, IPagination } from "@interface/Pagination";
+import { ISearchResult } from '@interfaces/SearchResult';
+import { PaginationDTO } from '@dto/Pagination';
+import { ICreatePagintaion, IPagination } from '@interfaces/Pagination';
 
 /**
  * @description create search result
