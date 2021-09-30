@@ -42,7 +42,7 @@ export class CreatePropertyDTO implements IProperty {
         type: 'number',
         description: 'filter group ID'
     })
-    propertyGroup: IPropertyGroup;
+    property_group: IPropertyGroup;
 
     @IsNotEmpty()
     @IsString()
@@ -61,9 +61,9 @@ export class CreatePropertyDTO implements IProperty {
 }
 
 export class CreateFilterDTOConstructor extends CreatePropertyDTO {
-    constructor({ title, alt_name, comment, propertyGroup }: CreatePropertyDTO) {
+    constructor({ title, alt_name, comment, property_group }: CreatePropertyDTO) {
         super();
-        this.propertyGroup = propertyGroup;
+        this.property_group = property_group;
         this.title = title;
         this.alt_name = alt_name;
         this.comment = comment || null;

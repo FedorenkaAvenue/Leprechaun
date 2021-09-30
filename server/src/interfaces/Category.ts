@@ -8,5 +8,5 @@ export interface ICategory<TIcon = string> {
     is_public: boolean
     icon: TIcon | null
     products?: Array<IProduct> | null
-    filter_groups?: Array<IPropertyGroup> | null
+    property_groups?: Array<IPropertyGroup> | null
 }

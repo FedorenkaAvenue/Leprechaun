@@ -28,7 +28,7 @@ export class CategoryService {
 	getCategory(categoryUrl: string): Promise<CategoryEntity> {
 		return this.categoryRepo.findOne({
 			where: { url: categoryUrl },
-			relations: ['filter_groups']
+			relations: ['property_groups']
 		});
 	}
 

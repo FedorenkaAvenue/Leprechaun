@@ -25,7 +25,7 @@ export class ProductBaseEntity implements IProduct {
     @ApiProperty({ required: true })
     title: string;
 
-    @Column({ default: true })
+    @Column({ default: false })
     @ApiProperty({ required: false })
     is_public: boolean;
 

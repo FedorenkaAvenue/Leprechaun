@@ -48,7 +48,7 @@ export class CategoryBaseEntity implements ICategory {
         isArray: true,
         required: false
     })
-    filter_groups: IPropertyGroup[]
+    property_groups: IPropertyGroup[]
 }
 
 @Entity('category')

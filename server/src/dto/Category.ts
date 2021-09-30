@@ -33,20 +33,22 @@ export class CreateCategoryDTO implements ICategory {
     @ApiProperty({
         required: false,
         type: 'number',
-        description: 'array of the filter groups ID',
+        description: 'array of the property groups ID',
         isArray: true
     })
-    filter_groups: IPropertyGroup[];
+    property_groups: IPropertyGroup[];
 }
 
 export class CreateCategoryDTOСonstructor extends CreateCategoryDTO {
-    constructor({ url, title, is_public, filter_groups }: CreateCategoryDTO) {
+    constructor({ url, title, is_public, property_groups }: CreateCategoryDTO) {
         super();
         this.url = url;
         this.title = title;
         this.is_public = is_public;
         // @ts-ignore for table relations
-        this.filter_groups = filter_groups ? filter_groups.map((filterId: number ) => ({ id: filterId })) : null;
+        this.property_groups = property_groups
+            ? property_groups.map(propertyId => ({ id: propertyId }))
+            : null;
     }
 }
 
