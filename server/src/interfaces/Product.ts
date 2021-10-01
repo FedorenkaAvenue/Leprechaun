@@ -11,8 +11,9 @@ export interface IProduct {
     title: string
     is_public: boolean
     is_available: boolean
-    rating?: number // count of solded items
+    rating?: number
     price: number
     images: Array<IImage> | Array<string>
+    description: string
     labels: Array<ILabel>
 }

@@ -74,6 +74,13 @@ export class ProductBaseEntity implements IProduct {
         description: 'product rating by sellering'
     })
     rating: number;
+
+    @Column({ nullable: true })
+    @ApiProperty({
+        required: false,
+        description: 'short product description'
+    })
+    description: string;
 }
 
 @Entity('product')

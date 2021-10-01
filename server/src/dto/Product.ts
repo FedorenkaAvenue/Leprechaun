@@ -53,16 +53,24 @@ export class CreateProductDTO implements IProduct {
     @IsNumberString({}, { each: true })
     @ApiProperty({ description: 'array of properties', isArray: true })
     properties: IProperty[];
+
+    @IsOptional()
+    @IsString()
+    @ApiProperty({ required: false })
+    description: string;
 }
 
 export class CreateProductDTOConstructor extends CreateProductDTO {
-    constructor({ title, price, is_public, category, labels, properties, is_available }: CreateProductDTO) {
+    constructor({
+        title, price, is_public, category, labels, properties, is_available, description
+    }: CreateProductDTO) {
         super();
         this.title = title;
         this.price = price;
         this.is_public = is_public;
         this.is_available = is_available;
         this.category = category;
+        this.description = description || null;
         // @ts-ignore for table relations
         this.labels = labels ? labels.map(label => ({ id: Number(label) })) : [];
         // @ts-ignore for properties relation
