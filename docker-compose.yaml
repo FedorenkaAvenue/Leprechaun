@@ -6,9 +6,6 @@ services:
     volumes:
       - ./postgres/postgresql.conf:/app/postgresql.conf
 
-  # redis:
-  #   restart: unless-stopped
-
   server:
     restart: unless-stopped
     build: ./server
@@ -16,6 +13,9 @@ services:
       - ./server:/app
     environment:
       - IS_DEV=true
+
+  sphinx:
+    restart: unless-stopped
 
   client:
     restart: unless-stopped
