@@ -27,9 +27,6 @@ services:
   sphinx:
     image: macbre/sphinxsearch:3.2.1
     container_name: leprechaun_sphinx
-    #command: indexer --all --config /opt/sphinx/conf/sphinx.conf
-    ports:
-      - ${SPHINX_PORT}:${SPHINX_PORT}
     volumes:
       - ./sphinx/index:/opt/sphinx/index:rw
       - ./sphinx/sphinx.conf:/opt/sphinx/conf/sphinx.conf
