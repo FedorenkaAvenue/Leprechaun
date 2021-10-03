@@ -23,7 +23,5 @@ client/static
 /nginx/img
 
 # sphinx
-sphinx/log/*
-!sphinx/log/.gitkeep
 sphinx/index/*
 !sphinx/index/.gitkeep
