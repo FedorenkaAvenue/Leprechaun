@@ -17,12 +17,12 @@ ENV PATH "${PATH}:/opt/sphinx/sphinx-3.4.1/bin"
 RUN ln -sv /dev/stdout /opt/sphinx/log/query.log && \
 	ln -sv /dev/stdout /opt/sphinx/log/searchd.log
 
+COPY ./_docker_entrypoint.sh /
+
 VOLUME /opt/sphinx/index
 VOLUME /opt/sphinx/log
 VOLUME /etc/sphinx
 
 EXPOSE ${SPHINX_PORT}
 
-RUN echo "exec searchd --nodetach --config /etc/sphinx/sphinx.conf" > /opt/sphinx/start.sh
-
-CMD sh /opt/sphinx/start.sh
+CMD sh /_docker_entrypoint.sh
