@@ -16,6 +16,8 @@ services:
 
   sphinx:
     restart: unless-stopped
+    ports:
+      - ${SPHINX_PORT}:${SPHINX_PORT}
 
   client:
     restart: unless-stopped

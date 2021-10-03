@@ -25,11 +25,15 @@ services:
       - image_hosting:/var/www/img:rw
 
   sphinx:
-    image: macbre/sphinxsearch:3.2.1
     container_name: leprechaun_sphinx
+    build:
+      context: ./sphinx
+      dockerfile: Dockerfile
+      args:
+        - SPHINX_PORT
     volumes:
       - ./sphinx/index:/opt/sphinx/index:rw
-      - ./sphinx/sphinx.conf:/opt/sphinx/conf/sphinx.conf
+      - ./sphinx/sphinx.conf:/etc/sphinx/sphinx.conf
       - ./sphinx/log:/opt/sphinx/log:rw
     depends_on:
       - postgres
