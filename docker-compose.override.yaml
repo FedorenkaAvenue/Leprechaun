@@ -11,11 +11,6 @@ services:
       - POSTGRES_USER
       - POSTGRES_DATABASE
 
-  # redis:
-  #   container_name: leprechaun_redis
-  #   ports:
-  #     - ${REDIS_PORT}:${REDIS_PORT}
-
   server:
     container_name: leprechaun_server
     environment:
@@ -26,8 +21,20 @@ services:
       - POSTGRES_USER
       - POSTGRES_DATABASE
       - HOSTING_PATH
+      - SPHINX_HOST
+      - SPHINX_PORT
     volumes:
       - image_hosting:/var/www/img:rw
+
+  sphinx:
+    container_name: leprechaun_sphinx
+    build:
+      context: ./sphinx
+      dockerfile: Dockerfile
+      args:
+        - SPHINX_PORT
+    depends_on:
+      - postgres
 
   client:
     container_name: leprechaun_client

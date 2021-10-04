@@ -11,13 +11,15 @@ import { ISearchReqQueries } from '@interfaces/Queries';
 import { SearchResultDTO } from '@dto/SearchResult';
 import { SearchQueriesDTO } from '@dto/SearchQueries';
 import { CookieDTO } from '@dto/Cookies';
+import SphinxService from '@services/Sphinx';
 
 @Injectable()
 export class ProductService {
     constructor(
 		@InjectRepository(ProductEntity) private readonly productRepo: Repository<ProductEntity>,
 		private readonly multerModule: MulterService,
-		private readonly imageService: ImageService
+		private readonly imageService: ImageService,
+		private readonly sphinxService: SphinxService
 	) {}
 
 	async createProduct(productDTO: CreateProductDTO, images: Array<Express.Multer.File>): Promise<void> {
@@ -62,6 +64,12 @@ export class ProductService {
 			.where('product.category = :categoryUrl', { categoryUrl });
 
 		return this.renderResult(qb, queries, cookies);
+	}
+
+	async searchByString(searchExp: string) {
+		const res = await this.sphinxService.searchByQuery(searchExp);
+
+		console.log(res);
 	}
 
 	// async updateProduct(

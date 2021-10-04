@@ -72,6 +72,14 @@ export class ProductController {
         return this.productService.getProduct(productId);
     }
 
+    @Get('/search/:exp')
+    // @UseInterceptors(PaginationEmptyInterceptor)
+    @ApiOperation({ summary: 'get products by search string' })
+    @ApiOkResponse({ type: ProductEntity, isArray: true })
+    searchByString(@Param('exp') searchExp: string) {
+        this.productService.searchByString(searchExp);
+    }
+
     // @Patch()
     // @UseInterceptors(FilesInterceptor('staticImages'))
     // @UseInterceptors(AffectedInterceptor)
