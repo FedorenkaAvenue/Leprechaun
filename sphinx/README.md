@@ -8,4 +8,3 @@
 
  * `make index_products`
  * `make index_all`
- * `make clear_logs`

@@ -18,6 +18,8 @@ services:
     restart: unless-stopped
     ports:
       - ${SPHINX_PORT}:${SPHINX_PORT}
+    volumes:
+      - ./sphinx/sphinx.conf:/etc/sphinx/sphinx.conf
 
   client:
     restart: unless-stopped

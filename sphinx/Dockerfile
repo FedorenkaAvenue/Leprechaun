@@ -4,7 +4,8 @@ ARG SPHINX_PORT
 
 RUN apk add --no-cache mariadb-connector-c-dev \
 	postgresql-dev \
-	wget
+	wget \
+	mysql mysql-client
 
 RUN mkdir -pv /var/log/sphinx /opt/sphinx/index
 
@@ -19,7 +20,6 @@ RUN ln -sv /dev/stdout /var/log/sphinx/query.log && \
 
 COPY ./_docker_entrypoint.sh /
 
-VOLUME /opt/sphinx/index
 VOLUME /etc/sphinx
 
 EXPOSE ${SPHINX_PORT}

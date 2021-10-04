@@ -21,6 +21,8 @@ services:
       - POSTGRES_USER
       - POSTGRES_DATABASE
       - HOSTING_PATH
+      - SPHINX_HOST
+      - SPHINX_PORT
     volumes:
       - image_hosting:/var/www/img:rw
 
@@ -31,9 +33,6 @@ services:
       dockerfile: Dockerfile
       args:
         - SPHINX_PORT
-    volumes:
-      - ./sphinx/index:/opt/sphinx/index:rw
-      - ./sphinx/sphinx.conf:/etc/sphinx/sphinx.conf
     depends_on:
       - postgres
 

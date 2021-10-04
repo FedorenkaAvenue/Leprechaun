@@ -3,6 +3,3 @@ index_products:
 
 index_all:
 	@docker exec leprechaun_sphinx indexer --all --config /etc/sphinx/sphinx.conf --rotate
-
-clear_logs:
-	@truncate -s 0 ./log/query.log ; truncate -s 0 ./log/searchd.log

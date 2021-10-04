@@ -4,6 +4,11 @@ interface IHostingParams {
     HOSTING_PATH: string
 }
 
+interface SphinxConnectionParams {
+    host: string
+    port: string
+}
+
 export default class ConfigService {
     /**
      * @description get environment variable value by key
@@ -49,5 +54,15 @@ export default class ConfigService {
         return ({
             HOSTING_PATH: this.getVal('HOSTING_PATH')
         })
+    }
+
+    /**
+     * @description get params for SphinxQL connection
+     */
+    getSphinxConfig(): SphinxConnectionParams {
+        return ({
+            host: this.getVal('SPHINX_HOST'),
+            port: this.getVal('SPHINX_PORT')
+        });
     }
 }
