@@ -42,7 +42,6 @@ export class ProductService {
 	): Promise<SearchResultDTO> {
 		const qb = this.productRepo
 			.createQueryBuilder('product')
-			// .innerJoin('product.properties', 'temp_props')
 			.leftJoinAndSelect('product.properties', 'properties')
 			.leftJoinAndSelect('properties.property_group', 'property_group')
 			.leftJoinAndSelect('product.images', 'images');
@@ -57,7 +56,6 @@ export class ProductService {
 	): Promise<SearchResultDTO> {
 		const qb = this.productRepo
 			.createQueryBuilder('product')
-			// .innerJoin('product.properties', 'temp_props')
 			.leftJoinAndSelect('product.properties', 'properties')
 			.leftJoinAndSelect('properties.property_group', 'property_group')
 			.leftJoinAndSelect('product.images', 'images')
@@ -124,7 +122,7 @@ export class ProductService {
 		// filtering by dinamical filters
         if (restQueries) {
 			for (let propGroup in restQueries) {
-				console.log(propGroup, restQueries[propGroup]);
+				
 			}
 		}
 

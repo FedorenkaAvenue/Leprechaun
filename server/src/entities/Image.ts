@@ -19,7 +19,7 @@ export class ImageEntity implements IImage<string> {
         ({ images }) => images,
         { onDelete: 'CASCADE' }
     )
-    @JoinColumn({ name: 'product', referencedColumnName: 'id' })
+    @JoinColumn({ name: 'product_id', referencedColumnName: 'id' })
     @ApiProperty({ required: false })
-    product: string;
+    product_id: string;
 }
