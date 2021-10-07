@@ -19,6 +19,7 @@ RUN ln -sv /dev/stdout /var/log/sphinx/query.log && \
 	ln -sv /dev/stdout /var/log/sphinx/searchd.log
 
 COPY ./_docker_entrypoint.sh /
+COPY ./sphinx.conf /etc/sphinx/sphinx.conf
 
 VOLUME /etc/sphinx
 
