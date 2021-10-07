@@ -39,7 +39,7 @@ export class ProductBaseEntity implements IProduct {
 
     @OneToMany(
         () => ImageEntity,
-        ({ product }) => product,
+        ({ product_id }) => product_id,
         { eager: true }
     )
     @ApiProperty({ type: ImageEntity, isArray: true })
