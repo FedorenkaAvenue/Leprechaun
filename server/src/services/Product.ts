@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { DeleteResult, Repository, SelectQueryBuilder } from 'typeorm';
+import { Connection, DeleteResult, Repository, SelectQueryBuilder } from 'typeorm';
 
 import { CreateProductDTO, CreateProductDTOConstructor } from '@dto/Product';
 import { ProductEntity } from '@entities/Product';
@@ -121,9 +121,25 @@ export class ProductService {
 
 		// filtering by dinamical filters
         if (restQueries) {
-			for (let propGroup in restQueries) {
-				
-			}
+			const props = Object.keys(restQueries);
+			const values = Object.values(restQueries);
+
+			// ! на будущее переделать в subQuery
+			qb.andWhere(
+				`product.id = ANY(
+					SELECT product_id as p_id
+					FROM _products_to_properties
+					INNER JOIN property AS prop ON prop.id = _products_to_properties.property_id
+					INNER JOIN property_group AS prop_gr ON prop.property_group = prop_gr.id
+					WHERE property_id IN (:...values)
+					AND prop_gr.alt_name IN(:...props)
+					GROUP BY p_id
+					HAVING COUNT(*) = :filterLen
+				)`, {
+					props, values,
+					filterLen: props.length
+				}
+			);
 		}
 
 		if (price) qb.andWhere('product.price BETWEEN :from AND :to', { ...price }); // filtering by price
