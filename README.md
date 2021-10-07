@@ -27,4 +27,4 @@ Run `make build` to deploy and start all containers
 
     * `make open_image_hosting` open image hosting GUI folder (*linux*)
     * `make migrations` run DB migrations
-    * `make sphinx_index` index *SphinxSearch*
+    * `make manticore_index` index *Manticore* search engine

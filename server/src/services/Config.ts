@@ -57,12 +57,9 @@ export default class ConfigService {
     }
 
     /**
-     * @description get params for SphinxQL connection
+     * @description get params for Manticore search engine connection
      */
-    getSphinxConfig(): SphinxConnectionParams {
-        return ({
-            host: this.getVal('SPHINX_HOST'),
-            port: this.getVal('SPHINX_PORT')
-        });
+    getManticoreConfig(): string {
+        return `http://${this.getVal('MANTICORE_HOST')}:${this.getVal('MANTICORE_PORT')}`;
     }
 }

@@ -11,7 +11,7 @@ import { ISearchReqQueries } from '@interfaces/Queries';
 import { SearchResultDTO } from '@dto/SearchResult';
 import { SearchQueriesDTO } from '@dto/SearchQueries';
 import { CookieDTO } from '@dto/Cookies';
-import SphinxService from '@services/Sphinx';
+import ManticoreService from '@services/Manticore';
 
 @Injectable()
 export class ProductService {
@@ -19,7 +19,7 @@ export class ProductService {
 		@InjectRepository(ProductEntity) private readonly productRepo: Repository<ProductEntity>,
 		private readonly multerModule: MulterService,
 		private readonly imageService: ImageService,
-		private readonly sphinxService: SphinxService
+		private readonly manticoreService: ManticoreService
 	) {}
 
 	async createProduct(productDTO: CreateProductDTO, images: Array<Express.Multer.File>): Promise<void> {
@@ -65,9 +65,9 @@ export class ProductService {
 	}
 
 	async searchByString(searchExp: string) {
-		const res = await this.sphinxService.searchByQuery(searchExp);
+		const res = await this.manticoreService.searchByQuery('products', searchExp);
 
-		console.log(res);
+		return res;
 	}
 
 	// async updateProduct(
