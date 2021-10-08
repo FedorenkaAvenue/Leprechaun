@@ -1,1 +1,5 @@
-<p>language-switch works!</p>
+<div class="languages">
+  <li *ngFor="let item of languages" class="languages-item">
+    <span>{{ item?.label }}</span>
+  </li>
+</div>

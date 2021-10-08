@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { LANGUAGES } from '@shared/static/languages';
 
 @Component({
   selector: 'app-header',
@@ -7,6 +8,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HeaderComponent implements OnInit {
 
+  public languages = LANGUAGES;
   constructor() { }
 
   ngOnInit(): void {

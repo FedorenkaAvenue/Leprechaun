@@ -18,6 +18,7 @@ export class ProductsService {
     private readonly categoriesApiService: CategoriesApiService
   ) {}
 
+<<<<<<< HEAD
   public getProductsList(id: number): Observable<Products> {
     return combineLatest([
       this.changeParams$,
@@ -31,6 +32,13 @@ export class ProductsService {
         return this.productsApiService.getProductsList(id, param);
       })
     );
+=======
+  public getProductsList(url: string): Observable<Products> {
+    return this.updateProducts$.pipe(
+      startWith(null),
+      switchMap( res => this.productsApiService.getProductsList(url))
+    )
+>>>>>>> product-card
   }
 
   public createProduct(data: any): Observable<any> {
