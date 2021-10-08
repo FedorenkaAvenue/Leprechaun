@@ -12,6 +12,7 @@ import { SearchResultDTO } from '@dto/SearchResult';
 import { SearchQueriesDTO } from '@dto/SearchQueries';
 import { CookieDTO } from '@dto/Cookies';
 import ManticoreService from '@services/Manticore';
+import { url } from 'inspector';
 
 @Injectable()
 export class ProductService {
@@ -65,7 +66,7 @@ export class ProductService {
 	}
 
 	async searchByString(searchExp: string) {
-		const res = await this.manticoreService.searchByQuery('products', searchExp);
+		const res = await this.manticoreService.searchByQuery('products', decodeURI(searchExp));
 
 		return res;
 	}
