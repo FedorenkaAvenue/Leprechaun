@@ -1,6 +1,6 @@
 <header class="header">
   <img src="../../../../../assets/img/cryyaCy.jpeg" alt="" class="header_logo" />
-  <div class="header_search main-btn">пошук</div>
+  <app-lpch-input></app-lpch-input>
   <button class="header_help main-btn">
     <app-leprachaun-icon name="question" color="gray"> </app-leprachaun-icon>
     <span class="btn-label">Допомога</span>
@@ -9,7 +9,7 @@
     <app-leprachaun-icon name="heart" color="gray"> </app-leprachaun-icon>
     <span class="btn-label">вибране</span>
   </button>
-  <app-language-switch></app-language-switch>
+  <app-language-switch [languages]="languages"></app-language-switch>
   <button class="header_cart main-btn">
     <app-leprachaun-icon name="cart" color="gray"> </app-leprachaun-icon>
     <span class="btn-label">вкошик</span>
