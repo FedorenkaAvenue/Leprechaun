@@ -1,5 +1,8 @@
+export type TPropertyID = number
+export type TPropertyGroupId = number
+
 export interface IPropertyGroup {
-    id?: number
+    id?: TPropertyGroupId
     title: string
     type: FilterOptionType
     alt_name: string
@@ -8,7 +11,7 @@ export interface IPropertyGroup {
 }
 
 export interface IProperty {
-    id?: number
+    id?: TPropertyID
     property_group?: IPropertyGroup
     title: string
     alt_name: string
