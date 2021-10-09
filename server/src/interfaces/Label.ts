@@ -1,10 +1,12 @@
 import { IProduct } from '@interfaces/Product';
 
-export type TLabelId = number
-
 export interface ILabel {
-    id?: TLabelId
+    id?: number
     value: string
-    type: string
+    type: LabelType
     products?: Array<IProduct>
+}
+
+export enum LabelType {
+    DISCOUNT = 'discount'
 }

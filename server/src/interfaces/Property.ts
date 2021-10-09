@@ -1,24 +1,21 @@
-export type TPropertyID = number
-export type TPropertyGroupId = number
-
 export interface IPropertyGroup {
-    id?: TPropertyGroupId
+    id?: number
     title: string
-    type: FilterOptionType
+    type: PropertyGroupOptionType
     alt_name: string
     properties?: Array<IProperty> | null
     comment?: string
 }
 
 export interface IProperty {
-    id?: TPropertyID
+    id?: number
     property_group?: IPropertyGroup
     title: string
     alt_name: string
     comment?: string
 }
 
-export enum FilterOptionType {
+export enum PropertyGroupOptionType {
     List = 'list',
     Range = 'range',
 }

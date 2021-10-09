@@ -1,10 +1,8 @@
 import { IProduct } from '@interfaces/Product';
 import { IPropertyGroup } from '@interfaces/Property';
 
-type TCategoryId = number
-
 export interface ICategory<TIcon = string> {
-    id?: TCategoryId
+    id?: number
     url: string
     title: string
     is_public: boolean

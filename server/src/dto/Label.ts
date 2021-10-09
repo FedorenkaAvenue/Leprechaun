@@ -1,11 +1,11 @@
-import { IsNotEmpty, IsOptional, IsString } from 'class-validator';
+import { IsEnum, IsNotEmpty, IsOptional, IsString } from 'class-validator';
 
-import { ILabel } from '@interfaces/Label';
+import { ILabel, LabelType } from '@interfaces/Label';
 
 export class CreateLabelDTO implements ILabel {
     @IsNotEmpty()
-    @IsString()
-    type: string;
+    @IsEnum(LabelType)
+    type: LabelType;
 
     @IsOptional()
     @IsString()

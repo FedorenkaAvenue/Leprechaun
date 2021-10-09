@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Connection, DeleteResult, Repository, SelectQueryBuilder } from 'typeorm';
+import { DeleteResult, Repository, SelectQueryBuilder } from 'typeorm';
 
 import { CreateProductDTO, CreateProductDTOConstructor } from '@dto/Product';
 import { ProductEntity } from '@entities/Product';
@@ -12,7 +12,6 @@ import { SearchResultDTO } from '@dto/SearchResult';
 import { SearchQueriesDTO } from '@dto/SearchQueries';
 import { CookieDTO } from '@dto/Cookies';
 import ManticoreService from '@services/Manticore';
-import { url } from 'inspector';
 
 @Injectable()
 export class ProductService {
@@ -45,7 +44,8 @@ export class ProductService {
 			.createQueryBuilder('product')
 			.leftJoinAndSelect('product.properties', 'properties')
 			.leftJoinAndSelect('product.labels', 'labels')
-			.leftJoinAndSelect('product.images', 'images');
+			.leftJoinAndSelect('product.images', 'images')
+			.leftJoinAndSelect('properties.property_group', 'property_group');
 
 		return this.renderResult(qb, queries, cookies);
 	}
@@ -60,13 +60,14 @@ export class ProductService {
 			.leftJoinAndSelect('product.properties', 'properties')
 			.leftJoinAndSelect('product.labels', 'labels')
 			.leftJoinAndSelect('product.images', 'images')
+			.leftJoinAndSelect('properties.property_group', 'property_group')
 			.where('product.category = :categoryUrl', { categoryUrl });
 
 		return this.renderResult(qb, queries, cookies);
 	}
 
 	async searchByString(searchExp: string) {
-		const res = await this.manticoreService.searchByQuery('products', decodeURI(searchExp));
+		const res = await this.manticoreService.searchProduct(decodeURI(searchExp));
 
 		return res;
 	}
@@ -125,7 +126,7 @@ export class ProductService {
 			const props = Object.keys(restQueries);
 			const values = Object.values(restQueries);
 
-			// ! на будущее переделать в subQuery
+			// ? на будущее переделать в subQuery
 			qb.andWhere(
 				`product.id = ANY(
 					SELECT product_id as p_id
@@ -174,13 +175,7 @@ export class ProductService {
 			.getManyAndCount();
 
 		return new SearchResultDTO(
-			result.map(({ properties, ...product }) => ({
-				...product,
-				properties: properties.map(({ property_group, ...prop }) => ({
-					prop: property_group,
-					val: prop
-				}))
-			})),
+			result,
 			{
 				currentPage: page,
 				totalCount: resCount,
@@ -188,4 +183,18 @@ export class ProductService {
 			}
 		);
     }
+
+	/**
+	 * @description map product's properties with properties groups
+	 * @param products array of products from ORM query result
+	 */
+	// mapProperties(products: Array<IProduct>) {
+	// 	return products.map(({ properties, ...product }) => ({
+	// 		...product,
+	// 		properties: properties.map(({ property_group, ...prop }) => ({
+	// 			prop: property_group,
+	// 			val: prop
+	// 		}))
+	// 	}));
+	// }
 }

@@ -3,10 +3,8 @@ import { IImage } from '@interfaces/Image';
 import { ILabel } from '@interfaces/Label';
 import { IProperty } from '@interfaces/Property';
 
-type TProductID = string
-
 export interface IProduct {
-    id?: TProductID
+    id?: string
     created_at?: Date
     category?: ICategory
     properties?: Array<IProperty>
