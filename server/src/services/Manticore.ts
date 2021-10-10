@@ -1,26 +1,17 @@
 import { Injectable, InternalServerErrorException } from '@nestjs/common';
-import { SearchApi, ApiClient } from 'manticoresearch';
+import { UtilsApi, ApiClient } from 'manticoresearch';
 
 import ConfigService from './Config';
 import { ProductIndexDTO } from '@dto/Manticore';
 import { IProductIndexItem } from '@interfaces/Manticore';
 import { IProduct } from '@interfaces/Product';
 
-export interface IManticoreResult {
-    took: number
-    timed_out: number
-    hits: IManticoreHitsItems
-}
-
-export interface IManticoreHitsItems {
+export interface IManticoreResult<TIndexItem> {
+    columns: any
+    data: Array<TIndexItem>
     total: number
-    hits: Array<IManticoreItem>
-}
-
-export interface IManticoreItem {
-    _id: number
-    _score: number
-    _source: any
+    error: string
+    warning: string
 }
 
 @Injectable()
@@ -42,7 +33,7 @@ export default class ManticoreService {
      * @returns search API connection
      */
     createSearchClient() {
-        return new SearchApi(this.createConnection());
+        return new UtilsApi(this.createConnection());
     }
 
     /**
@@ -88,31 +79,18 @@ export default class ManticoreService {
      */
     async searchByQuery(indexTable: string, searchExp: string): Promise<any[]> {
         try {
-            const res = await this.createSearchClient().search(
-                JSON.stringify({
-                    index: indexTable,
-                    query: {
-                        query_string: searchExp,
-                        // match_all: {},
-                        // bool: {
-                        //     must: [
-                        //         { equals: { product_id: 123 } },
-                        //         { in: { property_id: [ 1, 3, 7 ] } }
-                        //     ]
-                        // }
-                    },
-                    sort: [
-                        { rating: 'desc'}
-                    ]
-                })
-            ) as IManticoreResult;
+            const res = await this.createSearchClient().sql(
+                `mode=raw&query=
+                    SELECT *
+                    FROM ${indexTable}
+                    WHERE match('${searchExp}')
+                    LIMIT ${10} OFFSET ${0}
+                `
+            ) as IManticoreResult<any>;
 
-            if (res.timed_out) throw new InternalServerErrorException('pizda, Manticore time out');
+            console.log(res);
             
-            return res.hits.hits.map(item => ({
-                ...item._source,
-                id: Number(item._id)
-            }));
+            return res.data;
         } catch(err) {
             throw new InternalServerErrorException(err.message);
         }
