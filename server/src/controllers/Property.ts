@@ -14,8 +14,8 @@ export class PropertyGroupController {
 
     @Post()
     @ApiOperation({ summary: 'add new property group' })
-    @ApiOkResponse({ type: ProductGroupBaseEntity })
-    createGroup(@Body(new ValidationPipe({ transform: true })) group: CreatePropertyGroupDTO): Promise<ProductGroupBaseEntity> {
+    @ApiOkResponse({ description : 'success' })
+    createGroup(@Body(new ValidationPipe({ transform: true })) group: CreatePropertyGroupDTO): Promise<void> {
         return this.propertyGroupService.createGroup(group);
     }
 
@@ -28,7 +28,7 @@ export class PropertyGroupController {
 
     @Get(':groupId')
     @UseInterceptors(NotFoundInterceptor)
-    @ApiOperation({ summary: 'get property group (with properties)' })
+    @ApiOperation({ summary: 'get property group by ID' })
     @ApiOkResponse({ type: PropertyGroupEntity })
     getGroup(@Param('groupId') groupId: number): Promise<PropertyGroupEntity> {
         return this.propertyGroupService.getGroup(groupId);
@@ -49,23 +49,23 @@ export class PropertyController {
 
     @Post()
     @ApiOperation({ summary: 'add new property' })
-    @ApiOkResponse({ type: PropertyBaseEntity })
-    createFilter(@Body(new ValidationPipe({ transform: true })) filter: CreatePropertyDTO): Promise<PropertyEntity> {
-        return this.propertyService.createFilter(filter);
+    @ApiOkResponse({ description: 'success' })
+    createProperty(@Body(new ValidationPipe({ transform: true })) filter: CreatePropertyDTO): Promise<void> {
+        return this.propertyService.createProperty(filter);
     }
 
-    @Get(':filterId')
+    @Get(':propertyId')
     @UseInterceptors(NotFoundInterceptor)
     @ApiOperation({ summary: 'get property by ID' })
-    @ApiOkResponse({ type: PropertyBaseEntity })
-    getGroup(@Param('filterId') filterId: number): Promise<PropertyEntity> {
-        return this.propertyService.getFilter(filterId);
+    @ApiOkResponse({ type: PropertyEntity })
+    getProperty(@Param('propertyId') propertyId: number): Promise<PropertyEntity> {
+        return this.propertyService.getProperty(propertyId);
     }
 
-    @Delete(':filterId')
+    @Delete(':propertyId')
     @UseInterceptors(AffectedInterceptor)
     @ApiOperation({ summary: 'delete property by ID' })
-    deleteGroup(@Param('filterId') filterId: number): Promise<DeleteResult> {
-        return this.propertyService.deletefilter(filterId);
+    deleteProperty(@Param('propertyId') propertyId: number): Promise<DeleteResult> {
+        return this.propertyService.deleteProperty(propertyId);
     }
 }

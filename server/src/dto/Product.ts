@@ -27,6 +27,11 @@ export class CreateProductDTO implements IProduct {
     @ApiProperty({ required: false })
     is_available: boolean;
 
+    @IsOptional()
+    @IsString()
+    @ApiProperty({ required: false })
+    description: string;
+
     @IsNotEmpty()
     @IsNumberString()
     @ApiProperty({
@@ -53,11 +58,6 @@ export class CreateProductDTO implements IProduct {
     @IsNumberString({}, { each: true })
     @ApiProperty({ description: 'array of properties', isArray: true })
     properties: IProperty[];
-
-    @IsOptional()
-    @IsString()
-    @ApiProperty({ required: false })
-    description: string;
 }
 
 export class CreateProductDTOConstructor extends CreateProductDTO {

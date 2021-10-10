@@ -3,15 +3,14 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { DeleteResult, Repository, SelectQueryBuilder } from 'typeorm';
 
 import { CreateProductDTO, CreateProductDTOConstructor } from '@dto/Product';
-import { ProductEntity } from '@entities/Product';
+import { ProductEntity, ProductWIthPropertiesEntity } from '@entities/Product';
 import { FOLDER_TYPES, MulterService } from '@services/Multer';
 import { ImageService } from '@services/Image';
 import { CookieSortType, ICookies } from '@interfaces/Cookies';
 import { ISearchReqQueries } from '@interfaces/Queries';
-import { SearchResultDTO } from '@dto/SearchResult';
 import { SearchQueriesDTO } from '@dto/SearchQueries';
-import { CookieDTO } from '@dto/Cookies';
-import ManticoreService from '@services/Manticore';
+import { PaginationResultDTO } from '@dto/Pagination';
+import CookieService from './Cookie';
 
 @Injectable()
 export class ProductService {
@@ -19,7 +18,7 @@ export class ProductService {
 		@InjectRepository(ProductEntity) private readonly productRepo: Repository<ProductEntity>,
 		private readonly multerModule: MulterService,
 		private readonly imageService: ImageService,
-		private readonly manticoreService: ManticoreService
+		private readonly cookieService: CookieService
 	) {}
 
 	async createProduct(productDTO: CreateProductDTO, images: Array<Express.Multer.File>): Promise<void> {
@@ -33,16 +32,20 @@ export class ProductService {
 	}
 
 	async getProduct(productId: string): Promise<ProductEntity> {
-		return this.productRepo.findOne({ id: productId });
+		return this.productRepo.findOne({
+			where: { id: productId },
+			relations: [ 'category' ]
+		});
 	}
 
 	async getAllProducts(
 		queries: ISearchReqQueries,
 		cookies: ICookies
-	): Promise<SearchResultDTO> {
+	): Promise<PaginationResultDTO<ProductWIthPropertiesEntity>> {
 		const qb = this.productRepo
 			.createQueryBuilder('product')
 			.leftJoinAndSelect('product.properties', 'properties')
+			.leftJoinAndSelect('product.category', 'category')
 			.leftJoinAndSelect('product.labels', 'labels')
 			.leftJoinAndSelect('product.images', 'images')
 			.leftJoinAndSelect('properties.property_group', 'property_group');
@@ -54,22 +57,17 @@ export class ProductService {
 		categoryUrl: string,
 		queries: ISearchReqQueries,
 		cookies: ICookies
-	): Promise<SearchResultDTO> {
+	): Promise<PaginationResultDTO<ProductWIthPropertiesEntity>> {
 		const qb = this.productRepo
 			.createQueryBuilder('product')
+			.innerJoin('product.category', 'category')
 			.leftJoinAndSelect('product.properties', 'properties')
 			.leftJoinAndSelect('product.labels', 'labels')
 			.leftJoinAndSelect('product.images', 'images')
 			.leftJoinAndSelect('properties.property_group', 'property_group')
-			.where('product.category = :categoryUrl', { categoryUrl });
+			.where('category.url = :categoryUrl', { categoryUrl });
 
 		return this.renderResult(qb, queries, cookies);
-	}
-
-	async searchByString(searchExp: string) {
-		const res = await this.manticoreService.searchProduct(decodeURI(searchExp));
-
-		return res;
 	}
 
 	// async updateProduct(
@@ -117,9 +115,9 @@ export class ProductService {
         qb: SelectQueryBuilder<ProductEntity>,
         queries: ISearchReqQueries,
         cookies: ICookies
-    ): Promise<SearchResultDTO> {
+    ): Promise<PaginationResultDTO<ProductWIthPropertiesEntity>> {
         const { page, price, sell, restQueries } = new SearchQueriesDTO(queries);
-		const { portion, sort } = new CookieDTO(cookies);
+		const { portion, sort } = this.cookieService.parseRequestCookies(cookies);
 
 		// filtering by dinamical filters
         if (restQueries) {
@@ -144,9 +142,11 @@ export class ProductService {
 			);
 		}
 
-		if (price) qb.andWhere('product.price BETWEEN :from AND :to', { ...price }); // filtering by price
+		// filtering by price
+		if (price) qb.andWhere('product.price BETWEEN :from AND :to', { ...price });
 
-		if (typeof sell === 'number') qb.andWhere('product.is_available = :sell', { sell }); // filtering by sell status
+		// filtering by sell status
+		if (typeof sell === 'number') qb.andWhere('product.is_available = :sell', { sell });
 		
 		// sorting
 		switch (sort) {
@@ -165,7 +165,7 @@ export class ProductService {
 				break;
 			}
 
-			default: // CookieSortType.POPULAR (cookie === 1)
+			default: // CookieSortType.POPULAR
 				qb.orderBy('product.rating', 'DESC');
 		}
 
@@ -174,7 +174,7 @@ export class ProductService {
 			.skip((page - 1) * portion)
 			.getManyAndCount();
 
-		return new SearchResultDTO(
+		return new PaginationResultDTO(
 			result,
 			{
 				currentPage: page,
@@ -183,18 +183,4 @@ export class ProductService {
 			}
 		);
     }
-
-	/**
-	 * @description map product's properties with properties groups
-	 * @param products array of products from ORM query result
-	 */
-	// mapProperties(products: Array<IProduct>) {
-	// 	return products.map(({ properties, ...product }) => ({
-	// 		...product,
-	// 		properties: properties.map(({ property_group, ...prop }) => ({
-	// 			prop: property_group,
-	// 			val: prop
-	// 		}))
-	// 	}));
-	// }
 }

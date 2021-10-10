@@ -58,7 +58,7 @@ export class PropertyEntity extends PropertyBaseEntity implements IProperty {
     @ManyToOne(
         () => PropertyGroupEntity,
         ({ properties }) => properties,
-        { onDelete: 'CASCADE', eager: true, nullable: false }
+        { onDelete: 'CASCADE', nullable: false }
     )
     @JoinColumn({ name: 'property_group' })
     @ApiProperty()

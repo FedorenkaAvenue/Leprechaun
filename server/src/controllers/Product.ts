@@ -4,19 +4,20 @@ import {
 } from '@nestjs/common';
 import {
     ApiBadRequestResponse, ApiNotAcceptableResponse, ApiNotFoundResponse, ApiOkResponse,
-    ApiOperation, ApiQuery, ApiTags
+    ApiOperation, ApiQuery, ApiServiceUnavailableResponse, ApiTags, ApiUnsupportedMediaTypeResponse
 } from '@nestjs/swagger';
 import { DeleteResult, UpdateResult } from 'typeorm';
 import { FilesInterceptor } from '@nestjs/platform-express';
 import { Request } from 'express';
 
 import { CreateProductDTO } from '@dto/Product';
-import { ProductBaseEntity, ProductEntity } from '@entities/Product';
+import { ProductEntity, ProductWIthPropertiesEntity } from '@entities/Product';
 import { ProductService } from '@services/Product';
 import { AffectedInterceptor, NotFoundInterceptor } from '@interceptors/DB';
 import { PaginationEmptyInterceptor } from '@interceptors/search';
 import { ISearchReqQueries } from '@interfaces/Queries';
-import { SearchResultDTO } from '@dto/SearchResult';
+import { PaginationDTO, PaginationResultDTO } from '@dto/Pagination';
+import { ApiPaginatedResponse } from '@decorators/Swagger';
 
 @Controller('product')
 @ApiTags('Product')
@@ -26,7 +27,7 @@ export class ProductController {
     @Post()
     @UseInterceptors(FilesInterceptor('images'))
     @ApiOperation({ summary: 'create new product' })
-	@ApiOkResponse({ type: ProductBaseEntity })
+	@ApiOkResponse({ description: 'success' })
     createProduct(
         @Body(new ValidationPipe({ transform: true })) product: CreateProductDTO,
         @UploadedFiles() images: Array<Express.Multer.File>
@@ -36,29 +37,29 @@ export class ProductController {
 
     @Get('list')
     @UseInterceptors(PaginationEmptyInterceptor)
-    @ApiQuery({ name: 'page', required: false, description: 'page number' })
+    @ApiQuery({ name: 'page', required: false, description: 'page number', type: 'number' })
     @ApiOperation({ summary: 'get all products' })
-    @ApiOkResponse({ type: ProductEntity, isArray: true })
-    @ApiNotAcceptableResponse({ description: 'pagination page is empty' })
+    @ApiPaginatedResponse(ProductEntity)
+    @ApiNotAcceptableResponse({ description: 'pagination page doesn\'t exist' })
     getAllProducts(
         @Query() queries: ISearchReqQueries,
         @Req() { cookies }: Request
-    ): Promise<SearchResultDTO> {
+    ): Promise<PaginationResultDTO<ProductWIthPropertiesEntity>> {
         return this.productService.getAllProducts(queries, cookies);
     }
 
-    @Get('category/:categoryId')
+    @Get('category/:categoryUrl')
 	@UseInterceptors(PaginationEmptyInterceptor)
-	@ApiOperation({ summary: 'get products by category ID' })
-	@ApiQuery({ name: 'page', required: false, description: 'page number' })
-	@ApiOkResponse({ type: ProductBaseEntity, isArray: true })
+	@ApiOperation({ summary: 'get products by category url' })
+    @ApiQuery({ name: 'page', required: false, description: 'page number', type: 'number' })
+	@ApiPaginatedResponse(ProductWIthPropertiesEntity)
 	@ApiNotFoundResponse({ description: 'category not found' })
 	@ApiNotAcceptableResponse({ description: 'pagination page is empty' })
 	getCategoryProducts(
 		@Query() queries: ISearchReqQueries,
         @Req() { cookies }: Request,
-		@Param('categoryId') categoryUrl: string
-	): Promise<SearchResultDTO> {
+		@Param('categoryUrl') categoryUrl: string
+	): Promise<PaginationResultDTO<ProductWIthPropertiesEntity>> {
 		return this.productService.getCategoryProducts(categoryUrl, queries, cookies);
 	}
 
@@ -72,14 +73,6 @@ export class ProductController {
         return this.productService.getProduct(productId);
     }
 
-    @Get('/search/:exp')
-    // @UseInterceptors(PaginationEmptyInterceptor)
-    @ApiOperation({ summary: 'get products by search string' })
-    @ApiOkResponse({ type: ProductEntity, isArray: true })
-    searchByString(@Param('exp') searchExp: string) {
-        return this.productService.searchByString(searchExp);
-    }
-
     // @Patch()
     // @UseInterceptors(FilesInterceptor('staticImages'))
     // @UseInterceptors(AffectedInterceptor)
@@ -90,6 +83,11 @@ export class ProductController {
     // ): Promise<UpdateResult> {
     //     return this.productService.updateProduct(product, staticImages);
     // }
+
+    // ! DONT TOUCH
+    // ! preloading DTO schemas
+    @ApiUnsupportedMediaTypeResponse({ type: PaginationDTO, description: 'never mind. it\'s a bug for feature' })
+    @ApiServiceUnavailableResponse({ type: ProductWIthPropertiesEntity, description: 'never mind. it\'s a bug for feature' })
 
     @Delete(':productId')
     @UseInterceptors(AffectedInterceptor)

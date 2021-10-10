@@ -14,8 +14,8 @@ export class LabelController {
 
     @Post()
     @ApiOperation({ summary: 'create new label' })
-    createLabel(@Body(new ValidationPipe({ transform: true })) body: CreateLabelDTO) {
-        this.labelService.createLabel(body);
+    createLabel(@Body(new ValidationPipe({ transform: true })) body: CreateLabelDTO): Promise<void> {
+        return this.labelService.createLabel(body);
     }
 
     @Get('list')
