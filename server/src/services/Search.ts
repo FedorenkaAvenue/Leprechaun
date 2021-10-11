@@ -8,8 +8,8 @@ export class SearchService {
 		private readonly manticoreService: ManticoreService
 	) {}
 
-    async searchByString(searchExp: string) {
-		const res = await this.manticoreService.searchProduct(decodeURI(searchExp));
+    async searchProductsByString(searchExp: string) {
+		const res = await this.manticoreService.searchByQuery('products', decodeURI(searchExp));
 
 		return res;
 	}

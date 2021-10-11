@@ -14,6 +14,6 @@ export class SearchController {
     @ApiOperation({ summary: 'get products by search string' })
     @ApiOkResponse({ type: ProductEntity, isArray: true })
     searchByString(@Param('exp') searchExp: string) {
-        return this.searchService.searchByString(searchExp);
+        return this.searchService.searchProductsByString(searchExp);
     }
 }
