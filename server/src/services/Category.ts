@@ -7,23 +7,15 @@ import { CreateCategoryDTO, CreateCategoryDTOСonstructor } from '@dto/Category'
 import { FOLDER_TYPES, MulterService } from '@services/Multer';
 
 @Injectable()
-export class CategoriesService {
-	constructor(
-		@InjectRepository(CategoryEntity)
-		private readonly categoryRepo: Repository<CategoryEntity>
-	) {}
-
-	getAllCategories(): Promise<CategoryEntity[]> {
-		return this.categoryRepo.find();
-	}
-}
-
-@Injectable()
 export class CategoryService {
 	constructor(
 		@InjectRepository(CategoryEntity) private readonly categoryRepo: Repository<CategoryEntity>,
 		private readonly multerModule: MulterService
 	) {}
+
+	getAllCategories(): Promise<CategoryEntity[]> {
+		return this.categoryRepo.find();
+	}
 
 	getCategory(categoryUrl: string): Promise<CategoryEntity> {
 		return this.categoryRepo.findOne({

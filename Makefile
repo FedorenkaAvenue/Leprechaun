@@ -16,5 +16,5 @@ open_image_hosting:
 migrations:
 	@yarn --cwd ./server migrations:run
 
-sphinx_index:
-	@make -f ./sphinx/Makefile index_all
+manticore_index:
+	@make -f ./manticore/Makefile index_all

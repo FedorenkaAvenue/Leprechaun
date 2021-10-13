@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
-import { ILabel } from '@interfaces/Label';
+import { ILabel, LabelType } from '@interfaces/Label';
 
 @Entity('label')
 export class LabelEntity implements ILabel {
@@ -10,8 +10,8 @@ export class LabelEntity implements ILabel {
     id: number;
 
     @Column()
-    @ApiProperty({ description: 'label type' })
-    type: string
+    @ApiProperty({ enum: LabelType })
+    type: LabelType;
 
     @Column({ nullable: true })
     @ApiProperty({ required: false, description: 'label text' })

@@ -1,7 +1,7 @@
 import { IProduct } from '@interfaces/Product';
 
-export interface IImage<TProduct = IProduct> {
-    id?: string | number
+export interface IImage {
+    id?: string
     src: string
-    product_id?: TProduct | null
+    product_id?: IProduct['id']
 }

@@ -11,8 +11,8 @@ export class LabelService {
 		@InjectRepository(LabelEntity) private readonly labelRepo: Repository<LabelEntity>
 	) {}
 
-	createLabel(label: CreateLabelDTO): Promise<LabelEntity> {
-		return this.labelRepo.save(new CreateLabelDTOConstructor(label));
+	async createLabel(label: CreateLabelDTO): Promise<void> {
+		await this.labelRepo.save(new CreateLabelDTOConstructor(label));
 	}
 
 	getAllLabels(): Promise<LabelEntity[]> {

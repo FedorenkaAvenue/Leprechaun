@@ -1,7 +1,7 @@
 export interface IPropertyGroup {
     id?: number
     title: string
-    type: FilterOptionType
+    type: PropertyGroupOptionType
     alt_name: string
     properties?: Array<IProperty> | null
     comment?: string
@@ -15,7 +15,7 @@ export interface IProperty {
     comment?: string
 }
 
-export enum FilterOptionType {
+export enum PropertyGroupOptionType {
     List = 'list',
     Range = 'range',
 }
