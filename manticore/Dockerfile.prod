@@ -1,3 +1,0 @@
-FROM manticoresearch/manticore
-
-COPY ./manticore/manticore.conf /etc/manticoresearch/manticore.conf

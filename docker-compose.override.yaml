@@ -28,6 +28,9 @@ services:
 
   manticore:
     container_name: leprechaun_manticore
+    image: manticoresearch/manticore
+    volumes:
+      - ./manticore/manticore.conf:/etc/manticoresearch/manticore.conf
     depends_on:
       - postgres
 
