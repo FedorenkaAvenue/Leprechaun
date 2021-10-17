@@ -2,10 +2,16 @@ version: '3.8'
 
 services:
   postgres:
+    extends:
+      file: docker-compose.override.yaml
+      service: postgres
     restart: on-failure:5
 
   server:
     restart: on-failure:5
+    extends:
+      file: docker-compose.override.yaml
+      service: postgres
     build:
       context: ./server
       dockerfile: Dockerfile.prod
@@ -14,12 +20,18 @@ services:
 
   manticore:
     restart: on-failure:5
+    extends:
+      file: docker-compose.override.yaml
+      service: postgres
     build:
       context: ./manticore
       dockerfile: Dockerfile.prod
 
   client:
     restart: on-failure:5
+    extends:
+      file: docker-compose.override.yaml
+      service: postgres
     build:
       context: ./client
       dockerfile: Dockerfile.prod
@@ -28,11 +40,17 @@ services:
 
   nginx:
     restart: on-failure:5
+    extends:
+      file: docker-compose.override.yaml
+      service: postgres
     ports:
       - 84:80
 
   admin:
     restart: on-failure:5
+    extends:
+      file: docker-compose.override.yaml
+      service: postgres
     build:
       context: ./admin
       dockerfile: Dockerfile.prod
