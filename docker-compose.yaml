@@ -16,6 +16,7 @@ services:
 
   manticore:
     restart: unless-stopped
+    image: manticoresearch/manticore
     ports:
       - ${MANTICORE_PORT}:${MANTICORE_PORT}
     volumes:

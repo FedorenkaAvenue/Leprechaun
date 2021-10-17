@@ -4,9 +4,15 @@
 
 Boilerplate for web store
 
-## Deploy🐳(local)
+## Deploy(local)
 
-Run `make build` to deploy and start all containers
+ * #### local
+
+   - Run `make build` to deploy and start all containers
+
+ * #### remote test server🌐
+
+   - push changes to **test** branch and check [action](https://github.com/FedorenkaAvenue/Leprechaun/actions) result
 
 ## Links
 

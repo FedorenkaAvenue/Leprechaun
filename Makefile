@@ -10,6 +10,9 @@ stop:
 logs:
 	@docker-compose logs -f
 
+remote_test_build:
+	@docker-compose -f docker-compose.test.yaml up --build -d
+
 open_image_hosting:
 	@sudo xdg-open /var/lib/docker/volumes/leprechaun_image_hosting/_data
 
