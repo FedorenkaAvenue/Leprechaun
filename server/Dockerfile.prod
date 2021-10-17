@@ -5,6 +5,6 @@ WORKDIR /app
 COPY . .
 
 RUN npm i -g @nestjs/cli && \
-    yarn --production=true
+    yarn
 
 CMD yarn build && yarn prod
