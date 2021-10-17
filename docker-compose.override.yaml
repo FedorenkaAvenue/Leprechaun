@@ -28,7 +28,6 @@ services:
 
   manticore:
     container_name: leprechaun_manticore
-    image: manticoresearch/manticore
     depends_on:
       - postgres
 

@@ -4,7 +4,7 @@ import * as cookieParser from 'cookie-parser';
 
 import { AppModule } from './app.module';
 
-const { IS_DEV, APP_NAME } = process.env;
+const { APP_NAME } = process.env;
 const GLOBAL_API_PREFIX: string = '/api';
 
 async function runServer() {
@@ -13,17 +13,15 @@ async function runServer() {
 	app.setGlobalPrefix(GLOBAL_API_PREFIX);
 	app.use(cookieParser());
 
-	if (IS_DEV) {
-		const config = new DocumentBuilder()
-			.setTitle(APP_NAME)
-			.setDescription(`All routes begin from ${GLOBAL_API_PREFIX} prefix.`)
-			.build();
+	const config = new DocumentBuilder()
+		.setTitle(APP_NAME)
+		.setDescription(`All routes begin from ${GLOBAL_API_PREFIX} prefix.`)
+		.build();
 
-		const document = SwaggerModule.createDocument(app, config, {
-			ignoreGlobalPrefix: true
-		});
-		SwaggerModule.setup('/docs', app, document);
-	}
+	const document = SwaggerModule.createDocument(app, config, {
+		ignoreGlobalPrefix: true
+	});
+	SwaggerModule.setup('/docs', app, document);
 
 	await app.listen(80);
 }
