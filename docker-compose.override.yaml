@@ -38,7 +38,7 @@ services:
     container_name: leprechaun_client
     environment:
       - APP_NAME
-      - PORT:${CLIENT_PORT}
+      - PORT=80
 
   nginx:
     container_name: leprechaun_nginx
