@@ -38,6 +38,7 @@ services:
     container_name: leprechaun_client
     environment:
       - APP_NAME
+      - PORT:${CLIENT_PORT}
 
   nginx:
     container_name: leprechaun_nginx
