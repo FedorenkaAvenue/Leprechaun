@@ -8,7 +8,8 @@ Boilerplate for web store
 
  * #### local
 
-   - Run `make build` to deploy and start all containers
+   - run `make build` to deploy and start all containers
+   - add `leprechaun docs.leprechaun adm.leprechaun api.leprechaun` aliases to Your `/etc/hosts` list
 
  * #### remote test server🌐
 
@@ -16,10 +17,10 @@ Boilerplate for web store
 
 ## Links
 
- * http://localhost user client
- * http://localhost:81 admin client
- * http://localhost/docs *Swagger* docs
- * http://localhost/api RestFull API server
+ * http://leprechaun user client
+ * http://adm.leprechaun admin client
+ * http://docs.leprechaun *Swagger* docs
+ * http://api.leprechaun RestFull API server
 
 ## Tools
 

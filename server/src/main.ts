@@ -5,17 +5,14 @@ import * as cookieParser from 'cookie-parser';
 import { AppModule } from './app.module';
 
 const { APP_NAME } = process.env;
-const GLOBAL_API_PREFIX: string = '/api';
 
 async function runServer() {
 	const app = await NestFactory.create(AppModule);
 
-	app.setGlobalPrefix(GLOBAL_API_PREFIX);
 	app.use(cookieParser());
 
 	const config = new DocumentBuilder()
 		.setTitle(APP_NAME)
-		.setDescription(`All routes begin from ${GLOBAL_API_PREFIX} prefix.`)
 		.build();
 
 	const document = SwaggerModule.createDocument(app, config, {

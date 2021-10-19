@@ -38,7 +38,5 @@ services:
   admin:
     restart: unless-stopped
     build: ./admin
-    ports:
-      - 81:80
     volumes:
       - ./admin:/app
