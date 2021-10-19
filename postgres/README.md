@@ -2,8 +2,18 @@
 
 ## Params
 
- * **host**: `leprechaun_postgres`
- * **port**: `5432`
- * **user**: `postgres`
- * **password**: `2700`
- * **database**: `postgres`
+ * local
+
+    * **host**: `leprechaun_postgres`
+    * **port**: `5432`
+    * **user**: `postgres`
+    * **password**: `2700`
+    * **database**: `postgres`
+
+ * remote test server
+
+    * **host**: `185.253.218.139`
+    * **port**: `5432`
+    * **user**: `postgres`
+    * **password**: `2700`
+    * **database**: `postgres`

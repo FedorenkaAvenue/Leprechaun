@@ -1,8 +1,9 @@
 # Web application
 
-## Join
+## Links
 
-http://localhost/api
+ * **local**: http://api.leprechaun
+ * **remote test server**: https://api.leprechaun.tech
 
 ## Tools
 

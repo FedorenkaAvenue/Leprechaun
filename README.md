@@ -17,10 +17,19 @@ Boilerplate for web store
 
 ## Links
 
- * http://leprechaun user client
- * http://adm.leprechaun admin client
- * http://docs.leprechaun *Swagger* docs
- * http://api.leprechaun RestFull API server
+ * local
+
+   * http://leprechaun user client
+   * http://adm.leprechaun admin client
+   * http://docs.leprechaun *Swagger* docs
+   * http://api.leprechaun RestFull API server
+
+ * remote test server
+
+   * https://leprechaun.tech user client
+   * https://adm.leprechaun.tech admin client
+   * https://docs.leprechaun.tech *Swagger* docs
+   * https://api.leprechaun.tech RestFull API server
 
 ## Tools
 
