@@ -15,5 +15,5 @@
     * **host**: `185.253.218.139`
     * **port**: `5432`
     * **user**: `postgres`
-    * **password**: `2700`
+    * **password**: `barabaka35`
     * **database**: `postgres`
