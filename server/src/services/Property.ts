@@ -13,8 +13,8 @@ export class PropertyGroupService {
 		@InjectRepository(PropertyGroupEntity) private readonly propertyGroupRepo: Repository<PropertyGroupEntity>
 	) {}
 
-	createGroup(newGroup: CreatePropertyGroupDTO): Promise<ProductGroupBaseEntity> {
-		return this.propertyGroupRepo.save(new CreatePropertyGroupDTOConstructor(newGroup));
+	async createGroup(newGroup: CreatePropertyGroupDTO): Promise<void> {
+		await this.propertyGroupRepo.save(new CreatePropertyGroupDTOConstructor(newGroup));
 	}
 
 	getGroup(groupId: number): Promise<PropertyGroupEntity> {
@@ -25,9 +25,7 @@ export class PropertyGroupService {
 	}
 
 	getAllGroups(): Promise<PropertyGroupEntity[]> {
-		return this.propertyGroupRepo.find({
-			relations: [ 'properties' ]
-		});
+		return this.propertyGroupRepo.find();
 	}
 
 	deleteGroup(groupId: number): Promise<DeleteResult> {
@@ -41,15 +39,18 @@ export class PropertyService {
 		@InjectRepository(PropertyEntity) private readonly propertyRepo: Repository<PropertyEntity>
 	) {}
 
-	createFilter(filter: CreatePropertyDTO): Promise<PropertyEntity> {
-		return this.propertyRepo.save(new CreateFilterDTOConstructor(filter));
+	async createProperty(property: CreatePropertyDTO): Promise<void> {
+		await this.propertyRepo.save(new CreateFilterDTOConstructor(property));
 	}
 
-	getFilter(filterId: number): Promise<PropertyEntity> {
-		return this.propertyRepo.findOne({ id: filterId });
+	getProperty(propertyId: number): Promise<PropertyEntity> {
+		return this.propertyRepo.findOne({
+			where: { id: propertyId },
+			relations: [ 'property_group' ]
+		});
 	}
 
-	deletefilter(filterId): Promise<DeleteResult> {
-		return this.propertyRepo.delete({ id: filterId });
+	deleteProperty(propertyId): Promise<DeleteResult> {
+		return this.propertyRepo.delete({ id: propertyId });
 	}
 }

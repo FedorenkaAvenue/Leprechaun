@@ -5,7 +5,7 @@ import { ProductEntity } from '@entities/Product';
 import { IImage } from '@interfaces/Image';
 
 @Entity('image')
-export class ImageEntity implements IImage<string> {
+export class ImageEntity implements IImage {
     @PrimaryGeneratedColumn('uuid')
     @ApiProperty()
     id: string;

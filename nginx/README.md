@@ -2,9 +2,17 @@
 
 ## Params
 
- * **port (container)**: `80`
- * **default admin user**: `root`
- * **default admin pass**: `barabaka35`
+ * local
+
+    * **port (container)**: `80`
+    * **default admin user**: `root`
+    * **default admin pass**: `barabaka35`
+
+ * remote test server
+
+    * **port (container)**: `84`
+    * **default admin user**: `root`
+    * **default admin pass**: `barabaka35`
 
 ## Hosting tree
 

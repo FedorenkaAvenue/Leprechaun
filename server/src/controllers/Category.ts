@@ -6,15 +6,15 @@ import { FileInterceptor } from '@nestjs/platform-express';
 import { DeleteResult, UpdateResult } from 'typeorm';
 
 import { NotFoundInterceptor, AffectedInterceptor } from '@interceptors/DB';
-import { CategoriesService, CategoryService } from '@services/Category';
-import { CategoryBaseEntity, CategoryEntity } from '@entities/Category';
+import { CategoryService } from '@services/Category';
+import { CategoryBaseEntity, CategoryEntity, CategoryWithPropertyGroupsEntity } from '@entities/Category';
 import { CreateCategoryDTO } from '@dto/Category';
 import { MulterService } from '@services/Multer';
 
-@Controller('categories')
-@ApiTags('Categories')
-export class CategoriesController {
-	constructor(private readonly categoryService: CategoriesService) {}
+@ApiTags('Category')
+@Controller('category')
+export class CategoryController {
+	constructor(private readonly categoryService: CategoryService) {}
 
 	@Get('list')
 	@ApiOperation({ summary: 'get all categories' })
@@ -22,17 +22,11 @@ export class CategoriesController {
 	getAllCategories(): Promise<CategoryBaseEntity[]> {
 		return this.categoryService.getAllCategories();
 	}
-}
-
-@ApiTags('Category')
-@Controller('category')
-export class CategoryController {
-	constructor(private readonly categoryService: CategoryService) {}
 
 	@Get(':category')
 	@UseInterceptors(NotFoundInterceptor)
 	@ApiOperation({ summary: 'get category info by url' })
-	@ApiOkResponse({ type: CategoryBaseEntity })
+	@ApiOkResponse({ type: CategoryWithPropertyGroupsEntity })
 	@ApiNotFoundResponse({ description: 'category not found' })
 	getCategory(@Param('category') category: string): Promise<CategoryEntity> {
 		return this.categoryService.getCategory(category);
@@ -44,7 +38,7 @@ export class CategoryController {
 		{ fileFilter: MulterService.fileFilterOption('svg') }
 	))
 	@ApiOperation({ summary: 'add new category' })
-	@ApiCreatedResponse({ type: CategoryBaseEntity })
+	@ApiCreatedResponse({ description: 'success added' })
 	addCategory(
 		@Body(new ValidationPipe({ transform: true })) body: CreateCategoryDTO,
 		@UploadedFile() icon: Express.Multer.File

@@ -83,17 +83,7 @@ export class ProductBaseEntity implements IProduct {
     description: string;
 }
 
-@Entity('product')
-export class ProductEntity extends ProductBaseEntity implements IProduct {
-    @ManyToOne(
-        () => CategoryEntity,
-        ({ products }) => products,
-        { onDelete: 'NO ACTION' }
-    )
-    @JoinColumn({ name: 'category', referencedColumnName: 'id' })
-    @ApiProperty({ type: () => CategoryEntity })
-    category: ICategory;
-
+export class ProductWIthPropertiesEntity extends ProductBaseEntity implements IProduct {
     @ManyToMany(
         () => PropertyEntity,
         ({ id }) => id,
@@ -110,6 +100,18 @@ export class ProductEntity extends ProductBaseEntity implements IProduct {
         isArray: true
     })
     properties: Array<IProperty>;
+}
+
+@Entity('product')
+export class ProductEntity extends ProductWIthPropertiesEntity implements IProduct {
+    @ManyToOne(
+        () => CategoryEntity,
+        ({ products }) => products,
+        { onDelete: 'NO ACTION' }
+    )
+    @JoinColumn({ name: 'category', referencedColumnName: 'id' })
+    @ApiProperty({ type: () => CategoryEntity })
+    category: ICategory;
 }
 
 // @EventSubscriber()

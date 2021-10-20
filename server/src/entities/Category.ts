@@ -27,9 +27,12 @@ export class CategoryBaseEntity implements ICategory {
     @Column({ nullable: true })
     @ApiProperty({ required: false })
     icon: string;
+}
 
+export class CategoryWithPropertyGroupsEntity extends CategoryBaseEntity implements ICategory {
     @ManyToMany(
         () => PropertyGroupEntity,
+        ({ id }) => id,
         { cascade: true }
     )
     @JoinTable({
@@ -48,12 +51,12 @@ export class CategoryBaseEntity implements ICategory {
         isArray: true,
         required: false
     })
-    property_groups: IPropertyGroup[]
+    property_groups: IPropertyGroup[];
 }
 
 @Entity('category')
-export class CategoryEntity extends CategoryBaseEntity implements ICategory {
+export class CategoryEntity extends CategoryWithPropertyGroupsEntity implements ICategory {
     @OneToMany(() => ProductEntity, ({ category }) => category)
     @ApiProperty({ type: ProductEntity, isArray: true })
-    products: IProduct[]
+    products: IProduct[];
 }

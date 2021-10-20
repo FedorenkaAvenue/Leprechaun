@@ -2,9 +2,9 @@ import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { MulterModule } from '@nestjs/platform-express';
 
-import { CategoryController, CategoriesController } from '@controllers/Category';
+import { CategoryController } from '@controllers/Category';
 import { CategoryEntity } from '@entities/Category';
-import { CategoriesService, CategoryService } from '@services/Category';
+import { CategoryService } from '@services/Category';
 import { MulterService } from '@services/Multer';
 
 @Module({
@@ -12,9 +12,8 @@ import { MulterService } from '@services/Multer';
 		TypeOrmModule.forFeature([CategoryEntity]),
 		MulterModule.registerAsync({ useClass: MulterService })
 	],
-	controllers: [ CategoryController, CategoriesController ],
+	controllers: [ CategoryController ],
 	providers: [
-		CategoriesService,
 		CategoryService,
 		MulterService
 	],

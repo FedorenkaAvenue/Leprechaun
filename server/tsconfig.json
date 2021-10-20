@@ -21,7 +21,8 @@
       "@interfaces/*": ["interfaces/*"],
       "@dto/*": ["dto/*"],
       "@controllers/*": ["controllers/*"],
-      "@middlewares/*": ["middlewares/*"]
+      "@middlewares/*": ["middlewares/*"],
+      "@decorators/*": ["decorators/*"]
     },
   }
 }

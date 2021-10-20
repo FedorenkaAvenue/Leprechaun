@@ -14,12 +14,10 @@ services:
     environment:
       - IS_DEV=true
 
-  sphinx:
+  manticore:
     restart: unless-stopped
     ports:
-      - ${SPHINX_PORT}:${SPHINX_PORT}
-    volumes:
-      - ./sphinx/sphinx.conf:/etc/sphinx/sphinx.conf
+      - ${MANTICORE_PORT}:${MANTICORE_PORT}
 
   client:
     restart: unless-stopped
@@ -40,7 +38,5 @@ services:
   admin:
     restart: unless-stopped
     build: ./admin
-    ports:
-      - 81:80
     volumes:
       - ./admin:/app

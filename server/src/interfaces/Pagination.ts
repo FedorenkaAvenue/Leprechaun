@@ -14,3 +14,8 @@ export interface ICreatePagintaion {
     currentPage: number
     itemPortion: number
 }
+
+export interface IPaginationResult<TDataResult> {
+    pagination: IPagination
+    data: Array<TDataResult>
+}

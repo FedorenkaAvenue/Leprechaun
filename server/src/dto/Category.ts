@@ -40,14 +40,14 @@ export class CreateCategoryDTO implements ICategory {
 }
 
 export class CreateCategoryDTOСonstructor extends CreateCategoryDTO {
-    constructor({ url, title, is_public, property_groups }: CreateCategoryDTO) {
+    constructor({ url, title, is_public, property_groups }: CreateCategoryDTO) {        
         super();
         this.url = url;
         this.title = title;
         this.is_public = is_public;
         // @ts-ignore for table relations
         this.property_groups = property_groups
-            ? property_groups.map(propertyId => ({ id: propertyId }))
+            ? property_groups.map(groupId => ({ id: Number(groupId) }))
             : null;
     }
 }

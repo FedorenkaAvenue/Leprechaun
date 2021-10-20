@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 
-import { FilterOptionType, IProperty, IPropertyGroup } from '@interfaces/Property';
+import { PropertyGroupOptionType, IProperty, IPropertyGroup } from '@interfaces/Property';
 
 export class ProductGroupBaseEntity implements IPropertyGroup {
     @PrimaryGeneratedColumn('rowid')
@@ -13,8 +13,8 @@ export class ProductGroupBaseEntity implements IPropertyGroup {
     title: string;
 
     @Column({ select: false })
-    @ApiProperty({ enum: FilterOptionType })
-    type: FilterOptionType;
+    @ApiProperty({ enum: PropertyGroupOptionType })
+    type: PropertyGroupOptionType;
 
     @Column({ unique: true })
     @ApiProperty()
@@ -58,7 +58,7 @@ export class PropertyEntity extends PropertyBaseEntity implements IProperty {
     @ManyToOne(
         () => PropertyGroupEntity,
         ({ properties }) => properties,
-        { onDelete: 'CASCADE', eager: true, nullable: false }
+        { onDelete: 'CASCADE', nullable: false }
     )
     @JoinColumn({ name: 'property_group' })
     @ApiProperty()

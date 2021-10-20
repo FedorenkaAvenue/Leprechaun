@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsEnum, IsNotEmpty, IsNumber, IsOptional, IsString } from 'class-validator';
 
-import { FilterOptionType, IProperty, IPropertyGroup } from '@interfaces/Property';
+import { PropertyGroupOptionType, IProperty, IPropertyGroup } from '@interfaces/Property';
 
 export class CreatePropertyGroupDTO implements IPropertyGroup {
     @IsNotEmpty()
@@ -10,9 +10,9 @@ export class CreatePropertyGroupDTO implements IPropertyGroup {
     title: string;
 
     @IsNotEmpty()
-    @IsEnum(FilterOptionType)
-    @ApiProperty({ enum: FilterOptionType })
-    type: FilterOptionType;
+    @IsEnum(PropertyGroupOptionType)
+    @ApiProperty({ enum: PropertyGroupOptionType })
+    type: PropertyGroupOptionType;
 
     @IsNotEmpty()
     @IsString()

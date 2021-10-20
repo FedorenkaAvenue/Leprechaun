@@ -1,11 +1,11 @@
 export enum CookieSortType {
-    POPULAR = 1,
-    PRICE_UP,
-    PRICE_DOWN ,
-    NEW
+    POPULAR = 1,  // most popular first
+    PRICE_UP,     // from cheap to expensive
+    PRICE_DOWN ,  // from expensive to cheap
+    NEW           // most new first
 }
 
 export interface ICookies {
-    sort: CookieSortType
-    portion: number
+    sort: CookieSortType    // sorting result
+    portion: number         // items amount for pagination
 }

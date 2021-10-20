@@ -1,6 +1,6 @@
 import { IImage } from '@interfaces/Image';
 
-export class CreateImageDTO implements IImage<string> {
+export class CreateImageDTO implements IImage {
     src: string;
     product: string;
 

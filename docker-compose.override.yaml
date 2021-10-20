@@ -21,18 +21,16 @@ services:
       - POSTGRES_USER
       - POSTGRES_DATABASE
       - HOSTING_PATH
-      - SPHINX_HOST
-      - SPHINX_PORT
+      - MANTICORE_HOST
+      - MANTICORE_PORT
     volumes:
       - image_hosting:/var/www/img:rw
 
-  sphinx:
-    container_name: leprechaun_sphinx
-    build:
-      context: ./sphinx
-      dockerfile: Dockerfile
-      args:
-        - SPHINX_PORT
+  manticore:
+    container_name: leprechaun_manticore
+    image: manticoresearch/manticore
+    volumes:
+      - ./manticore/manticore.conf:/etc/manticoresearch/manticore.conf
     depends_on:
       - postgres
 
@@ -40,6 +38,7 @@ services:
     container_name: leprechaun_client
     environment:
       - APP_NAME
+      - PORT=80
 
   nginx:
     container_name: leprechaun_nginx

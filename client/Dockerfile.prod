@@ -1,0 +1,10 @@
+FROM node:14.17.3-alpine3.14
+
+WORKDIR /app
+
+COPY . .
+
+RUN npm install && \
+    npm run build:universal
+
+CMD [ "node", "dist-server/main.js" ]
