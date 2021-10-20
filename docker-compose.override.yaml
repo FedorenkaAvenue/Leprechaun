@@ -23,6 +23,10 @@ services:
       - HOSTING_PATH
       - MANTICORE_HOST
       - MANTICORE_PORT
+      - MAIL_SMTP_HOST
+      - MAIL_SMTP_PORT
+      - MAIL_SENDER_ACCOUNT
+      - MAIL_SENDER_PASSWORD
     volumes:
       - image_hosting:/var/www/img:rw
 
