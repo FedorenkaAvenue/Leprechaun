@@ -11,9 +11,7 @@ export interface ProductCardI {
     images: Array<imageDto>;
     isPublic: boolean,
   }
-  
-    result: ProductCardDto[],
-  export interface Products {
+    export interface Products {
     data: ProductCardDto[],
     images: Array<ImageI>;
     isPublic: boolean,
@@ -34,7 +32,6 @@ export interface ProductCardI {
       public title: string;
       public price: number;
       public category: string;
-      public images: Array<imageDto>;
       public images: Array<ImageI>;
       public isPublic: boolean;
     constructor(

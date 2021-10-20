@@ -17,11 +17,6 @@ import { ProductsService } from '../../sevices/products.service';
 export class ProductPageComponent implements OnInit {
 
   public products$: Observable<Products>;
-<<<<<<< HEAD
-
-=======
-  
->>>>>>> product-card
   constructor(
     private readonly route: ActivatedRoute,
     private readonly productsService: ProductsService,
