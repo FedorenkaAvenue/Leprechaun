@@ -15,7 +15,7 @@ export class CategoriesApiService {
   ) { }
 
   public getCategories(): Observable<CategoryDto[]> {
-    return this.http.get<CategoryDto[]>(`${this.apiUrl}/categories/list`).pipe(
+    return this.http.get<CategoryDto[]>(`${this.apiUrl}/category/list`).pipe(
       catchError( () => {
         return of(CATEGORY_SHORT_LIST.map( el => {
           return new CategoryDto(el)

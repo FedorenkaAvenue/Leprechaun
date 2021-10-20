@@ -7,7 +7,7 @@
     * **host**: `leprechaun_postgres`
     * **port**: `5432`
     * **user**: `postgres`
-    * **password**: `2700`
+    * **password**: `barabaka35`
     * **database**: `postgres`
 
  * remote test server
