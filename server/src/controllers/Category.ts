@@ -9,7 +9,7 @@ import { NotFoundInterceptor, AffectedInterceptor } from '@interceptors/DB';
 import { CategoryService } from '@services/Category';
 import { CategoryBaseEntity, CategoryEntity, CategoryWithPropertyGroupsEntity } from '@entities/Category';
 import { CreateCategoryDTO } from '@dto/Category';
-import { MulterService } from '@services/Multer';
+import { FSService } from '@services/FS';
 
 @ApiTags('Category')
 @Controller('category')
@@ -35,7 +35,7 @@ export class CategoryController {
 	@Post()
 	@UseInterceptors(FileInterceptor(
 		'icon',
-		{ fileFilter: MulterService.fileFilterOption('svg') }
+		{ fileFilter: FSService.fileFilterOption('svg') }
 	))
 	@ApiOperation({ summary: 'add new category' })
 	@ApiCreatedResponse({ description: 'success added' })
@@ -49,7 +49,7 @@ export class CategoryController {
 	// @Patch()
 	// @UseInterceptors(FileInterceptor(
 	// 	'icon',
-	// 	{ fileFilter: MulterService.fileFilterOption('svg') }
+	// 	{ fileFilter: FSService.fileFilterOption('svg') }
 	// ))
 	// @UseInterceptors(AffectedInterceptor)
 	// @ApiOperation({ summary: 'update category' })

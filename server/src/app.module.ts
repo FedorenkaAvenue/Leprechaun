@@ -17,7 +17,7 @@ import ConfigService from '@services/Config';
 		ImageModule,
 		LabelModule,
 		SearchModule,
-		TypeOrmModule.forRoot(new ConfigService().getTypeOrmConfig())
+		TypeOrmModule.forRoot(ConfigService.getTypeOrmConfig())
 	]
 })
 export class AppModule {}

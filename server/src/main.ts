@@ -8,16 +8,15 @@ import ConfigService from '@services/Config';
 
 async function runServer() {
 	const app = await NestFactory.create(AppModule);
-	const congService = new ConfigService();
 
 	app.use(cookieParser());
 
-	if (!congService.isDev()) {
+	if (!ConfigService.isDev) {
 		app.useGlobalFilters(new HttpExceptionFilter());
 	}
 
 	const config = new DocumentBuilder()
-		.setTitle(congService.getAppName())
+		.setTitle(ConfigService.getAppName())
 		.build();
 
 	const document = SwaggerModule.createDocument(app, config, {

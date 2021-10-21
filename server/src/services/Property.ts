@@ -7,6 +7,9 @@ import {
 } from '@dto/Property';
 import { PropertyGroupEntity, PropertyEntity, ProductGroupBaseEntity } from '@entities/Property';
 
+/**
+ * @description /propertygroup controller service
+ */
 @Injectable()
 export class PropertyGroupService {
     constructor(
@@ -33,6 +36,9 @@ export class PropertyGroupService {
 	}
 }
 
+/**
+ * @description /property controller service
+ */
 @Injectable()
 export class PropertyService {
     constructor(

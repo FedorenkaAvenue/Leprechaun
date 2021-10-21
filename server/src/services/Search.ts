@@ -2,6 +2,9 @@ import { Injectable } from '@nestjs/common';
 
 import ManticoreService from './Manticore';
 
+/**
+ * @description /search controller service
+ */
 @Injectable()
 export class SearchService {
     constructor(

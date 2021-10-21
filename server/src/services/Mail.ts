@@ -20,13 +20,16 @@ interface IDevLogMail {
     ip: string
 }
 
+/**
+ * @description e-mail service
+ */
 @Injectable()
 export default class MailService {
     /**
      * @description create connection
      */
     createConnection(): Transporter<SentMessageInfo> {
-        return createTransport(new ConfigService().getMailConfig());
+        return createTransport(ConfigService.getMailConfig());
     }
 
     /**
@@ -37,7 +40,7 @@ export default class MailService {
         if (Array.isArray(to)) to = to.join(', '); // mass recieving
     
         this.createConnection().sendMail({
-            from: new ConfigService().getMailCredentials(),
+            from: ConfigService.getMailCredentials(),
             to, subject, text, html
         });
     }
@@ -47,7 +50,7 @@ export default class MailService {
      */
     sendErrorLogMail(logData: IDevLogMail): void {
         this.sendDevMail(
-            new TemplateService().renderTemplate(
+            TemplateService.renderTemplate(
                 'devMailErrorLog',
                 logData
             )
@@ -59,7 +62,7 @@ export default class MailService {
      */
     sendDevMail(content: string): void {
         this.sendMail({
-            to: new ConfigService().getDevMailReciever(),
+            to: ConfigService.getDevMailReciever(),
             subject: 'Development mail',
             html: content
         });

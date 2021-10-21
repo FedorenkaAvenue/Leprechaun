@@ -4,7 +4,7 @@ import { DeleteResult, Repository, SelectQueryBuilder } from 'typeorm';
 
 import { CreateProductDTO, CreateProductDTOConstructor } from '@dto/Product';
 import { ProductEntity, ProductWIthPropertiesEntity } from '@entities/Product';
-import { FOLDER_TYPES, MulterService } from '@services/Multer';
+import { FOLDER_TYPES, FSService } from '@services/FS';
 import { ImageService } from '@services/Image';
 import { CookieSortType, ICookies } from '@interfaces/Cookies';
 import { ISearchReqQueries } from '@interfaces/Queries';
@@ -12,17 +12,20 @@ import { SearchQueriesDTO } from '@dto/SearchQueries';
 import { PaginationResultDTO } from '@dto/Pagination';
 import CookieService from './Cookie';
 
+/**
+ * @description /product controller service
+ */
 @Injectable()
 export class ProductService {
     constructor(
 		@InjectRepository(ProductEntity) private readonly productRepo: Repository<ProductEntity>,
-		private readonly multerModule: MulterService,
+		private readonly multerModule: FSService,
 		private readonly imageService: ImageService,
 		private readonly cookieService: CookieService
 	) {}
 
-	async createProduct(productDTO: CreateProductDTO, images: Array<Express.Multer.File>): Promise<void> {
-		const { id } = await this.productRepo.save(new CreateProductDTOConstructor(productDTO));
+	async createProduct(newProduct: CreateProductDTO, images: Array<Express.Multer.File>): Promise<void> {
+		const { id } = await this.productRepo.save(new CreateProductDTOConstructor(newProduct));
 		
 		if (images) {
 			const uploadedImgArr = await this.multerModule.saveFiles(FOLDER_TYPES.PRODUCT, id, images);

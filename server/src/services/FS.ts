@@ -7,15 +7,18 @@ import { extname } from 'path';
 
 import ConfigService from '@services/Config';
 
-const { HOSTING_PATH } = new ConfigService().getHostingParams();
+const { HOSTING_PATH } = ConfigService.getHostingParams();
 
 export enum FOLDER_TYPES {
     CATEGORY = 'img/category/',
     PRODUCT = 'img/product/'
 }
 
+/**
+ * @description file system service
+ */
 @Injectable()
-export class MulterService implements MulterOptionsFactory {
+export class FSService implements MulterOptionsFactory {
     /**
      * @description method to filter file's extensions for MulterOptions
      * @param extentions spreaded extensions ('svg', 'png' etc)
@@ -38,9 +41,7 @@ export class MulterService implements MulterOptionsFactory {
      * @returns Multer settings object
      */
     createMulterOptions(): MulterModuleOptions {
-        return {
-            storage: memoryStorage()
-        };
+        return { storage: memoryStorage() };
     }
 
     /**
@@ -68,7 +69,7 @@ export class MulterService implements MulterOptionsFactory {
                 return imageHref;
             }));
         } catch(err) {
-            throw new InternalServerErrorException();
+            throw new InternalServerErrorException(err);
         }
     }
 
@@ -82,7 +83,7 @@ export class MulterService implements MulterOptionsFactory {
                 return promises.rm(HOSTING_PATH + file);
             }));
         } catch(err) {
-            throw new InternalServerErrorException();
+            throw new InternalServerErrorException(err);
         }
     }
 
@@ -98,7 +99,7 @@ export class MulterService implements MulterOptionsFactory {
                 { recursive: true }
             );
         } catch(err) {
-            throw new InternalServerErrorException();
+            throw new InternalServerErrorException(err);
         }
     }
 }

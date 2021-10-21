@@ -11,6 +11,9 @@ export interface IManticoreResult<TIndexItem> {
     warning: string
 }
 
+/**
+ * @description Manticore search engine service
+ */
 @Injectable()
 export default class ManticoreService {
     /**
@@ -19,7 +22,7 @@ export default class ManticoreService {
      */
     createConnection() {
         const client = new ApiClient();
-        client.basePath = new ConfigService().getManticoreConfig();
+        client.basePath = ConfigService.getManticoreConfig();
 
         return client;
     }

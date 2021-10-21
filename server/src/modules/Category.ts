@@ -5,17 +5,17 @@ import { MulterModule } from '@nestjs/platform-express';
 import { CategoryController } from '@controllers/Category';
 import { CategoryEntity } from '@entities/Category';
 import { CategoryService } from '@services/Category';
-import { MulterService } from '@services/Multer';
+import { FSService } from '@services/FS';
 
 @Module({
 	imports: [
 		TypeOrmModule.forFeature([CategoryEntity]),
-		MulterModule.registerAsync({ useClass: MulterService })
+		MulterModule.registerAsync({ useClass: FSService })
 	],
 	controllers: [ CategoryController ],
 	providers: [
 		CategoryService,
-		MulterService
+		FSService
 	],
 })
 export class CategoryModule {}

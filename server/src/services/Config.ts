@@ -5,12 +5,17 @@ interface IHostingParams {
     HOSTING_PATH: string
 }
 
-interface SphinxConnectionParams {
-    host: string
-    port: string
-}
+/**
+ * @description configuration service (esp working with a environment variables)
+ * @property {Boolean} isDev is development environment
+ */
+class ConfigService {
+    isDev: boolean;
 
-export default class ConfigService {
+    constructor() {
+        this.isDev = Boolean(this.getVal('IS_DEV'));
+    }
+
     /**
      * @description get environment variable value by key
      * @param key environment variable key
@@ -22,13 +27,6 @@ export default class ConfigService {
         if (typeof envVariable === 'undefined') throw new Error(`config error: missing env ${key}`);
 
         return envVariable;
-    }
-
-    /**
-     * @description get environment status
-     */
-    isDev() {
-        return Boolean(this.getVal('IS_DEV'))
     }
 
     /**
@@ -49,7 +47,7 @@ export default class ConfigService {
 			username: this.getVal('POSTGRES_USER'),
 			password: this.getVal('POSTGRES_PASSWORD'),
 			database: this.getVal('POSTGRES_DATABASE'),
-			synchronize: this.isDev(),
+			synchronize: this.isDev,
 			autoLoadEntities: true
         });
     }
@@ -102,3 +100,5 @@ export default class ConfigService {
         return this.getVal('DEV_MAIL_RECIEVER');
     }
 }
+
+export default new ConfigService();

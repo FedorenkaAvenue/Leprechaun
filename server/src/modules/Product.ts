@@ -5,17 +5,17 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { ProductController } from '@controllers/Product';
 import { ProductEntity } from '@entities/Product';
 import { ProductService } from '@services/Product';
-import { MulterService } from '@services/Multer';
+import { FSService } from '@services/FS';
 import { ImageModule } from '@modules/Image';
 import CookieService from '@services/Cookie';
 
 @Module({
 	imports: [
 		TypeOrmModule.forFeature([ProductEntity]),
-		MulterModule.registerAsync({ useClass: MulterService }),
+		MulterModule.registerAsync({ useClass: FSService }),
 		ImageModule
 	],
 	controllers: [ ProductController ],
-	providers: [ ProductService, MulterService, CookieService ]
+	providers: [ ProductService, FSService, CookieService ]
 })
 export class ProductModule {}

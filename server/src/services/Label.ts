@@ -5,6 +5,9 @@ import { DeleteResult, Repository } from 'typeorm';
 import { CreateLabelDTO, CreateLabelDTOConstructor } from '@dto/Label';
 import { LabelEntity } from '@entities/Label';
 
+/**
+ * @description /label controller service
+ */
 @Injectable()
 export class LabelService {
     constructor(

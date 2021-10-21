@@ -4,13 +4,16 @@ import { DeleteResult, Repository, UpdateResult } from 'typeorm';
 
 import { CategoryEntity } from '@entities/Category';
 import { CreateCategoryDTO, CreateCategoryDTOСonstructor } from '@dto/Category';
-import { FOLDER_TYPES, MulterService } from '@services/Multer';
+import { FOLDER_TYPES, FSService } from '@services/FS';
 
+/**
+ * @description /category controller service
+ */
 @Injectable()
 export class CategoryService {
 	constructor(
 		@InjectRepository(CategoryEntity) private readonly categoryRepo: Repository<CategoryEntity>,
-		private readonly multerModule: MulterService
+		private readonly multerModule: FSService
 	) {}
 
 	getAllCategories(): Promise<CategoryEntity[]> {
@@ -28,7 +31,11 @@ export class CategoryService {
 		const { id } = await this.categoryRepo.save(new CreateCategoryDTOСonstructor(newCategory));
 
 		if (icon) {
-			const uploadedIcon = await this.multerModule.saveFiles(FOLDER_TYPES.CATEGORY, id, [ icon ])[0];
+			const [ uploadedIcon ] = await this.multerModule.saveFiles(
+				FOLDER_TYPES.CATEGORY,
+				id,
+				[ icon ]
+			);
 
 			await this.categoryRepo.update(
 				{ id },

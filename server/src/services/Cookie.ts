@@ -3,6 +3,9 @@ import { Injectable } from '@nestjs/common';
 import { ICookies } from '@interfaces/Cookies';
 import { CookieDTO } from '@dto/Cookies';
 
+/**
+ * @description cookie service
+ */
 @Injectable()
 export default class CookieService {
     /**
