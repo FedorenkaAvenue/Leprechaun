@@ -1,0 +1,35 @@
+// @params method
+// @params status
+// @params message
+// @params path
+// @params body
+// @params cookies
+// @params stack
+// @params ip
+
+div
+	h1(style="font-size: 20px") Server error
+	div(style="padding: 5px; margin: 5px 0; background-color: lightgray;")
+		b method:
+		span(style="margin-left: 5px") #{method}
+	div(style="padding: 5px; margin: 5px 0; background-color: lightgray;")
+		b status code:
+		span(style="margin-left: 5px") #{status}
+	div(style="padding: 5px; margin: 5px 0; background-color: lightgray;")
+		b message:
+		span(style="margin-left: 5px") #{message}
+	div(style="padding: 5px; margin: 5px 0; background-color: lightgray;")
+		b path:
+		span(style="margin-left: 5px") #{path}
+	div(style="padding: 5px; margin: 5px 0; background-color: lightgray;")
+		b body:
+		pre(style="margin-left: 5px") #{body}
+	div(style="padding: 5px; margin: 5px 0; background-color: lightgray;")
+		b cookies:
+		pre(style="margin-left: 5px") #{cookies}
+	div(style="padding: 5px; margin: 5px 0; background-color: lightgray;")
+		b stack:
+		pre(style="margin-left: 5px") #{stack}
+	div(style="padding: 5px; margin: 5px 0; background-color: lightgray;")
+		b ip:
+		span(style="margin-left: 5px") #{ip}

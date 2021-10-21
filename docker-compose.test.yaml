@@ -11,6 +11,7 @@ services:
       dockerfile: Dockerfile.prod
     environment:
       - IS_DEV=false
+      - DEV_MAIL_RECIEVER
 
   manticore:
     restart: on-failure:5

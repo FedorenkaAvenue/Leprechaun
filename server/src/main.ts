@@ -3,16 +3,21 @@ import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import * as cookieParser from 'cookie-parser';
 
 import { AppModule } from './app.module';
-
-const { APP_NAME } = process.env;
+import { HttpExceptionFilter } from '@decorators/InternalServerError';
+import ConfigService from '@services/Config';
 
 async function runServer() {
 	const app = await NestFactory.create(AppModule);
+	const congService = new ConfigService();
 
 	app.use(cookieParser());
 
+	if (!congService.isDev()) {
+		app.useGlobalFilters(new HttpExceptionFilter());
+	}
+
 	const config = new DocumentBuilder()
-		.setTitle(APP_NAME)
+		.setTitle(congService.getAppName())
 		.build();
 
 	const document = SwaggerModule.createDocument(app, config, {
