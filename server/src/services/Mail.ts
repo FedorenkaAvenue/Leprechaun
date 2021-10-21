@@ -3,9 +3,21 @@ import { createTransport, SentMessageInfo, Transporter } from 'nodemailer';
 import Mail from 'nodemailer/lib/mailer';
 
 import ConfigService from './Config';
+import TemplateService from './Template';
 
 type IMailOptions = Mail.Options & {
     to: string | Array<string>
+}
+
+interface IDevLogMail {
+    method: string
+    status: number
+    message: string
+    path: string
+    body?: string
+    cookies?: string
+    stack: string
+    ip: string
 }
 
 @Injectable()
@@ -31,13 +43,25 @@ export default class MailService {
     }
 
     /**
+     * @description create and mail body content and send to developer
+     */
+    sendErrorLogMail(logData: IDevLogMail): void {
+        this.sendDevMail(
+            new TemplateService().renderTemplate(
+                'devMailErrorLog',
+                logData
+            )
+        );
+    }
+
+    /**
      * @description send mail to dev account
      */
-    sendDevMail(context: string): void {
+    sendDevMail(content: string): void {
         this.sendMail({
             to: new ConfigService().getDevMailReciever(),
-            subject: 'Some logs',
-            html: context
+            subject: 'Development mail',
+            html: content
         });
     }
 }

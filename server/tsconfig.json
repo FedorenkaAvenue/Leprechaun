@@ -22,7 +22,8 @@
       "@dto/*": ["dto/*"],
       "@controllers/*": ["controllers/*"],
       "@middlewares/*": ["middlewares/*"],
-      "@decorators/*": ["decorators/*"]
+      "@decorators/*": ["decorators/*"],
+      "@templates/*": ["templates/*"]
     },
   }
 }

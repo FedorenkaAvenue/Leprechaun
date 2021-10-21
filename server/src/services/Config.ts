@@ -26,10 +26,16 @@ export default class ConfigService {
 
     /**
      * @description get environment status
-     * @returns boolean environment status
      */
     isDev() {
         return Boolean(this.getVal('IS_DEV'))
+    }
+
+    /**
+     * @description get application name
+     */
+    getAppName(): string {
+        return this.getVal('APP_NAME');
     }
 
     /**

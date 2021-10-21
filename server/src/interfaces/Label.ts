@@ -8,5 +8,6 @@ export interface ILabel {
 }
 
 export enum LabelType {
-    DISCOUNT = 'discount'
+    DISCOUNT = 'discount',
+    NEW = 'new'
 }
