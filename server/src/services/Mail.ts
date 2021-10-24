@@ -32,6 +32,8 @@ class MailService {
                 from: ConfigService.getMailCredentials(),
                 to, subject, text, html
             });
+
+            console.log('mail is sended');
         } catch(err) {
             console.error(err);
         }

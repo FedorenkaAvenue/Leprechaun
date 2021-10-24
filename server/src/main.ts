@@ -8,6 +8,8 @@ import ConfigService from '@services/Config';
 
 async function runServer() {
 	const app = await NestFactory.create(AppModule);
+	
+	console.log('is dev: ', ConfigService.isDev);
 
 	app.use(cookieParser());
 
