@@ -1,30 +1,18 @@
-import { Injectable } from '@nestjs/common';
 import { createTransport, SentMessageInfo, Transporter } from 'nodemailer';
 import Mail from 'nodemailer/lib/mailer';
 
 import ConfigService from './Config';
 import TemplateService from './Template';
+import { IDevLogMail } from '@interfaces/Mail';
 
 type IMailOptions = Mail.Options & {
     to: string | Array<string>
 }
 
-interface IDevLogMail {
-    method: string
-    status: number
-    message: string
-    path: string
-    body?: string
-    cookies?: string
-    stack: string
-    ip: string
-}
-
 /**
  * @description e-mail service
  */
-@Injectable()
-export default class MailService {
+class MailService {
     /**
      * @description create connection
      */
@@ -36,20 +24,24 @@ export default class MailService {
      * @description send e-mail
      * @param $1 mail options
      */
-    sendMail({ to, subject, html, text }: IMailOptions): void {
+    async sendMail({ to, subject, html, text }: IMailOptions): Promise<void> {
         if (Array.isArray(to)) to = to.join(', '); // mass recieving
     
-        this.createConnection().sendMail({
-            from: ConfigService.getMailCredentials(),
-            to, subject, text, html
-        });
+        try {
+            await this.createConnection().sendMail({
+                from: ConfigService.getMailCredentials(),
+                to, subject, text, html
+            });
+        } catch(err) {
+            console.error(err);
+        }
     }
 
     /**
      * @description create and mail body content and send to developer
      */
-    sendErrorLogMail(logData: IDevLogMail): void {
-        this.sendDevMail(
+    async sendErrorLogMail(logData: IDevLogMail): Promise<void> {
+        await this.sendDevMail(
             TemplateService.renderTemplate(
                 'devMailErrorLog',
                 logData
@@ -60,11 +52,13 @@ export default class MailService {
     /**
      * @description send mail to dev account
      */
-    sendDevMail(content: string): void {
-        this.sendMail({
+    async sendDevMail(content: string): Promise<void> {
+        await this.sendMail({
             to: ConfigService.getDevMailReciever(),
             subject: 'Development mail',
             html: content
         });
     }
 }
+
+export default new MailService();

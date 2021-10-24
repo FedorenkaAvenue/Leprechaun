@@ -12,7 +12,7 @@ export class HttpExceptionFilter implements ExceptionFilter {
 		const status = exception.getStatus();
 		const { message, stack } = exception;
 
-		new MailService().sendErrorLogMail({
+		MailService.sendErrorLogMail({
 			path: url,
 			body: Object.keys(body).length ? JSON.stringify(body) : 'no',
 			cookies: Object.keys(cookies).length ? JSON.stringify(cookies) : 'no',
