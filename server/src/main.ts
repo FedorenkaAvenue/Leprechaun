@@ -2,14 +2,15 @@ import { NestFactory } from '@nestjs/core';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import * as cookieParser from 'cookie-parser';
 
-import { AppModule } from './app.module';
-import { HttpExceptionFilter } from '@decorators/InternalServerError';
+import AppModule from '@modules/App';
 import ConfigService from '@services/Config';
+import { HttpExceptionFilter } from '@decorators/InternalServerError';
 
 async function runServer() {
 	const app = await NestFactory.create(AppModule);
 	
-	console.log('is dev: ', ConfigService.isDev);
+	console.log('is dev from Service: ', ConfigService.isDev);
+	console.log('is dev from process.env: ', process.env.IS_DEV);
 
 	app.use(cookieParser());
 

@@ -1,12 +1,12 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
-import { CategoryModule } from '@modules/Category';
-import { ProductModule } from '@modules/Product';
-import { PropertyModule } from '@modules/Property';
-import { ImageModule } from '@modules/Image';
-import { LabelModule } from '@modules/Label';
-import { SearchModule } from '@modules/Search';
+import { CategoryModule } from './Category';
+import { ProductModule } from './Product';
+import { PropertyModule } from './Property';
+import { ImageModule } from './Image';
+import { LabelModule } from './Label';
+import { SearchModule } from './Search';
 import ConfigService from '@services/Config';
 
 @Module({
@@ -20,4 +20,4 @@ import ConfigService from '@services/Config';
 		TypeOrmModule.forRoot(ConfigService.getTypeOrmConfig())
 	]
 })
-export class AppModule {}
+export default class AppModule {}
