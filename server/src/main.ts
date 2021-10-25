@@ -8,9 +8,6 @@ import { HttpExceptionFilter } from '@decorators/InternalServerError';
 
 async function runServer() {
 	const app = await NestFactory.create(AppModule);
-	
-	console.log('is dev from Service: ', ConfigService.isDev);
-	console.log('is dev from process.env: ', process.env.IS_DEV);
 
 	app.use(cookieParser());
 

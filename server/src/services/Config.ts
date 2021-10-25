@@ -13,7 +13,7 @@ class ConfigService {
     isDev: boolean;
 
     constructor() {
-        this.isDev = Boolean(this.getVal('IS_DEV'));
+        this.isDev = this.getVal('IS_DEV') === 'true';
     }
 
     /**
