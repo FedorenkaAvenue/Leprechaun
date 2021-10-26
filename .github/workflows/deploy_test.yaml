@@ -17,7 +17,7 @@ jobs:
           script: |
             cd /Leprechaun
             git reset --hard HEAD
-            git switch test
+            git checkout test
             git pull origin test
       - name: Rebuild && up containers
         uses: appleboy/ssh-action@v0.1.2
