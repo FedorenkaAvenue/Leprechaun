@@ -4,7 +4,7 @@ import * as cookieParser from 'cookie-parser';
 
 import AppModule from '@modules/App';
 import ConfigService from '@services/Config';
-import { HttpExceptionFilter } from '@decorators/InternalServerError';
+import { UncaughtExceptionFilter } from '@decorators/UncaughtExceptionFilter';
 
 async function runServer() {
 	const app = await NestFactory.create(AppModule);
@@ -12,13 +12,13 @@ async function runServer() {
 	app.use(cookieParser());
 
 	if (!ConfigService.isDev) {
-		app.useGlobalFilters(new HttpExceptionFilter());
+		app.useGlobalFilters(new UncaughtExceptionFilter());
 	}
 
+	// Swagger
 	const config = new DocumentBuilder()
 		.setTitle(ConfigService.getAppName())
 		.build();
-
 	const document = SwaggerModule.createDocument(app, config, {
 		ignoreGlobalPrefix: true
 	});
