@@ -14,9 +14,9 @@ export class ProductsApiService {
     private readonly http: HttpClient
   ) { }
 
-  getProductsList(id: number, param: Params): Observable<Products> {
+  getProductsList(url: string, param: Params): Observable<Products> {
     const params = new HttpParams().set('page', param.page);
-    return this.http.get<Products>(`${this.apiUrl}/product/category/${id}`, {params})
+    return this.http.get<Products>(`${this.apiUrl}/product/category/${url}`, {params})
   }
 
   public createProduct(data: any): Observable<any> {
