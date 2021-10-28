@@ -17,6 +17,7 @@ jobs:
           script: |
             cd /Leprechaun
             git reset --hard HEAD
+            git checkout test
             git pull origin test
       - name: Rebuild && up containers
         uses: appleboy/ssh-action@v0.1.2
@@ -26,5 +27,4 @@ jobs:
           password: ${{ secrets.TEST_SERVER_SSH_KEY }}
           script: |
             cd /Leprechaun
-            docker-compose down -v
-            docker-compose -f docker-compose.test.yaml up --build -d
+            make remote_test_build
