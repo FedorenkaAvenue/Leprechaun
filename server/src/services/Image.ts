@@ -20,7 +20,7 @@ export class ImageService {
 	 * @param imgUrl image url
 	 * @returns promise of saved result
 	 */
-	addImage(imageDTO: CreateImageDTO): Promise<ImageEntity> {
+	async addImage(imageDTO: CreateImageDTO): Promise<ImageEntity> {
 		return this.imageRepo.save(imageDTO);
 	}
 
@@ -31,9 +31,13 @@ export class ImageService {
 	 */
 	async addImageArr(productId: string, imgArr: Array<string>): Promise<void> {
 		try {
-			await Promise.all(imgArr.map(imgUrl => this.addImage(new CreateImageDTO(productId, imgUrl))));
+			await Promise.all(
+				imgArr.map(
+					imgUrl => this.addImage(new CreateImageDTO(productId, imgUrl))
+				)
+			);
 		} catch(err) {
-			throw new InternalServerErrorException();
+			throw new InternalServerErrorException(err);
 		}
 	}
 }
