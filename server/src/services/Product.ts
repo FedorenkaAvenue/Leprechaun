@@ -24,7 +24,7 @@ export class ProductService {
 		private readonly cookieService: CookieService
 	) {}
 
-	async createProduct(newProduct: CreateProductDTO, images: Array<Express.Multer.File>): Promise<void> {
+	async createProduct(newProduct: CreateProductDTO, images: Array<Express.Multer.File>): Promise<void> {		
 		const { id } = await this.productRepo.save(new CreateProductDTOConstructor(newProduct));
 		
 		if (images) {
