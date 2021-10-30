@@ -37,7 +37,7 @@ export class ProductService {
 	async getProduct(productId: string): Promise<ProductEntity> {
 		return this.productRepo.findOne({
 			where: { id: productId },
-			relations: [ 'category' ]
+			relations: [ 'category', 'properties', 'properties.property_group' ]
 		});
 	}
 
@@ -54,6 +54,22 @@ export class ProductService {
 			.leftJoinAndSelect('properties.property_group', 'property_group');
 
 		return this.renderResult(qb, queries, cookies);
+	}
+
+	async getMostNewestProducts(): Promise<ProductEntity[]> {
+		return this.productRepo.find({
+			relations: [ 'category', 'properties', 'properties.property_group' ],
+			take: 10,
+			order: { created_at: 'DESC' }
+		});
+	}
+
+	async getMostPopularProducts(): Promise<ProductEntity[]> {
+		return this.productRepo.find({
+			relations: [ 'category', 'properties', 'properties.property_group' ],
+			take: 10,
+			order: { rating: 'DESC' }
+		});
 	}
 
 	async getCategoryProducts(

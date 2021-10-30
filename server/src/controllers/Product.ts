@@ -48,6 +48,20 @@ export class ProductController {
         return this.productService.getAllProducts(queries, cookies);
     }
 
+    @Get('list/new')
+    @ApiOperation({ summary: 'get most latest/newest product (for dashboard)' })
+    @ApiOkResponse({ type: ProductEntity, isArray: true })
+    getMostNewestProducts(): Promise<ProductEntity[]> {
+        return this.productService.getMostNewestProducts();
+    }
+
+    @Get('list/popular')
+    @ApiOperation({ summary: 'get most popular products (for dashboard)' })
+    @ApiOkResponse({ type: ProductEntity, isArray: true })
+    getMostPopularProducts(): Promise<ProductEntity[]> {
+        return this.productService.getMostPopularProducts();
+    }
+
     @Get('category/:categoryUrl')
 	@UseInterceptors(PaginationEmptyInterceptor)
 	@ApiOperation({ summary: 'get products by category url' })
