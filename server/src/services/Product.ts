@@ -3,7 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { DeleteResult, Repository, SelectQueryBuilder } from 'typeorm';
 
 import { CreateProductDTO, CreateProductDTOConstructor } from '@dto/Product';
-import { ProductEntity, ProductWIthPropertiesEntity } from '@entities/Product';
+import { ProductBaseEntity, ProductEntity, ProductWIthPropertiesEntity } from '@entities/Product';
 import { FOLDER_TYPES, FSService } from '@services/FS';
 import { ImageService } from '@services/Image';
 import { CookieSortType, ICookies } from '@interfaces/Cookies';
@@ -11,6 +11,7 @@ import { ISearchReqQueries } from '@interfaces/Queries';
 import { SearchQueriesDTO } from '@dto/SearchQueries';
 import { PaginationResultDTO } from '@dto/Pagination';
 import CookieService from './Cookie';
+import { DASHBOARD_LIST } from '@interfaces/Product';
 
 /**
  * @description /product controller service
@@ -56,19 +57,13 @@ export class ProductService {
 		return this.renderResult(qb, queries, cookies);
 	}
 
-	async getMostNewestProducts(): Promise<ProductEntity[]> {
+	async getDashboardProducts(listType: DASHBOARD_LIST, page: number): Promise<ProductBaseEntity[]> {
 		return this.productRepo.find({
-			relations: [ 'category', 'properties', 'properties.property_group' ],
-			take: 10,
-			order: { created_at: 'DESC' }
-		});
-	}
-
-	async getMostPopularProducts(): Promise<ProductEntity[]> {
-		return this.productRepo.find({
-			relations: [ 'category', 'properties', 'properties.property_group' ],
-			take: 10,
-			order: { rating: 'DESC' }
+			take: 5,
+			skip: 5 * (page - 1),
+			order: listType === DASHBOARD_LIST.NEW ?
+				{ created_at: 'DESC' } :
+				{ rating: 'DESC' }
 		});
 	}
 
