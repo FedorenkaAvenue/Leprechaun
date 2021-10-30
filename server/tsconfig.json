@@ -23,7 +23,8 @@
       "@controllers/*": ["controllers/*"],
       "@middlewares/*": ["middlewares/*"],
       "@decorators/*": ["decorators/*"],
-      "@templates/*": ["templates/*"]
+      "@templates/*": ["templates/*"],
+      "@pipes/*": ["pipes/*"]
     },
   }
 }
