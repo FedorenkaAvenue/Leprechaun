@@ -1,8 +1,9 @@
-export interface Category {
+export interface CategoryI {
     id: number;
-    title: string;
     url: string;
-    children: Array<Category> | null;
+    title: string;
+    is_public: boolean,
     icon: string | null;
-    parentCategoryId: number | null;
+    property_groups: Array<any>;
+    products: Array<string>
 }

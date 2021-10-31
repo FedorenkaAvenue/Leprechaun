@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ProductCardComponent } from './product-card.component';
 import { CurtainsDirective } from '@shared/directives/curtains/curtains.directive';
+import { RouterModule } from '@angular/router';
 
 
 
@@ -11,7 +12,8 @@ import { CurtainsDirective } from '@shared/directives/curtains/curtains.directiv
     CurtainsDirective
   ],
   imports: [
-    CommonModule
+    CommonModule,
+    RouterModule
   ],
   exports: [
     ProductCardComponent

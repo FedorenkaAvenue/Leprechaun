@@ -1,8 +1,9 @@
 <section class="product">
+  <a [routerLink]="['/product', product.id]" routerLinkActive="router-link-active" >
   <div class="product-preview__wrap">
     <div
       class="product-preview__image"
-      [ngStyle]="{ 'background-image': 'url(' + product?.images[0].src + ')' }"
+      [ngStyle]="{ 'background-image': 'url(' + product?.images[0]?.src + ')' }"
     >
     <ng-container *ngFor="let image of product.images">
         <div class="product-preview__curtain" [appCurtains]="image.src"></div>
@@ -13,4 +14,5 @@
     <span class="product-price">{{ product?.price }}</span>
     <span class="product-title">{{ product?.title }}</span>
   </div>
+</a>
 </section>
