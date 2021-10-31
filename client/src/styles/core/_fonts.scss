@@ -39,3 +39,14 @@ $font-path: '/assets/fonts/';
     font-weight: 700;
     font-style: normal;
   }
+
+
+  // ---------------------------------------- Amatic -------------------------------------
+  @font-face {
+    font-display: swap;
+    font-family: "Amatic SC";
+    src: url("#{$font-path}Amatic/AmaticSC-Regular.ttf") format("truetype");
+    font-style: normal;
+    font-weight: 400;
+  }
+
