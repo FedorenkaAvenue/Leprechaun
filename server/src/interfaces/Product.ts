@@ -17,3 +17,8 @@ export interface IProduct {
     description: string
     labels: Array<ILabel>
 }
+
+export enum DASHBOARD_LIST {
+    POPULAR,
+    NEW
+}

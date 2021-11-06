@@ -87,7 +87,7 @@ export class ProductWIthPropertiesEntity extends ProductBaseEntity implements IP
     @ManyToMany(
         () => PropertyEntity,
         ({ id }) => id,
-        { eager: true, cascade: true }
+        { cascade: true }
     )
     @JoinTable({
         name: '_products_to_properties',

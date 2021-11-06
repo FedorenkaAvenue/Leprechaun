@@ -2,7 +2,6 @@
 
 input {
   border: none;
-  @include border(bottom);
   &.bg-trans {
     background: transparent;
   }

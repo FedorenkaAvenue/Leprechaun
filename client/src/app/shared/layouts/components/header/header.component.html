@@ -1,17 +1,22 @@
 <header class="header">
-  <img src="../../../../../assets/img/cryyaCy.jpeg" alt="" class="header_logo" />
-  <app-lpch-input></app-lpch-input>
-  <button class="header_help main-btn">
-    <app-leprachaun-icon name="question" color="gray"> </app-leprachaun-icon>
-    <span class="btn-label">Допомога</span>
-  </button>
-  <button class="header_favorites main-btn">
-    <app-leprachaun-icon name="heart" color="gray"> </app-leprachaun-icon>
-    <span class="btn-label">вибране</span>
-  </button>
-  <app-language-switch [languages]="languages"></app-language-switch>
-  <button class="header_cart main-btn">
-    <app-leprachaun-icon name="cart" color="gray"> </app-leprachaun-icon>
-    <span class="btn-label">вкошик</span>
-  </button>
+  <div class="header_wrapper">
+    <!-- <img src="../../../../../assets/img/cryyaCy.jpeg" alt="" class="header_logo" /> -->
+    <a class="header_logo">Leprechaun</a>
+    <div class="header_actions">
+      <!-- <app-lpch-input></app-lpch-input> -->
+      <button class="header_help main-btn">
+        <app-leprachaun-icon name="question" color="gray"> </app-leprachaun-icon>
+        <span class="btn-label">Допомога</span>
+      </button>
+      <button class="header_favorites main-btn">
+        <app-leprachaun-icon name="heart" color="gray"> </app-leprachaun-icon>
+        <span class="btn-label">вибране</span>
+      </button>
+      <app-language-switch [languages]="languages"></app-language-switch>
+      <button class="header_cart main-btn">
+        <app-leprachaun-icon name="cart" color="gray"> </app-leprachaun-icon>
+        <span class="btn-label">вкошик</span>
+      </button>
+    </div>
+  </div>
 </header>
