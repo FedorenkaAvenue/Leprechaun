@@ -1,20 +1,19 @@
 import {
-    Body, Controller, Delete, Get, Param, ParseUUIDPipe, Patch, Post,UploadedFiles,
+    Body, Controller, Delete, Get, Param, ParseUUIDPipe, Post,UploadedFiles,
     UseInterceptors, Query, Req, ValidationPipe
 } from '@nestjs/common';
 import {
-    ApiBadRequestResponse, ApiNotAcceptableResponse, ApiNotFoundResponse, ApiOkResponse,
-    ApiOperation, ApiQuery, ApiServiceUnavailableResponse, ApiTags, ApiUnsupportedMediaTypeResponse
+    ApiBadRequestResponse, ApiNotFoundResponse, ApiOkResponse, ApiOperation, ApiQuery,
+    ApiServiceUnavailableResponse, ApiTags, ApiUnsupportedMediaTypeResponse
 } from '@nestjs/swagger';
-import { DeleteResult, UpdateResult } from 'typeorm';
+import { DeleteResult } from 'typeorm';
 import { FilesInterceptor } from '@nestjs/platform-express';
 import { Request } from 'express';
 
 import { CreateProductDTO } from '@dto/Product';
 import { ProductEntity, ProductWIthPropertiesEntity } from '@entities/Product';
 import { ProductService } from '@services/Product';
-import { AffectedInterceptor, NotFoundInterceptor } from '@interceptors/DB';
-import { PaginationEmptyInterceptor } from '@interceptors/search';
+import { AffectedInterceptor, NotFoundInterceptor, EmptyResultInterceptor } from '@interceptors/responce';
 import { ISearchReqQueries } from '@interfaces/Queries';
 import { PaginationDTO, PaginationResultDTO } from '@dto/Pagination';
 import { ApiPaginatedResponse } from '@decorators/Swagger';
@@ -36,11 +35,10 @@ export class ProductController {
     }
 
     @Get('list')
-    @UseInterceptors(PaginationEmptyInterceptor)
+    @UseInterceptors(EmptyResultInterceptor)
     @ApiQuery({ name: 'page', required: false, description: 'page number', type: 'number' })
     @ApiOperation({ summary: 'get all products' })
     @ApiPaginatedResponse(ProductEntity)
-    @ApiNotAcceptableResponse({ description: 'pagination page doesn\'t exist' })
     getAllProducts(
         @Query() queries: ISearchReqQueries,
         @Req() { cookies }: Request
@@ -49,12 +47,11 @@ export class ProductController {
     }
 
     @Get('category/:categoryUrl')
-	@UseInterceptors(PaginationEmptyInterceptor)
+	@UseInterceptors(EmptyResultInterceptor)
 	@ApiOperation({ summary: 'get products by category url' })
     @ApiQuery({ name: 'page', required: false, description: 'page number', type: 'number' })
+    @ApiNotFoundResponse({ description: 'category not found' })
 	@ApiPaginatedResponse(ProductWIthPropertiesEntity)
-	@ApiNotFoundResponse({ description: 'category not found' })
-	@ApiNotAcceptableResponse({ description: 'pagination page is empty' })
 	getCategoryProducts(
 		@Query() queries: ISearchReqQueries,
         @Req() { cookies }: Request,
@@ -72,17 +69,6 @@ export class ProductController {
     getProduct(@Param('productId', ParseUUIDPipe) productId: string): Promise<ProductEntity> {
         return this.productService.getProduct(productId);
     }
-
-    // @Patch()
-    // @UseInterceptors(FilesInterceptor('staticImages'))
-    // @UseInterceptors(AffectedInterceptor)
-    // @ApiOperation({ summary: 'update product' })
-    // updateProduct(
-    //     @Body() product: UpdateProductDTO,
-    //     @UploadedFiles() staticImages: Array<Express.Multer.File>
-    // ): Promise<UpdateResult> {
-    //     return this.productService.updateProduct(product, staticImages);
-    // }
 
     // ! DONT TOUCH
     // ! preloading DTO schemas

@@ -1,5 +1,5 @@
 import { applyDecorators, Type } from '@nestjs/common';
-import { ApiOkResponse, getSchemaPath } from '@nestjs/swagger';
+import { ApiNotFoundResponse, ApiOkResponse, getSchemaPath } from '@nestjs/swagger';
 
 import { PaginationDTO } from '@dto/Pagination';
 
@@ -16,6 +16,10 @@ export const ApiPaginatedResponse = <TModel extends Type<any>>(model: TModel) =>
 					}
 				}
 			}
+		}),
+		ApiNotFoundResponse({
+			status: 404,
+			description: 'pagination page not found'
 		})
 	);
 };
