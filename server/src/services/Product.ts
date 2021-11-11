@@ -3,7 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { DeleteResult, Repository, SelectQueryBuilder } from 'typeorm';
 
 import { CreateProductDTO, CreateProductDTOConstructor } from '@dto/Product';
-import { ProductEntity, ProductWIthPropertiesEntity } from '@entities/Product';
+import { ProductBaseEntity, ProductEntity, ProductWIthPropertiesEntity } from '@entities/Product';
 import { FOLDER_TYPES, FSService } from '@services/FS';
 import { ImageService } from '@services/Image';
 import { CookieSortType, ICookies } from '@interfaces/Cookies';
@@ -11,6 +11,7 @@ import { ISearchReqQueries } from '@interfaces/Queries';
 import { SearchQueriesDTO } from '@dto/SearchQueries';
 import { PaginationResultDTO } from '@dto/Pagination';
 import CookieService from './Cookie';
+import { DASHBOARD_LIST } from '@interfaces/Product';
 
 /**
  * @description /product controller service
@@ -37,7 +38,7 @@ export class ProductService {
 	async getProduct(productId: string): Promise<ProductEntity> {
 		return this.productRepo.findOne({
 			where: { id: productId },
-			relations: [ 'category' ]
+			relations: [ 'category', 'properties', 'properties.property_group' ]
 		});
 	}
 
@@ -54,6 +55,16 @@ export class ProductService {
 			.leftJoinAndSelect('properties.property_group', 'property_group');
 
 		return this.renderResult(qb, queries, cookies);
+	}
+
+	async getDashboardProducts(listType: DASHBOARD_LIST, page: number): Promise<ProductBaseEntity[]> {
+		return this.productRepo.find({
+			take: 5,
+			skip: 5 * (page - 1),
+			order: listType === DASHBOARD_LIST.NEW ?
+				{ created_at: 'DESC' } :
+				{ rating: 'DESC' }
+		});
 	}
 
 	async getCategoryProducts(
