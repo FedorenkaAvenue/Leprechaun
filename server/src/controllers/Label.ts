@@ -5,7 +5,7 @@ import { DeleteResult } from 'typeorm';
 import { CreateLabelDTO } from '@dto/Label';
 import { LabelEntity } from '@entities/Label';
 import { LabelService } from '@services/Label';
-import { AffectedInterceptor } from '@interceptors/DB';
+import { AffectedInterceptor } from '@interceptors/responce';
 
 @Controller('label')
 @ApiTags('Label')

@@ -5,7 +5,7 @@ import { DeleteResult } from 'typeorm';
 import { CreatePropertyDTO, CreatePropertyGroupDTO } from '@dto/Property';
 import { PropertyBaseEntity, PropertyEntity, ProductGroupBaseEntity, PropertyGroupEntity } from '@entities/Property';
 import { PropertyGroupService, PropertyService } from '@services/Property';
-import { AffectedInterceptor, NotFoundInterceptor } from '@interceptors/DB';
+import { AffectedInterceptor, NotFoundInterceptor } from '@interceptors/responce';
 
 @Controller('propertygroup')
 @ApiTags('Property group')

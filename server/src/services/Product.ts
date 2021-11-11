@@ -84,35 +84,9 @@ export class ProductService {
 		return this.renderResult(qb, queries, cookies);
 	}
 
-	// async updateProduct(
-	// 	productDTO: UpdateProductDTO,
-	// 	newImages: Array<Express.Multer.File>
-	// ): Promise<UpdateResult> {
-	// 	const product = await this.productRepo.findOne({ id: productDTO.id });
-
-	// 	if (!product) throw new NotFoundException();
-
-	// 	const { images: imagesDTO, removedImages, mainImg } = productDTO;
-	// 	let { images } = product;
-
-	// 	if (removedImages.length) {
-	// 		this.multerModule.removeFiles(removedImages);
-	// 		// images = [].
-	// 	}
-
-	// 	if (images.length) await this.multerModule.saveFiles(FOLDER_TYPES.PRODUCT, productDTO.id, newImages);
-		
-	// 	// updImages = [ mainImg, ...prod.images.filter(img => img !== mainImg)];
-		
-	// 	const res = await this.productRepo.update(
-	// 		{ id: product.id },
-	// 		{ ...productDTO }
-	// 	);
-
-	// 	return res;
-
 	async deleteProduct(productId: string): Promise<DeleteResult> {
 		const res = await this.productRepo.delete({ id: productId });
+
 		this.multerModule.removeFolder(FOLDER_TYPES.PRODUCT, productId);
 
 		return res;
@@ -187,7 +161,7 @@ export class ProductService {
 			.take(portion)
 			.skip((page - 1) * portion)
 			.getManyAndCount();
-
+		
 		return new PaginationResultDTO(
 			result,
 			{

@@ -5,7 +5,7 @@ import { ApiCreatedResponse, ApiNotFoundResponse, ApiOkResponse, ApiOperation, A
 import { FileInterceptor } from '@nestjs/platform-express';
 import { DeleteResult, UpdateResult } from 'typeorm';
 
-import { NotFoundInterceptor, AffectedInterceptor } from '@interceptors/DB';
+import { NotFoundInterceptor, AffectedInterceptor } from '@interceptors/responce';
 import { CategoryService } from '@services/Category';
 import { CategoryBaseEntity, CategoryEntity, CategoryWithPropertyGroupsEntity } from '@entities/Category';
 import { CreateCategoryDTO } from '@dto/Category';
@@ -45,21 +45,6 @@ export class CategoryController {
 	): Promise<void> {
 		return this.categoryService.createCategory(body, icon);
 	}
-
-	// @Patch()
-	// @UseInterceptors(FileInterceptor(
-	// 	'icon',
-	// 	{ fileFilter: FSService.fileFilterOption('svg') }
-	// ))
-	// @UseInterceptors(AffectedInterceptor)
-	// @ApiOperation({ summary: 'update category' })
-	// @ApiOkResponse({ status: 200 })
-	// updateCategory(
-	// 	@Body() body: UpdateCategoryDTO,
-	// 	@UploadedFile() icon: Express.Multer.File
-	// ): Promise<UpdateResult> {
-	// 	return this.categoryService.updateCategory(body, icon);
-	// }
 
 	@Delete(':category')
 	@UseInterceptors(AffectedInterceptor)

@@ -44,19 +44,9 @@ export class CategoryService {
 		}
 	}
 
-	// async updateCategory(category: UpdateCategoryDTO, icon: Express.Multer.File): Promise<UpdateResult> {	
-	// 	const res = await this.categoryRepo.update(
-	// 		{ id: category.id },
-	// 		{ ...category }
-	// 	);
-
-	// 	// if (res.affected && icon) await this.multerModule.saveFiles(FOLDER_TYPES.CATEGORY, category.id, [ icon ]);
-
-	// 	return res;
-	// }
-
 	async deleteCategory(categoryId: number): Promise<DeleteResult> {
 		const res = await this.categoryRepo.delete({ id: categoryId });
+
 		this.multerModule.removeFolder(FOLDER_TYPES.CATEGORY, categoryId);
 
 		return res;
