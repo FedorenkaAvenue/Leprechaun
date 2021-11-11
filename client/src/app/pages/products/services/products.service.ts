@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Params } from '@angular/router';
-import { ProductCardDto, Products } from '@shared/models/products/products.model';
+import { Products } from '@shared/models/products/products.model';
 import { ProductsApiService } from '@shared/services/products-api/products-api.service';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
@@ -28,8 +28,6 @@ export class ProductsService {
     }
 
     public changeParams(params: Params) {
-      console.log(params);
-      
       this.changeParams$.next(params);
     }
 

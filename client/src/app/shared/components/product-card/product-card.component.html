@@ -1,18 +1,23 @@
 <section class="product">
-  <a [routerLink]="['/product', product.id]" routerLinkActive="router-link-active" >
-  <div class="product-preview__wrap">
-    <div
-      class="product-preview__image"
-      [ngStyle]="{ 'background-image': 'url(' + product?.images[0]?.src + ')' }"
-    >
-    <ng-container *ngFor="let image of product.images">
-        <div class="product-preview__curtain" [appCurtains]="image.src"></div>
-    </ng-container></div>
-  
-  </div>
-  <div class="product-main">
-    <span class="product-price">{{ product?.price }}</span>
-    <span class="product-title">{{ product?.title }}</span>
-  </div>
-</a>
+  <a [routerLink]="['/product', product.id]" routerLinkActive="router-link-active">
+    <div class="product__wrap">
+      <div class="product-preview__wrap">
+        <div
+          class="product-preview__image"
+          [ngStyle]="{ 'background-image': 'url(' + product?.images[0]?.src + ')' }"
+        >
+          <ng-container *ngFor="let image of product.images">
+            <div class="product-preview__curtain" [appCurtains]="image.src"></div>
+          </ng-container>
+        </div>
+      </div>
+      <div class="product-main">
+        <span class="product-title">{{ product?.title }}</span>
+        <div class="product__price-wrap">
+          <span class="product__price">1231$</span>
+          <button class="product__card-btn"></button>
+        </div>
+      </div>
+    </div>
+  </a>
 </section>

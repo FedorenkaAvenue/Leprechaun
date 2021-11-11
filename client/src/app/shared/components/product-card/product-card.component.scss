@@ -5,6 +5,9 @@
     display: flex;
     flex-direction: column;
     padding: 0 5px 10px;
+    &__wrap {
+        padding: 10px 20px;
+    }
     &-preview__wrap {
         background-color: aqua;
     }

@@ -29,6 +29,8 @@ export class ProductsPageComponent implements OnInit {
 
   public changeParams(): void {
     this.route.queryParams.subscribe((params) => {
+      console.log(params);
+      
       this.productsService.changeParams(params);
     });
   }
