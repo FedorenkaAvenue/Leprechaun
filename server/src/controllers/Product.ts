@@ -1,10 +1,10 @@
 import {
     Body, Controller, Delete, Get, Param, ParseUUIDPipe, Post,UploadedFiles,
-    UseInterceptors, Query, Req, ValidationPipe, ParseIntPipe
+    UseInterceptors, Query, Req, ValidationPipe
 } from '@nestjs/common';
 import {
-    ApiBadRequestResponse, ApiNotAcceptableResponse, ApiNotFoundResponse, ApiOkResponse, ApiOperation,
-    ApiParam, ApiQuery, ApiServiceUnavailableResponse, ApiTags, ApiUnsupportedMediaTypeResponse
+    ApiBadRequestResponse, ApiNotFoundResponse, ApiOkResponse, ApiOperation,
+    ApiQuery, ApiServiceUnavailableResponse, ApiTags, ApiUnsupportedMediaTypeResponse
 } from '@nestjs/swagger';
 import { DeleteResult } from 'typeorm';
 import { FilesInterceptor } from '@nestjs/platform-express';
@@ -17,8 +17,7 @@ import { AffectedInterceptor, NotFoundInterceptor, EmptyResultInterceptor } from
 import { ISearchReqQueries } from '@interfaces/Queries';
 import { PaginationDTO, PaginationResultDTO } from '@dto/Pagination';
 import { ApiPaginatedResponse } from '@decorators/Swagger';
-import { DashboardParamPipe } from '@pipes/DashboardParam';
-import { DASHBOARD_LIST } from '@interfaces/Product';
+import { CommonDashboardsDTO, UserDashboardsDTO } from '@dto/Dashboard';
 
 @Controller('product')
 @ApiTags('Product')
@@ -48,28 +47,18 @@ export class ProductController {
         return this.productService.getAllProducts(queries, cookies);
     }
 
-    @Get('dashboard/new/:page?')
-    @ApiOperation({ summary: 'get most latest/newest product (for dashboard)' })
-    @ApiParam({ name: 'page', description: 'page number (1 - 5)', type: 'number' })
-    @ApiOkResponse({ type: ProductEntity, isArray: true })
-    @ApiBadRequestResponse({ description: 'page path is not a number' })
-    @ApiNotAcceptableResponse({ description: 'invalid page number range. valid range is 1-5' })
-    getMostNewestProducts(
-        @Param('page', new ParseIntPipe, new DashboardParamPipe) page: number
-    ): Promise<ProductBaseEntity[]> {
-        return this.productService.getDashboardProducts(DASHBOARD_LIST.NEW, page);
+    @Get('dashboard/common')
+    @ApiOperation({ summary: 'get common dashboards' })
+    @ApiOkResponse({ type: CommonDashboardsDTO })
+    getCommonDashboards(): Promise<CommonDashboardsDTO> {
+        return this.productService.getCommonDashboards();
     }
 
-    @Get('dashboard/popular/:page?')
-    @ApiOperation({ summary: 'get most popular products (for dashboard)' })
-    @ApiParam({ name: 'page', description: 'page number (1 - 5)', type: 'number' })
-    @ApiOkResponse({ type: ProductEntity, isArray: true })
-    @ApiBadRequestResponse({ description: 'page path is not a number' })
-    @ApiNotAcceptableResponse({ description: 'invalid page number range. valid range is 1-5' })
-    getMostPopularProducts(
-        @Param('page', new ParseIntPipe, new DashboardParamPipe) page: number
-    ): Promise<ProductBaseEntity[]> {
-        return this.productService.getDashboardProducts(DASHBOARD_LIST.POPULAR, page);
+    @Get('dashboard/user')
+    @ApiOperation({ summary: 'get individual user dashboards' })
+    @ApiOkResponse({ type: UserDashboardsDTO })
+    getMostPopularProducts(): Promise<UserDashboardsDTO> {
+        return this.productService.getUserDashboards();
     }
 
     @Get('category/:categoryUrl')

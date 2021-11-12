@@ -11,7 +11,9 @@ import { ISearchReqQueries } from '@interfaces/Queries';
 import { SearchQueriesDTO } from '@dto/SearchQueries';
 import { PaginationResultDTO } from '@dto/Pagination';
 import CookieService from './Cookie';
-import { DASHBOARD_LIST } from '@interfaces/Product';
+import { CommonDashboardsDTO, UserDashboardsDTO } from '@dto/Dashboard';
+
+const DASHBOARD_PORTION = 20;
 
 /**
  * @description /product controller service
@@ -57,14 +59,25 @@ export class ProductService {
 		return this.renderResult(qb, queries, cookies);
 	}
 
-	async getDashboardProducts(listType: DASHBOARD_LIST, page: number): Promise<ProductBaseEntity[]> {
-		return this.productRepo.find({
-			take: 5,
-			skip: 5 * (page - 1),
-			order: listType === DASHBOARD_LIST.NEW ?
-				{ created_at: 'DESC' } :
-				{ rating: 'DESC' }
-		});
+	async getCommonDashboards(): Promise<CommonDashboardsDTO> {
+		const [ popular, newest ] = await Promise.all([
+			this.productRepo.find({
+				relations: [ 'category', 'properties', 'properties.property_group' ],
+				take: DASHBOARD_PORTION,
+				order: { rating: 'DESC' }
+			}),
+			this.productRepo.find({
+				relations: [ 'category', 'properties', 'properties.property_group' ],
+				take: DASHBOARD_PORTION,
+				order: { created_at: 'DESC' }
+			})
+		]);
+
+		return new CommonDashboardsDTO({ popular, newest });
+	}
+
+	async getUserDashboards(): Promise<UserDashboardsDTO> {
+		return new UserDashboardsDTO({ visited: [] });
 	}
 
 	async getCategoryProducts(
