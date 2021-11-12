@@ -7,6 +7,7 @@ import { PropertyModule } from './Property';
 import { ImageModule } from './Image';
 import { LabelModule } from './Label';
 import { SearchModule } from './Search';
+import { UserModule } from './User';
 import ConfigService from '@services/Config';
 
 @Module({
@@ -17,6 +18,7 @@ import ConfigService from '@services/Config';
 		ImageModule,
 		LabelModule,
 		SearchModule,
+		UserModule,
 		TypeOrmModule.forRoot(ConfigService.getTypeOrmConfig())
 	]
 })
