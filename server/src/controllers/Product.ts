@@ -11,7 +11,7 @@ import { FilesInterceptor } from '@nestjs/platform-express';
 import { Request } from 'express';
 
 import { CreateProductDTO } from '@dto/Product';
-import { ProductBaseEntity, ProductEntity, ProductWIthPropertiesEntity } from '@entities/Product';
+import { ProductEntity, ProductWIthPropertiesEntity } from '@entities/Product';
 import { ProductService } from '@services/Product';
 import { AffectedInterceptor, NotFoundInterceptor, EmptyResultInterceptor } from '@interceptors/responce';
 import { ISearchReqQueries } from '@interfaces/Queries';
@@ -24,17 +24,6 @@ import { CommonDashboardsDTO, UserDashboardsDTO } from '@dto/Dashboard';
 export class ProductController {
     constructor(private readonly productService: ProductService) {}
 
-    @Post()
-    @UseInterceptors(FilesInterceptor('images'))
-    @ApiOperation({ summary: 'create new product' })
-	@ApiOkResponse({ description: 'success' })
-    createProduct(
-        @Body(new ValidationPipe({ transform: true })) product: CreateProductDTO,
-        @UploadedFiles() images: Array<Express.Multer.File>
-    ): Promise<void> {
-        return this.productService.createProduct(product, images);
-    }
-
     @Get('list')
     @UseInterceptors(EmptyResultInterceptor)
     @ApiQuery({ name: 'page', required: false, description: 'page number', type: 'number' })
@@ -45,20 +34,6 @@ export class ProductController {
         @Req() { cookies }: Request
     ): Promise<PaginationResultDTO<ProductWIthPropertiesEntity>> {
         return this.productService.getAllProducts(queries, cookies);
-    }
-
-    @Get('dashboard/common')
-    @ApiOperation({ summary: 'get common dashboards' })
-    @ApiOkResponse({ type: CommonDashboardsDTO })
-    getCommonDashboards(): Promise<CommonDashboardsDTO> {
-        return this.productService.getCommonDashboards();
-    }
-
-    @Get('dashboard/user')
-    @ApiOperation({ summary: 'get individual user dashboards' })
-    @ApiOkResponse({ type: UserDashboardsDTO })
-    getMostPopularProducts(): Promise<UserDashboardsDTO> {
-        return this.productService.getUserDashboards();
     }
 
     @Get('category/:categoryUrl')
@@ -75,6 +50,31 @@ export class ProductController {
 		return this.productService.getCategoryProducts(categoryUrl, queries, cookies);
 	}
 
+    @Get('dashboard/common')
+    @ApiOperation({ summary: 'get common dashboards' })
+    @ApiOkResponse({ type: CommonDashboardsDTO })
+    getCommonDashboards(): Promise<CommonDashboardsDTO> {
+        return this.productService.getCommonDashboards();
+    }
+
+    @Get('dashboard/user')
+    @ApiOperation({ summary: 'get individual user dashboards' })
+    @ApiOkResponse({ type: UserDashboardsDTO })
+    getMostPopularProducts(): Promise<UserDashboardsDTO> {
+        return this.productService.getUserDashboards();
+    }
+
+    @Post()
+    @UseInterceptors(FilesInterceptor('images'))
+    @ApiOperation({ summary: 'create new product' })
+	@ApiOkResponse({ description: 'success' })
+    createProduct(
+        @Body(new ValidationPipe({ transform: true })) product: CreateProductDTO,
+        @UploadedFiles() images: Array<Express.Multer.File>
+    ): Promise<void> {
+        return this.productService.createProduct(product, images);
+    }
+
     @Get(':productId')
     @UseInterceptors(NotFoundInterceptor)
     @ApiOperation({ summary: 'get product by id' })
@@ -89,7 +89,7 @@ export class ProductController {
     // ! preloading DTO schemas
     @ApiUnsupportedMediaTypeResponse({ type: PaginationDTO, description: 'never mind. it\'s a bug for feature' })
     @ApiServiceUnavailableResponse({ type: ProductWIthPropertiesEntity, description: 'never mind. it\'s a bug for feature' })
-
+    // ! 
     @Delete(':productId')
     @UseInterceptors(AffectedInterceptor)
     @ApiOperation({ summary: 'delete product by id' })

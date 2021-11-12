@@ -17,7 +17,7 @@ export class ProductBaseEntity implements IProduct {
     @ApiProperty()
     id: string;
 
-    @CreateDateColumn()
+    @CreateDateColumn({ select: false })
     @ApiProperty({ required: false })
     created_at: Date;
 
@@ -25,7 +25,7 @@ export class ProductBaseEntity implements IProduct {
     @ApiProperty({ required: true })
     title: string;
 
-    @Column({ default: false })
+    @Column({ default: false, select: false })
     @ApiProperty({ required: false })
     is_public: boolean;
 
@@ -67,7 +67,7 @@ export class ProductBaseEntity implements IProduct {
     })
     labels: ILabel[];
 
-    @Column({ default: 0 })
+    @Column({ default: 0, select: false })
     @ApiProperty({
         required: false,
         default: 0,
