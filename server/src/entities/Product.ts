@@ -4,7 +4,7 @@ import {
     OneToMany, PrimaryGeneratedColumn
 } from 'typeorm';
 import { CategoryEntity } from '@entities/Category';
-import { IProduct } from '@interfaces/Product';
+import { IBaseProduct, IProduct } from '@interfaces/Product';
 import { ImageEntity } from '@entities/Image';
 import { ICategory } from '@interfaces/Category';
 import { LabelEntity } from '@entities/Label';
@@ -12,8 +12,7 @@ import { ILabel } from '@interfaces/Label';
 import { IProperty } from '@interfaces/Property';
 import { PropertyEntity } from '@entities/Property';
 
-@Entity('product')
-export class ProductEntity implements IProduct {
+export class ProductBaseEntity implements IBaseProduct {
     @PrimaryGeneratedColumn('uuid')
     @ApiProperty()
     id: string;
@@ -82,7 +81,10 @@ export class ProductEntity implements IProduct {
         description: 'short product description'
     })
     description: string;
+}
 
+@Entity('product')
+export class ProductEntity extends ProductBaseEntity implements IProduct {
     @ManyToMany(
         () => PropertyEntity,
         ({ id }) => id,

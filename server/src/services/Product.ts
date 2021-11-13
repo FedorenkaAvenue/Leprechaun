@@ -47,12 +47,10 @@ export class ProductService {
 	async getCommonDashboards(): Promise<CommonDashboardsDTO> {
 		const [ popular, newest ] = await Promise.all([
 			this.productRepo.find({
-				relations: [ 'category', 'properties', 'properties.property_group' ],
 				take: DASHBOARD_PORTION,
 				order: { rating: 'DESC' }
 			}),
 			this.productRepo.find({
-				relations: [ 'category', 'properties', 'properties.property_group' ],
 				take: DASHBOARD_PORTION,
 				order: { created_at: 'DESC' }
 			})
