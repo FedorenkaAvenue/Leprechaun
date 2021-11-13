@@ -27,6 +27,10 @@ export class CategoryBaseEntity implements ICategory {
     @Column({ nullable: true })
     @ApiProperty({ required: false })
     icon: string;
+
+    @Column({ nullable: true, select: false })
+    @ApiProperty({ required: false })
+    comment: string;
 }
 
 export class CategoryWithPropertyGroupsEntity extends CategoryBaseEntity implements ICategory {

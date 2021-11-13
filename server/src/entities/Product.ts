@@ -81,6 +81,10 @@ export class ProductBaseEntity implements IBaseProduct {
         description: 'short product description'
     })
     description: string;
+
+    @Column({ nullable: true, select: false })
+    @ApiProperty({ required: false })
+    comment: string;
 }
 
 @Entity('product')

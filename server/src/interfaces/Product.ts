@@ -14,6 +14,7 @@ export interface IBaseProduct {
     created_at?: Date
     is_public?: boolean
     images: Array<IImage> | Array<string>
+    comment: string
 }
 
 export interface IProduct extends IBaseProduct {

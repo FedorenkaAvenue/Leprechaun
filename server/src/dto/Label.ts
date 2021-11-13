@@ -13,12 +13,18 @@ export class CreateLabelDTO implements ILabel {
     @IsString()
     @ApiProperty({ enum: LabelType })
     value: string;
+
+    @IsOptional()
+    @IsString()
+    @ApiProperty({ required: false })
+    comment: string;
 }
 
 export class CreateLabelDTOConstructor extends CreateLabelDTO {
-    constructor({ type, value }: CreateLabelDTO) {
+    constructor({ type, value, comment }: CreateLabelDTO) {
         super();
         this.type = type;
         this.value = value || null;
+        this.comment = comment || null;
     }
 }

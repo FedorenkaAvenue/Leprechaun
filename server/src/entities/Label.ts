@@ -16,4 +16,8 @@ export class LabelEntity implements ILabel {
     @Column({ nullable: true })
     @ApiProperty({ required: false, description: 'label text' })
     value: string;
+
+    @Column({ nullable: true, select: false })
+    @ApiProperty({ required: false })
+    comment: string;
 }
