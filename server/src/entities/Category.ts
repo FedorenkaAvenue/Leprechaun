@@ -9,18 +9,18 @@ import { IPropertyGroup } from '@interfaces/Property';
 
 export class CategoryBaseEntity implements ICategory {
     @PrimaryGeneratedColumn('rowid')
-    @ApiProperty()
+    @ApiProperty({ required: false })
     id: number;
 
     @Column({ unique: true })
-    @ApiProperty()
+    @ApiProperty({ required: false })
     url: string;
 
     @Column({ unique: true })
-    @ApiProperty()
+    @ApiProperty({ required: false })
     title: string;
 
-    @Column({ default: true, select: false })
+    @Column({ default: false, select: false })
     @ApiProperty({ required: false })
     is_public: boolean;
 

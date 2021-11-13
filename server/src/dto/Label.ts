@@ -16,7 +16,7 @@ export class CreateLabelDTO implements ILabel {
 
     @IsOptional()
     @IsString()
-    @ApiProperty({ required: false })
+    @ApiProperty({ required: false, default: null })
     comment: string;
 }
 

@@ -14,7 +14,7 @@ import { PropertyEntity } from '@entities/Property';
 
 export class ProductBaseEntity implements IBaseProduct {
     @PrimaryGeneratedColumn('uuid')
-    @ApiProperty()
+    @ApiProperty({ required: false })
     id: string;
 
     @CreateDateColumn()
@@ -22,7 +22,7 @@ export class ProductBaseEntity implements IBaseProduct {
     created_at: Date;
 
     @Column()
-    @ApiProperty({ required: true })
+    @ApiProperty({ required: false })
     title: string;
 
     @Column({ default: false, select: false })
@@ -34,7 +34,7 @@ export class ProductBaseEntity implements IBaseProduct {
     is_available: boolean;
 
     @Column()
-    @ApiProperty()
+    @ApiProperty({ required: false })
     price: number;
 
     @OneToMany(
@@ -42,7 +42,7 @@ export class ProductBaseEntity implements IBaseProduct {
         ({ product_id }) => product_id,
         { eager: true }
     )
-    @ApiProperty({ type: ImageEntity, isArray: true })
+    @ApiProperty({ type: ImageEntity, isArray: true, required: false })
     images: string[];
 
     @ManyToMany(
@@ -101,7 +101,7 @@ export class ProductEntity extends ProductBaseEntity implements IProduct {
     })
     @ApiProperty({
         type: PropertyEntity,
-        required: true,
+        required: false,
         isArray: true
     })
     properties: Array<IProperty>;
@@ -112,6 +112,6 @@ export class ProductEntity extends ProductBaseEntity implements IProduct {
         { onDelete: 'NO ACTION' }
     )
     @JoinColumn({ name: 'category', referencedColumnName: 'id' })
-    @ApiProperty({ type: () => CategoryEntity })
+    @ApiProperty({ type: () => CategoryEntity, required: false })
     category: ICategory;
 }

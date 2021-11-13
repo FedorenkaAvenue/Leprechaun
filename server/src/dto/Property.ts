@@ -21,7 +21,7 @@ export class CreatePropertyGroupDTO implements IPropertyGroup {
 
     @IsOptional()
     @IsString()
-    @ApiProperty({ required: false })
+    @ApiProperty({ required: false, default: null })
     comment: string;
 }
 
@@ -56,7 +56,7 @@ export class CreatePropertyDTO implements IProperty {
 
     @IsOptional()
     @IsString()
-    @ApiProperty({ required: false })
+    @ApiProperty({ required: false, default: null })
     comment: string;
 }
 
