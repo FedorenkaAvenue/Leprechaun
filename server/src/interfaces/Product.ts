@@ -3,22 +3,21 @@ import { IImage } from '@interfaces/Image';
 import { ILabel } from '@interfaces/Label';
 import { IProperty } from '@interfaces/Property';
 
-export interface IProduct {
+export interface IBaseProduct {
     id?: string
-    created_at?: Date
-    category?: ICategory
-    properties?: Array<IProperty>
     title: string
-    is_public: boolean
     is_available: boolean
-    rating?: number
     price: number
-    images: Array<IImage> | Array<string>
     description: string
     labels: Array<ILabel>
+    rating?: number
+    created_at?: Date
+    is_public?: boolean
+    images: Array<IImage> | Array<string>
+    comment: string
 }
 
-export enum DASHBOARD_LIST {
-    POPULAR,
-    NEW
+export interface IProduct extends IBaseProduct {
+    category?: ICategory
+    properties?: Array<IProperty>
 }

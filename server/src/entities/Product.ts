@@ -4,7 +4,7 @@ import {
     OneToMany, PrimaryGeneratedColumn
 } from 'typeorm';
 import { CategoryEntity } from '@entities/Category';
-import { IProduct } from '@interfaces/Product';
+import { IBaseProduct, IProduct } from '@interfaces/Product';
 import { ImageEntity } from '@entities/Image';
 import { ICategory } from '@interfaces/Category';
 import { LabelEntity } from '@entities/Label';
@@ -12,9 +12,9 @@ import { ILabel } from '@interfaces/Label';
 import { IProperty } from '@interfaces/Property';
 import { PropertyEntity } from '@entities/Property';
 
-export class ProductBaseEntity implements IProduct {
+export class ProductBaseEntity implements IBaseProduct {
     @PrimaryGeneratedColumn('uuid')
-    @ApiProperty()
+    @ApiProperty({ required: false })
     id: string;
 
     @CreateDateColumn()
@@ -22,10 +22,10 @@ export class ProductBaseEntity implements IProduct {
     created_at: Date;
 
     @Column()
-    @ApiProperty({ required: true })
+    @ApiProperty({ required: false })
     title: string;
 
-    @Column({ default: false })
+    @Column({ default: false, select: false })
     @ApiProperty({ required: false })
     is_public: boolean;
 
@@ -34,7 +34,7 @@ export class ProductBaseEntity implements IProduct {
     is_available: boolean;
 
     @Column()
-    @ApiProperty()
+    @ApiProperty({ required: false })
     price: number;
 
     @OneToMany(
@@ -42,7 +42,7 @@ export class ProductBaseEntity implements IProduct {
         ({ product_id }) => product_id,
         { eager: true }
     )
-    @ApiProperty({ type: ImageEntity, isArray: true })
+    @ApiProperty({ type: ImageEntity, isArray: true, required: false })
     images: string[];
 
     @ManyToMany(
@@ -81,9 +81,14 @@ export class ProductBaseEntity implements IProduct {
         description: 'short product description'
     })
     description: string;
+
+    @Column({ nullable: true, select: false })
+    @ApiProperty({ required: false })
+    comment: string;
 }
 
-export class ProductWIthPropertiesEntity extends ProductBaseEntity implements IProduct {
+@Entity('product')
+export class ProductEntity extends ProductBaseEntity implements IProduct {
     @ManyToMany(
         () => PropertyEntity,
         ({ id }) => id,
@@ -96,35 +101,17 @@ export class ProductWIthPropertiesEntity extends ProductBaseEntity implements IP
     })
     @ApiProperty({
         type: PropertyEntity,
-        required: true,
+        required: false,
         isArray: true
     })
     properties: Array<IProperty>;
-}
 
-@Entity('product')
-export class ProductEntity extends ProductWIthPropertiesEntity implements IProduct {
     @ManyToOne(
         () => CategoryEntity,
         ({ products }) => products,
         { onDelete: 'NO ACTION' }
     )
     @JoinColumn({ name: 'category', referencedColumnName: 'id' })
-    @ApiProperty({ type: () => CategoryEntity })
+    @ApiProperty({ type: () => CategoryEntity, required: false })
     category: ICategory;
 }
-
-// @EventSubscriber()
-// export class ProductEntitySubscriber implements EntitySubscriberInterface<ProductEntity> {
-//     constructor(connection: Connection) {
-//         connection.subscribers.push(this);
-//     }
-
-//     listenTo() {
-//         return ProductEntity;
-//     }
-
-//     afterRemove(e: RemoveEvent<ProductEntity>) {
-//         console.log(`AFTER ENTITY WITH ID ${e.entityId} REMOVED: `, e.entity);
-//     }
-// }

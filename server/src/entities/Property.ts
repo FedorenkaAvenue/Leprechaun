@@ -5,19 +5,19 @@ import { PropertyGroupOptionType, IProperty, IPropertyGroup } from '@interfaces/
 
 export class ProductGroupBaseEntity implements IPropertyGroup {
     @PrimaryGeneratedColumn('rowid')
-    @ApiProperty()
+    @ApiProperty({ required: false })
     id: number;
 
     @Column({ unique: true })
-    @ApiProperty()
+    @ApiProperty({ required: false })
     title: string;
 
     @Column({ select: false })
-    @ApiProperty({ enum: PropertyGroupOptionType })
+    @ApiProperty({ enum: PropertyGroupOptionType, required: false })
     type: PropertyGroupOptionType;
 
     @Column({ unique: true })
-    @ApiProperty()
+    @ApiProperty({ required: false })
     alt_name: string;
 
     @Column({ nullable: true, select: false })
@@ -31,21 +31,21 @@ export class PropertyGroupEntity extends ProductGroupBaseEntity implements IProp
         () => PropertyEntity,
         ({ property_group }) => property_group
     )
-    @ApiProperty({ type: () => PropertyEntity, isArray: true })
+    @ApiProperty({ type: () => PropertyEntity, isArray: true, required: false })
     properties: IProperty[];
 }
 
 export class PropertyBaseEntity implements IProperty {
     @PrimaryGeneratedColumn('rowid')
-    @ApiProperty()
+    @ApiProperty({ required: false })
     id: number;
 
     @Column({ unique: true })
-    @ApiProperty()
+    @ApiProperty({ required: false })
     title: string;
 
     @Column({ unique: true })
-    @ApiProperty()
+    @ApiProperty({ required: false })
     alt_name: string;
 
     @Column({ nullable: true, select: false })
@@ -61,6 +61,6 @@ export class PropertyEntity extends PropertyBaseEntity implements IProperty {
         { onDelete: 'CASCADE', nullable: false }
     )
     @JoinColumn({ name: 'property_group' })
-    @ApiProperty()
+    @ApiProperty({ required: false })
     property_group: IPropertyGroup;
 }

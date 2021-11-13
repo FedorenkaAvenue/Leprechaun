@@ -9,4 +9,5 @@ export interface ICategory<TIcon = string> {
     icon: TIcon | null
     products?: Array<IProduct> | null
     property_groups?: Array<IPropertyGroup> | null
+    comment: string
 }
