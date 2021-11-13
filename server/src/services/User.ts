@@ -11,6 +11,9 @@ export class UserService {
 	) {}
 
     getUser(userId: string): Promise<UserEntity> {
-        return this.userRepo.findOne({ id: userId });
+        return this.userRepo.findOne({
+            where: { id: userId },
+            relations: ['favorite']
+        });
     }
 }

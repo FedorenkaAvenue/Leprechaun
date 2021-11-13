@@ -1,8 +1,9 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Entity, JoinTable, ManyToMany, PrimaryGeneratedColumn } from 'typeorm';
 
 import { IUser } from '@interfaces/User';
 import { IProduct } from '@interfaces/Product';
+import { ProductEntity } from './Product';
 
 @Entity('user')
 export class UserEntity implements IUser {
@@ -10,8 +11,27 @@ export class UserEntity implements IUser {
     @ApiProperty()
     id: string;
 
-    // @Column()
-    // @ApiProperty()
+    // @ManyToMany(
+    //     () => ProductEntity,
+    //     ({ id }) => id,
+    //     { cascade: true }
+    // )
+    // @JoinTable({
+    //     name: '_favorite',
+    //     joinColumn: {
+    //         name: 'user_id',
+    //         referencedColumnName: 'id'
+    //     },
+    //     inverseJoinColumn: {
+    //         name: 'product_id',
+    //         referencedColumnName: 'id'
+    //     }
+    // })
+    // @ApiProperty({
+    //     description: 'list of favotires products',
+    //     isArray: true,
+    //     required: false
+    // })
     // favorite: IProduct[];
 
     // @Column()
