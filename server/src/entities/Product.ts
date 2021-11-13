@@ -12,12 +12,13 @@ import { ILabel } from '@interfaces/Label';
 import { IProperty } from '@interfaces/Property';
 import { PropertyEntity } from '@entities/Property';
 
-export class ProductBaseEntity implements IProduct {
+@Entity('product')
+export class ProductEntity implements IProduct {
     @PrimaryGeneratedColumn('uuid')
     @ApiProperty()
     id: string;
 
-    @CreateDateColumn({ select: false })
+    @CreateDateColumn()
     @ApiProperty({ required: false })
     created_at: Date;
 
@@ -67,7 +68,7 @@ export class ProductBaseEntity implements IProduct {
     })
     labels: ILabel[];
 
-    @Column({ default: 0, select: false })
+    @Column({ default: 0 })
     @ApiProperty({
         required: false,
         default: 0,
@@ -81,9 +82,7 @@ export class ProductBaseEntity implements IProduct {
         description: 'short product description'
     })
     description: string;
-}
 
-export class ProductWIthPropertiesEntity extends ProductBaseEntity implements IProduct {
     @ManyToMany(
         () => PropertyEntity,
         ({ id }) => id,
@@ -100,10 +99,7 @@ export class ProductWIthPropertiesEntity extends ProductBaseEntity implements IP
         isArray: true
     })
     properties: Array<IProperty>;
-}
 
-@Entity('product')
-export class ProductEntity extends ProductWIthPropertiesEntity implements IProduct {
     @ManyToOne(
         () => CategoryEntity,
         ({ products }) => products,
@@ -113,18 +109,3 @@ export class ProductEntity extends ProductWIthPropertiesEntity implements IProdu
     @ApiProperty({ type: () => CategoryEntity })
     category: ICategory;
 }
-
-// @EventSubscriber()
-// export class ProductEntitySubscriber implements EntitySubscriberInterface<ProductEntity> {
-//     constructor(connection: Connection) {
-//         connection.subscribers.push(this);
-//     }
-
-//     listenTo() {
-//         return ProductEntity;
-//     }
-
-//     afterRemove(e: RemoveEvent<ProductEntity>) {
-//         console.log(`AFTER ENTITY WITH ID ${e.entityId} REMOVED: `, e.entity);
-//     }
-// }

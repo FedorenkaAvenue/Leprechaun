@@ -3,17 +3,27 @@ import { IImage } from '@interfaces/Image';
 import { ILabel } from '@interfaces/Label';
 import { IProperty } from '@interfaces/Property';
 
-export interface IProduct {
-    id?: string
-    created_at?: Date
-    category?: ICategory
-    properties?: Array<IProperty>
-    title: string
-    is_public: boolean
-    is_available: boolean
+interface IAdminProduct {
     rating?: number
+    created_at?: Date
+    is_public?: boolean
+}
+
+interface IBaseProduct extends IAdminProduct {
+    id?: string
+    title: string
+    is_available: boolean
     price: number
-    images: Array<IImage> | Array<string>
     description: string
     labels: Array<ILabel>
+}
+
+export interface IProductPreview extends IBaseProduct {
+    image: IImage
+}
+
+export interface IProduct extends IBaseProduct {
+    images: Array<IImage> | Array<string>
+    category?: ICategory
+    properties?: Array<IProperty>
 }

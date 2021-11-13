@@ -11,7 +11,7 @@ import { FilesInterceptor } from '@nestjs/platform-express';
 import { Request } from 'express';
 
 import { CreateProductDTO } from '@dto/Product';
-import { ProductEntity, ProductWIthPropertiesEntity } from '@entities/Product';
+import { ProductEntity } from '@entities/Product';
 import { ProductService } from '@services/Product';
 import { AffectedInterceptor, NotFoundInterceptor, EmptyResultInterceptor } from '@interceptors/responce';
 import { ISearchReqQueries } from '@interfaces/Queries';
@@ -32,7 +32,7 @@ export class ProductController {
     getAllProducts(
         @Query() queries: ISearchReqQueries,
         @Req() { cookies }: Request
-    ): Promise<PaginationResultDTO<ProductWIthPropertiesEntity>> {
+    ): Promise<PaginationResultDTO<ProductEntity>> {
         return this.productService.getAllProducts(queries, cookies);
     }
 
@@ -41,12 +41,12 @@ export class ProductController {
 	@ApiOperation({ summary: 'get products by category url' })
     @ApiQuery({ name: 'page', required: false, description: 'page number', type: 'number' })
     @ApiNotFoundResponse({ description: 'category not found' })
-	@ApiPaginatedResponse(ProductWIthPropertiesEntity)
+	@ApiPaginatedResponse(ProductEntity)
 	getCategoryProducts(
 		@Query() queries: ISearchReqQueries,
         @Req() { cookies }: Request,
 		@Param('categoryUrl') categoryUrl: string
-	): Promise<PaginationResultDTO<ProductWIthPropertiesEntity>> {
+	): Promise<PaginationResultDTO<ProductEntity>> {
 		return this.productService.getCategoryProducts(categoryUrl, queries, cookies);
 	}
 
@@ -88,7 +88,7 @@ export class ProductController {
     // ! DONT TOUCH
     // ! preloading DTO schemas
     @ApiUnsupportedMediaTypeResponse({ type: PaginationDTO, description: 'never mind. it\'s a bug for feature' })
-    @ApiServiceUnavailableResponse({ type: ProductWIthPropertiesEntity, description: 'never mind. it\'s a bug for feature' })
+    @ApiServiceUnavailableResponse({ type: ProductEntity, description: 'never mind. it\'s a bug for feature' })
     // ! 
     @Delete(':productId')
     @UseInterceptors(AffectedInterceptor)

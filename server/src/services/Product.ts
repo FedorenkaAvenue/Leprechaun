@@ -3,7 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { DeleteResult, Repository, SelectQueryBuilder } from 'typeorm';
 
 import { CreateProductDTO, CreateProductDTOConstructor } from '@dto/Product';
-import { ProductBaseEntity, ProductEntity, ProductWIthPropertiesEntity } from '@entities/Product';
+import { ProductEntity } from '@entities/Product';
 import { FOLDER_TYPES, FSService } from '@services/FS';
 import { ImageService } from '@services/Image';
 import { CookieSortType, ICookies } from '@interfaces/Cookies';
@@ -44,21 +44,6 @@ export class ProductService {
 		});
 	}
 
-	async getAllProducts(
-		queries: ISearchReqQueries,
-		cookies: ICookies
-	): Promise<PaginationResultDTO<ProductWIthPropertiesEntity>> {
-		const qb = this.productRepo
-			.createQueryBuilder('product')
-			.leftJoinAndSelect('product.properties', 'properties')
-			.leftJoinAndSelect('product.category', 'category')
-			.leftJoinAndSelect('product.labels', 'labels')
-			.leftJoinAndSelect('product.images', 'images')
-			.leftJoinAndSelect('properties.property_group', 'property_group');
-
-		return this.renderResult(qb, queries, cookies);
-	}
-
 	async getCommonDashboards(): Promise<CommonDashboardsDTO> {
 		const [ popular, newest ] = await Promise.all([
 			this.productRepo.find({
@@ -80,11 +65,26 @@ export class ProductService {
 		return new UserDashboardsDTO({ visited: [] });
 	}
 
+	async getAllProducts(
+		queries: ISearchReqQueries,
+		cookies: ICookies
+	): Promise<PaginationResultDTO<ProductEntity>> {
+		const qb = this.productRepo
+			.createQueryBuilder('product')
+			.leftJoinAndSelect('product.properties', 'properties')
+			.leftJoinAndSelect('product.category', 'category')
+			.leftJoinAndSelect('product.labels', 'labels')
+			.leftJoinAndSelect('product.images', 'images')
+			.leftJoinAndSelect('properties.property_group', 'property_group');
+
+		return this.renderResult(qb, queries, cookies);
+	}
+
 	async getCategoryProducts(
 		categoryUrl: string,
 		queries: ISearchReqQueries,
 		cookies: ICookies
-	): Promise<PaginationResultDTO<ProductWIthPropertiesEntity>> {
+	): Promise<PaginationResultDTO<ProductEntity>> {
 		const qb = this.productRepo
 			.createQueryBuilder('product')
 			.innerJoin('product.category', 'category')
@@ -116,7 +116,7 @@ export class ProductService {
         qb: SelectQueryBuilder<ProductEntity>,
         queries: ISearchReqQueries,
         cookies: ICookies
-    ): Promise<PaginationResultDTO<ProductWIthPropertiesEntity>> {
+    ): Promise<PaginationResultDTO<ProductEntity>> {
         const { page, price, sell, restQueries } = new SearchQueriesDTO(queries);
 		const { portion, sort } = this.cookieService.parseRequestCookies(cookies);
 
