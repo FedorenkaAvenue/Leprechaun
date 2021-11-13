@@ -3,7 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { DeleteResult, Repository, SelectQueryBuilder } from 'typeorm';
 
 import { CreateProductDTO, CreateProductDTOConstructor } from '@dto/Product';
-import { ProductBaseEntity, ProductEntity, ProductWIthPropertiesEntity } from '@entities/Product';
+import { ProductEntity } from '@entities/Product';
 import { FOLDER_TYPES, FSService } from '@services/FS';
 import { ImageService } from '@services/Image';
 import { CookieSortType, ICookies } from '@interfaces/Cookies';
@@ -11,7 +11,9 @@ import { ISearchReqQueries } from '@interfaces/Queries';
 import { SearchQueriesDTO } from '@dto/SearchQueries';
 import { PaginationResultDTO } from '@dto/Pagination';
 import CookieService from './Cookie';
-import { DASHBOARD_LIST } from '@interfaces/Product';
+import { CommonDashboardsDTO, UserDashboardsDTO } from '@dto/Dashboard';
+
+const DASHBOARD_PORTION = 20;
 
 /**
  * @description /product controller service
@@ -42,10 +44,29 @@ export class ProductService {
 		});
 	}
 
+	async getCommonDashboards(): Promise<CommonDashboardsDTO> {
+		const [ popular, newest ] = await Promise.all([
+			this.productRepo.find({
+				take: DASHBOARD_PORTION,
+				order: { rating: 'DESC' }
+			}),
+			this.productRepo.find({
+				take: DASHBOARD_PORTION,
+				order: { created_at: 'DESC' }
+			})
+		]);
+
+		return new CommonDashboardsDTO({ popular, newest });
+	}
+
+	async getUserDashboards(): Promise<UserDashboardsDTO> {
+		return new UserDashboardsDTO({ visited: [] });
+	}
+
 	async getAllProducts(
 		queries: ISearchReqQueries,
 		cookies: ICookies
-	): Promise<PaginationResultDTO<ProductWIthPropertiesEntity>> {
+	): Promise<PaginationResultDTO<ProductEntity>> {
 		const qb = this.productRepo
 			.createQueryBuilder('product')
 			.leftJoinAndSelect('product.properties', 'properties')
@@ -57,21 +78,11 @@ export class ProductService {
 		return this.renderResult(qb, queries, cookies);
 	}
 
-	async getDashboardProducts(listType: DASHBOARD_LIST, page: number): Promise<ProductBaseEntity[]> {
-		return this.productRepo.find({
-			take: 5,
-			skip: 5 * (page - 1),
-			order: listType === DASHBOARD_LIST.NEW ?
-				{ created_at: 'DESC' } :
-				{ rating: 'DESC' }
-		});
-	}
-
 	async getCategoryProducts(
 		categoryUrl: string,
 		queries: ISearchReqQueries,
 		cookies: ICookies
-	): Promise<PaginationResultDTO<ProductWIthPropertiesEntity>> {
+	): Promise<PaginationResultDTO<ProductEntity>> {
 		const qb = this.productRepo
 			.createQueryBuilder('product')
 			.innerJoin('product.category', 'category')
@@ -103,7 +114,7 @@ export class ProductService {
         qb: SelectQueryBuilder<ProductEntity>,
         queries: ISearchReqQueries,
         cookies: ICookies
-    ): Promise<PaginationResultDTO<ProductWIthPropertiesEntity>> {
+    ): Promise<PaginationResultDTO<ProductEntity>> {
         const { page, price, sell, restQueries } = new SearchQueriesDTO(queries);
 		const { portion, sort } = this.cookieService.parseRequestCookies(cookies);
 

@@ -19,17 +19,17 @@ export class CreateProductDTO implements IProduct {
 
     @IsOptional()
     @IsBooleanString()
-    @ApiProperty({ required: false })
+    @ApiProperty({ required: false, default: false })
     is_public: boolean;
 
     @IsOptional()
     @IsBooleanString()
-    @ApiProperty({ required: false })
+    @ApiProperty({ required: false, default: true })
     is_available: boolean;
 
     @IsOptional()
     @IsString()
-    @ApiProperty({ required: false })
+    @ApiProperty({ required: false, default: null })
     description: string;
 
     @IsNotEmpty()
@@ -45,24 +45,40 @@ export class CreateProductDTO implements IProduct {
     @ApiProperty({
         description: 'array of binary files',
         type: 'file',
-        isArray: true
+        isArray: true,
+        required: false,
+        default: []
     })
     images: string[];
 
     @IsOptional()
     @IsNumberString({}, { each: true })
-    @ApiProperty({ description: 'array of label', isArray: true })
+    @ApiProperty({
+        description: 'array of label',
+        isArray: true, required: false,
+        default: []
+    })
     labels: ILabel[];
 
     @IsOptional()
     @IsNumberString({}, { each: true })
-    @ApiProperty({ description: 'array of properties', isArray: true })
+    @ApiProperty({
+        description: 'array of properties',
+        isArray: true,
+        required: false,
+        default: []
+    })
     properties: IProperty[];
+
+    @IsOptional()
+    @IsString()
+    @ApiProperty({ required: false, default: null })
+    comment: string;
 }
 
 export class CreateProductDTOConstructor extends CreateProductDTO {
     constructor({
-        title, price, is_public, category, labels, properties, is_available, description
+        title, price, is_public, category, labels, properties, is_available, description, comment
     }: CreateProductDTO) {
         super();
         this.title = title;
@@ -71,51 +87,10 @@ export class CreateProductDTOConstructor extends CreateProductDTO {
         this.is_available = is_available;
         this.category = category;
         this.description = description || null;
+        this.comment = comment || null;
         // @ts-ignore for table relations
         this.labels = labels ? labels.map(label => ({ id: Number(label) })) : [];
         // @ts-ignore for properties relation
         this.properties = properties ? properties.map(property => ({ id: Number(property) })) : [];
     }
 }
-
-// export class UpdateProductDTO implements IProduct {
-//     @ApiProperty({ type: 'number', required: true })
-//     id: string;
-
-//     @ApiProperty({ required: false })
-//     title: string;
-
-//     @ApiProperty({ required: false })
-//     price: number;
-
-//     @ApiProperty({ required: false })
-//     isPublic: boolean;
-
-//     @ApiProperty({
-//         required: false,
-//         type: 'number',
-//         description: 'category id'
-//     })
-//     category: ICategory;
-
-//     @ApiProperty({
-//         description: 'array of the new images as binary files',
-//         type: 'file',
-//         isArray: true,
-//         required: false
-//     })
-//     images: string[];
-
-//     @ApiProperty({
-//         description: 'array of the removed images urls',
-//         isArray: true,
-//         required: false
-//     })
-//     removedImages: string[];
-
-//     @ApiProperty({
-//         required: false,
-//         description: 'index of primary image url'
-//     })
-//     mainImg: number;
-// }

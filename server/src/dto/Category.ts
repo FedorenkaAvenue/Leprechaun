@@ -17,14 +17,15 @@ export class CreateCategoryDTO implements ICategory {
 
     @IsOptional()
     @IsBooleanString()
-    @ApiProperty({ required: false })
+    @ApiProperty({ required: false, default: false })
     is_public: boolean;
 
     @IsOptional()
     @ApiProperty({
         type: 'file',
         required: false,
-        description: 'only SVG extension'
+        description: 'only SVG extension',
+        default: null
     })
     icon: string;
 
@@ -34,17 +35,24 @@ export class CreateCategoryDTO implements ICategory {
         required: false,
         type: 'number',
         description: 'array of the property groups ID',
-        isArray: true
+        isArray: true,
+        default: []
     })
     property_groups: IPropertyGroup[];
+
+    @IsOptional()
+    @IsString()
+    @ApiProperty({ required: false, default: null })
+    comment: string;
 }
 
 export class CreateCategoryDTOСonstructor extends CreateCategoryDTO {
-    constructor({ url, title, is_public, property_groups }: CreateCategoryDTO) {        
+    constructor({ url, title, is_public, property_groups, comment }: CreateCategoryDTO) {        
         super();
         this.url = url;
         this.title = title;
         this.is_public = is_public;
+        this.comment = comment || null;
         // @ts-ignore for table relations
         this.property_groups = property_groups
             ? property_groups.map(groupId => ({ id: Number(groupId) }))
