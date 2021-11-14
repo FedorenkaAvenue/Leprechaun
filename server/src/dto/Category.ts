@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsBooleanString, IsNotEmpty, IsNumberString, IsOptional, IsString } from 'class-validator';
 
-import { IPropertyGroup } from '@interfaces/Property';
+import { IPropertyGroup } from '@interfaces/PropertyGroup';
 import { ICategory } from '@interfaces/Category';
 
 export class CreateCategoryDTO implements ICategory {

@@ -18,6 +18,7 @@ import { ISearchReqQueries } from '@interfaces/Queries';
 import { PaginationDTO, PaginationResultDTO } from '@dto/Pagination';
 import { ApiPaginatedResponse } from '@decorators/Swagger';
 import { CommonDashboardsDTO, UserDashboardsDTO } from '@dto/Dashboard';
+import { IProduct } from '@interfaces/Product';
 
 @Controller('product')
 @ApiTags('Product')
@@ -32,7 +33,7 @@ export class ProductController {
     getAllProducts(
         @Query() queries: ISearchReqQueries,
         @Req() { cookies }: Request
-    ): Promise<PaginationResultDTO<ProductEntity>> {
+    ): Promise<PaginationResultDTO<IProduct>> {
         return this.productService.getAllProducts(queries, cookies);
     }
 
@@ -46,7 +47,7 @@ export class ProductController {
 		@Query() queries: ISearchReqQueries,
         @Req() { cookies }: Request,
 		@Param('categoryUrl') categoryUrl: string
-	): Promise<PaginationResultDTO<ProductEntity>> {
+	): Promise<PaginationResultDTO<IProduct>> {
 		return this.productService.getCategoryProducts(categoryUrl, queries, cookies);
 	}
 
@@ -81,7 +82,7 @@ export class ProductController {
     @ApiOkResponse({ type: ProductEntity })
     @ApiBadRequestResponse({ description: 'invalid product id' })
     @ApiNotFoundResponse({ description: 'product not found' })
-    getProduct(@Param('productId', ParseUUIDPipe) productId: string): Promise<ProductEntity> {
+    getProduct(@Param('productId', ParseUUIDPipe) productId: string): Promise<IProduct> {
         return this.productService.getProduct(productId);
     }
 

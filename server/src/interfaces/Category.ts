@@ -1,5 +1,5 @@
 import { IProduct } from '@interfaces/Product';
-import { IPropertyGroup } from '@interfaces/Property';
+import { IPropertyGroup } from '@interfaces/PropertyGroup';
 
 export interface ICategory<TIcon = string> {
     id?: number

@@ -7,9 +7,10 @@ import { DeleteResult, UpdateResult } from 'typeorm';
 
 import { NotFoundInterceptor, AffectedInterceptor } from '@interceptors/responce';
 import { CategoryService } from '@services/Category';
-import { CategoryBaseEntity, CategoryEntity, CategoryWithPropertyGroupsEntity } from '@entities/Category';
+import { CategoryBaseEntity, CategoryWithPropertyGroupsEntity } from '@entities/Category';
 import { CreateCategoryDTO } from '@dto/Category';
 import { FSService } from '@services/FS';
+import { ICategory } from '@interfaces/Category';
 
 @ApiTags('Category')
 @Controller('category')
@@ -19,7 +20,7 @@ export class CategoryController {
 	@Get('list')
 	@ApiOperation({ summary: 'get all categories' })
 	@ApiOkResponse({ type: CategoryBaseEntity, isArray: true })
-	getAllCategories(): Promise<CategoryBaseEntity[]> {
+	getAllCategories(): Promise<ICategory[]> {
 		return this.categoryService.getAllCategories();
 	}
 
@@ -28,7 +29,7 @@ export class CategoryController {
 	@ApiOperation({ summary: 'get category info by url' })
 	@ApiOkResponse({ type: CategoryWithPropertyGroupsEntity })
 	@ApiNotFoundResponse({ description: 'category not found' })
-	getCategory(@Param('category') category: string): Promise<CategoryEntity> {
+	getCategory(@Param('category') category: string): Promise<ICategory> {
 		return this.categoryService.getCategory(category);
 	}
 

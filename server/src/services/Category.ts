@@ -5,6 +5,7 @@ import { DeleteResult, Repository, UpdateResult } from 'typeorm';
 import { CategoryEntity } from '@entities/Category';
 import { CreateCategoryDTO, CreateCategoryDTOСonstructor } from '@dto/Category';
 import { FOLDER_TYPES, FSService } from '@services/FS';
+import { ICategory } from '@interfaces/Category';
 
 /**
  * @description /category controller service
@@ -16,11 +17,11 @@ export class CategoryService {
 		private readonly multerModule: FSService
 	) {}
 
-	getAllCategories(): Promise<CategoryEntity[]> {
+	getAllCategories(): Promise<ICategory[]> {
 		return this.categoryRepo.find();
 	}
 
-	getCategory(categoryUrl: string): Promise<CategoryEntity> {
+	getCategory(categoryUrl: string): Promise<ICategory> {
 		return this.categoryRepo.findOne({
 			where: { url: categoryUrl },
 			relations: ['property_groups']

@@ -12,6 +12,7 @@ import { SearchQueriesDTO } from '@dto/SearchQueries';
 import { PaginationResultDTO } from '@dto/Pagination';
 import CookieService from './Cookie';
 import { CommonDashboardsDTO, UserDashboardsDTO } from '@dto/Dashboard';
+import { IProduct } from '@interfaces/Product';
 
 const DASHBOARD_PORTION = 20;
 
@@ -37,7 +38,7 @@ export class ProductService {
 		}
 	}
 
-	async getProduct(productId: string): Promise<ProductEntity> {
+	async getProduct(productId: string): Promise<IProduct> {
 		return this.productRepo.findOne({
 			where: { id: productId },
 			relations: [ 'category', 'properties', 'properties.property_group' ]
@@ -66,7 +67,7 @@ export class ProductService {
 	async getAllProducts(
 		queries: ISearchReqQueries,
 		cookies: ICookies
-	): Promise<PaginationResultDTO<ProductEntity>> {
+	): Promise<PaginationResultDTO<IProduct>> {
 		const qb = this.productRepo
 			.createQueryBuilder('product')
 			.leftJoinAndSelect('product.properties', 'properties')
@@ -82,7 +83,7 @@ export class ProductService {
 		categoryUrl: string,
 		queries: ISearchReqQueries,
 		cookies: ICookies
-	): Promise<PaginationResultDTO<ProductEntity>> {
+	): Promise<PaginationResultDTO<IProduct>> {
 		const qb = this.productRepo
 			.createQueryBuilder('product')
 			.innerJoin('product.category', 'category')
@@ -114,7 +115,7 @@ export class ProductService {
         qb: SelectQueryBuilder<ProductEntity>,
         queries: ISearchReqQueries,
         cookies: ICookies
-    ): Promise<PaginationResultDTO<ProductEntity>> {
+    ): Promise<PaginationResultDTO<IProduct>> {
         const { page, price, sell, restQueries } = new SearchQueriesDTO(queries);
 		const { portion, sort } = this.cookieService.parseRequestCookies(cookies);
 

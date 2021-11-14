@@ -3,9 +3,9 @@ import { ApiProperty } from '@nestjs/swagger';
 
 import { ProductEntity } from '@entities/Product';
 import { ICategory } from '@interfaces/Category';
-import { ProductGroupBaseEntity, PropertyGroupEntity } from '@entities/Property';
+import { ProductGroupBaseEntity, PropertyGroupEntity } from '@entities/PropertGroup';
 import { IProduct } from '@interfaces/Product';
-import { IPropertyGroup } from '@interfaces/Property';
+import { IPropertyGroup } from '@interfaces/PropertyGroup';
 
 export class CategoryBaseEntity implements ICategory {
     @PrimaryGeneratedColumn('rowid')
