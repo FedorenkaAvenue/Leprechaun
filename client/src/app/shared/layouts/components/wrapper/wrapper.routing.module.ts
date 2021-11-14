@@ -8,6 +8,10 @@ const routes: Routes = [
         component: WrapperComponent,
         children: [
             {
+                path: '',
+                loadChildren: () => import('../../../../pages/home/home.module').then(m => m.HomeModule)
+            },
+            {
                 path: 'products',
                 loadChildren: () => import('../../../../pages/products/products.module').then( m => m.ProductsModule)
             },

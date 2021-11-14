@@ -1,7 +1,7 @@
 import { HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ProductDetailsI } from '@shared/models';
-import { ProductPageApiService } from '@shared/services/product-page-api/product-page-api.service';
+import { ProductPageApiService } from '@shared/services/api_es/product-page-api/product-page-api.service';
 import { Observable } from 'rxjs';
 
 @Injectable()

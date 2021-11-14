@@ -1,9 +1,11 @@
-import { ProductLabelType } from "@shared/enums/product-label.enum";
+import { ProductLabelType } from "@shared/enums";
 import { CategoryI } from "../categories/categories.model";
 import { PaginationDto } from "../pagination/pagination.model";
 
+
+
 export interface ProductLabelI {
-  id: 0,
+  id: string,
   type: ProductLabelType,
   value: string
 }
@@ -27,28 +29,32 @@ export interface ProductPropertiesI {
   property_group: any
 }
 
-export interface ProductDetailsI {
-    id: string,
-    created_at: string,
-    title: string,
-    is_public: boolean,
-    is_available: boolean,
-    price: number,
-    images: Array<ProductImageI>,
-    labels: Array<ProductLabelI>,
-    rating: 0,
-    description: string,
+export interface ProductsBaseI {
+  id: string,
+  created_at: string,
+  title: string,
+  is_public: boolean,
+  is_available: boolean,
+  price: number,
+  images: Array<ProductImageI>,
+  labels: Array<ProductLabelI>,
+  rating: number,
+  description: string,
+}
+
+export interface ProductsCommonI extends ProductsBaseI {
+  comment: string
+}
+
+
+export interface ProductDetailsI extends ProductsBaseI {
     properties: Array<ProductPropertiesI>,
     category: CategoryI;
 }
 
-export interface ProductCardI {
-    id?: number,
-    title: string,
-    price: number,
-    category: string,
-    images: Array<ProductCardImageI>;
-    isPublic: boolean,
+
+
+export interface ProductCardI extends ProductDetailsI {
   }
 
 
@@ -57,24 +63,22 @@ export interface ProductCardI {
     pagination: PaginationDto
   }
 
-  export class ProductCardDto implements ProductCardI {
-    public id?: number;
-    public title: string;
-    public price: number;
-    public category: string;
-    public images: Array<ProductCardImageI>;
-    public isPublic: boolean;
-  constructor(
-    data: ProductCardI
-  ) {
-      const {id, title, price, category, images, isPublic} = data
-      this.id = id,
-      this.title = title,
-      this.price = price,
-      this.category = category,
-      this.images = images || [],
-      this.isPublic = isPublic
+  export class ProductDetailsDto implements ProductDetailsI {
+    id: string;
+    created_at: string;
+    title: string;
+    is_public: boolean;
+    is_available: boolean;
+    price: number;
+    images: Array<ProductImageI>;
+    labels: Array<ProductLabelI>;
+    rating: 0;
+    description: string;
+    properties: Array<ProductPropertiesI>;
+    category: CategoryI;
   }
+
+  export class ProductCardDto extends ProductDetailsDto implements ProductCardI {
 }
 
 // export class ProductDetailsDto

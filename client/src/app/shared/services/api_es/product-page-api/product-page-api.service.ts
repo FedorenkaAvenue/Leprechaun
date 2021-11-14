@@ -9,7 +9,7 @@ import { Observable } from 'rxjs';
 })
 export class ProductPageApiService {
 
-  private readonly apiUrl = 'api/product'
+  private readonly apiUrl = 'api/product';
   constructor(
     private readonly http: TransferHttpService
   ) { }

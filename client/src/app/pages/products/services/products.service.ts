@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Params } from '@angular/router';
 import { Products } from '@shared/models/products/products.model';
-import { ProductsApiService } from '@shared/services/products-api/products-api.service';
+import { ProductsApiService } from '@shared/services/api_es/products-api/products-api.service';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 
