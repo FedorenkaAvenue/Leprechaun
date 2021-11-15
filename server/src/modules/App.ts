@@ -21,9 +21,9 @@ import ConfigService from '@services/Config';
 		PropertyModule,
 		ImageModule,
 		LabelModule,
-		SearchModule,
-		UserModule,
-		OrderModule,
+		// SearchModule,
+		// UserModule,
+		// OrderModule,
 		FilterModule,
 		TypeOrmModule.forRoot(ConfigService.getTypeOrmConfig())
 	]

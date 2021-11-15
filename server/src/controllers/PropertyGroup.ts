@@ -2,7 +2,7 @@ import { Body, Controller, Delete, Get, Param, Post, UseInterceptors, Validation
 import { ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { DeleteResult } from 'typeorm';
 
-import { CreatePropertyGroupDTO } from '@dto/Property';
+import { CreatePropertyGroupDTO } from '@dto/PropertyGroup';
 import { ProductGroupBaseEntity, PropertyGroupEntity } from '@entities/PropertGroup';
 import { PropertyGroupService } from '@services/PropertyGroup';
 import { AffectedInterceptor, NotFoundInterceptor } from '@interceptors/responce';

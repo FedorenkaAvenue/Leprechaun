@@ -3,7 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
 import { CategoryEntity } from '@entities/Category';
-import { FilterGroupEntitry } from '@entities/Filter';
+import { IPropertyGroup } from '@interfaces/PropertyGroup';
 
 @Injectable()
 export class FilterService {
@@ -11,21 +11,12 @@ export class FilterService {
         @InjectRepository(CategoryEntity) private readonly categoryRepo: Repository<CategoryEntity>,
     ) {}
 
-    async getCategoryFilters(categoryUrl: string, queries: any): Promise<FilterGroupEntitry[]> {
+    async getCategoryFilters(categoryUrl: string, queries: any): Promise<IPropertyGroup[]> {
         const res = await this.categoryRepo.findOne({
             where: { url: categoryUrl },
             relations: [ 'property_groups', 'property_groups.properties' ]
         });
 
-        //@ts-ignore
-        return res.property_groups.map(group => ({
-            ...group,
-            properties: group.properties.map(prop => ({
-                ...prop,
-                selected: false,
-                amount: 0,
-                available: 1
-            }))
-        }));
+        return res.property_groups
     }
 }

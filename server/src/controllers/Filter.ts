@@ -2,8 +2,8 @@ import { Controller, Get, Param, Query } from '@nestjs/common';
 import { ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 
 import { FilterService } from '@services/Filter';
-import { IFilterGroup } from '@interfaces/Filter';
-import { FilterGroupEntitry } from '@entities/Filter';
+import { PropertyGroupEntity } from '@entities/PropertGroup';
+import { IPropertyGroup } from '@interfaces/PropertyGroup';
 
 @Controller('filter')
 @ApiTags('Filter')
@@ -12,11 +12,11 @@ export class FilterController {
 
     @Get(':categoryUrl')
     @ApiOperation({ summary: 'get filters for category' })
-    @ApiOkResponse({ type: FilterGroupEntitry, isArray: true })
+    @ApiOkResponse({ type: PropertyGroupEntity, isArray: true })
     getCategoryFilters(
         @Param('categoryUrl') categoryUrl: string,
         @Query() queries: any
-    ): Promise<IFilterGroup[]> {
+    ): Promise<IPropertyGroup[]> {
         return this.filterService.getCategoryFilters(categoryUrl, queries);
     }
 }

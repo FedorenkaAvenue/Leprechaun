@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { DeleteResult, Repository } from 'typeorm';
 
-import { CreatePropertyGroupDTO, CreatePropertyGroupDTOConstructor } from '@dto/Property';
+import { CreatePropertyGroupDTO, CreatePropertyGroupDTOConstructor } from '@dto/PropertyGroup';
 import { IPropertyGroup } from '@interfaces/PropertyGroup';
 import { PropertyGroupEntity } from '@entities/PropertGroup';
 
