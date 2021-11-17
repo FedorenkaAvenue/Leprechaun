@@ -3,18 +3,23 @@ import { IPropertyGroup } from './PropertyGroup';
 
 export interface IFilters {
     price: any
-    other: Array<IFilterGroup>
+    dinamicFilters: Array<IFilterGroup>
 }
 
 export interface IFilterGroup extends IPropertyGroup {
     type: FilterType
-    properties: Array<IFilter>
+    list: Array<IListFilter> | IRangeFilter
 }
 
-export interface IFilter extends IProperty {
+export interface IRangeFilter {
+    from: number;
+    to: number;
+}
+
+export interface IListFilter extends IProperty {
     selected: boolean
-    amount: number
-    available: number
+    // amount: number
+    // available: number
 }
 
 export enum FilterType {

@@ -8,7 +8,7 @@ import { FOLDER_TYPES, FSService } from '@services/FS';
 import { ImageService } from '@services/Image';
 import { CookieSortType, ICookies } from '@interfaces/Cookies';
 import { ISearchReqQueries } from '@interfaces/Queries';
-import { SearchQueriesDTO } from '@dto/SearchQueries';
+import { SearchQueriesDTO } from '@dto/Queries';
 import { PaginationResultDTO } from '@dto/Pagination';
 import CookieService from './Cookie';
 import { CommonDashboardsDTO, UserDashboardsDTO } from '@dto/Dashboard';
@@ -116,13 +116,13 @@ export class ProductService {
         queries: ISearchReqQueries,
         cookies: ICookies
     ): Promise<PaginationResultDTO<IProduct>> {
-        const { page, price, sell, restQueries } = new SearchQueriesDTO(queries);
+        const { page, price, sell, dinamicFilters } = new SearchQueriesDTO(queries);
 		const { portion, sort } = this.cookieService.parseRequestCookies(cookies);
 
 		// filtering by dinamical filters
-        if (restQueries) {
-			const props = Object.keys(restQueries);
-			const values = Object.values(restQueries);
+        if (dinamicFilters) {
+			const props = Object.keys(dinamicFilters);
+			const values = Object.values(dinamicFilters);
 
 			// ? на будущее переделать в subQuery
 			qb.andWhere(

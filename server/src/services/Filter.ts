@@ -3,7 +3,8 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
 import { CategoryEntity } from '@entities/Category';
-import { IPropertyGroup } from '@interfaces/PropertyGroup';
+import { FiltersDTO } from '@dto/Filter';
+import { ISearchReqQueries } from '@interfaces/Queries';
 
 @Injectable()
 export class FilterService {
@@ -11,12 +12,12 @@ export class FilterService {
         @InjectRepository(CategoryEntity) private readonly categoryRepo: Repository<CategoryEntity>,
     ) {}
 
-    async getCategoryFilters(categoryUrl: string, queries: any): Promise<IPropertyGroup[]> {
+    async getCategoryFilters(categoryUrl: string, queries: ISearchReqQueries): Promise<FiltersDTO> {
         const res = await this.categoryRepo.findOne({
             where: { url: categoryUrl },
             relations: [ 'property_groups', 'property_groups.properties' ]
         });
 
-        return res.property_groups
+        return new FiltersDTO(res.property_groups, queries);
     }
 }

@@ -1,4 +1,4 @@
-import { IPriceSearchQuery, ISearchQeuries, ISearchReqQueries } from '@interfaces/Queries';
+import { DinamicQueryFilters, IPriceSearchQuery, ISearchQeuries, ISearchReqQueries } from '@interfaces/Queries';
 
 /**
  * @description create price range object for filters
@@ -28,7 +28,7 @@ export class SearchQueriesDTO implements ISearchQeuries {
     page: number
     price: IPriceSearchQuery
     sell: number
-    restQueries: Object
+    dinamicFilters: DinamicQueryFilters;
 
     constructor({ page, price, sell, ...restQueries }: ISearchReqQueries) {
         this.page = Number(page) || 1;
@@ -36,6 +36,6 @@ export class SearchQueriesDTO implements ISearchQeuries {
         this.sell = typeof sell === 'string'
             ? isNaN(+sell) ? null: Number(sell)
             : null;
-        this.restQueries = Object.keys(restQueries).length ? restQueries : null;
+        this.dinamicFilters = Object.keys(restQueries).length ? restQueries : null;
     }
 }

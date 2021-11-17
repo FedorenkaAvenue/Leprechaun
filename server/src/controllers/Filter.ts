@@ -3,7 +3,8 @@ import { ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 
 import { FilterService } from '@services/Filter';
 import { PropertyGroupEntity } from '@entities/PropertGroup';
-import { IPropertyGroup } from '@interfaces/PropertyGroup';
+import { FiltersDTO } from '@dto/Filter';
+import { ISearchReqQueries } from '@interfaces/Queries';
 
 @Controller('filter')
 @ApiTags('Filter')
@@ -15,8 +16,8 @@ export class FilterController {
     @ApiOkResponse({ type: PropertyGroupEntity, isArray: true })
     getCategoryFilters(
         @Param('categoryUrl') categoryUrl: string,
-        @Query() queries: any
-    ): Promise<IPropertyGroup[]> {
+        @Query() queries: ISearchReqQueries
+    ): Promise<FiltersDTO> {
         return this.filterService.getCategoryFilters(categoryUrl, queries);
     }
 }

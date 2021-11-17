@@ -8,16 +8,22 @@ enum SellStatus {
     SELL
 }
 
+export interface DinamicQueryFilters {
+    [key: string]: string
+}
+
+// parsed queries
 export interface ISearchQeuries {
     page: number
     price: IPriceSearchQuery | null
     sell: SellStatus | null
-    restQueries: Object // dinamical filters
+    dinamicFilters: DinamicQueryFilters | null
 }
 
-// queries from ulr
+// queries from url
 export interface ISearchReqQueries {
     page: string
     price: string
     sell: string
+    [key: string]: string // dinamic filters
 }
