@@ -2,18 +2,25 @@ import { IProperty } from './Property';
 import { IPropertyGroup } from './PropertyGroup';
 
 export interface IFilters {
-    price: any
-    dinamicFilters: Array<IFilterGroup>
+    price: IFilterRangeGroup
+    dinamicFilters: Array<IFilterGroup | IFilterRangeGroup>
 }
 
 export interface IFilterGroup extends IPropertyGroup {
     type: FilterType
-    list: Array<IListFilter> | IRangeFilter
+}
+
+export interface IFilterListGroup extends IFilterGroup {
+    list: Array<IListFilter>
+}
+
+export interface IFilterRangeGroup extends IFilterGroup {
+    range: IRangeFilter
 }
 
 export interface IRangeFilter {
-    from: number;
-    to: number;
+    min: number;
+    max: number;
 }
 
 export interface IListFilter extends IProperty {

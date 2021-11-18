@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
@@ -17,6 +17,8 @@ export class FilterService {
             where: { url: categoryUrl },
             relations: [ 'property_groups', 'property_groups.properties' ]
         });
+
+        if (!res) throw new NotFoundException('category not found');
 
         return new FiltersDTO(res.property_groups, queries);
     }

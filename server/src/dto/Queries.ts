@@ -1,19 +1,19 @@
 import { DinamicQueryFilters, IPriceSearchQuery, ISearchQeuries, ISearchReqQueries } from '@interfaces/Queries';
 
 /**
- * @description create price range object for filters
- * @param from
- * @param to (optional)
+ * @description create range object for filters
+ * @param min
+ * @param max (optional)
  */
-class PriceSearchQueryDTO implements IPriceSearchQuery {
-    from: number
-    to: number
+export class RangeQueryDTO implements IPriceSearchQuery {
+    min: number;
+    max: number;
 
     constructor(priceQuery: string) {
         const [ from = 0, to ] = priceQuery.split('-');
 
-        this.from = Number(from);
-        this.to = to ? Number(to) : 1000000;
+        this.min = Number(from);
+        this.max = to ? Number(to) : 1000000;
     }
 }
 
@@ -32,7 +32,7 @@ export class SearchQueriesDTO implements ISearchQeuries {
 
     constructor({ page, price, sell, ...restQueries }: ISearchReqQueries) {
         this.page = Number(page) || 1;
-        this.price = price ? new PriceSearchQueryDTO(price) : null;
+        this.price = price ? new RangeQueryDTO(price) : null;
         this.sell = typeof sell === 'string'
             ? isNaN(+sell) ? null: Number(sell)
             : null;

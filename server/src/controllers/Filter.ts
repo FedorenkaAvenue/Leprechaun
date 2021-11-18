@@ -1,8 +1,7 @@
 import { Controller, Get, Param, Query } from '@nestjs/common';
-import { ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
+import { ApiNotFoundResponse, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 
 import { FilterService } from '@services/Filter';
-import { PropertyGroupEntity } from '@entities/PropertGroup';
 import { FiltersDTO } from '@dto/Filter';
 import { ISearchReqQueries } from '@interfaces/Queries';
 
@@ -13,7 +12,8 @@ export class FilterController {
 
     @Get(':categoryUrl')
     @ApiOperation({ summary: 'get filters for category' })
-    @ApiOkResponse({ type: PropertyGroupEntity, isArray: true })
+    @ApiOkResponse({ type: FiltersDTO })
+    @ApiNotFoundResponse({ description: 'category not found' })
     getCategoryFilters(
         @Param('categoryUrl') categoryUrl: string,
         @Query() queries: ISearchReqQueries

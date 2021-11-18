@@ -1,6 +1,6 @@
 export interface IPriceSearchQuery {
-    from: number,
-    to: number
+    min: number,
+    max: number
 }
 
 enum SellStatus {
