@@ -116,7 +116,7 @@ export class ProductService {
         queries: ISearchReqQueries,
         cookies: ICookies
     ): Promise<PaginationResultDTO<IProduct>> {
-        const { page, price, sell, dinamicFilters } = new SearchQueriesDTO(queries);
+        const { page, price, status, dinamicFilters } = new SearchQueriesDTO(queries);
 		const { portion, sort } = this.cookieService.parseRequestCookies(cookies);
 
 		// filtering by dinamical filters
@@ -146,7 +146,7 @@ export class ProductService {
 		if (price) qb.andWhere('product.price BETWEEN :from AND :to', { ...price });
 
 		// filtering by sell status
-		if (typeof sell === 'number') qb.andWhere('product.is_available = :sell', { sell });
+		if (typeof status) qb.andWhere('product.status = :status', { status });
 		
 		// sorting
 		switch (sort) {

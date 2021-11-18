@@ -10,16 +10,16 @@ import { ISearchReqQueries } from "@interfaces/Queries";
 import { RangeQueryDTO, SearchQueriesDTO } from "./Queries";
 
 class ListFilterDTO implements IListFilter {
-    @ApiProperty()
+    @ApiProperty({ required: false })
     id: number;
 
-    @ApiProperty()
+    @ApiProperty({ required: false })
     title: string;
 
-    @ApiProperty()
+    @ApiProperty({ required: false })
     alt_name: string;
 
-    @ApiProperty()
+    @ApiProperty({ required: false })
     selected: boolean;
 
     constructor({ title, alt_name, id }: IProperty, isSelected: boolean) {
@@ -31,10 +31,10 @@ class ListFilterDTO implements IListFilter {
 }
 
 class RangeFilterDTO implements IRangeFilter {
-    @ApiProperty()
+    @ApiProperty({ required: false })
     min: number;
 
-    @ApiProperty()
+    @ApiProperty({ required: false })
     max: number;
 
     constructor({ min, max }: RangeQueryDTO) {
@@ -44,64 +44,85 @@ class RangeFilterDTO implements IRangeFilter {
 }
 
 class FilterGroupDTO implements IFilterGroup {
-    @ApiProperty()
+    @ApiProperty({ required: false })
     title: string;
 
-    @ApiProperty()
+    @ApiProperty({ required: false })
     alt_name: string;
 
-    @ApiProperty()
+    @ApiProperty({ required: false })
     type: FilterType;
 }
 
 class FilterListGroupDTO extends FilterGroupDTO implements IFilterListGroup {
-    @ApiProperty({ description: 'array of filter items', isArray: true })
+    @ApiProperty({
+        description: 'array of filter items',
+        isArray: true,
+        required: false
+    })
     list: IListFilter[];
 
-    constructor({ title, alt_name, type, properties }: IPropertyGroup, selectedFilters: string | undefined) {
+    @ApiProperty({ required: false })
+    type: FilterType.List;
+
+    constructor({ title, alt_name, properties }: IPropertyGroup, selectedFilters?: string | undefined) {
         super();
         this.alt_name = alt_name;
         this.title = title;
-        this.type = type;
-        this.list = properties.map(
-            prop => new ListFilterDTO(prop, prop.id === Number(selectedFilters))
-        )
+        this.type = FilterType.List;
+        this.list = properties.map(prop => new ListFilterDTO(prop, prop.id === Number(selectedFilters)))
     }
 }
 
 class FilterRangeGroupDTO extends FilterGroupDTO implements IFilterRangeGroup {
-    @ApiProperty({ type: RangeFilterDTO })
+    @ApiProperty({ type: RangeFilterDTO, required: false })
     range: IRangeFilter;
 
-    constructor({ title, alt_name, type }: IPropertyGroup, range: any) {
+    @ApiProperty({ required: false })
+    type: FilterType.Range;
+
+    constructor({ title, alt_name }: IPropertyGroup, range: any) {
         super();
         this.alt_name = alt_name;
         this.title = title;
-        this.type = type;
+        this.type = FilterType.Range;
         this.range = range;
     }
 }
 
 export class FiltersDTO implements IFilters {
-    @ApiProperty({ type: FilterRangeGroupDTO, description: 'static price filter' })
+    @ApiProperty({
+        type: FilterRangeGroupDTO,
+        description: 'static price filter',
+        required: false
+    })
     price: IFilterRangeGroup;
 
-    @ApiProperty({ type: FilterListGroupDTO, isArray: true })
-    dinamicFilters: IFilterListGroup[] | IFilterRangeGroup[];
+    @ApiProperty({
+        type: FilterListGroupDTO,
+        isArray: true,
+        required: false
+    })
+    dinamicFilters: IFilterListGroup[];
+
+    @ApiProperty({
+        type: FilterListGroupDTO,
+        required: false
+    })
+    status: IFilterListGroup;
 
     constructor(propertyGroups: IPropertyGroup[], queryFilters: ISearchReqQueries) {
-        const { price, dinamicFilters } = new SearchQueriesDTO(queryFilters);
+        const { price, dinamicFilters, status } = new SearchQueriesDTO(queryFilters);
         
         this.price = new FilterRangeGroupDTO(
             {
                 title: 'Цiна',
-                alt_name: 'price',
-                type: FilterType.Range
+                alt_name: 'price'
             },
-            new RangeFilterDTO(price)
+            new RangeFilterDTO(price || { min: 0, max: 100000 })
         );
-        this.dinamicFilters = propertyGroups.map(
-            propGr => new FilterListGroupDTO(propGr, dinamicFilters[propGr.alt_name])
-        )
+        this.dinamicFilters = dinamicFilters ?
+            propertyGroups.map(propGr => new FilterListGroupDTO(propGr, dinamicFilters[propGr.alt_name])) :
+            propertyGroups.map(propGr => new FilterListGroupDTO(propGr));
     }
 }

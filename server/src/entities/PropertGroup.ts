@@ -4,7 +4,6 @@ import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { IProperty } from '@interfaces/Property';
 import { PropertyEntity } from './Property';
 import { IPropertyGroup } from '@interfaces/PropertyGroup';
-import { FilterType } from '@interfaces/Filter';
 
 export class ProductGroupBaseEntity implements IPropertyGroup {
     @PrimaryGeneratedColumn('rowid')
@@ -14,10 +13,6 @@ export class ProductGroupBaseEntity implements IPropertyGroup {
     @Column({ unique: true })
     @ApiProperty({ required: false })
     title: string;
-
-    @Column({ default: FilterType.List })
-    @ApiProperty({ enum: FilterType, required: false })
-    type: FilterType;
 
     @Column({ unique: true })
     @ApiProperty({ required: false })

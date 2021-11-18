@@ -4,7 +4,7 @@ import {
     OneToMany, PrimaryGeneratedColumn
 } from 'typeorm';
 import { CategoryEntity } from '@entities/Category';
-import { IBaseProduct, IProduct } from '@interfaces/Product';
+import { IBaseProduct, IProduct, ProductStatus } from '@interfaces/Product';
 import { ImageEntity } from '@entities/Image';
 import { ICategory } from '@interfaces/Category';
 import { LabelEntity } from '@entities/Label';
@@ -29,9 +29,9 @@ export class ProductBaseEntity implements IBaseProduct {
     @ApiProperty({ required: false })
     is_public: boolean;
 
-    @Column({ default: true })
-    @ApiProperty({ required: false })
-    is_available: boolean;
+    @Column({ default: ProductStatus.AVAILABLE })
+    @ApiProperty({ enum: ProductStatus, required: false })
+    status: ProductStatus;
 
     @Column()
     @ApiProperty({ required: false })

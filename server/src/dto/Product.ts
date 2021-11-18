@@ -1,8 +1,8 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsBooleanString, IsNotEmpty, IsNumberString, IsOptional, IsString } from 'class-validator';
+import { IsBooleanString, IsEnum, IsNotEmpty, IsNumberString, IsOptional, IsString } from 'class-validator';
 
 import { ICategory } from '@interfaces/Category';
-import { IProduct } from '@interfaces/Product';
+import { IProduct, ProductStatus } from '@interfaces/Product';
 import { ILabel } from '@interfaces/Label';
 import { IProperty } from '@interfaces/Property';
 
@@ -23,9 +23,13 @@ export class CreateProductDTO implements IProduct {
     is_public: boolean;
 
     @IsOptional()
-    @IsBooleanString()
-    @ApiProperty({ required: false, default: true })
-    is_available: boolean;
+    @IsEnum(ProductStatus)
+    @ApiProperty({
+        enum: ProductStatus,
+        required: false,
+        default: ProductStatus.AVAILABLE
+    })
+    status: ProductStatus;
 
     @IsOptional()
     @IsString()
@@ -78,13 +82,13 @@ export class CreateProductDTO implements IProduct {
 
 export class CreateProductDTOConstructor extends CreateProductDTO {
     constructor({
-        title, price, is_public, category, labels, properties, is_available, description, comment
+        title, price, is_public, category, labels, properties, status, description, comment
     }: CreateProductDTO) {
         super();
         this.title = title;
         this.price = price;
         this.is_public = is_public;
-        this.is_available = is_available;
+        this.status = status || ProductStatus.AVAILABLE;
         this.category = category;
         this.description = description || null;
         this.comment = comment || null;

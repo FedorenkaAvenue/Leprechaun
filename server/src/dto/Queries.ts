@@ -1,4 +1,6 @@
-import { DinamicQueryFilters, IPriceSearchQuery, ISearchQeuries, ISearchReqQueries } from '@interfaces/Queries';
+import { DinamicQueryFilters, IPriceSearchQuery, ISearchQueries, ISearchReqQueries } from '@interfaces/Queries';
+import { ProductStatus } from '@interfaces/Product';
+import { availableEnum } from '@utils/enum';
 
 /**
  * @description create range object for filters
@@ -24,18 +26,16 @@ export class RangeQueryDTO implements IPriceSearchQuery {
  * @param sell item is selling
  * @param restQueries dinamic filters
  */
-export class SearchQueriesDTO implements ISearchQeuries {
+export class SearchQueriesDTO implements ISearchQueries {
     page: number
     price: IPriceSearchQuery
-    sell: number
+    status: ProductStatus;
     dinamicFilters: DinamicQueryFilters;
 
-    constructor({ page, price, sell, ...restQueries }: ISearchReqQueries) {
+    constructor({ page, price, status, ...restQueries }: ISearchReqQueries) {
         this.page = Number(page) || 1;
         this.price = price ? new RangeQueryDTO(price) : null;
-        this.sell = typeof sell === 'string'
-            ? isNaN(+sell) ? null: Number(sell)
-            : null;
+        this.status = availableEnum(status, ProductStatus) ? status : ProductStatus.AVAILABLE;
         this.dinamicFilters = Object.keys(restQueries).length ? restQueries : null;
     }
 }

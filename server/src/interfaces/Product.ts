@@ -6,7 +6,7 @@ import { IProperty } from '@interfaces/Property';
 export interface IBaseProduct {
     id?: string
     title: string
-    is_available: boolean
+    status: ProductStatus
     price: number
     description: string
     labels: Array<ILabel>
@@ -20,4 +20,9 @@ export interface IBaseProduct {
 export interface IProduct extends IBaseProduct {
     category?: ICategory
     properties?: Array<IProperty>
+}
+
+export enum ProductStatus {
+    AVAILABLE = 1,  // в наличии
+    OUT_OF_STOCK    // распродан
 }
