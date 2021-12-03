@@ -7,10 +7,10 @@ import { PropertyGroupModule } from './PropertyGroup';
 import { PropertyModule } from './Property';
 import { ImageModule } from './Image';
 import { LabelModule } from './Label';
-import { SearchModule } from './Search';
-import { UserModule } from './User';
-import { OrderModule } from './Order';
-import { FilterModule } from './Filter';
+// import { SearchModule } from './Search';
+// import { UserModule } from './User';
+// import { OrderModule } from './Order';
+// import { FilterModule } from './Filter';
 import ConfigService from '@services/Config';
 
 @Module({
@@ -24,7 +24,7 @@ import ConfigService from '@services/Config';
 		// SearchModule,
 		// UserModule,
 		// OrderModule,
-		FilterModule,
+		// FilterModule,
 		TypeOrmModule.forRoot(ConfigService.getTypeOrmConfig())
 	]
 })
