@@ -1,8 +1,8 @@
 import { ApiProperty } from "@nestjs/swagger";
 
 import {
-    FilterType, IListFilter, IFilterListGroup, IFilters, IRangeFilter, IFilterRangeGroup,
-    IFilterGroup
+    FilterType, IListFilter, IFilterListGroup, IFilters, IRangeFilter,
+    IFilterRangeGroup, IFilterGroup
 } from "@interfaces/Filter";
 import { IPropertyGroup } from "@interfaces/PropertyGroup";
 import { IProperty } from "@interfaces/Property";

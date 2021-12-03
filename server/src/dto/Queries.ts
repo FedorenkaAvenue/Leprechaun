@@ -12,10 +12,10 @@ export class RangeQueryDTO implements IPriceSearchQuery {
     max: number;
 
     constructor(priceQuery: string) {
-        const [ from = 0, to ] = priceQuery.split('-');
+        const [ min = 0, max ] = priceQuery.split('-');
 
-        this.min = Number(from);
-        this.max = to ? Number(to) : 1000000;
+        this.min = Number(max);
+        this.max = min ? Number(max) : 1000000;
     }
 }
 
