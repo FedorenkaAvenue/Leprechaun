@@ -11,6 +11,7 @@ import { LabelModule } from './Label';
 // import { UserModule } from './User';
 // import { OrderModule } from './Order';
 // import { FilterModule } from './Filter';
+import { StatisticModule } from './Statistic';
 import ConfigService from '@services/Config';
 
 @Module({
@@ -25,6 +26,7 @@ import ConfigService from '@services/Config';
 		// UserModule,
 		// OrderModule,
 		// FilterModule,
+		StatisticModule,
 		TypeOrmModule.forRoot(ConfigService.getTypeOrmConfig())
 	]
 })
