@@ -40,10 +40,12 @@ export interface ProductsBaseI {
   labels: Array<ProductLabelI>,
   rating: number,
   description: string,
+  comment?: string
 }
 
-export interface ProductsCommonI extends ProductsBaseI {
-  comment: string
+export interface ProductsCommonI {
+  popular: ProductsBaseI[],
+  newest: ProductsBaseI[]
 }
 
 

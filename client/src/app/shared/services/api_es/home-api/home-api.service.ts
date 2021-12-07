@@ -1,8 +1,10 @@
 import { Injectable } from '@angular/core';
 import { TransferHttpService } from '@gorniv/ngx-universal';
 import { SelectionProductType } from '@shared/enums';
-import { ProductCardDto } from '@shared/models';
-import { Observable } from 'rxjs';
+import { ProductCardDto, ProductsCommonI } from '@shared/models';
+import { PRODUCTS_NEW } from 'app/mock/products-selections';
+import { Observable, of } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 
 
 
@@ -15,7 +17,12 @@ export class HomeApiService {
     private readonly http: TransferHttpService
     ) { }
 
-    public getSelectionProducts(type: SelectionProductType, page: number): Observable<ProductCardDto[]> {
-      return this.http.get(`${this.apiUrl}/dashboard/${type}/${page}`)
+    public getSelectionProducts(): Observable<ProductsCommonI> {
+      return this.http.get<ProductsCommonI>(`${this.apiUrl}/dashboard/common`)
+      // .pipe(
+      //   catchError( () => {
+      //     return of(PRODUCTS_NEW)
+      //   })
+      // )
     }
 }

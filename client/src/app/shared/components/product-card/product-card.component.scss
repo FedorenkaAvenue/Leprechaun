@@ -1,3 +1,5 @@
+@import "/src/styles/core/variables";
+
 .product {
     // width: 100%;
     width: 236px;
@@ -9,7 +11,7 @@
         padding: 10px 20px;
     }
     &-preview__wrap {
-        background-color: aqua;
+        background-color: $card-bg;
     }
     &-preview__image {
         display: flex;
@@ -29,7 +31,8 @@
     }
 
     &-main {
-        background-color: aqua;
+        color: $products-text;
+        background-color: $card-bg;
     }
     &-main {
 

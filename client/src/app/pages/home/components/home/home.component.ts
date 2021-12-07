@@ -1,35 +1,38 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { SelectionProductType } from '@shared/enums';
-import { ProductDetailsI } from '@shared/models';
+import { ProductDetailsI, ProductsBaseI, ProductsCommonI } from '@shared/models';
 
 import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { HomeService } from '../../services/home.service';
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HomeComponent implements OnInit {
-
-  public popularProducts: Observable<ProductDetailsI[]>;
-  public newProducts: Observable<ProductDetailsI[]>;
-
-  constructor(
-    private readonly homeService: HomeService
-  ) { }
+  public popularProducts: Observable<ProductsBaseI[]>;
+  public newProducts: Observable<ProductsBaseI[]>;
+  public products$: Observable<ProductsCommonI>;
+  constructor(private readonly homeService: HomeService) {}
 
   ngOnInit(): void {
+    this.products$ = this.getProducts();
     this.popularProducts = this.getPopularProducts();
     this.newProducts = this.getNewProducts();
   }
 
-  private getPopularProducts(): Observable<ProductDetailsI[]> {
-    return this.homeService.getSelectionProducts(SelectionProductType.POPULAR, 1);
+  private getPopularProducts(): Observable<ProductsBaseI[]> {
+    return this.products$.pipe(map((res: ProductsCommonI) => res.popular));
   }
 
-  private getNewProducts(): Observable<ProductDetailsI[]> {
-    return this.homeService.getSelectionProducts(SelectionProductType.NEW, 1);
+  private getNewProducts(): Observable<ProductsBaseI[]> {
+    return this.products$.pipe(map((res: ProductsCommonI) => res.newest));
+  }
+
+  private getProducts(): Observable<ProductsCommonI> {
+    return this.homeService.getSelectionProducts();
   }
 }
