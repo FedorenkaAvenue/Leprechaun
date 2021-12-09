@@ -17,6 +17,7 @@ import { CustomMetaModule } from './core/modules/custom-meta/custom-meta.module'
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 import { LeprachaunIconsModule } from '@shared/modules/leprachaun-icons';
 import { AuthService } from '@shared/services/auth/auth.service';
+import { NgSelectModule } from '@ng-select/ng-select';
 // interceptors
 
 @NgModule({
@@ -31,6 +32,7 @@ import { AuthService } from '@shared/services/auth/auth.service';
     SharedModule.forRoot(),
     TranslocoModule,
     CustomMetaModule,
+    NgSelectModule,
     LeprachaunIconsModule.forRoot(),
   ],
   declarations: [AppComponent],

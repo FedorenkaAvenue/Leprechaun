@@ -1,4 +1,5 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { FormControl } from '@angular/forms';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { ProductCardDto, Products } from '@shared/models/products/products.model';
 import { Observable } from 'rxjs';
@@ -13,7 +14,7 @@ import { ProductsService } from '../../services/products.service';
 export class ProductsPageComponent implements OnInit {
   public productsCount = 1019;
   public productsList$: Observable<Products>;
-
+  public myCustomControl = new FormControl();
   constructor(
     private readonly productsService: ProductsService,
     private readonly router: Router,
@@ -27,6 +28,9 @@ export class ProductsPageComponent implements OnInit {
     this.changeParams();
   }
 
+  public changeSorting(order) {
+    console.log(order); 
+  }
   public changeParams(): void {
     this.route.queryParams.subscribe((params) => {
       console.log(params);

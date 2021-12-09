@@ -8,6 +8,9 @@ import { ProductsFilterComponent } from './components/products-filter/products-f
 import { ProductsService } from './services/products.service';
 import { ProductCardModule } from '@shared/components/product-card/product-card.module';
 import { PaginatorModule } from '@shared/modules/paginator';
+import { LpchSelectModule } from '@shared/controls/lpch-select/lpch-select.module';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { LpchInputModule } from '@shared/controls/lpch-input/lpch-input.module';
 
 
 @NgModule({
@@ -21,6 +24,10 @@ import { PaginatorModule } from '@shared/modules/paginator';
     ProductsRoutingModule,
     ProductCardModule,
     PaginatorModule,
+    LpchSelectModule,
+    LpchInputModule,
+    FormsModule,
+    ReactiveFormsModule,
   ],
   providers: [
     ProductsService
