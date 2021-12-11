@@ -4,31 +4,24 @@ import {
     OneToMany, PrimaryGeneratedColumn
 } from 'typeorm';
 import { CategoryEntity } from '@entities/Category';
-import { IProduct, ProductStatus } from '@interfaces/Product';
+import { IBaseProduct, IProduct, IPublicProduct, ProductStatus } from '@interfaces/Product';
 import { ImageEntity } from '@entities/Image';
 import { ICategory } from '@interfaces/Category';
 import { LabelEntity } from '@entities/Label';
 import { ILabel } from '@interfaces/Label';
 import { IProperty } from '@interfaces/Property';
 import { PropertyEntity } from '@entities/Property';
+import { IImage } from '@src/interfaces/Image';
 
-@Entity('product')
-export class ProductEntity implements IProduct {
+// for preview and base properties
+export class BaseProductEntity implements IBaseProduct {
     @PrimaryGeneratedColumn('uuid')
     @ApiProperty({ required: false })
     id: string;
 
-    @CreateDateColumn()
-    @ApiProperty({ required: false })
-    created_at: Date;
-
     @Column()
     @ApiProperty({ required: false })
     title: string;
-
-    @Column({ default: false, select: false })
-    @ApiProperty({ required: false })
-    is_public: boolean;
 
     @Column({ default: ProductStatus.AVAILABLE })
     @ApiProperty({ enum: ProductStatus, required: false })
@@ -37,18 +30,20 @@ export class ProductEntity implements IProduct {
     @Column()
     @ApiProperty({ required: false })
     price: number;
+}
 
+export class PublicProductEntity extends BaseProductEntity implements IPublicProduct {
     @OneToMany(
         () => ImageEntity,
         ({ product_id }) => product_id,
         { eager: true }
     )
     @ApiProperty({ type: ImageEntity, isArray: true, required: false })
-    images: string[];
+    images: IImage[];
 
     @ManyToMany(
         () => LabelEntity,
-        { eager: true, cascade: true }
+        { cascade: true }
     )
     @JoinTable({
         name: '_products_to_labels',
@@ -67,18 +62,6 @@ export class ProductEntity implements IProduct {
         isArray: true
     })
     labels: ILabel[];
-
-    @Column({ default: 0 })
-    @ApiProperty({
-        required: false,
-        default: 0,
-        description: 'product rating by sellering'
-    })
-    rating: number;
-
-    @Column({ nullable: true, select: false })
-    @ApiProperty({ required: false })
-    comment: string;
 
     @ManyToMany(
         () => PropertyEntity,
@@ -105,4 +88,28 @@ export class ProductEntity implements IProduct {
     @JoinColumn({ name: 'category', referencedColumnName: 'id' })
     @ApiProperty({ type: () => CategoryEntity, required: false })
     category: ICategory;
+}
+
+// for admin properties
+@Entity('product')
+export class ProductEntity extends PublicProductEntity implements IProduct {
+    @CreateDateColumn()
+    @ApiProperty({ required: false })
+    created_at: Date;
+
+    @Column({ default: false })
+    @ApiProperty({ required: false })
+    is_public: boolean;
+
+    @Column({ default: 0 })
+    @ApiProperty({
+        required: false,
+        default: 0,
+        description: 'product rating by sellering'
+    })
+    rating: number;
+
+    @Column({ nullable: true })
+    @ApiProperty({ required: false })
+    comment: string;
 }

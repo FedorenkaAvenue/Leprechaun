@@ -2,9 +2,11 @@ import { ApiProperty } from '@nestjs/swagger';
 import { IsBooleanString, IsEnum, IsNotEmpty, IsNumberString, IsOptional, IsString } from 'class-validator';
 
 import { ICategory } from '@interfaces/Category';
-import { IProduct, ProductStatus } from '@interfaces/Product';
+import { IProduct, IProductPreview, IPublicProduct, ProductStatus } from '@interfaces/Product';
 import { ILabel } from '@interfaces/Label';
 import { IProperty } from '@interfaces/Property';
+import { IImage } from '@interfaces/Image';
+import { BaseProductEntity, PublicProductEntity } from '@entities/Product';
 
 export class CreateProductDTO implements IProduct {
     @IsNotEmpty()
@@ -53,7 +55,7 @@ export class CreateProductDTO implements IProduct {
         required: false,
         default: []
     })
-    images: string[];
+    images: IImage[];
 
     @IsOptional()
     @IsNumberString({}, { each: true })
@@ -96,5 +98,39 @@ export class CreateProductDTOConstructor extends CreateProductDTO {
         this.labels = labels ? labels.map(label => ({ id: Number(label) })) : [];
         // @ts-ignore for properties relation
         this.properties = properties ? properties.map(property => ({ id: Number(property) })) : [];
+    }
+}
+
+/**
+ * @description create product preview
+ */
+export class ProductPreviewDTO extends BaseProductEntity implements IProductPreview {
+    @ApiProperty({ required: false })
+    image: string;
+
+    constructor({ id, title, price, status, images }: IProduct) {
+        super();
+        this.id = id;
+        this.title = title;
+        this.price = price;
+        this.status = status;
+        this.image = (images[0] as IImage).src;
+    }
+}
+
+/**
+ * @description create public product
+ */
+export class PublicProductDTO extends PublicProductEntity implements IPublicProduct {
+    constructor({ id, title, price, status, images, labels, properties, category }: IProduct) {
+        super();
+        this.id = id;
+        this.title = title;
+        this.price = price;
+        this.status = status;
+        this.images = images as Array<IImage>;
+        this.labels = labels;
+        this.properties = properties;
+        this.category = category;
     }
 }

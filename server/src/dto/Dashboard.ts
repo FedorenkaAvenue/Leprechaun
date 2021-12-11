@@ -1,27 +1,48 @@
 import { ApiProperty } from '@nestjs/swagger';
 
 import { ICommonDashboards, IUserDashboards } from '@interfaces/Dashboard';
-import { IProduct } from '@interfaces/Product';
-import { ProductEntity } from '@entities/Product';
+import { IProduct, IProductPreview } from '@interfaces/Product';
+import { ProductPreviewDTO } from './Product';
+
+interface ICommonDashboardsConstructor {
+    popular: Array<IProduct>
+    newest: Array<IProduct>
+}
+
+interface IUserDashboardsConstructor {
+    visited: Array<IProduct>
+}
 
 export class CommonDashboardsDTO implements ICommonDashboards {
-    @ApiProperty({ description: 'popular products', type: ProductEntity, isArray: true })
-    popular: IProduct[];
+    @ApiProperty({
+        description: 'popular products',
+        type: ProductPreviewDTO,
+        isArray: true
+    })
+    popular: IProductPreview[];
 
-    @ApiProperty({ description: 'new products', type: ProductEntity, isArray: true })
-    newest: IProduct[];
+    @ApiProperty({
+        description: 'new products',
+        type: ProductPreviewDTO,
+        isArray: true
+    })
+    newest: IProductPreview[];
 
-    constructor({ popular, newest } : ICommonDashboards) {
-        this.popular = popular;
-        this.newest = newest;
+    constructor({ popular, newest }: ICommonDashboardsConstructor) {
+        // this.popular =  popular.map(prod => new ProductPreviewDTO(prod));
+        // this.newest = newest.map(prod => new ProductPreviewDTO(prod))
     }
 }
 
 export class UserDashboardsDTO implements IUserDashboards {
-    @ApiProperty({ description: 'recently visited products', type: ProductEntity, isArray: true })
-    visited: IProduct[];
+    @ApiProperty({
+        description: 'recently visited products',
+        type: ProductPreviewDTO,
+        isArray: true
+    })
+    visited: IProductPreview[];
 
-    constructor({ visited }: IUserDashboards) {
-        this.visited = visited;
+    constructor({ visited }: IUserDashboardsConstructor) {
+        // this.visited = visited.map(prod => new ProductPreviewDTO(prod));
     }
 }

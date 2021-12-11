@@ -8,22 +8,15 @@ export enum ProductStatus {
     OUT_OF_STOCK    // распродан
 }
 
-interface IBaseProduct {
+export interface IBaseProduct {
     id?: string
     title: string
     status: ProductStatus
     price: number
 }
 
-export interface IProduct extends IPublicProduct {
-    rating?: number
-    created_at?: Date
-    is_public?: boolean
-    comment: string
-}
-
-export interface IPublicPreviewProduct extends IBaseProduct {
-    image: IImage
+export interface IProductPreview extends IBaseProduct {
+    image: string
 }
 
 export interface IPublicProduct extends IBaseProduct {
@@ -31,4 +24,11 @@ export interface IPublicProduct extends IBaseProduct {
     labels: Array<ILabel>
     category?: ICategory
     properties?: Array<IProperty>
+}
+
+export interface IProduct extends IPublicProduct {
+    rating?: number
+    created_at?: Date
+    is_public?: boolean
+    comment: string
 }
