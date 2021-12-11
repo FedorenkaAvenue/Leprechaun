@@ -6,10 +6,11 @@ import { CreateLabelDTO } from '@dto/Label';
 import { LabelEntity } from '@entities/Label';
 import { LabelService } from '@services/Label';
 import { AffectedInterceptor } from '@interceptors/responce';
+import { ILabel } from '@interfaces/Label';
 
-@Controller('label')
-@ApiTags('Label')
-export class LabelController {
+@Controller('adm/label')
+@ApiTags('Label (admin)')
+export class LabelAdminController {
     constructor(private readonly labelService: LabelService) {}
 
     @Post()
@@ -21,7 +22,7 @@ export class LabelController {
     @Get('list')
     @ApiOperation({ summary: 'get all labels' })
     @ApiResponse({ type: LabelEntity, isArray: true })
-    getAllLabels(): Promise<LabelEntity[]> {
+    getAllLabels(): Promise<ILabel[]> {
         return this.labelService.getAllLabels();
     }
 

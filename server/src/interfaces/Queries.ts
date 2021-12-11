@@ -1,23 +1,23 @@
+import { ProductStatus } from "./Product";
+
 export interface IPriceSearchQuery {
-    from: number,
-    to: number
+    min: number,
+    max: number
 }
 
-enum SellStatus {
-    SOLD = 0,
-    SELL
-}
+export type DinamicQueryFilters = object | null;
 
-export interface ISearchQeuries {
+// parsed queries
+export interface ISearchQueries {
     page: number
     price: IPriceSearchQuery | null
-    sell: SellStatus | null
-    restQueries: Object // dinamical filters
+    status: ProductStatus | null
+    dinamicFilters: DinamicQueryFilters | null
 }
 
-// queries from ulr
+// queries from url
 export interface ISearchReqQueries {
     page: string
     price: string
-    sell: string
+    status: ProductStatus
 }

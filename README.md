@@ -8,6 +8,7 @@ Boilerplate for web store
 
  * #### local
 
+   - create `.env` file inside root directory based on `.env.dist` file with own config parameters
    - run `make build` to deploy and start all containers
    - add `leprechaun docs.leprechaun adm.leprechaun api.leprechaun` aliases to Your `/etc/hosts` list
 

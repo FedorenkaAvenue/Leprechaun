@@ -3,24 +3,28 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 
 import { CategoryModule } from './Category';
 import { ProductModule } from './Product';
+import { PropertyGroupModule } from './PropertyGroup';
 import { PropertyModule } from './Property';
 import { ImageModule } from './Image';
 import { LabelModule } from './Label';
-import { SearchModule } from './Search';
-import { UserModule } from './User';
-import { OrderModule } from './Order';
+// import { SearchModule } from './Search';
+// import { UserModule } from './User';
+// import { OrderModule } from './Order';
+// import { FilterModule } from './Filter';
 import ConfigService from '@services/Config';
 
 @Module({
 	imports: [
 		CategoryModule,
 		ProductModule,
+		PropertyGroupModule,
 		PropertyModule,
 		ImageModule,
 		LabelModule,
-		SearchModule,
-		UserModule,
-		OrderModule,
+		// SearchModule,
+		// UserModule,
+		// OrderModule,
+		// FilterModule,
 		TypeOrmModule.forRoot(ConfigService.getTypeOrmConfig())
 	]
 })

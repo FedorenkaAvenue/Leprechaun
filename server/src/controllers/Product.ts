@@ -1,6 +1,6 @@
 import {
     Body, Controller, Delete, Get, Param, ParseUUIDPipe, Post,UploadedFiles,
-    UseInterceptors, Query, Req, ValidationPipe
+    UseInterceptors, Query, Req, ValidationPipe, BadRequestException
 } from '@nestjs/common';
 import {
     ApiBadRequestResponse, ApiNotFoundResponse, ApiOkResponse, ApiOperation,
@@ -10,7 +10,7 @@ import { DeleteResult } from 'typeorm';
 import { FilesInterceptor } from '@nestjs/platform-express';
 import { Request } from 'express';
 
-import { CreateProductDTO } from '@dto/Product';
+import { CreateProductDTO, ProductPreviewDTO, PublicProductDTO } from '@dto/Product';
 import { ProductEntity } from '@entities/Product';
 import { ProductService } from '@services/Product';
 import { AffectedInterceptor, NotFoundInterceptor, EmptyResultInterceptor } from '@interceptors/responce';
@@ -18,36 +18,38 @@ import { ISearchReqQueries } from '@interfaces/Queries';
 import { PaginationDTO, PaginationResultDTO } from '@dto/Pagination';
 import { ApiPaginatedResponse } from '@decorators/Swagger';
 import { CommonDashboardsDTO, UserDashboardsDTO } from '@dto/Dashboard';
+import { IProductPreview, IPublicProduct } from '@interfaces/Product';
+import { QueryGETListDTO } from '@dto/Queries';
 
 @Controller('product')
-@ApiTags('Product')
-export class ProductController {
+@ApiTags('Product (client)')
+export class ProductPublicController {
     constructor(private readonly productService: ProductService) {}
 
     @Get('list')
     @UseInterceptors(EmptyResultInterceptor)
     @ApiQuery({ name: 'page', required: false, description: 'page number', type: 'number' })
-    @ApiOperation({ summary: 'get all products' })
-    @ApiPaginatedResponse(ProductEntity)
-    getAllProducts(
+    @ApiOperation({ summary: 'get all public products' })
+    @ApiPaginatedResponse(PublicProductDTO)
+    getProducts(
         @Query() queries: ISearchReqQueries,
         @Req() { cookies }: Request
-    ): Promise<PaginationResultDTO<ProductEntity>> {
-        return this.productService.getAllProducts(queries, cookies);
+    ): Promise<PaginationResultDTO<IPublicProduct>> {
+        return this.productService.getPublicProducts(queries, cookies);
     }
 
     @Get('category/:categoryUrl')
 	@UseInterceptors(EmptyResultInterceptor)
-	@ApiOperation({ summary: 'get products by category url' })
+	@ApiOperation({ summary: 'get public products by category URL' })
     @ApiQuery({ name: 'page', required: false, description: 'page number', type: 'number' })
     @ApiNotFoundResponse({ description: 'category not found' })
-	@ApiPaginatedResponse(ProductEntity)
+	@ApiPaginatedResponse(PublicProductDTO)
 	getCategoryProducts(
 		@Query() queries: ISearchReqQueries,
         @Req() { cookies }: Request,
 		@Param('categoryUrl') categoryUrl: string
-	): Promise<PaginationResultDTO<ProductEntity>> {
-		return this.productService.getCategoryProducts(categoryUrl, queries, cookies);
+	): Promise<PaginationResultDTO<IPublicProduct>> {
+		return this.productService.getCategoryPublicProducts(categoryUrl, queries, cookies);
 	}
 
     @Get('dashboard/common')
@@ -64,6 +66,43 @@ export class ProductController {
         return this.productService.getUserDashboards();
     }
 
+    @Get('/preview/list')
+    @ApiOperation({ summary: 'get product preview list by IDs' })
+    @ApiQuery({ name: 'ids', required: true, description: 'array of product IDs', type: 'string' })
+    @ApiOkResponse({ type: ProductPreviewDTO, isArray: true })
+    @ApiBadRequestResponse({ description: 'ID\'s array is empty' })
+    getProductPreviewList(@Query('ids') list: string) {
+        const { queryList } = new QueryGETListDTO(list);
+
+        if (!queryList.length) throw new BadRequestException('product array is empty');
+
+        return this.productService.getProductPreviewList(queryList);
+    }
+
+    @Get('/preview/:productId')
+    @ApiOperation({ summary: 'get product preview by ID' })
+    @ApiOkResponse({ type: ProductPreviewDTO })
+    @ApiBadRequestResponse({ description: 'invalid product ID' })
+    @ApiNotFoundResponse({ description: 'product not found' })
+    getProductPreview(@Param('productId', ParseUUIDPipe) productId: string): Promise<IProductPreview> {
+        return this.productService.getProductPreview(productId);
+    }
+
+    @Get(':productId')
+    @ApiOperation({ summary: 'get public product by ID' })
+    @ApiOkResponse({ type: PublicProductDTO })
+    @ApiBadRequestResponse({ description: 'invalid product ID' })
+    @ApiNotFoundResponse({ description: 'product not found' })
+    getProduct(@Param('productId', ParseUUIDPipe) productId: string): Promise<IPublicProduct> {
+        return this.productService.getPublicProduct(productId);
+    }
+}
+
+@Controller('adm/product')
+@ApiTags('Product (admin)')
+export class ProductAdminController {
+    constructor(private readonly productService: ProductService) {}
+
     @Post()
     @UseInterceptors(FilesInterceptor('images'))
     @ApiOperation({ summary: 'create new product' })
@@ -77,12 +116,12 @@ export class ProductController {
 
     @Get(':productId')
     @UseInterceptors(NotFoundInterceptor)
-    @ApiOperation({ summary: 'get product by id' })
-    @ApiOkResponse({ type: ProductEntity })
-    @ApiBadRequestResponse({ description: 'invalid product id' })
+    @ApiOperation({ summary: 'get product by ID' })
+    @ApiOkResponse({ type: PublicProductDTO })
+    @ApiBadRequestResponse({ description: 'invalid product ID' })
     @ApiNotFoundResponse({ description: 'product not found' })
-    getProduct(@Param('productId', ParseUUIDPipe) productId: string): Promise<ProductEntity> {
-        return this.productService.getProduct(productId);
+    getProduct(@Param('productId', ParseUUIDPipe) productId: string): Promise<IPublicProduct> {
+        return this.productService.getAdminProduct(productId);
     }
 
     // ! DONT TOUCH
@@ -92,9 +131,9 @@ export class ProductController {
     // ! 
     @Delete(':productId')
     @UseInterceptors(AffectedInterceptor)
-    @ApiOperation({ summary: 'delete product by id' })
+    @ApiOperation({ summary: 'delete product by ID' })
     @ApiOkResponse({ description: 'success' })
-    @ApiBadRequestResponse({ description: 'invalid product id' })
+    @ApiBadRequestResponse({ description: 'invalid product ID' })
     @ApiNotFoundResponse({ description: 'product not found' })
     deleteProduct(@Param('productId', ParseUUIDPipe) productId: string): Promise<DeleteResult> {
         return this.productService.deleteProduct(productId);

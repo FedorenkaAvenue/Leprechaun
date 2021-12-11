@@ -1,8 +1,9 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsBooleanString, IsNotEmpty, IsNumberString, IsOptional, IsString } from 'class-validator';
 
-import { IPropertyGroup } from '@interfaces/Property';
-import { ICategory } from '@interfaces/Category';
+import { IPropertyGroup } from '@interfaces/PropertyGroup';
+import { ICategory, ICategoryPublic } from '@interfaces/Category';
+import { CategoryBaseEntity } from '@entities/Category';
 
 export class CreateCategoryDTO implements ICategory {
     @IsNotEmpty()
@@ -60,31 +61,12 @@ export class CreateCategoryDTOСonstructor extends CreateCategoryDTO {
     }
 }
 
-// export class UpdateCategoryDTO implements ICategory {
-//     @ApiProperty({ required: true })
-//     id: number;
-
-//     @ApiProperty({ required: false })
-//     url: string;
-
-//     @ApiProperty({ required: false })
-//     title: string;
-
-//     @ApiProperty({ required: false })
-//     isPublic: boolean;
-
-//     @ApiProperty({
-//         required: false,
-//         type: 'file',
-//         description: 'only SVG extension'
-//     })
-//     icon: string;
-
-//     @ApiProperty({
-//         required: false,
-//         type: 'number',
-//         description: 'array of the filter groups ID',
-//         isArray: true
-//     })
-//     filterGroups: IFilterGroup[];
-// }
+export class CategoryPublicDTO extends CategoryBaseEntity implements ICategoryPublic {
+    constructor({ id, title, url, icon }: ICategory) {
+        super();
+        this.id = id;
+        this.title = title;
+        this.url = url;
+        this.icon = icon;
+    }
+}

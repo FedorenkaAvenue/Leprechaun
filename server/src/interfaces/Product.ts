@@ -3,21 +3,32 @@ import { IImage } from '@interfaces/Image';
 import { ILabel } from '@interfaces/Label';
 import { IProperty } from '@interfaces/Property';
 
+export enum ProductStatus {
+    AVAILABLE = 1,  // в наличии
+    OUT_OF_STOCK    // распродан
+}
+
 export interface IBaseProduct {
     id?: string
     title: string
-    is_available: boolean
+    status: ProductStatus
     price: number
-    description: string
+}
+
+export interface IProductPreview extends IBaseProduct {
+    image: string
+}
+
+export interface IPublicProduct extends IBaseProduct {
+    images: Array<IImage> | Array<string>
     labels: Array<ILabel>
+    category?: ICategory
+    properties?: Array<IProperty>
+}
+
+export interface IProduct extends IPublicProduct {
     rating?: number
     created_at?: Date
     is_public?: boolean
-    images: Array<IImage> | Array<string>
     comment: string
-}
-
-export interface IProduct extends IBaseProduct {
-    category?: ICategory
-    properties?: Array<IProperty>
 }

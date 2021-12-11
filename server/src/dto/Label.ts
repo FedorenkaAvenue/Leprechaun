@@ -6,12 +6,12 @@ import { ILabel, LabelType } from '@interfaces/Label';
 export class CreateLabelDTO implements ILabel {
     @IsNotEmpty()
     @IsEnum(LabelType)
-    @ApiProperty()
+    @ApiProperty({ enum: LabelType })
     type: LabelType;
 
     @IsOptional()
     @IsString()
-    @ApiProperty({ enum: LabelType })
+    @ApiProperty({ required: false })
     value: string;
 
     @IsOptional()

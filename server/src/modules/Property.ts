@@ -1,15 +1,15 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
-import { PropertyController, PropertyGroupController } from '@controllers/Property';
-import { PropertyEntity, PropertyGroupEntity } from '@entities/Property';
-import { PropertyGroupService, PropertyService } from '@services/Property';
+import { PropertyAdminController } from '@controllers/Property';
+import { PropertyEntity } from '@entities/Property';
+import { PropertyService } from '@services/Property';
 
 @Module({
 	imports: [
-		TypeOrmModule.forFeature([ PropertyGroupEntity, PropertyEntity ])
+		TypeOrmModule.forFeature([ PropertyEntity ])
 	],
-	controllers: [ PropertyGroupController, PropertyController ],
-	providers: [ PropertyGroupService, PropertyService ],
+	controllers: [ PropertyAdminController ],
+	providers: [ PropertyService ],
 })
 export class PropertyModule {}

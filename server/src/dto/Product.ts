@@ -1,10 +1,12 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsBooleanString, IsNotEmpty, IsNumberString, IsOptional, IsString } from 'class-validator';
+import { IsBooleanString, IsEnum, IsNotEmpty, IsNumberString, IsOptional, IsString } from 'class-validator';
 
 import { ICategory } from '@interfaces/Category';
-import { IProduct } from '@interfaces/Product';
+import { IProduct, IProductPreview, IPublicProduct, ProductStatus } from '@interfaces/Product';
 import { ILabel } from '@interfaces/Label';
 import { IProperty } from '@interfaces/Property';
+import { IImage } from '@interfaces/Image';
+import { BaseProductEntity, PublicProductEntity } from '@entities/Product';
 
 export class CreateProductDTO implements IProduct {
     @IsNotEmpty()
@@ -23,9 +25,13 @@ export class CreateProductDTO implements IProduct {
     is_public: boolean;
 
     @IsOptional()
-    @IsBooleanString()
-    @ApiProperty({ required: false, default: true })
-    is_available: boolean;
+    @IsEnum(ProductStatus)
+    @ApiProperty({
+        enum: ProductStatus,
+        required: false,
+        default: ProductStatus.AVAILABLE
+    })
+    status: ProductStatus;
 
     @IsOptional()
     @IsString()
@@ -49,7 +55,7 @@ export class CreateProductDTO implements IProduct {
         required: false,
         default: []
     })
-    images: string[];
+    images: IImage[];
 
     @IsOptional()
     @IsNumberString({}, { each: true })
@@ -78,13 +84,13 @@ export class CreateProductDTO implements IProduct {
 
 export class CreateProductDTOConstructor extends CreateProductDTO {
     constructor({
-        title, price, is_public, category, labels, properties, is_available, description, comment
+        title, price, is_public, category, labels, properties, status, description, comment
     }: CreateProductDTO) {
         super();
         this.title = title;
         this.price = price;
         this.is_public = is_public;
-        this.is_available = is_available;
+        this.status = status || ProductStatus.AVAILABLE;
         this.category = category;
         this.description = description || null;
         this.comment = comment || null;
@@ -92,5 +98,39 @@ export class CreateProductDTOConstructor extends CreateProductDTO {
         this.labels = labels ? labels.map(label => ({ id: Number(label) })) : [];
         // @ts-ignore for properties relation
         this.properties = properties ? properties.map(property => ({ id: Number(property) })) : [];
+    }
+}
+
+/**
+ * @description create product preview
+ */
+export class ProductPreviewDTO extends BaseProductEntity implements IProductPreview {
+    @ApiProperty({ required: false })
+    image: string;
+
+    constructor({ id, title, price, status, images }: IProduct) {
+        super();
+        this.id = id;
+        this.title = title;
+        this.price = price;
+        this.status = status;
+        this.image = (images[0] as IImage).src;
+    }
+}
+
+/**
+ * @description create public product
+ */
+export class PublicProductDTO extends PublicProductEntity implements IPublicProduct {
+    constructor({ id, title, price, status, images, labels, properties, category }: IProduct) {
+        super();
+        this.id = id;
+        this.title = title;
+        this.price = price;
+        this.status = status;
+        this.images = images as Array<IImage>;
+        this.labels = labels;
+        this.properties = properties;
+        this.category = category;
     }
 }

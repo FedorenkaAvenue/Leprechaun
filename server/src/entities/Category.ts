@@ -2,12 +2,12 @@ import { Column, Entity, JoinTable, ManyToMany, OneToMany, PrimaryGeneratedColum
 import { ApiProperty } from '@nestjs/swagger';
 
 import { ProductEntity } from '@entities/Product';
-import { ICategory } from '@interfaces/Category';
-import { ProductGroupBaseEntity, PropertyGroupEntity } from '@entities/Property';
+import { ICategory, ICategoryBase } from '@interfaces/Category';
+import { ProductGroupBaseEntity, PropertyGroupEntity } from '@entities/PropertGroup';
 import { IProduct } from '@interfaces/Product';
-import { IPropertyGroup } from '@interfaces/Property';
+import { IPropertyGroup } from '@interfaces/PropertyGroup';
 
-export class CategoryBaseEntity implements ICategory {
+export class CategoryBaseEntity implements ICategoryBase {
     @PrimaryGeneratedColumn('rowid')
     @ApiProperty({ required: false })
     id: number;
@@ -20,20 +20,17 @@ export class CategoryBaseEntity implements ICategory {
     @ApiProperty({ required: false })
     title: string;
 
-    @Column({ default: false, select: false })
-    @ApiProperty({ required: false })
-    is_public: boolean;
-
     @Column({ nullable: true })
     @ApiProperty({ required: false })
     icon: string;
-
-    @Column({ nullable: true, select: false })
-    @ApiProperty({ required: false })
-    comment: string;
 }
 
-export class CategoryWithPropertyGroupsEntity extends CategoryBaseEntity implements ICategory {
+@Entity('category')
+export class CategoryEntity extends CategoryBaseEntity implements ICategory {
+    @OneToMany(() => ProductEntity, ({ category }) => category)
+    @ApiProperty({ type: ProductEntity, isArray: true })
+    products: IProduct[];
+
     @ManyToMany(
         () => PropertyGroupEntity,
         ({ id }) => id,
@@ -56,11 +53,12 @@ export class CategoryWithPropertyGroupsEntity extends CategoryBaseEntity impleme
         required: false
     })
     property_groups: IPropertyGroup[];
-}
 
-@Entity('category')
-export class CategoryEntity extends CategoryWithPropertyGroupsEntity implements ICategory {
-    @OneToMany(() => ProductEntity, ({ category }) => category)
-    @ApiProperty({ type: ProductEntity, isArray: true })
-    products: IProduct[];
+    @Column({ nullable: true })
+    @ApiProperty({ required: false })
+    comment: string;
+
+    @Column({ default: false })
+    @ApiProperty({ required: false })
+    is_public: boolean;
 }
