@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { DeleteResult, Repository, SelectQueryBuilder } from 'typeorm';
 
@@ -59,6 +59,16 @@ export class ProductService {
 		return new ProductPreviewDTO(res);
 	}
 
+	async getProductPreviewList(productIds: Array<string>): Promise<IProductPreview[]> {
+		const res = await this.productRepo
+			.createQueryBuilder('product')
+			.leftJoinAndSelect('product.images', 'images')
+			.where('product.id IN (:...productIds)', { productIds })
+			.getMany();
+
+		return res.map(prod => new ProductPreviewDTO(prod));
+	}
+
 	async getCommonDashboards(): Promise<CommonDashboardsDTO> {
 		const [ popular, newest ] = await Promise.all([
 			this.productRepo.find({
@@ -79,7 +89,7 @@ export class ProductService {
 	// 	return new UserDashboardsDTO({ visited: [] });
 	// }
 
-	async getAllPublicProducts(
+	async getPublicProducts(
 		queries: ISearchReqQueries,
 		cookies: ICookies
 	): Promise<PaginationResultDTO<IPublicProduct>> {

@@ -17,22 +17,6 @@ import { ICategory } from '@interfaces/Category';
 export class CategoryController {
 	constructor(private readonly categoryService: CategoryService) {}
 
-	@Get('list')
-	@ApiOperation({ summary: 'get all categories' })
-	@ApiOkResponse({ type: CategoryBaseEntity, isArray: true })
-	getAllCategories(): Promise<ICategory[]> {
-		return this.categoryService.getAllCategories();
-	}
-
-	@Get(':category')
-	@UseInterceptors(NotFoundInterceptor)
-	@ApiOperation({ summary: 'get category info by url' })
-	@ApiOkResponse({ type: CategoryWithPropertyGroupsEntity })
-	@ApiNotFoundResponse({ description: 'category not found' })
-	getCategory(@Param('category') category: string): Promise<ICategory> {
-		return this.categoryService.getCategory(category);
-	}
-
 	@Post()
 	@UseInterceptors(FileInterceptor(
 		'icon',
@@ -47,9 +31,25 @@ export class CategoryController {
 		return this.categoryService.createCategory(body, icon);
 	}
 
+	@Get('list')
+	@ApiOperation({ summary: 'get all categories' })
+	@ApiOkResponse({ type: CategoryBaseEntity, isArray: true })
+	getAllCategories(): Promise<ICategory[]> {
+		return this.categoryService.getAllCategories();
+	}
+
+	@Get(':category')
+	@UseInterceptors(NotFoundInterceptor)
+	@ApiOperation({ summary: 'get category info by URL' })
+	@ApiOkResponse({ type: CategoryWithPropertyGroupsEntity })
+	@ApiNotFoundResponse({ description: 'category not found' })
+	getCategory(@Param('category') category: string): Promise<ICategory> {
+		return this.categoryService.getCategory(category);
+	}
+
 	@Delete(':category')
 	@UseInterceptors(AffectedInterceptor)
-	@ApiOperation({ summary: 'delete category by id' })
+	@ApiOperation({ summary: 'delete category by ID' })
 	@ApiOkResponse({ description: 'success' })
 	@ApiNotFoundResponse({ description: 'category not found' })
 	deleteCategory(@Param('category') categoryId: number): Promise<DeleteResult> {
