@@ -1,8 +1,8 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { DeleteResult, Repository, SelectQueryBuilder } from 'typeorm';
 
-import { CreateProductDTO, CreateProductDTOConstructor } from '@dto/Product';
+import { CreateProductDTO, CreateProductDTOConstructor, ProductPreviewDTO, PublicProductDTO } from '@dto/Product';
 import { ProductEntity } from '@entities/Product';
 import { FOLDER_TYPES, FSService } from '@services/FS';
 import { ImageService } from '@services/Image';
@@ -12,13 +12,10 @@ import { SearchQueriesDTO } from '@dto/Queries';
 import { PaginationResultDTO } from '@dto/Pagination';
 import CookieService from './Cookie';
 import { CommonDashboardsDTO, UserDashboardsDTO } from '@dto/Dashboard';
-import { IProduct } from '@interfaces/Product';
+import { IProduct, IProductPreview, IPublicProduct } from '@interfaces/Product';
 
 const DASHBOARD_PORTION = 20;
 
-/**
- * @description /product controller service
- */
 @Injectable()
 export class ProductService {
     constructor(
@@ -38,20 +35,54 @@ export class ProductService {
 		}
 	}
 
-	async getProduct(productId: string): Promise<IProduct> {
+	async getAdminProduct(productId: string): Promise<IProduct> {
 		return this.productRepo.findOne({
 			where: { id: productId },
-			relations: [ 'category', 'properties', 'properties.property_group' ]
+			relations: ['category', 'properties', 'properties.property_group', 'labels']
 		});
+	}
+
+	async getPublicProduct(productId: string): Promise<IPublicProduct> {
+		const res = await this.productRepo.findOne({
+			where: { id: productId, is_public: true },
+			relations: ['category', 'properties', 'properties.property_group', 'labels']
+		});
+
+		if (!res) throw new NotFoundException('product not found');
+
+		return new PublicProductDTO(res);
+	}
+
+	async getProductPreview(productId: string): Promise<IProductPreview> {
+		const res = await this.productRepo.findOne({
+			where: { id: productId, is_public: true }
+		});
+
+		if (!res) throw new NotFoundException('product not found');
+
+		return new ProductPreviewDTO(res);
+	}
+
+	async getProductPreviewList(productIds: Array<string>): Promise<IProductPreview[]> {
+		const res = await this.productRepo
+			.createQueryBuilder('product')
+			.leftJoinAndSelect('product.images', 'images')
+			.where('product.id IN (:...productIds)', { productIds })
+			.andWhere('product.is_public = true')
+			.getMany();
+
+		return res.map(prod => new ProductPreviewDTO(prod));
 	}
 
 	async getCommonDashboards(): Promise<CommonDashboardsDTO> {
 		const [ popular, newest ] = await Promise.all([
 			this.productRepo.find({
+				where: { is_public: true },
 				take: DASHBOARD_PORTION,
 				order: { rating: 'DESC' }
 			}),
 			this.productRepo.find({
+				where: { is_public: true },
 				take: DASHBOARD_PORTION,
 				order: { created_at: 'DESC' }
 			})
@@ -60,30 +91,34 @@ export class ProductService {
 		return new CommonDashboardsDTO({ popular, newest });
 	}
 
+	// TODO
 	async getUserDashboards(): Promise<UserDashboardsDTO> {
-		return new UserDashboardsDTO({ visited: [] });
+		return new UserDashboardsDTO({
+			visited: []
+		});
 	}
 
-	async getAllProducts(
+	async getPublicProducts(
 		queries: ISearchReqQueries,
 		cookies: ICookies
-	): Promise<PaginationResultDTO<IProduct>> {
+	): Promise<PaginationResultDTO<IPublicProduct>> {
 		const qb = this.productRepo
 			.createQueryBuilder('product')
 			.leftJoinAndSelect('product.properties', 'properties')
 			.leftJoinAndSelect('product.category', 'category')
 			.leftJoinAndSelect('product.labels', 'labels')
 			.leftJoinAndSelect('product.images', 'images')
-			.leftJoinAndSelect('properties.property_group', 'property_group');
+			.leftJoinAndSelect('properties.property_group', 'property_group')
+			.where('product.is_public = true');
 
 		return this.renderResult(qb, queries, cookies);
 	}
 
-	async getCategoryProducts(
+	async getCategoryPublicProducts(
 		categoryUrl: string,
 		queries: ISearchReqQueries,
 		cookies: ICookies
-	): Promise<PaginationResultDTO<IProduct>> {
+	): Promise<PaginationResultDTO<IPublicProduct>> {
 		const qb = this.productRepo
 			.createQueryBuilder('product')
 			.innerJoin('product.category', 'category')
@@ -91,7 +126,8 @@ export class ProductService {
 			.leftJoinAndSelect('product.labels', 'labels')
 			.leftJoinAndSelect('product.images', 'images')
 			.leftJoinAndSelect('properties.property_group', 'property_group')
-			.where('category.url = :categoryUrl', { categoryUrl });
+			.where('category.url = :categoryUrl', { categoryUrl })
+			.andWhere('product.is_public = true');
 
 		return this.renderResult(qb, queries, cookies);
 	}
@@ -115,7 +151,7 @@ export class ProductService {
         qb: SelectQueryBuilder<ProductEntity>,
         queries: ISearchReqQueries,
         cookies: ICookies
-    ): Promise<PaginationResultDTO<IProduct>> {
+    ): Promise<PaginationResultDTO<IPublicProduct>> {
         const { page, price, status, dinamicFilters } = new SearchQueriesDTO(queries);
 		const { portion, sort } = this.cookieService.parseRequestCookies(cookies);
 
@@ -174,8 +210,8 @@ export class ProductService {
 			.skip((page - 1) * portion)
 			.getManyAndCount();
 		
-		return new PaginationResultDTO(
-			result,
+		return new PaginationResultDTO<IPublicProduct>(
+			result.map(prod => new PublicProductDTO(prod)),
 			{
 				currentPage: page,
 				totalCount: resCount,

@@ -9,8 +9,8 @@ import { AffectedInterceptor, NotFoundInterceptor } from '@interceptors/responce
 import { IProperty } from '@interfaces/Property';
 
 @Controller('property')
-@ApiTags('Property')
-export class PropertyController {
+@ApiTags('Property (admin)')
+export class PropertyAdminController {
     constructor(private readonly propertyService: PropertyService) {}
 
     @Post()

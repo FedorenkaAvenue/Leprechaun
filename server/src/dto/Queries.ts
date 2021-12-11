@@ -39,3 +39,11 @@ export class SearchQueriesDTO implements ISearchQueries {
         this.dinamicFilters = Object.keys(restQueries).length ? restQueries : null;
     }
 }
+
+export class QueryGETListDTO {
+    queryList: Array<string>;
+
+    constructor(array: string) {
+        this.queryList = typeof array === 'string' ? array.split(';') : [];
+    }
+}

@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
-import { PropertyController } from '@controllers/Property';
+import { PropertyAdminController } from '@controllers/Property';
 import { PropertyEntity } from '@entities/Property';
 import { PropertyService } from '@services/Property';
 
@@ -9,7 +9,7 @@ import { PropertyService } from '@services/Property';
 	imports: [
 		TypeOrmModule.forFeature([ PropertyEntity ])
 	],
-	controllers: [ PropertyController ],
+	controllers: [ PropertyAdminController ],
 	providers: [ PropertyService ],
 })
 export class PropertyModule {}
