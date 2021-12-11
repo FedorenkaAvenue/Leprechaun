@@ -8,9 +8,9 @@ import { LabelService } from '@services/Label';
 import { AffectedInterceptor } from '@interceptors/responce';
 import { ILabel } from '@interfaces/Label';
 
-@Controller('label')
-@ApiTags('Label')
-export class LabelController {
+@Controller('adm/label')
+@ApiTags('Label (admin)')
+export class LabelAdminController {
     constructor(private readonly labelService: LabelService) {}
 
     @Post()

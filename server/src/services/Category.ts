@@ -1,15 +1,12 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { DeleteResult, Repository, UpdateResult } from 'typeorm';
 
 import { CategoryEntity } from '@entities/Category';
-import { CreateCategoryDTO, CreateCategoryDTOСonstructor } from '@dto/Category';
+import { CategoryPublicDTO, CreateCategoryDTO, CreateCategoryDTOСonstructor } from '@dto/Category';
 import { FOLDER_TYPES, FSService } from '@services/FS';
-import { ICategory } from '@interfaces/Category';
+import { ICategory, ICategoryPublic } from '@interfaces/Category';
 
-/**
- * @description /category controller service
- */
 @Injectable()
 export class CategoryService {
 	constructor(
@@ -17,11 +14,31 @@ export class CategoryService {
 		private readonly multerModule: FSService
 	) {}
 
-	getAllCategories(): Promise<ICategory[]> {
-		return this.categoryRepo.find();
+	async getPublicCategories(): Promise<ICategoryPublic[]> {
+		const res = await this.categoryRepo.find({
+			where: { is_public: true }
+		});
+
+		return res.map(cat => new CategoryPublicDTO(cat));
 	}
 
-	getCategory(categoryUrl: string): Promise<ICategory> {
+	async getPublicCategory(categoryUrl: string): Promise<ICategoryPublic> {
+		const res = await this.categoryRepo.findOne({
+			where: { url: categoryUrl, is_public: true }
+		});
+
+		if (!res) throw new NotFoundException('category not found');
+
+		return new CategoryPublicDTO(res);
+	}
+
+	getAdminCategories(): Promise<ICategory[]> {
+		return this.categoryRepo.find({
+			relations: ['property_groups']
+		});
+	}
+
+	getAdminCategory(categoryUrl: string): Promise<ICategory> {
 		return this.categoryRepo.findOne({
 			where: { url: categoryUrl },
 			relations: ['property_groups']

@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { MulterModule } from '@nestjs/platform-express';
 
-import { CategoryController } from '@controllers/Category';
+import { CategoryAdminController, CategoryPublicController } from '@controllers/Category';
 import { CategoryEntity } from '@entities/Category';
 import { CategoryService } from '@services/Category';
 import { FSService } from '@services/FS';
@@ -12,7 +12,7 @@ import { FSService } from '@services/FS';
 		TypeOrmModule.forFeature([CategoryEntity]),
 		MulterModule.registerAsync({ useClass: FSService })
 	],
-	controllers: [ CategoryController ],
+	controllers: [ CategoryPublicController, CategoryAdminController ],
 	providers: [
 		CategoryService,
 		FSService

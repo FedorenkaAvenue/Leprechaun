@@ -29,8 +29,8 @@ export class CommonDashboardsDTO implements ICommonDashboards {
     newest: IProductPreview[];
 
     constructor({ popular, newest }: ICommonDashboardsConstructor) {
-        // this.popular =  popular.map(prod => new ProductPreviewDTO(prod));
-        // this.newest = newest.map(prod => new ProductPreviewDTO(prod))
+        this.popular =  popular.map(prod => new ProductPreviewDTO(prod));
+        this.newest = newest.map(prod => new ProductPreviewDTO(prod))
     }
 }
 

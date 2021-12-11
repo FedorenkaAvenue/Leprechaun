@@ -8,9 +8,9 @@ import { PropertyGroupService } from '@services/PropertyGroup';
 import { AffectedInterceptor, NotFoundInterceptor } from '@interceptors/responce';
 import { IPropertyGroup } from '@interfaces/PropertyGroup';
 
-@Controller('propertygroup')
-@ApiTags('Property group')
-export class PropertyGroupController {
+@Controller('adm/propertygroup')
+@ApiTags('Property group (admin)')
+export class PropertyGroupAdminController {
     constructor(private readonly propertyGroupService: PropertyGroupService) {}
 
     @Post()

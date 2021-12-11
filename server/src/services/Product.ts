@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { DeleteResult, Repository, SelectQueryBuilder } from 'typeorm';
 
@@ -35,24 +35,28 @@ export class ProductService {
 		}
 	}
 
-	// async getAdminProduct(productId: string): Promise<IProduct> {
-	// 	return this.productRepo.findOne({
-	// 		where: { id: productId },
-	// 		relations: ['category', 'properties', 'properties.property_group', 'labels']
-	// 	});
-	// }
-
-	async getPublicProduct(productId: string): Promise<IPublicProduct> {
-		const res = await this.productRepo.findOne({
+	async getAdminProduct(productId: string): Promise<IProduct> {
+		return this.productRepo.findOne({
 			where: { id: productId },
 			relations: ['category', 'properties', 'properties.property_group', 'labels']
 		});
+	}
+
+	async getPublicProduct(productId: string): Promise<IPublicProduct> {
+		const res = await this.productRepo.findOne({
+			where: { id: productId, is_public: true },
+			relations: ['category', 'properties', 'properties.property_group', 'labels']
+		});
+
+		if (!res) throw new NotFoundException('product not found');
 
 		return new PublicProductDTO(res);
 	}
 
 	async getProductPreview(productId: string): Promise<IProductPreview> {
-		const res = await this.productRepo.findOne({ id: productId });
+		const res = await this.productRepo.findOne({
+			where: { id: productId, is_public: true }
+		});
 
 		if (!res) throw new NotFoundException('product not found');
 
@@ -64,6 +68,7 @@ export class ProductService {
 			.createQueryBuilder('product')
 			.leftJoinAndSelect('product.images', 'images')
 			.where('product.id IN (:...productIds)', { productIds })
+			.andWhere('product.is_public = true')
 			.getMany();
 
 		return res.map(prod => new ProductPreviewDTO(prod));
@@ -72,10 +77,12 @@ export class ProductService {
 	async getCommonDashboards(): Promise<CommonDashboardsDTO> {
 		const [ popular, newest ] = await Promise.all([
 			this.productRepo.find({
+				where: { is_public: true },
 				take: DASHBOARD_PORTION,
 				order: { rating: 'DESC' }
 			}),
 			this.productRepo.find({
+				where: { is_public: true },
 				take: DASHBOARD_PORTION,
 				order: { created_at: 'DESC' }
 			})
@@ -84,10 +91,12 @@ export class ProductService {
 		return new CommonDashboardsDTO({ popular, newest });
 	}
 
-	// //TODO
-	// async getUserDashboards(): Promise<UserDashboardsDTO> {
-	// 	return new UserDashboardsDTO({ visited: [] });
-	// }
+	// TODO
+	async getUserDashboards(): Promise<UserDashboardsDTO> {
+		return new UserDashboardsDTO({
+			visited: []
+		});
+	}
 
 	async getPublicProducts(
 		queries: ISearchReqQueries,
@@ -99,7 +108,8 @@ export class ProductService {
 			.leftJoinAndSelect('product.category', 'category')
 			.leftJoinAndSelect('product.labels', 'labels')
 			.leftJoinAndSelect('product.images', 'images')
-			.leftJoinAndSelect('properties.property_group', 'property_group');
+			.leftJoinAndSelect('properties.property_group', 'property_group')
+			.where('product.is_public = true');
 
 		return this.renderResult(qb, queries, cookies);
 	}
@@ -116,7 +126,8 @@ export class ProductService {
 			.leftJoinAndSelect('product.labels', 'labels')
 			.leftJoinAndSelect('product.images', 'images')
 			.leftJoinAndSelect('properties.property_group', 'property_group')
-			.where('category.url = :categoryUrl', { categoryUrl });
+			.where('category.url = :categoryUrl', { categoryUrl })
+			.andWhere('product.is_public = true');
 
 		return this.renderResult(qb, queries, cookies);
 	}

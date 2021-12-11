@@ -19,30 +19,19 @@ import { PaginationDTO, PaginationResultDTO } from '@dto/Pagination';
 import { ApiPaginatedResponse } from '@decorators/Swagger';
 import { CommonDashboardsDTO, UserDashboardsDTO } from '@dto/Dashboard';
 import { IProductPreview, IPublicProduct } from '@interfaces/Product';
-import { QueryGETListDTO } from '@src/dto/Queries';
+import { QueryGETListDTO } from '@dto/Queries';
 
 @Controller('product')
-@ApiTags('Product')
-export class ProductController {
+@ApiTags('Product (client)')
+export class ProductPublicController {
     constructor(private readonly productService: ProductService) {}
-
-    @Post()
-    @UseInterceptors(FilesInterceptor('images'))
-    @ApiOperation({ summary: 'create new product' })
-	@ApiOkResponse({ description: 'success' })
-    createProduct(
-        @Body(new ValidationPipe({ transform: true })) product: CreateProductDTO,
-        @UploadedFiles() images: Array<Express.Multer.File>
-    ): Promise<void> {
-        return this.productService.createProduct(product, images);
-    }
 
     @Get('list')
     @UseInterceptors(EmptyResultInterceptor)
     @ApiQuery({ name: 'page', required: false, description: 'page number', type: 'number' })
     @ApiOperation({ summary: 'get all public products' })
     @ApiPaginatedResponse(PublicProductDTO)
-    getPublicProducts(
+    getProducts(
         @Query() queries: ISearchReqQueries,
         @Req() { cookies }: Request
     ): Promise<PaginationResultDTO<IPublicProduct>> {
@@ -55,7 +44,7 @@ export class ProductController {
     @ApiQuery({ name: 'page', required: false, description: 'page number', type: 'number' })
     @ApiNotFoundResponse({ description: 'category not found' })
 	@ApiPaginatedResponse(PublicProductDTO)
-	getCategoryPublicProducts(
+	getCategoryProducts(
 		@Query() queries: ISearchReqQueries,
         @Req() { cookies }: Request,
 		@Param('categoryUrl') categoryUrl: string
@@ -70,18 +59,19 @@ export class ProductController {
         return this.productService.getCommonDashboards();
     }
 
-    // @Get('dashboard/user')
-    // @ApiOperation({ summary: 'get individual user dashboards' })
-    // @ApiOkResponse({ type: UserDashboardsDTO })
-    // getMostPopularProducts(): Promise<UserDashboardsDTO> {
-    //     return this.productService.getUserDashboards();
-    // }
+    @Get('dashboard/user')
+    @ApiOperation({ summary: 'get individual user dashboards' })
+    @ApiOkResponse({ type: UserDashboardsDTO })
+    getMostPopularProducts(): Promise<UserDashboardsDTO> {
+        return this.productService.getUserDashboards();
+    }
 
     @Get('/preview/list')
     @ApiOperation({ summary: 'get product preview list by IDs' })
+    @ApiQuery({ name: 'ids', required: true, description: 'array of product IDs', type: 'string' })
     @ApiOkResponse({ type: ProductPreviewDTO, isArray: true })
     @ApiBadRequestResponse({ description: 'ID\'s array is empty' })
-    getProductPreviewList(@Query('list') list: string) {
+    getProductPreviewList(@Query('ids') list: string) {
         const { queryList } = new QueryGETListDTO(list);
 
         if (!queryList.length) throw new BadRequestException('product array is empty');
@@ -99,13 +89,39 @@ export class ProductController {
     }
 
     @Get(':productId')
-    @UseInterceptors(NotFoundInterceptor)
     @ApiOperation({ summary: 'get public product by ID' })
     @ApiOkResponse({ type: PublicProductDTO })
     @ApiBadRequestResponse({ description: 'invalid product ID' })
     @ApiNotFoundResponse({ description: 'product not found' })
-    getPublicProduct(@Param('productId', ParseUUIDPipe) productId: string): Promise<IPublicProduct> {
+    getProduct(@Param('productId', ParseUUIDPipe) productId: string): Promise<IPublicProduct> {
         return this.productService.getPublicProduct(productId);
+    }
+}
+
+@Controller('adm/product')
+@ApiTags('Product (admin)')
+export class ProductAdminController {
+    constructor(private readonly productService: ProductService) {}
+
+    @Post()
+    @UseInterceptors(FilesInterceptor('images'))
+    @ApiOperation({ summary: 'create new product' })
+	@ApiOkResponse({ description: 'success' })
+    createProduct(
+        @Body(new ValidationPipe({ transform: true })) product: CreateProductDTO,
+        @UploadedFiles() images: Array<Express.Multer.File>
+    ): Promise<void> {
+        return this.productService.createProduct(product, images);
+    }
+
+    @Get(':productId')
+    @UseInterceptors(NotFoundInterceptor)
+    @ApiOperation({ summary: 'get product by ID' })
+    @ApiOkResponse({ type: PublicProductDTO })
+    @ApiBadRequestResponse({ description: 'invalid product ID' })
+    @ApiNotFoundResponse({ description: 'product not found' })
+    getProduct(@Param('productId', ParseUUIDPipe) productId: string): Promise<IPublicProduct> {
+        return this.productService.getAdminProduct(productId);
     }
 
     // ! DONT TOUCH
