@@ -1,6 +1,6 @@
-import { IBaseProduct } from './Product';
+import { IProduct } from './Product';
 
-type TDashboard = Array<IBaseProduct>
+type TDashboard = Array<IProduct>
 
 export interface ICommonDashboards {
     newest: TDashboard
