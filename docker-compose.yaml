@@ -6,6 +6,11 @@ services:
     volumes:
       - ./postgres/postgresql.conf:/app/postgresql.conf
 
+  redis:
+    restart: unless-stopped
+    volumes:
+      - ./redis/redis.conf:/app/redis.conf
+
   server:
     restart: unless-stopped
     build: ./server

@@ -4,6 +4,9 @@ services:
   postgres:
     restart: on-failure:5
 
+  redis:
+    restart: on-failure:5
+
   server:
     restart: on-failure:5
     build:
