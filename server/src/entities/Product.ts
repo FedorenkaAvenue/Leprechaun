@@ -11,9 +11,8 @@ import { LabelEntity } from '@entities/Label';
 import { ILabel } from '@interfaces/Label';
 import { IProperty } from '@interfaces/Property';
 import { PropertyEntity } from '@entities/Property';
-import { IImage } from '@src/interfaces/Image';
+import { IImage } from '@interfaces/Image';
 
-// for preview and base properties
 export class BaseProductEntity implements IBaseProduct {
     @PrimaryGeneratedColumn('uuid')
     @ApiProperty({ required: false })
