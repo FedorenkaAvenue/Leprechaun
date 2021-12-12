@@ -1,13 +1,10 @@
-import { Injectable } from '@nestjs/common';
-
 import { ICookies } from '@interfaces/Cookies';
 import { CookieDTO } from '@dto/Cookies';
 
 /**
- * @description cookie service
+ * @description parse and map cookies
  */
-@Injectable()
-export default class CookieService {
+class CookieService {
     /**
      * @description get request's cookies and parse them
      * @param cookies request cookies
@@ -17,3 +14,5 @@ export default class CookieService {
         return new CookieDTO(cookies);
     }
 }
+
+export default new CookieService();

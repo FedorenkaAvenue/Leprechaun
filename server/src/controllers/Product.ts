@@ -1,6 +1,6 @@
 import {
     Body, Controller, Delete, Get, Param, ParseUUIDPipe, Post,UploadedFiles,
-    UseInterceptors, Query, Req, ValidationPipe, BadRequestException
+    UseInterceptors, Query, ValidationPipe, BadRequestException
 } from '@nestjs/common';
 import {
     ApiBadRequestResponse, ApiNotFoundResponse, ApiOkResponse, ApiOperation,
@@ -8,7 +8,6 @@ import {
 } from '@nestjs/swagger';
 import { DeleteResult } from 'typeorm';
 import { FilesInterceptor } from '@nestjs/platform-express';
-import { Request } from 'express';
 
 import { CreateProductDTO, ProductPreviewDTO, PublicProductDTO } from '@dto/Product';
 import { ProductEntity } from '@entities/Product';
@@ -20,6 +19,8 @@ import { ApiPaginatedResponse } from '@decorators/Swagger';
 import { CommonDashboardsDTO, UserDashboardsDTO } from '@dto/Dashboard';
 import { IProductPreview, IPublicProduct } from '@interfaces/Product';
 import { QueryGETListDTO } from '@dto/Queries';
+import { Cookies } from '@decorators/Cookies';
+import { ICookies } from '@interfaces/Cookies';
 
 @Controller('product')
 @ApiTags('Product (client)')
@@ -33,9 +34,9 @@ export class ProductPublicController {
     @ApiPaginatedResponse(PublicProductDTO)
     getProducts(
         @Query() queries: ISearchReqQueries,
-        @Req() { cookies }: Request
+        @Cookies() { portion, sort }: ICookies
     ): Promise<PaginationResultDTO<IPublicProduct>> {
-        return this.productService.getPublicProducts(queries, cookies);
+        return this.productService.getPublicProducts(queries, { portion, sort });
     }
 
     @Get('category/:categoryUrl')
@@ -46,10 +47,10 @@ export class ProductPublicController {
 	@ApiPaginatedResponse(PublicProductDTO)
 	getCategoryProducts(
 		@Query() queries: ISearchReqQueries,
-        @Req() { cookies }: Request,
+        @Cookies() { portion, sort }: ICookies,
 		@Param('categoryUrl') categoryUrl: string
 	): Promise<PaginationResultDTO<IPublicProduct>> {
-		return this.productService.getCategoryPublicProducts(categoryUrl, queries, cookies);
+		return this.productService.getCategoryPublicProducts(categoryUrl, queries, { portion, sort });
 	}
 
     @Get('dashboard/common')

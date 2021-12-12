@@ -7,7 +7,6 @@ import { ProductEntity } from '@entities/Product';
 import { ProductService } from '@services/Product';
 import { FSService } from '@services/FS';
 import { ImageModule } from '@modules/Image';
-import CookieService from '@services/Cookie';
 
 @Module({
 	imports: [
@@ -16,6 +15,6 @@ import CookieService from '@services/Cookie';
 		ImageModule
 	],
 	controllers: [ ProductPublicController, ProductAdminController ],
-	providers: [ ProductService, FSService, CookieService ]
+	providers: [ ProductService, FSService ]
 })
 export class ProductModule {}
