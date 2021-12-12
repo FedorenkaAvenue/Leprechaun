@@ -47,7 +47,9 @@ class ConfigService {
 			username: this.getVal('POSTGRES_USER'),
 			password: this.getVal('POSTGRES_PASSWORD'),
 			database: this.getVal('POSTGRES_DATABASE'),
-			synchronize: this.isDev,
+            // TODO поправить после того как разберусь с миграциями
+			// synchronize: this.isDev,
+			synchronize: true,
 			autoLoadEntities: true
         });
     }
