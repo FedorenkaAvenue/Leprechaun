@@ -15,7 +15,9 @@ export class LabelAdminController {
 
     @Post()
     @ApiOperation({ summary: 'create new label' })
-    createLabel(@Body(new ValidationPipe({ transform: true })) body: CreateLabelDTO): Promise<void> {
+    createLabel(
+        @Body(new ValidationPipe({ transform: true })) body: CreateLabelDTO
+    ): Promise<void> {
         return this.labelService.createLabel(body);
     }
 
@@ -30,7 +32,9 @@ export class LabelAdminController {
     @UseInterceptors(AffectedInterceptor)
     @ApiOperation({ summary: 'delete label by ID' })
     @ApiNotFoundResponse()
-    deleteLabel(@Param('label') label: number): Promise<DeleteResult> {
+    deleteLabel(
+        @Param('label') label: number
+    ): Promise<DeleteResult> {
         return this.labelService.deleteLabel(label);
     }
 }

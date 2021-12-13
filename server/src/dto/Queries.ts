@@ -1,6 +1,7 @@
 import { DinamicQueryFilters, IPriceSearchQuery, ISearchQueries, ISearchReqQueries } from '@interfaces/Queries';
 import { ProductStatus } from '@interfaces/Product';
 import { availableEnum } from '@utils/enum';
+import { PipeTransform } from '@nestjs/common';
 
 /**
  * @description create range object for filters
@@ -40,10 +41,13 @@ export class SearchQueriesDTO implements ISearchQueries {
     }
 }
 
+/**
+ * @description parse query array (string, separated by semi-colons)
+ */
 export class QueryGETListDTO {
-    queryList: Array<string>;
+    queryList: Array<string> | null;
 
-    constructor(array: string) {
-        this.queryList = typeof array === 'string' ? array.split(';') : [];
+    constructor(array: string | undefined) {
+        this.queryList = array ? array.split(';') : null;
     }
 }
