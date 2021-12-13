@@ -13,7 +13,9 @@ export class SearchController {
     // @UseInterceptors(PaginationEmptyInterceptor)
     @ApiOperation({ summary: 'get products by search string' })
     @ApiOkResponse({ type: ProductEntity, isArray: true })
-    searchByString(@Param('exp') searchExp: string) {
+    searchByString(
+        @Param('exp') searchExp: string
+    ) {
         return this.searchService.searchProductsByString(searchExp);
     }
 }

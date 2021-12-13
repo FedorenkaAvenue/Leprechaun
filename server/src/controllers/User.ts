@@ -16,7 +16,9 @@ export class UserController {
     @ApiOperation({ summary: 'get user by id' })
     @ApiOkResponse({ type: UserEntity })
     @ApiNotFoundResponse({ description: 'user not found' })
-    getUser(@Param('id', ParseUUIDPipe) id: string): Promise<IUser> {
+    getUser(
+        @Param('id', ParseUUIDPipe) id: string
+    ): Promise<IUser> {
         return this.userService.getUser(id);
     }
 }

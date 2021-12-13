@@ -41,24 +41,28 @@ export class ProductService {
 	}
 
 	async getPublicProduct(productId: string): Promise<IPublicProduct> {
-		const res = await this.productRepo.findOne({
-			where: { id: productId, is_public: true },
-			relations: ['category', 'properties', 'properties.property_group', 'labels']
-		});
+		try {
+			const res = await this.productRepo.findOneOrFail({
+				where: { id: productId, is_public: true },
+				relations: ['category', 'properties', 'properties.property_group', 'labels']
+			});
 
-		if (!res) throw new NotFoundException('product not found');
-
-		return new PublicProductDTO(res);
+			return new PublicProductDTO(res);
+		} catch(err) {
+			throw new NotFoundException('product not found');
+		}
 	}
 
 	async getProductPreview(productId: string): Promise<IProductPreview> {
-		const res = await this.productRepo.findOne({
-			where: { id: productId, is_public: true }
-		});
+		try {
+			const res = await this.productRepo.findOneOrFail({
+				where: { id: productId, is_public: true }
+			});
 
-		if (!res) throw new NotFoundException('product not found');
-
-		return new ProductPreviewDTO(res);
+			return new ProductPreviewDTO(res);
+		} catch(err) {
+			throw new NotFoundException('product not found');
+		}
 	}
 
 	async getProductPreviewList(productIds: Array<string>): Promise<IProductPreview[]> {
