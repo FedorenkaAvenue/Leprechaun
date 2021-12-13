@@ -23,13 +23,15 @@ export class CategoryService {
 	}
 
 	async getPublicCategory(categoryUrl: string): Promise<ICategoryPublic> {
-		const res = await this.categoryRepo.findOne({
-			where: { url: categoryUrl, is_public: true }
-		});
+		try {
+			const res = await this.categoryRepo.findOneOrFail({
+				where: { url: categoryUrl, is_public: true }
+			});
 
-		if (!res) throw new NotFoundException('category not found');
-
-		return new CategoryPublicDTO(res);
+			return new CategoryPublicDTO(res);
+		} catch(err) {
+			throw new NotFoundException('category not found');
+		}
 	}
 
 	getAdminCategories(): Promise<ICategory[]> {

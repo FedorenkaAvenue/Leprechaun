@@ -6,6 +6,7 @@ export enum CookieSortType {
 }
 
 export interface ICookies {
-    sort: CookieSortType    // sorting result
-    portion: number         // items amount for pagination
+    sort?: CookieSortType    // sorting result
+    portion?: number         // items amount for pagination
+    session?: string         // session ID
 }

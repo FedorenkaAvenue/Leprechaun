@@ -10,7 +10,6 @@ import { CookieSortType, ICookies } from '@interfaces/Cookies';
 import { ISearchReqQueries } from '@interfaces/Queries';
 import { SearchQueriesDTO } from '@dto/Queries';
 import { PaginationResultDTO } from '@dto/Pagination';
-import CookieService from './Cookie';
 import { CommonDashboardsDTO, UserDashboardsDTO } from '@dto/Dashboard';
 import { IProduct, IProductPreview, IPublicProduct } from '@interfaces/Product';
 
@@ -21,8 +20,7 @@ export class ProductService {
     constructor(
 		@InjectRepository(ProductEntity) private readonly productRepo: Repository<ProductEntity>,
 		private readonly multerModule: FSService,
-		private readonly imageService: ImageService,
-		private readonly cookieService: CookieService
+		private readonly imageService: ImageService
 	) {}
 
 	async createProduct(newProduct: CreateProductDTO, images: Array<Express.Multer.File>): Promise<void> {		
@@ -43,24 +41,28 @@ export class ProductService {
 	}
 
 	async getPublicProduct(productId: string): Promise<IPublicProduct> {
-		const res = await this.productRepo.findOne({
-			where: { id: productId, is_public: true },
-			relations: ['category', 'properties', 'properties.property_group', 'labels']
-		});
+		try {
+			const res = await this.productRepo.findOneOrFail({
+				where: { id: productId, is_public: true },
+				relations: ['category', 'properties', 'properties.property_group', 'labels']
+			});
 
-		if (!res) throw new NotFoundException('product not found');
-
-		return new PublicProductDTO(res);
+			return new PublicProductDTO(res);
+		} catch(err) {
+			throw new NotFoundException('product not found');
+		}
 	}
 
 	async getProductPreview(productId: string): Promise<IProductPreview> {
-		const res = await this.productRepo.findOne({
-			where: { id: productId, is_public: true }
-		});
+		try {
+			const res = await this.productRepo.findOneOrFail({
+				where: { id: productId, is_public: true }
+			});
 
-		if (!res) throw new NotFoundException('product not found');
-
-		return new ProductPreviewDTO(res);
+			return new ProductPreviewDTO(res);
+		} catch(err) {
+			throw new NotFoundException('product not found');
+		}
 	}
 
 	async getProductPreviewList(productIds: Array<string>): Promise<IProductPreview[]> {
@@ -100,7 +102,7 @@ export class ProductService {
 
 	async getPublicProducts(
 		queries: ISearchReqQueries,
-		cookies: ICookies
+		params: ICookies
 	): Promise<PaginationResultDTO<IPublicProduct>> {
 		const qb = this.productRepo
 			.createQueryBuilder('product')
@@ -111,13 +113,13 @@ export class ProductService {
 			.leftJoinAndSelect('properties.property_group', 'property_group')
 			.where('product.is_public = true');
 
-		return this.renderResult(qb, queries, cookies);
+		return this.renderResult(qb, queries, params);
 	}
 
 	async getCategoryPublicProducts(
 		categoryUrl: string,
 		queries: ISearchReqQueries,
-		cookies: ICookies
+		params: ICookies
 	): Promise<PaginationResultDTO<IPublicProduct>> {
 		const qb = this.productRepo
 			.createQueryBuilder('product')
@@ -129,7 +131,7 @@ export class ProductService {
 			.where('category.url = :categoryUrl', { categoryUrl })
 			.andWhere('product.is_public = true');
 
-		return this.renderResult(qb, queries, cookies);
+		return this.renderResult(qb, queries, params);
 	}
 
 	async deleteProduct(productId: string): Promise<DeleteResult> {
@@ -150,10 +152,10 @@ export class ProductService {
 	async renderResult(
         qb: SelectQueryBuilder<ProductEntity>,
         queries: ISearchReqQueries,
-        cookies: ICookies
+        params: ICookies
     ): Promise<PaginationResultDTO<IPublicProduct>> {
         const { page, price, status, dinamicFilters } = new SearchQueriesDTO(queries);
-		const { portion, sort } = this.cookieService.parseRequestCookies(cookies);
+		const { portion, sort } = params;
 
 		// filtering by dinamical filters
         if (dinamicFilters) {

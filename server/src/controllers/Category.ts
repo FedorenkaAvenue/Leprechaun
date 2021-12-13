@@ -33,7 +33,9 @@ export class CategoryPublicController {
 	@ApiOperation({ summary: 'get category info by URL' })
 	@ApiOkResponse({ type: CategoryPublicDTO })
 	@ApiNotFoundResponse({ description: 'category not found' })
-	getCategory(@Param('category') category: string): Promise<ICategoryPublic> {
+	getCategory(
+		@Param('category') category: string
+	): Promise<ICategoryPublic> {
 		return this.categoryService.getPublicCategory(category);
 	}
 }
@@ -69,7 +71,9 @@ export class CategoryAdminController {
 	@ApiOperation({ summary: 'get category info by URL' })
 	@ApiOkResponse({ type: TCategoryAdmin })
 	@ApiNotFoundResponse({ description: 'category not found' })
-	getCategory(@Param('category') category: string): Promise<ICategory> {
+	getCategory(
+		@Param('category') category: string
+	): Promise<ICategory> {
 		return this.categoryService.getAdminCategory(category);
 	}
 
@@ -78,7 +82,9 @@ export class CategoryAdminController {
 	@ApiOperation({ summary: 'delete category by ID' })
 	@ApiOkResponse({ description: 'success' })
 	@ApiNotFoundResponse({ description: 'category not found' })
-	deleteCategory(@Param('category') categoryId: number): Promise<DeleteResult> {
+	deleteCategory(
+		@Param('category') categoryId: number
+	): Promise<DeleteResult> {
 		return this.categoryService.deleteCategory(categoryId);
 	}
 }
