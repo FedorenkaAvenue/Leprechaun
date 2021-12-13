@@ -1,4 +1,5 @@
-import { CurtainsDirective } from './curtains.directive';
+import { CurtainsDirective } from "./curtains.directive";
+
 
 describe('CurtainsDirective', () => {
   it('should create an instance', () => {

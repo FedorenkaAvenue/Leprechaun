@@ -3,9 +3,9 @@ export interface LeprachaunIconI {
   data: string;
 }
 
-export type LeprachaunIcon = 'heart' | 'question' | 'cart' | 'search';
+export type LeprachaunIcon = 'heart' | 'question' | 'card' | 'cardSelected' | 'search' | 'close';
 
-export type LeprachaunIconColor = 'gray' | 'rose';
+export type LeprachaunIconColor = 'gray' | 'rose' | 'green';
 
 export interface LeprachaunIconColorI {
   name: LeprachaunIconColor;
@@ -15,6 +15,7 @@ export interface LeprachaunIconColorI {
 export const leprachaunIconColorsList: LeprachaunIconColorI[] = [
   { name: 'gray', color: '#6e6d7a' },
   { name: 'rose', color: '#ea4c89' },
+  { name: 'green', color: '#00ff00' },
 ];
 
 // tslint:disable:max-line-length
@@ -34,7 +35,7 @@ export const questionIcon: LeprachaunIconI = {
 };
 
 export const cartIcon: LeprachaunIconI = {
-  name: 'cart',
+  name: 'card',
   data: `<svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
   width="16" height="16" viewBox="0 0 446.853 446.853" style="enable-background:new 0 0 446.853 446.853;"
   xml:space="preserve">
@@ -54,8 +55,54 @@ export const cartIcon: LeprachaunIconI = {
 `,
 };
 
+export const cartSelectedIcon: LeprachaunIconI = {
+  name: 'cardSelected',
+  data: `<svg width="22" height="22" xmlns="http://www.w3.org/2000/svg">
+  <g>
+   <title>Layer 1</title>
+   <g stroke="null" id="svg_1">
+    <g transform="rotate(-0.186295 7.57207 7.95212)" stroke="null" id="svg_2">
+     <path stroke="null" id="svg_3" d="m15.8108,2.90416c-0.09543,-0.14228 -0.24897,-0.23022 -0.41576,-0.23764l-10.34045,-0.46371c-0.29669,-0.01351 -0.54462,0.22479 -0.5573,0.53202c-0.01261,0.30711 0.21607,0.5666 0.51134,0.57979l9.64039,0.43235l-1.8955,6.15279l-8.43521,0l-1.52395,-8.63267c-0.0335,-0.1892 -0.15836,-0.34704 -0.33056,-0.41733l-2.49596,-1.02014c-0.27509,-0.11205 -0.5855,0.02853 -0.69354,0.31437c-0.10785,0.28599 0.02723,0.60913 0.30217,0.72153l2.21931,0.90704l1.55084,8.78419c0.04674,0.26407 0.26796,0.45587 0.52615,0.45587l0.25726,0l-0.58744,1.69757c-0.04917,0.1422 -0.02891,0.30012 0.05476,0.42366c0.08356,0.12357 0.21947,0.19708 0.36454,0.19708l0.41203,0c-0.25532,0.29562 -0.41203,0.68485 -0.41203,1.11289c0,0.92051 0.71995,1.66932 1.60456,1.66932s1.60456,-0.74881 1.60456,-1.66932c0,-0.428 -0.15672,-0.81727 -0.412,-1.11289l3.49835,0c-0.25543,0.29562 -0.41211,0.68485 -0.41211,1.11289c0,0.92051 0.71976,1.66932 1.60456,1.66932c0.88484,0 1.60456,-0.74881 1.60456,-1.66932c0,-0.428 -0.15668,-0.81727 -0.41192,-1.11289l0.50108,0c0.24621,0 0.44572,-0.2076 0.44572,-0.46367c0,-0.25615 -0.19954,-0.46371 -0.44572,-0.46371l-8.54746,0l0.48131,-1.39109l8.06612,0c0.2326,0 0.43841,-0.15633 0.50925,-0.38655l2.22856,-7.23378c0.05118,-0.1651 0.02492,-0.34561 -0.07051,-0.48797zm-10.24432,12.28175c-0.39331,0 -0.71316,-0.33272 -0.71316,-0.7419s0.31985,-0.74194 0.71316,-0.74194s0.71312,0.33276 0.71312,0.74194s-0.31982,0.7419 -0.71312,0.7419zm5.88333,0c-0.39331,0 -0.71312,-0.33272 -0.71312,-0.7419s0.31982,-0.74194 0.71312,-0.74194s0.71312,0.33276 0.71312,0.74194s-0.31982,0.7419 -0.71312,0.7419z"/>
+    </g>
+    <g transform="rotate(-0.186295 2.46865 -5.68953)" stroke="null" id="svg_4"/>
+    <g transform="rotate(-0.186295 2.46865 -5.68953)" stroke="null" id="svg_5"/>
+    <g transform="rotate(-0.186295 2.46865 -5.68953)" stroke="null" id="svg_6"/>
+    <g transform="rotate(-0.186295 2.46865 -5.68953)" stroke="null" id="svg_7"/>
+    <g transform="rotate(-0.186295 2.46865 -5.68953)" stroke="null" id="svg_8"/>
+    <g transform="rotate(-0.186295 2.46865 -5.68953)" stroke="null" id="svg_9"/>
+    <g transform="rotate(-0.186295 2.46865 -5.68953)" stroke="null" id="svg_10"/>
+    <g transform="rotate(-0.186295 2.46865 -5.68953)" stroke="null" id="svg_11"/>
+    <g transform="rotate(-0.186295 2.46865 -5.68953)" stroke="null" id="svg_12"/>
+    <g transform="rotate(-0.186295 2.46865 -5.68953)" stroke="null" id="svg_13"/>
+    <g transform="rotate(-0.186295 2.46865 -5.68953)" stroke="null" id="svg_14"/>
+    <g transform="rotate(-0.186295 2.46865 -5.68953)" stroke="null" id="svg_15"/>
+    <g transform="rotate(-0.186295 2.46865 -5.68953)" stroke="null" id="svg_16"/>
+    <g transform="rotate(-0.186295 2.46865 -5.68953)" stroke="null" id="svg_17"/>
+    <g transform="rotate(-0.186295 2.46865 -5.68953)" stroke="null" id="svg_18"/>
+   </g>
+   <path stroke="#000" id="svg_19" d="m4.40323,6.95288l0.6408,-0.72212l3.38511,1.97729l3.92226,-3.29548l0.50465,0.47369l-4.75976,3.87161" fill="#000000"/>
+   <rect id="svg_24" height="0" width="2" y="198" x="277" stroke="#000" fill="#fff"/>
+  </g>
+ 
+ </svg>
+`,
+};
+
 export const searchIcon: LeprachaunIconI = {
   name: 'search',
   data:
     '<svg fill="#000000" xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 30 30" width="30px" height="30px"><path d="M 13 3 C 7.4889971 3 3 7.4889971 3 13 C 3 18.511003 7.4889971 23 13 23 C 15.396508 23 17.597385 22.148986 19.322266 20.736328 L 25.292969 26.707031 A 1.0001 1.0001 0 1 0 26.707031 25.292969 L 20.736328 19.322266 C 22.148986 17.597385 23 15.396508 23 13 C 23 7.4889971 18.511003 3 13 3 z M 13 5 C 17.430123 5 21 8.5698774 21 13 C 21 17.430123 17.430123 21 13 21 C 8.5698774 21 5 17.430123 5 13 C 5 8.5698774 8.5698774 5 13 5 z"/></svg>',
+};
+
+export const closeIcon: LeprachaunIconI = {
+  name: 'close',
+  data: `<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+  viewBox="0 0 60.963 60.842" style="enable-background:new 0 0 60.963 60.842;" xml:space="preserve">
+<path style="fill:#231F20;" d="M59.595,52.861L37.094,30.359L59.473,7.98c1.825-1.826,1.825-4.786,0-6.611
+ c-1.826-1.825-4.785-1.825-6.611,0L30.483,23.748L8.105,1.369c-1.826-1.825-4.785-1.825-6.611,0c-1.826,1.826-1.826,4.786,0,6.611
+ l22.378,22.379L1.369,52.861c-1.826,1.826-1.826,4.785,0,6.611c0.913,0.913,2.109,1.369,3.306,1.369s2.393-0.456,3.306-1.369
+ l22.502-22.502l22.501,22.502c0.913,0.913,2.109,1.369,3.306,1.369s2.393-0.456,3.306-1.369
+ C61.42,57.647,61.42,54.687,59.595,52.861z"/>
+</svg>
+`,
 };

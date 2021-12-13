@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
 import { ProductsRoutingModule } from './products-routing.module';
 import { ProductsPageComponent } from './components/products-page/products-page.component';
 import { ProductsListComponent } from './components/products-list/products-list.component';
@@ -11,6 +10,7 @@ import { PaginatorModule } from '@shared/modules/paginator';
 import { LpchSelectModule } from '@shared/controls/lpch-select/lpch-select.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { LpchInputModule } from '@shared/controls/lpch-input/lpch-input.module';
+import { ProductsManagerService } from './services/products-manager/products-manager.service';
 
 
 @NgModule({
@@ -30,7 +30,8 @@ import { LpchInputModule } from '@shared/controls/lpch-input/lpch-input.module';
     ReactiveFormsModule,
   ],
   providers: [
-    ProductsService
+    ProductsService,
+    ProductsManagerService
   ]
 })
 export class ProductsModule { }

@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { CardStateService } from '@shared/services/card/card-state.service';
 import { LANGUAGES } from '@shared/static/languages';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-header',
@@ -8,13 +10,12 @@ import { LANGUAGES } from '@shared/static/languages';
 })
 export class HeaderComponent implements OnInit {
 
+  public cardValue$: Observable<Array<number>>
   public languages = LANGUAGES;
-  constructor() { }
+  constructor(private readonly cardService: CardStateService) { }
 
   ngOnInit(): void {
-    const array = ['folly', 'dolly', 'molly', 'sally', 'berry'];
-    const count = 2;
-    let initial = []
+    this.cardValue$ = this.cardService.getCardStateValue();
   }
 
 }

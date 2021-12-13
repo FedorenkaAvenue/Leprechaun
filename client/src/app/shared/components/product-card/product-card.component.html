@@ -1,6 +1,6 @@
 <section class="product">
-  <a [routerLink]="['/product', product.id]" routerLinkActive="router-link-active">
-    <div class="product__wrap">
+  <div class="product__wrap">
+      <a [routerLink]="['/product', product.id]" routerLinkActive="router-link-active">
       <div class="product-preview__wrap">
         <div
           class="product-preview__image"
@@ -11,11 +11,16 @@
           </ng-container>
         </div>
       </div>
+      <span class="product-title">{{ product?.title }}</span>
+    </a>
       <div class="product-main">
-        <span class="product-title">{{ product?.title }}</span>
         <div class="product__price-wrap">
           <span class="product__price">1231$</span>
-          <button class="product__card-btn rose-btn">В кошик</button>
+          <button (click)="addToCard(product?.id)" class="icon-btn">
+
+            <app-leprachaun-icon name="card" [color]="product?.inCard ? 'green' : 'rose'" [width]="22" [height]="22"> </app-leprachaun-icon>
+            <!-- <app-leprachaun-icon name="cardSelected" color="rose" [width]="22" [height]="22"> </app-leprachaun-icon> -->
+          </button>
           <!-- <button class="header_help main-btn">
             <app-leprachaun-icon name="question" color="gray"> </app-leprachaun-icon>
             <span class="btn-label">Допомога</span>
@@ -23,5 +28,5 @@
         </div>
       </div>
     </div>
-  </a>
+
 </section>

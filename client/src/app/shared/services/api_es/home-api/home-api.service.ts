@@ -1,11 +1,7 @@
 import { Injectable } from '@angular/core';
 import { TransferHttpService } from '@gorniv/ngx-universal';
-import { SelectionProductType } from '@shared/enums';
-import { ProductCardDto, ProductsCommonI } from '@shared/models';
-import { PRODUCTS_NEW } from 'app/mock/products-selections';
+import { ProductsCommonI } from '@shared/models';
 import { Observable, of } from 'rxjs';
-import { catchError } from 'rxjs/operators';
-
 
 
 @Injectable()

@@ -6,7 +6,7 @@ $base-font: 'Raleway', sans-serif;
 $amatic-font: 'Amatic SC', sans-serif;
 
 // Body
-$body-color-bg: #eee;
+$body-color-bg: #fff;
 $body-color-text: #444;
 
 // Toolbar
@@ -17,6 +17,9 @@ $sidebar-width: 64px;
 
 // Footer
 $footer-height: 49px;
+
+// Containers
+$container-width: 1320px;
 
 $transition-all:  all 0.15s ease-out;
 
@@ -33,6 +36,7 @@ $btn-main: #6e6d7a;
 
 // border
 $white-border: #fff;
+$grey-border: #e0e0e0;
 
 // tabs
 $tab-westar: rgba(13,12,34,0.05);

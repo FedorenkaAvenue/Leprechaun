@@ -1,5 +1,5 @@
 import { Component, OnInit, ChangeDetectionStrategy, Input } from '@angular/core';
-import { ProductCardDto } from '@shared/models';
+import { ProductCardDto, ProductsPreviewI } from '@shared/models';
 
 @Component({
   selector: 'app-products-selection-list',
@@ -9,13 +9,12 @@ import { ProductCardDto } from '@shared/models';
 })
 export class ProductsSelectionListComponent implements OnInit {
 
-  @Input() products: ProductCardDto[];
-  @Input() title: ProductCardDto[];
+  @Input() products: ProductsPreviewI[];
+  @Input() title: ProductsPreviewI[];
   
   
   constructor() { }
 
   ngOnInit(): void {
   }
-
 }

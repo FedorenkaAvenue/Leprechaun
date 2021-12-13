@@ -2,16 +2,18 @@ button {
   display: inline-flex;
   align-items: center;
   border: none;
+  background: transparent;
 }
 
 .main-btn {
+  display: flex;
   background: none;
   font-family: $base-font;
   font-size: 14px;
   font-weight: 500;
   line-height: 20px;
   color: $btn-main;
-  &:hover {
+  &:hover,&.active {
     color: $btn-rose;
     svg {
       fill: $btn-rose;
@@ -38,4 +40,8 @@ button {
   // .btn-label {
   //   margin-left: 5px;
   // }
+}
+
+.icon-btn {
+
 }

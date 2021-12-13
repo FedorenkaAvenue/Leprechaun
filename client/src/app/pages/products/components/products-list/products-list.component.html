@@ -1,5 +1,8 @@
 <section class="products-list">
   <ng-container *ngFor="let product of products?.data">
-    <app-product-card [product]="product"></app-product-card>
+    <app-product-card
+    [product]="product"
+    (toCardEvent)="addToCard($event)"
+    ></app-product-card>
   </ng-container>
 </section>

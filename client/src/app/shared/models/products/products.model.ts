@@ -29,8 +29,16 @@ export interface ProductPropertiesI {
   property_group: any
 }
 
+export interface ProductsPreviewI {
+  id: number,
+  title: string,
+  price: number,
+  images: string,
+  status: number
+}
+
 export interface ProductsBaseI {
-  id: string,
+  id: number,
   created_at: string,
   title: string,
   is_public: boolean,
@@ -44,8 +52,8 @@ export interface ProductsBaseI {
 }
 
 export interface ProductsCommonI {
-  popular: ProductsBaseI[],
-  newest: ProductsBaseI[]
+  popular: ProductsPreviewI[],
+  newest: ProductsPreviewI[]
 }
 
 
@@ -66,7 +74,7 @@ export interface ProductCardI extends ProductDetailsI {
   }
 
   export class ProductDetailsDto implements ProductDetailsI {
-    id: string;
+    id: number;
     created_at: string;
     title: string;
     is_public: boolean;
@@ -78,9 +86,17 @@ export interface ProductCardI extends ProductDetailsI {
     description: string;
     properties: Array<ProductPropertiesI>;
     category: CategoryI;
+    inCard: boolean;
   }
 
   export class ProductCardDto extends ProductDetailsDto implements ProductCardI {
 }
 
+export class CardItemDto {
+  id: string;
+  title: string;
+  // status: AVAILABLE;
+  price: number;
+  image: string
+}
 // export class ProductDetailsDto

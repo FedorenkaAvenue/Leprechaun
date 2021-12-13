@@ -18,6 +18,7 @@ import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 import { LeprachaunIconsModule } from '@shared/modules/leprachaun-icons';
 import { AuthService } from '@shared/services/auth/auth.service';
 import { NgSelectModule } from '@ng-select/ng-select';
+import { LocalStorageService } from '@shared/storage/local.storage';
 // interceptors
 
 @NgModule({
@@ -39,6 +40,7 @@ import { NgSelectModule } from '@ng-select/ng-select';
   providers: [
     CookieService,
     UniversalStorage,
+    LocalStorageService,
     AuthService,
     // Guards
   ],

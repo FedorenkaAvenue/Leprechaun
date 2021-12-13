@@ -13,10 +13,13 @@
         <span class="btn-label">вибране</span>
       </button>
       <app-language-switch [languages]="languages"></app-language-switch>
-      <button class="header_cart main-btn">
-        <app-leprachaun-icon name="cart" color="gray"> </app-leprachaun-icon>
+      <a [routerLink]="['/card']" routerLinkActive="active"  class="header_cart main-btn">
+        <app-leprachaun-icon name="card" color="gray"> </app-leprachaun-icon>
         <span class="btn-label">вкошик</span>
-      </button>
+        <ng-container *ngIf="(cardValue$ | async)?.length as cardCount">
+          <span>{{cardCount}}</span>
+        </ng-container>
+      </a>
     </div>
   </div>
 </header>
