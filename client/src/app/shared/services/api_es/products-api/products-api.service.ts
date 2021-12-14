@@ -17,7 +17,6 @@ export class ProductsApiService {
   ) { }
 
   public getProducts(param: Params): Observable<Products> {
-    console.log(param);
     const params = new HttpParams().set('page', param.page);
     return this.http.get<Products>(`${this.apiUrl}/list`, {params})
   }

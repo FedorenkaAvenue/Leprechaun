@@ -1,14 +1,24 @@
 <div class="products-page__wrapper">
   <div class="products-page">
     <header>
-      <h1>Постельное белье</h1>
-      <span>{{ productsCount }} товаров</span>
+      <div>
+        <h1>Постельное белье</h1>
+        <span>{{ productsCount }} товаров</span>
+      </div>
+      <div>
+        <div class="products-page__sorting">
+          <lpch-select-field (onChange)="changeSorting($event)"></lpch-select-field>
+        </div>
+        <div class="products-page__search">
+          <lpch-input-field type="search"></lpch-input-field>
+        </div>
+      </div>
     </header>
     <section class="products-page__wrap">
       <app-products-filter></app-products-filter>
       <div class="products-list">
         <ng-container *ngIf="productsList$ | async as products">
-          <app-products-list [products]="products"></app-products-list>
+          <app-products-list [products]="products" (toCardEvent)="addToCard($event)" (toFavoriteEvent)="addToFavorite($event)"></app-products-list>
           <ng-container *ngIf="products?.pagination as pagination">
             <app-paginator
               *ngIf="pagination.pageCount > 1"

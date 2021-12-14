@@ -1,0 +1,38 @@
+@import '/src/styles/core/variables';
+
+.header {
+    background: #fff;
+    padding: 0 24px;
+  &_wrapper {
+    width: 100%;
+    padding: 20px 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1600px;
+  }
+
+  &_logo {
+    font-family: $amatic-font;
+    font-size: 28px;
+  }
+
+ 
+
+  &_actions {
+    display: flex;
+    align-items: center;
+  }
+
+  &_help {
+      margin-right: 24px;
+  }
+  
+  &_favorites {
+      margin-right: 24px;
+  }
+
+  &_cart {
+    margin-left: 24px;
+}
+}

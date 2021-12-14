@@ -8,8 +8,20 @@ const routes: Routes = [
         component: WrapperComponent,
         children: [
             {
+                path: '',
+                loadChildren: () => import('../../../../pages/home/home.module').then(m => m.HomeModule)
+            },
+            {
                 path: 'products',
                 loadChildren: () => import('../../../../pages/products/products.module').then( m => m.ProductsModule)
+            },
+            {
+                path: 'product/:id',
+                loadChildren: () => import('../../../../pages/product-page/product-page.module').then(m => m.ProductPageModule)
+            },
+            {
+                path: 'card',
+                loadChildren: () => import('../../../../pages/card-page/card-page.module').then(m => m.CardPageModule)
             }
         ]
     }

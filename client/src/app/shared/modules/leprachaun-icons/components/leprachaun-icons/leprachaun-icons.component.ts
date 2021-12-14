@@ -114,10 +114,10 @@ export class LeprachaunIconsComponent implements OnInit {
 
   @HostListener('mouseout')
   onMouseOut() {
+    this.mouseover = false;
     if (!this.mouseover) {
       return;
     }
-    this.mouseover = false;
     if (this.hoverColor) {
       this.svgIcon.style.fill = this.findColor(this.iconColor);
     }
@@ -146,7 +146,7 @@ export class LeprachaunIconsComponent implements OnInit {
   private findColor(color: LeprachaunIconColor): string {
     const selectedColor = leprachaunIconColorsList.find(item => item.name === color);
     if (!selectedColor) {
-      return '#ffffff';
+      return 'none';
     }
     return selectedColor.color;
   }

@@ -31,17 +31,16 @@ export class ProductPageComponent implements OnInit {
     this.changeParams();
   }
 
-  private getCategoryId(): string | null {
-    return this.route.snapshot.paramMap.get('id')
+  private getCategoryUrl(): string | null {
+    return this.route.snapshot.paramMap.get('url')
   }
 
   private getProducts(): void {
-    const id = this.getCategoryId();
-    if(!id) {
+    const url = this.getCategoryUrl();
+    if(!url) {
       return;
     }
-    const categoryId = Number(id)
-    this.products$ = this.productsService.getProductsList(categoryId);
+    this.products$ = this.productsService.getProductsList(url);
   }
 
   public changeParams(): void {

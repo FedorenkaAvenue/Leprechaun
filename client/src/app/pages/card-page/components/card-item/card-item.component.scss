@@ -1,0 +1,30 @@
+.product {
+    &-content {
+        display: flex;
+    }
+    &-image {
+        display: flex;
+        flex-shrink: 0;
+        align-items: center;
+        justify-content: center;
+        width: 100px;
+        height: 100px;
+        margin-right: 20px;
+        img {
+            width: 100%;
+            height: 100%;
+        }
+    }
+    &-info {
+        flex-grow: 1;
+    }
+    &-controls {
+
+    }
+    &-footer {
+
+    }
+    &-price {
+
+    }
+}
