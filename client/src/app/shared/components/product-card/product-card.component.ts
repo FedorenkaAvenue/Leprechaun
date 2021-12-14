@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectionStrategy, Input } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, Input, EventEmitter, Output } from '@angular/core';
 import { ProductCardDto } from '@shared/models/products/products.model';
 
 @Component({
@@ -10,10 +10,19 @@ import { ProductCardDto } from '@shared/models/products/products.model';
 export class ProductCardComponent implements OnInit {
 
   @Input() product: ProductCardDto;
+  @Output() toCardEvent: EventEmitter<number> = new EventEmitter<number>();
+  @Output() toFavoriteEvent: EventEmitter<number> = new EventEmitter<number>();
 
   constructor() { }
 
   ngOnInit(): void {
   }
 
+  addToCard(productId: number): void {
+    this.toCardEvent.emit(productId);
+  }
+
+  addToFavorite(productId: number): void {
+    this.toFavoriteEvent.emit(productId);
+  }
 }

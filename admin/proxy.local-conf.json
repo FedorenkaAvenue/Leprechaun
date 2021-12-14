@@ -1,0 +1,17 @@
+{
+  "/api": {
+    "target": "https://api.leprechaun.tech",
+    "secure": true,
+    "changeOrigin": true,
+    "pathRewrite": {
+      "^/api": ""
+    },
+    "logLevel": "debug"
+  },
+  "/img": {
+    "target": "https://leprechaun.tech",
+    "secure": true,
+    "changeOrigin": true,
+    "logLevel": "debug"
+  }
+}

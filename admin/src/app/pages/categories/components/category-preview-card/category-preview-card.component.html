@@ -1,5 +1,5 @@
 
-<section (click)="goToCategProds(category?.id)" class="category-card">
+<section (click)="goToCategProds(category?.url)" class="category-card">
   <span class="category-title">{{ category?.title }}</span>
   <img stubImage class="category-image" [src]="category?.icon || ''" alt="" />
   <span class="category-status">published</span>
