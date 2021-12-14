@@ -29,6 +29,8 @@ services:
 
   nginx:
     restart: on-failure:5
+    build:
+      dockerfile: Dockerfile.prod
     ports:
       - 84:80
 

@@ -107,16 +107,15 @@ class ConfigService {
      */
     getSessionConfig(): SessionOptions {
         return ({
-            proxy: true,
             secret: this.getVal('SESSION_COOKIE_SECRET'),
             resave: false,
-            saveUninitialized: false,
+            saveUninitialized: true,
             cookie: {
-                sameSite: 'none',
                 httpOnly: true,
                 maxAge: +this.getVal('SESSION_AGE'),
                 secure: !this.isDev
-            }
+            },
+            name: 'session'
         });
     }
 }

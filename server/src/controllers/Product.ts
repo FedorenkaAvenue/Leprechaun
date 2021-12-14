@@ -36,8 +36,7 @@ export class ProductPublicController {
     @ApiPaginatedResponse(PublicProductDTO)
     getProducts(
         @Query() queries: ISearchReqQueries,
-        @Cookies() { portion, sort }: ICookies,
-        @Session() session: Record<string, any>
+        @Cookies() { portion, sort }: ICookies
     ): Promise<PaginationResultDTO<IPublicProduct>> {
         return this.productService.getPublicProducts(queries, { portion, sort });
     }
@@ -66,7 +65,11 @@ export class ProductPublicController {
     @Get('dashboard/user')
     @ApiOperation({ summary: 'get individual user dashboards' })
     @ApiOkResponse({ type: UserDashboardsDTO })
-    getMostPopularProducts(): Promise<UserDashboardsDTO> {
+    getMostPopularProducts(
+        @Session() session
+    ): Promise<UserDashboardsDTO> {
+        console.log(session);
+        
         return this.productService.getUserDashboards();
     }
 

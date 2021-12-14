@@ -12,17 +12,7 @@ async function runServer() {
 
 	app
 		.use(cookieParser())
-		.use(session(ConfigService.getSessionConfig()))
-		.use((req, res, next) => {
-			console.log(req.cookies);
-			
-			res
-				.append('Access-Control-Allow-Methods', 'GET, PUT, POST, DELETE')
-				.append('Access-Control-Allow-Headers', '*')
-				.append('Access-Control-Allow-Credentials', 'true')
-				.append("Access-Control-Allow-Origin", "*")
-			next();
-		})
+		.use(session(ConfigService.getSessionConfig()));
 
 	if (!ConfigService.isDev) {
 		app.useGlobalFilters(new UncaughtExceptionFilter());
