@@ -11,6 +11,7 @@ export class ProductsListComponent implements OnInit {
 
   @Input() products: Products;
   @Output() toCardEvent: EventEmitter<number> = new EventEmitter<number>();
+  @Output() toFavoriteEvent: EventEmitter<number> = new EventEmitter<number>();
   
   constructor() { }
 
@@ -19,5 +20,9 @@ export class ProductsListComponent implements OnInit {
 
   public addToCard(productId): void {
     this.toCardEvent.emit(productId);
+  }
+
+  public addToFavorite(productId): void {
+    this.toFavoriteEvent.emit(productId);
   }
 }

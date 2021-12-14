@@ -19,6 +19,7 @@ import { LeprachaunIconsModule } from '@shared/modules/leprachaun-icons';
 import { AuthService } from '@shared/services/auth/auth.service';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { LocalStorageService } from '@shared/storage/local.storage';
+import { withCredentialsInterceptor } from '@shared/interceptors/withCred.interceptor';
 // interceptors
 
 @NgModule({
@@ -43,6 +44,11 @@ import { LocalStorageService } from '@shared/storage/local.storage';
     LocalStorageService,
     AuthService,
     // Guards
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: withCredentialsInterceptor,
+      multi: true
+    }
   ],
 })
 export class AppModule {

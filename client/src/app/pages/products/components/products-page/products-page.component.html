@@ -18,7 +18,7 @@
       <app-products-filter></app-products-filter>
       <div class="products-list">
         <ng-container *ngIf="productsList$ | async as products">
-          <app-products-list [products]="products" (toCardEvent)="addToCard($event)"></app-products-list>
+          <app-products-list [products]="products" (toCardEvent)="addToCard($event)" (toFavoriteEvent)="addToFavorite($event)"></app-products-list>
           <ng-container *ngIf="products?.pagination as pagination">
             <app-paginator
               *ngIf="pagination.pageCount > 1"

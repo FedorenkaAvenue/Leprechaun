@@ -3,6 +3,7 @@ import { FormControl } from '@angular/forms';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Products } from '@shared/models/products/products.model';
 import { CardStateService } from '@shared/services/card/card-state.service';
+import { FavoriteService } from '@shared/services/favorite/favorite.service';
 import { Observable } from 'rxjs';
 import { ProductsManagerService } from '../../services/products-manager/products-manager.service';
 
@@ -21,15 +22,13 @@ export class ProductsPageComponent implements OnInit {
     private readonly router: Router,
     private readonly route: ActivatedRoute,
     private readonly cardService: CardStateService,
+    private readonly favoriteService: FavoriteService,
   ) {
     this.productsManagerService.init();
   }
 
   ngOnInit(): void {
     this.productsList$ = this.productsManagerService.getProducts();
-    this.productsList$.subscribe(el => {
-      console.log(el.data);
-    })
     this.changeParams();
   }
 
@@ -37,7 +36,6 @@ export class ProductsPageComponent implements OnInit {
     this.productsManagerService.destroy();
   }
   public changeSorting(order) {
-    console.log(order); 
   }
   public changeParams(): void {
     this.route.queryParams.subscribe((params) => {
@@ -57,5 +55,9 @@ export class ProductsPageComponent implements OnInit {
 
   public addToCard(productId): void {
     this.cardService.addToCard(productId)
+  }
+
+  public addToFavorite(productId): void {
+    this.favoriteService.addToFavorite(productId)
   }
 }

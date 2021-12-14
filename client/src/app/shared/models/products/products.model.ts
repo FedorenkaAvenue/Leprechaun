@@ -87,6 +87,7 @@ export interface ProductCardI extends ProductDetailsI {
     properties: Array<ProductPropertiesI>;
     category: CategoryI;
     inCard: boolean;
+    isFavorite: boolean;
   }
 
   export class ProductCardDto extends ProductDetailsDto implements ProductCardI {

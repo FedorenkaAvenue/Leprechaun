@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { ProductCardComponent } from './product-card.component';
 import { CurtainsDirective } from '@shared/directives/curtains/curtains.directive';
 import { RouterModule } from '@angular/router';
-import { cartIcon, cartSelectedIcon, LeprachaunIconRegistryService, LeprachaunIconsModule } from '@shared/modules/leprachaun-icons';
+import { cartIcon, cartSelectedIcon, heartIcon, heartIconFilled, LeprachaunIconRegistryService, LeprachaunIconsModule } from '@shared/modules/leprachaun-icons';
 import { CurtainsModule } from '@shared/directives/curtains/curtains.module';
 
 
@@ -27,6 +27,8 @@ export class ProductCardModule {
     this.leprachaunIconRegistryService.registerIcons(
       [
         cartIcon,
+        heartIcon,
+        heartIconFilled,
         cartSelectedIcon
       ]);
   }
