@@ -85,3 +85,7 @@ services:
 
 volumes:
   image_hosting:
+
+networks:
+  default:
+    name: leprechaun_net

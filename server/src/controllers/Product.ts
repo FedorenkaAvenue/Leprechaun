@@ -39,8 +39,6 @@ export class ProductPublicController {
         @Cookies() { portion, sort }: ICookies,
         @Session() session: Record<string, any>
     ): Promise<PaginationResultDTO<IPublicProduct>> {
-        console.log(session);
-        
         return this.productService.getPublicProducts(queries, { portion, sort });
     }
 

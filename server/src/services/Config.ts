@@ -112,6 +112,7 @@ class ConfigService {
             resave: false,
             saveUninitialized: false,
             cookie: {
+                sameSite: 'none',
                 httpOnly: true,
                 maxAge: +this.getVal('SESSION_AGE'),
                 secure: !this.isDev

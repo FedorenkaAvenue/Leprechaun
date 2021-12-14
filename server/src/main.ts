@@ -11,8 +11,18 @@ async function runServer() {
 	const app = await NestFactory.create(AppModule);
 
 	app
-		.use(session(ConfigService.getSessionConfig()))
 		.use(cookieParser())
+		.use(session(ConfigService.getSessionConfig()))
+		.use((req, res, next) => {
+			console.log(req.cookies);
+			
+			res
+				.append('Access-Control-Allow-Methods', 'GET, PUT, POST, DELETE')
+				.append('Access-Control-Allow-Headers', '*')
+				.append('Access-Control-Allow-Credentials', 'true')
+				.append("Access-Control-Allow-Origin", "*")
+			next();
+		})
 
 	if (!ConfigService.isDev) {
 		app.useGlobalFilters(new UncaughtExceptionFilter());

@@ -23,7 +23,7 @@ export class ProductService {
 		private readonly imageService: ImageService
 	) {}
 
-	async createProduct(newProduct: CreateProductDTO, images: Array<Express.Multer.File>): Promise<void> {		
+	async createProduct(newProduct: CreateProductDTO, images: Array<Express.Multer.File>): Promise<void> {
 		const { id } = await this.productRepo.save(new CreateProductDTOConstructor(newProduct));
 		
 		if (images) {
