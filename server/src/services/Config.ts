@@ -1,4 +1,5 @@
 import { TypeOrmModuleOptions } from '@nestjs/typeorm';
+import { SessionOptions } from 'express-session';
 import SMTPTransport from 'nodemailer/lib/smtp-transport';
 
 interface IHostingParams {
@@ -96,10 +97,26 @@ class ConfigService {
 
     /**
      * @description get development mail account
-     * @returns development mail account
      */
     getDevMailReciever(): string {
         return this.getVal('DEV_MAIL_RECIEVER');
+    }
+
+    /**
+     * @description get config for `express-session` package
+     */
+    getSessionConfig(): SessionOptions {
+        return ({
+            proxy: true,
+            secret: this.getVal('SESSION_COOKIE_SECRET'),
+            resave: false,
+            saveUninitialized: false,
+            cookie: {
+                httpOnly: true,
+                maxAge: +this.getVal('SESSION_AGE'),
+                secure: !this.isDev
+            }
+        });
     }
 }
 

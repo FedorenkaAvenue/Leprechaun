@@ -1,6 +1,6 @@
 import {
     Body, Controller, Delete, Get, Param, ParseUUIDPipe, Post,UploadedFiles,
-    UseInterceptors, Query, ValidationPipe
+    UseInterceptors, Query, ValidationPipe, Session
 } from '@nestjs/common';
 import {
     ApiBadRequestResponse, ApiNotFoundResponse, ApiOkResponse, ApiOperation,
@@ -36,8 +36,11 @@ export class ProductPublicController {
     @ApiPaginatedResponse(PublicProductDTO)
     getProducts(
         @Query() queries: ISearchReqQueries,
-        @Cookies() { portion, sort }: ICookies
+        @Cookies() { portion, sort }: ICookies,
+        @Session() session: Record<string, any>
     ): Promise<PaginationResultDTO<IPublicProduct>> {
+        console.log(session);
+        
         return this.productService.getPublicProducts(queries, { portion, sort });
     }
 

@@ -41,6 +41,8 @@ services:
       - MAIL_SMTP_PORT
       - MAIL_SENDER_ACCOUNT
       - MAIL_SENDER_PASSWORD
+      - SESSION_COOKIE_SECRET
+      - SESSION_AGE
     volumes:
       - image_hosting:/var/www/img:rw
     depends_on:
