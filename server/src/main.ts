@@ -14,9 +14,7 @@ async function runServer() {
 		.use(cookieParser())
 		.use(session(ConfigService.getSessionConfig()));
 
-	if (!ConfigService.isDev) {
-		app.useGlobalFilters(new UncaughtExceptionFilter());
-	}
+	if (!ConfigService.isDev) app.useGlobalFilters(new UncaughtExceptionFilter());
 
 	// Swagger
 	const config = new DocumentBuilder()

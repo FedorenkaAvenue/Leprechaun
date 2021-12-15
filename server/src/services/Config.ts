@@ -1,6 +1,9 @@
 import { TypeOrmModuleOptions } from '@nestjs/typeorm';
 import { SessionOptions } from 'express-session';
 import SMTPTransport from 'nodemailer/lib/smtp-transport';
+import * as RedisStore from 'connect-redis';
+import * as session from 'express-session';
+import { createClient, RedisClientOptions } from 'redis';
 
 interface IHostingParams {
     HOSTING_PATH: string
@@ -103,10 +106,27 @@ class ConfigService {
     }
 
     /**
+     * @description get config for RedisClient connection
+     * @param DBNumber number of Redis database
+     */
+    getRedisConfig(DBNumber: number): RedisClientOptions<any, any> {
+        return ({
+            url: `redis://${this.getVal('REDIS_HOST')}:${this.getVal('REDIS_PORT')}`,
+            username: this.getVal('REDIS_USER'),
+            password: this.getVal('REDIS_PASSWORD'),
+            database: DBNumber
+        });
+    }
+
+    /**
      * @description get config for `express-session` package
      */
     getSessionConfig(): SessionOptions {
         return ({
+            store: new (RedisStore(session))({
+                client: createClient(this.getRedisConfig(0)),
+                logErrors: true
+            }),
             secret: this.getVal('SESSION_COOKIE_SECRET'),
             resave: false,
             saveUninitialized: true,

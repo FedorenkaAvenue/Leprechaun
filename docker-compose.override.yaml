@@ -32,6 +32,8 @@ services:
       - POSTGRES_DATABASE
       - REDIS_HOST
       - REDIS_PORT
+      - REDIS_USER
+      - REDIS_PASSWORD
       - REDIS_SESSION_DB_NUMBER
       - REDIS_CASH_DB_NUMBER
       - HOSTING_PATH

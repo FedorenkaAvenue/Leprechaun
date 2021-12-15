@@ -101,8 +101,12 @@ export class ProductPublicController {
     @ApiBadRequestResponse({ description: 'invalid product ID' })
     @ApiNotFoundResponse({ description: 'product not found' })
     getProduct(
-        @Param('productId', ParseUUIDPipe) productId: string
+        @Param('productId', ParseUUIDPipe) productId: string,
+        @Session() session
     ): Promise<IPublicProduct> {
+        console.log(session);
+        session.visit = session.visit ? session.visit + 1 : 1;
+        
         return this.productService.getPublicProduct(productId);
     }
 }
