@@ -9,7 +9,7 @@ import { CategoryDto } from 'src/app/shared/models/categories.model';
 export class CategoryListComponent implements OnInit {
 
   @Input() categories: CategoryDto[];
-  @Output() onGoToCategProds = new EventEmitter<number>();
+  @Output() onGoToCategProds = new EventEmitter<string>();
   @Output() onRemoveCategory = new EventEmitter<number>();
 
   constructor() { }
@@ -17,8 +17,8 @@ export class CategoryListComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  public goToCategProds(id: number): void {
-    this.onGoToCategProds.emit(id)
+  public goToCategProds(url: string): void {
+    this.onGoToCategProds.emit(url)
   }
 
   public removeCategory(id: number): void {

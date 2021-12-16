@@ -1,17 +1,57 @@
 :host {
-    display: flex;
+  display: flex;
 }
 
 .text-control {
-    &__label {
+  &__label {
+  }
 
+  &__wrap {
+      position: relative;
+    &>svg {
+        position: absolute;
+        top: 50%;
+        left: 16px;
+        width: 16px;
+        height: 16px;
+        transform: translateY(-50%);
+        fill: #9e9ea7;
+      }
+  }
+
+  &__input {
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 28px;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    width: 100%;
+    height: 40px;
+    padding: 10px 16px 10px 40px;
+    transition: background-color 200ms ease, outline 200ms ease, color 200ms ease,
+      box-shadow 200ms ease;
+    border-radius: 8px;
+    outline: none;
+    background-color: #f3f3f4;
+    color: #0d0c22;
+    appearance: none;
+
+    &[type='search'] {
     }
-
-    &__wrap {
-
+    &:hover {
+      border-color: rgba(0, 0, 0, 0.1);
+      background-color: #fff;
+      box-shadow: 0 0 0 4px rgb(234 76 137 / 10%);
     }
-
-    &__input {
-
+    &:active {
+      border-color: #e7e7e9;
+      background-color: #fff;
+      box-shadow: none;
     }
+    &:focus {
+      border-color: rgba(234, 76, 137, 0.4);
+      background-color: #fff;
+      box-shadow: 0 0 0 4px rgb(234 76 137 / 10%);
+    }
+  }
 }

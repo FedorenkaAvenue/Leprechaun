@@ -1,5 +1,9 @@
 import { TypeOrmModuleOptions } from '@nestjs/typeorm';
+import { SessionOptions } from 'express-session';
 import SMTPTransport from 'nodemailer/lib/smtp-transport';
+import * as RedisStore from 'connect-redis';
+import * as session from 'express-session';
+import { createClient, RedisClientOptions } from 'redis';
 
 interface IHostingParams {
     HOSTING_PATH: string
@@ -96,10 +100,46 @@ class ConfigService {
 
     /**
      * @description get development mail account
-     * @returns development mail account
      */
     getDevMailReciever(): string {
         return this.getVal('DEV_MAIL_RECIEVER');
+    }
+
+    /**
+     * @description get config for RedisClient connection
+     * @param DBNumber number of Redis database
+     */
+    getRedisConfig(DBNumber: number): RedisClientOptions<any, any> {
+        return ({
+            url: `redis://${this.getVal('REDIS_HOST')}:${this.getVal('REDIS_PORT')}`,
+            username: this.getVal('REDIS_USER'),
+            password: this.getVal('REDIS_PASSWORD'),
+            database: DBNumber,
+            legacyMode: true
+        });
+    }
+
+    /**
+     * @description get config for `express-session` package
+     */
+    getSessionConfig(): SessionOptions {
+        const client = createClient(this.getRedisConfig(0));
+        client.connect();
+        const redisStore = RedisStore(session);
+
+        return ({
+            store: new redisStore({ client, logErrors: true }),
+            secret: this.getVal('SESSION_COOKIE_SECRET'),
+            resave: false,
+            saveUninitialized: false,
+            unset: 'destroy',
+            cookie: {
+                httpOnly: true,
+                maxAge: +this.getVal('SESSION_AGE'),
+                secure: !this.isDev
+            },
+            name: 'session'
+        });
     }
 }
 

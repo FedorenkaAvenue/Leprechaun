@@ -1,10 +1,14 @@
+@import "/src/styles/core/variables";
 .products-page {
-  max-width: 1320px;
+  max-width: $container-width;
   margin: 0 auto;
   &__wrapper {
-    background-color: azure;
+    background-color: transparent;
   }
   &__wrap {
     display: flex;
+  }
+  &__sorting {
+    max-width: 200px;
   }
 }
