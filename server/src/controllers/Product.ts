@@ -23,6 +23,7 @@ import { Cookies } from '@decorators/Cookies';
 import { ICookies } from '@interfaces/Cookies';
 import { UndefinedPipe } from '@pipes/Undefined';
 import { QueryArrayPipe } from '@pipes/QueryArray';
+import { ISession } from '@interfaces/Session';
 
 @Controller('product')
 @ApiTags('Product (client)')
@@ -102,11 +103,8 @@ export class ProductPublicController {
     @ApiNotFoundResponse({ description: 'product not found' })
     getProduct(
         @Param('productId', ParseUUIDPipe) productId: string,
-        @Session() session
+        @Session() session: ISession
     ): Promise<IPublicProduct> {
-        console.log(session);
-        session.visit = session.visit ? session.visit + 1 : 1;
-        
         return this.productService.getPublicProduct(productId);
     }
 }

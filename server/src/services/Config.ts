@@ -114,7 +114,8 @@ class ConfigService {
             url: `redis://${this.getVal('REDIS_HOST')}:${this.getVal('REDIS_PORT')}`,
             username: this.getVal('REDIS_USER'),
             password: this.getVal('REDIS_PASSWORD'),
-            database: DBNumber
+            database: DBNumber,
+            legacyMode: true
         });
     }
 
@@ -122,14 +123,16 @@ class ConfigService {
      * @description get config for `express-session` package
      */
     getSessionConfig(): SessionOptions {
+        const client = createClient(this.getRedisConfig(0));
+        client.connect();
+        const redisStore = RedisStore(session);
+
         return ({
-            store: new (RedisStore(session))({
-                client: createClient(this.getRedisConfig(0)),
-                logErrors: true
-            }),
+            store: new redisStore({ client, logErrors: true }),
             secret: this.getVal('SESSION_COOKIE_SECRET'),
             resave: false,
-            saveUninitialized: true,
+            saveUninitialized: false,
+            unset: 'destroy',
             cookie: {
                 httpOnly: true,
                 maxAge: +this.getVal('SESSION_AGE'),
