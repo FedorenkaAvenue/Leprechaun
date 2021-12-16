@@ -4,7 +4,7 @@
 
 Boilerplate for web store
 
-## Deploy(local)
+## Deploy
 
  * #### local
 
