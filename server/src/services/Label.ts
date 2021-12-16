@@ -6,9 +6,6 @@ import { CreateLabelDTO, CreateLabelDTOConstructor } from '@dto/Label';
 import { LabelEntity } from '@entities/Label';
 import { ILabel } from '@interfaces/Label';
 
-/**
- * @description /label controller service
- */
 @Injectable()
 export class LabelService {
     constructor(

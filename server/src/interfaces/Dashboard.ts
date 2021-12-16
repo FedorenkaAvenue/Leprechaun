@@ -8,5 +8,5 @@ export interface ICommonDashboards {
 }
 
 export interface IUserDashboards {
-    visited: TDashboard
+    history: TDashboard
 }

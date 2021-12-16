@@ -45,6 +45,7 @@ services:
       - MAIL_SENDER_PASSWORD
       - SESSION_COOKIE_SECRET
       - SESSION_AGE
+      - SESSION_MAX_HISTORY_LENGTH
     volumes:
       - image_hosting:/var/www/img:rw
     depends_on:

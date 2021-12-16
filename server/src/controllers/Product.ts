@@ -1,6 +1,6 @@
 import {
     Body, Controller, Delete, Get, Param, ParseUUIDPipe, Post,UploadedFiles,
-    UseInterceptors, Query, ValidationPipe, Session
+    UseInterceptors, Query, ValidationPipe
 } from '@nestjs/common';
 import {
     ApiBadRequestResponse, ApiNotFoundResponse, ApiOkResponse, ApiOperation,
@@ -24,11 +24,15 @@ import { ICookies } from '@interfaces/Cookies';
 import { UndefinedPipe } from '@pipes/Undefined';
 import { QueryArrayPipe } from '@pipes/QueryArray';
 import { ISession } from '@interfaces/Session';
+import ConfigService from '@services/Config';
+import { Session } from '@decorators/Session';
 
 @Controller('product')
 @ApiTags('Product (client)')
 export class ProductPublicController {
-    constructor(private readonly productService: ProductService) {}
+    constructor(
+        private readonly productService: ProductService
+    ) {}
 
     @Get('list')
     @UseInterceptors(EmptyResultInterceptor)
@@ -67,11 +71,9 @@ export class ProductPublicController {
     @ApiOperation({ summary: 'get individual user dashboards' })
     @ApiOkResponse({ type: UserDashboardsDTO })
     getMostPopularProducts(
-        @Session() session
+        @Session() session: ISession
     ): Promise<UserDashboardsDTO> {
-        console.log(session);
-        
-        return this.productService.getUserDashboards();
+        return this.productService.getUserDashboards(session.history);
     }
 
     @Get('/preview/list')
@@ -105,6 +107,12 @@ export class ProductPublicController {
         @Param('productId', ParseUUIDPipe) productId: string,
         @Session() session: ISession
     ): Promise<IPublicProduct> {
+        session.history =
+            [...new Set([
+                productId,
+                ...session.history.slice(0, +ConfigService.getVal('SESSION_MAX_HISTORY_LENGTH'))
+            ])];
+
         return this.productService.getPublicProduct(productId);
     }
 }

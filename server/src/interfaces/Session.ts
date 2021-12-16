@@ -1,5 +1,7 @@
+import { Cookie } from 'express-session';
 import { IProduct } from './Product';
 
 export interface ISession {
-    visit: Array<IProduct['id']>
+    cookie: Cookie
+    history: Array<IProduct['id']>
 }
