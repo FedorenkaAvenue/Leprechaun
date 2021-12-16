@@ -4,6 +4,9 @@ services:
   postgres:
     restart: on-failure:5
 
+  redis:
+    restart: on-failure:5
+
   server:
     restart: on-failure:5
     build:
@@ -26,6 +29,8 @@ services:
 
   nginx:
     restart: on-failure:5
+    build:
+      dockerfile: Dockerfile.prod
     ports:
       - 84:80
 

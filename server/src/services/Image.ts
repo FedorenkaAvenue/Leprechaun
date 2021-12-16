@@ -5,9 +5,6 @@ import { Repository } from 'typeorm';
 import { CreateImageDTO } from '@dto/Image';
 import { ImageEntity } from '@entities/Image';
 
-/**
- * @description ImageEntity service
- */
 @Injectable()
 export class ImageService {
     constructor(

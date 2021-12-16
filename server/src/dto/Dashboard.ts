@@ -10,7 +10,7 @@ interface ICommonDashboardsConstructor {
 }
 
 interface IUserDashboardsConstructor {
-    visited: Array<IProduct>
+    history: Array<IProductPreview>
 }
 
 export class CommonDashboardsDTO implements ICommonDashboards {
@@ -40,9 +40,9 @@ export class UserDashboardsDTO implements IUserDashboards {
         type: ProductPreviewDTO,
         isArray: true
     })
-    visited: IProductPreview[];
+    history: IProductPreview[];
 
-    constructor({ visited }: IUserDashboardsConstructor) {
-        // this.visited = visited.map(prod => new ProductPreviewDTO(prod));
+    constructor({ history }: IUserDashboardsConstructor) {
+        this.history = history;
     }
 }

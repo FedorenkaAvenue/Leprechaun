@@ -12,6 +12,7 @@ import { SearchQueriesDTO } from '@dto/Queries';
 import { PaginationResultDTO } from '@dto/Pagination';
 import { CommonDashboardsDTO, UserDashboardsDTO } from '@dto/Dashboard';
 import { IProduct, IProductPreview, IPublicProduct } from '@interfaces/Product';
+import { ISession } from '@interfaces/Session';
 
 const DASHBOARD_PORTION = 20;
 
@@ -23,7 +24,7 @@ export class ProductService {
 		private readonly imageService: ImageService
 	) {}
 
-	async createProduct(newProduct: CreateProductDTO, images: Array<Express.Multer.File>): Promise<void> {		
+	async createProduct(newProduct: CreateProductDTO, images: Array<Express.Multer.File>): Promise<void> {
 		const { id } = await this.productRepo.save(new CreateProductDTOConstructor(newProduct));
 		
 		if (images) {
@@ -93,10 +94,9 @@ export class ProductService {
 		return new CommonDashboardsDTO({ popular, newest });
 	}
 
-	// TODO
-	async getUserDashboards(): Promise<UserDashboardsDTO> {
+	async getUserDashboards(history: ISession['history']): Promise<UserDashboardsDTO> {		
 		return new UserDashboardsDTO({
-			visited: []
+			history: history.length ? await this.getProductPreviewList(history) : []
 		});
 	}
 

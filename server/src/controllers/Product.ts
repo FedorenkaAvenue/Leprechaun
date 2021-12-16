@@ -23,11 +23,16 @@ import { Cookies } from '@decorators/Cookies';
 import { ICookies } from '@interfaces/Cookies';
 import { UndefinedPipe } from '@pipes/Undefined';
 import { QueryArrayPipe } from '@pipes/QueryArray';
+import { ISession } from '@interfaces/Session';
+import ConfigService from '@services/Config';
+import { Session } from '@decorators/Session';
 
 @Controller('product')
 @ApiTags('Product (client)')
 export class ProductPublicController {
-    constructor(private readonly productService: ProductService) {}
+    constructor(
+        private readonly productService: ProductService
+    ) {}
 
     @Get('list')
     @UseInterceptors(EmptyResultInterceptor)
@@ -65,8 +70,10 @@ export class ProductPublicController {
     @Get('dashboard/user')
     @ApiOperation({ summary: 'get individual user dashboards' })
     @ApiOkResponse({ type: UserDashboardsDTO })
-    getMostPopularProducts(): Promise<UserDashboardsDTO> {
-        return this.productService.getUserDashboards();
+    getMostPopularProducts(
+        @Session() session: ISession
+    ): Promise<UserDashboardsDTO> {
+        return this.productService.getUserDashboards(session.history);
     }
 
     @Get('/preview/list')
@@ -97,8 +104,15 @@ export class ProductPublicController {
     @ApiBadRequestResponse({ description: 'invalid product ID' })
     @ApiNotFoundResponse({ description: 'product not found' })
     getProduct(
-        @Param('productId', ParseUUIDPipe) productId: string
+        @Param('productId', ParseUUIDPipe) productId: string,
+        @Session() session: ISession
     ): Promise<IPublicProduct> {
+        session.history =
+            [...new Set([
+                productId,
+                ...session.history.slice(0, +ConfigService.getVal('SESSION_MAX_HISTORY_LENGTH'))
+            ])];
+
         return this.productService.getPublicProduct(productId);
     }
 }
