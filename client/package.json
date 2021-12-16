@@ -9,6 +9,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve --port 80 --host 0.0.0.0 --disable-host-check --poll 500",
+    "serve:local": "ng serve --port 4201 --proxy-config proxy.local-conf.json",
     "ssr": "ng run universal-demo:serve-ssr ",
     "ssr:watch": "ng run universal-demo:serve-ssr:dev",
     "format:check": "prettier --write --config ./.prettierrc --list-different \"src/{app,environments,styles}/**/*{.ts,.json,.scss}\"",
@@ -44,6 +45,7 @@
     "@angular/router": "11.2.11",
     "@angular/service-worker": "11.2.11",
     "@gorniv/ngx-universal": "2.2.2",
+    "@ng-select/ng-select": "^6.1.0",
     "@ngneat/transloco": "^2.22.0",
     "@nguniversal/common": "11.2.1",
     "@nguniversal/express-engine": "11.2.1",

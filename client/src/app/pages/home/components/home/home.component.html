@@ -1,0 +1,12 @@
+<section class="home">
+    <div class="home__banner">   
+    </div>
+  <app-products-selection-list
+    [title]="'new'"
+    [products]="newProducts | async"
+  ></app-products-selection-list>
+  <app-products-selection-list
+    [title]="'popular'"
+    [products]="popularProducts | async"
+  ></app-products-selection-list>
+</section>

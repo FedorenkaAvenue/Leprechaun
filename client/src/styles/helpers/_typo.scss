@@ -1,4 +1,4 @@
-$default-font-family: Roboto, 'Helvetica Neue', sans-serif;
+$default-font-family: Roboto, 'Raleway', sans-serif;
 
 @mixin font($size, $weight: normal, $family: $default-font-family) {
   font-size: $size;

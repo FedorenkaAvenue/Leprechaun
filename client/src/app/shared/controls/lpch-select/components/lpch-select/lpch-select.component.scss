@@ -1,0 +1,64 @@
+::ng-deep .select.ng-select {
+  .ng-select-container {
+    cursor: pointer;
+    display: flex;
+    outline: none;
+    overflow: hidden;
+    position: relative;
+    width: 100%;
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    border-radius: 8px;
+    height: 40px;
+    padding: 10px 35px 10px 16px;
+    background: #fff;
+    &:hover {
+      border-color: rgba(0, 0, 0, 0.1);
+      box-shadow: 0 0 0 4px rgb(234 76 137 / 10%);
+    }
+    &:active {
+      border: 1px solid #e7e7e9;
+      box-shadow: none;
+    }
+    // background: rebeccapurple;
+    .ng-value-container {
+      .ng-input {
+      }
+    }
+  }
+  .ng-dropdown-panel {
+    position: absolute;
+    top: calc(100% + 8px);
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    border-radius: 8px;
+    background: #fff;
+    box-shadow: 0px 3px 5px rgb(0 0 0 / 4%);
+    padding: 10px 0px;
+    .ng-option {
+      padding: 8px 15px;
+      &:hover {
+        background-color: #e7e7e9;
+      }
+    }
+  }
+  .ng-arrow-wrapper {
+    position: absolute;
+    right: 10px;
+    width: 25px;
+    padding-right: 5px;
+    .ng-arrow {
+      width: 8px;
+      height: 8px;
+      border-top: 1px solid #999;
+      border-left: 1px solid #999;
+      transform: rotate(45deg);
+    }
+  }
+  &.ng-select-opened {
+    & > .ng-select-container {
+      .ng-arrow {
+        top: -2px;
+        transform: rotate(-135deg);
+      }
+    }
+  }
+}
