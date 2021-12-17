@@ -12,7 +12,7 @@ import { FilesInterceptor } from '@nestjs/platform-express';
 import { CreateProductDTO, ProductPreviewDTO, PublicProductDTO } from '@dto/Product';
 import { ProductEntity } from '@entities/Product';
 import { ProductService } from '@services/Product';
-import { AffectedInterceptor, NotFoundInterceptor, EmptyResultInterceptor } from '@interceptors/responce';
+import { AffectedInterceptor, NotFoundInterceptor, EmptyPaginationPageInterceptor } from '@interceptors/responce';
 import { ISearchReqQueries } from '@interfaces/Queries';
 import { PaginationDTO, PaginationResultDTO } from '@dto/Pagination';
 import { ApiPaginatedResponse } from '@decorators/Swagger';
@@ -36,7 +36,7 @@ export class ProductPublicController {
     ) {}
 
     @Get('list')
-    @UseInterceptors(EmptyResultInterceptor)
+    @UseInterceptors(EmptyPaginationPageInterceptor)
     @ApiQuery({ name: 'page', required: false, description: 'page number', type: 'number' })
     @ApiOperation({ summary: 'get all public products' })
     @ApiPaginatedResponse(PublicProductDTO)
@@ -48,7 +48,7 @@ export class ProductPublicController {
     }
 
     @Get('category/:categoryUrl')
-	@UseInterceptors(EmptyResultInterceptor)
+	@UseInterceptors(EmptyPaginationPageInterceptor)
 	@ApiOperation({ summary: 'get public products by category URL' })
     @ApiQuery({ name: 'page', required: false, description: 'page number', type: 'number' })
     @ApiNotFoundResponse({ description: 'category not found' })

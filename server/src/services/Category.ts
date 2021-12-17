@@ -11,7 +11,7 @@ import { ICategory, ICategoryPublic } from '@interfaces/Category';
 export class CategoryService {
 	constructor(
 		@InjectRepository(CategoryEntity) private readonly categoryRepo: Repository<CategoryEntity>,
-		private readonly multerModule: FSService
+		private readonly FSService: FSService
 	) {}
 
 	async getPublicCategories(): Promise<ICategoryPublic[]> {
@@ -51,7 +51,7 @@ export class CategoryService {
 		const { id } = await this.categoryRepo.save(new CreateCategoryDTOСonstructor(newCategory));
 
 		if (icon) {
-			const [ uploadedIcon ] = await this.multerModule.saveFiles(
+			const [ uploadedIcon ] = await this.FSService.saveFiles(
 				FOLDER_TYPES.CATEGORY,
 				id,
 				[ icon ]
@@ -67,7 +67,7 @@ export class CategoryService {
 	async deleteCategory(categoryId: number): Promise<DeleteResult> {
 		const res = await this.categoryRepo.delete({ id: categoryId });
 
-		this.multerModule.removeFolder(FOLDER_TYPES.CATEGORY, categoryId);
+		this.FSService.removeFolder(FOLDER_TYPES.CATEGORY, categoryId);
 
 		return res;
 	}

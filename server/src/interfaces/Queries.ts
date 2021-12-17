@@ -1,4 +1,4 @@
-import { ProductStatus } from "./Product";
+import { ProductStatus } from './Product';
 
 export interface IPriceSearchQuery {
     min: number,
@@ -17,7 +17,7 @@ export interface ISearchQueries {
 
 // queries from url
 export interface ISearchReqQueries {
-    page: string
-    price: string
-    status: ProductStatus
+    page: string | undefined
+    price: string | undefined
+    status: ProductStatus | undefined
 }
