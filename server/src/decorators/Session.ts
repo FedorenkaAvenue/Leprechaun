@@ -1,6 +1,7 @@
 import { createParamDecorator, ExecutionContext } from '@nestjs/common';
 
 import { ISession } from '@interfaces/Session';
+import { SessionDTO } from '@dto/Session';
 
 /**
  * @description get session object
@@ -8,10 +9,10 @@ import { ISession } from '@interfaces/Session';
  */
 export const Session = createParamDecorator(
     (_: any, ctx: ExecutionContext): ISession => {
-        const session: ISession = ctx.switchToHttp().getRequest().session;
+        const req = ctx.switchToHttp().getRequest();
 
-        session.history = session.history || [];
+        req.session = Object.assign(req.session, new SessionDTO(req.session));
 
-        return session;
+        return req.session;
     }
 );
