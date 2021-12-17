@@ -13,22 +13,26 @@ import { PaginationResultDTO } from '@dto/Pagination';
 import { CommonDashboardsDTO, UserDashboardsDTO } from '@dto/Dashboard';
 import { IProduct, IProductPreview, IPublicProduct } from '@interfaces/Product';
 import { ISession } from '@interfaces/Session';
-
-const DASHBOARD_PORTION = 20;
+import { ConfigService } from './Config';
 
 @Injectable()
 export class ProductService {
+	dashboardPortion: number;
+
     constructor(
 		@InjectRepository(ProductEntity) private readonly productRepo: Repository<ProductEntity>,
-		private readonly multerModule: FSService,
-		private readonly imageService: ImageService
-	) {}
+		private readonly FSService: FSService,
+		private readonly imageService: ImageService,
+		private readonly configService: ConfigService
+	) {
+		this.dashboardPortion = +this.configService.getVal('DASHBOARD_PORTION');
+	}
 
 	async createProduct(newProduct: CreateProductDTO, images: Array<Express.Multer.File>): Promise<void> {
 		const { id } = await this.productRepo.save(new CreateProductDTOConstructor(newProduct));
 		
 		if (images) {
-			const uploadedImgArr = await this.multerModule.saveFiles(FOLDER_TYPES.PRODUCT, id, images);
+			const uploadedImgArr = await this.FSService.saveFiles(FOLDER_TYPES.PRODUCT, id, images);
 
 			this.imageService.addImageArr(id, uploadedImgArr);
 		}
@@ -81,12 +85,12 @@ export class ProductService {
 		const [ popular, newest ] = await Promise.all([
 			this.productRepo.find({
 				where: { is_public: true },
-				take: DASHBOARD_PORTION,
+				take: this.dashboardPortion,
 				order: { rating: 'DESC' }
 			}),
 			this.productRepo.find({
 				where: { is_public: true },
-				take: DASHBOARD_PORTION,
+				take: this.dashboardPortion,
 				order: { created_at: 'DESC' }
 			})
 		]);
@@ -137,7 +141,7 @@ export class ProductService {
 	async deleteProduct(productId: string): Promise<DeleteResult> {
 		const res = await this.productRepo.delete({ id: productId });
 
-		this.multerModule.removeFolder(FOLDER_TYPES.PRODUCT, productId);
+		this.FSService.removeFolder(FOLDER_TYPES.PRODUCT, productId);
 
 		return res;
 	}

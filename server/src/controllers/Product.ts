@@ -24,14 +24,15 @@ import { ICookies } from '@interfaces/Cookies';
 import { UndefinedPipe } from '@pipes/Undefined';
 import { QueryArrayPipe } from '@pipes/QueryArray';
 import { ISession } from '@interfaces/Session';
-import ConfigService from '@services/Config';
+import { ConfigService } from '@services/Config';
 import { Session } from '@decorators/Session';
 
 @Controller('product')
 @ApiTags('Product (client)')
 export class ProductPublicController {
     constructor(
-        private readonly productService: ProductService
+        private readonly productService: ProductService,
+        private readonly configService: ConfigService
     ) {}
 
     @Get('list')
@@ -110,7 +111,7 @@ export class ProductPublicController {
         session.history =
             [...new Set([
                 productId,
-                ...session.history.slice(0, +ConfigService.getVal('SESSION_MAX_HISTORY_LENGTH'))
+                ...session.history.slice(0, +this.configService.getVal('SESSION_MAX_HISTORY_LENGTH'))
             ])];
 
         return this.productService.getPublicProduct(productId);

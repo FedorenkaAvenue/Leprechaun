@@ -7,6 +7,7 @@ import { PropertyGroupModule } from './PropertyGroup';
 import { PropertyModule } from './Property';
 import { ImageModule } from './Image';
 import { LabelModule } from './Label';
+import { ToolModule } from './Tool';
 // import { SearchModule } from './Search';
 // import { UserModule } from './User';
 // import { OrderModule } from './Order';
@@ -25,6 +26,7 @@ import ConfigService from '@services/Config';
 		// UserModule,
 		// OrderModule,
 		// FilterModule,
+		ToolModule,
 		TypeOrmModule.forRoot(ConfigService.getTypeOrmConfig())
 	]
 })

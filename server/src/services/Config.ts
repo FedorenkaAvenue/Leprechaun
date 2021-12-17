@@ -4,6 +4,7 @@ import SMTPTransport from 'nodemailer/lib/smtp-transport';
 import * as RedisStore from 'connect-redis';
 import * as session from 'express-session';
 import { createClient, RedisClientOptions } from 'redis';
+import { Injectable } from '@nestjs/common';
 
 interface IHostingParams {
     HOSTING_PATH: string
@@ -13,7 +14,8 @@ interface IHostingParams {
  * @description configuration service (esp working with a environment variables)
  * @property {Boolean} isDev is development environment
  */
-class ConfigService {
+@Injectable()
+export class ConfigService {
     isDev: boolean;
 
     constructor() {
