@@ -5,8 +5,8 @@ import { DeleteResult } from 'typeorm';
 import { CreateLabelDTO } from '@dto/Label';
 import { LabelEntity } from '@entities/Label';
 import { LabelService } from '@services/Label';
-import { AffectedInterceptor } from '@interceptors/responce';
 import { ILabel } from '@interfaces/Label';
+import AffectedResultInterceptor from '@interceptors/AffectedResult';
 
 @Controller('adm/label')
 @ApiTags('Label (admin)')
@@ -29,7 +29,7 @@ export class LabelAdminController {
     }
 
     @Delete(':label')
-    @UseInterceptors(AffectedInterceptor)
+    @UseInterceptors(AffectedResultInterceptor)
     @ApiOperation({ summary: 'delete label by ID' })
     @ApiNotFoundResponse()
     deleteLabel(

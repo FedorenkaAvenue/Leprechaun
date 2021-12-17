@@ -5,7 +5,6 @@ import {
 import { ApiProperty } from '@nestjs/swagger';
 
 import { IOrder } from '@interfaces/Order';
-import { UserEntity } from './User';
 import { ProductEntity } from './Product';
 
 @Entity('order')
@@ -21,15 +20,6 @@ export class OrderEntity implements IOrder {
     @Column()
     @ApiProperty({ description: 'product amount', required: false })
     amount: number;
-
-    @OneToOne(
-        () => UserEntity,
-        ({ id }) => id,
-        { onDelete: 'CASCADE' }
-    )
-    @JoinColumn({ name: 'user_id' })
-    @ApiProperty({ required: false })
-    user_id: string;
 
     @ManyToOne(
         () => ProductEntity,

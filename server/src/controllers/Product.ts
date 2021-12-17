@@ -12,7 +12,6 @@ import { FilesInterceptor } from '@nestjs/platform-express';
 import { CreateProductDTO, ProductPreviewDTO, PublicProductDTO } from '@dto/Product';
 import { ProductEntity } from '@entities/Product';
 import { ProductService } from '@services/Product';
-import { AffectedInterceptor, NotFoundInterceptor, EmptyPaginationPageInterceptor } from '@interceptors/responce';
 import { ISearchReqQueries } from '@interfaces/Queries';
 import { PaginationDTO, PaginationResultDTO } from '@dto/Pagination';
 import { ApiPaginatedResponse } from '@decorators/Swagger';
@@ -26,6 +25,9 @@ import { QueryArrayPipe } from '@pipes/QueryArray';
 import { ISession } from '@interfaces/Session';
 import { ConfigService } from '@services/Config';
 import { Session } from '@decorators/Session';
+import InvalidPaginationPageInterceptor from '@interceptors/InvalidPaginationPage';
+import UndefinedResultInterceptor from '@interceptors/UndefinedResult';
+import AffectedResultInterceptor from '@interceptors/AffectedResult';
 
 @Controller('product')
 @ApiTags('Product (client)')
@@ -36,7 +38,7 @@ export class ProductPublicController {
     ) {}
 
     @Get('list')
-    @UseInterceptors(EmptyPaginationPageInterceptor)
+    @UseInterceptors(InvalidPaginationPageInterceptor)
     @ApiQuery({ name: 'page', required: false, description: 'page number', type: 'number' })
     @ApiOperation({ summary: 'get all public products' })
     @ApiPaginatedResponse(PublicProductDTO)
@@ -48,7 +50,7 @@ export class ProductPublicController {
     }
 
     @Get('category/:categoryUrl')
-	@UseInterceptors(EmptyPaginationPageInterceptor)
+	@UseInterceptors(InvalidPaginationPageInterceptor)
 	@ApiOperation({ summary: 'get public products by category URL' })
     @ApiQuery({ name: 'page', required: false, description: 'page number', type: 'number' })
     @ApiNotFoundResponse({ description: 'category not found' })
@@ -72,9 +74,9 @@ export class ProductPublicController {
     @ApiOperation({ summary: 'get individual user dashboards' })
     @ApiOkResponse({ type: UserDashboardsDTO })
     getMostPopularProducts(
-        @Session() session: ISession
+        @Session() { history }: ISession
     ): Promise<UserDashboardsDTO> {
-        return this.productService.getUserDashboards(session.history);
+        return this.productService.getUserDashboards({ history });
     }
 
     @Get('/preview/list')
@@ -135,7 +137,7 @@ export class ProductAdminController {
     }
 
     @Get(':productId')
-    @UseInterceptors(NotFoundInterceptor)
+    @UseInterceptors(UndefinedResultInterceptor)
     @ApiOperation({ summary: 'get product by ID' })
     @ApiOkResponse({ type: PublicProductDTO })
     @ApiBadRequestResponse({ description: 'invalid product ID' })
@@ -152,7 +154,7 @@ export class ProductAdminController {
     @ApiServiceUnavailableResponse({ type: ProductEntity, description: 'never mind. it\'s a bug for feature' })
     // ! 
     @Delete(':productId')
-    @UseInterceptors(AffectedInterceptor)
+    @UseInterceptors(AffectedResultInterceptor)
     @ApiOperation({ summary: 'delete product by ID' })
     @ApiOkResponse({ description: 'success' })
     @ApiBadRequestResponse({ description: 'invalid product ID' })

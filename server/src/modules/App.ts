@@ -9,7 +9,6 @@ import { ImageModule } from './Image';
 import { LabelModule } from './Label';
 import { ToolModule } from './Tool';
 // import { SearchModule } from './Search';
-// import { UserModule } from './User';
 // import { OrderModule } from './Order';
 // import { FilterModule } from './Filter';
 import ConfigService from '@services/Config';
@@ -23,7 +22,6 @@ import ConfigService from '@services/Config';
 		ImageModule,
 		LabelModule,
 		// SearchModule,
-		// UserModule,
 		// OrderModule,
 		// FilterModule,
 		ToolModule,

@@ -12,8 +12,8 @@ import { SearchQueriesDTO } from '@dto/Queries';
 import { PaginationResultDTO } from '@dto/Pagination';
 import { CommonDashboardsDTO, UserDashboardsDTO } from '@dto/Dashboard';
 import { IProduct, IProductPreview, IPublicProduct } from '@interfaces/Product';
-import { ISession } from '@interfaces/Session';
 import { ConfigService } from './Config';
+import { IUserDashboards } from '@interfaces/Dashboard';
 
 @Injectable()
 export class ProductService {
@@ -98,7 +98,7 @@ export class ProductService {
 		return new CommonDashboardsDTO({ popular, newest });
 	}
 
-	async getUserDashboards(history: ISession['history']): Promise<UserDashboardsDTO> {		
+	async getUserDashboards({ history }: IUserDashboards<string[]>): Promise<UserDashboardsDTO> {
 		return new UserDashboardsDTO({
 			history: history.length ? await this.getProductPreviewList(history) : []
 		});

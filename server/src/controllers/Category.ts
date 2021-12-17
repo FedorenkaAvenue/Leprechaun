@@ -1,19 +1,20 @@
 import {
-	Controller, Get, Param, Body, UseInterceptors, Delete, Patch, Post, UploadedFile, ValidationPipe
+	Controller, Get, Param, Body, UseInterceptors, Delete, Post, UploadedFile, ValidationPipe
 } from '@nestjs/common';
 import {
 	ApiCreatedResponse, ApiNotFoundResponse, ApiOkResponse,
 	ApiOperation, ApiTags, OmitType
 } from '@nestjs/swagger';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { DeleteResult, UpdateResult } from 'typeorm';
+import { DeleteResult } from 'typeorm';
 
-import { NotFoundInterceptor, AffectedInterceptor } from '@interceptors/responce';
 import { CategoryService } from '@services/Category';
 import { CategoryEntity } from '@entities/Category';
 import { CategoryPublicDTO, CreateCategoryDTO } from '@dto/Category';
 import { FSService } from '@services/FS';
 import { ICategory, ICategoryPublic } from '@interfaces/Category';
+import UndefinedResultInterceptor from '@interceptors/UndefinedResult';
+import AffectedResultInterceptor from '@interceptors/AffectedResult';
 
 const TCategoryAdmin = OmitType(CategoryEntity, ['products']);
 
@@ -67,7 +68,7 @@ export class CategoryAdminController {
 	}
 
 	@Get(':category')
-	@UseInterceptors(NotFoundInterceptor)
+	@UseInterceptors(UndefinedResultInterceptor)
 	@ApiOperation({ summary: 'get category info by URL' })
 	@ApiOkResponse({ type: TCategoryAdmin })
 	@ApiNotFoundResponse({ description: 'category not found' })
@@ -78,7 +79,7 @@ export class CategoryAdminController {
 	}
 
 	@Delete(':category')
-	@UseInterceptors(AffectedInterceptor)
+	@UseInterceptors(AffectedResultInterceptor)
 	@ApiOperation({ summary: 'delete category by ID' })
 	@ApiOkResponse({ description: 'success' })
 	@ApiNotFoundResponse({ description: 'category not found' })

@@ -5,8 +5,9 @@ import { DeleteResult } from 'typeorm';
 import { CreatePropertyGroupDTO } from '@dto/PropertyGroup';
 import { ProductGroupBaseEntity, PropertyGroupEntity } from '@entities/PropertGroup';
 import { PropertyGroupService } from '@services/PropertyGroup';
-import { AffectedInterceptor, NotFoundInterceptor } from '@interceptors/responce';
 import { IPropertyGroup } from '@interfaces/PropertyGroup';
+import AffectedResultInterceptor from '@interceptors/AffectedResult';
+import UndefinedResultInterceptor from '@interceptors/UndefinedResult';
 
 @Controller('adm/propertygroup')
 @ApiTags('Property group (admin)')
@@ -30,7 +31,7 @@ export class PropertyGroupAdminController {
     }
 
     @Get(':groupId')
-    @UseInterceptors(NotFoundInterceptor)
+    @UseInterceptors(UndefinedResultInterceptor)
     @ApiOperation({ summary: 'get property group by ID' })
     @ApiOkResponse({ type: PropertyGroupEntity })
     getGroup(
@@ -40,7 +41,7 @@ export class PropertyGroupAdminController {
     }
 
     @Delete(':groupId')
-    @UseInterceptors(AffectedInterceptor)
+    @UseInterceptors(AffectedResultInterceptor)
     @ApiOperation({ summary: 'delete property group by ID' })
     deleteGroup(
         @Param('groupId') groupId: number

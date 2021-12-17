@@ -5,8 +5,9 @@ import { DeleteResult } from 'typeorm';
 import { CreatePropertyDTO } from '@dto/Property';
 import { PropertyEntity } from '@entities/Property';
 import { PropertyService } from '@services/Property';
-import { AffectedInterceptor, NotFoundInterceptor } from '@interceptors/responce';
 import { IProperty } from '@interfaces/Property';
+import AffectedResultInterceptor from '@interceptors/AffectedResult';
+import UndefinedResultInterceptor from '@interceptors/UndefinedResult';
 
 @Controller('adm/property')
 @ApiTags('Property (admin)')
@@ -23,7 +24,7 @@ export class PropertyAdminController {
     }
 
     @Get(':propertyId')
-    @UseInterceptors(NotFoundInterceptor)
+    @UseInterceptors(UndefinedResultInterceptor)
     @ApiOperation({ summary: 'get property by ID' })
     @ApiOkResponse({ type: PropertyEntity })
     getProperty(
@@ -33,7 +34,7 @@ export class PropertyAdminController {
     }
 
     @Delete(':propertyId')
-    @UseInterceptors(AffectedInterceptor)
+    @UseInterceptors(AffectedResultInterceptor)
     @ApiOperation({ summary: 'delete property by ID' })
     deleteProperty(
         @Param('propertyId') propertyId: number
