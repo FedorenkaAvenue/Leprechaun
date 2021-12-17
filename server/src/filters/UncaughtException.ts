@@ -2,7 +2,7 @@ import { ExceptionFilter, Catch, ArgumentsHost, InternalServerErrorException } f
 import { Request, Response } from 'express';
 import { QueryFailedError } from 'typeorm';
 
-import MailService from '@services/Mail';
+import { singleMailSerbice } from '@services/Mail';
 import { DevLogMailDTO } from '@dto/Mail';
 
 /**
@@ -21,7 +21,7 @@ export class UncaughtExceptionFilter implements ExceptionFilter {
 			url, cookies, method, body, stack, message, ip, timestamp
 		});
 
-		MailService.sendErrorLogMail(log);
+		singleMailSerbice.sendErrorLogMail(log);
 		console.error(log);
 
 		response.sendStatus(500);

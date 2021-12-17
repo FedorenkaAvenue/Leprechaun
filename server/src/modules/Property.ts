@@ -12,4 +12,4 @@ import { PropertyService } from '@services/Property';
 	controllers: [ PropertyAdminController ],
 	providers: [ PropertyService ],
 })
-export class PropertyModule {}
+export default class PropertyModule {}

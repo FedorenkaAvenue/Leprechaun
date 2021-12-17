@@ -10,4 +10,4 @@ import { LabelService } from '@services/Label';
 	controllers: [ LabelAdminController ],
 	providers: [ LabelService ],
 })
-export class LabelModule {}
+export default class LabelModule {}

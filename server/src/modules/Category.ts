@@ -13,9 +13,6 @@ import { FSService } from '@services/FS';
 		MulterModule.registerAsync({ useClass: FSService })
 	],
 	controllers: [ CategoryPublicController, CategoryAdminController ],
-	providers: [
-		CategoryService,
-		FSService
-	],
+	providers: [ CategoryService, FSService ],
 })
-export class CategoryModule {}
+export default class CategoryModule {}

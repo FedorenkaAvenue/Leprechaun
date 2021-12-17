@@ -12,7 +12,7 @@ import { SearchQueriesDTO } from '@dto/Queries';
 import { PaginationResultDTO } from '@dto/Pagination';
 import { CommonDashboardsDTO, UserDashboardsDTO } from '@dto/Dashboard';
 import { IProduct, IProductPreview, IPublicProduct } from '@interfaces/Product';
-import { ConfigService } from './Config';
+import ConfigService from './Config';
 import { IUserDashboards } from '@interfaces/Dashboard';
 
 @Injectable()

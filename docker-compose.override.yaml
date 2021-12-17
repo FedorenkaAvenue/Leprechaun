@@ -47,6 +47,7 @@ services:
       - SESSION_AGE
       - SESSION_MAX_HISTORY_LENGTH
       - DASHBOARD_PORTION
+      - DEFAULT_CACHE_TTL
     volumes:
       - image_hosting:/var/www/img:rw
     depends_on:

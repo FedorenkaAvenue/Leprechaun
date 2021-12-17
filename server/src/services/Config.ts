@@ -4,7 +4,8 @@ import SMTPTransport from 'nodemailer/lib/smtp-transport';
 import * as RedisStore from 'connect-redis';
 import * as session from 'express-session';
 import { createClient, RedisClientOptions } from 'redis';
-import { Injectable } from '@nestjs/common';
+import { CacheModuleOptions, Injectable } from '@nestjs/common';
+import * as redisCacheStore from 'cache-manager-redis-store';
 
 interface IHostingParams {
     HOSTING_PATH: string
@@ -15,7 +16,7 @@ interface IHostingParams {
  * @property {Boolean} isDev is development environment
  */
 @Injectable()
-export class ConfigService {
+export default class ConfigService {
     isDev: boolean;
 
     constructor() {
@@ -125,7 +126,9 @@ export class ConfigService {
      * @description get config for `express-session` package
      */
     getSessionConfig(): SessionOptions {
-        const client = createClient(this.getRedisConfig(0));
+        const client = createClient(
+            this.getRedisConfig(+this.getVal('REDIS_SESSION_DB_NUMBER'))
+        );
         client.connect();
         const redisStore = RedisStore(session);
 
@@ -143,6 +146,22 @@ export class ConfigService {
             name: 'session'
         });
     }
+
+    /**
+     * @description get cache manager config
+     */
+    getCacheStoreCongig(): CacheModuleOptions {
+        return ({
+            //@ts-ignore
+            store: redisCacheStore,
+            host: this.getVal('REDIS_HOST'),
+            port: this.getVal('REDIS_PORT'),
+            auth_pass: this.getVal('REDIS_PASSWORD'),
+            ttl: +this.getVal('DEFAULT_CACHE_TTL'),
+            max: 1000,
+            db: +this.getVal('REDIS_CASH_DB_NUMBER')
+        });
+    }
 }
 
-export default new ConfigService();
+export const singleConfigServie = new ConfigService();

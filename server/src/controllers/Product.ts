@@ -1,6 +1,6 @@
 import {
     Body, Controller, Delete, Get, Param, ParseUUIDPipe, Post,UploadedFiles,
-    UseInterceptors, Query, ValidationPipe
+    UseInterceptors, Query, ValidationPipe, CacheInterceptor, CacheKey
 } from '@nestjs/common';
 import {
     ApiBadRequestResponse, ApiNotFoundResponse, ApiOkResponse, ApiOperation,
@@ -23,7 +23,7 @@ import { ICookies } from '@interfaces/Cookies';
 import { UndefinedPipe } from '@pipes/Undefined';
 import { QueryArrayPipe } from '@pipes/QueryArray';
 import { ISession } from '@interfaces/Session';
-import { ConfigService } from '@services/Config';
+import ConfigService from '@services/Config';
 import { Session } from '@decorators/Session';
 import InvalidPaginationPageInterceptor from '@interceptors/InvalidPaginationPage';
 import UndefinedResultInterceptor from '@interceptors/UndefinedResult';
@@ -64,7 +64,9 @@ export class ProductPublicController {
 	}
 
     @Get('dashboard/common')
-    @ApiOperation({ summary: 'get common dashboards' })
+    @UseInterceptors(CacheInterceptor)
+    @CacheKey('/product/dashboard/common')
+    @ApiOperation({ summary: 'get common dashboards (cached)' })
     @ApiOkResponse({ type: CommonDashboardsDTO })
     getCommonDashboards(): Promise<CommonDashboardsDTO> {
         return this.productService.getCommonDashboards();

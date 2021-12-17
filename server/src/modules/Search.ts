@@ -6,9 +6,6 @@ import ManticoreService from '@services/Manticore';
 
 @Module({
 	controllers: [ SearchController ],
-	providers: [
-		SearchService,
-        ManticoreService
-	],
+	providers: [ SearchService, ManticoreService ]
 })
-export class SearchModule {}
+export default class SearchModule {}

@@ -5,7 +5,7 @@ import { memoryStorage } from 'multer';
 import { promises } from 'fs';
 import { extname } from 'path';
 
-import { ConfigService } from '@services/Config';
+import ConfigService from '@services/Config';
 
 export enum FOLDER_TYPES {
     CATEGORY = 'img/category/',

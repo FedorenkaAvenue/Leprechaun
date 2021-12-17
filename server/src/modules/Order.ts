@@ -11,4 +11,4 @@ import { OrderService } from '@services/Order';
 	providers: [ OrderService ],
 	exports: [ OrderService ]
 })
-export class OrderModule {}
+export default class OrderModule {}

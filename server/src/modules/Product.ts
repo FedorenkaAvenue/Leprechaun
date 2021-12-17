@@ -6,17 +6,15 @@ import { ProductAdminController, ProductPublicController } from '@controllers/Pr
 import { ProductEntity } from '@entities/Product';
 import { ProductService } from '@services/Product';
 import { FSService } from '@services/FS';
-import { ImageModule } from '@modules/Image';
-import { ToolModule } from './Tool';
+import ImageModule from '@modules/Image';
 
 @Module({
 	imports: [
 		TypeOrmModule.forFeature([ProductEntity]),
 		MulterModule.registerAsync({ useClass: FSService }),
-		ImageModule,
-		ToolModule
+		ImageModule
 	],
 	controllers: [ ProductPublicController, ProductAdminController ],
 	providers: [ ProductService, FSService ]
 })
-export class ProductModule {}
+export default class ProductModule {}
