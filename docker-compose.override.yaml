@@ -1,6 +1,20 @@
 version: '3.8'
 
 services:
+  nginx:
+    container_name: leprechaun_nginx
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+      args:
+        - HOSTING_PATH
+    volumes:
+      - image_hosting:/var/www/img:rw
+      - ./nginx/.http_auth:/etc/nginx/.http_auth
+    depends_on:
+      - admin
+      - client
+
   postgres:
     container_name: leprechaun_postgres
     build: ./postgres
@@ -69,20 +83,6 @@ services:
       - PORT=80
     depends_on:
       - server
-
-  nginx:
-    container_name: leprechaun_nginx
-    build:
-      context: ./nginx
-      dockerfile: Dockerfile
-      args:
-        - HOSTING_PATH
-    volumes:
-      - image_hosting:/var/www/img:rw
-      - ./nginx/.http_auth:/etc/nginx/.http_auth
-    depends_on:
-      - admin
-      - client
 
   admin:
     container_name: leprechaun_admin

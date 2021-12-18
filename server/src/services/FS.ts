@@ -6,6 +6,7 @@ import { promises } from 'fs';
 import { extname } from 'path';
 
 import ConfigService from '@services/Config';
+import genUUID from '@utils/genUUID';
 
 export enum FOLDER_TYPES {
     CATEGORY = 'img/category/',
@@ -51,7 +52,7 @@ export class FSService implements MulterOptionsFactory {
     }
 
     /**
-     * @description save array of files
+     * @description save array of files with hashing filenames
      * @param itemType folder type (with existing path)
      * @param folderId folder name
      * @param files array of binary files
@@ -68,7 +69,8 @@ export class FSService implements MulterOptionsFactory {
             await promises.mkdir(itemDirPath, { recursive: true });
     
             return await Promise.all(files.map(async ({ originalname, buffer }) => {
-                const imageHref = `${itemType}${folderId}/${originalname}`;
+                const newFileName = genUUID() + extname(originalname);
+                const imageHref = `${itemType}${folderId}/${newFileName}`;
     
                 await promises.appendFile(`${this.hostingPath}/${imageHref}`, buffer);
     
