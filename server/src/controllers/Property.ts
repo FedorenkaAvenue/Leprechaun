@@ -10,7 +10,7 @@ import AffectedResultInterceptor from '@interceptors/AffectedResult';
 import UndefinedResultInterceptor from '@interceptors/UndefinedResult';
 
 @Controller('adm/property')
-@ApiTags('Property (admin)')
+@ApiTags('Property 🤵🏿‍♂️')
 export class PropertyAdminController {
     constructor(private readonly propertyService: PropertyService) {}
 

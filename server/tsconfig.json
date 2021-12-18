@@ -25,7 +25,8 @@
       "@decorators/*": ["decorators/*"],
       "@templates/*": ["templates/*"],
       "@pipes/*": ["pipes/*"],
-      "@utils/*": ["utils/*"]
+      "@utils/*": ["utils/*"],
+      "@filters/*": ["filters/*"]
     },
   }
 }

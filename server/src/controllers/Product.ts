@@ -1,6 +1,6 @@
 import {
     Body, Controller, Delete, Get, Param, ParseUUIDPipe, Post,UploadedFiles,
-    UseInterceptors, Query, ValidationPipe
+    UseInterceptors, Query, ValidationPipe, CacheInterceptor
 } from '@nestjs/common';
 import {
     ApiBadRequestResponse, ApiNotFoundResponse, ApiOkResponse, ApiOperation,
@@ -23,14 +23,14 @@ import { ICookies } from '@interfaces/Cookies';
 import { UndefinedPipe } from '@pipes/Undefined';
 import { QueryArrayPipe } from '@pipes/QueryArray';
 import { ISession } from '@interfaces/Session';
-import { ConfigService } from '@services/Config';
+import ConfigService from '@services/Config';
 import { Session } from '@decorators/Session';
 import InvalidPaginationPageInterceptor from '@interceptors/InvalidPaginationPage';
 import UndefinedResultInterceptor from '@interceptors/UndefinedResult';
 import AffectedResultInterceptor from '@interceptors/AffectedResult';
 
 @Controller('product')
-@ApiTags('Product (client)')
+@ApiTags('Product 🧑‍💻')
 export class ProductPublicController {
     constructor(
         private readonly productService: ProductService,
@@ -38,9 +38,10 @@ export class ProductPublicController {
     ) {}
 
     @Get('list')
+    @UseInterceptors(CacheInterceptor)
     @UseInterceptors(InvalidPaginationPageInterceptor)
     @ApiQuery({ name: 'page', required: false, description: 'page number', type: 'number' })
-    @ApiOperation({ summary: 'get all public products' })
+    @ApiOperation({ summary: 'get all public products 💾' })
     @ApiPaginatedResponse(PublicProductDTO)
     getProducts(
         @Query() queries: ISearchReqQueries,
@@ -50,8 +51,9 @@ export class ProductPublicController {
     }
 
     @Get('category/:categoryUrl')
+    @UseInterceptors(CacheInterceptor)
 	@UseInterceptors(InvalidPaginationPageInterceptor)
-	@ApiOperation({ summary: 'get public products by category URL' })
+	@ApiOperation({ summary: 'get public products by category URL 💾' })
     @ApiQuery({ name: 'page', required: false, description: 'page number', type: 'number' })
     @ApiNotFoundResponse({ description: 'category not found' })
 	@ApiPaginatedResponse(PublicProductDTO)
@@ -64,7 +66,8 @@ export class ProductPublicController {
 	}
 
     @Get('dashboard/common')
-    @ApiOperation({ summary: 'get common dashboards' })
+    @UseInterceptors(CacheInterceptor)
+    @ApiOperation({ summary: 'get common dashboards 💾' })
     @ApiOkResponse({ type: CommonDashboardsDTO })
     getCommonDashboards(): Promise<CommonDashboardsDTO> {
         return this.productService.getCommonDashboards();
@@ -91,7 +94,8 @@ export class ProductPublicController {
     }
 
     @Get('/preview/:productId')
-    @ApiOperation({ summary: 'get product preview by ID' })
+    @UseInterceptors(CacheInterceptor)
+    @ApiOperation({ summary: 'get product preview by ID 💾' })
     @ApiOkResponse({ type: ProductPreviewDTO })
     @ApiBadRequestResponse({ description: 'invalid product ID' })
     @ApiNotFoundResponse({ description: 'product not found' })
@@ -102,7 +106,8 @@ export class ProductPublicController {
     }
 
     @Get(':productId')
-    @ApiOperation({ summary: 'get public product by ID' })
+    @UseInterceptors(CacheInterceptor)
+    @ApiOperation({ summary: 'get public product by ID 💾' })
     @ApiOkResponse({ type: PublicProductDTO })
     @ApiBadRequestResponse({ description: 'invalid product ID' })
     @ApiNotFoundResponse({ description: 'product not found' })
@@ -113,7 +118,7 @@ export class ProductPublicController {
         session.history =
             [...new Set([
                 productId,
-                ...session.history.slice(0, +this.configService.getVal('SESSION_MAX_HISTORY_LENGTH'))
+                ...session.history.slice(0, +this.configService.getVal('USER_HISTORY_LENGTH'))
             ])];
 
         return this.productService.getPublicProduct(productId);
@@ -121,7 +126,7 @@ export class ProductPublicController {
 }
 
 @Controller('adm/product')
-@ApiTags('Product (admin)')
+@ApiTags('Product 🤵🏿‍♂️')
 export class ProductAdminController {
     constructor(private readonly productService: ProductService) {}
 

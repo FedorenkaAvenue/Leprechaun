@@ -11,4 +11,4 @@ import { CategoryEntity } from '@entities/Category';
 	providers: [ FilterService ],
 	exports: [ FilterService ]
 })
-export class FilterModule {}
+export default class FilterModule {}

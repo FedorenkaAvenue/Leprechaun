@@ -12,4 +12,4 @@ import { PropertyGroupEntity } from '@entities/PropertGroup';
 	controllers: [ PropertyGroupAdminController ],
 	providers: [ PropertyGroupService ],
 })
-export class PropertyGroupModule {}
+export default class PropertyGroupModule {}

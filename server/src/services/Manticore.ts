@@ -1,7 +1,7 @@
 import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import { UtilsApi, ApiClient } from 'manticoresearch';
 
-import { ConfigService } from './Config';
+import ConfigService from './Config';
 
 export interface IManticoreResult<TIndexItem> {
     columns: any

@@ -4,21 +4,22 @@ import * as cookieParser from 'cookie-parser';
 import * as session from 'express-session';
 
 import AppModule from '@modules/App';
-import ConfigService from '@services/Config';
-import { UncaughtExceptionFilter } from '@decorators/UncaughtExceptionFilter';
+import { singleConfigServie } from '@services/Config';
+import { UncaughtExceptionFilter } from '@filters/UncaughtException';
 
 async function runServer() {
 	const app = await NestFactory.create(AppModule);
 
 	app
 		.use(cookieParser())
-		.use(session(ConfigService.getSessionConfig()));
+		.use(session(singleConfigServie.getSessionConfig()));
 
-	if (!ConfigService.isDev) app.useGlobalFilters(new UncaughtExceptionFilter());
+	if (!singleConfigServie.isDev) app.useGlobalFilters(new UncaughtExceptionFilter());
 
 	// Swagger
 	const config = new DocumentBuilder()
-		.setTitle(ConfigService.getAppName())
+		.setTitle(singleConfigServie.getAppName())
+		.setDescription(`💾 - cached |  🧑‍💻 - user |  🤵🏿‍♂️ - admin`)
 		.build();
 	const document = SwaggerModule.createDocument(app, config, {
 		ignoreGlobalPrefix: true

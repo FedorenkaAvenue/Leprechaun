@@ -1,5 +1,6 @@
 import {
-	Controller, Get, Param, Body, UseInterceptors, Delete, Post, UploadedFile, ValidationPipe
+	Controller, Get, Param, Body, UseInterceptors, Delete, Post, UploadedFile,
+	ValidationPipe, CacheInterceptor
 } from '@nestjs/common';
 import {
 	ApiCreatedResponse, ApiNotFoundResponse, ApiOkResponse,
@@ -18,20 +19,21 @@ import AffectedResultInterceptor from '@interceptors/AffectedResult';
 
 const TCategoryAdmin = OmitType(CategoryEntity, ['products']);
 
-@ApiTags('Category (client)')
+@ApiTags('Category 🧑‍💻')
 @Controller('category')
+@UseInterceptors(CacheInterceptor)
 export class CategoryPublicController {
 	constructor(private readonly categoryService: CategoryService) {}
 
 	@Get('list')
-	@ApiOperation({ summary: 'get all public categories' })
+	@ApiOperation({ summary: 'get all public categories 💾' })
 	@ApiOkResponse({ type: CategoryPublicDTO, isArray: true })
 	getAllCategories(): Promise<ICategoryPublic[]> {
 		return this.categoryService.getPublicCategories();
 	}
 
 	@Get(':category')
-	@ApiOperation({ summary: 'get category info by URL' })
+	@ApiOperation({ summary: 'get category info by URL 💾' })
 	@ApiOkResponse({ type: CategoryPublicDTO })
 	@ApiNotFoundResponse({ description: 'category not found' })
 	getCategory(
@@ -41,7 +43,7 @@ export class CategoryPublicController {
 	}
 }
 
-@ApiTags('Category (admin)')
+@ApiTags('Category 🤵🏿‍♂️')
 @Controller('adm/category')
 export class CategoryAdminController {
 	constructor(private readonly categoryService: CategoryService) {}

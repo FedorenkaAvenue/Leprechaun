@@ -1,31 +1,32 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
-import { CategoryModule } from './Category';
-import { ProductModule } from './Product';
-import { PropertyGroupModule } from './PropertyGroup';
-import { PropertyModule } from './Property';
-import { ImageModule } from './Image';
-import { LabelModule } from './Label';
-import { ToolModule } from './Tool';
-// import { SearchModule } from './Search';
-// import { OrderModule } from './Order';
-// import { FilterModule } from './Filter';
+import CategoryModule from './Category';
+import ProductModule from './Product';
+import PropertyGroupModule from './PropertyGroup';
+import PropertyModule from './Property';
+import ImageModule from './Image';
+import LabelModule from './Label';
+import ToolModule from './Tool';
 import ConfigService from '@services/Config';
+import AdminModule from './Admin';
+import UserModule from './User';
 
 @Module({
 	imports: [
+		TypeOrmModule.forRootAsync({
+			inject: [ ConfigService ],
+			useFactory: async (configService: ConfigService) => configService.getTypeOrmConfig()
+		}),
 		CategoryModule,
 		ProductModule,
 		PropertyGroupModule,
 		PropertyModule,
 		ImageModule,
 		LabelModule,
-		// SearchModule,
-		// OrderModule,
-		// FilterModule,
+		UserModule,
 		ToolModule,
-		TypeOrmModule.forRoot(ConfigService.getTypeOrmConfig())
+		AdminModule
 	]
 })
 export default class AppModule {}
