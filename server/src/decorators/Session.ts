@@ -5,7 +5,8 @@ import { SessionDTO } from '@dto/Session';
 
 /**
  * @description get session object
- * @warning getting and setting the key w'll not change session. To CRUD session outside decorator You must get all session object
+ * @warning getting and setting the key w'll not change session.
+ *  To CRUD session outside decorator You must get all session object
  */
 export const Session = createParamDecorator(
     (_: any, ctx: ExecutionContext): ISession => {

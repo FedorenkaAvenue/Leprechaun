@@ -45,8 +45,8 @@ services:
       - MAIL_SENDER_PASSWORD
       - SESSION_COOKIE_SECRET
       - SESSION_AGE
-      - SESSION_MAX_HISTORY_LENGTH
       - DASHBOARD_PORTION
+      - USER_HISTORY_LENGTH
       - DEFAULT_CACHE_TTL
     volumes:
       - image_hosting:/var/www/img:rw

@@ -10,6 +10,7 @@ import LabelModule from './Label';
 import ToolModule from './Tool';
 import ConfigService from '@services/Config';
 import AdminModule from './Admin';
+import UserModule from './User';
 
 @Module({
 	imports: [
@@ -23,9 +24,9 @@ import AdminModule from './Admin';
 		PropertyModule,
 		ImageModule,
 		LabelModule,
+		UserModule,
 		ToolModule,
 		AdminModule
-	],
-	providers: []
+	]
 })
 export default class AppModule {}

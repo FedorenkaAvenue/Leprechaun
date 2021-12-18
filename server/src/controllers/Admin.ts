@@ -3,7 +3,7 @@ import { ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 
 import AdminService from '@services/Admin';
 
-@ApiTags('Admin (admin)')
+@ApiTags('Admin 🤵🏿‍♂️')
 @Controller('adm')
 export default class AdminController {
     constructor(

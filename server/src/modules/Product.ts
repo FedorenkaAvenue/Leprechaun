@@ -15,6 +15,7 @@ import ImageModule from '@modules/Image';
 		ImageModule
 	],
 	controllers: [ ProductPublicController, ProductAdminController ],
-	providers: [ ProductService, FSService ]
+	providers: [ ProductService, FSService ],
+	exports: [ ProductService ]
 })
 export default class ProductModule {}

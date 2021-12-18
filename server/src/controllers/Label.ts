@@ -9,7 +9,7 @@ import { ILabel } from '@interfaces/Label';
 import AffectedResultInterceptor from '@interceptors/AffectedResult';
 
 @Controller('adm/label')
-@ApiTags('Label (admin)')
+@ApiTags('Label 🤵🏿‍♂️')
 export class LabelAdminController {
     constructor(private readonly labelService: LabelService) {}
 

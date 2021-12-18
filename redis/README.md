@@ -3,10 +3,15 @@
 ## Params
 
  * local
-   * **user**: *none*
+   * **user**: `default`
    * **root pass**: `barabaka35`
    * **host**: `leprechaun_redis`
    * **port**: `6379`
+
+ * DB numeric
+
+    * **0**: sessions
+    * **1**: cache
 
 ## Tools
 

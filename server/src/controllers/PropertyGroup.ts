@@ -10,7 +10,7 @@ import AffectedResultInterceptor from '@interceptors/AffectedResult';
 import UndefinedResultInterceptor from '@interceptors/UndefinedResult';
 
 @Controller('adm/propertygroup')
-@ApiTags('Property group (admin)')
+@ApiTags('Property group 🤵🏿‍♂️')
 export class PropertyGroupAdminController {
     constructor(private readonly propertyGroupService: PropertyGroupService) {}
 

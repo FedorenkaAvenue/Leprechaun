@@ -19,6 +19,7 @@ async function runServer() {
 	// Swagger
 	const config = new DocumentBuilder()
 		.setTitle(singleConfigServie.getAppName())
+		.setDescription(`💾 - cached |  🧑‍💻 - user |  🤵🏿‍♂️ - admin`)
 		.build();
 	const document = SwaggerModule.createDocument(app, config, {
 		ignoreGlobalPrefix: true
