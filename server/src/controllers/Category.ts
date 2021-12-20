@@ -19,8 +19,8 @@ import AffectedResultInterceptor from '@interceptors/AffectedResult';
 
 const TCategoryAdmin = OmitType(CategoryEntity, ['products']);
 
-@ApiTags('Category 🧑‍💻')
 @Controller('category')
+@ApiTags('Category 🧑‍💻')
 @UseInterceptors(CacheInterceptor)
 export class CategoryPublicController {
 	constructor(private readonly categoryService: CategoryService) {}
@@ -43,8 +43,8 @@ export class CategoryPublicController {
 	}
 }
 
-@ApiTags('Category 🤵🏿‍♂️')
 @Controller('adm/category')
+@ApiTags('Category 🤵🏿‍♂️')
 export class CategoryAdminController {
 	constructor(private readonly categoryService: CategoryService) {}
 

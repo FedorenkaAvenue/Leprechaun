@@ -1,11 +1,11 @@
 import {
-    Column, CreateDateColumn, Entity, JoinColumn, ManyToOne,
-    OneToOne, PrimaryGeneratedColumn
+    Column, CreateDateColumn, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn
 } from 'typeorm';
 import { ApiProperty } from '@nestjs/swagger';
 
-import { IOrder } from '@interfaces/Order';
+import { IOrder, IOrderItem, OrderStatus } from '@interfaces/Order';
 import { ProductEntity } from './Product';
+import { IProduct } from '@interfaces/Product';
 
 @Entity('order')
 export class OrderEntity implements IOrder {
@@ -17,20 +17,43 @@ export class OrderEntity implements IOrder {
     @ApiProperty({ required: false })
     created_at: Date;
 
+    @Column({ default: OrderStatus.CREATED })
+    @ApiProperty({ required: false, default: OrderStatus.CREATED })
+    status: OrderStatus;
+    
+    @OneToMany(
+        () => OrderEntity,
+        ({ id }) => id
+    )
+    @ApiProperty({})
+    order_items: IOrderItem[];
+
     @Column()
-    @ApiProperty({ description: 'product amount', required: false })
-    amount: number;
+    @ApiProperty({ description: 'customer\'s order credentials' })
+    customer: string;
+}
+
+@Entity('order_item')
+export class OrderItemEntity implements IOrderItem {
+    @PrimaryGeneratedColumn('uuid')
+    @ApiProperty({ required: false })
+    id: string;
 
     @ManyToOne(
-        () => ProductEntity,
+        () => OrderEntity,
         ({ id }) => id,
         { cascade: true }
     )
-    @JoinColumn({ name: 'product_id' })
-    @ApiProperty({ required: false })
-    product_id: string;
+    order_id: string;
 
-    @Column({ default: false })
-    @ApiProperty({ required: false })
-    is_bought: boolean;
+    @ManyToOne(
+        () => ProductEntity,
+        ({ id }) => id
+    )
+    @ApiProperty({ required: true })
+    product_id: IProduct['id'];
+
+    @Column()
+    @ApiProperty({ description: 'product amount', required: true })
+    amount: number;
 }
