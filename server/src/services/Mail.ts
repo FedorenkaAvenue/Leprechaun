@@ -1,8 +1,9 @@
 import { createTransport, SentMessageInfo, Transporter } from 'nodemailer';
 import Mail from 'nodemailer/lib/mailer';
+import { Injectable } from '@nestjs/common';
 
 import ConfigService from './Config';
-import TemplateService from './Template';
+import renderTemplate from '@utils/renderTemplate';
 import { IDevLogMail } from '@interfaces/Mail';
 
 type IMailOptions = Mail.Options & {
@@ -12,12 +13,16 @@ type IMailOptions = Mail.Options & {
 /**
  * @description e-mail service
  */
-class MailService {
+@Injectable()
+export default class MailService {
+    constructor(
+        private readonly configService: ConfigService
+    ) {}
     /**
      * @description create connection
      */
     createConnection(): Transporter<SentMessageInfo> {
-        return createTransport(ConfigService.getMailConfig());
+        return createTransport(this.configService.getMailConfig());
     }
 
     /**
@@ -29,7 +34,7 @@ class MailService {
     
         try {
             await this.createConnection().sendMail({
-                from: ConfigService.getMailCredentials(),
+                from: this.configService.getMailCredentials(),
                 to, subject, text, html
             });
         } catch(err) {
@@ -42,7 +47,7 @@ class MailService {
      */
     async sendErrorLogMail(logData: IDevLogMail): Promise<void> {
         await this.sendDevMail(
-            TemplateService.renderTemplate(
+            renderTemplate(
                 'devMailErrorLog',
                 logData
             )
@@ -54,11 +59,12 @@ class MailService {
      */
     async sendDevMail(content: string): Promise<void> {
         await this.sendMail({
-            to: ConfigService.getDevMailReciever(),
+            to: this.configService.getDevMailReciever(),
             subject: 'Development mail',
             html: content
         });
     }
 }
 
-export default new MailService();
+//TODO: убрать дефолтный экспорт
+export const singleMailSerbice = new MailService(new ConfigService());

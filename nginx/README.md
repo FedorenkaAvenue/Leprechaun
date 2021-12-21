@@ -27,3 +27,7 @@
 ## Docs
 
  * **resize images resolution**: `400`, `1024`, `1920`
+
+## Guides
+
+ * [https://github.com/FiloSottile/mkcert]() generate ssl certificates for *localhost*

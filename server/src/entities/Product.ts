@@ -4,50 +4,45 @@ import {
     OneToMany, PrimaryGeneratedColumn
 } from 'typeorm';
 import { CategoryEntity } from '@entities/Category';
-import { IProduct } from '@interfaces/Product';
+import { IBaseProduct, IProduct, IPublicProduct, ProductStatus } from '@interfaces/Product';
 import { ImageEntity } from '@entities/Image';
 import { ICategory } from '@interfaces/Category';
 import { LabelEntity } from '@entities/Label';
 import { ILabel } from '@interfaces/Label';
 import { IProperty } from '@interfaces/Property';
 import { PropertyEntity } from '@entities/Property';
+import { IImage } from '@interfaces/Image';
 
-export class ProductBaseEntity implements IProduct {
+export class BaseProductEntity implements IBaseProduct {
     @PrimaryGeneratedColumn('uuid')
-    @ApiProperty()
+    @ApiProperty({ required: false })
     id: string;
 
-    @CreateDateColumn()
-    @ApiProperty({ required: false })
-    created_at: Date;
-
     @Column()
-    @ApiProperty({ required: true })
+    @ApiProperty({ required: false })
     title: string;
 
-    @Column({ default: false })
-    @ApiProperty({ required: false })
-    is_public: boolean;
-
-    @Column({ default: true })
-    @ApiProperty({ required: false })
-    is_available: boolean;
+    @Column({ default: ProductStatus.AVAILABLE })
+    @ApiProperty({ enum: ProductStatus, required: false })
+    status: ProductStatus;
 
     @Column()
-    @ApiProperty()
+    @ApiProperty({ required: false })
     price: number;
+}
 
+export class PublicProductEntity extends BaseProductEntity implements IPublicProduct {
     @OneToMany(
         () => ImageEntity,
         ({ product_id }) => product_id,
         { eager: true }
     )
-    @ApiProperty({ type: ImageEntity, isArray: true })
-    images: string[];
+    @ApiProperty({ type: ImageEntity, isArray: true, required: false })
+    images: IImage[];
 
     @ManyToMany(
         () => LabelEntity,
-        { eager: true, cascade: true }
+        { cascade: true }
     )
     @JoinTable({
         name: '_products_to_labels',
@@ -67,23 +62,6 @@ export class ProductBaseEntity implements IProduct {
     })
     labels: ILabel[];
 
-    @Column({ default: 0 })
-    @ApiProperty({
-        required: false,
-        default: 0,
-        description: 'product rating by sellering'
-    })
-    rating: number;
-
-    @Column({ nullable: true })
-    @ApiProperty({
-        required: false,
-        description: 'short product description'
-    })
-    description: string;
-}
-
-export class ProductWIthPropertiesEntity extends ProductBaseEntity implements IProduct {
     @ManyToMany(
         () => PropertyEntity,
         ({ id }) => id,
@@ -96,35 +74,41 @@ export class ProductWIthPropertiesEntity extends ProductBaseEntity implements IP
     })
     @ApiProperty({
         type: PropertyEntity,
-        required: true,
+        required: false,
         isArray: true
     })
     properties: Array<IProperty>;
-}
 
-@Entity('product')
-export class ProductEntity extends ProductWIthPropertiesEntity implements IProduct {
     @ManyToOne(
         () => CategoryEntity,
         ({ products }) => products,
         { onDelete: 'NO ACTION' }
     )
     @JoinColumn({ name: 'category', referencedColumnName: 'id' })
-    @ApiProperty({ type: () => CategoryEntity })
+    @ApiProperty({ type: () => CategoryEntity, required: false })
     category: ICategory;
 }
 
-// @EventSubscriber()
-// export class ProductEntitySubscriber implements EntitySubscriberInterface<ProductEntity> {
-//     constructor(connection: Connection) {
-//         connection.subscribers.push(this);
-//     }
+// for admin properties
+@Entity('product')
+export class ProductEntity extends PublicProductEntity implements IProduct {
+    @CreateDateColumn()
+    @ApiProperty({ required: false })
+    created_at: Date;
 
-//     listenTo() {
-//         return ProductEntity;
-//     }
+    @Column({ default: false })
+    @ApiProperty({ required: false })
+    is_public: boolean;
 
-//     afterRemove(e: RemoveEvent<ProductEntity>) {
-//         console.log(`AFTER ENTITY WITH ID ${e.entityId} REMOVED: `, e.entity);
-//     }
-// }
+    @Column({ default: 0 })
+    @ApiProperty({
+        required: false,
+        default: 0,
+        description: 'product rating by sellering'
+    })
+    rating: number;
+
+    @Column({ nullable: true })
+    @ApiProperty({ required: false })
+    comment: string;
+}

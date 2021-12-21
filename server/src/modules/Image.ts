@@ -11,4 +11,4 @@ import { ImageService } from '@services/Image';
 	providers: [ ImageService ],
 	exports: [ ImageService ]
 })
-export class ImageModule {}
+export default class ImageModule {}

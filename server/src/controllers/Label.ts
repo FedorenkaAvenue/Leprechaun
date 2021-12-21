@@ -5,31 +5,36 @@ import { DeleteResult } from 'typeorm';
 import { CreateLabelDTO } from '@dto/Label';
 import { LabelEntity } from '@entities/Label';
 import { LabelService } from '@services/Label';
-import { AffectedInterceptor } from '@interceptors/DB';
+import { ILabel } from '@interfaces/Label';
+import AffectedResultInterceptor from '@interceptors/AffectedResult';
 
-@Controller('label')
-@ApiTags('Label')
-export class LabelController {
+@Controller('adm/label')
+@ApiTags('Label 🤵🏿‍♂️')
+export class LabelAdminController {
     constructor(private readonly labelService: LabelService) {}
 
     @Post()
     @ApiOperation({ summary: 'create new label' })
-    createLabel(@Body(new ValidationPipe({ transform: true })) body: CreateLabelDTO): Promise<void> {
+    createLabel(
+        @Body(new ValidationPipe({ transform: true })) body: CreateLabelDTO
+    ): Promise<void> {
         return this.labelService.createLabel(body);
     }
 
     @Get('list')
     @ApiOperation({ summary: 'get all labels' })
     @ApiResponse({ type: LabelEntity, isArray: true })
-    getAllLabels(): Promise<LabelEntity[]> {
+    getAllLabels(): Promise<ILabel[]> {
         return this.labelService.getAllLabels();
     }
 
     @Delete(':label')
-    @UseInterceptors(AffectedInterceptor)
+    @UseInterceptors(AffectedResultInterceptor)
     @ApiOperation({ summary: 'delete label by ID' })
     @ApiNotFoundResponse()
-    deleteLabel(@Param('label') label: number): Promise<DeleteResult> {
+    deleteLabel(
+        @Param('label') label: number
+    ): Promise<DeleteResult> {
         return this.labelService.deleteLabel(label);
     }
 }

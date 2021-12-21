@@ -1,7 +1,15 @@
 version: '3.8'
 
 services:
+  nginx:
+    restart: on-failure:5
+    ports:
+      - 84:80
+
   postgres:
+    restart: on-failure:5
+
+  redis:
     restart: on-failure:5
 
   server:
@@ -23,11 +31,6 @@ services:
       dockerfile: Dockerfile.prod
     environment:
       - IS_DEV=false
-
-  nginx:
-    restart: on-failure:5
-    ports:
-      - 84:80
 
   admin:
     restart: on-failure:5

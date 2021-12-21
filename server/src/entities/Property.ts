@@ -1,51 +1,21 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 
-import { PropertyGroupOptionType, IProperty, IPropertyGroup } from '@interfaces/Property';
-
-export class ProductGroupBaseEntity implements IPropertyGroup {
-    @PrimaryGeneratedColumn('rowid')
-    @ApiProperty()
-    id: number;
-
-    @Column({ unique: true })
-    @ApiProperty()
-    title: string;
-
-    @Column({ select: false })
-    @ApiProperty({ enum: PropertyGroupOptionType })
-    type: PropertyGroupOptionType;
-
-    @Column({ unique: true })
-    @ApiProperty()
-    alt_name: string;
-
-    @Column({ nullable: true, select: false })
-    @ApiProperty({ required: false })
-    comment: string;
-}
-
-@Entity('property_group')
-export class PropertyGroupEntity extends ProductGroupBaseEntity implements IPropertyGroup {
-    @OneToMany(
-        () => PropertyEntity,
-        ({ property_group }) => property_group
-    )
-    @ApiProperty({ type: () => PropertyEntity, isArray: true })
-    properties: IProperty[];
-}
+import { IProperty } from '@interfaces/Property';
+import { PropertyGroupEntity } from './PropertGroup';
+import { IPropertyGroup } from '@interfaces/PropertyGroup';
 
 export class PropertyBaseEntity implements IProperty {
     @PrimaryGeneratedColumn('rowid')
-    @ApiProperty()
+    @ApiProperty({ required: false })
     id: number;
 
     @Column({ unique: true })
-    @ApiProperty()
+    @ApiProperty({ required: false })
     title: string;
 
     @Column({ unique: true })
-    @ApiProperty()
+    @ApiProperty({ required: false })
     alt_name: string;
 
     @Column({ nullable: true, select: false })
@@ -61,6 +31,6 @@ export class PropertyEntity extends PropertyBaseEntity implements IProperty {
         { onDelete: 'CASCADE', nullable: false }
     )
     @JoinColumn({ name: 'property_group' })
-    @ApiProperty()
+    @ApiProperty({ required: false })
     property_group: IPropertyGroup;
 }

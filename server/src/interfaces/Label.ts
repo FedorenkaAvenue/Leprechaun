@@ -5,6 +5,7 @@ export interface ILabel {
     value: string
     type: LabelType
     products?: Array<IProduct>
+    comment: string
 }
 
 export enum LabelType {

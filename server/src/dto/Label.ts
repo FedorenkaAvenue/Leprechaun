@@ -6,19 +6,25 @@ import { ILabel, LabelType } from '@interfaces/Label';
 export class CreateLabelDTO implements ILabel {
     @IsNotEmpty()
     @IsEnum(LabelType)
-    @ApiProperty()
+    @ApiProperty({ enum: LabelType })
     type: LabelType;
 
     @IsOptional()
     @IsString()
-    @ApiProperty({ enum: LabelType })
+    @ApiProperty({ required: false })
     value: string;
+
+    @IsOptional()
+    @IsString()
+    @ApiProperty({ required: false, default: null })
+    comment: string;
 }
 
 export class CreateLabelDTOConstructor extends CreateLabelDTO {
-    constructor({ type, value }: CreateLabelDTO) {
+    constructor({ type, value, comment }: CreateLabelDTO) {
         super();
         this.type = type;
         this.value = value || null;
+        this.comment = comment || null;
     }
 }
