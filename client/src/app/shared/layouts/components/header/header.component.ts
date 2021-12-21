@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CardStateService } from '@shared/services/card/card-state.service';
-import { FavoriteService } from '@shared/services/favorite/favorite.service';
+import { FavoriteStateService } from '@shared/services/favorite/favorite.service';
 import { LANGUAGES } from '@shared/static/languages';
 import { Observable } from 'rxjs';
 
@@ -16,12 +16,12 @@ export class HeaderComponent implements OnInit {
   public languages = LANGUAGES;
   constructor(
     private readonly cardService: CardStateService,
-    private readonly favoriteService: FavoriteService,
+    private readonly FavoriteStateService: FavoriteStateService,
     ) { }
 
   ngOnInit(): void {
     this.cardValue$ = this.cardService.getCardStateValue();
-    this.favoriteValue$ = this.favoriteService.getFavoriteStateValue();
+    this.favoriteValue$ = this.FavoriteStateService.getFavoriteStateValue();
   }
 
 }

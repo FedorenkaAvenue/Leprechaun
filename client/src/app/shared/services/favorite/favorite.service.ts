@@ -5,7 +5,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
-export class FavoriteService {
+export class FavoriteStateService {
   
   private favoriteState$: BehaviorSubject<Array<number>>;
   constructor(
@@ -24,18 +24,12 @@ export class FavoriteService {
     const storageItem = this.localStorageService.getItem('favorite');
     const storageList = storageItem && Array.isArray(storageItem) ? storageItem : [];
     const index = storageList.findIndex(el => el === productId);
-    console.log(index);
-    
+
     if(index == -1) {
-      console.log(23);
-      
       storageList.push(productId);
     } else {
-      console.log(56);
       storageList.splice(index, 1);
     }
-
-    console.log(storageList);
     
     this.localStorageService.setItem('favorite', storageList);
     this.updateFavorite();

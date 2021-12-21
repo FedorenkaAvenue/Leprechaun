@@ -26,10 +26,6 @@ export class CardPageComponent implements OnInit {
         return this.cardPageService.getProducts(productsId)
       })
     );
-  this.products$.subscribe(res => {
-    console.log(res);
-    
-  })
   }
 
   public deleteFromCard(id: number): void {
