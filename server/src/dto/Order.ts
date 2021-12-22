@@ -6,34 +6,18 @@ import {
 import { Type } from 'class-transformer';
 
 import { IOrder, IOrderItem, IOrderCustomerData } from '@interfaces/Order';
-import { IUser } from '@interfaces/User';
 
-export class CreateOrderDTO implements IOrder {
-    @IsArray()
-    @ValidateNested({ each: true })
-    @Type(() => CreateOrderItemDTO)
-    @ApiProperty({ required: true, description: 'array of products and their amount' })
-    order_items: IOrderItem[];
+// export class CreateCustomerOrderDataDTO implements IOrderCustomerData {
+//     @IsNotEmpty()
+//     @IsString()
+//     @ApiProperty({ required: true, description: 'user name' })
+//     name: string;
 
-    @IsObject()
-    @IsNotEmptyObject()
-    @ValidateNested()
-    @Type(() => CreateUserOrderDataDTO)
-    @ApiProperty({ required: true, description: 'user data' })
-    customer: IOrderCustomerData;
-}
-
-export class CreateUserOrderDataDTO implements IOrderCustomerData {
-    @IsNotEmpty()
-    @IsString()
-    @ApiProperty({ required: true, description: 'user name' })
-    name: string;
-
-    @IsNotEmpty()
-    @IsString()
-    @ApiProperty({ required: true, description: 'user phone' })
-    phone: string;
-}
+//     @IsNotEmpty()
+//     @IsString()
+//     @ApiProperty({ required: true, description: 'user phone' })
+//     phone: string;
+// }
 
 export class CreateOrderItemDTO implements IOrderItem {
     @IsNotEmpty()
@@ -41,8 +25,36 @@ export class CreateOrderItemDTO implements IOrderItem {
     @ApiProperty({ description: 'product ID', required: true })
     product_id: string;
 
-    @IsNotEmpty()
+    @IsOptional()
     @IsNumber()
-    @ApiProperty({ required: true, description: 'product items amount' })
+    @ApiProperty({
+        required: false,
+        description: 'product items amount',
+        default: 1
+    })
     amount: number;
 }
+
+// export class CreateOrderDTO implements IOrder {
+//     @IsArray()
+//     @ValidateNested({ each: true })
+//     @Type(() => CreateOrderItemDTO)
+//     @ApiProperty({
+//         type: CreateOrderItemDTO,
+//         isArray: true,
+//         required: true,
+//         description: 'array of products and their amount'
+//     })
+//     order_items: IOrderItem[];
+
+//     @IsObject()
+//     @IsNotEmptyObject()
+//     @ValidateNested()
+//     @Type(() => CreateCustomerOrderDataDTO)
+//     @ApiProperty({
+//         type: CreateCustomerOrderDataDTO,
+//         required: true,
+//         description: 'user data'
+//     })
+//     customer: IOrderCustomerData;
+// }

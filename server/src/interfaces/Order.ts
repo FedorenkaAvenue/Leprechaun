@@ -16,7 +16,7 @@ export interface IOrderItem {
     id?: string
     order_id?: string
     product_id: IProduct['id']
-    amount: number
+    amount?: number
 }
 
 export interface IOrder {

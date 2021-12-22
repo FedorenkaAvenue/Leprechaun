@@ -3,7 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
 import { OrderEntity, OrderItemEntity } from '@entities/Order';
-import { CreateOrderDTO } from '@dto/Order';
+import { CreateOrderItemDTO } from '@dto/Order';
 
 @Injectable()
 export class OrderService {
@@ -12,8 +12,8 @@ export class OrderService {
         @InjectRepository(OrderItemEntity) private readonly orderItemRepo: Repository<OrderItemEntity>,
     ) {}
 
-    async createOrder(order: CreateOrderDTO) {
-        console.log(order);
+    addOrderItem(orderItem: CreateOrderItemDTO): Promise<void> {
+        return;
         
     }
 }

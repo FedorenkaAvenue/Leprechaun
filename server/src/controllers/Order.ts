@@ -1,8 +1,10 @@
 import { Body, Controller, Post, ValidationPipe } from '@nestjs/common';
-import { ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
+import { ApiOperation, ApiTags } from '@nestjs/swagger';
 
 import { OrderService } from '@services/Order';
-import { CreateOrderDTO } from '@dto/Order';
+import { CreateOrderItemDTO } from '@dto/Order';
+import { Session } from '@decorators/Session';
+import { ISession } from '@interfaces/Session';
 
 @Controller('order')
 @ApiTags('Order 🧑‍💻')
@@ -11,12 +13,12 @@ export class OrderPublicController {
         private readonly orderService: OrderService
     ) {}
 
-    @Post()
-    @ApiOperation({ summary: 'create order' })
-    @ApiOkResponse({ description: 'successful created' })
-    createOrder(
-        @Body(new ValidationPipe({ transform: true })) order: CreateOrderDTO
-    ): Promise<void> {
-        return this.orderService.createOrder(order);
+    @Post('add')
+    @ApiOperation({ summary: 'add order item' })
+    addOrderItem(
+        @Session() { id }: ISession,
+        @Body(new ValidationPipe({ transform: true })) orderItem: CreateOrderItemDTO
+    ) {        
+        this.orderService.addOrderItem(orderItem);
     }
 }
