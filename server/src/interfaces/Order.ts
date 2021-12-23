@@ -1,5 +1,4 @@
 import { IOrderItem, IOrderItemPublic } from './OrderItem';
-import { IProductPreview } from './Product';
 import { ISession } from './Session';
 
 export enum OrderStatus {

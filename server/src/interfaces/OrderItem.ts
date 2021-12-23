@@ -10,7 +10,7 @@ export interface IOrderItemPublic extends IOrderItemBase {
     product: IProductPreview
 }
 
-export interface IOrderItem extends IOrderItemBase {
+export interface IOrderItem<T = IProduct> extends IOrderItemBase {
     order?: IOrder | IOrder['id'];
-    product: IProduct | IProduct['id']
+    product: T
 }

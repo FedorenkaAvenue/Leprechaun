@@ -6,7 +6,7 @@ import { ProductPreviewDTO } from './Product';
 import { IOrderItem, IOrderItemPublic } from '@interfaces/OrderItem';
 import { OrderItemBaseEntity } from '@entities/OrderItemEntity';
 
-export class CreateOrderItemDTO implements IOrderItem {
+export class CreateOrderItemDTO implements IOrderItem<string> {
     @IsNotEmpty()
     @IsUUID()
     @ApiProperty({ description: 'product ID', required: true })
