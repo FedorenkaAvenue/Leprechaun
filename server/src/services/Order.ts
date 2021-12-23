@@ -7,14 +7,14 @@ import { OrderItemEntity } from '@entities/OrderItemEntity';
 import { CreateOrderDTO, OrderPublicDTO } from '@dto/Order';
 import { ISession } from '@interfaces/Session';
 import { IOrder, IOrderPublic, OrderStatus } from '@interfaces/Order';
-import { CreateOrderItemDTO } from '@dto/OrderItem';
+import { CreateOrderItemDTO, UpdateOrderItemDTO } from '@dto/OrderItem';
 import { IOrderItem } from '@interfaces/OrderItem';
 
 @Injectable()
 export class OrderService {
     constructor(
         @InjectRepository(OrderEntity) public readonly orderRepo: Repository<OrderEntity>,
-        @InjectRepository(OrderItemEntity) public readonly orderItemRepo: Repository<OrderItemEntity>,
+        @InjectRepository(OrderItemEntity) public readonly orderItemRepo: Repository<OrderItemEntity>
     ) {}
 
     async createOrder(order: IOrder, item: CreateOrderItemDTO): Promise<void> {
@@ -32,7 +32,7 @@ export class OrderService {
                 .where('order.session_id = :session_id', { session_id })
                 .andWhere(
                     'order.status IN (:...statuses)',
-                    { statuses: [ OrderStatus.CREATED, OrderStatus.IN_PROCESS ] }
+                    { statuses: [ OrderStatus.CREATED, OrderStatus.POSTED ] }
                 )
                 .leftJoinAndSelect('order.list', 'list')
                 .leftJoinAndSelect('list.product', 'product')
@@ -75,14 +75,13 @@ export class OrderService {
                 //@ts-ignore
                 this.orderItemRepo.save({ order: id, ...orderItem });
             }
-            
         } else { // create new order
             await this.createOrder({ session_id }, orderItem);
         }
     }
 
-    changeOrderItemAmount({ product, amount }: CreateOrderItemDTO): Promise<UpdateResult> {
-        return this.orderItemRepo.update({ id: product }, { amount });
+    changeOrderItemAmount({ order_item, amount }: UpdateOrderItemDTO): Promise<UpdateResult> {
+        return this.orderItemRepo.update({ id: order_item }, { amount });
     }
 
     postOrder({ id, customer }: CreateOrderDTO): Promise<UpdateResult> {

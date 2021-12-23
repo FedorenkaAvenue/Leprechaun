@@ -1,5 +1,5 @@
 import {
-    Body, Controller, Delete, Get, Param, ParseUUIDPipe, Post, UseInterceptors,
+    Body, Controller, Delete, Get, Param, ParseUUIDPipe, Patch, Post, UseInterceptors,
     ValidationPipe
 } from '@nestjs/common';
 import {
@@ -14,7 +14,7 @@ import { Session } from '@decorators/Session';
 import { ISession } from '@interfaces/Session';
 import AffectedResultInterceptor from '@interceptors/AffectedResult';
 import { IOrderPublic } from '@interfaces/Order';
-import { CreateOrderItemDTO } from '@dto/OrderItem';
+import { CreateOrderItemDTO, UpdateOrderItemDTO } from '@dto/OrderItem';
 import { IOrderItem } from '@interfaces/OrderItem';
 
 @Controller('order')
@@ -34,16 +34,7 @@ export class OrderPublicController {
         return this.orderService.getCurrentOrder(id);
     }
 
-    @Get('history')
-    @ApiOperation({ summary: 'get order history' })
-    @ApiOkResponse({ type: OrderPublicDTO, isArray: true })
-    getOrderHistory(
-        @Session() { id }: ISession
-    ): Promise<IOrderPublic[]> {
-        return this.orderService.getOrderHistory(id);
-    }
-
-    @Post('add')
+    @Post('item')
     @ApiOperation({ summary: 'add new order item' })
     @ApiBadRequestResponse({ description: 'product already exists' })
     addOrderItem(
@@ -53,11 +44,11 @@ export class OrderPublicController {
         return this.orderService.addOrderItem(orderItem, id);
     }
 
-    @Post('amount')
+    @Patch('item')
     @UseInterceptors(AffectedResultInterceptor)
     @ApiOperation({ summary: 'change order item amount' })
     changeOrderItemAmount(
-        @Body(new ValidationPipe({ transform: true })) orderItem: CreateOrderItemDTO
+        @Body(new ValidationPipe({ transform: true })) orderItem: UpdateOrderItemDTO
     ): Promise<UpdateResult> {
         return this.orderService.changeOrderItemAmount(orderItem);
     }
@@ -79,6 +70,15 @@ export class OrderPublicController {
         @Param('itemId', ParseUUIDPipe) orderItemId: IOrderItem['id']
     ) {
         return this.orderService.removeOrderItem(orderItemId);
+    }
+
+    @Get('history')
+    @ApiOperation({ summary: 'get order history' })
+    @ApiOkResponse({ type: OrderPublicDTO, isArray: true })
+    getOrderHistory(
+        @Session() { id }: ISession
+    ): Promise<IOrderPublic[]> {
+        return this.orderService.getOrderHistory(id);
     }
 }
 

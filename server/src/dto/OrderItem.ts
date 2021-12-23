@@ -22,6 +22,22 @@ export class CreateOrderItemDTO implements IOrderItem<string> {
     amount: number;
 }
 
+export class UpdateOrderItemDTO {
+    @IsNotEmpty()
+    @IsUUID()
+    @ApiProperty({ description: 'order item ID', required: true })
+    order_item: IOrderItem['id'];
+
+    @IsOptional()
+    @IsNumber()
+    @ApiProperty({
+        required: false,
+        description: 'product items amount',
+        default: 1
+    })
+    amount: IOrderItem['amount'];
+}
+
 export class OrderItemPublicDTO extends OrderItemBaseEntity implements IOrderItemPublic {
     @ApiProperty({ type: ProductPreviewDTO })
     product: IProductPreview;
