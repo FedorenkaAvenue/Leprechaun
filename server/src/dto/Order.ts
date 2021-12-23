@@ -1,45 +1,44 @@
 import { ApiProperty } from '@nestjs/swagger';
+import {
+    IsNotEmpty, IsNotEmptyObject, IsNumber, IsObject, IsOptional, IsString,
+    IsUUID, ValidateNested
+} from 'class-validator';
 
-import { IOrder, IOrderPublic } from '@interfaces/Order';
+import { IOrder, IOrderCustomerData, IOrderPublic } from '@interfaces/Order';
 import { OrderBaseEntity } from '@src/entities/Order';
 import { IOrderItemPublic } from '@interfaces/OrderItem';
 import { OrderItemPublicDTO } from './OrderItem';
+import { Type } from 'class-transformer';
 
-// export class CreateCustomerOrderDataDTO implements IOrderCustomerData {
-//     @IsNotEmpty()
-//     @IsString()
-//     @ApiProperty({ required: true, description: 'user name' })
-//     name: string;
+export class CreateOrderCustomerDataDTO implements IOrderCustomerData {
+    @IsOptional()
+    @IsString()
+    @ApiProperty({ description: 'customer name', required: false })
+    name: string;
 
-//     @IsNotEmpty()
-//     @IsString()
-//     @ApiProperty({ required: true, description: 'user phone' })
-//     phone: string;
-// }
+    @IsNotEmpty()
+    @IsNumber()
+    @ApiProperty({ description: 'customer phone number', required: true })
+    phone: string;
+}
 
-// export class CreateOrderDTO implements IOrder {
-//     @IsArray()
-//     @ValidateNested({ each: true })
-//     @Type(() => CreateOrderItemDTO)
-//     @ApiProperty({
-//         type: CreateOrderItemDTO,
-//         isArray: true,
-//         required: true,
-//         description: 'array of products and their amount'
-//     })
-//     order_items: IOrderItem[];
+export class CreateOrderDTO implements IOrder {
+    @IsNotEmpty()
+    @IsUUID()
+    @ApiProperty({ description: 'order ID', required: true })
+    id: string;
 
-//     @IsObject()
-//     @IsNotEmptyObject()
-//     @ValidateNested()
-//     @Type(() => CreateCustomerOrderDataDTO)
-//     @ApiProperty({
-//         type: CreateCustomerOrderDataDTO,
-//         required: true,
-//         description: 'user data'
-//     })
-//     customer: IOrderCustomerData;
-// }
+    @IsObject()
+    @IsNotEmptyObject()
+    @ValidateNested()
+    @Type(() => CreateOrderCustomerDataDTO)
+    @ApiProperty({
+        type: CreateOrderCustomerDataDTO,
+        required: true,
+        description: 'customer data'
+    })
+    customer: IOrderCustomerData;
+}
 
 export class OrderPublicDTO extends OrderBaseEntity implements IOrderPublic {
     @ApiProperty({ type: OrderItemPublicDTO, isArray: true })

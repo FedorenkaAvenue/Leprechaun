@@ -1,8 +1,15 @@
-import { Body, Controller, Delete, Get, Param, ParseUUIDPipe, Post, UseInterceptors, ValidationPipe } from '@nestjs/common';
-import { ApiBadRequestResponse, ApiNotFoundResponse, ApiOkResponse, ApiOperation, ApiQuery, ApiTags } from '@nestjs/swagger';
+import {
+    Body, Controller, Delete, Get, Param, ParseUUIDPipe, Post, UseInterceptors,
+    ValidationPipe
+} from '@nestjs/common';
+import {
+    ApiBadRequestResponse, ApiNotFoundResponse, ApiOkResponse, ApiOperation,
+    ApiTags
+} from '@nestjs/swagger';
+import { UpdateResult } from 'typeorm';
 
-import { OrderService, OrderServiceNA } from '@services/Order';
-import { OrderPublicDTO } from '@dto/Order';
+import { OrderService } from '@services/Order';
+import { CreateOrderDTO, OrderPublicDTO } from '@dto/Order';
 import { Session } from '@decorators/Session';
 import { ISession } from '@interfaces/Session';
 import AffectedResultInterceptor from '@interceptors/AffectedResult';
@@ -14,7 +21,7 @@ import { IOrderItem } from '@interfaces/OrderItem';
 @ApiTags('Order 🧑‍💻')
 export class OrderPublicController {
     constructor(
-        private readonly orderServiceNA: OrderServiceNA
+        private readonly orderService : OrderService
     ) {}
 
     @Get()
@@ -24,7 +31,16 @@ export class OrderPublicController {
     getCurrentOrder(
         @Session() { id }: ISession
     ): Promise<IOrderPublic> {
-        return this.orderServiceNA.getCurrentOrder(id);
+        return this.orderService.getCurrentOrder(id);
+    }
+
+    @Get('history')
+    @ApiOperation({ summary: 'get order history' })
+    @ApiOkResponse({ type: OrderPublicDTO, isArray: true })
+    getOrderHistory(
+        @Session() { id }: ISession
+    ): Promise<IOrderPublic[]> {
+        return this.orderService.getOrderHistory(id);
     }
 
     @Post('add')
@@ -34,7 +50,25 @@ export class OrderPublicController {
         @Session() { id }: ISession,
         @Body(new ValidationPipe({ transform: true })) orderItem: CreateOrderItemDTO
     ) {
-        return this.orderServiceNA.addOrderItemNA(orderItem, id);
+        return this.orderService.addOrderItem(orderItem, id);
+    }
+
+    @Post('amount')
+    @UseInterceptors(AffectedResultInterceptor)
+    @ApiOperation({ summary: 'change order item amount' })
+    changeOrderItemAmount(
+        @Body(new ValidationPipe({ transform: true })) orderItem: CreateOrderItemDTO
+    ): Promise<UpdateResult> {
+        return this.orderService.changeOrderItemAmount(orderItem);
+    }
+
+    @Post()
+    @UseInterceptors(AffectedResultInterceptor)
+    @ApiOperation({ summary: 'post order' })
+    postOrder(
+        @Body(new ValidationPipe({ transform: true })) order: CreateOrderDTO
+    ): Promise<UpdateResult> {
+        return this.orderService.postOrder(order);
     }
 
     @Delete('item/:itemId')
@@ -44,7 +78,7 @@ export class OrderPublicController {
     removeItem(
         @Param('itemId', ParseUUIDPipe) orderItemId: IOrderItem['id']
     ) {
-        return this.orderServiceNA.removeOrderItem(orderItemId);
+        return this.orderService.removeOrderItem(orderItemId);
     }
 }
 

@@ -1,8 +1,10 @@
 import { IOrderItem, IOrderItemPublic } from './OrderItem';
 import { ISession } from './Session';
+import { IUser } from './User';
 
 export enum OrderStatus {
     CREATED = 1,
+    POSTED,
     IN_PROCESS,
     COMPLETED,
     CANCELED
@@ -23,6 +25,7 @@ export interface IOrderPublic extends IOrderBase<IOrderItemPublic> {}
 
 export interface IOrder extends IOrderBase {
     created_at?: Date
-    customer?: IOrderCustomerData | string
-    session_id?: ISession['id'] | null // for non-authorizated users
+    customer?: IOrderCustomerData | string // reciever data
+    user?: IUser                           // for authorized users
+    session_id?: ISession['id'] | null     // for non-authorizated users
 }
