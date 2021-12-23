@@ -1,11 +1,9 @@
 import { ApiProperty } from '@nestjs/swagger';
-import {
-    IsArray, IsNotEmpty, IsNotEmptyObject, IsNumber, IsObject, IsOptional, IsString,
-    IsUUID, ValidateNested
-} from 'class-validator';
-import { Type } from 'class-transformer';
 
-import { IOrder, IOrderItem, IOrderCustomerData } from '@interfaces/Order';
+import { IOrder, IOrderPublic } from '@interfaces/Order';
+import { OrderBaseEntity } from '@src/entities/Order';
+import { IOrderItemPublic } from '@interfaces/OrderItem';
+import { OrderItemPublicDTO } from './OrderItem';
 
 // export class CreateCustomerOrderDataDTO implements IOrderCustomerData {
 //     @IsNotEmpty()
@@ -18,22 +16,6 @@ import { IOrder, IOrderItem, IOrderCustomerData } from '@interfaces/Order';
 //     @ApiProperty({ required: true, description: 'user phone' })
 //     phone: string;
 // }
-
-export class CreateOrderItemDTO implements IOrderItem {
-    @IsNotEmpty()
-    @IsUUID()
-    @ApiProperty({ description: 'product ID', required: true })
-    product_id: string;
-
-    @IsOptional()
-    @IsNumber()
-    @ApiProperty({
-        required: false,
-        description: 'product items amount',
-        default: 1
-    })
-    amount: number;
-}
 
 // export class CreateOrderDTO implements IOrder {
 //     @IsArray()
@@ -58,3 +40,15 @@ export class CreateOrderItemDTO implements IOrderItem {
 //     })
 //     customer: IOrderCustomerData;
 // }
+
+export class OrderPublicDTO extends OrderBaseEntity implements IOrderPublic {
+    @ApiProperty({ type: OrderItemPublicDTO, isArray: true })
+    list?: IOrderItemPublic[];
+
+    constructor({ id, status, list }: IOrder) {
+        super();
+        this.id = id;
+        this.status = status;
+        this.list = list.map(prod => new OrderItemPublicDTO(prod))
+    }
+}

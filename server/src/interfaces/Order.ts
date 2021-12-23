@@ -1,4 +1,6 @@
-import { IProduct } from './Product';
+import { IOrderItem, IOrderItemPublic } from './OrderItem';
+import { IProductPreview } from './Product';
+import { ISession } from './Session';
 
 export enum OrderStatus {
     CREATED = 1,
@@ -12,17 +14,16 @@ export interface IOrderCustomerData {
     phone: string
 }
 
-export interface IOrderItem {
+export interface IOrderBase<T = IOrderItem> {
     id?: string
-    order_id?: string
-    product_id: IProduct['id']
-    amount?: number
+    status?: OrderStatus
+    list?: Array<T>
 }
 
-export interface IOrder {
-    id?: string
+export interface IOrderPublic extends IOrderBase<IOrderItemPublic> {}
+
+export interface IOrder extends IOrderBase {
     created_at?: Date
-    order_items: Array<IOrderItem>
-    status?: OrderStatus
-    customer: IOrderCustomerData | string
+    customer?: IOrderCustomerData | string
+    session_id?: ISession['id'] | null // for non-authorizated users
 }
