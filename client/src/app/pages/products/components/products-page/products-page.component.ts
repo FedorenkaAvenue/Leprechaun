@@ -3,7 +3,7 @@ import { FormControl } from '@angular/forms';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Products } from '@shared/models/products/products.model';
 import { CardStateService } from '@shared/services/card/card-state.service';
-import { FavoriteService } from '@shared/services/favorite/favorite.service';
+import { FavoriteStateService } from '@shared/services/favorite/favorite.service';
 import { Observable } from 'rxjs';
 import { ProductsManagerService } from '../../services/products-manager/products-manager.service';
 
@@ -22,7 +22,7 @@ export class ProductsPageComponent implements OnInit {
     private readonly router: Router,
     private readonly route: ActivatedRoute,
     private readonly cardService: CardStateService,
-    private readonly favoriteService: FavoriteService,
+    private readonly FavoriteStateService: FavoriteStateService,
   ) {
     this.productsManagerService.init();
   }
@@ -58,6 +58,6 @@ export class ProductsPageComponent implements OnInit {
   }
 
   public addToFavorite(productId): void {
-    this.favoriteService.addToFavorite(productId)
+    this.FavoriteStateService.addToFavorite(productId)
   }
 }

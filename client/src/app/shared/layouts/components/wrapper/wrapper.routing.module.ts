@@ -23,6 +23,11 @@ const routes: Routes = [
                 path: 'card',
                 loadChildren: () => import('../../../../pages/card-page/card-page.module').then(m => m.CardPageModule)
             }
+            ,
+            {
+                path: 'favorites',
+                loadChildren: () => import('../../../../pages/favorites-page/favorites-page.module').then(m => m.FavoritesPageModule)
+            }
         ]
     }
 ]

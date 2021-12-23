@@ -8,20 +8,20 @@
         <app-leprachaun-icon name="question" color="gray"> </app-leprachaun-icon>
         <span class="btn-label">Допомога</span>
       </button>
-      <button class="header_favorites main-btn">
+      <a [routerLink]="['/favorites']" routerLinkActive="active" class="header_favorites main-btn">
         <app-leprachaun-icon name="heart" color="gray"> </app-leprachaun-icon>
         <span class="btn-label">вибране</span>
-        <!-- <ng-container *ngIf="(favoriteValue$ | async)?.length as cardCount">
-          <span>{{cardCount}}</span>
-        </ng-container> -->
-      </button>
+        <ng-container *ngIf="(favoriteValue$ | async)?.length as favoritesCount">
+          <span>{{favoritesCount}}</span>
+        </ng-container>
+      </a>
       <app-language-switch [languages]="languages"></app-language-switch>
-      <a [routerLink]="['/card']" routerLinkActive="active"  class="header_cart main-btn">
+      <a [routerLink]="['/card']" routerLinkActive="active" class="header_cart main-btn">
         <app-leprachaun-icon name="card" color="gray"> </app-leprachaun-icon>
         <span class="btn-label">вкошик</span>
-        <!-- <ng-container *ngIf="(cardValue$ | async)?.length as cardCount">
+        <ng-container *ngIf="(cardValue$ | async)?.length as cardCount">
           <span>{{cardCount}}</span>
-        </ng-container> -->
+        </ng-container>
       </a>
     </div>
   </div>
