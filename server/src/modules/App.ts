@@ -11,6 +11,7 @@ import ToolModule from './Tool';
 import ConfigService from '@services/Config';
 import AdminModule from './Admin';
 import UserModule from './User';
+import OrderModule from './Order';
 
 @Module({
 	imports: [
@@ -20,11 +21,12 @@ import UserModule from './User';
 		}),
 		CategoryModule,
 		ProductModule,
+		OrderModule,
+		UserModule,
 		PropertyGroupModule,
 		PropertyModule,
 		ImageModule,
 		LabelModule,
-		UserModule,
 		ToolModule,
 		AdminModule
 	]
