@@ -8,11 +8,16 @@ export enum ProductStatus {
     OUT_OF_STOCK    // распродан
 }
 
+export interface IPrice {
+    current: number
+    old: number | null
+}
+
 export interface IBaseProduct {
     id?: string
     title: string
     status: ProductStatus
-    price: number
+    price: IPrice
 }
 
 export interface IProductPreview extends IBaseProduct {
