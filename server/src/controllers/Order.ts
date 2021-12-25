@@ -9,7 +9,7 @@ import {
 import { UpdateResult } from 'typeorm';
 
 import { OrderService } from '@services/Order';
-import { CreateOrderDTO, OrderPublicDTO } from '@dto/Order';
+import { ChangeOrderStatusDTO, CreateOrderDTO, OrderPublicDTO } from '@dto/Order';
 import { Session } from '@decorators/Session';
 import { ISession } from '@interfaces/Session';
 import AffectedResultInterceptor from '@interceptors/AffectedResult';
@@ -92,6 +92,15 @@ export class OrderAdminController {
     constructor(
         private readonly orderService: OrderService
     ) {}
+
+    @Patch('status')
+    @UseInterceptors(AffectedResultInterceptor)
+    @ApiOperation({ summary: 'change order status' })
+    changeOrderStatus(
+        @Body(new ValidationPipe({ transform: true })) order: ChangeOrderStatusDTO
+    ) {
+        return this.orderService.changeOrderStatus(order);
+    }
 
     @Delete(':orderId')
     @UseInterceptors(AffectedResultInterceptor)

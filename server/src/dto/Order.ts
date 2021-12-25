@@ -1,11 +1,11 @@
 import { ApiProperty } from '@nestjs/swagger';
 import {
-    IsNotEmpty, IsNotEmptyObject, IsNumber, IsObject, IsOptional, IsString,
-    ValidateNested
+    IsEnum, IsNotEmpty, IsNotEmptyObject, IsNumber, IsObject, IsOptional, IsString,
+    IsUUID, ValidateNested
 } from 'class-validator';
 import { Type } from 'class-transformer';
 
-import { IOrder, IOrderCustomerData, IOrderPublic } from '@interfaces/Order';
+import { IOrder, IOrderCustomerData, IOrderPublic, OrderStatus } from '@interfaces/Order';
 import { OrderBaseEntity } from '@entities/Order';
 import { IOrderItemPublic } from '@interfaces/OrderItem';
 import { OrderItemPublicDTO } from './OrderItem';
@@ -49,4 +49,14 @@ export class OrderPublicDTO extends OrderBaseEntity implements IOrderPublic {
         this.status = status;
         this.list = list.map(prod => new OrderItemPublicDTO(prod))
     }
+}
+
+export class ChangeOrderStatusDTO implements IOrder {
+    @IsEnum(OrderStatus)
+    @ApiProperty({ required: true, enum: OrderStatus })
+    status?: OrderStatus;
+
+    @IsUUID()
+    @ApiProperty({ description: 'order ID', required: true })
+    id?: string;
 }
