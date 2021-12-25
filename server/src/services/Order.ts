@@ -17,12 +17,13 @@ export class OrderService {
         @InjectRepository(OrderItemEntity) public readonly orderItemRepo: Repository<OrderItemEntity>
     ) {}
 
-    async createOrder(order: IOrder, item: CreateOrderItemDTO): Promise<void> {
+    async createOrder(order: IOrder): Promise<IOrder> {
+        return this.orderRepo.save(order);
+    }
+
+    createOrderItem(orderId: IOrder['id'], item: CreateOrderItemDTO): Promise<IOrderItem> {
         //@ts-ignore
-        const { id } = await this.orderRepo.save(order);
-        
-        //@ts-ignore
-        await this.orderItemRepo.save({ order: id, ...item });
+        return this.orderItemRepo.save({ order: orderId, ...item });
     }
 
     async getCurrentOrder(session_id: ISession['id']): Promise<IOrderPublic> {
@@ -60,7 +61,7 @@ export class OrderService {
         }
     }
 
-    async addOrderItem(orderItem: CreateOrderItemDTO, session_id: ISession['id']) {
+    async addOrderItem(orderItem: CreateOrderItemDTO, session_id: ISession['id']): Promise<IOrderPublic> {
         const res = await this.orderRepo.findOne({
             where: { session_id, status: OrderStatus.CREATED },
             relations: ['list', 'list.product']
@@ -73,26 +74,39 @@ export class OrderService {
                 throw new BadRequestException('product already exists');
             } else {
                 //@ts-ignore
-                this.orderItemRepo.save({ order: id, ...orderItem });
+                await this.orderItemRepo.save({ order: id, ...orderItem });
             }
         } else { // create new order
-            await this.createOrder({ session_id }, orderItem);
+            const { id } = await this.createOrder({ session_id });
+            await this.createOrderItem(id, orderItem);
         }
+
+        return await this.getCurrentOrder(session_id);
     }
 
-    changeOrderItemAmount({ order_item, amount }: UpdateOrderItemDTO): Promise<UpdateResult> {
-        return this.orderItemRepo.update({ id: order_item }, { amount });
+    async changeOrderItemAmount(
+        { order_item, amount }: UpdateOrderItemDTO,
+        sessionId: ISession['id']
+    ): Promise<IOrderPublic> {
+        await this.orderItemRepo.update({ id: order_item }, { amount });
+
+        return this.getCurrentOrder(sessionId);
     }
 
-    postOrder({ id, customer }: CreateOrderDTO): Promise<UpdateResult> {
+    sendOrder({ order, customer }: CreateOrderDTO): Promise<UpdateResult> {
         return this.orderRepo.update(
-            { id },
+            { id: order.id },
             { status: OrderStatus.POSTED, customer: JSON.stringify(customer) }
         );
     }
 
-    removeOrderItem(id: IOrderItem['id']): Promise<DeleteResult> {
-        return this.orderItemRepo.delete({ id });
+    async removeOrderItem(
+        id: IOrderItem['id'],
+        sessionId: ISession['id']
+    ): Promise<IOrderPublic> {
+        await this.orderItemRepo.delete({ id });
+
+        return this.getCurrentOrder(sessionId);
     }
 
     removeOrder(id: IOrder['id']): Promise<DeleteResult> {

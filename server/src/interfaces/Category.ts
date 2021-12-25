@@ -1,11 +1,11 @@
 import { IProduct } from '@interfaces/Product';
 import { IPropertyGroup } from '@interfaces/PropertyGroup';
 
-export interface ICategoryBase<TIcon = string> {
+export interface ICategoryBase<T = string> {
     id?: number
     url: string
     title: string
-    icon: TIcon | null
+    icon: T | null
 }
 
 export interface ICategoryPublic extends ICategoryBase {}

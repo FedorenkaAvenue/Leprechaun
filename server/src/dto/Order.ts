@@ -1,14 +1,14 @@
 import { ApiProperty } from '@nestjs/swagger';
 import {
     IsNotEmpty, IsNotEmptyObject, IsNumber, IsObject, IsOptional, IsString,
-    IsUUID, ValidateNested
+    ValidateNested
 } from 'class-validator';
+import { Type } from 'class-transformer';
 
 import { IOrder, IOrderCustomerData, IOrderPublic } from '@interfaces/Order';
-import { OrderBaseEntity } from '@src/entities/Order';
+import { OrderBaseEntity } from '@entities/Order';
 import { IOrderItemPublic } from '@interfaces/OrderItem';
 import { OrderItemPublicDTO } from './OrderItem';
-import { Type } from 'class-transformer';
 
 export class CreateOrderCustomerDataDTO implements IOrderCustomerData {
     @IsOptional()
@@ -22,11 +22,10 @@ export class CreateOrderCustomerDataDTO implements IOrderCustomerData {
     phone: string;
 }
 
-export class CreateOrderDTO implements IOrder {
+export class CreateOrderDTO {
     @IsNotEmpty()
-    @IsUUID()
-    @ApiProperty({ description: 'order ID', required: true })
-    id: string;
+    @ApiProperty({ description: 'order object', required: true })
+    order: IOrder;
 
     @IsObject()
     @IsNotEmptyObject()
@@ -35,9 +34,9 @@ export class CreateOrderDTO implements IOrder {
     @ApiProperty({
         type: CreateOrderCustomerDataDTO,
         required: true,
-        description: 'customer data'
+        description: 'reciever/user data'
     })
-    customer: IOrderCustomerData;
+    customer: string;
 }
 
 export class OrderPublicDTO extends OrderBaseEntity implements IOrderPublic {

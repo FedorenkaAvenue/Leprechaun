@@ -7,6 +7,6 @@ export interface ICommonDashboards {
     popular: TDashboard
 }
 
-export interface IUserDashboards<TListType = TDashboard> {
-    history: TListType
+export interface IUserDashboards<T = TDashboard> {
+    history: T
 }

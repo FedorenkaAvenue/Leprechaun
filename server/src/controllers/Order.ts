@@ -25,7 +25,7 @@ export class OrderPublicController {
     ) {}
 
     @Get()
-    @ApiOperation({ summary: 'get current active order' })
+    @ApiOperation({ summary: 'get current order (basket)' })
     @ApiOkResponse({ type: OrderPublicDTO })
     @ApiNotFoundResponse({ description: 'no active order' })
     getCurrentOrder(
@@ -36,40 +36,44 @@ export class OrderPublicController {
 
     @Post('item')
     @ApiOperation({ summary: 'add new order item' })
+    @ApiOkResponse({ type: OrderPublicDTO })
     @ApiBadRequestResponse({ description: 'product already exists' })
     addOrderItem(
         @Session() { id }: ISession,
         @Body(new ValidationPipe({ transform: true })) orderItem: CreateOrderItemDTO
-    ) {
+    ): Promise<IOrderPublic> {
         return this.orderService.addOrderItem(orderItem, id);
     }
 
     @Patch('item')
-    @UseInterceptors(AffectedResultInterceptor)
     @ApiOperation({ summary: 'change order item amount' })
+    @ApiOkResponse({ type: OrderPublicDTO })
     changeOrderItemAmount(
-        @Body(new ValidationPipe({ transform: true })) orderItem: UpdateOrderItemDTO
-    ): Promise<UpdateResult> {
-        return this.orderService.changeOrderItemAmount(orderItem);
+        @Body(new ValidationPipe({ transform: true })) orderItem: UpdateOrderItemDTO,
+        @Session() { id }: ISession
+    ): Promise<IOrderPublic> {
+        return this.orderService.changeOrderItemAmount(orderItem, id);
     }
 
     @Post()
     @UseInterceptors(AffectedResultInterceptor)
-    @ApiOperation({ summary: 'post order' })
-    postOrder(
+    @ApiOperation({ summary: 'send order' })
+    @ApiOkResponse({ type: OrderPublicDTO })
+    sendOrder(
         @Body(new ValidationPipe({ transform: true })) order: CreateOrderDTO
     ): Promise<UpdateResult> {
-        return this.orderService.postOrder(order);
+        return this.orderService.sendOrder(order);
     }
 
     @Delete('item/:itemId')
-    @UseInterceptors(AffectedResultInterceptor)
-    @ApiOperation({ summary: 'delete order product by order item ID' })
+    @ApiOperation({ summary: 'delete order item' })
+    @ApiOkResponse({ type: OrderPublicDTO })
     @ApiNotFoundResponse({ description: 'order item not found' })
     removeItem(
-        @Param('itemId', ParseUUIDPipe) orderItemId: IOrderItem['id']
-    ) {
-        return this.orderService.removeOrderItem(orderItemId);
+        @Param('itemId', ParseUUIDPipe) orderItemId: IOrderItem['id'],
+        @Session() { id }: ISession
+    ): Promise<IOrderPublic> {
+        return this.orderService.removeOrderItem(orderItemId, id);
     }
 
     @Get('history')

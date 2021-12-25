@@ -25,7 +25,7 @@ export interface IOrderPublic extends IOrderBase<IOrderItemPublic> {}
 
 export interface IOrder extends IOrderBase {
     created_at?: Date
-    customer?: IOrderCustomerData | string // reciever data
+    customer?: string                      // reciever data
     user?: IUser                           // for authorized users
     session_id?: ISession['id'] | null     // for non-authorizated users
 }
