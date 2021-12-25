@@ -36,7 +36,7 @@ export class CreateOrderDTO {
         required: true,
         description: 'reciever/user data'
     })
-    customer: string;
+    customer: IOrderCustomerData;
 }
 
 export class OrderPublicDTO extends OrderBaseEntity implements IOrderPublic {

@@ -96,7 +96,7 @@ export class OrderService {
     sendOrder({ order, customer }: CreateOrderDTO): Promise<UpdateResult> {
         return this.orderRepo.update(
             { id: order.id },
-            { status: OrderStatus.POSTED, customer: JSON.stringify(customer) }
+            { status: OrderStatus.POSTED, customer }
         );
     }
 
@@ -111,6 +111,12 @@ export class OrderService {
 
     changeOrderStatus({ id, status }: ChangeOrderStatusDTO): Promise<UpdateResult> {
         return this.orderRepo.update({ id }, { status });
+    }
+
+    getAdminOrders(): Promise<IOrder[]> {
+        return this.orderRepo.find({
+            relations: ['list', 'list.product']
+        });
     }
 
     removeOrder(id: IOrder['id']): Promise<DeleteResult> {

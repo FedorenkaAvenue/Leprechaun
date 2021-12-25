@@ -13,9 +13,10 @@ import { ChangeOrderStatusDTO, CreateOrderDTO, OrderPublicDTO } from '@dto/Order
 import { Session } from '@decorators/Session';
 import { ISession } from '@interfaces/Session';
 import AffectedResultInterceptor from '@interceptors/AffectedResult';
-import { IOrderPublic } from '@interfaces/Order';
+import { IOrder, IOrderPublic } from '@interfaces/Order';
 import { CreateOrderItemDTO, UpdateOrderItemDTO } from '@dto/OrderItem';
 import { IOrderItem } from '@interfaces/OrderItem';
+import { OrderEntity } from '@entities/Order';
 
 @Controller('order')
 @ApiTags('Order 🧑‍💻')
@@ -100,6 +101,14 @@ export class OrderAdminController {
         @Body(new ValidationPipe({ transform: true })) order: ChangeOrderStatusDTO
     ) {
         return this.orderService.changeOrderStatus(order);
+    }
+
+    // TODO query filers
+    @Get('list')
+    @ApiOperation({ summary: 'get order list' })
+    @ApiOkResponse({ type: OrderEntity, isArray: true })
+    getOrders(): Promise<IOrder[]> {
+        return this.orderService.getAdminOrders();
     }
 
     @Delete(':orderId')

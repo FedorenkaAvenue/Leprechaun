@@ -6,6 +6,7 @@ import { ProductEntity } from './Product';
 import { IProduct } from '@interfaces/Product';
 import { IOrderItem, IOrderItemBase } from '@interfaces/OrderItem';
 import { OrderEntity } from './Order';
+import { ProductPreviewDTO } from '@dto/Product';
 
 export class OrderItemBaseEntity implements IOrderItemBase {
     @PrimaryGeneratedColumn('uuid')
@@ -24,7 +25,7 @@ export class OrderItemEntity extends OrderItemBaseEntity implements IOrderItem {
         ({ id }) => id
     )
     @JoinColumn({ name: 'product', referencedColumnName: 'id' })
-    @ApiProperty({ required: true })
+    @ApiProperty({ type: ProductPreviewDTO , required: true })
     product: IProduct;
 
     @ManyToOne(
