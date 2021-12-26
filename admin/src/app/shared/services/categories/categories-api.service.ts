@@ -25,7 +25,7 @@ export class CategoriesApiService {
   }
 
   public getCategoryByUrl(url: string): Observable<CategoryDto> {
-    return this.http.get<CategoryDto>(`${this.apiUrl}/category/${url}`)
+    return this.http.get<CategoryDto>(`${this.apiUrl}/adm/category/${url}`)
   }
 
   public createCategory(data: any): Observable<CategoryDto> {

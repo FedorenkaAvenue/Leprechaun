@@ -23,12 +23,14 @@ export class ProductsApiService {
     const formData  = new FormData();
     formData.append('category', data.category),
     formData.append('isPublic', data.isPublic),
-    formData.append('price', data.price),
+    formData.append('price[old]', '324234'),
+    formData.append('price[current]', '0'),
+    // formData.append('price', JSON.stringify({current: 2132, old: 23})),
     formData.append('title', data.title),
     Object.keys(data.images).forEach((key: any) => {
         formData.append('images', data.images[key])
       });
-    return this.http.post<any>(`${this.apiUrl}/product`, formData)
+    return this.http.post<any>(`${this.apiUrl}/adm/product`, formData)
   }
 
   public deleteProduct(id: number): Observable<any> {
