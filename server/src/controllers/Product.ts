@@ -16,7 +16,7 @@ import { ISearchReqQueries } from '@interfaces/Queries';
 import { PaginationDTO, PaginationResultDTO } from '@dto/Pagination';
 import { ApiPaginatedResponse } from '@decorators/Swagger';
 import { CommonDashboardsDTO, UserDashboardsDTO } from '@dto/Dashboard';
-import { IProductPreview, IPublicProduct } from '@interfaces/Product';
+import { IProduct, IProductPreview, IPublicProduct } from '@interfaces/Product';
 import { QueryGETListDTO } from '@dto/Queries';
 import { Cookies } from '@decorators/Cookies';
 import { ICookies } from '@interfaces/Cookies';
@@ -40,7 +40,6 @@ export class ProductPublicController {
     @Get('list')
     @UseInterceptors(CacheInterceptor)
     @UseInterceptors(InvalidPaginationPageInterceptor)
-    @ApiQuery({ name: 'page', required: false, description: 'page number', type: 'number' })
     @ApiOperation({ summary: 'get all public products 💾' })
     @ApiPaginatedResponse(PublicProductDTO)
     getProducts(
@@ -54,7 +53,6 @@ export class ProductPublicController {
     @UseInterceptors(CacheInterceptor)
 	@UseInterceptors(InvalidPaginationPageInterceptor)
 	@ApiOperation({ summary: 'get public products by category URL 💾' })
-    @ApiQuery({ name: 'page', required: false, description: 'page number', type: 'number' })
     @ApiNotFoundResponse({ description: 'category not found' })
 	@ApiPaginatedResponse(PublicProductDTO)
 	getCategoryProducts(
@@ -140,6 +138,30 @@ export class ProductAdminController {
     ): Promise<void> {
         return this.productService.createProduct(product, images);
     }
+
+    @Get('list')
+    @UseInterceptors(InvalidPaginationPageInterceptor)
+    @ApiOperation({ summary: 'get product list' })
+    @ApiPaginatedResponse(ProductEntity)
+    getproducts(
+        @Query() queries: ISearchReqQueries,
+        @Cookies() { portion, sort }: ICookies
+    ): Promise<PaginationResultDTO<IProduct>> {
+        return this.productService.getAdminProducts(queries, { portion, sort });
+    }
+
+    @Get('category/:categoryUrl')
+	@UseInterceptors(InvalidPaginationPageInterceptor)
+	@ApiOperation({ summary: 'get products by category URL' })
+    @ApiNotFoundResponse({ description: 'category not found' })
+	@ApiPaginatedResponse(ProductEntity)
+	getCategoryProducts(
+		@Query() queries: ISearchReqQueries,
+        @Cookies() { portion, sort }: ICookies,
+		@Param('categoryUrl') categoryUrl: string
+	): Promise<PaginationResultDTO<IProduct>> {
+		return this.productService.getCategoryAdminProducts(categoryUrl, queries, { portion, sort });
+	}
 
     @Get(':productId')
     @UseInterceptors(UndefinedResultInterceptor)

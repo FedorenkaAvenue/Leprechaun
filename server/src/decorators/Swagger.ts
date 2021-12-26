@@ -1,5 +1,5 @@
 import { applyDecorators, Type } from '@nestjs/common';
-import { ApiNotAcceptableResponse, ApiOkResponse, getSchemaPath } from '@nestjs/swagger';
+import { ApiNotAcceptableResponse, ApiOkResponse, ApiQuery, getSchemaPath } from '@nestjs/swagger';
 
 import { PaginationDTO } from '@dto/Pagination';
 
@@ -20,6 +20,9 @@ export const ApiPaginatedResponse = <TModel extends Type<any>>(model: TModel) =>
 		ApiNotAcceptableResponse({
 			status: 406,
 			description: 'invalid pagination page'
+		}),
+		ApiQuery({
+			name: 'page', required: false, description: 'page number', type: 'number'
 		})
 	);
 };
