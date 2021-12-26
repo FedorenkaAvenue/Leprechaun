@@ -1,9 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import {
-    IsBooleanString, IsEnum, IsNotEmpty, IsNotEmptyObject, IsNumberString, IsObject,
-    IsOptional, IsString, ValidateNested
-} from 'class-validator';
-import { Type } from 'class-transformer';
+import { IsBooleanString, IsEnum, IsNotEmpty, IsNumberString, IsOptional, IsString } from 'class-validator';
 
 import { ICategory } from '@interfaces/Category';
 import { IPrice, IProduct, IProductPreview, IPublicProduct, ProductStatus } from '@interfaces/Product';
@@ -12,30 +8,21 @@ import { IProperty } from '@interfaces/Property';
 import { IImage } from '@interfaces/Image';
 import { BaseProductEntity, PublicProductEntity } from '@entities/Product';
 
-export class CreatePriceDTO implements IPrice {
-    @IsNotEmpty()
-    @IsNumberString()
-    @ApiProperty({ required: true })
-    current: number;
-
-    @IsOptional()
-    @IsNumberString()
-    @ApiProperty({ required: false, default: null })
-    old: number;
-}
-
 export class CreateProductDTO implements IProduct {
     @IsNotEmpty()
     @IsString()
     @ApiProperty({ required: true })
     title: string;
 
-    @IsObject()
-    @IsNotEmptyObject()
-    @ValidateNested()
-    @Type(() => CreatePriceDTO)
-    @ApiProperty({ type: CreatePriceDTO, required: true })
-    price: IPrice;
+    @IsNotEmpty()
+    @IsNumberString()
+    @ApiProperty({ required: true })
+    price_current: number;
+
+    @IsOptional()
+    @IsNumberString()
+    @ApiProperty({ required: false, default: null })
+    price_old: number;
 
     @IsOptional()
     @IsBooleanString()
@@ -100,13 +87,18 @@ export class CreateProductDTO implements IProduct {
     comment: string;
 }
 
-export class CreateProductDTOConstructor extends CreateProductDTO {
+export class CreateProductDTOConstructor extends CreateProductDTO implements IProduct {
+    price?: IPrice;
+
     constructor({
-        title, price, is_public, category, labels, properties, status, description, comment
+        title, price_current, price_old, is_public, category, labels, properties, status, description, comment
     }: CreateProductDTO) {
         super();
         this.title = title;
-        this.price = price;
+        this.price = {
+            current: price_current,
+            old: price_old
+        };
         this.is_public = is_public;
         this.status = status || ProductStatus.AVAILABLE;
         this.category = category;

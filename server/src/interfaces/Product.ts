@@ -17,7 +17,7 @@ export interface IBaseProduct {
     id?: string
     title: string
     status: ProductStatus
-    price: IPrice
+    price?: IPrice
 }
 
 export interface IProductPreview extends IBaseProduct {
