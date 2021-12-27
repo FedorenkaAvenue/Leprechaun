@@ -12,6 +12,7 @@ import ConfigService from '@services/Config';
 import AdminModule from './Admin';
 import UserModule from './User';
 import OrderModule from './Order';
+import WishlistModule from './Wishlist';
 
 @Module({
 	imports: [
@@ -22,6 +23,7 @@ import OrderModule from './Order';
 		CategoryModule,
 		ProductModule,
 		OrderModule,
+		WishlistModule,
 		UserModule,
 		PropertyGroupModule,
 		PropertyModule,
