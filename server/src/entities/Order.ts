@@ -20,7 +20,7 @@ export class OrderBaseEntity implements IOrderBase {
     @ApiProperty({ required: true, description: 'order ID' })
     id?: string;
 
-    @Column({ default: OrderStatus.CREATED })
+    @Column({ default: OrderStatus.INIT })
     @ApiProperty({ required: true, enum: OrderStatus })
     status: OrderStatus;
 }

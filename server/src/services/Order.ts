@@ -33,7 +33,7 @@ export class OrderService {
                 .where('order.session_id = :session_id', { session_id })
                 .andWhere(
                     'order.status IN (:...statuses)',
-                    { statuses: [ OrderStatus.CREATED, OrderStatus.POSTED ] }
+                    { statuses: [ OrderStatus.INIT, OrderStatus.POSTED ] }
                 )
                 .leftJoinAndSelect('order.list', 'list')
                 .leftJoinAndSelect('list.product', 'product')
@@ -63,7 +63,7 @@ export class OrderService {
 
     async addOrderItem(orderItem: CreateOrderItemDTO, session_id: ISession['id']): Promise<IOrderPublic> {
         const res = await this.orderRepo.findOne({
-            where: { session_id, status: OrderStatus.CREATED },
+            where: { session_id, status: OrderStatus.INIT },
             relations: ['list', 'list.product']
         });
 
