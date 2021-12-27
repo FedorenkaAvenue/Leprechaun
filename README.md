@@ -33,6 +33,30 @@ Boilerplate for web store
    * https://docs.leprechaun.tech *Swagger* docs
    * https://api.leprechaun.tech RestFull API server
 
+## Docs
+
+  * **Enums**
+
+    * order status
+        
+      * `INIT`: **1** (корзина)
+      * `POSTED`: **2** (подтвержден пользователем)
+      * `IN_PROCESS` **3** (подтвержден продавец)
+      * `COMPLETED`: **4** (завершен)
+      * `CANCELED`: **5** (отменен)
+
+    * product status
+
+      * `AVAILABLE`: **1** (в продаже)
+      * `OUT_OF_STOCK`: **2** (закончился)
+
+    * sort type
+
+      * `POPULAR`: **1** (по популярности)
+      * `PRICE_UP`: **2** (от дешевых к дорогим)
+      * `PRICE_DOWN`: **3** (от дорогих к дешевым)
+      * `NEW`: **4** (по новинкам)
+
 ## Tools
 
  * container managing

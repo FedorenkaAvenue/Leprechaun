@@ -3,7 +3,7 @@ import { ISession } from './Session';
 import { IUser } from './User';
 
 export enum OrderStatus {
-    CREATED = 1,
+    INIT = 1,
     POSTED,
     IN_PROCESS,
     COMPLETED,
