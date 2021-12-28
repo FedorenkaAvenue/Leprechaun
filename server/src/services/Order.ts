@@ -27,23 +27,20 @@ export class OrderService {
     }
 
     async getCurrentOrder(session_id: ISession['id']): Promise<IOrderPublic> {
-        try {
-            const res = await this.orderRepo
-                .createQueryBuilder('order')
-                .where('order.session_id = :session_id', { session_id })
-                .andWhere(
-                    'order.status IN (:...statuses)',
-                    { statuses: [ OrderStatus.INIT, OrderStatus.POSTED ] }
-                )
-                .leftJoinAndSelect('order.list', 'list')
-                .leftJoinAndSelect('list.product', 'product')
-                .leftJoinAndSelect('product.images', 'images')
-                .getOneOrFail();
+        const res = await this.orderRepo
+            .createQueryBuilder('order')
+            .where('order.session_id = :session_id', { session_id })
+            .andWhere(
+                'order.status IN (:...statuses)',
+                { statuses: [ OrderStatus.INIT, OrderStatus.POSTED ] }
+            )
+            .leftJoinAndSelect('order.list', 'list')
+            .leftJoinAndSelect('list.product', 'product')
+            .leftJoinAndSelect('product.images', 'images')
+            .getOne();
 
-            return new OrderPublicDTO(res);
-        } catch(err) {
-            throw new NotFoundException('no any active order');
-        }
+        // fictive order if order doesn't exists
+        return new OrderPublicDTO(res || { id: null, status: null, list: [] });
     }
 
     async getOrderHistory(session_id: ISession['id']): Promise<IOrderPublic[]> {
