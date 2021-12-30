@@ -119,4 +119,8 @@ export class OrderService {
     removeOrder(id: IOrder['id']): Promise<DeleteResult> {
         return this.orderRepo.delete({ id });
     }
+
+    clearUselessOrders() {
+        console.log(777);
+    }
 }

@@ -49,4 +49,8 @@ export default class WishlistService {
         //@ts-ignore
         return this.wishlistRepo.delete({ product: productId, session_id });
     }
+
+    clearUselessWishlist() {
+        console.log(111);
+    }
 }

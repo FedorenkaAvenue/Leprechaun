@@ -11,6 +11,7 @@ import { OrderAdminController, OrderPublicController } from '@controllers/Order'
 		TypeOrmModule.forFeature([ OrderEntity, OrderItemEntity ])
 	],
 	controllers: [ OrderPublicController, OrderAdminController ],
-	providers: [ OrderService ]
+	providers: [ OrderService ],
+	exports: [ OrderService ]
 })
 export default class OrderModule {}

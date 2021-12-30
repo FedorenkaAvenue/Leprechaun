@@ -13,6 +13,7 @@ import AdminModule from './Admin';
 import UserModule from './User';
 import OrderModule from './Order';
 import WishlistModule from './Wishlist';
+import ScheduleModule from './Sheduler';
 
 @Module({
 	imports: [
@@ -30,6 +31,7 @@ import WishlistModule from './Wishlist';
 		ImageModule,
 		LabelModule,
 		ToolModule,
+		ScheduleModule,
 		AdminModule
 	]
 })
