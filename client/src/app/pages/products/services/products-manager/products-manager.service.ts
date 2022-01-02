@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Params } from '@angular/router';
 import { Products } from '@shared/models';
-import { CardStateService } from '@shared/services/card/card-state.service';
+import { CardStateService } from '@shared/services/card/card-state/card-state.service';
 import { combineLatest, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { ProductsService } from '../products.service';
@@ -13,7 +13,6 @@ export class ProductsManagerService {
   constructor(
     private readonly productsService: ProductsService,
     private readonly cardService: CardStateService,
-    
     ) { }
 
 
@@ -35,7 +34,8 @@ export class ProductsManagerService {
     return combineLatest([cardState$, products$]).pipe(
       map(([cardValue, products]) => {
         products.data.map(el => {
-          el.inCard = cardValue.includes(el.id);
+          const orderProducts = cardValue?.list.map(orderProduct => orderProduct?.product?.id);
+          el.inCard = orderProducts?.includes(el.id);
           return el;
         })
         return products

@@ -1,8 +1,10 @@
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { ActivatedRoute, Params, Router } from '@angular/router';
+import { OrderDto } from '@shared/models/products/order.model';
 import { Products } from '@shared/models/products/products.model';
-import { CardStateService } from '@shared/services/card/card-state.service';
+import { CardStateService } from '@shared/services/card/card-state/card-state.service';
+import { CardService } from '@shared/services/card/card/card.service';
 import { Observable } from 'rxjs';
 import { ProductsManagerService } from '../../services/products-manager/products-manager.service';
 
@@ -18,31 +20,30 @@ export class ProductsPageComponent implements OnInit {
   public myCustomControl = new FormControl();
   constructor(
     private readonly productsManagerService: ProductsManagerService,
+    private readonly cardService: CardService,
     private readonly router: Router,
     private readonly route: ActivatedRoute,
-    private readonly cardService: CardStateService,
+    private readonly cardStateService: CardStateService,
+    private readonly cdr: ChangeDetectorRef
   ) {
     this.productsManagerService.init();
   }
 
   ngOnInit(): void {
     this.productsList$ = this.productsManagerService.getProducts();
-    this.productsList$.subscribe(el => {
-      console.log(el.data);
-    })
     this.changeParams();
   }
 
   ngOnDestroy() {
     this.productsManagerService.destroy();
   }
+
   public changeSorting(order) {
     console.log(order); 
   }
+
   public changeParams(): void {
     this.route.queryParams.subscribe((params) => {
-      console.log(params);
-      
       this.productsManagerService.changeParams(params);
     });
   }
@@ -56,6 +57,9 @@ export class ProductsPageComponent implements OnInit {
   }
 
   public addToCard(productId): void {
-    this.cardService.addToCard(productId)
+    this.cardService.addToCard(productId).subscribe((order: OrderDto) => {
+      // const cardList = order?.list?.map(cardItem => cardItem?.product?.id)
+      this.cardService.updateCard(order);
+    })
   }
 }

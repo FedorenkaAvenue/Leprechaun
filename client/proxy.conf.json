@@ -6,7 +6,8 @@
     "pathRewrite": {
       "^/api": ""
     },
-    "logLevel": "debug"
+    "logLevel": "debug",
+    "withCredentials": true
   },
   "/img": {
     "target": "http://leprechaun_nginx",

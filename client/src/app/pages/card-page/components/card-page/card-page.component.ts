@@ -1,38 +1,34 @@
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
-import { CardItemDto } from '@shared/models';
-import { CardStateService } from '@shared/services/card/card-state.service';
+import { Component, OnInit, ChangeDetectionStrategy, OnDestroy } from '@angular/core';
+import { OrderDto } from '@shared/models/products/order.model';
+import { CardService } from '@shared/services/card/card/card.service';
 import { Observable } from 'rxjs';
-import { filter, switchMap } from 'rxjs/operators';
-import { CardPageService } from '../../services/card-page.service';
+import { take } from 'rxjs/operators';
 
 @Component({
   selector: 'app-card-page',
   templateUrl: './card-page.component.html',
   styleUrls: ['./card-page.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CardPageComponent implements OnInit {
-
-  public products$: Observable<CardItemDto[]>;
+  public cardData$: Observable<OrderDto>;
   constructor(
-    private readonly cardPageService: CardPageService,
-    private readonly cardStateService: CardStateService
-    ) { }
-
-  ngOnInit(): void {
-    this.products$ = this.cardStateService.getCardStateValue().pipe(
-      // filter(productsId => !!productsId?.length),
-      switchMap(productsId => {
-        return this.cardPageService.getProducts(productsId)
-      })
-    );
-  this.products$.subscribe(res => {
-    console.log(res);
-    
-  })
+    private readonly cardService: CardService,
+  ) {
   }
 
-  public deleteFromCard(id: number): void {
-    this.cardStateService.deleteFromCard(id)
+  ngOnInit(): void {
+    this.cardData$ = this.cardService.getCardValue();
+  }
+
+  
+
+  public deleteFromCard(id: string): void {
+    this.cardService
+      .deleteProduct(id)
+      .pipe(take(1))
+      .subscribe((order: OrderDto) => {
+        this.cardService.updateCard(order);
+      });
   }
 }

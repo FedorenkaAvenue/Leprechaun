@@ -16,13 +16,13 @@ export interface ProductCardImageI {
 }
 
 export interface ProductImageI {
-  id: string;
+  id: number;
   src: string;
   product_id: string;
 }
 
 export interface ProductPropertiesI {
-  id: 0,
+  id: string,
   title: string,
   alt_name: string,
   comment: string,
@@ -30,7 +30,7 @@ export interface ProductPropertiesI {
 }
 
 export interface ProductsPreviewI {
-  id: number,
+  id: string,
   title: string,
   price: number,
   images: string,
@@ -38,7 +38,7 @@ export interface ProductsPreviewI {
 }
 
 export interface ProductsBaseI {
-  id: number,
+  id: string,
   created_at: string,
   title: string,
   is_public: boolean,
@@ -74,7 +74,7 @@ export interface ProductCardI extends ProductDetailsI {
   }
 
   export class ProductDetailsDto implements ProductDetailsI {
-    id: number;
+    id: string;
     created_at: string;
     title: string;
     is_public: boolean;
@@ -92,11 +92,4 @@ export interface ProductCardI extends ProductDetailsI {
   export class ProductCardDto extends ProductDetailsDto implements ProductCardI {
 }
 
-export class CardItemDto {
-  id: string;
-  title: string;
-  // status: AVAILABLE;
-  price: number;
-  image: string
-}
 // export class ProductDetailsDto

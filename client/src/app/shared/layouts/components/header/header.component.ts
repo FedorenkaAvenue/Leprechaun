@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { CardStateService } from '@shared/services/card/card-state.service';
+import { OrderCardItemDto, OrderDto, OrderProductI } from '@shared/models/products/order.model';
+import { CardStateService } from '@shared/services/card/card-state/card-state.service';
 import { LANGUAGES } from '@shared/static/languages';
 import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-header',
@@ -10,12 +12,15 @@ import { Observable } from 'rxjs';
 })
 export class HeaderComponent implements OnInit {
 
-  public cardValue$: Observable<Array<number>>
+  public cardValue$: Observable<string[]>
   public languages = LANGUAGES;
-  constructor(private readonly cardService: CardStateService) { }
+  constructor(private readonly cardStateService: CardStateService) { }
 
   ngOnInit(): void {
-    this.cardValue$ = this.cardService.getCardStateValue();
+    this.cardValue$ = this.cardStateService.getCardStateValue().pipe(
+      map((order: OrderDto) => order?.list.map((product: OrderCardItemDto) => product?.id)
+      )
+    );
   }
 
 }

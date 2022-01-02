@@ -5,12 +5,12 @@
     </a>
     <a [routerLink]="['/', product?.id]" class="product-info">{{ product?.title }}</a>
     <div class="product-controls">
-      <button (click)="deleteFromCard(product?.id)">
+      <button (click)="deleteFromCard()">
         <app-leprachaun-icon name="close" width="12" heigh="12"></app-leprachaun-icon>
       </button>
     </div>
   </div>
   <div class="product-footer">
-    <div class="product-price">{{ product?.price }} ₴</div>
+    <app-product-price [price]="product?.price"></app-product-price>
   </div>
 </div>

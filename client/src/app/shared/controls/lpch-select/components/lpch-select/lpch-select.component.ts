@@ -57,9 +57,6 @@ export class LpchSelectComponent implements OnInit, ControlValueAccessor {
   }
 
   changeValue(value: any) {
-    console.log(this.onChanged);
-
-    console.log(value);
     this.onTouched();
     this.selected = value;
     this.onChanged(value);
