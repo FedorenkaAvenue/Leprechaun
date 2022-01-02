@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Params } from '@angular/router';
 import { Products } from '@shared/models';
-import { CardStateService } from '@shared/services/card/card-state.service';
+import { CardStateService } from '@shared/services/card/card-state/card-state.service';
 import { FavoriteStateService } from '@shared/services/favorite/favorite.service';
 import { combineLatest, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -14,7 +14,7 @@ export class ProductsManagerService {
   constructor(
     private readonly productsService: ProductsService,
     private readonly cardService: CardStateService,
-    private readonly FavoriteStateService: FavoriteStateService,
+    private readonly favoriteStateService: FavoriteStateService,
     
     ) { }
 
@@ -33,20 +33,18 @@ export class ProductsManagerService {
 
   public getProducts(): Observable<Products> {
     const cardState$ = this.cardService.getCardStateValue();
-    const favoriteState$ = this.FavoriteStateService.getFavoriteStateValue();
+    const favoriteState$ = this.favoriteStateService.getFavoriteStateValue();
     const products$ = this.productsService.getProducts();
     return combineLatest([cardState$, favoriteState$, products$]).pipe(
       map(([cardValue, favoriteValue, products]) => {
         products.data.map(el => {
-          el.inCard = cardValue.includes(el.id);
+          const orderProducts = cardValue?.list.map(orderProduct => orderProduct?.product?.id);
+          el.inCard = orderProducts?.includes(el.id);
           el.isFavorite = favoriteValue.includes(el.id);
           return el;
         })
         return products
       })
     )
-    
-    
-    this.productsService.getProducts();
   }
 }

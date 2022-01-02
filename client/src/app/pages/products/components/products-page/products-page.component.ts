@@ -1,11 +1,13 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { ActivatedRoute, Params, Router } from '@angular/router';
+import { OrderDto } from '@shared/models/products/order.model';
 import { Products } from '@shared/models/products/products.model';
-import { CardStateService } from '@shared/services/card/card-state.service';
 import { FavoriteStateService } from '@shared/services/favorite/favorite.service';
+import { CardService } from '@shared/services/card/card/card.service';
 import { Observable } from 'rxjs';
 import { ProductsManagerService } from '../../services/products-manager/products-manager.service';
+import { CardStateService } from '@shared/services/card/card-state/card-state.service';
 
 @Component({
   selector: 'app-products-page',
@@ -19,9 +21,9 @@ export class ProductsPageComponent implements OnInit {
   public myCustomControl = new FormControl();
   constructor(
     private readonly productsManagerService: ProductsManagerService,
+    private readonly cardService: CardService,
     private readonly router: Router,
     private readonly route: ActivatedRoute,
-    private readonly cardService: CardStateService,
     private readonly FavoriteStateService: FavoriteStateService,
   ) {
     this.productsManagerService.init();
@@ -35,12 +37,12 @@ export class ProductsPageComponent implements OnInit {
   ngOnDestroy() {
     this.productsManagerService.destroy();
   }
+
   public changeSorting(order) {
   }
+
   public changeParams(): void {
     this.route.queryParams.subscribe((params) => {
-      console.log(params);
-      
       this.productsManagerService.changeParams(params);
     });
   }
@@ -54,7 +56,10 @@ export class ProductsPageComponent implements OnInit {
   }
 
   public addToCard(productId): void {
-    this.cardService.addToCard(productId)
+    this.cardService.addToCard(productId).subscribe((order: OrderDto) => {
+      // const cardList = order?.list?.map(cardItem => cardItem?.product?.id)
+      this.cardService.updateCard(order);
+    })
   }
 
   public addToFavorite(productId): void {

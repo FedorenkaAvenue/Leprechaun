@@ -4,12 +4,12 @@
       <h1>Корзина</h1>
     </header>
     <section class="products-page__wrap">
-      <ng-container *ngIf="products$ | async as products">
-        <ng-container *ngIf="products.length; else emptyContent">
+      <ng-container *ngIf="cardData$ | async as cardData">
+        <ng-container *ngIf="cardData?.list?.length; else emptyContent">
           <app-card-item
-            *ngFor="let product of products"
-            (delete)="deleteFromCard($event)"
-            [product]="product"
+            *ngFor="let catdItem of cardData?.list"
+            (delete)="deleteFromCard(catdItem?.id)"
+            [product]="catdItem?.product"
           ></app-card-item>
         </ng-container>
       </ng-container>

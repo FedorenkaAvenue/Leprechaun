@@ -1,5 +1,5 @@
 import { Component, OnInit, ChangeDetectionStrategy, Input, Output, EventEmitter } from '@angular/core';
-import { CardItemDto } from '@shared/models';
+// import { CardItemDto } from '@shared/models';
 
 @Component({
   selector: 'app-favorites-item',
@@ -9,7 +9,7 @@ import { CardItemDto } from '@shared/models';
 })
 export class FavoritesItemComponent implements OnInit {
 
-  @Input() product: CardItemDto;
+  @Input() product: any;
   @Output() delete = new EventEmitter<number>()
   
   constructor() { }

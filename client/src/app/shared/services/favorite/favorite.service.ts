@@ -7,12 +7,12 @@ import { BehaviorSubject, Observable } from 'rxjs';
 })
 export class FavoriteStateService {
   
-  private favoriteState$: BehaviorSubject<Array<number>>;
+  private favoriteState$: BehaviorSubject<Array<string>>;
   constructor(
     private readonly localStorageService: LocalStorageService,
   ) {
-    const favoriteValue = this.localStorageService.getItem<Array<number>>('favorite') || [];
-    this.favoriteState$ = new BehaviorSubject<Array<number>>(favoriteValue);
+    const favoriteValue = this.localStorageService.getItem<Array<string>>('favorite') || [];
+    this.favoriteState$ = new BehaviorSubject<Array<string>>(favoriteValue);
   }
 
   public updateFavorite(): void {
@@ -35,11 +35,11 @@ export class FavoriteStateService {
     this.updateFavorite();
   }
 
-  public getFavoriteValueFromLocalStorage(): Array<number> | null | undefined {
+  public getFavoriteValueFromLocalStorage(): Array<string> | null | undefined {
     return this.localStorageService.getItem('favorite');
   }
 
-  public getFavoriteStateValue(): Observable<Array<number>> {
+  public getFavoriteStateValue(): Observable<Array<string>> {
     return this.favoriteState$.asObservable();
   }
 

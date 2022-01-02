@@ -21,8 +21,6 @@ export class ProductPageComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    console.log(123213);
-    
     this.productDetails$ = this.getProduct();
     this.productDetails$.subscribe(el => {
       console.log(el);

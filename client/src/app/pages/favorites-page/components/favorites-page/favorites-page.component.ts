@@ -1,5 +1,5 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
-import { CardItemDto } from '@shared/models';
+// import { CardItemDto } from '@shared/models';
 import { FavoriteStateService } from '@shared/services/favorite/favorite.service';
 import { Observable } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
@@ -13,7 +13,7 @@ import { FavoritesPageService } from '../../services/favorites-page.service';
 })
 export class FavoritesPageComponent implements OnInit {
 
-  public products$: Observable<CardItemDto[]>;
+  public products$: Observable<any[]>;
   constructor(
     private readonly favoritesPageService: FavoritesPageService,
     private readonly favoriteStateService: FavoriteStateService

@@ -1,7 +1,7 @@
 import { HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { TransferHttpService } from '@gorniv/ngx-universal';
-import { CardItemDto } from '@shared/models';
+// import { CardItemDto } from '@shared/models';
 import { arrayToString } from '@shared/utils/transformers';
 import { Observable } from 'rxjs';
 
@@ -13,9 +13,9 @@ export class FavoritesApiService {
 
   constructor(private readonly http: TransferHttpService) {}
 
-  public getProducts(param: number[]): Observable<CardItemDto[]> {
+  public getProducts(param: string[]): Observable<any[]> {
     const convertedParams = arrayToString(param, ';');
     const params = new HttpParams().set('ids', convertedParams);
-    return this.http.get<CardItemDto[]>(`${this.apiUrl}/list`, { params });
+    return this.http.get<any[]>(`${this.apiUrl}/list`, { params });
   }
 }

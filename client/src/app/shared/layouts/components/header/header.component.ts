@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { CardStateService } from '@shared/services/card/card-state.service';
 import { FavoriteStateService } from '@shared/services/favorite/favorite.service';
+import { OrderCardItemDto, OrderDto } from '@shared/models/products/order.model';
 import { LANGUAGES } from '@shared/static/languages';
 import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
+import { CardStateService } from '@shared/services/card/card-state/card-state.service';
 
 @Component({
   selector: 'app-header',
@@ -11,17 +13,19 @@ import { Observable } from 'rxjs';
 })
 export class HeaderComponent implements OnInit {
 
-  public cardValue$: Observable<Array<number>>
-  public favoriteValue$: Observable<Array<number>>
+  public cardValue$: Observable<string[]>
+  public favoriteValue$: Observable<Array<string>>
   public languages = LANGUAGES;
   constructor(
-    private readonly cardService: CardStateService,
-    private readonly FavoriteStateService: FavoriteStateService,
-    ) { }
+    private readonly cardStateService: CardStateService,
+    private readonly favoriteStateService: FavoriteStateService) { }
 
   ngOnInit(): void {
-    this.cardValue$ = this.cardService.getCardStateValue();
-    this.favoriteValue$ = this.FavoriteStateService.getFavoriteStateValue();
+    this.cardValue$ = this.cardStateService.getCardStateValue().pipe(
+      map((order: OrderDto) => order?.list.map((product: OrderCardItemDto) => product?.id)
+      )
+    );
+    this.favoriteValue$ = this.favoriteStateService.getFavoriteStateValue();
   }
 
 }
