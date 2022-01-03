@@ -1,10 +1,9 @@
-import { Controller, Delete, Get, Param, ParseUUIDPipe, Post, UseInterceptors } from '@nestjs/common';
+import { Controller, Delete, Get, Param, ParseUUIDPipe, Post } from '@nestjs/common';
 import { ApiNotAcceptableResponse, ApiNotFoundResponse, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 
 import WishlistService from '@services/Wishlist';
 import { Session } from '@decorators/Session';
 import { ISession } from '@interfaces/Session';
-import AffectedResultInterceptor from '@interceptors/AffectedResult';
 import { IProductPreview } from '@interfaces/Product';
 import { ProductPreviewDTO } from '@dto/Product';
 
@@ -26,22 +25,23 @@ export class WishlistPublicController {
     
     @Post(':productId')
     @ApiOperation({ summary: 'add product to wishlist' })
+    @ApiResponse({ type: ProductPreviewDTO, isArray: true })
     @ApiNotAcceptableResponse({ description: 'product already exists' })
     addItem(
         @Param('productId', ParseUUIDPipe) productId: string,
         @Session() { id }: ISession
-    ) {
+    ): Promise<IProductPreview[]> {
         return this.wishlistService.addItem(productId, id);
     }
 
     @Delete(':productId')
-    @UseInterceptors(AffectedResultInterceptor)
     @ApiOperation({ summary: 'remove product from wishlist' })
+    @ApiResponse({ type: ProductPreviewDTO, isArray: true })
     @ApiNotFoundResponse({ description: 'product not found' })
     deleteItem(
         @Param('productId', ParseUUIDPipe) productId: string,
         @Session() { id }: ISession
-    ) {
+    ): Promise<IProductPreview[]> {
         return this.wishlistService.removeItem(productId, id);
     }
 }

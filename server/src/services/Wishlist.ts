@@ -1,6 +1,6 @@
 import { BadRequestException, Injectable, NotAcceptableException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { DeleteResult, Repository } from 'typeorm';
+import { Repository } from 'typeorm';
 
 import WishlistEntity from '@entities/Wishlist';
 import { IProduct, IProductPreview } from '@interfaces/Product';
@@ -16,7 +16,7 @@ export default class WishlistService {
     async addItem(
         productId: IProduct['id'],
         session_id: ISession['id']
-    ): Promise<void> {
+    ): Promise<IProductPreview[]> {
         //@ts-ignore
         const res = await this.wishlistRepo.findOne({ session_id, product: productId });
 
@@ -25,6 +25,8 @@ export default class WishlistService {
         try {
             //@ts-ignore
             await this.wishlistRepo.save({ product: productId, session_id });
+
+            return this.getWishlist(session_id);
         } catch(err) {
             throw new BadRequestException('product not found');
         }
@@ -42,12 +44,14 @@ export default class WishlistService {
         return res.map(({ product }) => new ProductPreviewDTO(product));
     }
 
-    removeItem(
+    async removeItem(
         productId: IProduct['id'],
         session_id: ISession['id']
-    ): Promise<DeleteResult> {
+    ): Promise<IProductPreview[]> {
         //@ts-ignore
-        return this.wishlistRepo.delete({ product: productId, session_id });
+        await this.wishlistRepo.delete({ product: productId, session_id });
+
+        return this.getWishlist(session_id);
     }
 
     clearUselessWishlist() {
