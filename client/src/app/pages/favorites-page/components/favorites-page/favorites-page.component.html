@@ -4,11 +4,11 @@
         <h1>Улюблені</h1>
       </header>
       <section class="products-page__wrap">
-        <ng-container *ngIf="products$ | async as products">
+        <ng-container *ngIf="favoritesData$ | async as products">
           <ng-container *ngIf="products.length; else emptyContent">
             <app-favorites-item
               *ngFor="let product of products"
-              (delete)="deleteFromFavorites($event)"
+             
               [product]="product"
             ></app-favorites-item>
           </ng-container>

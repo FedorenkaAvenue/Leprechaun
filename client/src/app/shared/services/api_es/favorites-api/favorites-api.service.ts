@@ -9,13 +9,19 @@ import { Observable } from 'rxjs';
   providedIn: 'root',
 })
 export class FavoritesApiService {
-  private readonly apiUrl = 'api/product/preview';
+  private readonly apiUrl = 'api/wishlist';
 
   constructor(private readonly http: TransferHttpService) {}
 
-  public getProducts(param: string[]): Observable<any[]> {
-    const convertedParams = arrayToString(param, ';');
-    const params = new HttpParams().set('ids', convertedParams);
-    return this.http.get<any[]>(`${this.apiUrl}/list`, { params });
+  public getProducts(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}`);
+  }
+
+  public addProductToFavorites(id: string): Observable<any[]> {
+    return this.http.post<any[]>(`${this.apiUrl}/${id}`, null)
+  }
+
+  public deleteProductFromFavorites(id: string): Observable<any[]> {
+    return this.http.delete(`${this.apiUrl}/${id}`);
   }
 }

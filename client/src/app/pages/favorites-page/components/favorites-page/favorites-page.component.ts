@@ -1,6 +1,6 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 // import { CardItemDto } from '@shared/models';
-import { FavoriteStateService } from '@shared/services/favorite/favorite.service';
+import { FavoritesService } from '@shared/services/favorite/favotite/favorites.service';
 import { Observable } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { FavoritesPageService } from '../../services/favorites-page.service';
@@ -13,22 +13,13 @@ import { FavoritesPageService } from '../../services/favorites-page.service';
 })
 export class FavoritesPageComponent implements OnInit {
 
-  public products$: Observable<any[]>;
+  public favoritesData$: Observable<any[]>;
   constructor(
-    private readonly favoritesPageService: FavoritesPageService,
-    private readonly favoriteStateService: FavoriteStateService
+    private readonly favoritesService: FavoritesService
   ) { }
 
   ngOnInit(): void {
-    this.products$ = this.favoriteStateService.getFavoriteStateValue().pipe(
-      switchMap(productsId => {
-        return this.favoritesPageService.getProducts(productsId)
-      })
-    );
-  }
-
-  public deleteFromFavorites(id: number): void {
-    this.favoriteStateService.deleteFromFavorite(id)
+    this.favoritesData$ = this.favoritesService.getProducts()
   }
 
 }

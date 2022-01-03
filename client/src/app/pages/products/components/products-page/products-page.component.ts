@@ -3,11 +3,11 @@ import { FormControl } from '@angular/forms';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { OrderDto } from '@shared/models/products/order.model';
 import { Products } from '@shared/models/products/products.model';
-import { FavoriteStateService } from '@shared/services/favorite/favorite.service';
 import { CardService } from '@shared/services/card/card/card.service';
 import { Observable } from 'rxjs';
 import { ProductsManagerService } from '../../services/products-manager/products-manager.service';
 import { CardStateService } from '@shared/services/card/card-state/card-state.service';
+import { FavoritesService } from '@shared/services/favorite/favotite/favorites.service';
 
 @Component({
   selector: 'app-products-page',
@@ -24,7 +24,7 @@ export class ProductsPageComponent implements OnInit {
     private readonly cardService: CardService,
     private readonly router: Router,
     private readonly route: ActivatedRoute,
-    private readonly FavoriteStateService: FavoriteStateService,
+    private readonly favoritesService: FavoritesService,
   ) {
     this.productsManagerService.init();
   }
@@ -62,7 +62,19 @@ export class ProductsPageComponent implements OnInit {
     })
   }
 
-  public addToFavorite(productId): void {
-    this.FavoriteStateService.addToFavorite(productId)
+  public addToFavorite(productId: string): void {
+    this.favoritesService.addToFavorites(productId).subscribe((favorites: any) => {
+      this.favoritesService.updateFavorites(favorites)
+    })
+  }
+
+  public removeFromFavorite(productId: string): void {
+    console.log(productId);
+    
+    this.favoritesService.deleteProduct(productId).subscribe((favorites: any) => {
+      console.log(favorites);
+      
+      this.favoritesService.updateFavorites(favorites)
+    })
   }
 }

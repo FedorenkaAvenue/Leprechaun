@@ -1,9 +1,8 @@
-import { Component, OnInit, ChangeDetectionStrategy, OnDestroy } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { OrderDto } from '@shared/models/products/order.model';
 import { CardService } from '@shared/services/card/card/card.service';
 import { Observable } from 'rxjs';
 import { take } from 'rxjs/operators';
-
 @Component({
   selector: 'app-card-page',
   templateUrl: './card-page.component.html',

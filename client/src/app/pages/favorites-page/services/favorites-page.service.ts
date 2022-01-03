@@ -10,10 +10,7 @@ export class FavoritesPageService {
     private readonly favoritesApiService: FavoritesApiService
   ) { }
 
-  public getProducts(params: string[]): Observable<any[]> {
-    if(!params?.length) {
-      return of([])
-    }
-     return this.favoritesApiService.getProducts(params)
+  public getProducts(): Observable<any[]> {
+     return this.favoritesApiService.getProducts()
    }
 }

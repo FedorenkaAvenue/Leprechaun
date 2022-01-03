@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ProductsRoutingModule } from './products-routing.module';
 import { ProductsPageComponent } from './components/products-page/products-page.component';
-import { ProductsListComponent } from './components/products-list/products-list.component';
 import { ProductsFilterComponent } from './components/products-filter/products-filter.component';
 import { ProductsService } from './services/products.service';
 import { ProductCardModule } from '@shared/components/product-card/product-card.module';
@@ -11,6 +10,7 @@ import { LpchSelectModule } from '@shared/controls/lpch-select/lpch-select.modul
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { LpchInputModule } from '@shared/controls/lpch-input/lpch-input.module';
 import { ProductsManagerService } from './services/products-manager/products-manager.service';
+import { ProductsListComponent } from './components/products-list/products-list.component';
 
 
 @NgModule({

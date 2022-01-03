@@ -21,13 +21,9 @@
             <app-leprachaun-icon name="card" [color]="product?.inCard ? 'green' : 'rose'" [width]="22" [height]="22"> </app-leprachaun-icon>
             <!-- <app-leprachaun-icon name="cardSelected" color="rose" [width]="22" [height]="22"> </app-leprachaun-icon> -->
           </button>
-          <button (click)="addToFavorite(product?.id)" class="icon-btn">
+          <button (click)="product?.isFavorite ? removeFromFavorites(product?.id) : addToFavorite(product?.id)" class="icon-btn">
           <app-leprachaun-icon name="heart" [strokedColor]="product?.isFavorite ? 'rose' : 'none'" [width]="24" [height]="24"> </app-leprachaun-icon>
         </button>
-          <!-- <button class="header_help main-btn">
-            <app-leprachaun-icon name="question" color="gray"> </app-leprachaun-icon>
-            <span class="btn-label">Допомога</span>
-          </button> -->
         </div>
       </div>
     </div>

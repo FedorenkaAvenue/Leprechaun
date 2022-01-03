@@ -2,7 +2,8 @@ import { Injectable } from '@angular/core';
 import { Params } from '@angular/router';
 import { Products } from '@shared/models';
 import { CardStateService } from '@shared/services/card/card-state/card-state.service';
-import { FavoriteStateService } from '@shared/services/favorite/favorite.service';
+import { FavoritesStateService } from '@shared/services/favorite/favorite-state/favorites-state.service';
+import { FavoritesService } from '@shared/services/favorite/favotite/favorites.service';
 import { combineLatest, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { ProductsService } from '../products.service';
@@ -14,7 +15,8 @@ export class ProductsManagerService {
   constructor(
     private readonly productsService: ProductsService,
     private readonly cardService: CardStateService,
-    private readonly favoriteStateService: FavoriteStateService,
+    private readonly favoritesStateService: FavoritesStateService,
+    private readonly favoritesService: FavoritesService,
     
     ) { }
 
@@ -33,14 +35,17 @@ export class ProductsManagerService {
 
   public getProducts(): Observable<Products> {
     const cardState$ = this.cardService.getCardStateValue();
-    const favoriteState$ = this.favoriteStateService.getFavoriteStateValue();
+    const favoriteState$ = this.favoritesService.getFavoritesValue();
     const products$ = this.productsService.getProducts();
     return combineLatest([cardState$, favoriteState$, products$]).pipe(
       map(([cardValue, favoriteValue, products]) => {
         products.data.map(el => {
           const orderProducts = cardValue?.list.map(orderProduct => orderProduct?.product?.id);
+          const favoritesProducts = favoriteValue?.map(el => el.id)
           el.inCard = orderProducts?.includes(el.id);
-          el.isFavorite = favoriteValue.includes(el.id);
+          console.log(favoriteValue);
+          
+          el.isFavorite = favoritesProducts?.includes(el.id);
           return el;
         })
         return products

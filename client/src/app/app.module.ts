@@ -24,6 +24,7 @@ import { CardService } from '@shared/services/card/card/card.service';
 import { CardStateService } from '@shared/services/card/card-state/card-state.service';
 import { WithCredentialsInterceptor } from '@shared/interceptors/with-cred.interceptor';
 import { withCredentialsInterceptor } from '@shared/interceptors/withCred.interceptor';
+import { FavoritesStateService } from '@shared/services/favorite/favorite-state/favorites-state.service';
 // interceptors
 
 @NgModule({
@@ -50,6 +51,7 @@ import { withCredentialsInterceptor } from '@shared/interceptors/withCred.interc
     CardService,
     CardApiService,
     CardStateService,
+    FavoritesStateService,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: WithCredentialsInterceptor,

@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-
 import { MetaService } from '@ngx-meta/core';
 import { OrderDto } from '@shared/models/products/order.model';
-import { CardStateService } from '@shared/services/card/card-state/card-state.service';
 import { CardService } from '@shared/services/card/card/card.service';
+import { FavoritesService } from '@shared/services/favorite/favotite/favorites.service';
 import { take } from 'rxjs/operators';
 
 @Component({
@@ -14,6 +13,7 @@ export class AppComponent implements OnInit {
   constructor(
     private readonly meta: MetaService,
     private readonly cardService: CardService,
+    private readonly favoritesService: FavoritesService,
 
     ) {
     this.meta.setTag('og:title', 'home ctor');
@@ -21,13 +21,22 @@ export class AppComponent implements OnInit {
 
   ngOnInit(): void {
     this.getCardState();
+    this.getFavoritesState();
   }
 
   private getCardState(): void {
     this.cardService.getProducts().pipe(
-      take(1)
+      take(1),
     ).subscribe((order: OrderDto) => {
       this.cardService.updateCard(order);
+    })
+  }
+
+  private getFavoritesState(): void {
+    this.favoritesService.getProducts().pipe(
+      take(1),
+    ).subscribe((order: OrderDto) => {
+      this.favoritesService.updateFavorites(order);
     })
   }
 }
