@@ -1,6 +1,6 @@
 import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { DeleteResult, Repository, UpdateResult } from 'typeorm';
+import { DeleteResult, Not, Repository, UpdateResult } from 'typeorm';
 
 import { OrderEntity } from '@entities/Order';
 import { OrderItemEntity } from '@entities/OrderItemEntity';
@@ -31,23 +31,24 @@ export class OrderService {
             .createQueryBuilder('order')
             .where('order.session_id = :session_id', { session_id })
             .andWhere(
-                'order.status IN (:...statuses)',
-                { statuses: [ OrderStatus.INIT, OrderStatus.POSTED ] }
+                'order.status = :status',
+                { status: OrderStatus.INIT }
             )
             .leftJoinAndSelect('order.list', 'list')
             .leftJoinAndSelect('list.product', 'product')
             .leftJoinAndSelect('product.images', 'images')
             .getOne();
 
-        // fictive order if order doesn't exists
+        // fictive order if current order doesn't exists
         return new OrderPublicDTO(res || { id: null, status: null, list: [] });
     }
 
     async getOrderHistory(session_id: ISession['id']): Promise<IOrderPublic[]> {
         try {
             const res = await this.orderRepo.find({
-                where: { session_id, status: OrderStatus.COMPLETED },
-                relations: [ 'list', 'list.product' ]
+                where: { session_id, status: Not(OrderStatus.INIT) },
+                relations: [ 'list', 'list.product' ],
+                order: { status: 'ASC' }
             });
 
             if (!res.length) return [];

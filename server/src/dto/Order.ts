@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import {
-    IsEnum, IsNotEmpty, IsNotEmptyObject, IsNumber, IsObject, IsOptional, IsString,
+    IsEnum, IsNotEmpty, IsNotEmptyObject, IsObject, IsOptional, IsString,
     IsUUID, ValidateNested
 } from 'class-validator';
 import { Type } from 'class-transformer';
@@ -17,7 +17,7 @@ export class CreateOrderCustomerDataDTO implements IOrderCustomerData {
     name: string;
 
     @IsNotEmpty()
-    @IsNumber()
+    @IsString()
     @ApiProperty({ description: 'customer phone number', required: true })
     phone: string;
 }
