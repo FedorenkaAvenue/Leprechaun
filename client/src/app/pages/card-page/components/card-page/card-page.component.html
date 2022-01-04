@@ -1,24 +1,47 @@
 <div class="card-page__wrapper">
-  <div class="card-page">
-    <header>
-      <h1>Корзина</h1>
-    </header>
-    <section class="products-page__wrap">
-      <ng-container *ngIf="cardData$ | async as cardData">
-        <ng-container *ngIf="cardData?.list?.length; else emptyContent">
-          <app-card-item
-            *ngFor="let catdItem of cardData?.list"
-            (delete)="deleteFromCard(catdItem?.id)"
-            [product]="catdItem?.product"
-          ></app-card-item>
-        </ng-container>
-      </ng-container>
-      <ng-template #emptyContent>
-          <div>тут повинно бути повідомлення про порожній кошик</div>
-      </ng-template>
-      <!-- <ng-container *ngFor="let product of products$ | async as products">
-          
-          </ng-container> -->
-    </section>
+  <div class="card-page" *ngIf="cardData$ | async as cardData">
+    <ng-container *ngIf="cardData?.list?.length; else emptyContent">
+      <header>
+        <h1>Корзина</h1>
+      </header>
+      <section class="products-page__wrap">
+        <app-card-item
+          *ngFor="let catdItem of cardData?.list"
+          (delete)="deleteFromCard(catdItem?.id)"
+          [product]="catdItem?.product"
+        ></app-card-item>
+      </section>
+      <section *ngIf="cardData?.list?.length" class="card-form__wrap">
+        <form [formGroup]="userForm" class="card-form">
+          <lpch-input-field
+            class="card-form__control"
+            formControlName="name"
+            [placeholder]="'Enter your name...'"
+          ></lpch-input-field>
+          <!-- <lpch-phone-field></lpch-phone-field> -->
+          <lpch-phone-field
+            [formControlName]="'phone'"
+            class="card-form__control"
+            phoneMask
+            [preValue]="userForm.value.phone"
+            [phoneControl]="userForm.controls['phone']"
+            [placeholder]="'Enter your phone...'"
+            formControlName="phone"
+            [maxLength]="'14'"
+          ></lpch-phone-field>
+          <button
+            class="rose-btn"
+            type="button"
+            [disabled]="userForm?.invalid"
+            (click)="sendOrder(cardData)"
+          >
+            Send order
+          </button>
+        </form>
+      </section>
+    </ng-container>
   </div>
+  <ng-template #emptyContent>
+    <div>тут повинно бути повідомлення про порожній кошик</div>
+  </ng-template>
 </div>

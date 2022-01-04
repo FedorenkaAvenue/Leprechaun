@@ -36,6 +36,12 @@ button {
   color: $white-text;
   &:hover {
     background: $btn-light-rose;
+    cursor: pointer;
+  }
+  &:disabled {
+    cursor: initial;
+    background-color: #eee;
+    color: #000;
   }
   // .btn-label {
   //   margin-left: 5px;

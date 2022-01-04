@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { LpchInputComponent } from './components/lpch-input/lpch-input.component';
+import { FormsModule } from '@angular/forms';
 
 
 
@@ -9,7 +10,8 @@ import { LpchInputComponent } from './components/lpch-input/lpch-input.component
     LpchInputComponent
   ],
   imports: [
-    CommonModule
+    CommonModule,
+    FormsModule
   ],
   exports: [
     LpchInputComponent

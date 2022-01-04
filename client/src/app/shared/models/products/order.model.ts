@@ -44,3 +44,8 @@ export class OrderProductDto {
   status: ProductStatus;
   title: string;
 }
+
+export class CustomerData {
+  name: string;
+  phone: any;
+}

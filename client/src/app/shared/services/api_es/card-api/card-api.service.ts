@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { TransferHttpService } from '@gorniv/ngx-universal';
-import { OrderDto, OrderI } from '@shared/models/products/order.model';
+import { CustomerData, OrderDto, OrderI } from '@shared/models/products/order.model';
 import { Observable, of } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 
@@ -21,5 +21,10 @@ export class CardApiService {
 
   public deleteProductFromCard(id: string): Observable<OrderI> {
     return this.http.delete(`${this.apiUrl}/item/${id}`);
+  }
+
+  public sendOrder(order: OrderDto, customer: CustomerData): Observable<any> {
+    const data = {order, customer}
+    return this.http.post(`${this.apiUrl}`, data)
   }
 }
