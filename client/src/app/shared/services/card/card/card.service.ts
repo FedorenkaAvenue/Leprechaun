@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { CustomerData, OrderDto, OrderI } from '@shared/models/products/order.model';
 import { CardApiService } from '@shared/services/api_es/card-api/card-api.service';
-import { BehaviorSubject, combineLatest, merge, Observable } from 'rxjs';
-import { filter, shareReplay } from 'rxjs/operators';
+import { BehaviorSubject, merge, Observable } from 'rxjs';
+import { filter } from 'rxjs/operators';
 import { CardStateService } from '../card-state/card-state.service';
 
 @Injectable()
@@ -12,8 +12,7 @@ export class CardService {
 
   constructor(
     private readonly cardApiService: CardApiService,
-    private readonly cardStateService: CardStateService
-    
+    private readonly cardStateService: CardStateService,
     ) {
     this.cardValue$ = new BehaviorSubject<OrderDto>(null); 
   }
@@ -42,5 +41,11 @@ export class CardService {
 
   public sendOrder(order: OrderDto, customerData: CustomerData): Observable<any> {
     return this.cardApiService.sendOrder(order, customerData)
+  }
+
+  public checkAvailabilityInCard(id: string): boolean {
+    const cardIds = this.cardValue$.value?.list.map(orderProduct => orderProduct?.product?.id);
+    const productInCard = (cardIds || []).includes(id);
+    return productInCard;
   }
 }

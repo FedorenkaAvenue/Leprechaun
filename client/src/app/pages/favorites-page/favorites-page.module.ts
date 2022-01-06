@@ -8,7 +8,6 @@ import { FavoritesApiService } from '@shared/services/api_es/favorites-api/favor
 import { FavoritesPageService } from './services/favorites-page.service';
 import { closeIcon, LeprachaunIconRegistryService, LeprachaunIconsModule } from '@shared/modules/leprachaun-icons';
 
-
 @NgModule({
   declarations: [
     FavoritesPageComponent,

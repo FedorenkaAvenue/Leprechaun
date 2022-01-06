@@ -11,8 +11,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { LpchInputModule } from '@shared/controls/lpch-input/lpch-input.module';
 import { ProductsManagerService } from './services/products-manager/products-manager.service';
 import { ProductsListComponent } from './components/products-list/products-list.component';
-
-
 @NgModule({
   declarations: [
     ProductsPageComponent,
@@ -31,7 +29,7 @@ import { ProductsListComponent } from './components/products-list/products-list.
   ],
   providers: [
     ProductsService,
-    ProductsManagerService
+    ProductsManagerService,
   ]
 })
 export class ProductsModule { }

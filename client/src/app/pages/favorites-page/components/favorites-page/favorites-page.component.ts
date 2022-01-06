@@ -1,9 +1,9 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
-// import { CardItemDto } from '@shared/models';
+import { OrderDto } from '@shared/models/products/order.model';
+import { CardService } from '@shared/services/card/card/card.service';
 import { FavoritesService } from '@shared/services/favorite/favotite/favorites.service';
+import { LpchRouterService } from '@shared/services/router/lpch-router.service';
 import { Observable } from 'rxjs';
-import { switchMap } from 'rxjs/operators';
-import { FavoritesPageService } from '../../services/favorites-page.service';
 
 @Component({
   selector: 'app-favorites-page',
@@ -15,16 +15,22 @@ export class FavoritesPageComponent implements OnInit {
 
   public favoritesData$: Observable<any[]>;
   constructor(
-    private readonly favoritesService: FavoritesService
+    private readonly favoritesService: FavoritesService,
+    private readonly cardService: CardService,
+    private readonly lpchRouterService: LpchRouterService,
   ) { }
 
   ngOnInit(): void {
     this.favoritesData$ = this.favoritesService.getProducts()
   }
 
-  public addToCard(productId): void {
+  public addToCard(productId: string): void {
+    const productInCard = this.cardService.checkAvailabilityInCard(productId);
+    if(productInCard) {
+      this.lpchRouterService.navigateToCard();
+      return
+    }
     this.cardService.addToCard(productId).subscribe((order: OrderDto) => {
-      // const cardList = order?.list?.map(cardItem => cardItem?.product?.id)
       this.cardService.updateCard(order);
     })
   }

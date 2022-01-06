@@ -6,8 +6,8 @@ import { Products } from '@shared/models/products/products.model';
 import { CardService } from '@shared/services/card/card/card.service';
 import { Observable } from 'rxjs';
 import { ProductsManagerService } from '../../services/products-manager/products-manager.service';
-import { CardStateService } from '@shared/services/card/card-state/card-state.service';
 import { FavoritesService } from '@shared/services/favorite/favotite/favorites.service';
+import { LpchRouterService } from '@shared/services/router/lpch-router.service';
 
 @Component({
   selector: 'app-products-page',
@@ -25,6 +25,8 @@ export class ProductsPageComponent implements OnInit {
     private readonly router: Router,
     private readonly route: ActivatedRoute,
     private readonly favoritesService: FavoritesService,
+    private readonly lpchRouterService: LpchRouterService,
+
   ) {
     this.productsManagerService.init();
   }
@@ -55,9 +57,13 @@ export class ProductsPageComponent implements OnInit {
     this.router.navigate(['.'], {relativeTo: this.route, queryParams: params, queryParamsHandling: 'merge'});
   }
 
-  public addToCard(productId): void {
+  public addToCard(productId: string): void {
+    const productInCard = this.cardService.checkAvailabilityInCard(productId);
+    if(productInCard) {
+      this.lpchRouterService.navigateToCard();
+      return
+    }
     this.cardService.addToCard(productId).subscribe((order: OrderDto) => {
-      // const cardList = order?.list?.map(cardItem => cardItem?.product?.id)
       this.cardService.updateCard(order);
     })
   }
@@ -69,11 +75,7 @@ export class ProductsPageComponent implements OnInit {
   }
 
   public removeFromFavorite(productId: string): void {
-    console.log(productId);
-    
     this.favoritesService.deleteProduct(productId).subscribe((favorites: any) => {
-      console.log(favorites);
-      
       this.favoritesService.updateFavorites(favorites)
     })
   }

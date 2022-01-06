@@ -1,13 +1,11 @@
-import { Component, OnInit, ChangeDetectionStrategy, Input, Output, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
-// import { CardItemDto } from '@shared/models';
-
+import { Component, OnInit, ChangeDetectionStrategy, Input, Output, EventEmitter } from '@angular/core';
 @Component({
   selector: 'app-favorites-item',
   templateUrl: './favorites-item.component.html',
   styleUrls: ['./favorites-item.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class FavoritesItemComponent implements OnInit, OnChanges {
+export class FavoritesItemComponent implements OnInit {
 
   @Input() product: any;
   @Output() delete = new EventEmitter<string>();
@@ -18,17 +16,11 @@ export class FavoritesItemComponent implements OnInit, OnChanges {
   ngOnInit(): void {
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
-    if(changes?.product && changes?.product?.currentValue)  {
-      console.log(this.product);
-    }
-  }
-
-  public deleteFromCard(id: number): void {
+  public deleteFromCard(id: string): void {
     this.delete.emit(id)
   }
 
   public addProductToCard(id: string): void {
-
+    this.addToCard.emit(id)
   }
 }

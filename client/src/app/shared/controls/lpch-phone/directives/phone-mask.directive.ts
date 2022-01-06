@@ -11,8 +11,6 @@ export class PhoneMaskDirective implements OnInit, OnDestroy{
 
   @Input() 
   set phoneControl(control:AbstractControl){
-      console.log(control);
-      
     this._phoneControl = control;
   }
   @Input() 

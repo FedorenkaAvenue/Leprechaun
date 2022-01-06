@@ -10,7 +10,6 @@ import { LpchInputModule } from '@shared/controls/lpch-input/lpch-input.module';
 import { LpchPhoneModule } from '@shared/controls/lpch-phone/lpch-phone.module';
 import { ReactiveFormsModule } from '@angular/forms';
 
-
 @NgModule({
   declarations: [
     CardPageComponent,
