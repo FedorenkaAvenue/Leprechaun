@@ -134,6 +134,7 @@ export default class ConfigService {
 
         return ({
             store: new redisStore({ client, logErrors: true }),
+            proxy: true,
             secret: this.getVal('SESSION_COOKIE_SECRET'),
             resave: false,
             saveUninitialized: false,
@@ -141,7 +142,8 @@ export default class ConfigService {
             cookie: {
                 httpOnly: true,
                 maxAge: +this.getVal('SESSION_AGE'),
-                secure: !this.isDev
+                // TODO set to TRUE in production
+                secure: false // secure: !this.isDev
             },
             name: 'session'
         });

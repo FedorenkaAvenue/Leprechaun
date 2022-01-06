@@ -34,7 +34,7 @@ export class PaginationDTO implements IPagination {
     data: Array<TData>;
 
     constructor(data: Array<TData>, paginationDTO: ICreatePagintaion) {
-        this.pagination = new PaginationDTO(paginationDTO);
         this.data = data;
+        this.pagination = new PaginationDTO(paginationDTO);
     }
 }

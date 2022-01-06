@@ -2,7 +2,7 @@ import { ApiProperty } from '@nestjs/swagger';
 import { IsBooleanString, IsEnum, IsNotEmpty, IsNumberString, IsOptional, IsString } from 'class-validator';
 
 import { ICategory } from '@interfaces/Category';
-import { IProduct, IProductPreview, IPublicProduct, ProductStatus } from '@interfaces/Product';
+import { IPrice, IProduct, IProductPreview, IPublicProduct, ProductStatus } from '@interfaces/Product';
 import { ILabel } from '@interfaces/Label';
 import { IProperty } from '@interfaces/Property';
 import { IImage } from '@interfaces/Image';
@@ -17,7 +17,12 @@ export class CreateProductDTO implements IProduct {
     @IsNotEmpty()
     @IsNumberString()
     @ApiProperty({ required: true })
-    price: number;
+    price_current: number;
+
+    @IsOptional()
+    @IsNumberString()
+    @ApiProperty({ required: false, default: null })
+    price_old: number;
 
     @IsOptional()
     @IsBooleanString()
@@ -82,13 +87,18 @@ export class CreateProductDTO implements IProduct {
     comment: string;
 }
 
-export class CreateProductDTOConstructor extends CreateProductDTO {
+export class CreateProductDTOConstructor extends CreateProductDTO implements IProduct {
+    price?: IPrice;
+
     constructor({
-        title, price, is_public, category, labels, properties, status, description, comment
+        title, price_current, price_old, is_public, category, labels, properties, status, description, comment
     }: CreateProductDTO) {
         super();
         this.title = title;
-        this.price = price;
+        this.price = {
+            current: price_current,
+            old: price_old
+        };
         this.is_public = is_public;
         this.status = status || ProductStatus.AVAILABLE;
         this.category = category;

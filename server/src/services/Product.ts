@@ -108,16 +108,24 @@ export class ProductService {
 		queries: ISearchReqQueries,
 		params: ICookies
 	): Promise<PaginationResultDTO<IPublicProduct>> {
-		const qb = this.productRepo
-			.createQueryBuilder('product')
-			.leftJoinAndSelect('product.properties', 'properties')
+		const qb = this.getProductQueryBulder();
+
+		qb
 			.leftJoinAndSelect('product.category', 'category')
-			.leftJoinAndSelect('product.labels', 'labels')
-			.leftJoinAndSelect('product.images', 'images')
-			.leftJoinAndSelect('properties.property_group', 'property_group')
 			.where('product.is_public = true');
 
-		return this.renderResult(qb, queries, params);
+		return this.renderResult<IPublicProduct>(qb, queries, params, PublicProductDTO);
+	}
+
+	async getAdminProducts(
+		queries: ISearchReqQueries,
+		params: ICookies
+	): Promise<PaginationResultDTO<IProduct>> {
+		const qb = this.getProductQueryBulder();
+
+		qb.leftJoinAndSelect('product.category', 'category');
+
+		return this.renderResult<IProduct>(qb, queries, params);
 	}
 
 	async getCategoryPublicProducts(
@@ -125,17 +133,28 @@ export class ProductService {
 		queries: ISearchReqQueries,
 		params: ICookies
 	): Promise<PaginationResultDTO<IPublicProduct>> {
-		const qb = this.productRepo
-			.createQueryBuilder('product')
+		const qb = this.getProductQueryBulder();
+
+		qb
 			.innerJoin('product.category', 'category')
-			.leftJoinAndSelect('product.properties', 'properties')
-			.leftJoinAndSelect('product.labels', 'labels')
-			.leftJoinAndSelect('product.images', 'images')
-			.leftJoinAndSelect('properties.property_group', 'property_group')
 			.where('category.url = :categoryUrl', { categoryUrl })
 			.andWhere('product.is_public = true');
 
-		return this.renderResult(qb, queries, params);
+		return this.renderResult<IPublicProduct>(qb, queries, params, PublicProductDTO);
+	}
+
+	async getCategoryAdminProducts(
+		categoryUrl: string,
+		queries: ISearchReqQueries,
+		params: ICookies
+	): Promise<PaginationResultDTO<IProduct>> {
+		const qb = this.getProductQueryBulder();
+
+		qb
+			.innerJoin('product.category', 'category')
+			.where('category.url = :categoryUrl', { categoryUrl });
+
+		return this.renderResult<IProduct>(qb, queries, params);
 	}
 
 	async deleteProduct(productId: string): Promise<DeleteResult> {
@@ -147,17 +166,32 @@ export class ProductService {
 	}
 
 	/**
+	 * @description get common product query builder
+	 * @returns query builder
+	 */
+	getProductQueryBulder(): SelectQueryBuilder<ProductEntity> {
+		return this.productRepo
+			.createQueryBuilder('product')
+			.leftJoinAndSelect('product.properties', 'properties')
+			.leftJoinAndSelect('product.labels', 'labels')
+			.leftJoinAndSelect('product.images', 'images')
+			.leftJoinAndSelect('properties.property_group', 'property_group');
+	}
+
+	/**
 	 * @description render product search result with filters, sorting and pagination
 	 * @param qb current query builder to continue building query
 	 * @param queries
 	 * @param cookies
+	 * @param resultMapConstructor constructor for maping result
 	 * @returns completed search result with pagination
 	 */
-	async renderResult(
+	async renderResult<T>(
         qb: SelectQueryBuilder<ProductEntity>,
         queries: ISearchReqQueries,
-        params: ICookies
-    ): Promise<PaginationResultDTO<IPublicProduct>> {
+        params: ICookies,
+		resultMapConstructor?: any
+    ): Promise<PaginationResultDTO<T>> {
         const { page, price, status, dinamicFilters } = new SearchQueriesDTO(queries);
 		const { portion, sort } = params;
 
@@ -216,8 +250,10 @@ export class ProductService {
 			.skip((page - 1) * portion)
 			.getManyAndCount();
 		
-		return new PaginationResultDTO<IPublicProduct>(
-			result.map(prod => new PublicProductDTO(prod)),
+		return new PaginationResultDTO<T>(
+			resultMapConstructor ?
+				result.map(prod => new resultMapConstructor(prod)) :
+				result,
 			{
 				currentPage: page,
 				totalCount: resCount,

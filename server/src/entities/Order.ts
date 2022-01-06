@@ -1,36 +1,48 @@
-import {
-    Column, CreateDateColumn, Entity, JoinColumn, ManyToOne,
-    OneToOne, PrimaryGeneratedColumn
-} from 'typeorm';
+import { Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { ApiProperty } from '@nestjs/swagger';
 
-import { IOrder } from '@interfaces/Order';
-import { ProductEntity } from './Product';
+import { IOrderBase, IOrder, OrderStatus, IOrderCustomerData } from '@interfaces/Order';
+import { IOrderItem } from '@interfaces/OrderItem';
+import { OrderItemEntity } from './OrderItemEntity';
+
+export class OrderCustomerDataEntity implements IOrderCustomerData {
+    @Column({ name: 'customer_name', nullable: true })
+    @ApiProperty({ required: false })
+    name: string;
+
+    @Column({ name: 'customer_phone', nullable: true })
+    @ApiProperty({ required: false })
+    phone: string;
+}
+
+export class OrderBaseEntity implements IOrderBase {
+    @PrimaryGeneratedColumn('uuid')
+    @ApiProperty({ required: true, description: 'order ID' })
+    id?: string;
+
+    @Column({ default: OrderStatus.INIT })
+    @ApiProperty({ required: true, enum: OrderStatus })
+    status: OrderStatus;
+}
 
 @Entity('order')
-export class OrderEntity implements IOrder {
-    @PrimaryGeneratedColumn('uuid')
-    @ApiProperty({ required: false })
-    id: string;
-
+export class OrderEntity extends OrderBaseEntity implements IOrder {
     @CreateDateColumn()
     @ApiProperty({ required: false })
-    created_at: Date;
-
-    @Column()
-    @ApiProperty({ description: 'product amount', required: false })
-    amount: number;
-
-    @ManyToOne(
-        () => ProductEntity,
-        ({ id }) => id,
-        { cascade: true }
+    created_at?: Date;
+    
+    @OneToMany(
+        () => OrderItemEntity,
+        ({ order }) => order
     )
-    @JoinColumn({ name: 'product_id' })
-    @ApiProperty({ required: false })
-    product_id: string;
+    @ApiProperty({ type: OrderItemEntity, isArray: true })
+    list?: IOrderItem[];
 
-    @Column({ default: false })
-    @ApiProperty({ required: false })
-    is_bought: boolean;
+    @Column(() => OrderCustomerDataEntity, { prefix: false })
+    @ApiProperty({ description: 'customer\'s order credentials' })
+    customer?: IOrderCustomerData;
+
+    @Column({ nullable: true })
+    @ApiProperty({ description: 'user session ID' })
+    session_id?: string;
 }

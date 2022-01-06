@@ -6,7 +6,7 @@ import { FiltersDTO } from '@dto/Filter';
 import { ISearchReqQueries } from '@interfaces/Queries';
 
 @Controller('filter')
-@ApiTags('Filter')
+@ApiTags('Filter 🤵🏿‍♂️')
 export class FilterController {
     constructor(private readonly filterService: FilterService) {}
 
