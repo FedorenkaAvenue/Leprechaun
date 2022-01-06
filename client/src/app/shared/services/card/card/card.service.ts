@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { OrderDto, OrderI } from '@shared/models/products/order.model';
+import { CustomerData, OrderDto, OrderI } from '@shared/models/products/order.model';
 import { CardApiService } from '@shared/services/api_es/card-api/card-api.service';
 import { BehaviorSubject, combineLatest, merge, Observable } from 'rxjs';
 import { filter, shareReplay } from 'rxjs/operators';
@@ -38,5 +38,9 @@ export class CardService {
   public updateCard(order: OrderDto): void {
     this.cardValue$.next(order);
     this.cardStateService.updateCard(order);
+  }
+
+  public sendOrder(order: OrderDto, customerData: CustomerData): Observable<any> {
+    return this.cardApiService.sendOrder(order, customerData)
   }
 }

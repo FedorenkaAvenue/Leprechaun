@@ -3,3 +3,8 @@
   max-width: $container-width;
   margin: 0 auto;
 }
+
+.products-page__wrap {
+  display: flex;
+  flex-wrap: wrap;
+}

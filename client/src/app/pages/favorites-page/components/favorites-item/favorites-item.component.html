@@ -1,4 +1,4 @@
-<div class="product">
+<!-- <div class="product">
     <div class="product-content">
       <a [routerLink]="['/', product?.id]" class="product-image">
         <img [src]="product?.image" alt="" />
@@ -14,4 +14,30 @@
       <div class="product-price">{{ product?.price }} ₴</div>
     </div>
   </div>
+   -->
+
+  <section class="product">
+    <div class="product__wrap">
+        <a [routerLink]="['/product', product.id]" routerLinkActive="router-link-active">
+        <div class="product-preview__wrap">
+          <div
+            class="product-preview__image"
+            [ngStyle]="{ 'background-image': 'url(' + product?.image + ')' }"
+          >
+          </div>
+        </div>
+        <span class="product-title">{{ product?.title }}</span>
+      </a>
+        <div class="product-main">
+          <div class="product__price-wrap">
+            <span class="product__price">1231$</span>
+            <button (click)="addProductToCard(product?.id)" class="icon-btn">
   
+              <app-leprachaun-icon name="card" [color]="product?.inCard ? 'green' : 'rose'" [width]="22" [height]="22"> </app-leprachaun-icon>
+              <!-- <app-leprachaun-icon name="cardSelected" color="rose" [width]="22" [height]="22"> </app-leprachaun-icon> -->
+            </button>
+          </div>
+        </div>
+      </div>
+  
+  </section>

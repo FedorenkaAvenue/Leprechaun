@@ -1,27 +1,30 @@
-import { Component, OnInit, ChangeDetectionStrategy, Input, ViewEncapsulation, forwardRef } from '@angular/core';
-import { FormGroup, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { Component, OnInit, ChangeDetectionStrategy, Input, InjectionToken, forwardRef } from '@angular/core';
+import { ControlValueAccessor, FormBuilder, FormGroup, NG_VALUE_ACCESSOR, Validators } from '@angular/forms';
+
+// const NG_VALUE_ACCESSOR: InjectionToken<ControlValueAccessor>;
+
 @Component({
-  selector: 'lpch-input-field',
-  templateUrl: './lpch-input.component.html',
-  styleUrls: ['./lpch-input.component.scss'],
-  encapsulation: ViewEncapsulation.None,
+  selector: 'lpch-phone-field',
+  templateUrl: './lpch-phone.component.html',
+  styleUrls: ['./lpch-phone.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => LpchInputComponent),
+      useExisting: forwardRef(() => LpchPhoneComponent),
       multi: true
     }
   ]
 })
-export class LpchInputComponent implements OnInit {
-  @Input() type: string = 'text';
+export class LpchPhoneComponent implements OnInit, ControlValueAccessor  {
+
+  @Input() type: string = 'tel';
   @Input() placeholder: string = 'Enter your data...';
   @Input() maxLength: string;
   public userForm: FormGroup;
   public value: string;
   public disabled = false;
-  constructor() { }
+  constructor() {}
 
   ngOnInit(): void {
   }
@@ -50,4 +53,5 @@ export class LpchInputComponent implements OnInit {
     this.onChange(insideValue);
     this.onTouched();
   }
+
 }

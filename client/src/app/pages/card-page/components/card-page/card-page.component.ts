@@ -1,5 +1,6 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
-import { OrderDto } from '@shared/models/products/order.model';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { CustomerData, OrderDto } from '@shared/models/products/order.model';
 import { CardService } from '@shared/services/card/card/card.service';
 import { Observable } from 'rxjs';
 import { take } from 'rxjs/operators';
@@ -11,16 +12,14 @@ import { take } from 'rxjs/operators';
 })
 export class CardPageComponent implements OnInit {
   public cardData$: Observable<OrderDto>;
-  constructor(
-    private readonly cardService: CardService,
-  ) {
+  userForm: FormGroup;
+  constructor(private readonly cardService: CardService, private readonly fb: FormBuilder) {
+    this.createForm();
   }
 
   ngOnInit(): void {
     this.cardData$ = this.cardService.getCardValue();
   }
-
-  
 
   public deleteFromCard(id: string): void {
     this.cardService
@@ -29,5 +28,25 @@ export class CardPageComponent implements OnInit {
       .subscribe((order: OrderDto) => {
         this.cardService.updateCard(order);
       });
+  }
+
+ private createForm() {
+    this.userForm = this.fb.group({
+      name: this.fb.control(null, [Validators?.required]),
+      phone: this.fb.control('', [
+        Validators.pattern(/^\(\d{3}\)\s\d{3}-\d{4}$/),
+        Validators.required,
+      ]),
+    });
+  }
+
+  public sendOrder(order: OrderDto): void {
+    const customerData: CustomerData = this.userForm.value
+    const phone = +customerData?.phone.replace(/[^0-9]/g, '');
+    const customer = {...customerData, phone}
+    this.cardService.sendOrder(order, customer).subscribe(res => {
+      console.log(res);
+      
+    })
   }
 }

@@ -22,4 +22,11 @@ export class FavoritesPageComponent implements OnInit {
     this.favoritesData$ = this.favoritesService.getProducts()
   }
 
+  public addToCard(productId): void {
+    this.cardService.addToCard(productId).subscribe((order: OrderDto) => {
+      // const cardList = order?.list?.map(cardItem => cardItem?.product?.id)
+      this.cardService.updateCard(order);
+    })
+  }
+  
 }
