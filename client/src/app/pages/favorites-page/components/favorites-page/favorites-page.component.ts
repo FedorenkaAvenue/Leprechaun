@@ -1,9 +1,11 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { FavoritesDto } from '@shared/models';
 import { OrderDto } from '@shared/models/products/order.model';
 import { CardService } from '@shared/services/card/card/card.service';
 import { FavoritesService } from '@shared/services/favorite/favotite/favorites.service';
 import { LpchRouterService } from '@shared/services/router/lpch-router.service';
 import { Observable } from 'rxjs';
+import { take } from 'rxjs/operators';
 
 @Component({
   selector: 'app-favorites-page',
@@ -13,7 +15,7 @@ import { Observable } from 'rxjs';
 })
 export class FavoritesPageComponent implements OnInit {
 
-  public favoritesData$: Observable<any[]>;
+  public favoritesData$: Observable<FavoritesDto[]>;
   constructor(
     private readonly favoritesService: FavoritesService,
     private readonly cardService: CardService,
@@ -32,6 +34,14 @@ export class FavoritesPageComponent implements OnInit {
     }
     this.cardService.addToCard(productId).subscribe((order: OrderDto) => {
       this.cardService.updateCard(order);
+    })
+  }
+
+  public deleteFromFavorite(productId: string): void {
+    this.favoritesService.deleteProduct(productId)
+    .pipe(take(1))
+    .subscribe((favorites: FavoritesDto[]) => {
+      this.favoritesService.updateFavorites(favorites);
     })
   }
   

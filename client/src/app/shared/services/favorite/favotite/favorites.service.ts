@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { FavoritesDto } from '@shared/models';
 import { FavoritesApiService } from '@shared/services/api_es/favorites-api/favorites-api.service';
 import { CardStateService } from '@shared/services/card/card-state/card-state.service';
 import { LocalStorageService } from '@shared/storage/local.storage';
@@ -11,13 +12,13 @@ import { FavoritesStateService } from '../favorite-state/favorites-state.service
 })
 export class FavoritesService {
   
-  private favoritesValue$: BehaviorSubject<Array<string>>;
+  private favoritesValue$: BehaviorSubject<Array<FavoritesDto>>;
   constructor(
     private readonly favoritesApiService: FavoritesApiService,
     private readonly favoritesStateService: FavoritesStateService,
     private readonly cardService: CardStateService,
   ) {
-    this.favoritesValue$ = new BehaviorSubject<any>(null); 
+    this.favoritesValue$ = new BehaviorSubject<Array<FavoritesDto>>(null); 
   }
 
   public getFavoritesValue(): Observable<any> {
@@ -27,7 +28,7 @@ export class FavoritesService {
   public getProducts(): Observable<any> {
     const cardState$ = this.cardService.getCardStateValue();
     const products$ = this.favoritesApiService.getProducts();
-    const favoritesProducts$ = merge(products$, this.favoritesValue$).pipe(filter(res => !!res)) as Observable<Array<any>>
+    const favoritesProducts$ = merge(products$, this.favoritesValue$).pipe(filter(res => !!res)) as Observable<Array<FavoritesDto>>
     return combineLatest([favoritesProducts$, cardState$]).pipe(
       map(([favoritesProducts, cardValue]) => {
         favoritesProducts.map((product) => {
@@ -44,12 +45,12 @@ export class FavoritesService {
     return this.favoritesApiService.addProductToFavorites(id)
   }
 
-  public deleteProduct(id: string): Observable<any> {
+  public deleteProduct(id: string): Observable<Array<FavoritesDto>> {
     return this.favoritesApiService.deleteProductFromFavorites(id)
   }
 
-  public updateFavorites(order: any): void {
-    this.favoritesValue$.next(order);
-    this.favoritesStateService.updateFavorites(order);
+  public updateFavorites(favorites: Array<FavoritesDto>): void {
+    this.favoritesValue$.next(favorites);
+    this.favoritesStateService.updateFavorites(favorites);
   }
 }

@@ -2,8 +2,7 @@ import { Component, OnInit, ChangeDetectionStrategy, Input, Output, EventEmitter
 @Component({
   selector: 'app-favorites-item',
   templateUrl: './favorites-item.component.html',
-  styleUrls: ['./favorites-item.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  styleUrls: ['./favorites-item.component.scss']
 })
 export class FavoritesItemComponent implements OnInit {
 
@@ -16,7 +15,7 @@ export class FavoritesItemComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  public deleteFromCard(id: string): void {
+  public deleteFromFavorites(id: string): void {
     this.delete.emit(id)
   }
 
