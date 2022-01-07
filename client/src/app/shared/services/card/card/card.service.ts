@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { CustomerData, OrderDto, OrderI } from '@shared/models/products/order.model';
+import { CustomerData, OrderDto, OrderI, ProductAmountPayload } from '@shared/models/products/order.model';
 import { CardApiService } from '@shared/services/api_es/card-api/card-api.service';
 import { BehaviorSubject, merge, Observable } from 'rxjs';
 import { filter } from 'rxjs/operators';
@@ -34,13 +34,16 @@ export class CardService {
     return this.cardApiService.deleteProductFromCard(id)
   }
 
+  public setAmount(data: ProductAmountPayload): Observable<OrderI> {
+    return this.cardApiService.setProductAmount(data);
+  }
+  public sendOrder(order: OrderDto, customerData: CustomerData): Observable<any> {
+    return this.cardApiService.sendOrder(order, customerData)
+  }
+
   public updateCard(order: OrderDto): void {
     this.cardValue$.next(order);
     this.cardStateService.updateCard(order);
-  }
-
-  public sendOrder(order: OrderDto, customerData: CustomerData): Observable<any> {
-    return this.cardApiService.sendOrder(order, customerData)
   }
 
   public checkAvailabilityInCard(id: string): boolean {

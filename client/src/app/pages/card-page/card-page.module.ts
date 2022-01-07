@@ -9,6 +9,7 @@ import { ProductPriceModule } from '@shared/components/product-price/product-pri
 import { LpchInputModule } from '@shared/controls/lpch-input/lpch-input.module';
 import { LpchPhoneModule } from '@shared/controls/lpch-phone/lpch-phone.module';
 import { ReactiveFormsModule } from '@angular/forms';
+import { LpchCounterInputModule } from '@shared/controls/lpch-counter-input/lpch-counter-input.module';
 
 @NgModule({
   declarations: [
@@ -23,6 +24,7 @@ import { ReactiveFormsModule } from '@angular/forms';
     LpchInputModule,
     LpchPhoneModule,
     ReactiveFormsModule,
+    LpchCounterInputModule
   ],
   providers: [
   ]

@@ -5,6 +5,7 @@ import { CurtainsDirective } from '@shared/directives/curtains/curtains.directiv
 import { RouterModule } from '@angular/router';
 import { cartIcon, cartSelectedIcon, heartIcon, heartIconFilled, LeprachaunIconRegistryService, LeprachaunIconsModule } from '@shared/modules/leprachaun-icons';
 import { CurtainsModule } from '@shared/directives/curtains/curtains.module';
+import { ProductPriceModule } from '../product-price/product-price.module';
 
 
 
@@ -16,7 +17,8 @@ import { CurtainsModule } from '@shared/directives/curtains/curtains.module';
     CommonModule,
     RouterModule,
     LeprachaunIconsModule,
-    CurtainsModule
+    CurtainsModule,
+    ProductPriceModule
   ],
   exports: [
     ProductCardComponent

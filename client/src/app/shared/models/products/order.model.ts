@@ -45,6 +45,10 @@ export class OrderProductDto {
   title: string;
 }
 
+export class ProductAmountPayload {
+  order_item: string;
+  amount: number;
+}
 export class CustomerData {
   name: string;
   phone: any;

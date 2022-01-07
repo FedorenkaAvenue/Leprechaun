@@ -1,6 +1,6 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { CustomerData, OrderDto } from '@shared/models/products/order.model';
+import { CustomerData, OrderDto, ProductAmountPayload } from '@shared/models/products/order.model';
 import { CardService } from '@shared/services/card/card/card.service';
 import { Observable } from 'rxjs';
 import { take } from 'rxjs/operators';
@@ -30,7 +30,7 @@ export class CardPageComponent implements OnInit {
       });
   }
 
- private createForm() {
+  private createForm() {
     this.userForm = this.fb.group({
       name: this.fb.control(null, [Validators?.required]),
       phone: this.fb.control('', [
@@ -40,13 +40,22 @@ export class CardPageComponent implements OnInit {
     });
   }
 
+  public setProductAmount(amount: number, order_item: string): void {
+    const data: ProductAmountPayload = {
+      amount,
+      order_item,
+    };
+    this.cardService.setAmount(data)
+    .pipe(take(1))
+    .subscribe((order: OrderDto) => {
+      this.cardService.updateCard(order);
+    });
+  }
+
   public sendOrder(order: OrderDto): void {
-    const customerData: CustomerData = this.userForm.value
+    const customerData: CustomerData = this.userForm.value;
     const phone = +customerData?.phone.replace(/[^0-9]/g, '');
-    const customer = {...customerData, phone}
-    this.cardService.sendOrder(order, customer).subscribe(res => {
-      console.log(res);
-      
-    })
+    const customer = { ...customerData, phone };
+    this.cardService.sendOrder(order, customer).subscribe((res) => {});
   }
 }

@@ -1,6 +1,7 @@
 .product {
     &-content {
         display: flex;
+        justify-content: space-between;
     }
     &-image {
         display: flex;
