@@ -10,6 +10,14 @@
     <app-products-selection-list
       [title]="'Popular Products'"
       [products]="commonProducts?.popular"
+      (toFavoriteEvent)="addToFavorite($event)"
+      (deleteFromFavoriteEvent)="deleteFromFavorite($event)"
     ></app-products-selection-list>
   </ng-container>
+  <app-products-selection-list
+      [title]="'Products History'"
+      [products]="historyProducts$ | async"
+      (toFavoriteEvent)="addToFavorite($event)"
+      (deleteFromFavoriteEvent)="deleteFromFavorite($event)"
+    ></app-products-selection-list>
 </section>

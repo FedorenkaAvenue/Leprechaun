@@ -12,9 +12,8 @@ import { HomeService } from '../../services/home.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HomeComponent implements OnInit {
-  public popularProducts: Observable<ProductsPreviewI[]>;
-  public newProducts: Observable<ProductsPreviewI[]>;
   public products$: Observable<ProductsCommonI>;
+  public historyProducts$: Observable<Array<ProductsPreviewI>>;
   constructor(
     private readonly homeService: HomeService,
     private readonly favoritesService: FavoritesService,
@@ -22,11 +21,17 @@ export class HomeComponent implements OnInit {
 
   ngOnInit(): void {
     this.products$ = this.getProducts();
+    this.historyProducts$ = this.getHistoryProducts();
   }
 
   private getProducts(): Observable<ProductsCommonI> {
     return this.homeService.getSelectionProducts();
   }
+
+  private getHistoryProducts(): Observable<Array<ProductsPreviewI>> {
+    return this.homeService.getHistoryProducts();
+  }
+
 
   public addToFavorite(productId: string): void {
     this.favoritesService
