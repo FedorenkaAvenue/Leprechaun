@@ -1,4 +1,4 @@
-import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { ApiProperty } from '@nestjs/swagger';
 
 import { IOrder } from '@interfaces/Order';
@@ -20,6 +20,10 @@ export class OrderItemBaseEntity implements IOrderItemBase {
 
 @Entity('order_item')
 export class OrderItemEntity extends OrderItemBaseEntity implements IOrderItem {
+    @CreateDateColumn()
+    @ApiProperty({ required: false })
+    created_at?: Date;
+
     @ManyToOne(
         () => ProductEntity,
         ({ id }) => id

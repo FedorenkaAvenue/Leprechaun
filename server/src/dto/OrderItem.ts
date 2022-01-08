@@ -1,10 +1,10 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsNotEmpty, IsNumber, IsOptional, IsUUID } from 'class-validator';
 
-import { IProduct, IProductPreview } from '@src/interfaces/Product';
+import { IProduct, IProductPreview } from '@interfaces/Product';
 import { ProductPreviewDTO } from './Product';
 import { IOrderItem, IOrderItemPublic } from '@interfaces/OrderItem';
-import { OrderItemBaseEntity } from '@entities/OrderItemEntity';
+import { OrderItemBaseEntity } from '@entities/OrderItem';
 
 export class CreateOrderItemDTO implements IOrderItem<string> {
     @IsNotEmpty()
@@ -28,13 +28,9 @@ export class UpdateOrderItemDTO {
     @ApiProperty({ description: 'order item ID', required: true })
     order_item: IOrderItem['id'];
 
-    @IsOptional()
+    @IsNotEmpty()
     @IsNumber()
-    @ApiProperty({
-        required: false,
-        description: 'product items amount',
-        default: 1
-    })
+    @ApiProperty({ required: true, description: 'product items amount' })
     amount: IOrderItem['amount'];
 }
 

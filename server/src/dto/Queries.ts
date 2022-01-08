@@ -1,7 +1,6 @@
-import { DinamicQueryFilters, IPriceSearchQuery, ISearchQueries, ISearchReqQueries } from '@interfaces/Queries';
+import { DinamicQueryFilters, IPriceSearchQuery, ISearchQueries, ISearchReqQueries, SortType } from '@interfaces/Queries';
 import { ProductStatus } from '@interfaces/Product';
 import { availableEnum } from '@utils/enum';
-import { PipeTransform } from '@nestjs/common';
 
 /**
  * @description create range object for filters
@@ -22,18 +21,21 @@ export class RangeQueryDTO implements IPriceSearchQuery {
 
 /**
  * @description rebuild url queries to object
+ * @param sort sort type
  * @param page page number
  * @param price price range filter
  * @param sell item is selling
  * @param restQueries dinamic filters
  */
 export class SearchQueriesDTO implements ISearchQueries {
+    sort: SortType;
     page: number
     price: IPriceSearchQuery
     status: ProductStatus;
     dinamicFilters: DinamicQueryFilters;
 
-    constructor({ page, price, status, ...restQueries }: ISearchReqQueries) {
+    constructor({ sort, page, price, status, ...restQueries }: ISearchReqQueries) {
+        this.sort = Number(sort) || SortType.POPULAR;
         this.page = Number(page) || 1;
         this.price = price ? new RangeQueryDTO(price) : null;
         this.status = availableEnum(status, ProductStatus) ? status : ProductStatus.AVAILABLE;

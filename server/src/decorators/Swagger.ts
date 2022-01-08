@@ -2,6 +2,8 @@ import { applyDecorators, Type } from '@nestjs/common';
 import { ApiNotAcceptableResponse, ApiOkResponse, ApiQuery, getSchemaPath } from '@nestjs/swagger';
 
 import { PaginationDTO } from '@dto/Pagination';
+import { SortType } from '@interfaces/Queries';
+import { ProductStatus } from '@interfaces/Product';
 
 export const ApiPaginatedResponse = <TModel extends Type<any>>(model: TModel) => {
 	return applyDecorators(
@@ -23,6 +25,12 @@ export const ApiPaginatedResponse = <TModel extends Type<any>>(model: TModel) =>
 		}),
 		ApiQuery({
 			name: 'page', required: false, description: 'page number', type: 'number'
+		}),
+		ApiQuery({
+			name: 'sort', required: false, description: 'sort number', enum: SortType
+		}),
+		ApiQuery({
+			name: 'status', required: false, description: 'include product statuses', enum: ProductStatus
 		})
 	);
 };

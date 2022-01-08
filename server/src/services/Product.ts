@@ -6,8 +6,8 @@ import { CreateProductDTO, CreateProductDTOConstructor, ProductPreviewDTO, Publi
 import { ProductEntity } from '@entities/Product';
 import { FOLDER_TYPES, FSService } from '@services/FS';
 import { ImageService } from '@services/Image';
-import { CookieSortType, ICookies } from '@interfaces/Cookies';
-import { ISearchReqQueries } from '@interfaces/Queries';
+import { ICookies } from '@interfaces/Cookies';
+import { ISearchReqQueries, SortType } from '@interfaces/Queries';
 import { SearchQueriesDTO } from '@dto/Queries';
 import { PaginationResultDTO } from '@dto/Pagination';
 import { CommonDashboardsDTO, UserDashboardsDTO } from '@dto/Dashboard';
@@ -192,8 +192,8 @@ export class ProductService {
         params: ICookies,
 		resultMapConstructor?: any
     ): Promise<PaginationResultDTO<T>> {
-        const { page, price, status, dinamicFilters } = new SearchQueriesDTO(queries);
-		const { portion, sort } = params;
+        const { sort, page, price, status, dinamicFilters } = new SearchQueriesDTO(queries);
+		const { portion } = params;
 
 		// filtering by dinamical filters
         if (dinamicFilters) {
@@ -226,17 +226,17 @@ export class ProductService {
 		
 		// sorting
 		switch (sort) {
-			case CookieSortType.PRICE_UP: {
+			case SortType.PRICE_UP: {
 				qb.orderBy('product.price', 'ASC');
 				break;
 			}
 
-			case CookieSortType.PRICE_DOWN: {
+			case SortType.PRICE_DOWN: {
 				qb.orderBy('product.price', 'DESC');
 				break;
 			}
 
-			case CookieSortType.NEW: {
+			case SortType.NEW: {
 				qb.orderBy('product.created_at', 'DESC');
 				break;
 			}
