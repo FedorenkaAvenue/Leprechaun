@@ -3,7 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { DeleteResult, Not, Repository, UpdateResult } from 'typeorm';
 
 import { OrderEntity } from '@entities/Order';
-import { OrderItemEntity } from '@entities/OrderItemEntity';
+import { OrderItemEntity } from '@entities/OrderItem';
 import { ChangeOrderStatusDTO, CreateOrderDTO, OrderPublicDTO } from '@dto/Order';
 import { ISession } from '@interfaces/Session';
 import { IOrder, IOrderPublic, OrderStatus } from '@interfaces/Order';
@@ -37,6 +37,7 @@ export class OrderService {
             .leftJoinAndSelect('order.list', 'list')
             .leftJoinAndSelect('list.product', 'product')
             .leftJoinAndSelect('product.images', 'images')
+            .orderBy('list.created_at', 'ASC')
             .getOne();
 
         // fictive order if current order doesn't exists

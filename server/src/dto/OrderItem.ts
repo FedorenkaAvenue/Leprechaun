@@ -4,7 +4,7 @@ import { IsNotEmpty, IsNumber, IsOptional, IsUUID } from 'class-validator';
 import { IProduct, IProductPreview } from '@interfaces/Product';
 import { ProductPreviewDTO } from './Product';
 import { IOrderItem, IOrderItemPublic } from '@interfaces/OrderItem';
-import { OrderItemBaseEntity } from '@entities/OrderItemEntity';
+import { OrderItemBaseEntity } from '@entities/OrderItem';
 
 export class CreateOrderItemDTO implements IOrderItem<string> {
     @IsNotEmpty()

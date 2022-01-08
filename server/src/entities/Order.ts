@@ -3,7 +3,7 @@ import { ApiProperty } from '@nestjs/swagger';
 
 import { IOrderBase, IOrder, OrderStatus, IOrderCustomerData } from '@interfaces/Order';
 import { IOrderItem } from '@interfaces/OrderItem';
-import { OrderItemEntity } from './OrderItemEntity';
+import { OrderItemEntity } from './OrderItem';
 
 export class OrderCustomerDataEntity implements IOrderCustomerData {
     @Column({ name: 'customer_name', nullable: true })
