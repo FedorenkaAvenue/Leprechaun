@@ -44,9 +44,9 @@ export class ProductPublicController {
     @ApiPaginatedResponse(PublicProductDTO)
     getProducts(
         @Query() queries: ISearchReqQueries,
-        @Cookies() { portion, sort }: ICookies
+        @Cookies() { portion }: ICookies
     ): Promise<PaginationResultDTO<IPublicProduct>> {
-        return this.productService.getPublicProducts(queries, { portion, sort });
+        return this.productService.getPublicProducts(queries, { portion });
     }
 
     @Get('category/:categoryUrl')
@@ -57,10 +57,10 @@ export class ProductPublicController {
 	@ApiPaginatedResponse(PublicProductDTO)
 	getCategoryProducts(
 		@Query() queries: ISearchReqQueries,
-        @Cookies() { portion, sort }: ICookies,
+        @Cookies() { portion }: ICookies,
 		@Param('categoryUrl') categoryUrl: string
 	): Promise<PaginationResultDTO<IPublicProduct>> {
-		return this.productService.getCategoryPublicProducts(categoryUrl, queries, { portion, sort });
+		return this.productService.getCategoryPublicProducts(categoryUrl, queries, { portion });
 	}
 
     @Get('dashboard/common')
@@ -145,9 +145,9 @@ export class ProductAdminController {
     @ApiPaginatedResponse(ProductEntity)
     getproducts(
         @Query() queries: ISearchReqQueries,
-        @Cookies() { portion, sort }: ICookies
+        @Cookies() { portion }: ICookies
     ): Promise<PaginationResultDTO<IProduct>> {
-        return this.productService.getAdminProducts(queries, { portion, sort });
+        return this.productService.getAdminProducts(queries, { portion });
     }
 
     @Get('category/:categoryUrl')
@@ -157,10 +157,10 @@ export class ProductAdminController {
 	@ApiPaginatedResponse(ProductEntity)
 	getCategoryProducts(
 		@Query() queries: ISearchReqQueries,
-        @Cookies() { portion, sort }: ICookies,
+        @Cookies() { portion }: ICookies,
 		@Param('categoryUrl') categoryUrl: string
 	): Promise<PaginationResultDTO<IProduct>> {
-		return this.productService.getCategoryAdminProducts(categoryUrl, queries, { portion, sort });
+		return this.productService.getCategoryAdminProducts(categoryUrl, queries, { portion });
 	}
 
     @Get(':productId')
