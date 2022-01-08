@@ -43,8 +43,6 @@ export class ProductsManagerService {
           const orderProducts = cardValue?.list.map(orderProduct => orderProduct?.product?.id);
           const favoritesProducts = favoriteValue?.map(el => el.id)
           el.inCard = orderProducts?.includes(el.id);
-          console.log(favoriteValue);
-          
           el.isFavorite = favoritesProducts?.includes(el.id);
           return el;
         })

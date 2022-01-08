@@ -1,10 +1,11 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ProductPreviewCardComponent } from './product-preview-card.component';
-import { cartIcon, cartSelectedIcon, LeprachaunIconRegistryService, LeprachaunIconsModule } from '@shared/modules/leprachaun-icons';
+import { cartIcon, cartSelectedIcon, heartIcon, LeprachaunIconRegistryService, LeprachaunIconsModule } from '@shared/modules/leprachaun-icons';
 import { RouterModule } from '@angular/router';
 import { CurtainsDirective } from '@shared/directives/curtains/curtains.directive';
 import { CurtainsModule } from '@shared/directives/curtains/curtains.module';
+import { ProductPriceModule } from '../product-price/product-price.module';
 
 
 
@@ -16,7 +17,8 @@ import { CurtainsModule } from '@shared/directives/curtains/curtains.module';
     CommonModule,
     RouterModule,
     LeprachaunIconsModule,
-    CurtainsModule
+    CurtainsModule,
+    ProductPriceModule
   ],
   exports: [
     ProductPreviewCardComponent
@@ -27,7 +29,8 @@ export class ProductPreviewCardModule {
     this.leprachaunIconRegistryService.registerIcons(
       [
         cartIcon,
-        cartSelectedIcon
+        cartSelectedIcon,
+        heartIcon
       ]);
   }
 }

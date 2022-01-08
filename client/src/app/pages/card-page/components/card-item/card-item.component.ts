@@ -1,5 +1,5 @@
 import { Component, OnInit, ChangeDetectionStrategy, Input, Output, EventEmitter } from '@angular/core';
-import { OrderProductDto } from '@shared/models/products/order.model';
+import { OrderCardItemDto } from '@shared/models/products/order.model';
 
 
 @Component({
@@ -10,8 +10,10 @@ import { OrderProductDto } from '@shared/models/products/order.model';
 })
 export class CardItemComponent implements OnInit {
 
-  @Input() product: OrderProductDto;
+  @Input() product: OrderCardItemDto;
   @Output() delete = new EventEmitter<void>()
+  @Output() setAmount = new EventEmitter<number>()
+  public showAmountError: boolean
   constructor() { }
 
   ngOnInit(): void {
@@ -19,5 +21,13 @@ export class CardItemComponent implements OnInit {
   
   public deleteFromCard(): void {
     this.delete.emit()
+  }
+
+  public setProductAmount(count: number): void {
+    this.showAmountError = !count;
+    if(!count) {
+      return
+    }
+    this.setAmount.emit(count)
   }
 }

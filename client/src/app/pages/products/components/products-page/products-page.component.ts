@@ -8,6 +8,8 @@ import { Observable } from 'rxjs';
 import { ProductsManagerService } from '../../services/products-manager/products-manager.service';
 import { FavoritesService } from '@shared/services/favorite/favotite/favorites.service';
 import { LpchRouterService } from '@shared/services/router/lpch-router.service';
+import { FavoritesDto } from '@shared/models';
+import { take } from 'rxjs/operators';
 
 @Component({
   selector: 'app-products-page',
@@ -69,12 +71,15 @@ export class ProductsPageComponent implements OnInit {
   }
 
   public addToFavorite(productId: string): void {
-    this.favoritesService.addToFavorites(productId).subscribe((favorites: any) => {
+    this.favoritesService.addToFavorites(productId).pipe(
+      take(1)
+    )
+    .subscribe((favorites: Array<FavoritesDto>) => {
       this.favoritesService.updateFavorites(favorites)
     })
   }
 
-  public removeFromFavorite(productId: string): void {
+  public deleteFromFavorite(productId: string): void {
     this.favoritesService.deleteProduct(productId).subscribe((favorites: any) => {
       this.favoritesService.updateFavorites(favorites)
     })

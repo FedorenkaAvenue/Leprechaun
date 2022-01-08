@@ -1,21 +1,3 @@
-<!-- <div class="product">
-    <div class="product-content">
-      <a [routerLink]="['/', product?.id]" class="product-image">
-        <img [src]="product?.image" alt="" />
-      </a>
-      <a [routerLink]="['/', product?.id]" class="product-info">{{ product?.title }}</a>
-      <div class="product-controls">
-        <button (click)="deleteFromCard(product?.id)">
-          <app-leprachaun-icon name="close" width="12" heigh="12"></app-leprachaun-icon>
-        </button>
-      </div>
-    </div>
-    <div class="product-footer">
-      <div class="product-price">{{ product?.price }} ₴</div>
-    </div>
-  </div>
-   -->
-
   <section class="product">
     <div class="product__wrap">
         <a [routerLink]="['/product', product.id]" routerLinkActive="router-link-active">
@@ -34,10 +16,14 @@
             <button (click)="addProductToCard(product?.id)" class="icon-btn">
   
               <app-leprachaun-icon name="card" [color]="product?.inCard ? 'green' : 'rose'" [width]="22" [height]="22"> </app-leprachaun-icon>
-              <!-- <app-leprachaun-icon name="cardSelected" color="rose" [width]="22" [height]="22"> </app-leprachaun-icon> -->
             </button>
           </div>
         </div>
       </div>
+
+      <button (click)="deleteFromFavorites(product?.id)" class="product__remove-btn icon-btn">
   
+        <app-leprachaun-icon name="trash" color="rose" [width]="22" [height]="22"> </app-leprachaun-icon>
+        <!-- <app-leprachaun-icon name="cardSelected" color="rose" [width]="22" [height]="22"> </app-leprachaun-icon> -->
+      </button>
   </section>

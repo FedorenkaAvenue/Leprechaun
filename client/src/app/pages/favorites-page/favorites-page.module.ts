@@ -6,7 +6,7 @@ import { FavoritesPageComponent } from './components/favorites-page/favorites-pa
 import { FavoritesItemComponent } from './components/favorites-item/favorites-item.component';
 import { FavoritesApiService } from '@shared/services/api_es/favorites-api/favorites-api.service';
 import { FavoritesPageService } from './services/favorites-page.service';
-import { closeIcon, LeprachaunIconRegistryService, LeprachaunIconsModule } from '@shared/modules/leprachaun-icons';
+import { closeIcon, LeprachaunIconRegistryService, LeprachaunIconsModule, trashIcon } from '@shared/modules/leprachaun-icons';
 
 @NgModule({
   declarations: [
@@ -27,7 +27,8 @@ export class FavoritesPageModule {
   constructor(private readonly leprachaunIconRegistryService: LeprachaunIconRegistryService) {
     this.leprachaunIconRegistryService.registerIcons(
       [
-       closeIcon
+       closeIcon,
+       trashIcon
       ]);
   }
 }

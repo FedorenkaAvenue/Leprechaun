@@ -8,7 +8,8 @@
         <app-card-item
           *ngFor="let catdItem of cardData?.list"
           (delete)="deleteFromCard(catdItem?.id)"
-          [product]="catdItem?.product"
+          (setAmount)="setProductAmount($event, catdItem?.id)"
+          [product]="catdItem"
         ></app-card-item>
       </section>
       <section *ngIf="cardData?.list?.length" class="card-form__wrap">

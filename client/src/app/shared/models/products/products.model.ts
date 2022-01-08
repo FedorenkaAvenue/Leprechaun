@@ -1,4 +1,5 @@
 import { ProductLabelType } from "@shared/enums";
+import { PriceI } from ".";
 import { CategoryI } from "../categories/categories.model";
 import { PaginationDto } from "../pagination/pagination.model";
 
@@ -32,9 +33,10 @@ export interface ProductPropertiesI {
 export interface ProductsPreviewI {
   id: string,
   title: string,
-  price: number,
-  images: string,
-  status: number
+  price: PriceI,
+  image: string,
+  status: number,
+  isFavorite: boolean
 }
 
 export interface ProductsBaseI {

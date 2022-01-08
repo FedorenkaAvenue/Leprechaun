@@ -1,0 +1,7 @@
+<fieldset class="text-control">
+  <div class="text-control__wrap">
+    <button class="rose-btn" [disabled]="control?.value < 2" (click)="subtract()">-</button>
+    <input [formControl]="control" class="text-control__input" type="number" />
+    <button class="rose-btn" (click)="add()">+</button>
+  </div>
+</fieldset>

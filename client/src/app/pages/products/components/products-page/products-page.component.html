@@ -22,7 +22,7 @@
             [products]="products"
             (toCardEvent)="addToCard($event)"
             (toFavoriteEvent)="addToFavorite($event)"
-            (removeFromFavoriteEvent)="removeFromFavorite($event)"
+            (deleteFromFavoriteEvent)="deleteFromFavorite($event)"
           ></app-products-list>
           
           <ng-container *ngIf="products?.pagination as pagination">

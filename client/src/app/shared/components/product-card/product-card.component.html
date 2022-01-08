@@ -15,13 +15,13 @@
     </a>
       <div class="product-main">
         <div class="product__price-wrap">
-          <span class="product__price">1231$</span>
+          <app-product-price [price]="product?.price"></app-product-price>
           <button (click)="addToCard(product?.id)" class="icon-btn">
 
             <app-leprachaun-icon name="card" [color]="product?.inCard ? 'green' : 'rose'" [width]="22" [height]="22"> </app-leprachaun-icon>
             <!-- <app-leprachaun-icon name="cardSelected" color="rose" [width]="22" [height]="22"> </app-leprachaun-icon> -->
           </button>
-          <button (click)="product?.isFavorite ? removeFromFavorites(product?.id) : addToFavorite(product?.id)" class="icon-btn">
+          <button (click)="product?.isFavorite ? deleteFromFavorites(product?.id) : addToFavorite(product?.id)" class="icon-btn">
           <app-leprachaun-icon name="heart" [strokedColor]="product?.isFavorite ? 'rose' : 'none'" [width]="24" [height]="24"> </app-leprachaun-icon>
         </button>
         </div>

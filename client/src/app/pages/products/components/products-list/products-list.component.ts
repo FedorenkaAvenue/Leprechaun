@@ -12,7 +12,7 @@ export class ProductsListComponent implements OnInit, OnChanges {
   @Input() products: Products;
   @Output() toCardEvent: EventEmitter<string> = new EventEmitter<string>();
   @Output() toFavoriteEvent: EventEmitter<string> = new EventEmitter<string>();
-  @Output() removeFromFavoriteEvent: EventEmitter<string> = new EventEmitter<string>();
+  @Output() deleteFromFavoriteEvent: EventEmitter<string> = new EventEmitter<string>();
   
   constructor() { }
 
@@ -31,7 +31,7 @@ export class ProductsListComponent implements OnInit, OnChanges {
     this.toFavoriteEvent.emit(productId);
   }
 
-  public removeFromFavorite(productId: string): void {
-    this.removeFromFavoriteEvent.emit(productId)
+  public deleteFromFavorite(productId: string): void {
+    this.deleteFromFavoriteEvent.emit(productId)
   }
 }
