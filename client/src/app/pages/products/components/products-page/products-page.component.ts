@@ -79,7 +79,7 @@ export class ProductsPageComponent implements OnInit {
     })
   }
 
-  public removeFromFavorite(productId: string): void {
+  public deleteFromFavorite(productId: string): void {
     this.favoritesService.deleteProduct(productId).subscribe((favorites: any) => {
       this.favoritesService.updateFavorites(favorites)
     })

@@ -21,7 +21,7 @@ export class FavoritesService {
     this.favoritesValue$ = new BehaviorSubject<Array<FavoritesDto>>(null); 
   }
 
-  public getFavoritesValue(): Observable<any> {
+  public getFavoritesValue(): Observable<Array<FavoritesDto>> {
     return this.favoritesValue$.asObservable();
   }
   

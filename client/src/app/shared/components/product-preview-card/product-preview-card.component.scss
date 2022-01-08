@@ -13,9 +13,9 @@
         background-color: $card-bg;
     }
     &-preview__image {
-        display: flex;
-        height: 340px;
-        background-size: cover;
+        height: 280px;
+        width: 100%;
+        object-fit: cover;
     }
     &-preview__under {
 

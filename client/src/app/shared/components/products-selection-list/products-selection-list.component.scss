@@ -1,4 +1,6 @@
 .products__list {
-    display: flex;
-    flex-wrap: wrap;
+    &-wrap {
+        display: flex;
+        flex-wrap: wrap;
+    }
 }
