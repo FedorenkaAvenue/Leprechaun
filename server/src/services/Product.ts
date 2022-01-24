@@ -227,12 +227,12 @@ export class ProductService {
 		// sorting
 		switch (sort) {
 			case SortType.PRICE_UP: {
-				qb.orderBy('product.price', 'ASC');
+				qb.orderBy('product.price_current', 'ASC');
 				break;
 			}
 
 			case SortType.PRICE_DOWN: {
-				qb.orderBy('product.price', 'DESC');
+				qb.orderBy('product.price_current', 'DESC');
 				break;
 			}
 
