@@ -5,14 +5,14 @@
         <h1>Постельное белье</h1>
         <span>{{ productsCount }} товаров</span>
       </div>
-      <!-- <div>
+      <div>
         <div class="products-page__sorting">
-          <lpch-select-field (onChange)="changeSorting($event)"></lpch-select-field>
+          <lpch-select-field [items]="sortData" [data]="currentSortItem" (onChange)="changeSorting($event)"></lpch-select-field>
         </div>
         <div class="products-page__search">
           <lpch-input-field type="search"></lpch-input-field>
         </div>
-      </div> -->
+      </div>
     </header>
     <section class="products-page__wrap">
       <app-products-filter></app-products-filter>

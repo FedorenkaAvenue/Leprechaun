@@ -11,6 +11,25 @@ import { LpchRouterService } from '@shared/services/router/lpch-router.service';
 import { FavoritesDto } from '@shared/models';
 import { take } from 'rxjs/operators';
 
+const sortData =
+ [
+  {
+    name: 'POPULAR',
+    id: '1',
+  },
+  {
+    name: 'PRICE_UP',
+    id: '2',
+  },
+  {
+    name: 'PRICE_DOWN',
+    id: '3',
+  },
+  {
+    name: 'NEW',
+    id: '4',
+  }
+];
 @Component({
   selector: 'app-products-page',
   templateUrl: './products-page.component.html',
@@ -21,6 +40,8 @@ export class ProductsPageComponent implements OnInit {
   public productsCount = 1019;
   public productsList$: Observable<Products>;
   public myCustomControl = new FormControl();
+  public sortData = sortData;
+  public currentSortItem: number;
   constructor(
     private readonly productsManagerService: ProductsManagerService,
     private readonly cardService: CardService,
@@ -28,7 +49,6 @@ export class ProductsPageComponent implements OnInit {
     private readonly route: ActivatedRoute,
     private readonly favoritesService: FavoritesService,
     private readonly lpchRouterService: LpchRouterService,
-
   ) {
     this.productsManagerService.init();
   }
@@ -36,13 +56,17 @@ export class ProductsPageComponent implements OnInit {
   ngOnInit(): void {
     this.productsList$ = this.productsManagerService.getProducts();
     this.changeParams();
+   const params = this.route.snapshot.queryParams;
+   const sort = params ? params?.sort : null
+   this.currentSortItem = sort || 1;
   }
 
   ngOnDestroy() {
     this.productsManagerService.destroy();
   }
 
-  public changeSorting(order) {
+  public changeSorting(sort: number) {
+    this.navigateToRouteWithParams({sort})
   }
 
   public changeParams(): void {
@@ -56,32 +80,36 @@ export class ProductsPageComponent implements OnInit {
   }
 
   public navigateToRouteWithParams(params: Params): void {
-    this.router.navigate(['.'], {relativeTo: this.route, queryParams: params, queryParamsHandling: 'merge'});
+    this.router.navigate(['.'], {
+      relativeTo: this.route,
+      queryParams: params,
+      queryParamsHandling: 'merge',
+    });
   }
 
   public addToCard(productId: string): void {
     const productInCard = this.cardService.checkAvailabilityInCard(productId);
-    if(productInCard) {
+    if (productInCard) {
       this.lpchRouterService.navigateToCard();
-      return
+      return;
     }
     this.cardService.addToCard(productId).subscribe((order: OrderDto) => {
       this.cardService.updateCard(order);
-    })
+    });
   }
 
   public addToFavorite(productId: string): void {
-    this.favoritesService.addToFavorites(productId).pipe(
-      take(1)
-    )
-    .subscribe((favorites: Array<FavoritesDto>) => {
-      this.favoritesService.updateFavorites(favorites)
-    })
+    this.favoritesService
+      .addToFavorites(productId)
+      .pipe(take(1))
+      .subscribe((favorites: Array<FavoritesDto>) => {
+        this.favoritesService.updateFavorites(favorites);
+      });
   }
 
   public deleteFromFavorite(productId: string): void {
     this.favoritesService.deleteProduct(productId).subscribe((favorites: any) => {
-      this.favoritesService.updateFavorites(favorites)
-    })
+      this.favoritesService.updateFavorites(favorites);
+    });
   }
 }
