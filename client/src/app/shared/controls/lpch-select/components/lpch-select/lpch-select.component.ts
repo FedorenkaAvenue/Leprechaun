@@ -1,16 +1,14 @@
 import {
   Component,
   OnInit,
-  ChangeDetectionStrategy,
   forwardRef,
   Output,
   EventEmitter,
   Input,
-  OnChanges,
-  SimpleChanges,
   ChangeDetectorRef,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { ProductsSort } from '@shared/enums/sort.enum';
 
 @Component({
   selector: 'lpch-select-field',
@@ -24,38 +22,22 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
     },
   ],
 })
-export class LpchSelectComponent implements OnInit, OnChanges, ControlValueAccessor {
+export class LpchSelectComponent implements OnInit, ControlValueAccessor {
   @Output() onChange: EventEmitter<any> = new EventEmitter<any>();
   @Input() searchable: boolean = false;
   @Input() clearable: boolean = false;
   @Input() items: any[] = [];
-  @Input() data: any;
+  @Input() selected: any;
 
   private onTouched = () => {};
   private onChanged = (value: any) => {};
 
   public disabled: boolean;
-  public selected: any;
 
   constructor(private readonly cdr: ChangeDetectorRef) {}
 
-  ngOnChanges(changes: SimpleChanges): void {
-      const data = changes.data;
-      if(data && data.currentValue) {
-        console.log(data?.currentValue);
-        this.selected= data?.currentValue
-        // this.writeValue(data?.currentValue)
-        console.log(this.selected);
-        
-      }
-      if(changes.items?.currentValue) {
-        console.log(changes.items?.currentValue);
-        this.cdr.detectChanges();
-        
-      }
-  }
-  writeValue(value: string): void {
-    this.selected = value ?? 'IN';
+  writeValue(value: ProductsSort): void {
+    this.selected = value ?? ProductsSort.POPULAR;
   }
   registerOnChange(fn: any): void {
     this.onChanged = fn; // <-- save the function
@@ -67,11 +49,11 @@ export class LpchSelectComponent implements OnInit, OnChanges, ControlValueAcces
     this.disabled = isDisabled;
   }
 
-  changeValue(value: any) {
+  changeValue(value: ProductsSort) {
     this.onTouched();
-    this.selected = value?.id;
-    this.onChanged(value?.id);
-    this.onChange.emit(value?.id);
+    this.selected = value;
+    this.onChanged(value);
+    this.onChange.emit(value);
   }
 
   ngOnInit(): void {}

@@ -7,7 +7,7 @@
       </div>
       <div>
         <div class="products-page__sorting">
-          <lpch-select-field [items]="sortData" [data]="currentSortItem" (onChange)="changeSorting($event)"></lpch-select-field>
+          <lpch-select-field [items]="sortData" [selected]="currentSortItem" (onChange)="changeSorting($event)"></lpch-select-field>
         </div>
         <div class="products-page__search">
           <lpch-input-field type="search"></lpch-input-field>

@@ -10,26 +10,9 @@ import { FavoritesService } from '@shared/services/favorite/favotite/favorites.s
 import { LpchRouterService } from '@shared/services/router/lpch-router.service';
 import { FavoritesDto } from '@shared/models';
 import { take } from 'rxjs/operators';
+import { SORTING } from '@shared/constants/sorting';
+import { ProductsSort } from '@shared/enums/sort.enum';
 
-const sortData =
- [
-  {
-    name: 'POPULAR',
-    id: '1',
-  },
-  {
-    name: 'PRICE_UP',
-    id: '2',
-  },
-  {
-    name: 'PRICE_DOWN',
-    id: '3',
-  },
-  {
-    name: 'NEW',
-    id: '4',
-  }
-];
 @Component({
   selector: 'app-products-page',
   templateUrl: './products-page.component.html',
@@ -40,7 +23,7 @@ export class ProductsPageComponent implements OnInit {
   public productsCount = 1019;
   public productsList$: Observable<Products>;
   public myCustomControl = new FormControl();
-  public sortData = sortData;
+  public sortData = SORTING;
   public currentSortItem: number;
   constructor(
     private readonly productsManagerService: ProductsManagerService,
@@ -58,7 +41,7 @@ export class ProductsPageComponent implements OnInit {
     this.changeParams();
    const params = this.route.snapshot.queryParams;
    const sort = params ? params?.sort : null
-   this.currentSortItem = sort || 1;
+   this.currentSortItem = +sort || ProductsSort.POPULAR;
   }
 
   ngOnDestroy() {

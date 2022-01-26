@@ -3,7 +3,7 @@
     *ngIf="items"
     class="select"
     [items]="items"
-    (change)="changeValue($event)"
+    (change)="changeValue($event?.id)"
     [searchable]="searchable"
     [clearable]="clearable"
     bindLabel="name"
