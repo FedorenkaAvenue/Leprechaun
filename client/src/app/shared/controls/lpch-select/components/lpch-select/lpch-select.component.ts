@@ -1,19 +1,19 @@
 import {
   Component,
   OnInit,
-  ChangeDetectionStrategy,
   forwardRef,
   Output,
   EventEmitter,
   Input,
+  ChangeDetectorRef,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { ProductsSort } from '@shared/enums/sort.enum';
 
 @Component({
   selector: 'lpch-select-field',
   templateUrl: './lpch-select.component.html',
   styleUrls: ['./lpch-select.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
@@ -26,25 +26,18 @@ export class LpchSelectComponent implements OnInit, ControlValueAccessor {
   @Output() onChange: EventEmitter<any> = new EventEmitter<any>();
   @Input() searchable: boolean = false;
   @Input() clearable: boolean = false;
+  @Input() items: any[] = [];
+  @Input() selected: any;
+
   private onTouched = () => {};
   private onChanged = (value: any) => {};
 
   public disabled: boolean;
-  public selected: any;
-  public items = [
-    {
-      id: 1,
-      name: 'Audi',
-    },
-    {
-      id: 2,
-      name: 'BMW',
-    },
-  ];
-  constructor() {}
 
-  writeValue(value: string): void {
-    this.selected = value ?? 'IN';
+  constructor(private readonly cdr: ChangeDetectorRef) {}
+
+  writeValue(value: ProductsSort): void {
+    this.selected = value ?? ProductsSort.POPULAR;
   }
   registerOnChange(fn: any): void {
     this.onChanged = fn; // <-- save the function
@@ -56,10 +49,7 @@ export class LpchSelectComponent implements OnInit, ControlValueAccessor {
     this.disabled = isDisabled;
   }
 
-  changeValue(value: any) {
-    console.log(this.onChanged);
-
-    console.log(value);
+  changeValue(value: ProductsSort) {
     this.onTouched();
     this.selected = value;
     this.onChanged(value);
