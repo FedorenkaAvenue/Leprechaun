@@ -1,6 +1,13 @@
-.products__list {
-    &-wrap {
-        display: flex;
-        flex-wrap: wrap;
+
+:host {
+    display: block;
+}
+
+.list {
+    display: flex;
+    flex-wrap: wrap;
+    &>li {
+        min-width: 200px;
+        max-width: 250px;
     }
 }
