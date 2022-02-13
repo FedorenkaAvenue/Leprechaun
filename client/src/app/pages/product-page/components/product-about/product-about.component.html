@@ -1,0 +1,46 @@
+<ng-container *ngIf="productDetails$ | async as product">
+    <!-- <div  class="swiper-container" [swiper]="config">
+      <div class="swiper-wrapper">
+        
+      </div>
+     
+      <div class="swiper-scrollbar"></div>
+      <div class="swiper-pagination"></div>
+     
+      <div class="swiper-button-prev"></div>
+      <div class="swiper-button-next"></div>
+    </div> -->
+    <!-- <div class="products-galery">
+      <div class="products-preview">
+        <img [src]="currentImage" alt="" />
+      </div>
+      <div class="swiper-list">
+        <swiper 
+        [config]="config"
+        (swiper)="onSwiper($event)"
+        (slideChange)="onSlideChange($event)"
+        >
+          <div *ngFor="let photo of product?.images">
+            <img class="my-class" [src]="photo?.src" />
+          </div>
+        </swiper>
+      </div>
+    </div> -->
+
+    <div>
+        <div class="swiper-list">
+        <swiper
+        #swiper
+        [config]="config"
+        class="mySwiper">
+        <div *ngFor="let photo of product?.images">
+            <img class="my-class" [src]="photo?.src" />
+          </div>
+        </swiper>
+    </div>
+    </div>
+   
+    <button (click)="prev()">prev</button>
+    <button (click)="next()">next</button>
+  </ng-container>
+  
