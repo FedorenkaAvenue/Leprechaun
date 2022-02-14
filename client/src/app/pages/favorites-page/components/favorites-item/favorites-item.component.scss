@@ -1,4 +1,4 @@
-@import '/src/styles/core/variables';
+@use '/src/styles/variables/colors';
 
 .product {
   position: relative;
@@ -6,12 +6,12 @@
   display: flex;
   flex-direction: column;
   padding: 0 5px 10px;
-  border: 1px solid $grey-border;
+  border: 1px solid colors.$grey-border;
   &__wrap {
     padding: 10px 20px;
   }
   &-preview__wrap {
-    background-color: $card-bg;
+    background-color: colors.$card-bg;
   }
   &-preview__image {
     display: flex;
@@ -30,8 +30,8 @@
   }
 
   &-main {
-    color: $products-text;
-    background-color: $card-bg;
+    color: colors.$products-text;
+    background-color: colors.$card-bg;
   }
 
   &__remove-btn {

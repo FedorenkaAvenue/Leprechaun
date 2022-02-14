@@ -1,4 +1,4 @@
-@import '/src/styles/core/variables';
+@use '../../../../../styles/variables/colors';
 
 .header {
     background: #fff;
@@ -11,12 +11,9 @@
     max-width: 1600px;
 
   &_logo {
-    font-family: $amatic-font;
+    font-family: colors.$amatic-font;
     font-size: 28px;
   }
-
- 
-
   &_actions {
     display: flex;
     align-items: center;

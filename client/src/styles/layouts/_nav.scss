@@ -1,0 +1,19 @@
+@use '../variables/colors';
+.nav-link {
+  a {
+    transition: all 0.15s ease-out;;
+    color: colors.$color-primary-50;
+  }
+  &.active {
+    a {
+      color: colors.$color-primary;
+    }
+    background: colors.$grey;
+  }
+  &:hover:not(.active) {
+    a {
+      color: colors.$color-primary;
+    }
+
+  }
+}

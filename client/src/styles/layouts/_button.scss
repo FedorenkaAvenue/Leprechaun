@@ -1,3 +1,4 @@
+@use '../variables/colors';
 button {
   display: inline-flex;
   align-items: center;
@@ -8,15 +9,15 @@ button {
 .main-btn {
   display: flex;
   background: none;
-  font-family: $base-font;
+  font-family: colors.$base-font;
   font-size: 14px;
   font-weight: 500;
   line-height: 20px;
-  color: $btn-main;
+  color: colors.$btn-main;
   &:hover,&.active {
-    color: $btn-rose;
+    color: colors.$btn-rose;
     svg {
-      fill: $btn-rose;
+      fill: colors.$btn-rose;
     }
   }
   .btn-label {
@@ -28,14 +29,14 @@ button {
   padding: 10px 16px;
   border: none;
   border-radius: 8px;
-  background: $btn-rose;
-  font-family: $base-font;
+  background: colors.$btn-rose;
+  font-family: colors.$base-font;
   font-size: 14px;
   font-weight: 500;
   line-height: 20px;
-  color: $white-text;
+  color: colors.$white-text;
   &:hover {
-    background: $btn-light-rose;
+    background: colors.$btn-light-rose;
     cursor: pointer;
   }
   &:disabled {

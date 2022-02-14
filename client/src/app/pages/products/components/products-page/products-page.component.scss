@@ -1,6 +1,6 @@
-@import "/src/styles/core/variables";
+@use "../../../../../styles/variables/layouts";
 .products-page {
-  max-width: $container-width;
+  max-width: layouts
   margin: 0 auto;
   &__wrapper {
     background-color: transparent;

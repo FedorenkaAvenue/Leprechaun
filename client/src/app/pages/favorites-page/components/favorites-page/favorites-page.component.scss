@@ -1,6 +1,6 @@
-@import '/src/styles/core/variables';
+@use '/src/styles/variables/layouts';
 .card-page {
-  max-width: $container-width;
+  max-width: layouts.$container-width;
   margin: 0 auto;
 }
 

@@ -6,18 +6,11 @@
 // @import "~@ng-select/ng-select/themes/material.theme.css";
 
 // Resets
-@import 'resets/normalize';
-@import 'resets/print';
+@forward 'resets/normalize';
 // Core
-@import 'core/variables';
-@import 'core/base';
-@import 'core/fonts';
+@forward 'core/base';
+@forward 'core/fonts';
 // Helpers
-@import 'helpers/index';
-@import 'helpers/button';
 // Layouts
-@import 'layouts/footer';
-@import 'layouts/sidebar';
-@import 'layouts/toolbar';
-@import 'layouts/wrapper';
+@forward 'layouts/index';
 
