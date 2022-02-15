@@ -1,9 +1,17 @@
 @use '../variables/colors';
+@use '../variables/layouts';
+@use '../helpers/common' as mixin;
+
 .container {
-    max-width: 1600px;
+    max-width: layouts.$container-width;
     margin: 0 auto;
+
+    @media only screen and (max-width: layouts.$container-width) {
+        padding: #{layouts.$indent * 2}px #{layouts.$indent * 4}px !important;
+    }
 }
 
 .content {
-    background-color: colors.$content-background
+    background-color: colors.$content-background;
+    @include mixin.light-shadow();
 }

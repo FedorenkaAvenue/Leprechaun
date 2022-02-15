@@ -1,19 +1,17 @@
 @use '../../../../../styles/variables/colors';
+@use '../../../../../styles/helpers/padding';
 
 .header {
-    background: #fff;
-    padding: 0 24px;
-    width: 100%;
-    padding: 20px 0;
+    @include padding.padding($s: 2, $v: true);
     display: flex;
     justify-content: space-between;
     align-items: center;
-    max-width: 1600px;
 
   &_logo {
     font-family: colors.$amatic-font;
     font-size: 28px;
   }
+
   &_actions {
     display: flex;
     align-items: center;
@@ -29,5 +27,5 @@
 
   &_cart {
     margin-left: 24px;
-}
+  }
 }

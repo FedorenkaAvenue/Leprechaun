@@ -1,9 +1,12 @@
+$container-width: 1300px;
 
+// общий средний отступ
+$indent: 8;
 
 // fonts
+$small-font: 14px;
 $base-font: 'Raleway', sans-serif;
 $amatic-font: 'Amatic SC', sans-serif;
-
 
 // Toolbar
 $toolbar-height: 56px;
@@ -17,21 +20,8 @@ $footer-height: 49px;
 // Containers
 $container-width: 1320px;
 
-
 // wrapper
 $wrapper-width: 1400px;
-
-// buttons
-
-// border
-
-// tabs
-
-
-// products
-
-
-// text
 
 // breakpoints
 $media-breakpoints: (
@@ -43,4 +33,5 @@ $media-breakpoints: (
 	xxl: 1400px
 );
 
-// contents
+// product preview
+$product-preview-width: 170px;

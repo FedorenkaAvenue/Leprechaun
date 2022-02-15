@@ -1,13 +1,17 @@
 @use "../../../../../styles/variables/layouts";
+
 .products-page {
-  max-width: layouts
+  max-width: layouts.$container-width;
   margin: 0 auto;
+
   &__wrapper {
     background-color: transparent;
   }
+
   &__wrap {
     display: flex;
   }
+
   &__sorting {
     max-width: 200px;
   }

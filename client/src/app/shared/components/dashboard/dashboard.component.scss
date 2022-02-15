@@ -1,13 +1,17 @@
+@use '../../../../styles/helpers/padding';
+@use '../../../../styles/variables/layouts';
 
 :host {
     display: block;
+    margin: 25px 0;
+}
+
+h2 {
+    @include padding.padding($v: true);
 }
 
 .list {
-    display: flex;
-    flex-wrap: wrap;
-    &>li {
-        min-width: 200px;
-        max-width: 250px;
-    }
+    display: grid;
+    grid-gap: 4px;
+    grid-template-columns: repeat(auto-fill, minmax(layouts.$product-preview-width, 1fr));
 }

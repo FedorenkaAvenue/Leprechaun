@@ -2,14 +2,12 @@
   <div class="home__banner"></div>
   <ng-container *ngIf="products$ | async as commonProducts">
     <app-dashboard
-      class="content"
       [title]="'New Product'"
       [products]="commonProducts?.newest"
       (toFavoriteEvent)="addToFavorite($event)"
       (deleteFromFavoriteEvent)="deleteFromFavorite($event)"
     ></app-dashboard>
     <app-dashboard
-      class="content"
       [title]="'Popular Products'"
       [products]="commonProducts?.popular"
       (toFavoriteEvent)="addToFavorite($event)"
@@ -17,7 +15,6 @@
     ></app-dashboard>
   </ng-container>
   <app-dashboard
-    class="content"
     [title]="'Products History'"
     [products]="historyProducts$ | async"
     (toFavoriteEvent)="addToFavorite($event)"
