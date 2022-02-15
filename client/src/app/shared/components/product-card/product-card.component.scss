@@ -1,22 +1,24 @@
-@use "../../../../styles/variables/colors";
+@use '../../../../styles/variables/colors';
 
 .product {
     width: 236px;
     display: flex;
     flex-direction: column;
     padding: 0 5px 10px;
-    border: 1px solid colors.$grey-border;
+
     &__wrap {
         padding: 10px 20px;
     }
+
     &-preview__wrap {
-        background-color: colors.$card-bg;
     }
+
     &-preview__image {
         display: flex;
         height: 340px;
         background-size: cover;
     }
+
     &-preview__under {
 
     }
@@ -30,12 +32,12 @@
     }
 
     &-main {
-        color: colors.$products-text;
-        background-color: colors.$card-bg;
     }
+
     &-main {
 
     }
+
     &-title {
 
     }
