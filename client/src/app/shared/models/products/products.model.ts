@@ -1,4 +1,5 @@
 import { ProductLabelType } from '@shared/enums';
+import { ProductStatus } from '@shared/enums/product-status.enum';
 import { PriceI } from '.';
 import { CategoryI } from '../categories/categories.model';
 import { PaginationDto } from '../pagination/pagination.model';
@@ -30,6 +31,7 @@ export interface ProductPropertiesI {
 
 export interface ProductsPreviewI extends ProductPreviewBaseI {
   image: string;
+  isFavorite: boolean;
 }
 
 export interface ProductsBaseI {
@@ -68,10 +70,11 @@ export class ProductPreviewBaseI {
   id: string;
   title: string;
   price: PriceI;
-  status: number;
-  isFavorite: boolean;
+  status: ProductStatus;
 }
-export class ProductCardI extends ProductPreviewBaseI {
+
+
+export interface ProductCardI extends ProductPreviewBaseI {
   category: CategoryI;
   images: Array<ProductImageI>;
   labels: Array<ProductLabelI>;

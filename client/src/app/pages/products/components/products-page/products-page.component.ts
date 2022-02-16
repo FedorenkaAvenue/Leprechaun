@@ -8,7 +8,7 @@ import { Observable } from 'rxjs';
 import { ProductsManagerService } from '../../services/products-manager/products-manager.service';
 import { FavoritesService } from '@shared/services/favorite/favotite/favorites.service';
 import { LpchRouterService } from '@shared/services/router/lpch-router.service';
-import { FavoritesDto } from '@shared/models';
+import { FavoriteItemI } from '@shared/models';
 import { take } from 'rxjs/operators';
 import { SORTING } from '@shared/constants/sorting';
 import { ProductsSort } from '@shared/enums/sort.enum';
@@ -85,7 +85,7 @@ export class ProductsPageComponent implements OnInit {
     this.favoritesService
       .addToFavorites(productId)
       .pipe(take(1))
-      .subscribe((favorites: Array<FavoritesDto>) => {
+      .subscribe((favorites: Array<FavoriteItemI>) => {
         this.favoritesService.updateFavorites(favorites);
       });
   }

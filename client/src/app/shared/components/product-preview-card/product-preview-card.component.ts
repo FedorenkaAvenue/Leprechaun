@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectionStrategy, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { ProductsPreviewI } from '@shared/models';
 
 @Component({
@@ -16,13 +16,5 @@ export class ProductPreviewCardComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
-  }
-
-  addToFavorites(productId: string): void {
-    this.toFavoriteEvent.emit(productId)
-  }
-
-   deleteFromFavorites(productId: string): void {
-    this.deleteFromFavoriteEvent.emit(productId)
   }
 }

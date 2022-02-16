@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MetaService } from '@ngx-meta/core';
-import { FavoritesDto } from '@shared/models';
+import { FavoriteItemI } from '@shared/models';
 import { OrderDto } from '@shared/models/products/order.model';
 import { CardService } from '@shared/services/card/card/card.service';
 import { FavoritesService } from '@shared/services/favorite/favotite/favorites.service';
@@ -36,7 +36,7 @@ export class AppComponent implements OnInit {
   private getFavoritesState(): void {
     this.favoritesService.getProducts().pipe(
       take(1),
-    ).subscribe((favorites: Array<FavoritesDto>) => {
+    ).subscribe((favorites: Array<FavoriteItemI>) => {
       this.favoritesService.updateFavorites(favorites);
     })
   }

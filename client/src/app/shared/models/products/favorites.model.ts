@@ -1,11 +1,6 @@
-import { ProductStatus } from '@shared/enums/product-status.enum';
-import { PriceI } from './product-price.model';
+import { ProductPreviewBaseI } from '.';
 
-export class FavoritesDto {
-  id: string;
+export interface FavoriteItemI extends ProductPreviewBaseI {
   image: string;
-  price: PriceI;
-  status: ProductStatus;
-  title: string;
   inCard?: boolean;
 }

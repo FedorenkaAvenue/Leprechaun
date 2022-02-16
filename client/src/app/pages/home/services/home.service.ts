@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { FavoritesDto, ProductsCommonI, ProductsPreviewI } from '@shared/models';
+import { FavoriteItemI, ProductsCommonI, ProductsPreviewI } from '@shared/models';
 import { HomeApiService } from '@shared/services/api_es/home-api/home-api.service';
 import { FavoritesService } from '@shared/services/favorite/favotite/favorites.service';
 import { HistoryService } from '@shared/services/history/history.service';
@@ -39,7 +39,7 @@ export class HomeService {
   
   private updateFavorites(
     products: ProductsPreviewI,
-    favorites: Array<FavoritesDto>,
+    favorites: Array<FavoriteItemI>,
   ): ProductsPreviewI {
     const favoritesProducts = favorites?.map((el) => el.id);
     products.isFavorite = favoritesProducts?.includes(products.id);

@@ -16,7 +16,6 @@ import { ProductPriceModule } from '../product-price/product-price.module';
   imports: [
     CommonModule,
     RouterModule,
-    LeprachaunIconsModule,
     CurtainsModule,
     ProductPriceModule
   ],
@@ -25,12 +24,6 @@ import { ProductPriceModule } from '../product-price/product-price.module';
   ]
 })
 export class ProductPreviewCardModule {
-  constructor(private readonly leprachaunIconRegistryService: LeprachaunIconRegistryService) {
-    this.leprachaunIconRegistryService.registerIcons(
-      [
-        cartIcon,
-        cartSelectedIcon,
-        heartIcon
-      ]);
+  constructor() {
   }
 }

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { FavoritesDto } from '@shared/models';
+import { FavoriteItemI } from '@shared/models';
 import { FavoritesApiService } from '@shared/services/api_es/favorites-api/favorites-api.service';
 import { CardStateService } from '@shared/services/card/card-state/card-state.service';
 import { LocalStorageService } from '@shared/storage/local.storage';
@@ -12,23 +12,23 @@ import { FavoritesStateService } from '../favorite-state/favorites-state.service
 })
 export class FavoritesService {
   
-  private favoritesValue$: BehaviorSubject<Array<FavoritesDto>>;
+  private favoritesValue$: BehaviorSubject<Array<FavoriteItemI>>;
   constructor(
     private readonly favoritesApiService: FavoritesApiService,
     private readonly favoritesStateService: FavoritesStateService,
     private readonly cardService: CardStateService,
   ) {
-    this.favoritesValue$ = new BehaviorSubject<Array<FavoritesDto>>(null); 
+    this.favoritesValue$ = new BehaviorSubject<Array<FavoriteItemI>>(null); 
   }
 
-  public getFavoritesValue(): Observable<Array<FavoritesDto>> {
+  public getFavoritesValue(): Observable<Array<FavoriteItemI>> {
     return this.favoritesValue$.asObservable();
   }
   
   public getProducts(): Observable<any> {
     const cardState$ = this.cardService.getCardStateValue();
     const products$ = this.favoritesApiService.getProducts();
-    const favoritesProducts$ = merge(products$, this.favoritesValue$).pipe(filter(res => !!res)) as Observable<Array<FavoritesDto>>
+    const favoritesProducts$ = merge(products$, this.favoritesValue$).pipe(filter(res => !!res)) as Observable<Array<FavoriteItemI>>
     return combineLatest([favoritesProducts$, cardState$]).pipe(
       map(([favoritesProducts, cardValue]) => {
         favoritesProducts.map((product) => {
@@ -45,11 +45,11 @@ export class FavoritesService {
     return this.favoritesApiService.addProductToFavorites(id)
   }
 
-  public deleteProduct(id: string): Observable<Array<FavoritesDto>> {
+  public deleteProduct(id: string): Observable<Array<FavoriteItemI>> {
     return this.favoritesApiService.deleteProductFromFavorites(id)
   }
 
-  public updateFavorites(favorites: Array<FavoritesDto>): void {
+  public updateFavorites(favorites: Array<FavoriteItemI>): void {
     this.favoritesValue$.next(favorites);
     this.favoritesStateService.updateFavorites(favorites);
   }

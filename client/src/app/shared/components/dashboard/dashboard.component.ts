@@ -24,5 +24,4 @@ export class DashboardComponent implements OnInit {
   public deleteFromFavorite(productId: string): void {
     this.deleteFromFavoriteEvent.emit(productId)
   }
-
 }
