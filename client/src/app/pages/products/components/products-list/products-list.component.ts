@@ -1,11 +1,10 @@
 import { Component, OnInit, ChangeDetectionStrategy, Input, Output, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
-import { ProductCardDto, Products } from '@shared/models/products/products.model';
+import { Products } from '@shared/models/products/products.model';
 
 @Component({
   selector: 'app-products-list',
   templateUrl: './products-list.component.html',
-  styleUrls: ['./products-list.component.scss'],
-  // changeDetection: ChangeDetectionStrategy.OnPush
+  styleUrls: ['./products-list.component.scss']
 })
 export class ProductsListComponent implements OnInit, OnChanges {
 
