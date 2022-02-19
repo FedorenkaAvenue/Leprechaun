@@ -1,21 +1,21 @@
+@use '../../../../styles/variables/colors';
+@use '../../../../styles/variables/layouts';
+
 :host {
     display: flex;
     flex-direction: column;
-    color: #221f1f;
-    font-size: 24px;
+    color: colors.$strong-primary-font;
+    font-size: layouts.$large-font;
 }
+
 .price {
     &-old {
-    font-size: 14px;
-    text-decoration: line-through;
-    color: #a6a5a5;
+        font-size: layouts.$small-font;
+        text-decoration: line-through;
+        color: colors.$low-primary-font;
     }
 
     &-current {
-        color: #f84147;
-    }
-
-    &-simple {
-
+        color: colors.$hight-primary-font;
     }
 }

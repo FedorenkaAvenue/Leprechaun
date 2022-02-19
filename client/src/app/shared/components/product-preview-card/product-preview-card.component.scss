@@ -1,13 +1,14 @@
 @use '../../../../styles/variables/colors';
 @use '../../../../styles/variables/layouts';
 
+$_bottom-indent: #{layouts.$indent}px;
+
 .product-preview {
+  position: relative;
   display: flex;
   flex-direction: column;
+  height: 100%;
   padding: 15px;
-}
-
-.product-preview__wrap {
 }
 
 .product-preview__image {
@@ -24,16 +25,13 @@
   border-top: 3px solid #888;
 }
 
-.product-main {
-}
-
 .product-title {
   color: #292b31;
   font-size: layouts.$small-font;
   line-height: 1.2;
   height: 36px;
   width: 100%;
-  margin-bottom: #{layouts.$indent}px;
+  margin-bottom: $_bottom-indent;
   word-break: break-word;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -43,5 +41,5 @@
 }
 
 .product-image {
-  margin-bottom: #{layouts.$indent}px;
+  margin-bottom: $_bottom-indent;
 }

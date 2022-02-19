@@ -1,37 +1,33 @@
-<div class="favorites-page__wrapper">
-  <div class="favorites-page">
-    <header>
-      <h1>Улюблені</h1>
-    </header>
-    <section class="products-page__wrap">
-      <ng-container *ngIf="favoritesData$ | async as products">
-        <ng-container *ngIf="products.length; else emptyContent">
-          <app-product-preview-card
-          *ngFor="let product of products" [product]="product"
-          >
-          <button cardAction (click)="addToCard(product?.id)" class="icon-btn">
-            <app-leprachaun-icon
-              name="card"
-              [color]="product?.inCard ? 'green' : 'rose'"
-              [width]="22"
-              [height]="22"
+<h1>Улюблені</h1>
+<section>
+  <ng-container *ngIf="favoritesData$ | async as products">
+    <ng-container *ngIf="products.length; else emptyContent">
+      <ul class="wishlist">
+        <li *ngFor="let product of products">
+          <app-product-preview-card [product]="product">
+            <button cardAction (click)="addToCard(product?.id)" class="icon-btn">
+              <app-leprachaun-icon
+                name="card"
+                [color]="product?.inCard ? 'green' : 'rose'"
+                [width]="22"
+                [height]="22"
+              >
+              </app-leprachaun-icon>
+            </button>
+            <button
+              deleteFavoriteAction
+              (click)="deleteFromFavorite(product?.id)"
+              class="product_remove-btn icon-btn"
             >
-            </app-leprachaun-icon>
-          </button>
-          <button
-          deleteFavoriteAction
-            (click)="deleteFromFavorite(product?.id)"
-            class="product__remove-btn icon-btn"
-          >
-            <app-leprachaun-icon name="trash" color="rose" [width]="22" [height]="22">
-            </app-leprachaun-icon>
-          </button>
+              <app-leprachaun-icon name="trash" color="rose" [width]="22" [height]="22">
+              </app-leprachaun-icon>
+            </button>
           </app-product-preview-card>
-        </ng-container>
-      </ng-container>
-      <ng-template #emptyContent>
-        <div>тут повинно бути повідомлення про порожній список улюблених товарів</div>
-      </ng-template>
-    </section>
-  </div>
-</div>
+        </li>
+      </ul>
+    </ng-container>
+  </ng-container>
+  <ng-template #emptyContent>
+    <div>тут повинно бути повідомлення про порожній список улюблених товарів</div>
+  </ng-template>
+</section>
