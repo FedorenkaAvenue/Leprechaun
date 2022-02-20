@@ -1,7 +1,8 @@
 <div class="product-preview content" [ngClass]="'status-' + product.status">
-  <ng-content select="[deleteFavoriteAction]"></ng-content>
+  <div class="remove">
+    <ng-content select="[deleteFavoriteAction]"></ng-content>
+  </div>
   <a
-    class="product-image"
     [routerLink]="['/product', product.id]"
     routerLinkActive="router-link-active"
   >
@@ -18,7 +19,9 @@
     <div class="product__price-wrap">
       <app-product-price [price]="product?.price"></app-product-price>
     </div>
-    <ng-content select="[favoritesAction]"></ng-content>  
-    <ng-content select="[cardAction]"></ng-content> 
+    <div class="add-icon">
+      <ng-content select="[favoritesAction]"></ng-content>
+      <ng-content select="[cardAction]"></ng-content>
+    </div>
   </div>
 </div>

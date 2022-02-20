@@ -6,21 +6,18 @@
       (deleteFromFavoriteEvent)="deleteFromFavorite($event)"
       [product]="product"
     >
-    <button
-    favoritesAction
-    (click)="
-      product?.isFavorite ? deleteFromFavorite(product?.id) : addToFavorite(product?.id)
-    "
-    class="product__remove-btn icon-btn"
-  >
-    <app-leprachaun-icon
-      name="heart"
-      [strokedColor]="product?.isFavorite ? 'rose' : 'none'"
-      [width]="22"
-      [height]="22"
-    >
-    </app-leprachaun-icon>
-  </button>
+      <button
+        favoritesAction
+        (click)="product?.isFavorite ? deleteFromFavorite(product?.id) : addToFavorite(product?.id)"
+      >
+        <app-leprachaun-icon
+          name="heart"
+          [strokedColor]="product?.isFavorite ? 'rose' : 'none'"
+          [width]="22"
+          [height]="22"
+        >
+        </app-leprachaun-icon>
+      </button>
     </app-product-preview-card>
   </li>
 </ul>

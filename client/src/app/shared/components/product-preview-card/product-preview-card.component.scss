@@ -2,27 +2,21 @@
 @use '../../../../styles/variables/layouts';
 
 $_bottom-indent: #{layouts.$indent}px;
+$_padding: #{layouts.$indent * 2}px;
 
 .product-preview {
   position: relative;
   display: flex;
   flex-direction: column;
   height: 100%;
-  padding: 15px;
+  padding: $_padding;
 }
 
 .product-preview__image {
   height: 170px;
   width: 100%;
   object-fit: cover;
-}
-
-.product-preview__curtain {
-  width: 100%;
-}
-
-.product-preview__curtain.active {
-  border-top: 3px solid #888;
+  margin-bottom: $_bottom-indent;
 }
 
 .product-title {
@@ -30,7 +24,6 @@ $_bottom-indent: #{layouts.$indent}px;
   font-size: layouts.$small-font;
   line-height: 1.2;
   height: 36px;
-  width: 100%;
   margin-bottom: $_bottom-indent;
   word-break: break-word;
   overflow: hidden;
@@ -40,6 +33,20 @@ $_bottom-indent: #{layouts.$indent}px;
   -webkit-box-orient: vertical;
 }
 
-.product-image {
-  margin-bottom: $_bottom-indent;
+.product-main {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  min-height: 45px;
+}
+
+.add-icon {
+  position: relative;
+  bottom: 3px;
+}
+
+.remove {
+  position: absolute;
+  right: $_padding;
+  top: $_padding;
 }

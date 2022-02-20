@@ -14,13 +14,13 @@
               >
               </app-leprachaun-icon>
             </button>
-            <button
-              deleteFavoriteAction
-              (click)="deleteFromFavorite(product?.id)"
-              class="product_remove-btn icon-btn"
-            >
-              <app-leprachaun-icon name="trash" color="rose" [width]="22" [height]="22">
-              </app-leprachaun-icon>
+            <button deleteFavoriteAction (click)="deleteFromFavorite(product?.id)">
+              <app-leprachaun-icon
+                name="trash"
+                color="rose"
+                [width]="22"
+                [height]="22"
+              ></app-leprachaun-icon>
             </button>
           </app-product-preview-card>
         </li>
