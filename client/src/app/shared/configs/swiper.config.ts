@@ -6,8 +6,8 @@ const DEFAULT_SWIPER_CONFIG: SwiperConfigInterface = {
   };
 
  export const PRODUCT_SWIPER_CONFIG: SwiperConfigInterface = {
-  direction: 'horizontal',
-  slidesPerView: 4,
+  // direction: 'horizontal',
+  slidesPerView: 1,
   spaceBetween: 10,
   pagination:{ type: 'fraction' },
 

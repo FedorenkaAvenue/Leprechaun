@@ -2,11 +2,11 @@ import { Component, OnInit, ChangeDetectionStrategy, Input, Output, EventEmitter
 import { ProductsPreviewI } from '@shared/models';
 
 @Component({
-  selector: 'app-products-selection-list',
-  templateUrl: './products-selection-list.component.html',
-  styleUrls: ['./products-selection-list.component.scss']
+  selector: 'app-dashboard',
+  templateUrl: './dashboard.component.html',
+  styleUrls: ['./dashboard.component.scss']
 })
-export class ProductsSelectionListComponent implements OnInit {
+export class DashboardComponent implements OnInit {
 
   @Input() products: ProductsPreviewI[];
   @Input() title: string;

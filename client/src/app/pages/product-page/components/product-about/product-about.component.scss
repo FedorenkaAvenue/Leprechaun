@@ -1,5 +1,10 @@
+@import "~swiper/swiper-bundle";
+// @import '~swiper';
+// @import 'swiper/scss/navigation';
+// @import 'swiper/scss/pagination';
+
 .my-class {
-    // width: 60px;
+    width: 60px;
     height: 60px;
 }
 
@@ -10,4 +15,26 @@
 }
 swiper>.swiper.s-wrapper .swiper-wrapper .swiper-slide {
     overflow: hidden;
+}
+::ng-deep swiper {
+    .swiper-container {
+        width: 100%;
+        height: 300px;
+        margin: 50px auto;
+      }
+      
+      .swiper-slide {
+        background: #f1f1f1;
+        color: #000;
+        text-align: center;
+        line-height: 300px;
+      }
+}
+
+.my-swiper {
+    width: 300px;
+}
+
+.slider-item {
+    width: 200px;
 }

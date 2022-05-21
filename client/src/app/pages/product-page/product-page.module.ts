@@ -7,10 +7,14 @@ import { ProductPageService } from './services/product-page.service';
 import { ProductCharacteristicsComponent } from './components/product-characteristics/product-characteristics.component';
 import { ProductAboutComponent } from './components/product-about/product-about.component';
 import { ProductPhotosComponent } from './components/product-photos/product-photos.component';
-import { IvyCarouselModule } from 'angular-responsive-carousel';
+import { SwiperModule } from 'ngx-swiper-wrapper';
 import { SWIPER_CONFIG } from 'ngx-swiper-wrapper';
-import { PRODUCT_SWIPER_CONFIG } from '@shared/configs/swiper.config';
-import { SwiperModule } from 'swiper/angular';
+import { SwiperConfigInterface } from 'ngx-swiper-wrapper';
+
+const DEFAULT_SWIPER_CONFIG: SwiperConfigInterface = {
+  direction: 'horizontal',
+  slidesPerView: 2
+};
 
 @NgModule({
   declarations: [
@@ -22,15 +26,14 @@ import { SwiperModule } from 'swiper/angular';
   imports: [
     CommonModule,
     ProductPageRoutingModule,
-    IvyCarouselModule,
     SwiperModule,
   ],
   providers: [
     ProductPageService,
-    {
-      provide: SWIPER_CONFIG,
-      useValue: PRODUCT_SWIPER_CONFIG
-    }
+    // {
+    //   provide: SWIPER_CONFIG,
+    //   useValue: PRODUCT_SWIPER_CONFIG
+    // }
   
   ]
 })

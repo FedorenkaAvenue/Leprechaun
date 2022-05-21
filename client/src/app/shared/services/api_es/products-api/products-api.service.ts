@@ -2,7 +2,7 @@ import { HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Params } from '@angular/router';
 import { TransferHttpService } from '@gorniv/ngx-universal';
-import { ProductCardDto, Products } from '@shared/models/products/products.model';;
+import { ProductCardI, Products } from '@shared/models/products/products.model';;
 import { Observable, of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 

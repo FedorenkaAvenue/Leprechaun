@@ -1,0 +1,17 @@
+@use '../variables/layouts';
+
+@mixin padding($s: 1, $h: false, $v: false) {
+    $padding: #{$s * layouts.$indent}px;
+
+    @if $h == true {
+        padding: 0 $padding;
+    }
+
+    @else if $v == true {
+        padding: $padding 0;
+    }
+
+    @else {
+        padding: $padding;
+    }
+}

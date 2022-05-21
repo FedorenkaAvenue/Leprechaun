@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ProductPriceComponent } from './product-price.component';
+import { NumberBySpaceModule } from '@shared/pipes/number-by-space/number-by-space.module';
 
 
 
@@ -9,7 +10,8 @@ import { ProductPriceComponent } from './product-price.component';
     ProductPriceComponent
   ],
   imports: [
-    CommonModule
+    CommonModule,
+    NumberBySpaceModule
   ],
   exports: [ProductPriceComponent]
 })

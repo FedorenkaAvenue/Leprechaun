@@ -1,22 +1,24 @@
-@import "/src/styles/core/variables";
+@use '../../../../styles/variables/colors';
 
 .product {
     width: 236px;
     display: flex;
     flex-direction: column;
     padding: 0 5px 10px;
-    border: 1px solid $grey-border;
+
     &__wrap {
         padding: 10px 20px;
     }
+
     &-preview__wrap {
-        background-color: $card-bg;
     }
+
     &-preview__image {
         display: flex;
         height: 340px;
         background-size: cover;
     }
+
     &-preview__under {
 
     }
@@ -30,12 +32,12 @@
     }
 
     &-main {
-        color: $products-text;
-        background-color: $card-bg;
     }
+
     &-main {
 
     }
+
     &-title {
 
     }

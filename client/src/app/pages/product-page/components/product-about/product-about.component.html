@@ -1,5 +1,5 @@
-<ng-container *ngIf="productDetails$ | async as product">
-    <!-- <div  class="swiper-container" [swiper]="config">
+<!-- <ng-container *ngIf="productDetails$ | async as product"> -->
+  <!-- <div  class="swiper-container" [swiper]="config">
       <div class="swiper-wrapper">
         
       </div>
@@ -10,7 +10,7 @@
       <div class="swiper-button-prev"></div>
       <div class="swiper-button-next"></div>
     </div> -->
-    <!-- <div class="products-galery">
+  <!-- <div class="products-galery">
       <div class="products-preview">
         <img [src]="currentImage" alt="" />
       </div>
@@ -27,20 +27,69 @@
       </div>
     </div> -->
 
-    <div>
+  <!-- <div>
         <div class="swiper-list">
         <swiper
-        #swiper
-        [config]="config"
+        [slidesPerView]="3"
+        [spaceBetween]="50"
         class="mySwiper">
-        <div *ngFor="let photo of product?.images">
-            <img class="my-class" [src]="photo?.src" />
-          </div>
+          
+          <div class="my-class"> dasdasda</div>
+          <div class="my-class"> dasdasda</div>
+          <div class="my-class"> dasdasda</div>
+          <div class="my-class"> dasdasda</div>
+          <div class="my-class"> dasdasda</div>
+
         </swiper>
     </div>
+    </div> -->
+
+  <!-- <swiper
+    #swiperVirtualRef
+    direction= 'horizontal'
+    [slidesPerView]="1"
+    [width]="400"
+    [spaceBetween]="50"
+    [pagination]="{ type: 'fraction' }"
+    [virtual]="true"
+    slideActiveClass="swiper-active whyWouldIuseCustomClass"
+    [centeredSlides]="true"
+    [navigation]="true"
+    class="mySwiper"
+    id="mySwiperID"
+  >
+    <ng-template swiperSlide *ngFor="let slide of virtualSlides; index as i"
+      >Slide {{ slide }}</ng-template
+    >
+  </swiper> -->
+
+  <swiper [config]="config" class="my-swiper">
+    <div class="slider-item">
+      Swiper slide content
     </div>
-   
-    <button (click)="prev()">prev</button>
-    <button (click)="next()">next</button>
-  </ng-container>
-  
+    <div class="slider-item">
+      Swiper slide content
+    </div>
+    <div class="slider-item">
+      Swiper slide content
+    </div>
+    <div class="slider-item">
+      Swiper slide content
+    </div>
+    <div class="slider-item">
+      Swiper slide content
+    </div>
+    <div class="slider-item">
+      Swiper slide content
+    </div>
+    <div class="slider-item">
+      Swiper slide content
+    </div>
+    <div class="slider-item">
+      Swiper slide content
+    </div>
+  </swiper>
+
+  <button (click)="prev()">prev</button>
+  <button (click)="next()">next</button>
+<!-- </ng-container> -->
