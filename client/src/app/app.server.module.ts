@@ -6,8 +6,9 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 // components
 import { AppComponent } from './app.component';
 import { AppModule } from './app.module';
-import { InlineStyleComponent } from './inline-style/inline-style.component';
-import { InlineStyleModule } from './inline-style/inline-style.module';
+// TODO
+// import { InlineStyleComponent } from './inline-style/inline-style.component';
+// import { InlineStyleModule } from './inline-style/inline-style.module';
 import { CookieService, CookieBackendService, CookieModule } from '@gorniv/ngx-universal';
 
 // core
@@ -20,10 +21,12 @@ import { TranslocoServerModule } from './core/modules/transloco/transloco-server
     ServerModule,
     NoopAnimationsModule,
     ServerTransferStateModule,
-    InlineStyleModule,
+    // InlineStyleModule,
     TranslocoServerModule,
 ],
-  bootstrap: [AppComponent, InlineStyleComponent],
+  bootstrap: [AppComponent,
+    //  InlineStyleComponent
+    ],
   providers: [
     { provide: CookieService, useClass: CookieBackendService },
   ],
