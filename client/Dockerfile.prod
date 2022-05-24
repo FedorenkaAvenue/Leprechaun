@@ -5,7 +5,8 @@ WORKDIR /app
 COPY . .
 
 RUN npm install
-RUN node --max_old_space_size=8192 node_modules/@angular/cli/bin/ng build universal-demo --configuration production
+RUN node --max_old_space_size=8192 node_modules/@angular/cli/bin/ng run universal-demo:build:production
+RUN node --max_old_space_size=8192 node_modules/@angular/cli/bin/ng run universal-demo:server:production
 #RUN npm run build:universal
 
 CMD npm run server
