@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
 import { TransferHttpService } from '@gorniv/ngx-universal';
 import { CustomerData, OrderDto, OrderI, ProductAmountPayload } from '@shared/models/products/order.model';
+import { environment } from 'environments/environment';
 import { Observable, of } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 
 @Injectable()
 export class CardApiService {
-  private readonly apiUrl = 'api/order';
+  private readonly apiUrl = `${environment?.apiEndpoint}/order`;
   constructor(private readonly http: TransferHttpService) {}
 
   public getProducts(): Observable<OrderDto> {

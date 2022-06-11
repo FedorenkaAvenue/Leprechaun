@@ -3,13 +3,14 @@ import { Injectable } from '@angular/core';
 import { TransferHttpService } from '@gorniv/ngx-universal';
 // import { CardItemDto } from '@shared/models';
 import { arrayToString } from '@shared/utils/transformers';
+import { environment } from 'environments/environment';
 import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class FavoritesApiService {
-  private readonly apiUrl = 'api/wishlist';
+  private readonly apiUrl = `${environment?.apiEndpoint}/product`;
 
   constructor(private readonly http: TransferHttpService) {}
 

@@ -2,21 +2,19 @@ import { HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Params } from '@angular/router';
 import { TransferHttpService } from '@gorniv/ngx-universal';
-import { ProductCardI, Products } from '@shared/models/products/products.model';;
-import { Observable, of } from 'rxjs';
-import { catchError } from 'rxjs/operators';
-
+import { Products } from '@shared/models/products/products.model';
+import { environment } from 'environments/environment';
+import { Observable } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
 export class ProductsApiService {
-
-  private readonly apiUrl = 'api/product'
+  private readonly apiUrl = `${environment?.apiEndpoint}/product`;
   constructor(
     private readonly http: TransferHttpService
   ) { }
 
-  public getProducts(param: Params): Observable<Products> {
+  public getProducts(param: Params): Observable<Products> {    
     const params = new HttpParams()
     .set('page', param.page)
     .set('sort', param.sort);

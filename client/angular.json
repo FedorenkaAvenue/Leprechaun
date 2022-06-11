@@ -30,7 +30,7 @@
             "extractLicenses": false,
             "buildOptimizer": false,
             "sourceMap": true,
-            "optimization": false,
+            "optimization":false,
             "namedChunks": true
           },
           "configurations": {
@@ -83,10 +83,12 @@
           "configurations": {
             "dev": {
               "browserTarget": "universal-demo:build:dev"
+              
             },
             "production": {
               "browserTarget": "universal-demo:build:production"
             }
+            
           }
         },
         "extract-i18n": {
