@@ -4,11 +4,15 @@ button {
   border: none;
 }
 
-.main-btn {
+
+.main-btn, .file-btn {
   font-family: $base-font;
   font-size: 14px;
   font-weight: 500;
   line-height: 20px;
+}
+
+.main-btn {
   color: $btn-main;
   &:hover {
     color: $btn-rose;
@@ -19,6 +23,15 @@ button {
   .btn-label {
     margin-left: 5px;
   }
+}
+
+.file-btn {
+  border: 1px solid;
+  border-radius: 5px;
+  background-color: $btn-rose;
+  padding: 8px;
+  color: $btn-gray;
+  cursor: pointer;
 }
 
 .card__actions {

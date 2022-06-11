@@ -24,6 +24,7 @@ import { MatInputModule } from '@angular/material/input';
 import { ModalModule } from 'src/app/shared/modules/modal/modal.module';
 import { ConfirmationDialogModule } from 'src/app/shared/components/confirmation-dialog/confirmation-dialog.module';
 import { PaginatorModule } from 'src/app/shared/modules/paginator';
+import { FileUploaderModule } from 'src/app/shared/fields/file-uploader/file-uploader.module';
 
 @NgModule({
   declarations: [
@@ -50,6 +51,7 @@ import { PaginatorModule } from 'src/app/shared/modules/paginator';
     ModalModule,
     ConfirmationDialogModule,
     PaginatorModule,
+    FileUploaderModule
   ],
   providers: [ProductsService, ProductsApiService, CategoriesApiService],
 })

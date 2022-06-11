@@ -1,6 +1,6 @@
 {
   "/api": {
-    "target": "http://leprechaun_server",
+    "target": "https://api.leprechaun.tech",
     "secure": true,
     "changeOrigin": true,
     "pathRewrite": {

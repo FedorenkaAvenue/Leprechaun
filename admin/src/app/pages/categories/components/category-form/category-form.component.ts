@@ -43,12 +43,9 @@ export class CategoryFormComponent implements OnInit {
     this.form.patchValue(data);
   }
 
-  public uploadFiles(event: Event) {
-    const target = event.target as HTMLInputElement;
-    const files = target.files;
-    if (!(files && files.length)) {
-      return;
-    }
+  public uploadFiles(files: any) {
+    console.log(files);
+    
     this.form.get('icon')?.setValue(files[0]);
   }
 

@@ -19,6 +19,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { ModalModule } from 'src/app/shared/modules/modal/modal.module';
+import { FileUploaderModule } from 'src/app/shared/fields/file-uploader/file-uploader.module';
 
 
 @NgModule({
@@ -42,6 +43,7 @@ import { ModalModule } from 'src/app/shared/modules/modal/modal.module';
     MatInputModule,
     MatSlideToggleModule,
     ModalModule,
+    FileUploaderModule
   ],
   providers: [
     CategoriesApiService,
