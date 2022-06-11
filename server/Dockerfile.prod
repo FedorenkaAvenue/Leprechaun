@@ -4,7 +4,7 @@ WORKDIR /app
 
 COPY . .
 
-RUN npm i -g @nestjs/cli && \
-    yarn
+RUN npm i -g @nestjs/cli
+RUN yarn
 
 CMD yarn build && yarn prod
