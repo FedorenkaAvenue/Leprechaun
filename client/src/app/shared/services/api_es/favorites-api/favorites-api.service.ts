@@ -10,7 +10,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root',
 })
 export class FavoritesApiService {
-  private readonly apiUrl = `${environment?.apiEndpoint}/product`;
+  private readonly apiUrl = `${environment?.apiEndpoint}/wishlist`;
 
   constructor(private readonly http: TransferHttpService) {}
 
