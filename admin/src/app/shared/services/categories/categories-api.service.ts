@@ -4,12 +4,13 @@ import { Observable, of } from 'rxjs';
 import { CategoryDto } from '../../models/categories.model';
 import { catchError}   from 'rxjs/operators';
 import { CATEGORY_SHORT_LIST } from 'src/app/mock/category';
-import { ThrowStmt } from '@angular/compiler';
+import { environment } from 'src/environments/environment';
 
 @Injectable()
 export class CategoriesApiService {
 
-  private readonly apiUrl = 'api'
+  private readonly apiUrl = `${environment?.apiEndpoint}`;
+
   constructor(
     private readonly http: HttpClient
   ) { }
