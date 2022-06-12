@@ -18,8 +18,22 @@ async function runServer() {
 			res.header('Access-Control-Allow-Origin', 'https://leprechaun.tech');
 			res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
 			res.header('Access-Control-Allow-Headers', 'Content-Type, Accept');
+
 			next();
 		});
+		// app.enableCors({
+		// 	origin: [
+		// 		'http://localhost:3000',
+		// 		'http://example.com',
+		// 		'http://www.example.com',
+		// 		'http://app.example.com',
+		// 		'https://example.com',
+		// 		'https://www.example.com',
+		// 		'https://app.example.com',
+		// 	],
+		// 	methods: ["GET", "POST"],
+		// 	credentials: true,
+		// });
 
 	if (!singleConfigServie.isDev) app.useGlobalFilters(new UncaughtExceptionFilter());
 
