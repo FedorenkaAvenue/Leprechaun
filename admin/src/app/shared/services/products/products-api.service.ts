@@ -4,12 +4,14 @@ import { Params } from '@angular/router';
 import { Observable, of } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import { PRODUCTS_LIST } from 'src/app/mock/product';
+import { environment } from 'src/environments/environment';
 import { ProductCardDto, ProductPayloadDto, Products } from '../../models/product.model';
 
 @Injectable()
 export class ProductsApiService {
 
-  private readonly apiUrl = 'api'
+  private readonly apiUrl = `${environment?.apiEndpoint}`;
+
   constructor(
     private readonly http: HttpClient
   ) { }

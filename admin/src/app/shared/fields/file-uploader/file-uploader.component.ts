@@ -8,6 +8,7 @@ import {
   Output,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-file-uploader',
@@ -28,9 +29,12 @@ export class FileUploaderComponent implements ControlValueAccessor {
 
   private _files: Array<File>;
 
-  public filesPreview: Array<string | ArrayBuffer | null>;
+  public filesPreview: Array<string | ArrayBuffer | null | SafeUrl>;
 
-  constructor(private cdr: ChangeDetectorRef) {}
+  constructor(
+    private cdr: ChangeDetectorRef,
+    private domSanitizer: DomSanitizer
+    ) {}
 
   public getFiles(): Array<File> {
     return this._files;
@@ -73,7 +77,10 @@ export class FileUploaderComponent implements ControlValueAccessor {
       const reader = new FileReader();
       reader.readAsDataURL(item);
       reader.onload = () => {
-        this.filesPreview.push(reader.result);
+        // this.base64Image = this.domSanitizer.bypassSecurityTrustUrl(myReader.result);
+        const imagePreview = this.domSanitizer.bypassSecurityTrustUrl(reader.result as string);
+        console.log(reader.result)
+        this.filesPreview.push(imagePreview);
         this.cdr.detectChanges();
       };
     });
