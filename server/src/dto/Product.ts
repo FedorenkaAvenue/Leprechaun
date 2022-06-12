@@ -99,7 +99,8 @@ export class CreateProductDTOConstructor extends CreateProductDTO implements IPr
             current: price_current,
             old: price_old
         };
-        this.is_public = is_public;
+        // @ts-ignore
+        this.is_public = is_public === 'true';
         this.status = status || ProductStatus.AVAILABLE;
         this.category = category;
         this.description = description || null;
