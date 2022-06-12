@@ -12,7 +12,14 @@ async function runServer() {
 
 	app
 		.use(cookieParser())
-		.use(session(singleConfigServie.getSessionConfig()));
+		.use(session(singleConfigServie.getSessionConfig()))
+		.use((req, res, next) => {
+			res.header('Access-Control-Allow-Credentials', 'true');
+			res.header('Access-Control-Allow-Origin', 'https://leprechaun.tech');
+			res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
+			res.header('Access-Control-Allow-Headers', 'Content-Type, Accept');
+			next();
+		});
 
 	if (!singleConfigServie.isDev) app.useGlobalFilters(new UncaughtExceptionFilter());
 
