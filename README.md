@@ -61,6 +61,8 @@ Boilerplate for web store
 
  * container managing
 
+    * `make build` build and run containers (dev)
+    * `make build_prod` build and run containers (prod)
     * `make start` to start all containers (without build)
     * `make stop` to stop all containers
     * `make logs` watch all logs

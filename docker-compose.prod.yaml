@@ -1,0 +1,52 @@
+version: "3.8"
+
+services:
+    nginx:
+        restart: on-failure:5
+        build:
+            context: ./nginx
+            dockerfile: Dockerfile.prod
+            args:
+                - ADMIN_CLIENT_PATH
+                - HOSTING_PATH
+        ports:
+            - 84:80
+        volumes:
+            - admin_hosting:${ADMIN_CLIENT_PATH}
+
+    postgres:
+        restart: on-failure:5
+
+    redis:
+        restart: on-failure:5
+
+    server:
+        restart: on-failure:5
+        build:
+            context: ./server
+            dockerfile: Dockerfile.prod
+        environment:
+            - IS_DEV=false
+            - DEV_MAIL_RECIEVER
+
+    manticore:
+        restart: on-failure:5
+
+    client:
+        restart: on-failure:5
+        build:
+            context: ./client
+            dockerfile: Dockerfile.prod
+        environment:
+            - IS_DEV=false
+
+    admin:
+        restart: on-failure:5
+        build:
+            context: ./admin
+            dockerfile: Dockerfile.prod
+        volumes:
+            - admin_hosting:/app/dist
+
+volumes:
+    admin_hosting:

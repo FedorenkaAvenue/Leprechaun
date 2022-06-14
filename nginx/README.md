@@ -18,6 +18,7 @@
 
  * **/var/www/img/category/** `category image folder`
  * **/var/www/img/product/** `product image folder`
+ * **/var/www/admin** `admin client folder` (prod only)
 
 ## Tools
 
