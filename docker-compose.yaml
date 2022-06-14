@@ -3,12 +3,18 @@ version: '3.8'
 services:
   nginx:
     restart: unless-stopped
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+      args:
+        - HOSTING_PATH
     ports:
       - 80:80
       - 443:443
     volumes:
-      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
-      - ./nginx/leprechaun.conf:/etc/nginx/conf.d/leprechaun.conf
+      - ./nginx/conf/nginx.conf:/etc/nginx/nginx.conf
+      - ./nginx/conf/leprechaun.conf:/etc/nginx/conf.d/leprechaun.conf
+      - ./nginx/conf/leprechaun.dev.conf:/etc/nginx/conf.d/leprechaun.dev.conf
 
   postgres:
     restart: unless-stopped
