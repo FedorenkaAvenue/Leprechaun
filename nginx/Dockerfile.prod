@@ -1,3 +1,17 @@
+### admin client bundle
+FROM node:16.15.0-alpine3.14 AS ADMIN_CLIENT
+
+ENV NODE_OPTIONS=--max_old_space_size=8192
+
+WORKDIR /app
+
+COPY ../admin/. .
+
+RUN npm i
+
+CMD npm run build
+
+### Nginx
 FROM nginx:1.14
 
 ARG HOSTING_PATH
@@ -17,6 +31,8 @@ RUN echo "deb http://nginx.org/packages/mainline/debian/ stretch nginx" >> /etc/
 RUN mkdir -p ${HOSTING_PATH}img/category/ && \
     mkdir -p ${HOSTING_PATH}img/product/ && \
     mkdir -p ${ADMIN_CLIENT_PATH}
+
+COPY --from=ADMIN_CLIENT /app/dist /var/www/admin
 
 COPY ./conf/nginx.conf /etc/nginx/
 COPY ./conf/leprechaun.conf ./conf/leprechaun.prod.conf /etc/nginx/conf.d/

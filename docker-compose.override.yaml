@@ -6,9 +6,6 @@ services:
         volumes:
             - image_hosting:/var/www/img:rw
             - ./nginx/.http_auth:/etc/nginx/.http_auth
-        depends_on:
-            - admin
-            - client
 
     postgres:
         container_name: leprechaun_postgres
@@ -76,13 +73,6 @@ services:
         environment:
             - APP_NAME
             - PORT=80
-        depends_on:
-            - server
-
-    admin:
-        container_name: leprechaun_admin
-        environment:
-            - APP_NAME
         depends_on:
             - server
 
