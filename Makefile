@@ -2,6 +2,7 @@ build:
 	@docker compose up --build -d
 
 build_prod:
+	@cp ./admin ./nginx/admin
 	@docker compose -f docker-compose.override.yaml -f docker-compose.prod.yaml up --build -d
 
 start:
