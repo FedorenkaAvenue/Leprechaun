@@ -5,7 +5,7 @@ ENV NODE_OPTIONS=--max_old_space_size=8192
 
 WORKDIR /app
 
-COPY ./admin .
+COPY ./admin/. .
 
 RUN npm i
 
