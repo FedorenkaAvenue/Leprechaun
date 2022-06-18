@@ -32,7 +32,7 @@ RUN mkdir -p ${HOSTING_PATH}img/category/ && \
     mkdir -p ${ADMIN_CLIENT_PATH}
 
 # copy admin build folder for hosting
-COPY --from=ADMIN_CLIENT /app/dist/. ${ADMIN_CLIENT_PATH}
+COPY --from=ADMIN_CLIENT /app/dist/* ${ADMIN_CLIENT_PATH}
 
 COPY ./conf/nginx.conf /etc/nginx/
 COPY ./conf/leprechaun.conf ./conf/leprechaun.prod.conf /etc/nginx/conf.d/
