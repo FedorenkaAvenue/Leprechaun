@@ -1,10 +1,15 @@
 build:
 	@docker compose up --build -d
 
+build_single:
+	@docker-compose up -d --build --no-deps --force-recreate $(args)
+
 build_prod:
-	@rm -r ./nginx/admin
-	@mkdir -p ./nginx/admin/ && cp -r ./admin/ ./nginx/
+	@make _cp_admin_client_static
 	@docker compose -f docker-compose.override.yaml -f docker-compose.prod.yaml up --build -d
+
+build_prod_single:
+	@docker-compose up -d --build --no-deps --force-recreate $(args)
 
 start:
 	@docker compose start
@@ -23,3 +28,7 @@ migrations:
 
 manticore_index:
 	@make -f ./manticore/Makefile index_all
+
+_cp_admin_client_static:
+	@rm -r ./nginx/admin
+	@mkdir -p ./nginx/admin/ && cp -r ./admin/ ./nginx/
