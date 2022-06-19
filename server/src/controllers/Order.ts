@@ -9,7 +9,7 @@ import {
 import { UpdateResult } from 'typeorm';
 
 import { OrderService } from '@services/Order';
-import { ChangeOrderStatusDTO, CreateOrderDTO, OrderPublicDTO } from '@dto/Order';
+import { UpdateOrderStatusDTO, CreateOrderDTO, OrderPublicDTO } from '@dto/Order';
 import { Session } from '@decorators/Session';
 import { ISession } from '@interfaces/Session';
 import AffectedResultInterceptor from '@interceptors/AffectedResult';
@@ -47,7 +47,7 @@ export class OrderPublicController {
     }
 
     @Patch('item')
-    @ApiOperation({ summary: 'change order item amount' })
+    @ApiOperation({ summary: 'change order item amount (ПЕРЕДЕЛАТЬ order ID через path)' })
     @ApiOkResponse({ type: OrderPublicDTO })
     changeOrderItemAmount(
         @Body(new ValidationPipe({ transform: true })) orderItem: UpdateOrderItemDTO,
@@ -94,13 +94,14 @@ export class OrderAdminController {
         private readonly orderService: OrderService
     ) {}
 
-    @Patch('status')
+    @Patch('status/:orderId')
     @UseInterceptors(AffectedResultInterceptor)
     @ApiOperation({ summary: 'change order status' })
     changeOrderStatus(
-        @Body(new ValidationPipe({ transform: true })) order: ChangeOrderStatusDTO
+        @Param('orderId', ParseUUIDPipe) orderId: IOrder['id'],
+        @Body(new ValidationPipe({ transform: true })) body: UpdateOrderStatusDTO
     ) {
-        return this.orderService.changeOrderStatus(order);
+        return this.orderService.changeOrderStatus(orderId, body);
     }
 
     // TODO query filers
