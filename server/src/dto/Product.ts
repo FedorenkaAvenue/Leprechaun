@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsBooleanString, IsEnum, IsNotEmpty, IsNumberString, IsOptional, IsString } from 'class-validator';
+import { IsBoolean, IsBooleanString, IsEnum, IsNotEmpty, IsNumberString, IsOptional, IsString } from 'class-validator';
 
 import { ICategory } from '@interfaces/Category';
 import { IPrice, IProduct, IProductPreview, IPublicProduct, ProductStatus } from '@interfaces/Product';
@@ -7,6 +7,8 @@ import { ILabel } from '@interfaces/Label';
 import { IProperty } from '@interfaces/Property';
 import { IImage } from '@interfaces/Image';
 import { BaseProductEntity, PublicProductEntity } from '@entities/Product';
+
+type TProductPublic = IProduct['is_public'];
 
 export class CreateProductDTO implements IProduct {
     @IsNotEmpty()
@@ -144,4 +146,13 @@ export class PublicProductDTO extends PublicProductEntity implements IPublicProd
         this.properties = properties;
         this.category = category;
     }
+}
+
+type lol = IProduct['is_public']
+
+export class UpdateProductPublicStatusDTO {
+    @IsNotEmpty()
+    @IsBoolean()
+    @ApiProperty({ required: true})
+    is_public: TProductPublic;
 }
