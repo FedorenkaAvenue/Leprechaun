@@ -14,6 +14,7 @@
     <app-category-list
       [categories]="categories"
       (onGoToCategProds)="goToCategProds($event)"
+      (onGoToCategDetails)="goToCategDetailsPage($event)"
       (onRemoveCategory)="deleteCategory($event)"
     ></app-category-list>
   </div>

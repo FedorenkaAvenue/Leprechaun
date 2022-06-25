@@ -11,6 +11,7 @@ import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { Observable } from 'rxjs';
 import { CategoryDto } from 'src/app/shared/models/categories.model';
+import { NavigationService } from 'src/app/shared/services/navigations/navigations.service';
 import { ProductsService } from '../../sevices/products.service';
 
 @Component({
@@ -24,7 +25,8 @@ export class CreateProductComponent implements OnInit {
   constructor(
     private readonly productsService: ProductsService,
     private readonly router: Router,
-    private readonly toastr: ToastrService
+    private readonly toastr: ToastrService,
+    private readonly navigationService: NavigationService
   ) {}
 
   ngOnInit(): void {
@@ -34,7 +36,9 @@ export class CreateProductComponent implements OnInit {
   public saveForm(formData: any) {
     this.productsService.createProduct(formData).subscribe((res) => {
       this.toastr.success('product was created');
-      this.router.navigate(['/admin/categories']);
+      // this.router.navigate();
+      this.navigationService.back();
+
     });
   }
 

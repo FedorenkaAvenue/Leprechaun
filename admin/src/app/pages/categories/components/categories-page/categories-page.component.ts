@@ -36,6 +36,11 @@ export class CategoriesPageComponent implements OnInit {
     this.router.navigate(['/admin/products/list', url]);
   }
 
+
+  public goToCategDetailsPage(url: string): void {
+    this.router.navigate(['/admin/categories/personal', url]);
+  }
+
   public deleteCategory(id: number): void {
     this.overlayService
       .open(ConfirmationDialogComponent, {})

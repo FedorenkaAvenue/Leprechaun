@@ -28,7 +28,7 @@ export class CategoryFormComponent implements OnInit {
     this.form = this.fb.group({
       url: this.fb.control(null, Validators.required),
       title: this.fb.control(null, Validators.required),
-      isPublic: this.fb.control(true),
+      is_public: this.fb.control(true),
       icon: this.fb.control(null, Validators.required),
     })
   }

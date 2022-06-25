@@ -11,6 +11,7 @@ export class CategoryPreviewCardComponent implements OnInit {
 
   @Input() category: CategoryDto;
   @Output() onGoToCategProds = new EventEmitter<string>();
+  @Output() onGoToCategDetails = new EventEmitter<string>();
   @Output() onRemoveCategory = new EventEmitter<number>();
 
   constructor() { }
@@ -19,6 +20,10 @@ export class CategoryPreviewCardComponent implements OnInit {
   }
 
   public goToCategProds(url: string): void {
+    this.onGoToCategProds.emit(url)
+  }
+  
+  public goToCategDetails(url: string): void {
     this.onGoToCategProds.emit(url)
   }
 

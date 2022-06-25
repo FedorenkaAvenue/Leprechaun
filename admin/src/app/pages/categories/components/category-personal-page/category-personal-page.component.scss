@@ -1,0 +1,24 @@
+.category {
+    &-info {
+        
+    }
+    &-header {
+        display: flex; 
+    }
+    &-image {
+         width: 150px;
+        height : 150px;
+    }
+    &-title {
+        margin-left: 50px;
+    }
+    &-data {
+        
+    }
+    // &-info {
+        
+    // }
+    .products-add {
+        margin-left: auto;
+    }
+}

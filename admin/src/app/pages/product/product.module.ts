@@ -6,7 +6,6 @@ import { ProductPageComponent } from './components/product-page/product-page.com
 import { ProductFormComponent } from './components/product-form/product-form.component';
 import { EditProductComponent } from './components/edit-product/edit-product.component';
 import { CreateProductComponent } from './components/create-product/create-product.component';
-import { ProductsListComponent } from './components/products-list/products-list.component';
 import { ProductsService } from './sevices/products.service';
 import { ProductsApiService } from 'src/app/shared/services/products/products-api.service';
 import { DefaultImageModule } from 'src/app/shared/directives/default-image/default-image.module';
@@ -25,6 +24,7 @@ import { ModalModule } from 'src/app/shared/modules/modal/modal.module';
 import { ConfirmationDialogModule } from 'src/app/shared/components/confirmation-dialog/confirmation-dialog.module';
 import { PaginatorModule } from 'src/app/shared/modules/paginator';
 import { FileUploaderModule } from 'src/app/shared/fields/file-uploader/file-uploader.module';
+import { ProductsListModule } from 'src/app/shared/components/products-list/products-list.module';
 
 @NgModule({
   declarations: [
@@ -32,7 +32,6 @@ import { FileUploaderModule } from 'src/app/shared/fields/file-uploader/file-upl
     ProductFormComponent,
     EditProductComponent,
     CreateProductComponent,
-    ProductsListComponent,
   ],
   imports: [
     CommonModule,
@@ -51,7 +50,8 @@ import { FileUploaderModule } from 'src/app/shared/fields/file-uploader/file-upl
     ModalModule,
     ConfirmationDialogModule,
     PaginatorModule,
-    FileUploaderModule
+    FileUploaderModule,
+    ProductsListModule
   ],
   providers: [ProductsService, ProductsApiService, CategoriesApiService],
 })

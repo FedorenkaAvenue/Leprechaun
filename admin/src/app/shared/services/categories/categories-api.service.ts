@@ -31,7 +31,7 @@ export class CategoriesApiService {
 
   public createCategory(data: any): Observable<CategoryDto> {
     const formData  = new FormData();
-    formData.append('isActive', data.isActive),
+    formData.append('is_public', data.is_public),
     formData.append('url', data.url),
     formData.append('title', data.title),
     formData.append('icon', data.icon)
