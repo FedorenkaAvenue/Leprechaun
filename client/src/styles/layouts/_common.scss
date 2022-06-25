@@ -15,3 +15,27 @@
     background-color: colors.$content-background;
     @include mixin.light-shadow();
 }
+
+
+.p-0 {
+    padding: layouts.$space-0;
+}
+.p-100 {
+    padding: layouts.$space-100;
+}
+.p-200 {
+    padding: layouts.$space-200;
+}
+.p-300 {
+    padding: layouts.$space-300;
+}
+.p-400 {
+    padding: layouts.$space-400;
+}
+.p-500 {
+    padding: layouts.$space-500;
+}
+.p-600 {
+    padding: layouts.$space-600;
+}
+
