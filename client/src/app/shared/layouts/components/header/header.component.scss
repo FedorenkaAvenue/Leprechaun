@@ -1,8 +1,8 @@
 @use '../../../../../styles/variables/colors';
-@use '../../../../../styles/helpers/padding';
+// @use '../../../../../styles/helpers/padding';
 
 .header {
-    @include padding.padding($s: 2, $v: true);
+    // @include padding.padding($s: 2, $v: true);
     display: flex;
     justify-content: space-between;
     align-items: center;

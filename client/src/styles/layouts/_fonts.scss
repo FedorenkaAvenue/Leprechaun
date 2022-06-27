@@ -1,0 +1,9 @@
+@use '../variables/fonts' as fonts;
+
+$font-sizes: fonts.$font-size-1, fonts.$font-size-2, fonts.$font-size-3, fonts.$font-size-4;
+
+@for $i from 1 to length($font-sizes) + 1 {
+	.fs-#{$i} {
+		font-size: #{nth($font-sizes, $i)}px;
+	}
+}

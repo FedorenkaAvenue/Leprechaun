@@ -1,0 +1,37 @@
+@use '../variables/layouts' as layouts;
+
+$sizes: layouts.$space-0, layouts.$space-1, layouts.$space-2, layouts.$space-3, layouts.$space-4, layouts.$space-5;
+
+@for $i from 1 to length($sizes) + 1 {
+	// paddings
+
+	.p-#{$i - 1} {
+		padding: #{nth($sizes, $i)}px;
+	}
+
+	.p-v-#{$i - 1} {
+		padding: #{nth($sizes, $i)}px 0;
+	}
+
+	.p-h-#{$i - 1} {
+		padding: 0 #{nth($sizes, $i)}px;
+	}
+
+	// margins
+
+	.m-#{$i - 1} {
+		margin: #{nth($sizes, $i)}px;
+	}
+
+	.m-v-#{$i - 1} {
+		margin: #{nth($sizes, $i)}px 0;
+	}
+
+	.m-h-#{$i - 1} {
+		margin: 0 #{nth($sizes, $i)}px;
+	}
+
+	.m-b-#{$i - 1} {
+		margin-bottom: #{nth($sizes, $i)}px;
+	}
+}

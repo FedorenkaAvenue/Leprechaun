@@ -1,14 +1,11 @@
-:host {
-    display: flex;
-    flex-direction: column;
+.product-price {
     color: #221f1f;
-    font-size: 24px;
 }
+
 .price {
     &-old {
-    font-size: 14px;
-    text-decoration: line-through;
-    color: #a6a5a5;
+        text-decoration: line-through;
+        color: #a6a5a5;
     }
 
     &-current {

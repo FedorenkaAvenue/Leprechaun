@@ -1,17 +1,11 @@
-@use '../../../../styles/helpers/padding';
 @use '../../../../styles/variables/layouts';
 
-:host {
+.dashboard {
     display: block;
-    margin: 25px 0;
-}
-
-h2 {
-    @include padding.padding($v: true);
 }
 
 .list {
     display: grid;
-    grid-gap: 4px;
-    grid-template-columns: repeat(auto-fill, minmax(layouts.$product-preview-width, 1fr));
+    grid-gap: #{layouts.$space-1}px;
+    grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
 }

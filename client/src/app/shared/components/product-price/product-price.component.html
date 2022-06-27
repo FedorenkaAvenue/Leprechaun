@@ -1,7 +1,9 @@
-<ng-container *ngIf="price?.old; else simplePrice">
-  <span class="price-old">{{ price?.old | numberBySpace}} &#8372;</span>
-  <span class="price-current">{{ price?.current | numberBySpace }} &#8372;</span>
-</ng-container>
-<ng-template #simplePrice>
-  <span class="price-simple">{{ price?.current | numberBySpace }} &#8372;</span>
-</ng-template>
+<div class="product-price fl-c fs-3">
+  <ng-container *ngIf="price?.old; else simplePrice">
+    <span class="price-old fs-2">{{ price?.old | numberBySpace}} &#8372;</span>
+    <span class="price-current">{{ price?.current | numberBySpace }} &#8372;</span>
+  </ng-container>
+  <ng-template #simplePrice>
+    <span class="price-simple">{{ price?.current | numberBySpace }} &#8372;</span>
+  </ng-template>
+</div>

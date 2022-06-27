@@ -1,11 +1,13 @@
-<h2 class="header">{{ title }}</h2>
-<ul class="list">
-  <li *ngFor="let product of products">
-    <app-product-preview-card
-      (toFavoriteEvent)="addToFavorite($event)"
-      (deleteFromFavoriteEvent)="deleteFromFavorite($event)"
-      [product]="product"
-    >
-    </app-product-preview-card>
-  </li>
-</ul>
+<div class="dashboard m-v-5">
+  <h2 class="header m-v-3">{{ title }}</h2>
+  <ul class="list">
+    <li *ngFor="let product of products">
+      <app-product-preview-card
+        (toFavoriteEvent)="addToFavorite($event)"
+        (deleteFromFavoriteEvent)="deleteFromFavorite($event)"
+        [product]="product"
+      >
+      </app-product-preview-card>
+    </li>
+  </ul>
+</div>

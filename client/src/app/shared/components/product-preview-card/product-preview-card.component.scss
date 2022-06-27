@@ -1,15 +1,6 @@
 @use '../../../../styles/variables/colors';
 @use '../../../../styles/variables/layouts';
 
-.product-preview {
-  display: flex;
-  flex-direction: column;
-  padding: 15px;
-}
-
-.product-preview__wrap {
-}
-
 .product-preview__image {
   height: 170px;
   width: 100%;
@@ -24,24 +15,15 @@
   border-top: 3px solid #888;
 }
 
-.product-main {
-}
-
 .product-title {
   color: #292b31;
-  font-size: layouts.$small-font;
   line-height: 1.2;
   height: 36px;
   width: 100%;
-  margin-bottom: #{layouts.$indent}px;
   word-break: break-word;
   overflow: hidden;
   text-overflow: ellipsis;
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
-}
-
-.product-image {
-  margin-bottom: #{layouts.$indent}px;
 }
