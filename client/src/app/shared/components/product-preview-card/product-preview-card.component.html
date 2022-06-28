@@ -1,6 +1,6 @@
-<div class="product-preview content">
+<div class="product-preview content p-2 fl-c">
   <a
-    class="product-image"
+    class="product-image m-b-2"
     [routerLink]="['/product', product.id]"
     routerLinkActive="router-link-active"
   >
@@ -12,7 +12,7 @@
     [routerLink]="['/product', product.id]"
     [title]="product?.title"
     routerLinkActive="router-link-active"
-    class="product-title"
+    class="product-title fs-2 m-b-2"
     >{{product?.title}}</a
   >
   <div class="product-main">

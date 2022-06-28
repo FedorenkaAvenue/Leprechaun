@@ -4,7 +4,7 @@ import { DeleteResult, Not, Repository, UpdateResult } from 'typeorm';
 
 import { OrderEntity } from '@entities/Order';
 import { OrderItemEntity } from '@entities/OrderItem';
-import { ChangeOrderStatusDTO, CreateOrderDTO, OrderPublicDTO } from '@dto/Order';
+import { UpdateOrderStatusDTO, CreateOrderDTO, OrderPublicDTO } from '@dto/Order';
 import { ISession } from '@interfaces/Session';
 import { IOrder, IOrderPublic, OrderStatus } from '@interfaces/Order';
 import { CreateOrderItemDTO, UpdateOrderItemDTO } from '@dto/OrderItem';
@@ -108,8 +108,11 @@ export class OrderService {
         return this.getCurrentOrder(sessionId);
     }
 
-    changeOrderStatus({ id, status }: ChangeOrderStatusDTO): Promise<UpdateResult> {
-        return this.orderRepo.update({ id }, { status });
+    changeOrderStatus(
+        orderId: IOrder['id'],
+        { status }: UpdateOrderStatusDTO
+    ): Promise<UpdateResult> {
+        return this.orderRepo.update({ id: orderId }, { status });
     }
 
     getAdminOrders(): Promise<IOrder[]> {

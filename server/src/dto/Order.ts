@@ -51,12 +51,8 @@ export class OrderPublicDTO extends OrderBaseEntity implements IOrderPublic {
     }
 }
 
-export class ChangeOrderStatusDTO implements IOrder {
+export class UpdateOrderStatusDTO implements IOrder {
     @IsEnum(OrderStatus)
     @ApiProperty({ required: true, enum: OrderStatus })
     status?: OrderStatus;
-
-    @IsUUID()
-    @ApiProperty({ description: 'order ID', required: true })
-    id?: string;
 }

@@ -1,29 +1,14 @@
+@use "./core" as core;
+
+$space-0: 0;
+$space-1: 1  * core.$space-core;
+$space-2: 2  * core.$space-core;
+$space-3: 4  * core.$space-core;
+$space-4: 8  * core.$space-core;
+$space-5: 16 * core.$space-core;
+
 $container-width: 1300px;
 
-// общий средний отступ
-$indent: 8;
-
-// fonts
-$small-font: 14px;
-$base-font: 'Raleway', sans-serif;
-$amatic-font: 'Amatic SC', sans-serif;
-
-// Toolbar
-$toolbar-height: 56px;
-
-// Sidebar
-$sidebar-width: 64px;
-
-// Footer
-$footer-height: 49px;
-
-// Containers
-$container-width: 1320px;
-
-// wrapper
-$wrapper-width: 1400px;
-
-// breakpoints
 $media-breakpoints: (
 	xs: 0,
 	sm: 576px,
@@ -32,6 +17,3 @@ $media-breakpoints: (
 	xl: 1200px,
 	xxl: 1400px
 );
-
-// product preview
-$product-preview-width: 170px;
