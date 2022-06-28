@@ -11,14 +11,14 @@ import { take } from 'rxjs/operators';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CardPageComponent implements OnInit {
-  public cardData$: Observable<OrderDto>;
+  public cartData$: Observable<OrderDto>;
   userForm: FormGroup;
   constructor(private readonly cardService: CardService, private readonly fb: FormBuilder) {
     this.createForm();
   }
 
   ngOnInit(): void {
-    this.cardData$ = this.cardService.getCardValue();
+    this.cartData$ = this.cardService.getCardValue();
   }
 
   public deleteFromCard(id: string): void {

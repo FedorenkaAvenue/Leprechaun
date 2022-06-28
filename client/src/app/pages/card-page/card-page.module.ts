@@ -10,11 +10,15 @@ import { LpchInputModule } from '@shared/controls/lpch-input/lpch-input.module';
 import { LpchPhoneModule } from '@shared/controls/lpch-phone/lpch-phone.module';
 import { ReactiveFormsModule } from '@angular/forms';
 import { LpchCounterInputModule } from '@shared/controls/lpch-counter-input/lpch-counter-input.module';
+import { CardItemsListComponent } from './components/card-items-list/card-items-list.component';
+import { CartDetailsComponent } from './components/cart-details/cart-details.component';
 
 @NgModule({
   declarations: [
     CardPageComponent,
-    CardItemComponent
+    CardItemComponent,
+    CardItemsListComponent,
+    CartDetailsComponent
   ],
   imports: [
     CommonModule,

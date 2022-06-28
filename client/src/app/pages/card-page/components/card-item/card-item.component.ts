@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectionStrategy, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, Input, Output, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
 import { OrderCardItemDto } from '@shared/models/products/order.model';
 
 
@@ -15,6 +15,7 @@ export class CardItemComponent implements OnInit {
   @Output() setAmount = new EventEmitter<number>()
   public showAmountError: boolean
   constructor() { }
+
 
   ngOnInit(): void {
   }
