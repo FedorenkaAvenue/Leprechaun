@@ -6,43 +6,20 @@
       </header>
       <section class="cart-page__wrapper">
         <div class="cart-list">
-          <app-card-items-list [cartList]="(cartData$ | async)?.list">
+          <app-card-items-list 
+          [cartList]="(cartData$ | async)?.list"
+          (delete)="deleteFromCart($event)"
+          (setAmount)="setProductAmount($event)"
+          >
 
           </app-card-items-list>
         </div>
         <div class="cart-data">
-          <app-cart-details></app-cart-details>
+          <app-cart-details (changeUserData)="sendOrder($event)"></app-cart-details>
         </div>
     
       </section>
-       <!-- <section *ngIf="cartData?.list?.length" class="cart-form__wrap">
-        <form [formGroup]="userForm" class="cart-form">
-          <lpch-input-field
-            class="cart-form__control"
-            formControlName="name"
-            [placeholder]="'Enter your name...'"
-          ></lpch-input-field>
-
-          <lpch-phone-field
-            [formControlName]="'phone'"
-            class="cart-form__control"
-            phoneMask
-            [preValue]="userForm.value.phone"
-            [phoneControl]="userForm.controls['phone']"
-            [placeholder]="'Enter your phone...'"
-            formControlName="phone"
-            [maxLength]="'14'"
-          ></lpch-phone-field>
-          <button
-            class="rose-btn"
-            type="button"
-            [disabled]="userForm?.invalid"
-            (click)="sendOrder(cartData)"
-          >
-            Send order
-          </button>
-        </form>
-      </section> -->
+      
     </ng-container>
   </div>
   <ng-template #emptyContent>

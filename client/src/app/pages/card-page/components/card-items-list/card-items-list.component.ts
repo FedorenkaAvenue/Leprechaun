@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectionStrategy, Input, SimpleChanges } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, Input, SimpleChanges, Output, EventEmitter } from '@angular/core';
 import { OrderCardItemDto } from '@shared/models';
 
 @Component({
@@ -10,11 +10,21 @@ import { OrderCardItemDto } from '@shared/models';
 export class CardItemsListComponent implements OnInit {
 
   @Input() cartList: Array<OrderCardItemDto>;
-  
+  @Output() delete = new EventEmitter<string>()
+  @Output() setAmount = new EventEmitter<any>()
 
   constructor() { }
 
   ngOnInit(): void {
+  }
+
+  public deleteFromCart(id: string): void {
+    this.delete.emit(id)
+  }
+
+  public setProductAmount(count: number, id: string): void {
+    const data = {count, id}
+    this.setAmount.emit(data)
   }
 
 }

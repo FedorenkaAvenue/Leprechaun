@@ -59,7 +59,7 @@ export class LpchCounterInputComponent implements OnInit, OnDestroy, ControlValu
 
   public updateValue(insideValue: number) {
     const control = this.control;
-    control.patchValue(insideValue);
+    control.patchValue(insideValue, {emitEvent: false});
     this.onChange(insideValue);
     this.onTouched();
     this.changeCount.emit(control?.value);

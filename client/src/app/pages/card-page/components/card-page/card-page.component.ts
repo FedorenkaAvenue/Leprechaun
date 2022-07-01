@@ -12,16 +12,16 @@ import { take } from 'rxjs/operators';
 })
 export class CardPageComponent implements OnInit {
   public cartData$: Observable<OrderDto>;
-  userForm: FormGroup;
-  constructor(private readonly cardService: CardService, private readonly fb: FormBuilder) {
-    this.createForm();
+ 
+  constructor(private readonly cardService: CardService) {
+   
   }
 
   ngOnInit(): void {
     this.cartData$ = this.cardService.getCardValue();
   }
 
-  public deleteFromCard(id: string): void {
+  public deleteFromCart(id: string): void {
     this.cardService
       .deleteProduct(id)
       .pipe(take(1))
@@ -30,26 +30,18 @@ export class CardPageComponent implements OnInit {
       });
   }
 
-  private createForm() {
-    this.userForm = this.fb.group({
-      name: this.fb.control(null, [Validators?.required]),
-      phone: this.fb.control('', [
-        Validators.pattern(/^\(\d{3}\)\s\d{3}-\d{4}$/),
-        Validators.required,
-      ]),
-    });
-  }
-
-  public setProductAmount(amount: number, order_item: string): void {
+  public setProductAmount({ count: amount, id: order_item }): void {
     const data: ProductAmountPayload = {
       amount,
       order_item,
     };
-    this.cardService.setAmount(data)
-    .pipe(take(1))
-    .subscribe((order: OrderDto) => {
-      this.cardService.updateCard(order);
-    });
+
+    this.cardService
+      .setAmount(data)
+      .pipe(take(1))
+      .subscribe((order: OrderDto) => {
+        this.cardService.updateCard(order);
+      });
   }
 
   public sendOrder(order: OrderDto): void {
