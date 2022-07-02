@@ -1,23 +1,35 @@
-// Body
-$body-background: #f7f8f9;
-$body-text: #444;
+// BASE
 
-// хз
-$color-primary: #3f51b5;
-$color-primary-50: rgba(63, 81, 181, 0.5);
-$grey: #e0e0e0;
+$white-1: white;
+$white-2: #f7f8f9;
 
-// fonts
-$base-font: 'Raleway', sans-serif;
-$amatic-font: 'Amatic SC', sans-serif;
+$gray-1: #d3d3d34d;
+$gray-2: lightgray;
+$gray-3: gray;
 
-// buttons
-$btn-rose: #ea4c89;
-$btn-light-rose: #f082ac;
-$btn-main: #6e6d7a;
+$black-1: black;
 
-// contents
-$content-background: #fff;
+$blue-1: lightskyblue;
+$blue-2: blue;
+$blue-3: mediumblue;
+
+$red-1: indianred;
+$red-2: red;
+$red-3: darkred;
+
+// DERIVATIVES
 
 //shadows
-$light-shadow: #d3d3d34d;
+$shadow-1: $gray-1;
+$shadow-2: $gray-2;
+
+// body
+$body-background: $white-2;
+
+// contents
+$content-background: $white-1;
+
+// fonts
+$font-color-1: $gray-2;
+$font-color-2: $gray-3;
+$font-color-3: $black-1;

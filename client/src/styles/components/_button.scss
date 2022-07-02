@@ -1,4 +1,5 @@
 @use '../variables/colors';
+
 button {
   display: inline-flex;
   align-items: center;
@@ -9,17 +10,20 @@ button {
 .main-btn {
   display: flex;
   background: none;
-  font-family: colors.$base-font;
+  // font-family: colors.$base-font;
   font-size: 14px;
   font-weight: 500;
   line-height: 20px;
-  color: colors.$btn-main;
+  // color: colors.$btn-main;
+
   &:hover,&.active {
-    color: colors.$btn-rose;
+    // color: colors.$btn-rose;
+
     svg {
-      fill: colors.$btn-rose;
+      // fill: colors.$btn-rose;
     }
   }
+
   .btn-label {
     margin-left: 5px;
   }
@@ -29,25 +33,20 @@ button {
   padding: 10px 16px;
   border: none;
   border-radius: 8px;
-  background: colors.$btn-rose;
-  font-family: colors.$base-font;
+  // background: colors.$btn-rose;
+  // font-family: colors.$base-font;
   font-size: 14px;
   font-weight: 500;
   line-height: 20px;
+
   &:hover {
-    background: colors.$btn-light-rose;
+    // background: colors.$btn-light-rose;
     cursor: pointer;
   }
+
   &:disabled {
     cursor: initial;
     background-color: #eee;
     color: #000;
   }
-  // .btn-label {
-  //   margin-left: 5px;
-  // }
-}
-
-.icon-btn {
-
 }

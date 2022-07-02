@@ -21,15 +21,11 @@ input {
     transition: all 0.15s ease-out;
 
     &:focus, &:active {
-      border-color: colors.$color-primary;
-      
-      & ~ label {
-        // If label behavior needed
-      }
+      // border-color: colors.$color-primary;
     }
   }
 }
 
 .auth-form {
-  background: colors.$grey;
+  // background: colors.$grey;
 }
