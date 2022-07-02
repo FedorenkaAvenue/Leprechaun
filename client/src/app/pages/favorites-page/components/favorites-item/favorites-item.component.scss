@@ -2,21 +2,12 @@
 
 .product {
   position: relative;
-  width: 236px;
-  display: flex;
-  flex-direction: column;
-  padding: 0 5px 10px;
-  &__wrap {
-    padding: 10px 20px;
-  }
-  &-preview__wrap {
-  }
-  &-preview__image {
-    display: flex;
-    height: 340px;
-    background-size: cover;
-  }
-  &-preview__under {
+  height: 100%;
+
+  &_img {
+    img {
+      width: 100%;
+    }
   }
 
   &-preview__curtain {
@@ -27,26 +18,16 @@
     border-top: 3px solid #888;
   }
 
-  &-main {
-  }
-
   &__remove-btn {
     position: absolute;
     padding: 5px;
     top: 0;
     right: 0;
   }
-
-  &-main {
-  }
-  &-title {
-  }
 }
 
 @media screen and (min-width: 768px) {
-  .product {
-  }
+  .product {}
 }
 
-@media screen and (min-width: 900px) {
-}
+@media screen and (min-width: 900px) {}

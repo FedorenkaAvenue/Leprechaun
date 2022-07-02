@@ -9,7 +9,7 @@ import { Products } from '@shared/models/products/products.model';
 export class ProductsListComponent implements OnInit, OnChanges {
 
   @Input() products: Products;
-  @Output() toCardEvent: EventEmitter<string> = new EventEmitter<string>();
+  @Output() toCartEvent: EventEmitter<string> = new EventEmitter<string>();
   @Output() toFavoriteEvent: EventEmitter<string> = new EventEmitter<string>();
   @Output() deleteFromFavoriteEvent: EventEmitter<string> = new EventEmitter<string>();
   
@@ -22,8 +22,8 @@ export class ProductsListComponent implements OnInit, OnChanges {
       console.log(changes);
       
   }
-  public addToCard(productId: string): void {
-    this.toCardEvent.emit(productId);
+  public addToCart(productId: string): void {
+    this.toCartEvent.emit(productId);
   }
 
   public addToFavorite(productId: string): void {

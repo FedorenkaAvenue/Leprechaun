@@ -3,7 +3,7 @@ import { FormControl } from '@angular/forms';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { OrderDto } from '@shared/models/products/order.model';
 import { Products } from '@shared/models/products/products.model';
-import { CardService } from '@shared/services/card/card/card.service';
+import { CartService } from '@shared/services/cart/cart/cart.service';
 import { Observable } from 'rxjs';
 import { ProductsManagerService } from '../../services/products-manager/products-manager.service';
 import { FavoritesService } from '@shared/services/favorite/favotite/favorites.service';
@@ -27,7 +27,7 @@ export class ProductsPageComponent implements OnInit {
   public currentSortItem: number;
   constructor(
     private readonly productsManagerService: ProductsManagerService,
-    private readonly cardService: CardService,
+    private readonly cartService: CartService,
     private readonly router: Router,
     private readonly route: ActivatedRoute,
     private readonly favoritesService: FavoritesService,
@@ -70,14 +70,14 @@ export class ProductsPageComponent implements OnInit {
     });
   }
 
-  public addToCard(productId: string): void {
-    const productInCard = this.cardService.checkAvailabilityInCard(productId);
-    if (productInCard) {
-      this.lpchRouterService.navigateToCard();
+  public addToCart(productId: string): void {
+    const productinCart = this.cartService.checkAvailabilityInCart(productId);
+    if (productinCart) {
+      this.lpchRouterService.navigateToCart();
       return;
     }
-    this.cardService.addToCard(productId).subscribe((order: OrderDto) => {
-      this.cardService.updateCard(order);
+    this.cartService.addToCart(productId).subscribe((order: OrderDto) => {
+      this.cartService.updateCart(order);
     });
   }
 

@@ -7,8 +7,8 @@ export type LeprachaunIcon =
   | 'heart'
   | 'heartFilled'
   | 'question'
-  | 'card'
-  | 'cardSelected'
+  | 'cart'
+  | 'cartSelected'
   | 'search'
   | 'close'
   | 'trash';
@@ -62,7 +62,7 @@ export const questionIcon: LeprachaunIconI = {
 };
 
 export const cartIcon: LeprachaunIconI = {
-  name: 'card',
+  name: 'cart',
   data: `<svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
   width="16" height="16" viewBox="0 0 446.853 446.853" style="enable-background:new 0 0 446.853 446.853;"
   xml:space="preserve">
@@ -83,7 +83,7 @@ export const cartIcon: LeprachaunIconI = {
 };
 
 export const cartSelectedIcon: LeprachaunIconI = {
-  name: 'cardSelected',
+  name: 'cartSelected',
   data: `<svg width="22" height="22" xmlns="http://www.w3.org/2000/svg">
   <g>
    <title>Layer 1</title>

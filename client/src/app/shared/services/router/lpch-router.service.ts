@@ -8,7 +8,7 @@ export class LpchRouterService {
 
   constructor(private readonly router: Router) { }
 
-  public navigateToCard() {
-    this.router.navigate(['/card'])
+  public navigateToCart() {
+    this.router.navigate(['/cart'])
   }
 }

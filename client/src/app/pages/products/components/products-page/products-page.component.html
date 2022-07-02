@@ -20,7 +20,7 @@
         <ng-container *ngIf="productsList$ | async as products">
           <app-products-list
             [products]="products"
-            (toCardEvent)="addToCard($event)"
+            (toCartEvent)="addToCart($event)"
             (toFavoriteEvent)="addToFavorite($event)"
             (deleteFromFavoriteEvent)="deleteFromFavorite($event)"
           ></app-products-list>

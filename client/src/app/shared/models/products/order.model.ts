@@ -16,13 +16,13 @@ export interface OrderProductI {
 export interface OrderI {
   id: string;
   status: OrderStatus;
-  list: Array<OrderCardItemDto>;
+  list: Array<OrderCartItemDto>;
 }
 
 export class OrderDto {
   id: string;
   status: OrderStatus;
-  list: Array<OrderCardItemDto>;
+  list: Array<OrderCartItemDto>;
   constructor(order?: OrderI) {
     const { id, status, list } = order || {};
     this.id = id || null;
@@ -31,7 +31,7 @@ export class OrderDto {
   }
 }
 
-export class OrderCardItemDto {
+export class OrderCartItemDto {
   amount: number;
   id: string;
   product: OrderProductDto;

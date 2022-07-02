@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { FavoritesDto } from '@shared/models';
 import { FavoritesApiService } from '@shared/services/api_es/favorites-api/favorites-api.service';
-import { CardStateService } from '@shared/services/card/card-state/card-state.service';
+import { CartStateService } from '@shared/services/cart/cart-state/cart-state.service';
 import { LocalStorageService } from '@shared/storage/local.storage';
 import { BehaviorSubject, combineLatest, merge, Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
@@ -16,7 +16,7 @@ export class FavoritesService {
   constructor(
     private readonly favoritesApiService: FavoritesApiService,
     private readonly favoritesStateService: FavoritesStateService,
-    private readonly cardService: CardStateService,
+    private readonly cartService: CartStateService,
   ) {
     this.favoritesValue$ = new BehaviorSubject<Array<FavoritesDto>>(null); 
   }
@@ -26,14 +26,14 @@ export class FavoritesService {
   }
   
   public getProducts(): Observable<any> {
-    const cardState$ = this.cardService.getCardStateValue();
+    const cartState$ = this.cartService.getCartStateValue();
     const products$ = this.favoritesApiService.getProducts();
     const favoritesProducts$ = merge(products$, this.favoritesValue$).pipe(filter(res => !!res)) as Observable<Array<FavoritesDto>>
-    return combineLatest([favoritesProducts$, cardState$]).pipe(
-      map(([favoritesProducts, cardValue]) => {
+    return combineLatest([favoritesProducts$, cartState$]).pipe(
+      map(([favoritesProducts, cartValue]) => {
         favoritesProducts.map((product) => {
-          const orderProducts = cardValue?.list.map(orderProduct => orderProduct?.product?.id);
-          product.inCard = orderProducts?.includes(product.id);
+          const orderProducts = cartValue?.list.map(orderProduct => orderProduct?.product?.id);
+          product.inCart = orderProducts?.includes(product.id);
           return product;
         })
         return favoritesProducts;

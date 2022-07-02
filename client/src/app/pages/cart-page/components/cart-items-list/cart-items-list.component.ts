@@ -1,15 +1,15 @@
 import { Component, OnInit, ChangeDetectionStrategy, Input, SimpleChanges, Output, EventEmitter } from '@angular/core';
-import { OrderCardItemDto } from '@shared/models';
+import { OrderCartItemDto } from '@shared/models';
 
 @Component({
-  selector: 'app-card-items-list',
-  templateUrl: './card-items-list.component.html',
-  styleUrls: ['./card-items-list.component.scss'],
+  selector: 'app-cart-items-list',
+  templateUrl: './cart-items-list.component.html',
+  styleUrls: ['./cart-items-list.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class CardItemsListComponent implements OnInit {
+export class CartItemsListComponent implements OnInit {
 
-  @Input() cartList: Array<OrderCardItemDto>;
+  @Input() cartList: Array<OrderCartItemDto>;
   @Output() delete = new EventEmitter<string>()
   @Output() setAmount = new EventEmitter<any>()
 

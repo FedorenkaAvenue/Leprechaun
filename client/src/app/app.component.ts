@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MetaService } from '@ngx-meta/core';
 import { FavoritesDto } from '@shared/models';
 import { OrderDto } from '@shared/models/products/order.model';
-import { CardService } from '@shared/services/card/card/card.service';
+import { CartService } from '@shared/services/cart/cart/cart.service';
 import { FavoritesService } from '@shared/services/favorite/favotite/favorites.service';
 import { take } from 'rxjs/operators';
 
@@ -13,7 +13,7 @@ import { take } from 'rxjs/operators';
 export class AppComponent implements OnInit {
   constructor(
     private readonly meta: MetaService,
-    private readonly cardService: CardService,
+    private readonly cartService: CartService,
     private readonly favoritesService: FavoritesService,
 
     ) {
@@ -26,10 +26,10 @@ export class AppComponent implements OnInit {
   }
 
   private getCardState(): void {
-    this.cardService.getProducts().pipe(
+    this.cartService.getProducts().pipe(
       take(1),
     ).subscribe((order: OrderDto) => {
-      this.cardService.updateCard(order);
+      this.cartService.updateCart(order);
     })
   }
 

@@ -77,6 +77,6 @@ export class ProductCardI extends ProductPreviewBaseI {
   labels: Array<ProductLabelI>;
   properties: Array<ProductPropertiesI>;
   isFavorite: boolean;
-  inCard: boolean;
+  inCart: boolean;
 }
 

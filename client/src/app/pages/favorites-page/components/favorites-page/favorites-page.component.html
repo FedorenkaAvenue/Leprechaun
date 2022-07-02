@@ -3,20 +3,21 @@
     <header>
       <h1 class="m-v-3">Улюблені</h1>
     </header>
-    <section class="products-page__wrap gr-4 g-1">
-      <ng-container *ngIf="favoritesData$ | async as products">
-        <ng-container *ngIf="products.length; else emptyContent">
-          <app-favorites-item
-            (addToCard)="addToCard($event)"
+    <ng-container *ngIf="favoritesData$ | async as products">
+      <ng-container *ngIf="products.length; else emptyContent">
+        <ul class="gr-4 g-1">
+          <li *ngFor="let product of products">
+            <app-favorites-item
+            (addToCart)="addToCart($event)"
             (delete)="deleteFromFavorite($event)"
-            *ngFor="let product of products"
             [product]="product"
-          ></app-favorites-item>
-        </ng-container>
+            ></app-favorites-item>
+          </li>
+        </ul>
       </ng-container>
-      <ng-template #emptyContent>
-        <div>тут повинно бути повідомлення про порожній список улюблених товарів</div>
-      </ng-template>
-    </section>
+    </ng-container>
+    <ng-template #emptyContent>
+      <div>тут повинно бути повідомлення про порожній список улюблених товарів</div>
+    </ng-template>
   </div>
 </div>

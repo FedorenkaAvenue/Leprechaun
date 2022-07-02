@@ -6,7 +6,7 @@ import { Observable, of } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 
 @Injectable()
-export class CardApiService {
+export class CartApiService {
   private readonly apiUrl = `${environment?.apiEndpoint}/order`;
   constructor(private readonly http: TransferHttpService) {}
 
@@ -16,11 +16,11 @@ export class CardApiService {
       catchError(() => of(null)) );
   }
 
-  public addProductToCard(product: string): Observable<OrderI> {
+  public addProductToCart(product: string): Observable<OrderI> {
     return this.http.post(`${this.apiUrl}/item`, { product });
   }
 
-  public deleteProductFromCard(id: string): Observable<OrderI> {
+  public deleteProductFromCart(id: string): Observable<OrderI> {
     return this.http.delete(`${this.apiUrl}/item/${id}`);
   }
 

@@ -1,29 +1,32 @@
-  <section class="product">
-    <div class="product__wrap">
-        <a [routerLink]="['/product', product.id]" routerLinkActive="router-link-active">
-        <div class="product-preview__wrap">
-          <div
-            class="product-preview__image"
-            [ngStyle]="{ 'background-image': 'url(' + product?.image + ')' }"
-          >
-          </div>
-        </div>
+<article class="product content p-3">
+  <div class="product__wrap">
+    <a [routerLink]="['/product', product.id]" routerLinkActive="router-link-active" class="product_img">
+        <img [src]="product?.image" />
+    </a>
+    <a [routerLink]="['/product', product.id]" routerLinkActive="router-link-active">
+      <h2>
         <span class="product-title">{{ product?.title }}</span>
-      </a>
-        <div class="product-main">
-          <div class="product__price-wrap">
-            <span class="product__price">1231$</span>
-            <button (click)="addProductToCard(product?.id)" class="icon-btn">
-  
-              <app-leprachaun-icon name="card" [color]="product?.inCard ? 'green' : 'rose'" [width]="22" [height]="22"> </app-leprachaun-icon>
-            </button>
-          </div>
-        </div>
+      </h2>
+    </a>
+    <div class="product-main">
+      <div class="product__price-wrap">
+        <span class="product__price">1231$</span>
+        <button (click)="addProductToCard(product?.id)" class="icon-btn">
+          <app-leprachaun-icon
+            name="card"
+            [color]="product?.inCart ? 'green' : 'rose'"
+            [width]="22"
+            [height]="22"
+          >
+          </app-leprachaun-icon>
+        </button>
       </div>
+    </div>
+  </div>
 
-      <button (click)="deleteFromFavorites(product?.id)" class="product__remove-btn icon-btn">
-  
-        <app-leprachaun-icon name="trash" color="rose" [width]="22" [height]="22"> </app-leprachaun-icon>
-        <!-- <app-leprachaun-icon name="cardSelected" color="rose" [width]="22" [height]="22"> </app-leprachaun-icon> -->
-      </button>
-  </section>
+  <button (click)="deleteFromFavorites(product?.id)" class="product__remove-btn icon-btn">
+    <app-leprachaun-icon name="trash" color="rose" [width]="22" [height]="22">
+    </app-leprachaun-icon>
+    <!-- <app-leprachaun-icon name="cardSelected" color="rose" [width]="22" [height]="22"> </app-leprachaun-icon> -->
+  </button>
+</article>

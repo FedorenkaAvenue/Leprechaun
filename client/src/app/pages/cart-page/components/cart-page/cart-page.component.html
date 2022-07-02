@@ -6,13 +6,13 @@
       </header>
       <section class="cart-page__wrapper g-4">
         <div class="cart-list">
-          <app-card-items-list
+          <app-cart-items-list
             [cartList]="(cartData$ | async)?.list"
             (delete)="deleteFromCart($event)"
             (setAmount)="setProductAmount($event)"
             class="fl-c g-2"
           >
-          </app-card-items-list>
+          </app-cart-items-list>
         </div>
         <div class="cart-data content p-4">
           <app-cart-details [cartData]="cartData" (changeUserData)="sendOrder($event, cartData)"></app-cart-details>

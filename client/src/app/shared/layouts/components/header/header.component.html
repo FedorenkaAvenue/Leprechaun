@@ -25,10 +25,10 @@
         </a>
       </li>
       <li>
-        <a [routerLink]="['/card']" routerLinkActive="active" class="header_cart main-btn">
-          <app-leprachaun-icon name="card" color="gray"> </app-leprachaun-icon>
-          <ng-container *ngIf="(cardValue$ | async)?.length as cardCount">
-            <span>{{cardCount}}</span>
+        <a [routerLink]="['/cart']" routerLinkActive="active" class="header_cart main-btn">
+          <app-leprachaun-icon name="cart" color="gray"> </app-leprachaun-icon>
+          <ng-container *ngIf="(cartValue$ | async)?.length as cartCount">
+            <span>{{cartCount}}</span>
           </ng-container>
         </a>
       </li>

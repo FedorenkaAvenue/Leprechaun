@@ -2,7 +2,7 @@
   <ng-container *ngFor="let product of products?.data">
     <app-product-card
     [product]="product"
-    (toCardEvent)="addToCard($event)"
+    (toCartEvent)="addToCart($event)"
     (toFavoriteEvent)="addToFavorite($event)"
     (deleteFromFavoriteEvent)="deleteFromFavorite($event)"
     ></app-product-card>

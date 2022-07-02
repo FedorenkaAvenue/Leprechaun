@@ -1,7 +1,7 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { FavoritesDto } from '@shared/models';
 import { OrderDto } from '@shared/models/products/order.model';
-import { CardService } from '@shared/services/card/card/card.service';
+import { CartService } from '@shared/services/cart/cart/cart.service';
 import { FavoritesService } from '@shared/services/favorite/favotite/favorites.service';
 import { LpchRouterService } from '@shared/services/router/lpch-router.service';
 import { Observable } from 'rxjs';
@@ -18,7 +18,7 @@ export class FavoritesPageComponent implements OnInit {
   public favoritesData$: Observable<FavoritesDto[]>;
   constructor(
     private readonly favoritesService: FavoritesService,
-    private readonly cardService: CardService,
+    private readonly cartService: CartService,
     private readonly lpchRouterService: LpchRouterService,
   ) { }
 
@@ -26,14 +26,14 @@ export class FavoritesPageComponent implements OnInit {
     this.favoritesData$ = this.favoritesService.getProducts()
   }
 
-  public addToCard(productId: string): void {
-    const productInCard = this.cardService.checkAvailabilityInCard(productId);
-    if(productInCard) {
-      this.lpchRouterService.navigateToCard();
+  public addToCart(productId: string): void {
+    const productinCart = this.cartService.checkAvailabilityInCart(productId);
+    if(productinCart) {
+      this.lpchRouterService.navigateToCart();
       return
     }
-    this.cardService.addToCard(productId).subscribe((order: OrderDto) => {
-      this.cardService.updateCard(order);
+    this.cartService.addToCart(productId).subscribe((order: OrderDto) => {
+      this.cartService.updateCart(order);
     })
   }
 

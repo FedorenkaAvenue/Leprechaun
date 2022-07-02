@@ -1,16 +1,16 @@
 import { Component, OnInit, ChangeDetectionStrategy, Input, Output, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
-import { OrderCardItemDto } from '@shared/models/products/order.model';
+import { OrderCartItemDto } from '@shared/models/products/order.model';
 
 
 @Component({
-  selector: 'app-card-item',
-  templateUrl: './card-item.component.html',
-  styleUrls: ['./card-item.component.scss'],
+  selector: 'app-cart-item',
+  templateUrl: './cart-item.component.html',
+  styleUrls: ['./cart-item.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class CardItemComponent implements OnInit {
+export class CartItemComponent implements OnInit {
 
-  @Input() product: OrderCardItemDto;
+  @Input() product: OrderCartItemDto;
   @Output() delete = new EventEmitter<void>()
   @Output() setAmount = new EventEmitter<number>()
   public showAmountError: boolean
@@ -20,7 +20,7 @@ export class CardItemComponent implements OnInit {
   ngOnInit(): void {
   }
   
-  public deleteFromCard(): void {
+  public deleteFromCart(): void {
     this.delete.emit()
   }
 

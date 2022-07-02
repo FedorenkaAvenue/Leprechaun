@@ -19,9 +19,9 @@ import { LeprachaunIconsModule } from '@shared/modules/leprachaun-icons';
 import { AuthService } from '@shared/services/auth/auth.service';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { LocalStorageService } from '@shared/storage/local.storage';
-import { CardApiService } from '@shared/services/api_es/card-api/card-api.service';
-import { CardService } from '@shared/services/card/card/card.service';
-import { CardStateService } from '@shared/services/card/card-state/card-state.service';
+import { CartApiService } from '@shared/services/api_es/cart-api/cart-api.service';
+import { CartService } from '@shared/services/cart/cart/cart.service';
+import { CartStateService } from '@shared/services/cart/cart-state/cart-state.service';
 import { WithCredentialsInterceptor } from '@shared/interceptors/with-cred.interceptor';
 import { withCredentialsInterceptor } from '@shared/interceptors/withCred.interceptor';
 import { FavoritesStateService } from '@shared/services/favorite/favorite-state/favorites-state.service';
@@ -48,9 +48,9 @@ import { FavoritesStateService } from '@shared/services/favorite/favorite-state/
     UniversalStorage,
     LocalStorageService,
     AuthService,
-    CardService,
-    CardApiService,
-    CardStateService,
+    CartService,
+    CartApiService,
+    CartStateService,
     FavoritesStateService,
     {
       provide: HTTP_INTERCEPTORS,

@@ -1,32 +1,32 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CustomerData, OrderDto, ProductAmountPayload } from '@shared/models/products/order.model';
-import { CardService } from '@shared/services/card/card/card.service';
+import { CartService } from '@shared/services/cart/cart/cart.service';
 import { Observable } from 'rxjs';
 import { take } from 'rxjs/operators';
 @Component({
-  selector: 'app-card-page',
-  templateUrl: './card-page.component.html',
-  styleUrls: ['./card-page.component.scss'],
+  selector: 'app-cart-page',
+  templateUrl: './cart-page.component.html',
+  styleUrls: ['./cart-page.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CardPageComponent implements OnInit {
+export class CartPageComponent implements OnInit {
   public cartData$: Observable<OrderDto>;
  
-  constructor(private readonly cardService: CardService) {
+  constructor(private readonly cartService: CartService) {
    
   }
 
   ngOnInit(): void {
-    this.cartData$ = this.cardService.getCardValue();
+    this.cartData$ = this.cartService.getCartValue();
   }
 
   public deleteFromCart(id: string): void {
-    this.cardService
+    this.cartService
       .deleteProduct(id)
       .pipe(take(1))
       .subscribe((order: OrderDto) => {
-        this.cardService.updateCard(order);
+        this.cartService.updateCart(order);
       });
   }
 
@@ -36,11 +36,11 @@ export class CardPageComponent implements OnInit {
       order_item,
     };
 
-    this.cardService
+    this.cartService
       .setAmount(data)
       .pipe(take(1))
       .subscribe((order: OrderDto) => {
-        this.cardService.updateCard(order);
+        this.cartService.updateCart(order);
       });
   }
 
@@ -48,6 +48,6 @@ export class CardPageComponent implements OnInit {
     const customerData: CustomerData = customerForm;
     const phone = customerData?.phone.replace(/[^0-9]/g, '');
     const customer = { ...customerData, phone };
-    this.cardService.sendOrder(order, customer).subscribe((res) => {});
+    this.cartService.sendOrder(order, customer).subscribe((res) => {});
   }
 }

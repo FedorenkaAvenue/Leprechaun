@@ -7,5 +7,5 @@ export class FavoritesDto {
   price: PriceI;
   status: ProductStatus;
   title: string;
-  inCard?: boolean;
+  inCart?: boolean;
 }
