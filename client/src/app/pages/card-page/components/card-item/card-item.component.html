@@ -1,25 +1,23 @@
-<div class="product">
-  <div class="product-content">
-    <a [routerLink]="['/product/', product?.id]" class="product-image">
-      <img [src]="product?.product?.image" alt="" />
-    </a>
-    <div class="product-info">
+<div class="product g-3 p-3 content">
+  <a [routerLink]="['/product/', product?.id]" class="product_first">
+    <img [src]="product?.product?.image" alt="" />
+  </a>
+  <div class="product_second">
+    <div class="fs-2">
       <a [routerLink]="['/product/', product?.id]" class="product-title">{{
         product?.product?.title
       }}</a>
-      <app-lpch-counter-input
-        (changeCount)="setProductAmount($event)"
-        [value]="product?.amount"
-      ></app-lpch-counter-input>
-      <span *ngIf="showAmountError"> Мінімальна кількість товару 1 шт </span>
     </div>
-    <div class="product-controls">
-      <button (click)="deleteFromCard()">
-        <app-leprachaun-icon name="close" width="12" heigh="12"></app-leprachaun-icon>
-      </button>
-    </div>
+    <span *ngIf="showAmountError"> Мінімальна кількість товару 1 шт </span>
   </div>
-  <div class="product-footer">
+  <div class="product_third fl-c">
     <app-product-price [price]="product?.product?.price"></app-product-price>
+    <button (click)="deleteFromCard()">
+      <app-leprachaun-icon name="close" width="12" heigh="12"></app-leprachaun-icon>
+    </button>
+    <app-lpch-counter-input
+      (changeCount)="setProductAmount($event)"
+      [value]="product?.amount"
+    ></app-lpch-counter-input>
   </div>
 </div>

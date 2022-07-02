@@ -3,9 +3,3 @@
 .dashboard {
     display: block;
 }
-
-.list {
-    display: grid;
-    grid-gap: #{layouts.$space-1}px;
-    grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
-}

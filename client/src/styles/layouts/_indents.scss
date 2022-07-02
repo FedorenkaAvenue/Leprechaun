@@ -34,4 +34,10 @@ $sizes: layouts.$space-0, layouts.$space-1, layouts.$space-2, layouts.$space-3, 
 	.m-b-#{$i - 1} {
 		margin-bottom: #{nth($sizes, $i)}px;
 	}
+
+	// gap
+
+	.g-#{$i - 1} {
+		gap: #{nth($sizes, $i)}px;
+	}
 }

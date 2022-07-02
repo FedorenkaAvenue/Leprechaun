@@ -2,6 +2,7 @@
 
 input {
   border: none;
+
   &.bg-trans {
     background: transparent;
   }
@@ -9,15 +10,19 @@ input {
 
 .form-control {
   position: relative;
+
   label {
     user-select: none;
   }
+
   input {
     width: 100%;
     height: 42px;
     transition: all 0.15s ease-out;
+
     &:focus, &:active {
       border-color: colors.$color-primary;
+      
       & ~ label {
         // If label behavior needed
       }

@@ -2,6 +2,7 @@
 
 * {
   box-sizing: border-box;
+  
   &:active,
   &:hover,
   &:focus {
@@ -20,7 +21,6 @@ body {
   height: 100%;
   background-color: colors.$body-background;
   color: colors.$body-text;
-  font: 14px Roboto, 'Raleway', sans-serif;
   font-weight: 400;
   padding: 0;
   margin: 0;
@@ -33,4 +33,9 @@ body {
 
 main {
   width: 100%;
+}
+
+a {
+  color: initial;
+  text-decoration: initial;
 }

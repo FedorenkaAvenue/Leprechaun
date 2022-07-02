@@ -1,8 +1,6 @@
 @use '../../../../../styles/variables/colors';
-// @use '../../../../../styles/helpers/padding';
 
 .header {
-    // @include padding.padding($s: 2, $v: true);
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -12,20 +10,12 @@
     font-size: 28px;
   }
 
-  &_actions {
-    display: flex;
-    align-items: center;
-  }
+  &_nav {
+    font-weight: bold;
 
-  &_help {
-      margin-right: 24px;
-  }
-  
-  &_favorites {
-      margin-right: 24px;
-  }
-
-  &_cart {
-    margin-left: 24px;
+    ul {
+      display: flex;
+      align-items: center;
+    }
   }
 }

@@ -1,10 +1,6 @@
 @use '/src/styles/variables/layouts';
+
 .card-page {
   max-width: layouts.$container-width;
   margin: 0 auto;
-}
-
-.products-page__wrap {
-  display: flex;
-  flex-wrap: wrap;
 }

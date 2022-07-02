@@ -44,9 +44,9 @@ export class CardPageComponent implements OnInit {
       });
   }
 
-  public sendOrder(order: OrderDto): void {
-    const customerData: CustomerData = this.userForm.value;
-    const phone = +customerData?.phone.replace(/[^0-9]/g, '');
+  public sendOrder(customerForm: any, order: any): void {
+    const customerData: CustomerData = customerForm;
+    const phone = customerData?.phone.replace(/[^0-9]/g, '');
     const customer = { ...customerData, phone };
     this.cardService.sendOrder(order, customer).subscribe((res) => {});
   }

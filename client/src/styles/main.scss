@@ -1,4 +1,6 @@
-@forward 'reset';
+@forward 'core/reset';
 @forward 'core/base';
 @forward 'core/fonts';
+
 @forward 'layouts/index';
+@forward "components/index";

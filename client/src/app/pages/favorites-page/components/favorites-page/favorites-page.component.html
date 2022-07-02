@@ -1,9 +1,9 @@
 <div class="favorites-page__wrapper">
   <div class="favorites-page">
     <header>
-      <h1>Улюблені</h1>
+      <h1 class="m-v-3">Улюблені</h1>
     </header>
-    <section class="products-page__wrap">
+    <section class="products-page__wrap gr-4 g-1">
       <ng-container *ngIf="favoritesData$ | async as products">
         <ng-container *ngIf="products.length; else emptyContent">
           <app-favorites-item
@@ -17,9 +17,6 @@
       <ng-template #emptyContent>
         <div>тут повинно бути повідомлення про порожній список улюблених товарів</div>
       </ng-template>
-      <!-- <ng-container *ngFor="let product of products$ | async as products">
-            
-            </ng-container> -->
     </section>
   </div>
 </div>

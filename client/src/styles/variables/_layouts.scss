@@ -7,6 +7,12 @@ $space-3: 4  * core.$space-core;
 $space-4: 8  * core.$space-core;
 $space-5: 16 * core.$space-core;
 
+$box-size-1: 0.5 * core.$box-size;
+$box-size-2: 0.75  * core.$box-size;
+$box-size-3: 1    * core.$box-size;
+$box-size-4: 1.25 * core.$box-size;
+$box-size-5: 1.5  * core.$box-size;
+
 $container-width: 1300px;
 
 $media-breakpoints: (
