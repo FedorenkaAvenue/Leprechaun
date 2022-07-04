@@ -1,19 +1,21 @@
-<div class="product-preview content p-2 fl-c">
+<div class="product-preview content p-3 fl-c">
   <a
     class="product-image m-b-2"
     [routerLink]="['/product', product.id]"
     routerLinkActive="router-link-active"
   >
-    <img class="product-preview__image" [src]="product?.image" [alt]="product?.title" />
+    <img class="product-preview_image" [src]="product?.image" [alt]="product?.title" />
   </a>
   <a
     [routerLink]="['/product', product.id]"
     [title]="product?.title"
     routerLinkActive="router-link-active"
-    class="product-title fs-2 m-b-2"
-    >{{product?.title}}</a
+    class="product-preview_title fs-2 m-b-2"
+    >
+      {{product?.title}}
+    </a
   >
-  <div class="product__price-wrap">
+  <div class="product-preview_price-wrap">
     <app-product-price [price]="product?.price"></app-product-price>
     <button
       (click)="

@@ -1,9 +1,18 @@
 <div class="product-price fl-c fs-3">
   <ng-container *ngIf="price?.old; else simplePrice">
-    <span class="price-old fs-2">{{ price?.old | numberBySpace}} &#8372;</span>
-    <span class="price-current">{{ price?.current | numberBySpace }} &#8372;</span>
+    <span class="product-price_old fs-2 fc-1">
+      {{ price?.old | numberBySpace}}
+      <span class="fs-2">&#8372;</span>
+    </span>
+    <span class="product-price_current">
+      {{ price?.current | numberBySpace }}
+      <span class="fs-2">&#8372;</span>
+    </span>
   </ng-container>
   <ng-template #simplePrice>
-    <span class="price-simple">{{ price?.current | numberBySpace }} &#8372;</span>
+    <span class="price-simple">
+      {{ price?.current | numberBySpace }}
+      <span class="fs-2">&#8372;</span>
+    </span>
   </ng-template>
 </div>
