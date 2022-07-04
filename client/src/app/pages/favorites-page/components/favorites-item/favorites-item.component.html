@@ -10,7 +10,7 @@
     </a>
     <div class="product-main">
       <div class="product__price-wrap">
-        <span class="product__price">1231$</span>
+        <app-product-price [price]="product?.price"></app-product-price>
         <button (click)="addProductToCard(product?.id)" class="icon-btn">
           <app-leprachaun-icon
             name="card"
