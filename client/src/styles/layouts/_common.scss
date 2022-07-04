@@ -14,4 +14,10 @@
 .content {
     background-color: colors.$content-background;
     box-shadow: design.$box-shadow-1;
+    transition: box-shadow .5s;
+    // border: 1px solid colors.$white-2;
+
+    &:hover {
+        box-shadow: design.$box-shadow-2;
+    }
 }

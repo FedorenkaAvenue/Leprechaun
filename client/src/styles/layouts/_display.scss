@@ -15,5 +15,6 @@ $box-sizes: layouts.$box-size-1, layouts.$box-size-2, layouts.$box-size-3, layou
 	.gr-#{$i} {
         display: grid;
         grid-template-columns: repeat(auto-fill, minmax(#{nth($box-sizes, $i)}px, 1fr));
+        // grid-auto-rows: #{nth($box-sizes, $i) * 1.5}px;
 	}
 }

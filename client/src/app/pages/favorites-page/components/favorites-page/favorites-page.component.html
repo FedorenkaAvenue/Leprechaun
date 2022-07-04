@@ -1,7 +1,7 @@
 <div class="favorites-page__wrapper">
   <div class="favorites-page">
     <header>
-      <h1 class="m-v-3">Улюблені</h1>
+      <h1>Улюблені</h1>
     </header>
     <ng-container *ngIf="favoritesData$ | async as products">
       <ng-container *ngIf="products.length; else emptyContent">

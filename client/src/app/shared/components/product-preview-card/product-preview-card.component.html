@@ -4,9 +4,7 @@
     [routerLink]="['/product', product.id]"
     routerLinkActive="router-link-active"
   >
-    <!-- <div class="product-preview__wrap"> -->
     <img class="product-preview__image" [src]="product?.image" [alt]="product?.title" />
-    <!-- </div> -->
   </a>
   <a
     [routerLink]="['/product', product.id]"
@@ -15,24 +13,21 @@
     class="product-title fs-2 m-b-2"
     >{{product?.title}}</a
   >
-  <div class="product-main">
-    <div class="product__price-wrap">
-      <app-product-price [price]="product?.price"></app-product-price>
-      <button
-        (click)="
-          product?.isFavorite ? deleteFromFavorites(product?.id) : addToFavorites(product?.id)
-        "
-        class="product__remove-btn icon-btn"
+  <div class="product__price-wrap">
+    <app-product-price [price]="product?.price"></app-product-price>
+    <button
+      (click)="
+        product?.isFavorite ? deleteFromFavorites(product?.id) : addToFavorites(product?.id)
+      "
+      class="product__remove-btn icon-btn"
+    >
+      <app-leprachaun-icon
+        name="heart"
+        [strokedColor]="product?.isFavorite ? 'rose' : 'none'"
+        [width]="22"
+        [height]="22"
       >
-        <app-leprachaun-icon
-          name="heart"
-          [strokedColor]="product?.isFavorite ? 'rose' : 'none'"
-          [width]="22"
-          [height]="22"
-        >
-        </app-leprachaun-icon>
-        <!-- <app-leprachaun-icon name="cardSelected" color="rose" [width]="22" [height]="22"> </app-leprachaun-icon> -->
-      </button>
-    </div>
+      </app-leprachaun-icon>
+    </button>
   </div>
 </div>

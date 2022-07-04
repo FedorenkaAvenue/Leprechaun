@@ -3,25 +3,23 @@
 $white-1: white;
 $white-2: #f7f8f9;
 
-$gray-1: #d3d3d34d;
-$gray-2: lightgray;
-$gray-3: gray;
+$gray-1: lightgray;
+$gray-2: gray;
 
-$black-1: black;
+$black-1: #383636;
+$black-2: black;
 
 $blue-1: lightskyblue;
 $blue-2: blue;
-$blue-3: mediumblue;
 
 $red-1: indianred;
 $red-2: red;
-$red-3: darkred;
 
 // DERIVATIVES
 
 //shadows
-$shadow-1: $gray-1;
-$shadow-2: $gray-2;
+$shadow-1: rgba($gray-1, .5);
+$shadow-2: rgba($gray-2, .5);
 
 // body
 $body-background: $white-2;
@@ -30,6 +28,6 @@ $body-background: $white-2;
 $content-background: $white-1;
 
 // fonts
-$font-color-1: $gray-2;
-$font-color-2: $gray-3;
-$font-color-3: $black-1;
+$font-color-1: $gray-1;
+$font-color-2: $gray-2;
+$font-color-3: $black-2;
