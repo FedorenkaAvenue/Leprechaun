@@ -3,7 +3,7 @@
 $white-1: white;
 $white-2: #f7f8f9;
 
-$gray-1: lightgray;
+$gray-1: #a6a5a5;
 $gray-2: gray;
 
 $black-1: #383636;
@@ -13,7 +13,7 @@ $blue-1: lightskyblue;
 $blue-2: blue;
 
 $red-1: indianred;
-$red-2: red;
+$red-2: #f84147;
 
 // DERIVATIVES
 
@@ -29,5 +29,6 @@ $content-background: $white-1;
 
 // fonts
 $font-color-1: $gray-1;
-$font-color-2: $gray-2;
-$font-color-3: $black-2;
+$font-color-2: $black-2;
+
+$font-attention-color: $red-2;

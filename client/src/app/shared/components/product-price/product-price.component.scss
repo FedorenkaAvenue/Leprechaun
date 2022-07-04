@@ -1,18 +1,13 @@
+@use "../../../../styles/variables/colors" as colors;
+
 .product-price {
-    color: #221f1f;
-}
+    line-height: 18px;
 
-.price {
-    &-old {
+    &_old {
         text-decoration: line-through;
-        color: #a6a5a5;
     }
 
-    &-current {
-        color: #f84147;
-    }
-
-    &-simple {
-
+    &_current {
+        color: colors.$font-attention-color;;
     }
 }

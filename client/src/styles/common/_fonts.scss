@@ -1,6 +1,9 @@
 @use '../variables/fonts' as fonts;
+@use '../variables/colors' as colors;
 
 $font-sizes: fonts.$font-size-1, fonts.$font-size-2, fonts.$font-size-3, fonts.$font-size-4;
+
+// sizes
 
 @for $i from 1 to length($font-sizes) + 1 {
 	.fs-#{$i} {
@@ -8,10 +11,22 @@ $font-sizes: fonts.$font-size-1, fonts.$font-size-2, fonts.$font-size-3, fonts.$
 	}
 }
 
+// families
+
 .ff-1 {
 	font-family: 'Raleway', Roboto, sans-serif;
 }
 
 .ff-2 {
 	font-family: 'Raleway', Roboto, sans-serif;
+}
+
+// colors
+
+.fc-1 {
+	color: colors.$font-color-1;
+}
+
+.fc-2 {
+	color: colors.$font-color-2;
 }
