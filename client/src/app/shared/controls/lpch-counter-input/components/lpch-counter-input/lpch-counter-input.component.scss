@@ -1,13 +1,14 @@
 @use '../../../../../../styles/variables/colors';
+
 .text-control {
+  border: none;
+
   &__wrap {
     display: flex;
   }
+
   &__input {
     width: 50px;
-    margin: 0 5px;
-    padding: 10px 8px;
     text-align: center;
-    background: none;
   }
 }

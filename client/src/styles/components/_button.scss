@@ -3,8 +3,13 @@
 button {
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   border: none;
   background: transparent;
+  min-width: 30px;
+  min-height: 30px;
+  font-size: inherit;
+  cursor: pointer;
 }
 
 .main-btn {
@@ -26,27 +31,5 @@ button {
 
   .btn-label {
     margin-left: 5px;
-  }
-}
-
-.rose-btn {
-  padding: 10px 16px;
-  border: none;
-  border-radius: 8px;
-  // background: colors.$btn-rose;
-  // font-family: colors.$base-font;
-  font-size: 14px;
-  font-weight: 500;
-  line-height: 20px;
-
-  &:hover {
-    // background: colors.$btn-light-rose;
-    cursor: pointer;
-  }
-
-  &:disabled {
-    cursor: initial;
-    background-color: #eee;
-    color: #000;
   }
 }

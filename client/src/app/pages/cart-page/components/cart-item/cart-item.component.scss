@@ -18,10 +18,13 @@ $image_size: 150px;
 
     &_second {
         flex-grow: 1;
+        align-items: flex-start;
+        justify-content: space-between;
     }
 
     &_third {
         align-items: flex-end;
         justify-content: space-between;
+        text-align: right;
     }
 }
