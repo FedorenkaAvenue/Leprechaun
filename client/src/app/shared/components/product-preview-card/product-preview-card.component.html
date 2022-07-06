@@ -1,4 +1,5 @@
 <div class="product-preview content p-3 fl-c">
+  <ng-content select=".remove-btn"></ng-content>
   <a
     class="product-image m-b-2"
     [routerLink]="['/product', product.id]"
@@ -17,19 +18,8 @@
   >
   <div class="product-preview_price-wrap">
     <app-product-price [price]="product?.price"></app-product-price>
-    <button
-      (click)="
-        product?.isFavorite ? deleteFromFavorites(product?.id) : addToFavorites(product?.id)
-      "
-      class="product__remove-btn icon-btn"
-    >
-      <app-leprachaun-icon
-        name="heart"
-        [strokedColor]="product?.isFavorite ? 'rose' : 'none'"
-        [width]="22"
-        [height]="22"
-      >
-      </app-leprachaun-icon>
-    </button>
+    <ng-content select=".favorites-btn"></ng-content>
   </div>
+ 
+ 
 </div>

@@ -8,6 +8,7 @@ import { FavoritesApiService } from '@shared/services/api_es/favorites-api/favor
 import { FavoritesPageService } from './services/favorites-page.service';
 import { closeIcon, LeprachaunIconRegistryService, LeprachaunIconsModule, trashIcon } from '@shared/modules/leprachaun-icons';
 import { ProductPriceModule } from '@shared/components/product-price/product-price.module';
+import { ProductPreviewCardModule } from '@shared/components/product-preview-card/product-preview-card.module';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import { ProductPriceModule } from '@shared/components/product-price/product-pri
     CommonModule,
     FavoritesPageRoutingModule,
     LeprachaunIconsModule,
-    ProductPriceModule
+    ProductPriceModule,
+    ProductPreviewCardModule
   ],
   providers: [
     FavoritesApiService,

@@ -3,10 +3,22 @@
   <ul class="list gr-3 g-1">
     <li *ngFor="let product of products">
       <app-product-preview-card
-        (toFavoriteEvent)="addToFavorite($event)"
-        (deleteFromFavoriteEvent)="deleteFromFavorite($event)"
         [product]="product"
       >
+      <button
+      (click)="
+        product?.isFavorite ? deleteFromFavorite(product?.id) : addToFavorite(product?.id)
+      "
+      class="favorites-btn icon-btn"
+    >
+      <app-leprachaun-icon
+        name="heart"
+        [strokedColor]="product?.isFavorite ? 'rose' : 'none'"
+        [width]="22"
+        [height]="22"
+      >
+      </app-leprachaun-icon>
+    </button>
       </app-product-preview-card>
     </li>
   </ul>

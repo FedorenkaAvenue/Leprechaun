@@ -1,12 +1,16 @@
 <section class="home">
   <div class="home__banner"></div>
   <ng-container *ngIf="products$ | async as commonProducts">
-    <app-dashboard
+    <ng-container  *ngIf="historyProducts$ | async as historyProducts">
+      <app-dashboard
+      *ngIf="historyProducts?.length"
       [title]="'Products History'"
       [products]="historyProducts$ | async"
       (toFavoriteEvent)="addToFavorite($event)"
       (deleteFromFavoriteEvent)="deleteFromFavorite($event)"
     ></app-dashboard>
+    </ng-container>  
+  
     <app-dashboard
       [title]="'New Product'"
       [products]="commonProducts?.newest"

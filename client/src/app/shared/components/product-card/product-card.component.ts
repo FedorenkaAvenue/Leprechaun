@@ -10,7 +10,7 @@ import { ProductCardI } from '@shared/models/products/products.model';
 export class ProductCardComponent implements OnInit {
 
   @Input() product: ProductCardI;
-  @Output() toCardEvent: EventEmitter<number> = new EventEmitter<number>();
+  @Output() toCartEvent: EventEmitter<number> = new EventEmitter<number>();
   @Output() toFavoriteEvent: EventEmitter<string> = new EventEmitter<string>();
   @Output() deleteFromFavoriteEvent: EventEmitter<string> = new EventEmitter<string>();
 
@@ -19,8 +19,8 @@ export class ProductCardComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  addToCard(productId: number): void {
-    this.toCardEvent.emit(productId);
+  addToCart(productId: number): void {
+    this.toCartEvent.emit(productId);
   }
 
   addToFavorite(productId: string): void {
