@@ -25,4 +25,4 @@ export class ProductPreviewCardComponent implements OnInit {
    deleteFromFavorites(productId: string): void {
     this.deleteFromFavoriteEvent.emit(productId)
   }
-}
+} 
