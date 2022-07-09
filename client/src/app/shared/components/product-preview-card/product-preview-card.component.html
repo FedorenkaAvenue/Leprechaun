@@ -1,6 +1,10 @@
 <div class="product-preview content p-3 fl-c">
   <ng-content select=".remove-btn"></ng-content>
-  <!-- <app-product-label [labelData]="product?.labels"></app-product-label> -->
+  
+  <app-product-labels
+  *ngIf="product?.labels?.length"
+  [labelsData]="product?.labels"
+></app-product-labels>
   <a
   class="product-image m-b-2"
   [routerLink]="['/product', product.id]"

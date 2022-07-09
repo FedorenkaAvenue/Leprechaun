@@ -64,6 +64,7 @@ export class ProductPreviewBaseI {
   price: PriceI;
   status: number;
   isFavorite: boolean;
+  labels: Array<ProductLabelI>;
 }
 export class ProductCardI extends ProductPreviewBaseI {
   category: CategoryI;

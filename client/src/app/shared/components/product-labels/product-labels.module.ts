@@ -1,18 +1,18 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ProductLabelComponent } from './product-label.component';
+import { ProductLabelsComponent } from './product-labels.component';
 
 
 
 @NgModule({
   declarations: [
-    ProductLabelComponent
+    ProductLabelsComponent
   ],
   imports: [
     CommonModule
   ],
   exports: [
-    ProductLabelComponent
+    ProductLabelsComponent
   ]
 })
-export class ProductLabelModule { }
+export class ProductLabelsModule { }
