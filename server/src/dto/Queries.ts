@@ -1,6 +1,7 @@
-import { DinamicQueryFilters, IPriceSearchQuery, ISearchQueries, ISearchReqQueries, SortType } from '@interfaces/Queries';
-import { ProductStatus } from '@interfaces/Product';
+import { DinamicQueryFilters, IPriceSearchQuery, ISearchQueries, ISearchReqQueries } from '@interfaces/Queries';
+import { SortType } from '@enums/Query';
 import { availableEnum } from '@utils/enum';
+import { ProductStatus } from '@enums/Product';
 
 /**
  * @description create range object for filters

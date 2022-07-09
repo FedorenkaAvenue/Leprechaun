@@ -6,7 +6,8 @@ import { OrderEntity } from '@entities/Order';
 import { OrderItemEntity } from '@entities/OrderItem';
 import { UpdateOrderStatusDTO, CreateOrderDTO, OrderPublicDTO } from '@dto/Order';
 import { ISession } from '@interfaces/Session';
-import { IOrder, IOrderPublic, OrderStatus } from '@interfaces/Order';
+import { IOrder, IOrderPublic } from '@interfaces/Order';
+import { OrderStatus } from '@enums/Order';
 import { CreateOrderItemDTO, UpdateOrderItemDTO } from '@dto/OrderItem';
 import { IOrderItem } from '@interfaces/OrderItem';
 

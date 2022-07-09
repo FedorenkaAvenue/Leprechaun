@@ -1,7 +1,8 @@
 import { Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { ApiProperty } from '@nestjs/swagger';
 
-import { IOrderBase, IOrder, OrderStatus, IOrderCustomerData } from '@interfaces/Order';
+import { IOrderBase, IOrder, IOrderCustomerData } from '@interfaces/Order';
+import { OrderStatus } from '@enums/Order';
 import { IOrderItem } from '@interfaces/OrderItem';
 import { OrderItemEntity } from './OrderItem';
 

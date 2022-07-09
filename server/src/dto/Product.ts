@@ -2,7 +2,8 @@ import { ApiProperty } from '@nestjs/swagger';
 import { IsBoolean, IsBooleanString, IsEnum, IsNotEmpty, IsNumberString, IsOptional, IsString } from 'class-validator';
 
 import { ICategory } from '@interfaces/Category';
-import { IPrice, IProduct, IProductPreview, IPublicProduct, ProductStatus } from '@interfaces/Product';
+import { IPrice, IProduct, IProductPreview, IPublicProduct } from '@interfaces/Product';
+import { ProductStatus } from '@enums/Product';
 import { IProperty } from '@interfaces/Property';
 import { IImage } from '@interfaces/Image';
 import { BaseProductEntity, PublicProductEntity } from '@entities/Product';

@@ -4,7 +4,8 @@ import {
     OneToMany, PrimaryGeneratedColumn
 } from 'typeorm';
 import { CategoryEntity } from '@entities/Category';
-import { IBaseProduct, IPrice, IProduct, IPublicProduct, ProductStatus } from '@interfaces/Product';
+import { IBaseProduct, IPrice, IProduct, IPublicProduct } from '@interfaces/Product';
+import { ProductStatus } from '@enums/Product';
 import { ImageEntity } from '@entities/Image';
 import { ICategory } from '@interfaces/Category';
 import { ILabel } from '@interfaces/Label';

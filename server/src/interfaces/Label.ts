@@ -1,14 +1,6 @@
-import { IProduct } from '@interfaces/Product';
+import { LabelType } from '@enums/Label';
 
 export interface ILabel {
-    id?: number
     value: string
     type: LabelType
-    products?: Array<IProduct>
-    comment: string
-}
-
-export enum LabelType {
-    DISCOUNT = 'discount',
-    NEW = 'new'
 }

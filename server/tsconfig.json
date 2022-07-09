@@ -26,7 +26,8 @@
       "@templates/*": ["templates/*"],
       "@pipes/*": ["pipes/*"],
       "@utils/*": ["utils/*"],
-      "@filters/*": ["filters/*"]
+      "@filters/*": ["filters/*"],
+      "@enums/*": ["enums/*"]
     },
   }
 }
