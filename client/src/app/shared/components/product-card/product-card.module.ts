@@ -6,7 +6,7 @@ import { RouterModule } from '@angular/router';
 import { cartIcon, cartSelectedIcon, heartIcon, heartIconFilled, LeprachaunIconRegistryService, LeprachaunIconsModule } from '@shared/modules/leprachaun-icons';
 import { CurtainsModule } from '@shared/directives/curtains/curtains.module';
 import { ProductPriceModule } from '../product-price/product-price.module';
-import { ProductLabelModule } from '../product-label/product-label.module';
+import { ProductLabelsModule } from '../product-labels/product-labels.module';
 
 
 
@@ -20,7 +20,7 @@ import { ProductLabelModule } from '../product-label/product-label.module';
     LeprachaunIconsModule,
     CurtainsModule,
     ProductPriceModule,
-    ProductLabelModule
+    ProductLabelsModule
   ],
   exports: [
     ProductCardComponent
