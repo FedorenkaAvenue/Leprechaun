@@ -4,13 +4,13 @@ import { ILabel } from '@interfaces/Label';
 import { LabelType } from 'enums/Label';
 
 export class LabelDTO implements ILabel {
-    @ApiProperty({ enum: LabelType })
+    @ApiProperty({ enum: LabelType, required: true })
     type: LabelType;
 
     @ApiProperty({ required: false })
-    value: string;
+    value?: string;
 
-    constructor(type: ILabel['type'], value: ILabel['value']) {
+    constructor(type: ILabel['type'], value?: ILabel['value']) {
         this.type = type;
         this.value = value || null;
     }

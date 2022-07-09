@@ -10,10 +10,13 @@ $black-1: #383636;
 $black-2: black;
 
 $blue-1: lightskyblue;
-$blue-2: blue;
+$blue-2: rgb(113, 43, 212);
 
-$red-1: indianred;
-$red-2: #f84147;
+$green-1: #87c502;
+$green-2: #00ac45;
+
+$red-1: #f84147;
+$red-2: red;
 
 // DERIVATIVES
 
@@ -28,7 +31,8 @@ $body-background: $white-2;
 $content-background: $white-1;
 
 // fonts
-$font-color-1: $gray-1;
-$font-color-2: $black-2;
+$font-color-1: $white-1;
+$font-color-2: $gray-2;
+$font-color-3: $black-2;
 
-$font-attention-color: $red-2;
+$font-attention-color: $red-1;

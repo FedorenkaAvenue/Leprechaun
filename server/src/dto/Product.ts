@@ -120,7 +120,7 @@ export class ProductPreviewDTO extends BaseProductEntity implements IProductPrev
         const labels: Array<ILabel> = [];
 
         if (price.old) {
-            labels.push(new LabelDTO(LabelType.DISCOUNT, `-${Math.ceil(price.current / price.old * 100)}%`));
+            labels.push(new LabelDTO(LabelType.DISCOUNT, `-${Math.ceil(100 - price.current / price.old * 100)}%`));
         }
         
         super();
@@ -144,7 +144,7 @@ export class PublicProductDTO extends PublicProductEntity implements IPublicProd
         const labels: Array<ILabel> = [];
 
         if (price.old) {
-            labels.push(new LabelDTO(LabelType.DISCOUNT, `-${Math.ceil(price.current / price.old * 100)}%`));
+            labels.push(new LabelDTO(LabelType.DISCOUNT, `-${Math.ceil(100 - price.current / price.old * 100)}%`));
         }
         
         super();

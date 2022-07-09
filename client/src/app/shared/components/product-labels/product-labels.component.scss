@@ -1,0 +1,22 @@
+@use "../../../../styles/variables/colors" as colors;
+
+.labels {
+    top: 6px;
+    left: 6px;
+    align-items: flex-start;
+}
+
+.label {
+    padding: 4px 8px;
+    border-radius: 50px;
+    text-transform: uppercase;
+    color: colors.$font-color-1;
+
+    &-discount {
+        background-color: colors.$font-attention-color;
+    }
+
+    &-new {
+        background-color: colors.$green-1;
+    }
+}
