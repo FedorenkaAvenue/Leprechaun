@@ -7,7 +7,6 @@ import { CategoryEntity } from '@entities/Category';
 import { IBaseProduct, IPrice, IProduct, IPublicProduct, ProductStatus } from '@interfaces/Product';
 import { ImageEntity } from '@entities/Image';
 import { ICategory } from '@interfaces/Category';
-import { LabelEntity } from '@entities/Label';
 import { ILabel } from '@interfaces/Label';
 import { IProperty } from '@interfaces/Property';
 import { PropertyEntity } from '@entities/Property';
@@ -49,28 +48,6 @@ export class PublicProductEntity extends BaseProductEntity implements IPublicPro
     )
     @ApiProperty({ type: ImageEntity, isArray: true, required: false })
     images: IImage[];
-
-    @ManyToMany(
-        () => LabelEntity,
-        { cascade: true }
-    )
-    @JoinTable({
-        name: '_products_to_labels',
-        joinColumn: {
-            name: 'product_id',
-            referencedColumnName: 'id'
-        },
-        inverseJoinColumn: {
-            name: 'label_id',
-            referencedColumnName: 'id'
-        }
-    })
-    @ApiProperty({
-        type: LabelEntity,
-        required: false,
-        isArray: true
-    })
-    labels: ILabel[];
 
     @ManyToMany(
         () => PropertyEntity,

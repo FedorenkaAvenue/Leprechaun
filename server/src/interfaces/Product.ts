@@ -1,6 +1,5 @@
 import { ICategory } from '@interfaces/Category';
 import { IImage } from '@interfaces/Image';
-import { ILabel } from '@interfaces/Label';
 import { IProperty } from '@interfaces/Property';
 
 export enum ProductStatus {
@@ -26,7 +25,6 @@ export interface IProductPreview extends IBaseProduct {
 
 export interface IPublicProduct extends IBaseProduct {
     images: Array<IImage> | Array<string>
-    labels: Array<ILabel>
     category?: ICategory
     properties?: Array<IProperty>
 }

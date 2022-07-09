@@ -3,7 +3,6 @@ import { IsBoolean, IsBooleanString, IsEnum, IsNotEmpty, IsNumberString, IsOptio
 
 import { ICategory } from '@interfaces/Category';
 import { IPrice, IProduct, IProductPreview, IPublicProduct, ProductStatus } from '@interfaces/Product';
-import { ILabel } from '@interfaces/Label';
 import { IProperty } from '@interfaces/Property';
 import { IImage } from '@interfaces/Image';
 import { BaseProductEntity, PublicProductEntity } from '@entities/Product';
@@ -67,15 +66,6 @@ export class CreateProductDTO implements IProduct {
     @IsOptional()
     @IsNumberString({}, { each: true })
     @ApiProperty({
-        description: 'array of label',
-        isArray: true, required: false,
-        default: []
-    })
-    labels: ILabel[];
-
-    @IsOptional()
-    @IsNumberString({}, { each: true })
-    @ApiProperty({
         description: 'array of properties',
         isArray: true,
         required: false,
@@ -93,7 +83,7 @@ export class CreateProductDTOConstructor extends CreateProductDTO implements IPr
     price?: IPrice;
 
     constructor({
-        title, price_current, price_old, is_public, category, labels, properties, status, description, comment
+        title, price_current, price_old, is_public, category, properties, status, description, comment
     }: CreateProductDTO) {
         super();
         this.title = title;
@@ -135,14 +125,13 @@ export class ProductPreviewDTO extends BaseProductEntity implements IProductPrev
  * @description create public product
  */
 export class PublicProductDTO extends PublicProductEntity implements IPublicProduct {
-    constructor({ id, title, price, status, images, labels, properties, category }: IProduct) {
+    constructor({ id, title, price, status, images, properties, category }: IProduct) {
         super();
         this.id = id;
         this.title = title;
         this.price = price;
         this.status = status;
         this.images = images as Array<IImage>;
-        this.labels = labels;
         this.properties = properties;
         this.category = category;
     }

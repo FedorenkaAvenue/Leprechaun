@@ -52,7 +52,7 @@ export class ProductService {
 	async getAdminProduct(productId: string): Promise<IProduct> {
 		return this.productRepo.findOne({
 			where: { id: productId },
-			relations: ['category', 'properties', 'properties.property_group', 'labels']
+			relations: ['category', 'properties', 'properties.property_group']
 		});
 	}
 
@@ -60,7 +60,7 @@ export class ProductService {
 		try {
 			const res = await this.productRepo.findOneOrFail({
 				where: { id: productId, is_public: true },
-				relations: ['category', 'properties', 'properties.property_group', 'labels']
+				relations: ['category', 'properties', 'properties.property_group']
 			});
 
 			return new PublicProductDTO(res);
@@ -184,7 +184,6 @@ export class ProductService {
 		return this.productRepo
 			.createQueryBuilder('product')
 			.leftJoinAndSelect('product.properties', 'properties')
-			.leftJoinAndSelect('product.labels', 'labels')
 			.leftJoinAndSelect('product.images', 'images')
 			.leftJoinAndSelect('properties.property_group', 'property_group');
 	}
