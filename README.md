@@ -57,6 +57,12 @@ Boilerplate for web store
       * `PRICE_DOWN`: **3** (от дорогих к дешевым)
       * `NEW`: **4** (по новинкам)
 
+    * label types
+
+      * `DISCOUNT`: **discount** (скидка)
+      * `NEW`: **new** (новинка)
+      * `POPULAR`: **popular** (популярные)
+
 ## Tools
 
  * container managing

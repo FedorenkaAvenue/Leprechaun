@@ -1,6 +1,6 @@
 <div class="product-preview content p-3 fl-c">
   <ng-content select=".remove-btn"></ng-content>
-  <!-- <app-product-label [labelData]="product?.labels"></app-product-label> -->
+  <app-product-label *ngFor="let label of product?.labels" [labelData]="label"></app-product-label>
   <a
   class="product-image m-b-2"
   [routerLink]="['/product', product.id]"
@@ -21,6 +21,4 @@
     <app-product-price [price]="product?.price"></app-product-price>
     <ng-content select=".favorites-btn"></ng-content>
   </div>
- 
- 
 </div>

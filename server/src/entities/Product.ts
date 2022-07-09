@@ -8,7 +8,6 @@ import { IBaseProduct, IPrice, IProduct, IPublicProduct } from '@interfaces/Prod
 import { ProductStatus } from '@enums/Product';
 import { ImageEntity } from '@entities/Image';
 import { ICategory } from '@interfaces/Category';
-import { ILabel } from '@interfaces/Label';
 import { IProperty } from '@interfaces/Property';
 import { PropertyEntity } from '@entities/Property';
 import { IImage } from '@interfaces/Image';

@@ -1,6 +1,6 @@
-import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { DeleteResult, Repository, SelectQueryBuilder, UpdateResult } from 'typeorm';
+import { DeleteResult, Repository, SelectQueryBuilder } from 'typeorm';
 
 import { CreateProductDTO, CreateProductDTOConstructor, ProductPreviewDTO, PublicProductDTO } from '@dto/Product';
 import { ProductEntity } from '@entities/Product';
@@ -36,17 +36,6 @@ export class ProductService {
 			const uploadedImgArr = await this.FSService.saveFiles(FOLDER_TYPES.PRODUCT, id, images);
 
 			this.imageService.addImageArr(id, uploadedImgArr);
-		}
-	}
-
-	async setProductPublic(productId: IProduct['id'], status: IProduct['is_public']): Promise<UpdateResult> {
-		try {
-			return await this.productRepo.createQueryBuilder()
-				.update({ is_public: status })
-				.where({ id: productId })
-				.execute();
-		} catch(err) {
-			throw new BadRequestException('invalid field');
 		}
 	}
 

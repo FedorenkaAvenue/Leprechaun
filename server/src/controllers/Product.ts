@@ -9,7 +9,7 @@ import {
 import { DeleteResult, UpdateResult } from 'typeorm';
 import { FilesInterceptor } from '@nestjs/platform-express';
 
-import { CreateProductDTO, ProductPreviewDTO, PublicProductDTO, UpdateProductPublicStatusDTO } from '@dto/Product';
+import { CreateProductDTO, ProductPreviewDTO, PublicProductDTO } from '@dto/Product';
 import { ProductEntity } from '@entities/Product';
 import { ProductService } from '@services/Product';
 import { ISearchReqQueries } from '@interfaces/Queries';
@@ -173,20 +173,6 @@ export class ProductAdminController {
         @Param('productId', ParseUUIDPipe) productId: string
     ): Promise<IPublicProduct> {
         return this.productService.getAdminProduct(productId);
-    }
-
-    @Patch('/public/:productId')
-    @UseInterceptors(AffectedResultInterceptor)
-    @ApiOperation({ summary: 'set product public status' })
-    // @ApiBody({ type: UpdateProductPublicStatusDTO })
-    @ApiOkResponse({ description: 'success updated' })
-    @ApiBadRequestResponse({ description: 'invalid field' })
-    @ApiNotFoundResponse({ description: 'product not found' })
-    setPublicStatus(
-        @Param('productId', ParseUUIDPipe) productId: string,
-        @Body(new ValidationPipe({ transform: true })) { is_public }: UpdateProductPublicStatusDTO
-    ): Promise<UpdateResult> {
-        return this.productService.setProductPublic(productId, is_public);
     }
 
     // ! DONT TOUCH
