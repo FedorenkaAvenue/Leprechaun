@@ -1,8 +1,9 @@
 <div class="product-preview content p-3 fl-c">
   <ng-content select=".remove-btn"></ng-content>
+  <!-- <app-product-label [labelData]="product?.labels"></app-product-label> -->
   <a
-    class="product-image m-b-2"
-    [routerLink]="['/product', product.id]"
+  class="product-image m-b-2"
+  [routerLink]="['/product', product.id]"
     routerLinkActive="router-link-active"
   >
     <img class="product-preview_image" [src]="product?.image" [alt]="product?.title" />

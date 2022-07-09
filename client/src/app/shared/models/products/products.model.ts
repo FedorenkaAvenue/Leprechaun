@@ -1,13 +1,7 @@
-import { ProductLabelType } from '@shared/enums';
 import { PriceI } from '.';
 import { CategoryI } from '../categories/categories.model';
 import { PaginationDto } from '../pagination/pagination.model';
-
-export interface ProductLabelI {
-  id: string;
-  type: ProductLabelType;
-  value: string;
-}
+import { ProductLabelI } from './product-label.model';
 
 export interface ProductCardImageI {
   id: string;

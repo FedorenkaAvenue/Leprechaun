@@ -1,4 +1,4 @@
 export enum ProductLabelType {
-    DISCOUNT,
-    NEW,
+    DISCOUNT = 'discount',
+    NEW = 'new',
 }
