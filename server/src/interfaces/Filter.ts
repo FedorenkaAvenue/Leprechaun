@@ -1,5 +1,6 @@
 import { IProperty } from './Property';
 import { IPropertyGroup } from './PropertyGroup';
+import { FilterType } from '@enums/Filter';
 
 export interface IFilters {
     price: IFilterRangeGroup
@@ -28,9 +29,4 @@ export interface IListFilter extends IProperty {
     selected: boolean
     // amount: number
     // available: number
-}
-
-export enum FilterType {
-    List = 'list',
-    Range = 'range',
 }

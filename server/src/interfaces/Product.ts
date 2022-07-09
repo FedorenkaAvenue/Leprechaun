@@ -1,12 +1,8 @@
 import { ICategory } from '@interfaces/Category';
 import { IImage } from '@interfaces/Image';
-import { ILabel } from '@interfaces/Label';
 import { IProperty } from '@interfaces/Property';
-
-export enum ProductStatus {
-    AVAILABLE = 1,  // в наличии
-    OUT_OF_STOCK    // распродан
-}
+import { ILabel } from '@interfaces/Label';
+import { ProductStatus } from '@enums/Product';
 
 export interface IPrice {
     current: number
@@ -18,6 +14,7 @@ export interface IBaseProduct {
     title: string
     status: ProductStatus
     price?: IPrice
+    labels?: Array<ILabel>
 }
 
 export interface IProductPreview extends IBaseProduct {
@@ -26,7 +23,6 @@ export interface IProductPreview extends IBaseProduct {
 
 export interface IPublicProduct extends IBaseProduct {
     images: Array<IImage> | Array<string>
-    labels: Array<ILabel>
     category?: ICategory
     properties?: Array<IProperty>
 }

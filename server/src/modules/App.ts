@@ -6,7 +6,6 @@ import ProductModule from './Product';
 import PropertyGroupModule from './PropertyGroup';
 import PropertyModule from './Property';
 import ImageModule from './Image';
-import LabelModule from './Label';
 import ToolModule from './Tool';
 import ConfigService from '@services/Config';
 import AdminModule from './Admin';
@@ -29,7 +28,6 @@ import ScheduleModule from './Sheduler';
 		PropertyGroupModule,
 		PropertyModule,
 		ImageModule,
-		LabelModule,
 		ToolModule,
 		ScheduleModule,
 		AdminModule

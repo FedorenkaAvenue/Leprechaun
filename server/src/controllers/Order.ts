@@ -94,6 +94,16 @@ export class OrderAdminController {
         private readonly orderService: OrderService
     ) {}
 
+    @Get(':orderId')
+    @ApiOperation({ summary: 'get order by ID' })
+    @ApiOkResponse({ type: OrderPublicDTO })
+    @ApiNotFoundResponse({ description: 'order not found' })
+    getOrderById(
+        @Param('orderId', ParseUUIDPipe) orderId: IOrder['id']
+    ): Promise<IOrderPublic> {
+        return this.orderService.getOrderById(orderId);
+    }
+
     @Patch('status/:orderId')
     @UseInterceptors(AffectedResultInterceptor)
     @ApiOperation({ summary: 'change order status' })

@@ -57,7 +57,6 @@ export interface Products {
   pagination: PaginationDto;
 }
 
-
 export class ProductPreviewBaseI {
   id: string;
   title: string;
@@ -66,6 +65,7 @@ export class ProductPreviewBaseI {
   isFavorite: boolean;
   labels: Array<ProductLabelI>;
 }
+
 export class ProductCardI extends ProductPreviewBaseI {
   category: CategoryI;
   images: Array<ProductImageI>;

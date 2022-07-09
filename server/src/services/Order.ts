@@ -1,12 +1,13 @@
 import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { DeleteResult, Not, Repository, UpdateResult } from 'typeorm';
+import { DeleteResult, Not, Repository, SelectQueryBuilder, UpdateResult } from 'typeorm';
 
 import { OrderEntity } from '@entities/Order';
 import { OrderItemEntity } from '@entities/OrderItem';
 import { UpdateOrderStatusDTO, CreateOrderDTO, OrderPublicDTO } from '@dto/Order';
 import { ISession } from '@interfaces/Session';
-import { IOrder, IOrderPublic, OrderStatus } from '@interfaces/Order';
+import { IOrder, IOrderPublic } from '@interfaces/Order';
+import { OrderStatus } from '@enums/Order';
 import { CreateOrderItemDTO, UpdateOrderItemDTO } from '@dto/OrderItem';
 import { IOrderItem } from '@interfaces/OrderItem';
 
@@ -17,6 +18,8 @@ export class OrderService {
         @InjectRepository(OrderItemEntity) public readonly orderItemRepo: Repository<OrderItemEntity>
     ) {}
 
+    // CONTROLLERS
+
     async createOrder(order: IOrder): Promise<IOrder> {
         return this.orderRepo.save(order);
     }
@@ -26,22 +29,24 @@ export class OrderService {
         return this.orderItemRepo.save({ order: orderId, ...item });
     }
 
+    async getOrderById(id: IOrder['id']): Promise<IOrderPublic> {
+        const qb = this.orderRepo
+            .createQueryBuilder('order')
+            .where({ id });
+
+        return await this.getOrder(qb);
+    }
+
     async getCurrentOrder(session_id: ISession['id']): Promise<IOrderPublic> {
-        const res = await this.orderRepo
+        const qb = this.orderRepo
             .createQueryBuilder('order')
             .where('order.session_id = :session_id', { session_id })
             .andWhere(
                 'order.status = :status',
                 { status: OrderStatus.INIT }
-            )
-            .leftJoinAndSelect('order.list', 'list')
-            .leftJoinAndSelect('list.product', 'product')
-            .leftJoinAndSelect('product.images', 'images')
-            .orderBy('list.created_at', 'ASC')
-            .getOne();
+            );
 
-        // fictive order if current order doesn't exists
-        return new OrderPublicDTO(res || { id: null, status: null, list: [] });
+        return await this.getOrder(qb);
     }
 
     async getOrderHistory(session_id: ISession['id']): Promise<IOrderPublic[]> {
@@ -127,5 +132,25 @@ export class OrderService {
 
     clearUselessOrders() {
         console.log(777);
+    }
+
+    // HELPERS
+
+    /**
+	 * @description split relative tables for order by query builder
+	 * @param qb current query builder to continue building query
+	 * @returns completed OrderPublicDTO
+	 */
+    async getOrder(
+        qb: SelectQueryBuilder<OrderEntity>,
+    ): Promise<OrderPublicDTO> {
+        const res = await qb
+            .leftJoinAndSelect('order.list', 'list')
+            .leftJoinAndSelect('list.product', 'product')
+            .leftJoinAndSelect('product.images', 'images')
+            .orderBy('list.created_at', 'ASC')
+            .getOne();
+
+        return new OrderPublicDTO(res);
     }
 }

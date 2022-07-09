@@ -1,14 +1,7 @@
 import { IOrderItem, IOrderItemPublic } from './OrderItem';
 import { ISession } from './Session';
 import { IUser } from './User';
-
-export enum OrderStatus {
-    INIT = 1,
-    POSTED,
-    IN_PROCESS,
-    COMPLETED,
-    CANCELED
-}
+import { OrderStatus } from '@enums/Order';
 
 export interface IOrderCustomerData {
     name: string

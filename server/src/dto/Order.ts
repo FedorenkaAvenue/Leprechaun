@@ -1,11 +1,11 @@
 import { ApiProperty } from '@nestjs/swagger';
 import {
-    IsEnum, IsNotEmpty, IsNotEmptyObject, IsObject, IsOptional, IsString,
-    IsUUID, ValidateNested
+    IsEnum, IsNotEmpty, IsNotEmptyObject, IsObject, IsOptional, IsString, ValidateNested
 } from 'class-validator';
 import { Type } from 'class-transformer';
 
-import { IOrder, IOrderCustomerData, IOrderPublic, OrderStatus } from '@interfaces/Order';
+import { IOrder, IOrderCustomerData, IOrderPublic } from '@interfaces/Order';
+import { OrderStatus } from '@enums/Order';
 import { OrderBaseEntity } from '@entities/Order';
 import { IOrderItemPublic } from '@interfaces/OrderItem';
 import { OrderItemPublicDTO } from './OrderItem';

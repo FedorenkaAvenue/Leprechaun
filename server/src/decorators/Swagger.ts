@@ -2,8 +2,8 @@ import { applyDecorators, Type } from '@nestjs/common';
 import { ApiNotAcceptableResponse, ApiOkResponse, ApiQuery, getSchemaPath } from '@nestjs/swagger';
 
 import { PaginationDTO } from '@dto/Pagination';
-import { SortType } from '@interfaces/Queries';
-import { ProductStatus } from '@interfaces/Product';
+import { SortType } from '@enums/Query';
+import { ProductStatus } from '@enums/Product';
 
 export const ApiPaginatedResponse = <TModel extends Type<any>>(model: TModel) => {
 	return applyDecorators(

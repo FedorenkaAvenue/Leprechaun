@@ -1,0 +1,27 @@
+@use '../variables/layouts' as layouts;
+
+// positions
+
+.a {
+    position: absolute;
+}
+
+.r {
+    position: relative;
+}
+
+// z-indexes
+
+$z-indexes: layouts.$z-index-0, layouts.$z-index-1, layouts.$z-index-2, layouts.$z-index-3, layouts.$z-index-4, layouts.$z-index-5;
+
+@for $i from 1 to length($z-indexes) {
+    @if ($i == 1) {
+        .zi-0 {
+            z-index: initial;
+        }
+    }
+
+	.zi-#{$i} {
+        z-index: #{nth($z-indexes, $i) + 1};
+	}
+}
