@@ -99,8 +99,6 @@ export class CreateProductDTOConstructor extends CreateProductDTO implements IPr
         this.category = category;
         this.description = description || null;
         this.comment = comment || null;
-        // @ts-ignore for table relations
-        this.labels = labels ? labels.map(label => ({ id: Number(label) })) : [];
         // @ts-ignore for properties relation
         this.properties = properties ? properties.map(property => ({ id: Number(property) })) : [];
     }
