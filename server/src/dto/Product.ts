@@ -146,6 +146,8 @@ export class PublicProductDTO extends PublicProductEntity implements IPublicProd
         if (price.old) {
             labels.push(new LabelDTO(LabelType.DISCOUNT, `-${Math.ceil(100 - price.current / price.old * 100)}%`));
         }
+
+        labels.push(new LabelDTO(LabelType.NEW, 'новинка'));
         
         super();
         this.id = id;

@@ -151,6 +151,7 @@ export class OrderService {
             .orderBy('list.created_at', 'ASC')
             .getOne();
 
-        return new OrderPublicDTO(res);
+            // fictive order if doesn't exists
+            return new OrderPublicDTO(res || { id: null, status: null, list: [] });
     }
 }

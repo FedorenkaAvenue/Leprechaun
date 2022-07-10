@@ -4,6 +4,10 @@
   max-width: layouts.$container-width;
   margin: 0 auto;
 
+  .content {
+    flex-grow: 1;
+  }
+
   &__wrapper {
     background-color: transparent;
   }

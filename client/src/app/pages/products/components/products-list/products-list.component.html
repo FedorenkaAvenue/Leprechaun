@@ -1,10 +1,14 @@
-<section class="products-list r">
-  <ng-container *ngFor="let product of products?.data">
-    <app-product-card
-    [product]="product"
-    (toCartEvent)="addToCart($event)"
-    (toFavoriteEvent)="addToFavorite($event)"
-    (deleteFromFavoriteEvent)="deleteFromFavorite($event)"
-    ></app-product-card>
-  </ng-container>
+<section class="products-list">
+  <ul class="gr-4 g-2">
+    <ng-container *ngFor="let product of products?.data">
+      <li>
+        <app-product-card
+        [product]="product"
+        (toCartEvent)="addToCart($event)"
+        (toFavoriteEvent)="addToFavorite($event)"
+        (deleteFromFavoriteEvent)="deleteFromFavorite($event)"
+        ></app-product-card>
+    </li>
+    </ng-container>
+  </ul>
 </section>

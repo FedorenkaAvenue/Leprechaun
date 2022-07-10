@@ -16,7 +16,7 @@
     </header>
     <section class="products-page__wrap">
       <app-products-filter></app-products-filter>
-      <div class="products-list">
+      <div class="content">
         <ng-container *ngIf="productsList$ | async as products">
           <app-products-list
             [products]="products"
