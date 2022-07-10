@@ -9,10 +9,9 @@ import { ProductStatus } from '@enums/Product';
 import { IProperty } from '@interfaces/Property';
 import { IImage } from '@interfaces/Image';
 import { BaseProductEntity, PublicProductEntity } from '@entities/Product';
+import { WithDiscountLabel, WithNoveltyLabel } from '@decorators/Label';
+import { LabelDTO } from './Label';
 import { ILabel } from '@interfaces/Label';
-import { LabelDTO } from '@dto/Label';
-import { LabelType } from '@enums/Label';
-import getPercentDifference from '@utils/getPercentDifference';
 
 export class CreateProductDTO implements IProduct {
     @IsNotEmpty()
@@ -117,9 +116,7 @@ export class CreateProductDTOConstructor extends CreateProductDTO implements IPr
     }
 }
 
-/**
- * @description create product preview
- */
+@WithDiscountLabel
 export class ProductPreviewDTO extends BaseProductEntity implements IProductPreview {
     @ApiProperty({ required: false })
     image: string;
@@ -128,43 +125,23 @@ export class ProductPreviewDTO extends BaseProductEntity implements IProductPrev
     labels: ILabel[];
 
     constructor({ id, title, price, status, images }: IProduct) {
-        const labels: Array<ILabel> = [];
-
-        if (price.old && price.old > price.current) {
-            labels.push(new LabelDTO(
-                LabelType.DISCOUNT,
-                getPercentDifference(price.old, price.current)
-            ));
-        }
-        
         super();
         this.id = id;
         this.title = title;
         this.price = price;
         this.status = status;
         this.image = (images[0] as IImage).src;
-        this.labels = labels;
+        this.labels = [];
     }
 }
 
-/**
- * @description create public product
- */
+@WithDiscountLabel
+@WithNoveltyLabel
 export class PublicProductDTO extends PublicProductEntity implements IPublicProduct {
     @ApiProperty({ type: LabelDTO, isArray: true, required: false })
     labels: ILabel[];
 
-    constructor({ id, title, price, status, images, properties, category, is_new }: IProduct) {
-        const labels: Array<ILabel> = [];
-
-        if (is_new) labels.push(new LabelDTO(LabelType.NEW, 'новинка'));
-        if (price.old && price.old > price.current) {
-            labels.push(new LabelDTO(
-                LabelType.DISCOUNT,
-                getPercentDifference(price.old, price.current)
-            ));
-        }
-        
+    constructor({ id, title, price, status, images, properties, category }: IProduct) {        
         super();
         this.id = id;
         this.title = title;
@@ -173,6 +150,6 @@ export class PublicProductDTO extends PublicProductEntity implements IPublicProd
         this.images = images as Array<IImage>;
         this.properties = properties;
         this.category = category;
-        this.labels = labels;
+        this.labels = [];
     }
 }

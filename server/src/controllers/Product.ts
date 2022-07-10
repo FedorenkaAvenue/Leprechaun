@@ -3,7 +3,7 @@ import {
     UseInterceptors, Query, ValidationPipe, CacheInterceptor, Patch
 } from '@nestjs/common';
 import {
-    ApiBadRequestResponse, ApiBody, ApiNotFoundResponse, ApiOkResponse, ApiOperation,
+    ApiBadRequestResponse, ApiNotFoundResponse, ApiOkResponse, ApiOperation,
     ApiQuery, ApiServiceUnavailableResponse, ApiTags, ApiUnsupportedMediaTypeResponse
 } from '@nestjs/swagger';
 import { DeleteResult, UpdateResult } from 'typeorm';
