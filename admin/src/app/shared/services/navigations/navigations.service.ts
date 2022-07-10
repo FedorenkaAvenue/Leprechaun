@@ -14,7 +14,7 @@ export class NavigationService {
     })
   }
 
-  back(): void {debugger
+  back(): void {
     this.history.pop()
     if (this.history.length > 0) {
       this.location.back()
