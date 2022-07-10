@@ -30,5 +30,5 @@ manticore_index:
 	@make -f ./manticore/Makefile index_all
 
 _cp_admin_client_static:
-	@rm -r ./nginx/admin
+	@rm -rf ./nginx/admin
 	@mkdir -p ./nginx/admin/ && cp -r ./admin/ ./nginx/
