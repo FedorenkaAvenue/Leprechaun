@@ -4,7 +4,7 @@ WORKDIR /app
 
 COPY . .
 
-#RUN npm install -g @nestjs/cli
-RUN yarn
+#RUN yarn --network-timeout 100000
+RUN npm install
 
-CMD yarn build && yarn prod
+CMD npm run build && npm run prod

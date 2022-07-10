@@ -13,27 +13,23 @@ async function runServer() {
 	app
 		.use(cookieParser())
 		.use(session(singleConfigServie.getSessionConfig()))
-		.use((req, res, next) => {
-			res.header('Access-Control-Allow-Credentials', 'true');
-			res.header('Access-Control-Allow-Origin', '*');
-			res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
-			res.header('Access-Control-Allow-Headers', 'Content-Type, Accept');
-
-			next();
+		//.use((req, res, next) => {
+		//	res.header('Access-Control-Allow-Credentials', 'true');
+		//	res.header('Access-Control-Allow-Origin', '*');
+		//	res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
+		//	res.header('Access-Control-Allow-Headers', 'Content-Type, Accept');
+		//
+		//	next();
+		//});
+		app.enableCors({
+			origin: [
+				'http://localhost',
+				'https://leprechaun.tech',
+				'https://adm.leprechaun.tech'
+			],
+			methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
+			credentials: true,
 		});
-		// app.enableCors({
-		// 	origin: [
-		// 		'http://localhost:3000',
-		// 		'http://example.com',
-		// 		'http://www.example.com',
-		// 		'http://app.example.com',
-		// 		'https://example.com',
-		// 		'https://www.example.com',
-		// 		'https://app.example.com',
-		// 	],
-		// 	methods: ["GET", "POST"],
-		// 	credentials: true,
-		// });
 
 	if (!singleConfigServie.isDev) app.useGlobalFilters(new UncaughtExceptionFilter());
 
