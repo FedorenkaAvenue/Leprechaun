@@ -1,4 +1,6 @@
 Dockerfile
+Dockerfile.prod
 .dockerignore
+
 node_modules
 README.md
