@@ -1,5 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsBooleanString, IsEnum, IsNotEmpty, IsNumberString, IsOptional, IsString } from 'class-validator';
+import {
+    IsBoolean, IsBooleanString, IsEnum, IsNotEmpty, IsNumberString, IsOptional, IsString
+} from 'class-validator';
 
 import { ICategory } from '@interfaces/Category';
 import { IPrice, IProduct, IProductPreview, IPublicProduct } from '@interfaces/Product';
@@ -10,6 +12,7 @@ import { BaseProductEntity, PublicProductEntity } from '@entities/Product';
 import { ILabel } from '@interfaces/Label';
 import { LabelDTO } from '@dto/Label';
 import { LabelType } from '@enums/Label';
+import getPercentDifference from '@utils/getPercentDifference';
 
 export class CreateProductDTO implements IProduct {
     @IsNotEmpty()
@@ -76,6 +79,15 @@ export class CreateProductDTO implements IProduct {
     properties: IProperty[];
 
     @IsOptional()
+    @IsBoolean()
+    @ApiProperty({
+        required: false,
+        default: true,
+        description: 'novelty status'
+    })
+    is_new: boolean;
+
+    @IsOptional()
     @IsString()
     @ApiProperty({ required: false, default: null })
     comment: string;
@@ -85,7 +97,7 @@ export class CreateProductDTOConstructor extends CreateProductDTO implements IPr
     price?: IPrice;
 
     constructor({
-        title, price_current, price_old, is_public, category, properties, status, description, comment
+        title, price_current, price_old, is_public, category, properties, status, description, comment, is_new
     }: CreateProductDTO) {
         super();
         this.title = title;
@@ -96,6 +108,7 @@ export class CreateProductDTOConstructor extends CreateProductDTO implements IPr
         // @ts-ignore
         this.is_public = is_public === 'true';
         this.status = status || ProductStatus.AVAILABLE;
+        this.is_new = typeof is_new === 'boolean' ? is_new : true;
         this.category = category;
         this.description = description || null;
         this.comment = comment || null;
@@ -111,14 +124,17 @@ export class ProductPreviewDTO extends BaseProductEntity implements IProductPrev
     @ApiProperty({ required: false })
     image: string;
 
-    @ApiProperty({ type: LabelDTO, isArray: true })
+    @ApiProperty({ type: LabelDTO, isArray: true, required: false })
     labels: ILabel[];
 
     constructor({ id, title, price, status, images }: IProduct) {
         const labels: Array<ILabel> = [];
 
-        if (price.old) {
-            labels.push(new LabelDTO(LabelType.DISCOUNT, `-${Math.ceil(100 - price.current / price.old * 100)}%`));
+        if (price.old && price.old > price.current) {
+            labels.push(new LabelDTO(
+                LabelType.DISCOUNT,
+                getPercentDifference(price.old, price.current)
+            ));
         }
         
         super();
@@ -135,17 +151,19 @@ export class ProductPreviewDTO extends BaseProductEntity implements IProductPrev
  * @description create public product
  */
 export class PublicProductDTO extends PublicProductEntity implements IPublicProduct {
-    @ApiProperty({ type: LabelDTO, isArray: true })
+    @ApiProperty({ type: LabelDTO, isArray: true, required: false })
     labels: ILabel[];
 
-    constructor({ id, title, price, status, images, properties, category }: IProduct) {
+    constructor({ id, title, price, status, images, properties, category, is_new }: IProduct) {
         const labels: Array<ILabel> = [];
 
-        if (price.old) {
-            labels.push(new LabelDTO(LabelType.DISCOUNT, `-${Math.ceil(100 - price.current / price.old * 100)}%`));
+        if (is_new) labels.push(new LabelDTO(LabelType.NEW, 'новинка'));
+        if (price.old && price.old > price.current) {
+            labels.push(new LabelDTO(
+                LabelType.DISCOUNT,
+                getPercentDifference(price.old, price.current)
+            ));
         }
-
-        labels.push(new LabelDTO(LabelType.NEW, 'новинка'));
         
         super();
         this.id = id;

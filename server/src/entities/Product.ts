@@ -14,11 +14,11 @@ import { IImage } from '@interfaces/Image';
 
 export class PriceEntity implements IPrice {
     @Column({ name: 'price_current' })
-    @ApiProperty({ required: true })
+    @ApiProperty({ required: false })
     current: number;
 
     @Column({ name: 'price_old', nullable: true })
-    @ApiProperty({ required: false })
+    @ApiProperty({ required: false, nullable: true })
     old: number;
 }
 
@@ -94,6 +94,10 @@ export class ProductEntity extends PublicProductEntity implements IProduct {
         description: 'product rating by sellering'
     })
     rating: number;
+
+    @Column({ default: true })
+    @ApiProperty({ required: false, description: 'novelty status' })
+    is_new: boolean;
 
     @Column({ nullable: true })
     @ApiProperty({ required: false })
