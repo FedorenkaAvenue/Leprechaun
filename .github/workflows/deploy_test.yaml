@@ -12,6 +12,7 @@ jobs:
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.TEST_SERVER_HOST }}
+	  username: 'root'
           key: ${{ secrets.TEST_SERVER_SSH_KEY }}
           script: |
             cd /var/www/Leprechaun
@@ -22,6 +23,7 @@ jobs:
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.TEST_SERVER_HOST }}
+	  username: 'root'
           key: ${{ secrets.TEST_SERVER_SSH_KEY }}
           script: |
             cd /var/www/Leprechaun
