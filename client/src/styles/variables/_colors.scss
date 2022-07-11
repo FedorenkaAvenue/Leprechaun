@@ -6,17 +6,18 @@ $white-2: #f7f8f9;
 $gray-1: #a6a5a5;
 $gray-2: gray;
 
-$black-1: #383636;
-$black-2: black;
+$black-1: black;
 
 $blue-1: lightskyblue;
-$blue-2: rgb(113, 43, 212);
 
 $green-1: #87c502;
 $green-2: #00ac45;
 
 $red-1: #f84147;
-$red-2: red;
+
+$yellow-1: yellow;
+
+$orange-1: rgb(255, 169, 0);
 
 // DERIVATIVES
 
@@ -33,6 +34,6 @@ $content-background: $white-1;
 // fonts
 $font-color-1: $white-1;
 $font-color-2: $gray-2;
-$font-color-3: $black-2;
+$font-color-3: $black-1;
 
 $font-attention-color: $red-1;

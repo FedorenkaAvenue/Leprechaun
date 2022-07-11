@@ -135,7 +135,7 @@ export class ProductPreviewDTO extends BaseProductEntity implements IProductPrev
     }
 }
 
-@WithLabels(LabelType.NEW, LabelType.DISCOUNT)
+@WithLabels(LabelType.NEW, LabelType.POPULAR, LabelType.DISCOUNT)
 export class PublicProductDTO extends PublicProductEntity implements IPublicProduct {
     @ApiProperty({ type: LabelDTO, isArray: true, required: false })
     labels: ILabel[];
