@@ -9,22 +9,20 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Fetch test branch
-        uses: appleboy/ssh-action@v0.1.2
+        uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.TEST_SERVER_HOST }}
-          username: root
-          password: ${{ secrets.TEST_SERVER_SSH_KEY }}
+          key: ${{ secrets.TEST_SERVER_SSH_KEY }}
           script: |
-            cd /Leprechaun
+            cd /var/www/Leprechaun
             git reset --hard HEAD
             git checkout test
             git pull origin test
       - name: Rebuild && up containers
-        uses: appleboy/ssh-action@v0.1.2
+        uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.TEST_SERVER_HOST }}
-          username: root
-          password: ${{ secrets.TEST_SERVER_SSH_KEY }}
+          key: ${{ secrets.TEST_SERVER_SSH_KEY }}
           script: |
-            cd /Leprechaun
-            make remote_test_build
+            cd /var/www/Leprechaun
+            make build_prod
