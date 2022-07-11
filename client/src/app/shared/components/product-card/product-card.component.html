@@ -1,4 +1,5 @@
 <section class="product r p-3 content">
+  <ng-content select=".from-favorite-btn"></ng-content>
   <app-product-labels
     *ngIf="product?.labels?.length"
     [labelsData]="product?.labels"
@@ -8,7 +9,7 @@
       <div class="product-preview__wrap">
         <div
           class="product-preview__image"
-          [ngStyle]="{ 'background-image': 'url(' + product?.images[0]?.src + ')' }"
+          [ngStyle]="{ 'background-image': 'url(' + product?.images?.[0]?.src || product?.image + ')' }"
         >
           <ng-container *ngFor="let image of product.images">
             <div class="product-preview__curtain" [appCurtains]="image.src"></div>
@@ -20,30 +21,9 @@
     <div class="product-main">
       <div class="product__price-wrap">
         <app-product-price [price]="product?.price"></app-product-price>
-        <button (click)="addToCart(product?.id)" class="icon-btn">
-          <app-leprachaun-icon
-            name="cart"
-            [color]="product?.inCart ? 'green' : 'rose'"
-            [width]="22"
-            [height]="22"
-          >
-          </app-leprachaun-icon>
-          <!-- <app-leprachaun-icon name="cardSelected" color="rose" [width]="22" [height]="22"> </app-leprachaun-icon> -->
-        </button>
-        <button
-          (click)="
-            product?.isFavorite ? deleteFromFavorites(product?.id) : addToFavorite(product?.id)
-          "
-          class="icon-btn"
-        >
-          <app-leprachaun-icon
-            name="heart"
-            [strokedColor]="product?.isFavorite ? 'rose' : 'none'"
-            [width]="24"
-            [height]="24"
-          >
-          </app-leprachaun-icon>
-        </button>
+        <ng-content select=".to-card-btn"></ng-content>
+        <ng-content select=".to-favorite-btn"></ng-content>
+    
       </div>
     </div>
   </div>

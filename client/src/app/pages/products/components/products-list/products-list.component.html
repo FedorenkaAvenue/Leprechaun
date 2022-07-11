@@ -7,8 +7,34 @@
         (toCartEvent)="addToCart($event)"
         (toFavoriteEvent)="addToFavorite($event)"
         (deleteFromFavoriteEvent)="deleteFromFavorite($event)"
-        ></app-product-card>
+        >
+        <button (click)="addToCart(product?.id)" class="to-card-btn icon-btn">
+          <app-leprachaun-icon
+            name="cart"
+            [color]="product?.inCart ? 'green' : 'rose'"
+            [width]="22"
+            [height]="22"
+          >
+          </app-leprachaun-icon>
+          <!-- <app-leprachaun-icon name="cardSelected" color="rose" [width]="22" [height]="22"> </app-leprachaun-icon> -->
+        </button>
+        <button
+          (click)="
+            product?.isFavorite ? deleteFromFavorite(product?.id) : addToFavorite(product?.id)
+          "
+          class="to-favorite-btn icon-btn"
+        >
+          <app-leprachaun-icon
+            name="heart"
+            [strokedColor]="product?.isFavorite ? 'rose' : 'none'"
+            [width]="24"
+            [height]="24"
+          >
+          </app-leprachaun-icon>
+        </button></app-product-card>
     </li>
     </ng-container>
   </ul>
 </section>
+
+

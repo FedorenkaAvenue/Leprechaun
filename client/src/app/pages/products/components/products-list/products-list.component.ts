@@ -34,3 +34,4 @@ export class ProductsListComponent implements OnInit, OnChanges {
     this.deleteFromFavoriteEvent.emit(productId)
   }
 }
+

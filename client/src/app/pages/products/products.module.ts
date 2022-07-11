@@ -11,6 +11,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { LpchInputModule } from '@shared/controls/lpch-input/lpch-input.module';
 import { ProductsManagerService } from './services/products-manager/products-manager.service';
 import { ProductsListComponent } from './components/products-list/products-list.component';
+import { cartIcon, cartSelectedIcon, heartIcon, heartIconFilled, LeprachaunIconRegistryService, LeprachaunIconsModule } from '@shared/modules/leprachaun-icons';
+
 @NgModule({
   declarations: [
     ProductsPageComponent,
@@ -21,6 +23,7 @@ import { ProductsListComponent } from './components/products-list/products-list.
     CommonModule,
     ProductsRoutingModule,
     ProductCardModule,
+    LeprachaunIconsModule,
     PaginatorModule,
     LpchSelectModule,
     LpchInputModule,
@@ -32,4 +35,14 @@ import { ProductsListComponent } from './components/products-list/products-list.
     ProductsManagerService,
   ]
 })
-export class ProductsModule { }
+export class ProductsModule {
+  constructor(private readonly leprachaunIconRegistryService: LeprachaunIconRegistryService) {
+    this.leprachaunIconRegistryService.registerIcons(
+      [
+        cartIcon,
+        heartIcon,
+        heartIconFilled,
+        cartSelectedIcon
+      ]);
+  }
+}

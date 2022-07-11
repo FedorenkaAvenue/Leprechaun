@@ -34,6 +34,7 @@ export interface ProductsBaseI {
   is_available: boolean;
   price: PriceI;
   images: Array<ProductImageI>;
+  image?: string;
   labels: Array<ProductLabelI>;
   rating: number;
   description: string;
