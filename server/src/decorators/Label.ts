@@ -1,52 +1,51 @@
 import { LabelDTO } from "@dto/Label";
 import { LabelType } from "@enums/Label";
+import { IProduct } from "@interfaces/Product";
 import getPercentDifference from "@utils/getPercentDifference";
-import { IProduct } from "@src/interfaces/Product";
 
 /**
- * @description add "discount" label to {product.labels} key
+ * @description set labels key for wrapped class. queue of label type is important
+ * @param labels list of label types
  */
-export function WithDiscountLabel<T extends { new(...args: any[]): {} }>(
-    constr: T
-) {
-    return class extends constr {
-        labels: IProduct['labels'];
+export default function WithLabels(...labels: Array<LabelType>) {
+    return function <T extends { new(...args: any[]): {} }>(constr: T) {
+        return class extends constr {
+            labels: IProduct['labels'];
+    
+            constructor(...args: any[]) {
+                super(...args);
+                this.labels = [];
 
-        constructor(...args: any[]) {
-            super(...args);
+                const { price: { old, current }, is_new } = args[0] as IProduct;
 
-            const { price: { old, current } } = args[0] as IProduct;
+                labels.forEach(label => {
+                    switch(label) {
+                        case LabelType.DISCOUNT: {
+                            if (typeof old === 'number' && (old > current)) {
+                                this.labels = [
+                                    ...this.labels,
+                                    new LabelDTO(
+                                        LabelType.DISCOUNT,
+                                        getPercentDifference(old, current)
+                                    )
+                                ];
+                            }
 
-            if (typeof old === 'number' && (old > current)) {
-                this.labels = [
-                    ...this.labels,
-                    new LabelDTO(
-                        LabelType.DISCOUNT,
-                        getPercentDifference(old, current)
-                    )
-                ];
-            }
-        }
-    }
-}
+                            break;
+                        }
 
-/**
- * @description add "new" label to {product.labels} key
- */
-export function WithNoveltyLabel<T extends { new(...args: any[]): {} }>(constr: T) {
-    return class extends constr {
-        labels: IProduct['labels'];
+                        case LabelType.NEW: {
+                            if (is_new) {
+                                this.labels = [
+                                    ...this.labels,
+                                    new LabelDTO(LabelType.NEW, 'новинки')
+                                ];
+                            }
 
-        constructor(...args: any[]) {
-            super(...args);
-
-            const { is_new } = args[0] as IProduct;
-            
-            if (is_new) {
-                this.labels = [
-                    ...this.labels,
-                    new LabelDTO(LabelType.NEW)
-                ];
+                            break;
+                        }
+                    }
+                });
             }
         }
     }

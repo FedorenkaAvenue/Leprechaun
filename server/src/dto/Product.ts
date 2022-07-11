@@ -9,9 +9,10 @@ import { ProductStatus } from '@enums/Product';
 import { IProperty } from '@interfaces/Property';
 import { IImage } from '@interfaces/Image';
 import { BaseProductEntity, PublicProductEntity } from '@entities/Product';
-import { WithDiscountLabel, WithNoveltyLabel } from '@decorators/Label';
+import WithLabels from '@decorators/Label';
 import { LabelDTO } from './Label';
 import { ILabel } from '@interfaces/Label';
+import { LabelType } from '@enums/Label';
 
 export class CreateProductDTO implements IProduct {
     @IsNotEmpty()
@@ -116,7 +117,7 @@ export class CreateProductDTOConstructor extends CreateProductDTO implements IPr
     }
 }
 
-@WithDiscountLabel
+@WithLabels(LabelType.DISCOUNT)
 export class ProductPreviewDTO extends BaseProductEntity implements IProductPreview {
     @ApiProperty({ required: false })
     image: string;
@@ -131,12 +132,10 @@ export class ProductPreviewDTO extends BaseProductEntity implements IProductPrev
         this.price = price;
         this.status = status;
         this.image = (images[0] as IImage).src;
-        this.labels = [];
     }
 }
 
-@WithDiscountLabel
-@WithNoveltyLabel
+@WithLabels(LabelType.NEW, LabelType.DISCOUNT)
 export class PublicProductDTO extends PublicProductEntity implements IPublicProduct {
     @ApiProperty({ type: LabelDTO, isArray: true, required: false })
     labels: ILabel[];
@@ -150,6 +149,5 @@ export class PublicProductDTO extends PublicProductEntity implements IPublicProd
         this.images = images as Array<IImage>;
         this.properties = properties;
         this.category = category;
-        this.labels = [];
     }
 }
