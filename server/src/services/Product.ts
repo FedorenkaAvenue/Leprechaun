@@ -16,6 +16,8 @@ import { IProduct, IProductPreview, IPublicProduct } from '@interfaces/Product';
 import ConfigService from './Config';
 import { IUserDashboards } from '@interfaces/Dashboard';
 
+export const PRODUCT_RELATIONS = ['product', 'product.category', 'product.properties', 'product.properties.property_group'];
+
 @Injectable()
 export class ProductService {
 	dashboardPortion: number;
@@ -44,7 +46,7 @@ export class ProductService {
 	async getAdminProduct(productId: IProduct['id']): Promise<IProduct> {
 		return this.productRepo.findOne({
 			where: { id: productId },
-			relations: ['category', 'properties', 'properties.property_group']
+			relations: PRODUCT_RELATIONS
 		});
 	}
 
@@ -52,7 +54,7 @@ export class ProductService {
 		try {
 			const res = await this.productRepo.findOneOrFail({
 				where: { id: productId, is_public: true },
-				relations: ['category', 'properties', 'properties.property_group']
+				relations: PRODUCT_RELATIONS
 			});
 
 			return new PublicProductDTO(res);

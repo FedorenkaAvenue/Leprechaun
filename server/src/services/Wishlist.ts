@@ -5,7 +5,8 @@ import { Repository } from 'typeorm';
 import WishlistEntity from '@entities/Wishlist';
 import { IProduct, IPublicProduct } from '@interfaces/Product';
 import { ISession } from '@interfaces/Session';
-import { ProductPreviewDTO } from '@dto/Product';
+import { PublicProductDTO } from '@dto/Product';
+import { PRODUCT_RELATIONS } from './Product';
 
 @Injectable()
 export default class WishlistService {
@@ -27,15 +28,13 @@ export default class WishlistService {
     }
 
     async getWishlist(session_id: ISession['id']): Promise<IPublicProduct[]> {
-        const res = await this.wishlistRepo.find({
+        const wishlist = await this.wishlistRepo.find({
             where: { session_id },
-            relations: [ 'product' ]
+            relations: PRODUCT_RELATIONS
         });
 
-        if (!res.length) return [];
-
         //@ts-ignore
-        return res.map(({ product }) => new ProductPreviewDTO(product));
+        return wishlist.map(({ product }) => new PublicProductDTO(product));
     }
 
     async removeItem(
