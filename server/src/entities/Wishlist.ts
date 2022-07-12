@@ -6,23 +6,23 @@ import { ProductEntity } from './Product';
 import { IProduct } from '@interfaces/Product';
 
 @Entity('wishlist')
-export default class WishlistEntity implements IWishlistItem {
+export default class WishlistEntity implements IWishlistItem<string> {
     @PrimaryGeneratedColumn('uuid')
     @ApiProperty({ required: true })
     id?: string;
-
-    @CreateDateColumn()
-    @ApiProperty({ required: true })
-    created_at?: Date;
 
     @ManyToOne(
         () => ProductEntity,
         ({ images }) => images,
         { onDelete: 'CASCADE' }
     )
-    @JoinColumn({ name: 'product_id', referencedColumnName: 'id' })
+    @JoinColumn({ name: 'product', referencedColumnName: 'id' })
     @ApiProperty({ required: true })
-    product: IProduct;
+    product: IProduct['id'];
+
+    @CreateDateColumn()
+    @ApiProperty({ required: true })
+    created_at?: Date;
 
     @Column({ nullable: true })
     @ApiProperty({ required: false })

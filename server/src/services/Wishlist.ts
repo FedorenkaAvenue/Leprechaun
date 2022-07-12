@@ -1,9 +1,9 @@
-import { BadRequestException, Injectable, NotAcceptableException } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
 import WishlistEntity from '@entities/Wishlist';
-import { IProduct, IProductPreview } from '@interfaces/Product';
+import { IProduct, IPublicProduct } from '@interfaces/Product';
 import { ISession } from '@interfaces/Session';
 import { ProductPreviewDTO } from '@dto/Product';
 
@@ -16,14 +16,8 @@ export default class WishlistService {
     async addItem(
         productId: IProduct['id'],
         session_id: ISession['id']
-    ): Promise<IProductPreview[]> {
-        //@ts-ignore
-        const res = await this.wishlistRepo.findOne({ session_id, product: productId });
-
-        if (res) throw new NotAcceptableException('product already exist');
-
+    ): Promise<IPublicProduct[]> {
         try {
-            //@ts-ignore
             await this.wishlistRepo.save({ product: productId, session_id });
 
             return this.getWishlist(session_id);
@@ -32,7 +26,7 @@ export default class WishlistService {
         }
     }
 
-    async getWishlist(session_id: ISession['id']): Promise<IProductPreview[]> {
+    async getWishlist(session_id: ISession['id']): Promise<IPublicProduct[]> {
         const res = await this.wishlistRepo.find({
             where: { session_id },
             relations: [ 'product' ]
@@ -47,8 +41,7 @@ export default class WishlistService {
     async removeItem(
         productId: IProduct['id'],
         session_id: ISession['id']
-    ): Promise<IProductPreview[]> {
-        //@ts-ignore
+    ): Promise<IPublicProduct[]> {
         await this.wishlistRepo.delete({ product: productId, session_id });
 
         return this.getWishlist(session_id);

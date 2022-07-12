@@ -29,6 +29,8 @@ export class ProductService {
 		this.dashboardPortion = +this.configService.getVal('DASHBOARD_PORTION');
 	}
 
+	// CONTROLLERS
+
 	async createProduct(newProduct: CreateProductDTO, images: Array<Express.Multer.File>): Promise<void> {
 		const { id } = await this.productRepo.save(new CreateProductDTOConstructor(newProduct));
 		
@@ -39,14 +41,14 @@ export class ProductService {
 		}
 	}
 
-	async getAdminProduct(productId: string): Promise<IProduct> {
+	async getAdminProduct(productId: IProduct['id']): Promise<IProduct> {
 		return this.productRepo.findOne({
 			where: { id: productId },
 			relations: ['category', 'properties', 'properties.property_group']
 		});
 	}
 
-	async getPublicProduct(productId: string): Promise<IPublicProduct> {
+	async getPublicProduct(productId: IProduct['id']): Promise<IPublicProduct> {
 		try {
 			const res = await this.productRepo.findOneOrFail({
 				where: { id: productId, is_public: true },
@@ -59,7 +61,7 @@ export class ProductService {
 		}
 	}
 
-	async getProductPreview(productId: string): Promise<IProductPreview> {
+	async getProductPreview(productId: IProduct['id']): Promise<IProductPreview> {
 		try {
 			const res = await this.productRepo.findOneOrFail({
 				where: { id: productId, is_public: true }
@@ -71,7 +73,7 @@ export class ProductService {
 		}
 	}
 
-	async getProductPreviewList(productIds: Array<string>): Promise<IProductPreview[]> {
+	async getProductPreviewList(productIds: Array<IProduct['id']>): Promise<IProductPreview[]> {
 		const res = await this.productRepo
 			.createQueryBuilder('product')
 			.leftJoinAndSelect('product.images', 'images')
@@ -165,6 +167,8 @@ export class ProductService {
 
 		return res;
 	}
+
+	// HELPERS
 
 	/**
 	 * @description get common product query builder
