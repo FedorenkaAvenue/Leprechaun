@@ -40,7 +40,7 @@ export class CreateOrderDTO {
 }
 
 export class OrderPublicDTO extends OrderBaseEntity implements IOrderPublic {
-    @ApiProperty({ type: OrderItemPublicDTO, isArray: true })
+    @ApiProperty({ type: OrderItemPublicDTO, isArray: true, required: false })
     list?: IOrderItemPublic[];
 
     constructor({ id, status, list }: IOrder) {

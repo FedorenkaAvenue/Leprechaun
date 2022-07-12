@@ -18,11 +18,11 @@ export class OrderCustomerDataEntity implements IOrderCustomerData {
 
 export class OrderBaseEntity implements IOrderBase {
     @PrimaryGeneratedColumn('uuid')
-    @ApiProperty({ required: true, description: 'order ID' })
+    @ApiProperty({ required: false, description: 'order ID' })
     id?: string;
 
     @Column({ default: OrderStatus.INIT })
-    @ApiProperty({ required: true, enum: OrderStatus })
+    @ApiProperty({ required: false, enum: OrderStatus })
     status: OrderStatus;
 }
 

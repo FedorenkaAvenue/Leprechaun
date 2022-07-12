@@ -1,5 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsBooleanString, IsEnum, IsNotEmpty, IsNumberString, IsOptional, IsString } from 'class-validator';
+import {
+    IsBoolean, IsBooleanString, IsEnum, IsNotEmpty, IsNumberString, IsOptional, IsString
+} from 'class-validator';
 
 import { ICategory } from '@interfaces/Category';
 import { IPrice, IProduct, IProductPreview, IPublicProduct } from '@interfaces/Product';
@@ -7,8 +9,9 @@ import { ProductStatus } from '@enums/Product';
 import { IProperty } from '@interfaces/Property';
 import { IImage } from '@interfaces/Image';
 import { BaseProductEntity, PublicProductEntity } from '@entities/Product';
+import WithLabels from '@decorators/Label';
+import { LabelDTO } from './Label';
 import { ILabel } from '@interfaces/Label';
-import { LabelDTO } from '@dto/Label';
 import { LabelType } from '@enums/Label';
 
 export class CreateProductDTO implements IProduct {
@@ -76,6 +79,15 @@ export class CreateProductDTO implements IProduct {
     properties: IProperty[];
 
     @IsOptional()
+    @IsBoolean()
+    @ApiProperty({
+        required: false,
+        default: true,
+        description: 'novelty status'
+    })
+    is_new: boolean;
+
+    @IsOptional()
     @IsString()
     @ApiProperty({ required: false, default: null })
     comment: string;
@@ -85,7 +97,7 @@ export class CreateProductDTOConstructor extends CreateProductDTO implements IPr
     price?: IPrice;
 
     constructor({
-        title, price_current, price_old, is_public, category, properties, status, description, comment
+        title, price_current, price_old, is_public, category, properties, status, description, comment, is_new
     }: CreateProductDTO) {
         super();
         this.title = title;
@@ -96,6 +108,7 @@ export class CreateProductDTOConstructor extends CreateProductDTO implements IPr
         // @ts-ignore
         this.is_public = is_public === 'true';
         this.status = status || ProductStatus.AVAILABLE;
+        this.is_new = typeof is_new === 'boolean' ? is_new : true;
         this.category = category;
         this.description = description || null;
         this.comment = comment || null;
@@ -104,49 +117,30 @@ export class CreateProductDTOConstructor extends CreateProductDTO implements IPr
     }
 }
 
-/**
- * @description create product preview
- */
+@WithLabels(LabelType.DISCOUNT)
 export class ProductPreviewDTO extends BaseProductEntity implements IProductPreview {
     @ApiProperty({ required: false })
     image: string;
 
-    @ApiProperty({ type: LabelDTO, isArray: true })
+    @ApiProperty({ type: LabelDTO, isArray: true, required: false })
     labels: ILabel[];
 
     constructor({ id, title, price, status, images }: IProduct) {
-        const labels: Array<ILabel> = [];
-
-        if (price.old) {
-            labels.push(new LabelDTO(LabelType.DISCOUNT, `-${Math.ceil(100 - price.current / price.old * 100)}%`));
-        }
-        
         super();
         this.id = id;
         this.title = title;
         this.price = price;
         this.status = status;
         this.image = (images[0] as IImage).src;
-        this.labels = labels;
     }
 }
 
-/**
- * @description create public product
- */
+@WithLabels(LabelType.NEW, LabelType.POPULAR, LabelType.DISCOUNT)
 export class PublicProductDTO extends PublicProductEntity implements IPublicProduct {
-    @ApiProperty({ type: LabelDTO, isArray: true })
+    @ApiProperty({ type: LabelDTO, isArray: true, required: false })
     labels: ILabel[];
 
-    constructor({ id, title, price, status, images, properties, category }: IProduct) {
-        const labels: Array<ILabel> = [];
-
-        if (price.old) {
-            labels.push(new LabelDTO(LabelType.DISCOUNT, `-${Math.ceil(100 - price.current / price.old * 100)}%`));
-        }
-
-        labels.push(new LabelDTO(LabelType.NEW, 'новинка'));
-        
+    constructor({ id, title, price, status, images, properties, category }: IProduct) {        
         super();
         this.id = id;
         this.title = title;
@@ -155,6 +149,5 @@ export class PublicProductDTO extends PublicProductEntity implements IPublicProd
         this.images = images as Array<IImage>;
         this.properties = properties;
         this.category = category;
-        this.labels = labels;
     }
 }

@@ -1,16 +1,24 @@
 ### admin client bundle
+
 FROM node:16.15.0-alpine3.14 AS ADMIN_CLIENT
 
 ENV NODE_OPTIONS=--max_old_space_size=8192
 
 WORKDIR /app
 
-COPY ./admin/. .
+COPY ./admin/package.json ./admin/package-lock.json ./
 
 RUN npm install
+
+# disable Dockerfile caching
+ADD "https://www.random.org/cgi-bin/randbyte?nbytes=10&format=h" skipcache
+
+COPY ./admin/. .
+
 RUN npm run build
 
 ### Nginx
+
 FROM nginx:1.14
 
 ARG HOSTING_PATH

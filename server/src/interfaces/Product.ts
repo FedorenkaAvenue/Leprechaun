@@ -32,4 +32,5 @@ export interface IProduct extends IPublicProduct {
     created_at?: Date
     is_public?: boolean
     comment: string
+    is_new: boolean
 }

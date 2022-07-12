@@ -5,6 +5,9 @@ import { PaginationDTO } from '@dto/Pagination';
 import { SortType } from '@enums/Query';
 import { ProductStatus } from '@enums/Product';
 
+/**
+ * @description successful responce documentation for OpenAPI
+ */
 export const ApiPaginatedResponse = <TModel extends Type<any>>(model: TModel) => {
 	return applyDecorators(
 		ApiOkResponse({
