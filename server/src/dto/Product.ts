@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import {
-    IsBoolean, IsBooleanString, IsEnum, IsNotEmpty, IsNumberString, IsOptional, IsString
+    IsBooleanString, IsEnum, IsNotEmpty, IsNumberString, IsOptional, IsString
 } from 'class-validator';
 
 import { ICategory } from '@interfaces/Category';
@@ -79,7 +79,7 @@ export class CreateProductDTO implements IProduct {
     properties: IProperty[];
 
     @IsOptional()
-    @IsBoolean()
+    @IsBooleanString()
     @ApiProperty({
         required: false,
         default: true,
@@ -102,8 +102,9 @@ export class CreateProductDTOConstructor extends CreateProductDTO implements IPr
         super();
         this.title = title;
         this.price = {
+            //TODO подумать на счет Price DTO
             current: price_current,
-            old: price_old
+            old: price_old < price_current ? null : price_old
         };
         // @ts-ignore
         this.is_public = is_public === 'true';
