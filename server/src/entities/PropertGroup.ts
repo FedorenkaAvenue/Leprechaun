@@ -1,7 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 
-import { IProperty } from '@interfaces/Property';
 import { PropertyEntity } from './Property';
 import { IPropertyGroup } from '@interfaces/PropertyGroup';
 
@@ -30,5 +29,5 @@ export class PropertyGroupEntity extends ProductGroupBaseEntity implements IProp
         ({ property_group }) => property_group
     )
     @ApiProperty({ type: () => PropertyEntity, isArray: true, required: false })
-    properties: IProperty[];
+    properties: PropertyEntity[];
 }

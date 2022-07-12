@@ -19,7 +19,7 @@ export class OrderCustomerDataEntity implements IOrderCustomerData {
 export class OrderBaseEntity implements IOrderBase {
     @PrimaryGeneratedColumn('uuid')
     @ApiProperty({ required: false, description: 'order ID' })
-    id?: string;
+    id: string;
 
     @Column({ default: OrderStatus.INIT })
     @ApiProperty({ required: false, enum: OrderStatus })
@@ -30,20 +30,20 @@ export class OrderBaseEntity implements IOrderBase {
 export class OrderEntity extends OrderBaseEntity implements IOrder {
     @CreateDateColumn()
     @ApiProperty({ required: false })
-    created_at?: Date;
+    created_at: Date;
     
     @OneToMany(
         () => OrderItemEntity,
-        ({ order }) => order
+        ({ order_id }) => order_id
     )
     @ApiProperty({ type: OrderItemEntity, isArray: true })
-    list?: IOrderItem[];
+    list: IOrderItem[];
 
     @Column(() => OrderCustomerDataEntity, { prefix: false })
     @ApiProperty({ description: 'customer\'s order credentials' })
-    customer?: IOrderCustomerData;
+    customer: IOrderCustomerData;
 
     @Column({ nullable: true })
     @ApiProperty({ description: 'user session ID' })
-    session_id?: string;
+    session_id: string;
 }

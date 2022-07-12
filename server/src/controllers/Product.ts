@@ -6,7 +6,7 @@ import {
     ApiBadRequestResponse, ApiNotFoundResponse, ApiOkResponse, ApiOperation,
     ApiQuery, ApiServiceUnavailableResponse, ApiTags, ApiUnsupportedMediaTypeResponse
 } from '@nestjs/swagger';
-import { DeleteResult, UpdateResult } from 'typeorm';
+import { DeleteResult } from 'typeorm';
 import { FilesInterceptor } from '@nestjs/platform-express';
 
 import { CreateProductDTO, ProductPreviewDTO, PublicProductDTO } from '@dto/Product';

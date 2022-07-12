@@ -9,7 +9,7 @@ import getPercentDifference from "@utils/getPercentDifference";
  */
 export default function WithLabels(...labels: Array<LabelType>) {
     return function <T extends { new(...args: any[]): {} }>(constr: T) {
-        return class extends constr {
+        return class Kozyan extends constr {
             labels: IProduct['labels'];
     
             constructor(...args: any[]) {

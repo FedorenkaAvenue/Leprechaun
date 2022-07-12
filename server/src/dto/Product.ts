@@ -13,6 +13,7 @@ import WithLabels from '@decorators/Label';
 import { LabelDTO } from './Label';
 import { ILabel } from '@interfaces/Label';
 import { LabelType } from '@enums/Label';
+import { ImageEntity } from '@entities/Image';
 
 export class CreateProductDTO implements IProduct {
     @IsNotEmpty()
@@ -93,6 +94,16 @@ export class CreateProductDTO implements IProduct {
     comment: string;
 }
 
+class ProductPriceDTOConstructor implements IPrice {
+    current: number;
+    old: number;
+
+    constructor({ current, old }: IPrice) {
+        this.current = current;
+        this.old = old < current ? null : old;
+    }
+}
+
 export class CreateProductDTOConstructor extends CreateProductDTO implements IProduct {
     price?: IPrice;
 
@@ -101,13 +112,8 @@ export class CreateProductDTOConstructor extends CreateProductDTO implements IPr
     }: CreateProductDTO) {
         super();
         this.title = title;
-        this.price = {
-            //TODO подумать на счет Price DTO
-            current: price_current,
-            old: price_old < price_current ? null : price_old
-        };
-        // @ts-ignore
-        this.is_public = is_public === 'true';
+        this.price = new ProductPriceDTOConstructor({ current: price_current, old: price_old });
+        this.is_public = typeof is_public === 'string' ? is_public : undefined;
         this.status = status || ProductStatus.AVAILABLE;
         this.is_new = typeof is_new === 'boolean' ? is_new : true;
         this.category = category;
@@ -132,7 +138,7 @@ export class ProductPreviewDTO extends BaseProductEntity implements IProductPrev
         this.title = title;
         this.price = price;
         this.status = status;
-        this.image = (images[0] as IImage).src;
+        this.image = (images[0] as ImageEntity).src;
     }
 }
 
@@ -141,13 +147,13 @@ export class PublicProductDTO extends PublicProductEntity implements IPublicProd
     @ApiProperty({ type: LabelDTO, isArray: true, required: false })
     labels: ILabel[];
 
-    constructor({ id, title, price, status, images, properties, category }: IProduct) {        
+    constructor({ id, title, price, status, images, properties, category }: IProduct) {
         super();
         this.id = id;
         this.title = title;
         this.price = price;
         this.status = status;
-        this.images = images as Array<IImage>;
+        this.images = images as ImageEntity[];
         this.properties = properties;
         this.category = category;
     }

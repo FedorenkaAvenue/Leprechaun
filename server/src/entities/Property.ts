@@ -3,7 +3,6 @@ import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 't
 
 import { IProperty } from '@interfaces/Property';
 import { PropertyGroupEntity } from './PropertGroup';
-import { IPropertyGroup } from '@interfaces/PropertyGroup';
 
 export class PropertyBaseEntity implements IProperty {
     @PrimaryGeneratedColumn('rowid')
@@ -32,5 +31,5 @@ export class PropertyEntity extends PropertyBaseEntity implements IProperty {
     )
     @JoinColumn({ name: 'property_group' })
     @ApiProperty({ required: false })
-    property_group: IPropertyGroup;
+    property_group: PropertyGroupEntity;
 }
