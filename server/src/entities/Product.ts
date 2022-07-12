@@ -10,7 +10,6 @@ import { ImageEntity } from '@entities/Image';
 import { ICategory } from '@interfaces/Category';
 import { IProperty } from '@interfaces/Property';
 import { PropertyEntity } from '@entities/Property';
-import { IImage } from '@interfaces/Image';
 
 export class PriceEntity implements IPrice {
     @Column({ name: 'price_current' })
