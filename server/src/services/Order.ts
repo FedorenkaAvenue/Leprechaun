@@ -1,6 +1,6 @@
 import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { DeleteResult, Not, Repository, SelectQueryBuilder, UpdateResult } from 'typeorm';
+import { DeepPartial, DeleteResult, Not, Repository, SelectQueryBuilder, UpdateResult } from 'typeorm';
 
 import { OrderEntity } from '@entities/Order';
 import { OrderItemEntity } from '@entities/OrderItem';
@@ -10,6 +10,7 @@ import { IOrder, IOrderPublic } from '@interfaces/Order';
 import { OrderStatus } from '@enums/Order';
 import { CreateOrderItemDTO, UpdateOrderItemDTO } from '@dto/OrderItem';
 import { IOrderItem } from '@interfaces/OrderItem';
+import { ProductEntity } from '@entities/Product';
 
 @Injectable()
 export class OrderService {
@@ -19,15 +20,6 @@ export class OrderService {
     ) {}
 
     // CONTROLLERS
-
-    async createOrder(order: IOrder): Promise<IOrder> {
-        return this.orderRepo.save(order);
-    }
-
-    createOrderItem(orderId: IOrder['id'], item: CreateOrderItemDTO): Promise<IOrderItem> {
-        //@ts-ignore
-        return this.orderItemRepo.save({ order: orderId, ...item });
-    }
 
     async getOrderById(id: IOrder['id']): Promise<IOrderPublic> {
         const qb = this.orderRepo
@@ -76,13 +68,13 @@ export class OrderService {
             
             if (list.some(({ product }) => product.id == orderItem.product)) { // order item already at order
                 throw new BadRequestException('product already exists');
-            } else {
-                //@ts-ignore
-                await this.orderItemRepo.save({ order: id, ...orderItem });
+            } else { // add order item
+                await this.orderItemRepo.save({ order_id: id, ...orderItem } as DeepPartial<ProductEntity>);
             }
         } else { // create new order
-            const { id } = await this.createOrder({ session_id });
-            await this.createOrderItem(id, orderItem);
+            const { id: order_id } = await this.orderRepo.save({ session_id });
+
+            await this.orderItemRepo.save({ order_id, ...orderItem } as DeepPartial<ProductEntity>);
         }
 
         return await this.getCurrentOrder(session_id);
@@ -130,11 +122,11 @@ export class OrderService {
         return this.orderRepo.delete({ id });
     }
 
-    clearUselessOrders() {
-        console.log(777);
-    }
-
     // HELPERS
+
+    createOrderItem(orderId: IOrder['id'], item: CreateOrderItemDTO): Promise<IOrderItem> {
+        return this.orderItemRepo.save({ order_id: orderId, ...item } as DeepPartial<ProductEntity>);
+    }
 
     /**
 	 * @description split relative tables for order by query builder
@@ -153,5 +145,9 @@ export class OrderService {
 
             // fictive order if doesn't exists
             return new OrderPublicDTO(res || { id: null, status: null, list: [] });
+    }
+
+    clearUselessOrders() {
+        console.log(777);
     }
 }

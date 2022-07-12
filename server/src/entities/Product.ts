@@ -47,7 +47,7 @@ export class PublicProductEntity extends BaseProductEntity implements IPublicPro
         { eager: true }
     )
     @ApiProperty({ type: ImageEntity, isArray: true, required: false })
-    images: IImage[];
+    images: ImageEntity[];
 
     @ManyToMany(
         () => PropertyEntity,

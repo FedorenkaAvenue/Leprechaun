@@ -22,7 +22,7 @@ export interface IProductPreview extends IBaseProduct {
 }
 
 export interface IPublicProduct extends IBaseProduct {
-    images: Array<IImage> | Array<string>
+    images: Array<IImage>
     category?: ICategory
     properties?: Array<IProperty>
 }

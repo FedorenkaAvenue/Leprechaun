@@ -3,7 +3,6 @@ import { ApiProperty } from '@nestjs/swagger';
 
 import { IOrder } from '@interfaces/Order';
 import { ProductEntity } from './Product';
-import { IProduct } from '@interfaces/Product';
 import { IOrderItem, IOrderItemBase } from '@interfaces/OrderItem';
 import { OrderEntity } from './Order';
 import { ProductPreviewDTO } from '@dto/Product';
@@ -22,7 +21,7 @@ export class OrderItemBaseEntity implements IOrderItemBase {
 export class OrderItemEntity extends OrderItemBaseEntity implements IOrderItem {
     @CreateDateColumn()
     @ApiProperty({ required: false })
-    created_at?: Date;
+    created_at: Date;
 
     @ManyToOne(
         () => ProductEntity,
@@ -30,14 +29,14 @@ export class OrderItemEntity extends OrderItemBaseEntity implements IOrderItem {
     )
     @JoinColumn({ name: 'product', referencedColumnName: 'id' })
     @ApiProperty({ type: ProductPreviewDTO , required: true })
-    product: IProduct;
+    product: ProductEntity;
 
     @ManyToOne(
         () => OrderEntity,
         ({ id }) => id,
         { onDelete: 'CASCADE' }
     )
-    @JoinColumn({ name: 'order', referencedColumnName: 'id' })
+    @JoinColumn({ name: 'order_id', referencedColumnName: 'id' })
     @ApiProperty()
-    order: IOrder['id'];
+    order_id: IOrder['id'];
 }

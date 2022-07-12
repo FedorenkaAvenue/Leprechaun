@@ -4,8 +4,6 @@ import { ApiProperty } from '@nestjs/swagger';
 import { ProductEntity } from '@entities/Product';
 import { ICategory, ICategoryBase } from '@interfaces/Category';
 import { ProductGroupBaseEntity, PropertyGroupEntity } from '@entities/PropertGroup';
-import { IProduct } from '@interfaces/Product';
-import { IPropertyGroup } from '@interfaces/PropertyGroup';
 
 export class CategoryBaseEntity implements ICategoryBase {
     @PrimaryGeneratedColumn('rowid')
@@ -29,7 +27,7 @@ export class CategoryBaseEntity implements ICategoryBase {
 export class CategoryEntity extends CategoryBaseEntity implements ICategory {
     @OneToMany(() => ProductEntity, ({ category }) => category)
     @ApiProperty({ type: ProductEntity, isArray: true })
-    products: IProduct[];
+    products: ProductEntity[];
 
     @ManyToMany(
         () => PropertyGroupEntity,
@@ -52,7 +50,7 @@ export class CategoryEntity extends CategoryBaseEntity implements ICategory {
         isArray: true,
         required: false
     })
-    property_groups: IPropertyGroup[];
+    property_groups: PropertyGroupEntity[];
 
     @Column({ nullable: true })
     @ApiProperty({ required: false })

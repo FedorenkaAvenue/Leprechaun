@@ -3,6 +3,7 @@ import { ApiProperty } from '@nestjs/swagger';
 
 import { ProductEntity } from '@entities/Product';
 import { IImage } from '@interfaces/Image';
+import { IProduct } from '@interfaces/Product';
 
 @Entity('image')
 export class ImageEntity implements IImage {
@@ -21,5 +22,5 @@ export class ImageEntity implements IImage {
     )
     @JoinColumn({ name: 'product_id', referencedColumnName: 'id' })
     @ApiProperty({ required: false })
-    product_id: string;
+    product_id: IProduct['id'];
 }

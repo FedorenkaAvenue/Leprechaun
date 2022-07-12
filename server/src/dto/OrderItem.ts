@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsNotEmpty, IsNumber, IsOptional, IsUUID } from 'class-validator';
 
-import { IProduct, IProductPreview } from '@interfaces/Product';
+import { IProductPreview } from '@interfaces/Product';
 import { ProductPreviewDTO } from './Product';
 import { IOrderItem, IOrderItemPublic } from '@interfaces/OrderItem';
 import { OrderItemBaseEntity } from '@entities/OrderItem';
@@ -42,6 +42,6 @@ export class OrderItemPublicDTO extends OrderItemBaseEntity implements IOrderIte
         super();
         this.id = id;
         this.amount = amount;
-        this.product = new ProductPreviewDTO(product as IProduct);
+        this.product = new ProductPreviewDTO(product);
     }
 }

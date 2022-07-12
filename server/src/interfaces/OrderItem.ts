@@ -11,7 +11,7 @@ export interface IOrderItemPublic extends IOrderItemBase {
 }
 
 export interface IOrderItem<T = IProduct> extends IOrderItemBase {
-    order?: IOrder | IOrder['id'];
+    order_id?: IOrder['id'];
     product: T
     created_at?: Date
 }
