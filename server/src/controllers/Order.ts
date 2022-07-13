@@ -9,7 +9,7 @@ import {
 import { UpdateResult } from 'typeorm';
 
 import { OrderService } from '@services/Order';
-import { UpdateOrderStatusDTO, CreateOrderDTO, OrderPublicDTO } from '@dto/Order';
+import { UpdateOrderStatusDTO, CreateOrderDTO } from '@dto/Order';
 import { Session } from '@decorators/Session';
 import { ISession } from '@interfaces/Session';
 import AffectedResultInterceptor from '@interceptors/AffectedResult';
@@ -17,6 +17,7 @@ import { IOrder, IOrderPublic } from '@interfaces/Order';
 import { CreateOrderItemDTO, UpdateOrderItemDTO } from '@dto/OrderItem';
 import { IOrderItem } from '@interfaces/OrderItem';
 import { OrderEntity } from '@entities/Order';
+import { OrderPublic } from '@dto/Order/constructor';
 
 @Controller('order')
 @ApiTags('Order 🧑‍💻')
@@ -27,7 +28,7 @@ export class OrderPublicController {
 
     @Get()
     @ApiOperation({ summary: 'get current order (basket)' })
-    @ApiOkResponse({ type: OrderPublicDTO })
+    @ApiOkResponse({ type: OrderPublic })
     @ApiNotFoundResponse({ description: 'no active order' })
     getCurrentOrder(
         @Session() { id }: ISession
@@ -37,7 +38,7 @@ export class OrderPublicController {
 
     @Post('item')
     @ApiOperation({ summary: 'add new order item' })
-    @ApiOkResponse({ type: OrderPublicDTO })
+    @ApiOkResponse({ type: OrderPublic })
     @ApiBadRequestResponse({ description: 'product already exists' })
     addOrderItem(
         @Session() { id }: ISession,
@@ -48,7 +49,7 @@ export class OrderPublicController {
 
     @Patch('item')
     @ApiOperation({ summary: 'change order item amount (ПЕРЕДЕЛАТЬ order ID через path)' })
-    @ApiOkResponse({ type: OrderPublicDTO })
+    @ApiOkResponse({ type: OrderPublic })
     changeOrderItemAmount(
         @Body(new ValidationPipe({ transform: true })) orderItem: UpdateOrderItemDTO,
         @Session() { id }: ISession
@@ -59,7 +60,7 @@ export class OrderPublicController {
     @Post()
     @UseInterceptors(AffectedResultInterceptor)
     @ApiOperation({ summary: 'send order' })
-    @ApiOkResponse({ type: OrderPublicDTO })
+    @ApiOkResponse({ type: OrderPublic })
     sendOrder(
         @Body(new ValidationPipe({ transform: true })) order: CreateOrderDTO
     ): Promise<UpdateResult> {
@@ -68,7 +69,7 @@ export class OrderPublicController {
 
     @Delete('item/:itemId')
     @ApiOperation({ summary: 'delete order item' })
-    @ApiOkResponse({ type: OrderPublicDTO })
+    @ApiOkResponse({ type: OrderPublic })
     @ApiNotFoundResponse({ description: 'order item not found' })
     removeItem(
         @Param('itemId', ParseUUIDPipe) orderItemId: IOrderItem['id'],
@@ -79,7 +80,7 @@ export class OrderPublicController {
 
     @Get('history')
     @ApiOperation({ summary: 'get order history' })
-    @ApiOkResponse({ type: OrderPublicDTO, isArray: true })
+    @ApiOkResponse({ type: OrderPublic, isArray: true })
     getOrderHistory(
         @Session() { id }: ISession
     ): Promise<IOrderPublic[]> {
@@ -96,7 +97,7 @@ export class OrderAdminController {
 
     @Get(':orderId')
     @ApiOperation({ summary: 'get order by ID' })
-    @ApiOkResponse({ type: OrderPublicDTO })
+    @ApiOkResponse({ type: OrderPublic })
     @ApiNotFoundResponse({ description: 'order not found' })
     getOrderById(
         @Param('orderId', ParseUUIDPipe) orderId: IOrder['id']

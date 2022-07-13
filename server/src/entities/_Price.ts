@@ -5,10 +5,10 @@ import { IPrice } from "@interfaces/Price";
 
 export class PriceEntity implements IPrice {
     @Column({ name: 'price_current' })
-    @ApiProperty({ required: false })
+    @ApiProperty()
     current: number;
 
     @Column({ name: 'price_old', nullable: true })
-    @ApiProperty({ required: false, nullable: true })
+    @ApiProperty({ nullable: true })
     old: number;
 }

@@ -1,7 +1,7 @@
 import { createParamDecorator, ExecutionContext } from '@nestjs/common';
 
 import { ICookies } from '@interfaces/Cookies';
-import { CookieDTO } from '@dto/Cookies';
+import { Cookie } from '@dto/Cookies/constructor';
 
 type TCookieKey = keyof ICookies;
 
@@ -12,7 +12,7 @@ type TCookieKey = keyof ICookies;
 export const Cookies = createParamDecorator(
     (data: TCookieKey, ctx: ExecutionContext): TCookieKey | ICookies => {
         const request = ctx.switchToHttp().getRequest();
-        const cookies = new CookieDTO(request.cookies);
+        const cookies = new Cookie(request.cookies);
 
         return data ? cookies[data] as TCookieKey : cookies as ICookies;
     }

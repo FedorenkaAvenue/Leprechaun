@@ -21,6 +21,6 @@ export class ImageEntity implements IImage {
         { onDelete: 'CASCADE' }
     )
     @JoinColumn({ name: 'product_id', referencedColumnName: 'id' })
-    @ApiProperty({ required: false })
+    @ApiProperty()
     product_id: IProduct['id'];
 }

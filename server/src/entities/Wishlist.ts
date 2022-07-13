@@ -24,6 +24,6 @@ export default class WishlistEntity implements IWishlistItem {
     created_at: Date;
 
     @Column({ nullable: true })
-    @ApiProperty({ required: false })
+    @ApiProperty()
     session_id: string;
 }

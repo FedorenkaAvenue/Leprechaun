@@ -1,16 +1,9 @@
 import { IDevLogMail } from "@interfaces/Mail";
+import { DevLogMailDTO } from ".";
 
-export class DevLogMailDTO implements IDevLogMail {
-    method: string;
-    message: string;
-    url: string;
-    body?: string | null;
-    cookies?: string | null;
-    stack: string;
-    ip: string;
-    timestamp: string;
-
+export class DevLogMail extends DevLogMailDTO {
     constructor({ method, message, url, body, cookies, stack, ip, timestamp }: IDevLogMail) {
+        super();
         if (Object.keys(body).length) this.body = JSON.stringify(body);
         if (Object.keys(cookies).length) this.cookies = JSON.stringify(cookies);
         

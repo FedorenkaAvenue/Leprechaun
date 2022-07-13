@@ -19,12 +19,3 @@ export class CreatePropertyGroupDTO implements IPropertyGroup {
     @ApiProperty({ required: false, default: null })
     comment: string;
 }
-
-export class CreatePropertyGroupDTOConstructor extends CreatePropertyGroupDTO {
-    constructor({ title, alt_name, comment }: CreatePropertyGroupDTO) {
-        super();
-        this.title = title;
-        this.alt_name = alt_name;
-        this.comment = comment || null;
-    }
-}

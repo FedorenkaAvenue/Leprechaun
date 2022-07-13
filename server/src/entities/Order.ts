@@ -8,28 +8,28 @@ import { OrderItemEntity } from './OrderItem';
 
 export class OrderCustomerDataEntity implements IOrderCustomerData {
     @Column({ name: 'customer_name', nullable: true })
-    @ApiProperty({ required: false })
+    @ApiProperty()
     name: string;
 
     @Column({ name: 'customer_phone', nullable: true })
-    @ApiProperty({ required: false })
+    @ApiProperty()
     phone: string;
 }
 
 export class OrderBaseEntity implements IOrderBase {
     @PrimaryGeneratedColumn('uuid')
-    @ApiProperty({ required: false, description: 'order ID' })
+    @ApiProperty({ description: 'order ID' })
     id: string;
 
     @Column({ default: OrderStatus.INIT })
-    @ApiProperty({ required: false, enum: OrderStatus })
+    @ApiProperty({ enum: OrderStatus })
     status: OrderStatus;
 }
 
 @Entity('order')
 export class OrderEntity extends OrderBaseEntity implements IOrder {
     @CreateDateColumn()
-    @ApiProperty({ required: false })
+    @ApiProperty()
     created_at: Date;
     
     @OneToMany(

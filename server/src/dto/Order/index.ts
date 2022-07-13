@@ -10,6 +10,7 @@ import { OrderBaseEntity } from '@entities/Order';
 import { IOrderItemPublic } from '@interfaces/OrderItem';
 import { OrderItemPublic } from '@dto/OrderItem/constructor';
 import { PriceEntity } from '@entities/_Price';
+import { OrderSummary } from './constructor';
 
 export class CreateOrderCustomerDataDTO implements IOrderCustomerData {
     @IsOptional()
@@ -59,6 +60,6 @@ export class OrderPublicDTO extends OrderBaseEntity implements IOrderPublic {
     @ApiProperty({ type: OrderItemPublic, isArray: true, description: 'order items array' })
     list?: IOrderItemPublic[];
 
-    @ApiProperty({ type: OrderSummaryDTO, description: 'summary order data' })
+    @ApiProperty({ type: OrderSummary, description: 'summary order data' })
     summary?: IOrderSummary;
 }

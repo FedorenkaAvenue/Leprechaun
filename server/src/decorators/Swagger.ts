@@ -1,9 +1,9 @@
 import { applyDecorators, Type } from '@nestjs/common';
 import { ApiNotAcceptableResponse, ApiOkResponse, ApiQuery, getSchemaPath } from '@nestjs/swagger';
 
-import { PaginationDTO } from '@dto/Pagination';
 import { SortType } from '@enums/Query';
 import { ProductStatus } from '@enums/Product';
+import { Pagination } from '@dto/Pagination/constructor';
 
 /**
  * @description successful responce documentation for OpenAPI
@@ -14,7 +14,7 @@ export const ApiPaginatedResponse = <TModel extends Type<any>>(model: TModel) =>
 			schema: {
 				// title: `${model.name}Pagination`,
 				properties: {
-					pagination: { $ref: getSchemaPath(PaginationDTO) },
+					pagination: { $ref: getSchemaPath(Pagination) },
 					data: {
 						type: 'array',
 						items: { $ref: getSchemaPath(model) },
