@@ -4,22 +4,14 @@ import {
     OneToMany, PrimaryGeneratedColumn
 } from 'typeorm';
 import { CategoryEntity } from '@entities/Category';
-import { IBaseProduct, IPrice, IProduct, IPublicProduct } from '@interfaces/Product';
+import { IBaseProduct, IProduct, IPublicProduct } from '@interfaces/Product';
+import { IPrice } from '@interfaces/Price';
 import { ProductStatus } from '@enums/Product';
 import { ImageEntity } from '@entities/Image';
 import { ICategory } from '@interfaces/Category';
 import { IProperty } from '@interfaces/Property';
 import { PropertyEntity } from '@entities/Property';
-
-export class PriceEntity implements IPrice {
-    @Column({ name: 'price_current' })
-    @ApiProperty({ required: false })
-    current: number;
-
-    @Column({ name: 'price_old', nullable: true })
-    @ApiProperty({ required: false, nullable: true })
-    old: number;
-}
+import { PriceEntity } from './_Price';
 
 export class BaseProductEntity implements IBaseProduct {
     @PrimaryGeneratedColumn('uuid')

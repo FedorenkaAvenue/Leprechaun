@@ -4,7 +4,8 @@ import {
 } from 'class-validator';
 
 import { ICategory } from '@interfaces/Category';
-import { IPrice, IProduct, IProductPreview, IPublicProduct } from '@interfaces/Product';
+import { IProduct, IProductPreview, IPublicProduct } from '@interfaces/Product';
+import { IPrice } from '@interfaces/Price';
 import { ProductStatus } from '@enums/Product';
 import { IProperty } from '@interfaces/Property';
 import { IImage } from '@interfaces/Image';
@@ -14,6 +15,7 @@ import { LabelDTO } from './Label';
 import { ILabel } from '@interfaces/Label';
 import { LabelType } from '@enums/Label';
 import { ImageEntity } from '@entities/Image';
+import { PriceDTOConstructor } from './Price';
 
 export class CreateProductDTO implements IProduct {
     @IsNotEmpty()
@@ -24,12 +26,12 @@ export class CreateProductDTO implements IProduct {
     @IsNotEmpty()
     @IsNumberString()
     @ApiProperty({ required: true })
-    price_current: number;
+    price_current: IPrice['current'];
 
     @IsOptional()
     @IsNumberString()
     @ApiProperty({ required: false, default: null })
-    price_old: number;
+    price_old: IPrice['old'];
 
     @IsOptional()
     @IsBooleanString()
@@ -94,16 +96,6 @@ export class CreateProductDTO implements IProduct {
     comment: string;
 }
 
-class ProductPriceDTOConstructor implements IPrice {
-    current: number;
-    old: number;
-
-    constructor({ current, old }: IPrice) {
-        this.current = current;
-        this.old = old < current ? null : old;
-    }
-}
-
 export class CreateProductDTOConstructor extends CreateProductDTO implements IProduct {
     price?: IPrice;
 
@@ -112,7 +104,7 @@ export class CreateProductDTOConstructor extends CreateProductDTO implements IPr
     }: CreateProductDTO) {
         super();
         this.title = title;
-        this.price = new ProductPriceDTOConstructor({ current: price_current, old: price_old });
+        this.price = new PriceDTOConstructor({ current: price_current, old: price_old });
         this.is_public = typeof is_public === 'string' ? is_public : undefined;
         this.status = status || ProductStatus.AVAILABLE;
         this.is_new = typeof is_new === 'boolean' ? is_new : true;
