@@ -5,7 +5,6 @@ import {
 } from 'typeorm';
 import { CategoryEntity } from '@entities/Category';
 import { IBaseProduct, IProduct, IPublicProduct } from '@interfaces/Product';
-import { IPrice } from '@interfaces/Price';
 import { ProductStatus } from '@enums/Product';
 import { ImageEntity } from '@entities/Image';
 import { ICategory } from '@interfaces/Category';
@@ -28,7 +27,7 @@ export class BaseProductEntity implements IBaseProduct {
 
     @Column(() => PriceEntity, { prefix: false })
     @ApiProperty({ type: PriceEntity, required: false })
-    price: IPrice;
+    price: PriceEntity;
 }
 
 export class PublicProductEntity extends BaseProductEntity implements IPublicProduct {

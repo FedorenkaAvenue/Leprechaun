@@ -1,6 +1,6 @@
 import { IPrice } from "@interfaces/Price";
 
-export class PriceDTOConstructor implements IPrice {
+export class Price implements IPrice {
     current: number;
     old: number;
 

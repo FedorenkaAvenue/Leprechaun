@@ -4,11 +4,12 @@ import {
 } from 'class-validator';
 import { Type } from 'class-transformer';
 
-import { IOrder, IOrderCustomerData, IOrderPublic } from '@interfaces/Order';
+import { IOrder, IOrderCustomerData, IOrderPublic, IOrderSummary } from '@interfaces/Order';
 import { OrderStatus } from '@enums/Order';
 import { OrderBaseEntity } from '@entities/Order';
 import { IOrderItemPublic } from '@interfaces/OrderItem';
-import { OrderItemPublicDTO } from './OrderItem';
+import { OrderItemPublic } from '@dto/OrderItem/constructor';
+import { PriceEntity } from '@entities/_Price';
 
 export class CreateOrderCustomerDataDTO implements IOrderCustomerData {
     @IsOptional()
@@ -39,20 +40,25 @@ export class CreateOrderDTO {
     customer: IOrderCustomerData;
 }
 
-export class OrderPublicDTO extends OrderBaseEntity implements IOrderPublic {
-    @ApiProperty({ type: OrderItemPublicDTO, isArray: true, required: false })
-    list?: IOrderItemPublic[];
-
-    constructor({ id, status, list }: IOrder) {
-        super();
-        this.id = id;
-        this.status = status;
-        this.list = list.map(prod => new OrderItemPublicDTO(prod))
-    }
-}
-
 export class UpdateOrderStatusDTO implements IOrder {
     @IsEnum(OrderStatus)
     @ApiProperty({ required: true, enum: OrderStatus })
     status?: OrderStatus;
+}
+
+
+export class OrderSummaryDTO implements IOrderSummary {
+    @ApiProperty({ type: PriceEntity ,description: 'summary order price' })
+    price: number;
+
+    @ApiProperty({ description: 'product\s amount' })
+    productsAmount: number;
+}
+
+export class OrderPublicDTO extends OrderBaseEntity implements IOrderPublic {
+    @ApiProperty({ type: OrderItemPublic, isArray: true, description: 'order items array' })
+    list?: IOrderItemPublic[];
+
+    @ApiProperty({ type: OrderSummaryDTO, description: 'summary order data' })
+    summary?: IOrderSummary;
 }

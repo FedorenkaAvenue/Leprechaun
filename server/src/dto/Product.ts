@@ -15,7 +15,7 @@ import { LabelDTO } from './Label';
 import { ILabel } from '@interfaces/Label';
 import { LabelType } from '@enums/Label';
 import { ImageEntity } from '@entities/Image';
-import { PriceDTOConstructor } from './Price';
+import { Price } from './Price/constructor';
 
 export class CreateProductDTO implements IProduct {
     @IsNotEmpty()
@@ -104,7 +104,7 @@ export class CreateProductDTOConstructor extends CreateProductDTO implements IPr
     }: CreateProductDTO) {
         super();
         this.title = title;
-        this.price = new PriceDTOConstructor({ current: price_current, old: price_old });
+        this.price = new Price({ current: price_current, old: price_old });
         this.is_public = typeof is_public === 'string' ? is_public : undefined;
         this.status = status || ProductStatus.AVAILABLE;
         this.is_new = typeof is_new === 'boolean' ? is_new : true;
