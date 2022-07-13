@@ -1,10 +1,11 @@
-FROM node:14.17.3-alpine3.14
+FROM node:16.15.0-alpine3.14
 
 WORKDIR /app
 
+COPY package.json package-lock.json ./
+
+RUN npm install
+
 COPY . .
 
-RUN npm i -g @nestjs/cli && \
-    yarn
-
-CMD yarn build && yarn prod
+CMD npm run build && npm run prod

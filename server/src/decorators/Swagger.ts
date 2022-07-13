@@ -1,8 +1,13 @@
 import { applyDecorators, Type } from '@nestjs/common';
-import { ApiOkResponse, getSchemaPath } from '@nestjs/swagger';
+import { ApiNotAcceptableResponse, ApiOkResponse, ApiQuery, getSchemaPath } from '@nestjs/swagger';
 
 import { PaginationDTO } from '@dto/Pagination';
+import { SortType } from '@enums/Query';
+import { ProductStatus } from '@enums/Product';
 
+/**
+ * @description successful responce documentation for OpenAPI
+ */
 export const ApiPaginatedResponse = <TModel extends Type<any>>(model: TModel) => {
 	return applyDecorators(
 		ApiOkResponse({
@@ -16,6 +21,19 @@ export const ApiPaginatedResponse = <TModel extends Type<any>>(model: TModel) =>
 					}
 				}
 			}
+		}),
+		ApiNotAcceptableResponse({
+			status: 406,
+			description: 'invalid pagination page'
+		}),
+		ApiQuery({
+			name: 'page', required: false, description: 'page number', type: 'number'
+		}),
+		ApiQuery({
+			name: 'sort', required: false, description: 'sort number', enum: SortType
+		}),
+		ApiQuery({
+			name: 'status', required: false, description: 'include product statuses', enum: ProductStatus
 		})
 	);
 };

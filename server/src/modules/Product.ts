@@ -2,12 +2,11 @@ import { Module } from '@nestjs/common';
 import { MulterModule } from '@nestjs/platform-express';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
-import { ProductController } from '@controllers/Product';
+import { ProductAdminController, ProductPublicController } from '@controllers/Product';
 import { ProductEntity } from '@entities/Product';
 import { ProductService } from '@services/Product';
 import { FSService } from '@services/FS';
-import { ImageModule } from '@modules/Image';
-import CookieService from '@services/Cookie';
+import ImageModule from '@modules/Image';
 
 @Module({
 	imports: [
@@ -15,7 +14,8 @@ import CookieService from '@services/Cookie';
 		MulterModule.registerAsync({ useClass: FSService }),
 		ImageModule
 	],
-	controllers: [ ProductController ],
-	providers: [ ProductService, FSService, CookieService ]
+	controllers: [ ProductPublicController, ProductAdminController ],
+	providers: [ ProductService, FSService ],
+	exports: [ ProductService ]
 })
-export class ProductModule {}
+export default class ProductModule {}

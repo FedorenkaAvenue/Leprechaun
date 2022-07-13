@@ -1,29 +1,131 @@
 import {
-    Body, Controller, Delete, Get, Param, ParseUUIDPipe, Patch, Post,UploadedFiles,
-    UseInterceptors, Query, Req, ValidationPipe, ParseIntPipe
+    Body, Controller, Delete, Get, Param, ParseUUIDPipe, Post,UploadedFiles,
+    UseInterceptors, Query, ValidationPipe, CacheInterceptor, Patch
 } from '@nestjs/common';
 import {
-    ApiBadRequestResponse, ApiNotAcceptableResponse, ApiNotFoundResponse, ApiOkResponse,
-    ApiOperation, ApiParam, ApiQuery, ApiServiceUnavailableResponse, ApiTags, ApiUnsupportedMediaTypeResponse
+    ApiBadRequestResponse, ApiNotFoundResponse, ApiOkResponse, ApiOperation,
+    ApiQuery, ApiServiceUnavailableResponse, ApiTags, ApiUnsupportedMediaTypeResponse
 } from '@nestjs/swagger';
 import { DeleteResult, UpdateResult } from 'typeorm';
 import { FilesInterceptor } from '@nestjs/platform-express';
-import { Request } from 'express';
 
-import { CreateProductDTO } from '@dto/Product';
-import { ProductBaseEntity, ProductEntity, ProductWIthPropertiesEntity } from '@entities/Product';
+import { CreateProductDTO, ProductPreviewDTO, PublicProductDTO } from '@dto/Product';
+import { ProductEntity } from '@entities/Product';
 import { ProductService } from '@services/Product';
-import { AffectedInterceptor, NotFoundInterceptor } from '@interceptors/DB';
-import { PaginationEmptyInterceptor } from '@interceptors/search';
 import { ISearchReqQueries } from '@interfaces/Queries';
 import { PaginationDTO, PaginationResultDTO } from '@dto/Pagination';
 import { ApiPaginatedResponse } from '@decorators/Swagger';
-import { DashboardParamPipe } from '@pipes/DashboardParam';
-import { DASHBOARD_LIST } from '@interfaces/Product';
+import { CommonDashboardsDTO, UserDashboardsDTO } from '@dto/Dashboard';
+import { IProduct, IProductPreview, IPublicProduct } from '@interfaces/Product';
+import { QueryGETListDTO } from '@dto/Queries';
+import { Cookies } from '@decorators/Cookies';
+import { ICookies } from '@interfaces/Cookies';
+import { UndefinedPipe } from '@pipes/Undefined';
+import { QueryArrayPipe } from '@pipes/QueryArray';
+import { ISession } from '@interfaces/Session';
+import ConfigService from '@services/Config';
+import { Session } from '@decorators/Session';
+import InvalidPaginationPageInterceptor from '@interceptors/InvalidPaginationPage';
+import UndefinedResultInterceptor from '@interceptors/UndefinedResult';
+import AffectedResultInterceptor from '@interceptors/AffectedResult';
 
 @Controller('product')
-@ApiTags('Product')
-export class ProductController {
+@ApiTags('Product 🧑‍💻')
+export class ProductPublicController {
+    constructor(
+        private readonly productService: ProductService,
+        private readonly configService: ConfigService
+    ) {}
+
+    @Get('list')
+    @UseInterceptors(CacheInterceptor)
+    @UseInterceptors(InvalidPaginationPageInterceptor)
+    @ApiOperation({ summary: 'get all public products 💾' })
+    @ApiPaginatedResponse(PublicProductDTO)
+    getProducts(
+        @Query() queries: ISearchReqQueries,
+        @Cookies() { portion }: ICookies
+    ): Promise<PaginationResultDTO<IPublicProduct>> {
+        return this.productService.getPublicProducts(queries, { portion });
+    }
+
+    @Get('category/:categoryUrl')
+    @UseInterceptors(CacheInterceptor)
+	@UseInterceptors(InvalidPaginationPageInterceptor)
+	@ApiOperation({ summary: 'get public products by category URL 💾' })
+    @ApiNotFoundResponse({ description: 'category not found' })
+	@ApiPaginatedResponse(PublicProductDTO)
+	getCategoryProducts(
+		@Query() queries: ISearchReqQueries,
+        @Cookies() { portion }: ICookies,
+		@Param('categoryUrl') categoryUrl: string
+	): Promise<PaginationResultDTO<IPublicProduct>> {
+		return this.productService.getCategoryPublicProducts(categoryUrl, queries, { portion });
+	}
+
+    @Get('dashboard/common')
+    @UseInterceptors(CacheInterceptor)
+    @ApiOperation({ summary: 'get common dashboards 💾' })
+    @ApiOkResponse({ type: CommonDashboardsDTO })
+    getCommonDashboards(): Promise<CommonDashboardsDTO> {
+        return this.productService.getCommonDashboards();
+    }
+
+    @Get('dashboard/user')
+    @ApiOperation({ summary: 'get individual user dashboards' })
+    @ApiOkResponse({ type: UserDashboardsDTO })
+    getMostPopularProducts(
+        @Session() { history }: ISession
+    ): Promise<UserDashboardsDTO> {
+        return this.productService.getUserDashboards({ history });
+    }
+
+    @Get('/preview/list')
+    @ApiOperation({ summary: 'get product preview list by IDs' })
+    @ApiQuery({ name: 'ids', required: true, description: 'array of product IDs', type: 'string' })
+    @ApiOkResponse({ type: ProductPreviewDTO, isArray: true })
+    @ApiBadRequestResponse({ description: 'ID\'s array is empty' })
+    getProductPreviewList(
+        @Query('ids', UndefinedPipe, QueryArrayPipe) ids: QueryGETListDTO['queryList']
+    ) { 
+        return this.productService.getProductPreviewList(ids);
+    }
+
+    @Get('/preview/:productId')
+    @UseInterceptors(CacheInterceptor)
+    @ApiOperation({ summary: 'get product preview by ID 💾' })
+    @ApiOkResponse({ type: ProductPreviewDTO })
+    @ApiBadRequestResponse({ description: 'invalid product ID' })
+    @ApiNotFoundResponse({ description: 'product not found' })
+    getProductPreview(
+        @Param('productId', ParseUUIDPipe) productId: string
+    ): Promise<IProductPreview> {
+        return this.productService.getProductPreview(productId);
+    }
+
+    @Get(':productId')
+    @UseInterceptors(CacheInterceptor)
+    @ApiOperation({ summary: 'get public product by ID 💾' })
+    @ApiOkResponse({ type: PublicProductDTO })
+    @ApiBadRequestResponse({ description: 'invalid product ID' })
+    @ApiNotFoundResponse({ description: 'product not found' })
+    getProduct(
+        @Param('productId', ParseUUIDPipe) productId: string,
+        @Session() session: ISession
+    ): Promise<IPublicProduct> {
+        session.history =
+            [...new Set([
+                productId,
+                ...session.history.slice(0, +this.configService.getVal('USER_HISTORY_LENGTH'))
+            ])];
+
+        return this.productService.getPublicProduct(productId);
+    }
+}
+
+@Controller('adm/product')
+@ApiTags('Product 🤵🏿‍♂️')
+export class ProductAdminController {
     constructor(private readonly productService: ProductService) {}
 
     @Post()
@@ -38,90 +140,55 @@ export class ProductController {
     }
 
     @Get('list')
-    @UseInterceptors(PaginationEmptyInterceptor)
-    @ApiQuery({ name: 'page', required: false, description: 'page number', type: 'number' })
-    @ApiOperation({ summary: 'get all products' })
+    @UseInterceptors(InvalidPaginationPageInterceptor)
+    @ApiOperation({ summary: 'get product list' })
     @ApiPaginatedResponse(ProductEntity)
-    @ApiNotAcceptableResponse({ description: 'pagination page doesn\'t exist' })
-    getAllProducts(
+    getproducts(
         @Query() queries: ISearchReqQueries,
-        @Req() { cookies }: Request
-    ): Promise<PaginationResultDTO<ProductWIthPropertiesEntity>> {
-        return this.productService.getAllProducts(queries, cookies);
-    }
-
-    @Get('dashboard/new/:page?')
-    @ApiOperation({ summary: 'get most latest/newest product (for dashboard)' })
-    @ApiParam({ name: 'page', description: 'page number (1 - 5)', type: 'number' })
-    @ApiOkResponse({ type: ProductEntity, isArray: true })
-    @ApiBadRequestResponse({ description: 'page path is not a number' })
-    @ApiNotAcceptableResponse({ description: 'invalid page number range. valid range is 1-5' })
-    getMostNewestProducts(
-        @Param('page', new ParseIntPipe, new DashboardParamPipe) page: number
-    ): Promise<ProductBaseEntity[]> {
-        return this.productService.getDashboardProducts(DASHBOARD_LIST.NEW, page);
-    }
-
-    @Get('dashboard/popular/:page?')
-    @ApiOperation({ summary: 'get most popular products (for dashboard)' })
-    @ApiParam({ name: 'page', description: 'page number (1 - 5)', type: 'number' })
-    @ApiOkResponse({ type: ProductEntity, isArray: true })
-    @ApiBadRequestResponse({ description: 'page path is not a number' })
-    @ApiNotAcceptableResponse({ description: 'invalid page number range. valid range is 1-5' })
-    getMostPopularProducts(
-        @Param('page', new ParseIntPipe, new DashboardParamPipe) page: number
-    ): Promise<ProductBaseEntity[]> {
-        return this.productService.getDashboardProducts(DASHBOARD_LIST.POPULAR, page);
+        @Cookies() { portion }: ICookies
+    ): Promise<PaginationResultDTO<IProduct>> {
+        return this.productService.getAdminProducts(queries, { portion });
     }
 
     @Get('category/:categoryUrl')
-	@UseInterceptors(PaginationEmptyInterceptor)
-	@ApiOperation({ summary: 'get products by category url' })
-    @ApiQuery({ name: 'page', required: false, description: 'page number', type: 'number' })
-	@ApiPaginatedResponse(ProductWIthPropertiesEntity)
-	@ApiNotFoundResponse({ description: 'category not found' })
-	@ApiNotAcceptableResponse({ description: 'pagination page is empty' })
+	@UseInterceptors(InvalidPaginationPageInterceptor)
+	@ApiOperation({ summary: 'get products by category URL' })
+    @ApiNotFoundResponse({ description: 'category not found' })
+	@ApiPaginatedResponse(ProductEntity)
 	getCategoryProducts(
 		@Query() queries: ISearchReqQueries,
-        @Req() { cookies }: Request,
+        @Cookies() { portion }: ICookies,
 		@Param('categoryUrl') categoryUrl: string
-	): Promise<PaginationResultDTO<ProductWIthPropertiesEntity>> {
-		return this.productService.getCategoryProducts(categoryUrl, queries, cookies);
+	): Promise<PaginationResultDTO<IProduct>> {
+		return this.productService.getCategoryAdminProducts(categoryUrl, queries, { portion });
 	}
 
     @Get(':productId')
-    @UseInterceptors(NotFoundInterceptor)
-    @ApiOperation({ summary: 'get product by id' })
-    @ApiOkResponse({ type: ProductEntity })
-    @ApiBadRequestResponse({ description: 'invalid product id' })
+    @UseInterceptors(UndefinedResultInterceptor)
+    @ApiOperation({ summary: 'get product by ID' })
+    @ApiOkResponse({ type: PublicProductDTO })
+    @ApiBadRequestResponse({ description: 'invalid product ID' })
     @ApiNotFoundResponse({ description: 'product not found' })
-    getProduct(@Param('productId', ParseUUIDPipe) productId: string): Promise<ProductEntity> {
-        return this.productService.getProduct(productId);
+    getProduct(
+        @Param('productId', ParseUUIDPipe) productId: string
+    ): Promise<IPublicProduct> {
+        return this.productService.getAdminProduct(productId);
     }
-
-    // @Patch()
-    // @UseInterceptors(FilesInterceptor('staticImages'))
-    // @UseInterceptors(AffectedInterceptor)
-    // @ApiOperation({ summary: 'update product' })
-    // updateProduct(
-    //     @Body() product: UpdateProductDTO,
-    //     @UploadedFiles() staticImages: Array<Express.Multer.File>
-    // ): Promise<UpdateResult> {
-    //     return this.productService.updateProduct(product, staticImages);
-    // }
 
     // ! DONT TOUCH
     // ! preloading DTO schemas
     @ApiUnsupportedMediaTypeResponse({ type: PaginationDTO, description: 'never mind. it\'s a bug for feature' })
-    @ApiServiceUnavailableResponse({ type: ProductWIthPropertiesEntity, description: 'never mind. it\'s a bug for feature' })
-
+    @ApiServiceUnavailableResponse({ type: ProductEntity, description: 'never mind. it\'s a bug for feature' })
+    // ! 
     @Delete(':productId')
-    @UseInterceptors(AffectedInterceptor)
-    @ApiOperation({ summary: 'delete product by id' })
+    @UseInterceptors(AffectedResultInterceptor)
+    @ApiOperation({ summary: 'delete product by ID' })
     @ApiOkResponse({ description: 'success' })
-    @ApiBadRequestResponse({ description: 'invalid product id' })
+    @ApiBadRequestResponse({ description: 'invalid product ID' })
     @ApiNotFoundResponse({ description: 'product not found' })
-    deleteProduct(@Param('productId', ParseUUIDPipe) productId: string): Promise<DeleteResult> {
+    deleteProduct(
+        @Param('productId', ParseUUIDPipe) productId: string
+    ): Promise<DeleteResult> {
         return this.productService.deleteProduct(productId);
     }
 }

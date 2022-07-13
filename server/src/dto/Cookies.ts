@@ -1,16 +1,16 @@
-import { CookieSortType, ICookies } from '@interfaces/Cookies';
+import { ICookies } from '@interfaces/Cookies';
 
 /**
  * @description DTO for cookie's default values
- * @param sort sort type
  * @param portion item count per page
  */
 export class CookieDTO implements ICookies {
-    sort: number
-    portion: number
+    sort: number;
+    portion: number;
+    session: string;
 
-    constructor({ sort, portion }: ICookies) {
-        this.sort = Number(sort) || CookieSortType.POPULAR;
+    constructor({ portion, session }: ICookies) {
         this.portion = Number(portion) || 10;
+        this.session = session || null;
     }
 }

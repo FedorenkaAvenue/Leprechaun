@@ -19,7 +19,12 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { ModalModule } from 'src/app/shared/modules/modal/modal.module';
-
+import { FileUploaderModule } from 'src/app/shared/fields/file-uploader/file-uploader.module';
+import { CategoryPersonalPageComponent } from './components/category-personal-page/category-personal-page.component';
+import { ProductsListModule } from 'src/app/shared/components/products-list/products-list.module';
+import { PaginatorModule } from 'src/app/shared/modules/paginator';
+import { ProductsService } from '../product/sevices/products.service';
+import { ProductsApiService } from 'src/app/shared/services/products/products-api.service';
 
 @NgModule({
   declarations: [
@@ -28,7 +33,8 @@ import { ModalModule } from 'src/app/shared/modules/modal/modal.module';
     EditCategoryComponent,
     CategoryFormComponent,
     CategoryListComponent,
-    CategoryPreviewCardComponent
+    CategoryPreviewCardComponent,
+    CategoryPersonalPageComponent,
   ],
   imports: [
     CommonModule,
@@ -42,10 +48,15 @@ import { ModalModule } from 'src/app/shared/modules/modal/modal.module';
     MatInputModule,
     MatSlideToggleModule,
     ModalModule,
+    FileUploaderModule,
+    ProductsListModule,
+    PaginatorModule,
   ],
   providers: [
     CategoriesApiService,
-    CategoriesService
-  ]
+    CategoriesService,
+    ProductsService,
+    ProductsApiService,
+  ],
 })
-export class CategoriesModule { }
+export class CategoriesModule {}

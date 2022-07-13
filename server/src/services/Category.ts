@@ -1,26 +1,46 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { DeleteResult, Repository, UpdateResult } from 'typeorm';
 
 import { CategoryEntity } from '@entities/Category';
-import { CreateCategoryDTO, CreateCategoryDTOСonstructor } from '@dto/Category';
+import { CategoryPublicDTO, CreateCategoryDTO, CreateCategoryDTOСonstructor } from '@dto/Category';
 import { FOLDER_TYPES, FSService } from '@services/FS';
+import { ICategory, ICategoryPublic } from '@interfaces/Category';
 
-/**
- * @description /category controller service
- */
 @Injectable()
 export class CategoryService {
 	constructor(
 		@InjectRepository(CategoryEntity) private readonly categoryRepo: Repository<CategoryEntity>,
-		private readonly multerModule: FSService
+		private readonly FSService: FSService
 	) {}
 
-	getAllCategories(): Promise<CategoryEntity[]> {
-		return this.categoryRepo.find();
+	async getPublicCategories(): Promise<ICategoryPublic[]> {
+		const res = await this.categoryRepo.find({
+			where: { is_public: true }
+		});
+
+		return res.map(cat => new CategoryPublicDTO(cat));
 	}
 
-	getCategory(categoryUrl: string): Promise<CategoryEntity> {
+	async getPublicCategory(categoryUrl: string): Promise<ICategoryPublic> {
+		try {
+			const res = await this.categoryRepo.findOneOrFail({
+				where: { url: categoryUrl, is_public: true }
+			});
+
+			return new CategoryPublicDTO(res);
+		} catch(err) {
+			throw new NotFoundException('category not found');
+		}
+	}
+
+	getAdminCategories(): Promise<ICategory[]> {
+		return this.categoryRepo.find({
+			relations: ['property_groups']
+		});
+	}
+
+	getAdminCategory(categoryUrl: string): Promise<ICategory> {
 		return this.categoryRepo.findOne({
 			where: { url: categoryUrl },
 			relations: ['property_groups']
@@ -31,7 +51,7 @@ export class CategoryService {
 		const { id } = await this.categoryRepo.save(new CreateCategoryDTOСonstructor(newCategory));
 
 		if (icon) {
-			const [ uploadedIcon ] = await this.multerModule.saveFiles(
+			const [ uploadedIcon ] = await this.FSService.saveFiles(
 				FOLDER_TYPES.CATEGORY,
 				id,
 				[ icon ]
@@ -44,20 +64,10 @@ export class CategoryService {
 		}
 	}
 
-	// async updateCategory(category: UpdateCategoryDTO, icon: Express.Multer.File): Promise<UpdateResult> {	
-	// 	const res = await this.categoryRepo.update(
-	// 		{ id: category.id },
-	// 		{ ...category }
-	// 	);
-
-	// 	// if (res.affected && icon) await this.multerModule.saveFiles(FOLDER_TYPES.CATEGORY, category.id, [ icon ]);
-
-	// 	return res;
-	// }
-
 	async deleteCategory(categoryId: number): Promise<DeleteResult> {
 		const res = await this.categoryRepo.delete({ id: categoryId });
-		this.multerModule.removeFolder(FOLDER_TYPES.CATEGORY, categoryId);
+
+		this.FSService.removeFolder(FOLDER_TYPES.CATEGORY, categoryId);
 
 		return res;
 	}

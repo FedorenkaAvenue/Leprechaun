@@ -1,0 +1,27 @@
+<label class="file-btn" for="file">
+    <span>Change files</span>
+   
+  <!-- <button>asdasdasd</button> -->
+
+</label>
+
+<input
+id="file"
+class="file__upload"
+(change)="uploadFiles($event)"
+#image
+type="file"
+[multiple]="multiple"
+/>
+<div class="files__preview-list">
+  <div class="files__preview-item" *ngFor="let file of filesPreview; let i = index">
+    <div class="files__preview-wrap">
+      <!-- <div>{{file}}</div> -->
+      <img class="files__preview-img" [src]="file" alt="" />
+      <button class="files__preview-delete" (click)="removeImage(i)" mat-mini-fab color="warn">
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
+  </div>
+</div>
+

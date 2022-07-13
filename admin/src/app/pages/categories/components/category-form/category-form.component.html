@@ -4,31 +4,24 @@
     <input matInput formControlName="url" />
   </mat-form-field>
 
-  <!-- <input formControlName="url" placeholder="url" type="text" /> -->
-
   <mat-form-field appearance="fill">
     <mat-label>Title</mat-label>
     <input matInput formControlName="title" />
   </mat-form-field>
 
-
   <mat-slide-toggle
-  class="product-form_toogle"
-  [checked]="true"
-  [disabled]="false"
->
-  public
-</mat-slide-toggle>
+    class="category-form_toogle"
+    formControlName="is_public"
+    [checked]="true"
+    [disabled]="false"
+  >
+    public
+  </mat-slide-toggle>
 
-  <!-- <input formControlName="title" placeholder="title" type="text" /> -->
-  <input
-    class="category-form_file"
-    (change)="uploadFiles($event)"
-    #image
-    type="file"
-  />
-
-  <!-- <button (click)="saveForm()" type="button">Save</button> -->
+  <app-file-uploader
+    class="category-form_files"
+    (changeFiles)="uploadFiles($event)"
+  ></app-file-uploader>
 
   <button
     [disabled]="!form?.valid"

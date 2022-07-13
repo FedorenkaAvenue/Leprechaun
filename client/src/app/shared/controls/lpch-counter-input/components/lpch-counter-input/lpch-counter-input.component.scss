@@ -1,0 +1,14 @@
+@use '../../../../../../styles/variables/colors';
+
+.text-control {
+  border: none;
+
+  &__wrap {
+    display: flex;
+  }
+
+  &__input {
+    width: 50px;
+    text-align: center;
+  }
+}

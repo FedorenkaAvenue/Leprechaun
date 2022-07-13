@@ -24,7 +24,10 @@
       "@middlewares/*": ["middlewares/*"],
       "@decorators/*": ["decorators/*"],
       "@templates/*": ["templates/*"],
-      "@pipes/*": ["pipes/*"]
+      "@pipes/*": ["pipes/*"],
+      "@utils/*": ["utils/*"],
+      "@filters/*": ["filters/*"],
+      "@enums/*": ["enums/*"]
     },
   }
 }

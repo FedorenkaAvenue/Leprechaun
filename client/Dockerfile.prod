@@ -1,10 +1,15 @@
-FROM node:14.17.3-alpine3.14
+FROM node:16.15.0-alpine3.14
+
+ENV NODE_OPTIONS=--max_old_space_size=8192
 
 WORKDIR /app
 
+COPY package.json package-lock.json ./
+
+RUN npm install
+
 COPY . .
 
-RUN npm install && \
-    npm run build:universal
+RUN npm run build:universal
 
 CMD npm run server

@@ -1,10 +1,15 @@
-<section class="product">
+<section class="product r p-3 content">
+  <ng-content select=".from-favorite-btn"></ng-content>
+  <app-product-labels
+    *ngIf="product?.labels?.length"
+    [labelsData]="product?.labels"
+  ></app-product-labels>
   <div class="product__wrap">
-      <a [routerLink]="['/product', product.id]" routerLinkActive="router-link-active">
+    <a [routerLink]="['/product', product.id]" routerLinkActive="router-link-active">
       <div class="product-preview__wrap">
         <div
           class="product-preview__image"
-          [ngStyle]="{ 'background-image': 'url(' + product?.images[0]?.src + ')' }"
+          [ngStyle]="{ 'background-image': 'url(' + product?.images?.[0]?.src || product?.image + ')' }"
         >
           <ng-container *ngFor="let image of product.images">
             <div class="product-preview__curtain" [appCurtains]="image.src"></div>
@@ -13,20 +18,13 @@
       </div>
       <span class="product-title">{{ product?.title }}</span>
     </a>
-      <div class="product-main">
-        <div class="product__price-wrap">
-          <span class="product__price">1231$</span>
-          <button (click)="addToCard(product?.id)" class="icon-btn">
-
-            <app-leprachaun-icon name="card" [color]="product?.inCard ? 'green' : 'rose'" [width]="22" [height]="22"> </app-leprachaun-icon>
-            <!-- <app-leprachaun-icon name="cardSelected" color="rose" [width]="22" [height]="22"> </app-leprachaun-icon> -->
-          </button>
-          <!-- <button class="header_help main-btn">
-            <app-leprachaun-icon name="question" color="gray"> </app-leprachaun-icon>
-            <span class="btn-label">Допомога</span>
-          </button> -->
-        </div>
+    <div class="product-main">
+      <div class="product__price-wrap">
+        <app-product-price [price]="product?.price"></app-product-price>
+        <ng-content select=".to-card-btn"></ng-content>
+        <ng-content select=".to-favorite-btn"></ng-content>
+    
       </div>
     </div>
-
+  </div>
 </section>

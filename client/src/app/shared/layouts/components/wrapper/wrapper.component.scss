@@ -1,5 +1,13 @@
-@import "/src/styles/core/variables";
-.content {
-    max-width: $wrapper-width;
-    background-color: $body-color-bg;
+:host {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    #wrapper-content {
+      flex-direction: row;
+      flex: 1 0 auto;
+      main {
+        flex: auto;
+        padding: 0 15px;
+      }
+    }
 }

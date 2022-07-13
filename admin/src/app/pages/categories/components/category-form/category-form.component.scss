@@ -6,7 +6,8 @@
 .category-form {
     display: flex;
     flex-direction: column;
-    &_file {
+    width: 400px;
+    &_toogle, &_files {
         margin-bottom: 18px;
     }
 }

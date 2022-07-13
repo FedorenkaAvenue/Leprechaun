@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDrawerContainer } from '@angular/material/sidenav';
 import { Router } from '@angular/router';
+import { NavigationService } from '../../services/navigations/navigations.service';
 import { SIDENAV_LINKS } from '../../static/layout';
 
 @Component({
@@ -14,7 +15,8 @@ export class WrapperComponent implements OnInit {
   public sidenavLinks = SIDENAV_LINKS;
   @ViewChild('matDrawer') matDrawer: MatDrawerContainer
   constructor(
-    private readonly router: Router
+    private readonly router: Router,
+    private readonly navigationService: NavigationService
   ) { }
 
   ngOnInit(): void {

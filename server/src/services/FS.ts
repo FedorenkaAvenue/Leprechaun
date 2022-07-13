@@ -1,13 +1,12 @@
+import { MulterOptions } from '@nestjs/platform-express/multer/interfaces/multer-options.interface';
 import { BadRequestException, Injectable, InternalServerErrorException } from '@nestjs/common';
 import { MulterModuleOptions, MulterOptionsFactory } from '@nestjs/platform-express';
 import { memoryStorage } from 'multer';
 import { promises } from 'fs';
-import { MulterOptions } from '@nestjs/platform-express/multer/interfaces/multer-options.interface';
 import { extname } from 'path';
 
 import ConfigService from '@services/Config';
-
-const { HOSTING_PATH } = ConfigService.getHostingParams();
+import genUUID from '@utils/genUUID';
 
 export enum FOLDER_TYPES {
     CATEGORY = 'img/category/',
@@ -19,6 +18,14 @@ export enum FOLDER_TYPES {
  */
 @Injectable()
 export class FSService implements MulterOptionsFactory {
+    hostingPath: string;
+
+    constructor(
+        private readonly configService: ConfigService
+    ) {
+        this.hostingPath = this.configService.getHostingParams().HOSTING_PATH;
+    }
+
     /**
      * @description method to filter file's extensions for MulterOptions
      * @param extentions spreaded extensions ('svg', 'png' etc)
@@ -45,7 +52,7 @@ export class FSService implements MulterOptionsFactory {
     }
 
     /**
-     * @description save array of files
+     * @description save array of files with hashing filenames
      * @param itemType folder type (with existing path)
      * @param folderId folder name
      * @param files array of binary files
@@ -56,15 +63,16 @@ export class FSService implements MulterOptionsFactory {
         folderId: string | number,
         files: Array<Express.Multer.File>
     ): Promise<string[]> {
-        const itemDirPath = `${HOSTING_PATH}/${itemType}/${folderId}`;
+        const itemDirPath = `${this.hostingPath}/${itemType}/${folderId}`;
     
         try {
             await promises.mkdir(itemDirPath, { recursive: true });
     
             return await Promise.all(files.map(async ({ originalname, buffer }) => {
-                const imageHref = `${itemType}${folderId}/${originalname}`;
+                const newFileName = genUUID() + extname(originalname);
+                const imageHref = `${itemType}${folderId}/${newFileName}`;
     
-                await promises.appendFile(`${HOSTING_PATH}/${imageHref}`, buffer);
+                await promises.appendFile(`${this.hostingPath}/${imageHref}`, buffer);
     
                 return imageHref;
             }));
@@ -80,7 +88,7 @@ export class FSService implements MulterOptionsFactory {
     async removeFiles(files: Array<string>): Promise<void> {
         try {
             await Promise.all(files.map(file => {
-                return promises.rm(HOSTING_PATH + file);
+                return promises.rm(this.hostingPath + file);
             }));
         } catch(err) {
             throw new InternalServerErrorException(err);
@@ -95,7 +103,7 @@ export class FSService implements MulterOptionsFactory {
     async removeFolder(folderType: FOLDER_TYPES, folderName: string | number): Promise<void> {
         try {
             await promises.rmdir(
-                `${HOSTING_PATH}${folderType}/${folderName}`,
+                `${this.hostingPath}${folderType}/${folderName}`,
                 { recursive: true }
             );
         } catch(err) {

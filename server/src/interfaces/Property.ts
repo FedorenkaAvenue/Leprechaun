@@ -1,11 +1,4 @@
-export interface IPropertyGroup {
-    id?: number
-    title: string
-    type: PropertyGroupOptionType
-    alt_name: string
-    properties?: Array<IProperty> | null
-    comment?: string
-}
+import { IPropertyGroup } from './PropertyGroup';
 
 export interface IProperty {
     id?: number
@@ -13,9 +6,4 @@ export interface IProperty {
     title: string
     alt_name: string
     comment?: string
-}
-
-export enum PropertyGroupOptionType {
-    List = 'list',
-    Range = 'range',
 }

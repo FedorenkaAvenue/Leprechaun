@@ -1,0 +1,56 @@
+import { DinamicQueryFilters, IPriceSearchQuery, ISearchQueries, ISearchReqQueries } from '@interfaces/Queries';
+import { SortType } from '@enums/Query';
+import { availableEnum } from '@utils/enum';
+import { ProductStatus } from '@enums/Product';
+
+/**
+ * @description create range object for filters
+ * @param min
+ * @param max (optional)
+ */
+export class RangeQueryDTO implements IPriceSearchQuery {
+    min: number;
+    max: number;
+
+    constructor(priceQuery: string) {
+        const [ min = 0, max ] = priceQuery.split('-');
+
+        this.min = Number(max);
+        this.max = min ? Number(max) : 1000000;
+    }
+}
+
+/**
+ * @description rebuild url queries to object
+ * @param sort sort type
+ * @param page page number
+ * @param price price range filter
+ * @param sell item is selling
+ * @param restQueries dinamic filters
+ */
+export class SearchQueriesDTO implements ISearchQueries {
+    sort: SortType;
+    page: number
+    price: IPriceSearchQuery
+    status: ProductStatus;
+    dinamicFilters: DinamicQueryFilters;
+
+    constructor({ sort, page, price, status, ...restQueries }: ISearchReqQueries) {
+        this.sort = Number(sort) || SortType.POPULAR;
+        this.page = Number(page) || 1;
+        this.price = price ? new RangeQueryDTO(price) : null;
+        this.status = availableEnum(status, ProductStatus) ? status : ProductStatus.AVAILABLE;
+        this.dinamicFilters = Object.keys(restQueries).length ? restQueries : null;
+    }
+}
+
+/**
+ * @description parse query array (string, separated by semi-colons)
+ */
+export class QueryGETListDTO {
+    queryList: Array<string> | null;
+
+    constructor(array: string | undefined) {
+        this.queryList = array ? array.split(';') : null;
+    }
+}

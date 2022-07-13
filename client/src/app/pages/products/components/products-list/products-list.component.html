@@ -1,8 +1,40 @@
 <section class="products-list">
-  <ng-container *ngFor="let product of products?.data">
-    <app-product-card
-    [product]="product"
-    (toCardEvent)="addToCard($event)"
-    ></app-product-card>
-  </ng-container>
+  <ul class="gr-4 g-2">
+    <ng-container *ngFor="let product of products?.data">
+      <li>
+        <app-product-card
+        [product]="product"
+        (toCartEvent)="addToCart($event)"
+        (toFavoriteEvent)="addToFavorite($event)"
+        (deleteFromFavoriteEvent)="deleteFromFavorite($event)"
+        >
+        <button (click)="addToCart(product?.id)" class="to-card-btn icon-btn">
+          <app-leprachaun-icon
+            name="cart"
+            [color]="product?.inCart ? 'green' : 'rose'"
+            [width]="22"
+            [height]="22"
+          >
+          </app-leprachaun-icon>
+          <!-- <app-leprachaun-icon name="cardSelected" color="rose" [width]="22" [height]="22"> </app-leprachaun-icon> -->
+        </button>
+        <button
+          (click)="
+            product?.isFavorite ? deleteFromFavorite(product?.id) : addToFavorite(product?.id)
+          "
+          class="to-favorite-btn icon-btn"
+        >
+          <app-leprachaun-icon
+            name="heart"
+            [strokedColor]="product?.isFavorite ? 'rose' : 'none'"
+            [width]="24"
+            [height]="24"
+          >
+          </app-leprachaun-icon>
+        </button></app-product-card>
+    </li>
+    </ng-container>
+  </ul>
 </section>
+
+

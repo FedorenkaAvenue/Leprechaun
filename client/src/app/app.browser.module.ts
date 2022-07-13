@@ -8,7 +8,6 @@ import { REQUEST } from '@nguniversal/express-engine/tokens';
 import { AppComponent } from './app.component';
 import { AppModule } from './app.module';
 import { ServiceWorkerModule } from '@angular/service-worker';
-import { InlineStyleModule } from './inline-style/inline-style.module';
 import { StateTransferInitializerModule } from '@nguniversal/common';
 
 // core
@@ -28,7 +27,6 @@ export function getRequest(): any {
     StateTransferInitializerModule,
     BrowserTransferStateModule,
     TranslocoBrowserModule,
-    InlineStyleModule,
     ServiceWorkerModule.register('/ngsw-worker.js', { enabled: false }),
   ],
   providers: [

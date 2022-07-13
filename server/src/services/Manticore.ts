@@ -16,13 +16,17 @@ export interface IManticoreResult<TIndexItem> {
  */
 @Injectable()
 export default class ManticoreService {
+    constructor(
+        private readonly configService: ConfigService
+    ) {}
+
     /**
      * @description create Manticore client
      * @returns Manticore client
      */
     createConnection() {
         const client = new ApiClient();
-        client.basePath = ConfigService.getManticoreConfig();
+        client.basePath = this.configService.getManticoreConfig();
 
         return client;
     }

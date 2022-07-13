@@ -1,0 +1,29 @@
+<section>
+  <header class="products-header">
+    <h1>Products</h1>
+    <a
+      routerLink="/admin/product/add"
+      class="products-add"
+      mat-raised-button
+      color="accent"
+    >
+      <mat-icon>add</mat-icon>
+    </a>
+  </header>
+  <div class="products-list_wrapper">
+    <ng-container *ngIf="products$ | async as products">
+      <app-products-list
+        [products]="products"
+        (onRemoveProduct)="deleteProducts($event)"
+        (onChangePage)="changePage($event)"
+      ></app-products-list>
+      <ng-container *ngIf="products?.pagination as pagination">
+        <app-paginator *ngIf="pagination.pageCount > 1"
+          (changePage)="changePage($event)"
+          [totalSize]="products?.pagination.pageCount"
+          [currentPage]="products?.pagination.currentPage"
+        ></app-paginator>
+      </ng-container>
+    </ng-container>
+  </div>
+</section>

@@ -1,23 +1,16 @@
-import { IsEnum, IsNotEmpty, IsOptional, IsString } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 
-import { ILabel, LabelType } from '@interfaces/Label';
+import { ILabel } from '@interfaces/Label';
+import { LabelType } from 'enums/Label';
 
-export class CreateLabelDTO implements ILabel {
-    @IsNotEmpty()
-    @IsEnum(LabelType)
-    @ApiProperty()
+export class LabelDTO implements ILabel {
+    @ApiProperty({ enum: LabelType, required: false })
     type: LabelType;
 
-    @IsOptional()
-    @IsString()
-    @ApiProperty({ enum: LabelType })
-    value: string;
-}
+    @ApiProperty({ required: false, nullable: true })
+    value?: string;
 
-export class CreateLabelDTOConstructor extends CreateLabelDTO {
-    constructor({ type, value }: CreateLabelDTO) {
-        super();
+    constructor(type: ILabel['type'], value?: ILabel['value']) {
         this.type = type;
         this.value = value || null;
     }

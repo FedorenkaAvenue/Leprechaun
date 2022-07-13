@@ -1,68 +1,84 @@
-version: '3.8'
+version: "3.8"
 
 services:
-  postgres:
-    container_name: leprechaun_postgres
-    build: ./postgres
-    ports:
-      - ${POSTGRES_PORT}:${POSTGRES_PORT}
-    environment:
-      - POSTGRES_PASSWORD
-      - POSTGRES_USER
-      - POSTGRES_DATABASE
+    nginx:
+        container_name: leprechaun_nginx
+        volumes:
+            - image_hosting:/var/www/img:rw
+            - ./nginx/.http_auth:/etc/nginx/.http_auth
 
-  server:
-    container_name: leprechaun_server
-    environment:
-      - APP_NAME
-      - POSTGRES_HOST
-      - POSTGRES_PORT
-      - POSTGRES_PASSWORD
-      - POSTGRES_USER
-      - POSTGRES_DATABASE
-      - HOSTING_PATH
-      - MANTICORE_HOST
-      - MANTICORE_PORT
-      - MAIL_SMTP_HOST
-      - MAIL_SMTP_PORT
-      - MAIL_SENDER_ACCOUNT
-      - MAIL_SENDER_PASSWORD
-    volumes:
-      - image_hosting:/var/www/img:rw
+    postgres:
+        container_name: leprechaun_postgres
+        build: ./postgres
+        ports:
+            - ${POSTGRES_PORT}:${POSTGRES_PORT}
+        environment:
+            - POSTGRES_PASSWORD
+            - POSTGRES_USER
+            - POSTGRES_DATABASE
 
-  manticore:
-    container_name: leprechaun_manticore
-    image: manticoresearch/manticore
-    volumes:
-      - ./manticore/manticore.conf:/etc/manticoresearch/manticore.conf
-    depends_on:
-      - postgres
+    redis:
+        container_name: leprechaun_redis
+        build:
+            context: ./redis
+            dockerfile: Dockerfile
+            args:
+                - REDIS_PASSWORD
+        ports:
+            - ${REDIS_PORT}:${REDIS_PORT}
 
-  client:
-    container_name: leprechaun_client
-    environment:
-      - APP_NAME
-      - PORT=80
+    server:
+        container_name: leprechaun_server
+        environment:
+            - APP_NAME
+            - POSTGRES_HOST
+            - POSTGRES_PORT
+            - POSTGRES_PASSWORD
+            - POSTGRES_USER
+            - POSTGRES_DATABASE
+            - REDIS_HOST
+            - REDIS_PORT
+            - REDIS_USER
+            - REDIS_PASSWORD
+            - REDIS_SESSION_DB_NUMBER
+            - REDIS_CASH_DB_NUMBER
+            - HOSTING_PATH
+            - MANTICORE_HOST
+            - MANTICORE_PORT
+            - MAIL_SMTP_HOST
+            - MAIL_SMTP_PORT
+            - MAIL_SENDER_ACCOUNT
+            - MAIL_SENDER_PASSWORD
+            - SESSION_COOKIE_SECRET
+            - SESSION_AGE
+            - DASHBOARD_PORTION
+            - USER_HISTORY_LENGTH
+            - DEFAULT_CACHE_TTL
+        volumes:
+            - image_hosting:/var/www/img:rw
+        depends_on:
+            - redis
+            - postgres
 
-  nginx:
-    container_name: leprechaun_nginx
-    build:
-      context: ./nginx
-      dockerfile: Dockerfile
-      args:
-        - HOSTING_PATH
-    depends_on:
-      - admin
-      - server
-      - client
-    volumes:
-      - image_hosting:/var/www/img:rw
-      - ./nginx/.http_auth:/etc/nginx/.http_auth
+    manticore:
+        container_name: leprechaun_manticore
+        image: manticoresearch/manticore
+        volumes:
+            - ./manticore/manticore.conf:/etc/manticoresearch/manticore.conf
+        depends_on:
+            - postgres
 
-  admin:
-    container_name: leprechaun_admin
-    environment:
-      - APP_NAME
+    client:
+        container_name: leprechaun_client
+        environment:
+            - APP_NAME
+            - PORT=80
+        depends_on:
+            - server
 
 volumes:
-  image_hosting:
+    image_hosting:
+
+networks:
+    default:
+        name: leprechaun_net

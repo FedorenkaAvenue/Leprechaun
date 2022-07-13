@@ -18,6 +18,7 @@
 
  * **/var/www/img/category/** `category image folder`
  * **/var/www/img/product/** `product image folder`
+ * **/var/www/admin** `admin client folder` (prod only)
 
 ## Tools
 
@@ -27,3 +28,7 @@
 ## Docs
 
  * **resize images resolution**: `400`, `1024`, `1920`
+
+## Guides
+
+ * [https://github.com/FiloSottile/mkcert]() generate ssl certificates for *localhost*

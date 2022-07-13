@@ -1,0 +1,30 @@
+$image_size: 150px;
+
+.product {
+    display: flex;
+    height: 170px;
+
+    &_first {
+        width: $image_size;
+        // height: $image_size;
+        overflow: hidden;
+    
+        img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+    }
+
+    &_second {
+        flex-grow: 1;
+        align-items: flex-start;
+        justify-content: space-between;
+    }
+
+    &_third {
+        align-items: flex-end;
+        justify-content: space-between;
+        text-align: right;
+    }
+}

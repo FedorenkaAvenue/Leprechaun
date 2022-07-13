@@ -1,23 +1,6 @@
-// @import url('https://fonts.googleapis.com/css?family=Roboto:300,400,500');
-// @import url('https://fonts.googleapis.com/icon?family=Material+Icons');
+@forward 'core/reset';
+@forward 'core/base';
+@forward 'core/fonts';
 
-// @import "~@ng-select/ng-select/themes/default.theme.css";
-// ... or 
-// @import "~@ng-select/ng-select/themes/material.theme.css";
-
-// Resets
-@import 'resets/normalize';
-@import 'resets/print';
-// Core
-@import 'core/variables';
-@import 'core/base';
-@import 'core/fonts';
-// Helpers
-@import 'helpers/index';
-@import 'helpers/button';
-// Layouts
-@import 'layouts/footer';
-@import 'layouts/sidebar';
-@import 'layouts/toolbar';
-@import 'layouts/wrapper';
-
+@forward 'common/index';
+@forward "components/index";

@@ -1,14 +1,7 @@
-import { ProductLabelType } from "@shared/enums";
-import { CategoryI } from "../categories/categories.model";
-import { PaginationDto } from "../pagination/pagination.model";
-
-
-
-export interface ProductLabelI {
-  id: string,
-  type: ProductLabelType,
-  value: string
-}
+import { PriceI } from '.';
+import { CategoryI } from '../categories/categories.model';
+import { PaginationDto } from '../pagination/pagination.model';
+import { ProductLabelI } from './product-label.model';
 
 export interface ProductCardImageI {
   id: string;
@@ -16,87 +9,70 @@ export interface ProductCardImageI {
 }
 
 export interface ProductImageI {
-  id: string;
+  id: number;
   src: string;
   product_id: string;
 }
 
 export interface ProductPropertiesI {
-  id: 0,
-  title: string,
-  alt_name: string,
-  comment: string,
-  property_group: any
+  id: string;
+  title: string;
+  alt_name: string;
+  comment: string;
+  property_group: any;
 }
 
-export interface ProductsPreviewI {
-  id: number,
-  title: string,
-  price: number,
-  images: string,
-  status: number
+export interface ProductsPreviewI extends ProductPreviewBaseI {
+  image: string;
 }
 
 export interface ProductsBaseI {
-  id: number,
-  created_at: string,
-  title: string,
-  is_public: boolean,
-  is_available: boolean,
-  price: number,
-  images: Array<ProductImageI>,
-  labels: Array<ProductLabelI>,
-  rating: number,
-  description: string,
-  comment?: string
+  id: string;
+  created_at: string;
+  title: string;
+  is_public: boolean;
+  is_available: boolean;
+  price: PriceI;
+  images: Array<ProductImageI>;
+  image?: string;
+  labels: Array<ProductLabelI>;
+  rating: number;
+  description: string;
+  comment?: string;
 }
 
 export interface ProductsCommonI {
-  popular: ProductsPreviewI[],
-  newest: ProductsPreviewI[]
+  popular: ProductsPreviewI[];
+  newest: ProductsPreviewI[];
 }
-
 
 export interface ProductDetailsI extends ProductsBaseI {
-    properties: Array<ProductPropertiesI>,
-    category: CategoryI;
+  properties: Array<ProductPropertiesI>;
+  category: CategoryI;
 }
 
+export interface ProductCardI extends ProductDetailsI {}
 
-
-export interface ProductCardI extends ProductDetailsI {
-  }
-
-
-  export interface Products {
-    data: ProductCardDto[],
-    pagination: PaginationDto
-  }
-
-  export class ProductDetailsDto implements ProductDetailsI {
-    id: number;
-    created_at: string;
-    title: string;
-    is_public: boolean;
-    is_available: boolean;
-    price: number;
-    images: Array<ProductImageI>;
-    labels: Array<ProductLabelI>;
-    rating: 0;
-    description: string;
-    properties: Array<ProductPropertiesI>;
-    category: CategoryI;
-    inCard: boolean;
-  }
-
-  export class ProductCardDto extends ProductDetailsDto implements ProductCardI {
+export interface Products {
+  data: ProductCardI[];
+  pagination: PaginationDto;
 }
 
-export class CardItemDto {
+export class ProductPreviewBaseI {
   id: string;
   title: string;
-  // status: AVAILABLE;
-  price: number;
-  image: string
+  price: PriceI;
+  status: number;
+  isFavorite: boolean;
+  labels: Array<ProductLabelI>;
 }
-// export class ProductDetailsDto
+
+export class ProductCardI extends ProductPreviewBaseI {
+  category: CategoryI;
+  images: Array<ProductImageI>;
+  labels: Array<ProductLabelI>;
+  properties: Array<ProductPropertiesI>;
+  isFavorite: boolean;
+  inCart: boolean;
+}
+

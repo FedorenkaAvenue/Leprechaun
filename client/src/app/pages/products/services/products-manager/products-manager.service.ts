@@ -1,7 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Params } from '@angular/router';
 import { Products } from '@shared/models';
-import { CardStateService } from '@shared/services/card/card-state.service';
+import { CartStateService } from '@shared/services/cart/cart-state/cart-state.service';
+import { FavoritesStateService } from '@shared/services/favorite/favorite-state/favorites-state.service';
+import { FavoritesService } from '@shared/services/favorite/favotite/favorites.service';
 import { combineLatest, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { ProductsService } from '../products.service';
@@ -12,7 +14,9 @@ export class ProductsManagerService {
   public products$: Observable<Products>;
   constructor(
     private readonly productsService: ProductsService,
-    private readonly cardService: CardStateService,
+    private readonly cartService: CartStateService,
+    private readonly favoritesStateService: FavoritesStateService,
+    private readonly favoritesService: FavoritesService,
     
     ) { }
 
@@ -30,19 +34,20 @@ export class ProductsManagerService {
   }
 
   public getProducts(): Observable<Products> {
-    const cardState$ = this.cardService.getCardStateValue();
+    const cartState$ = this.cartService.getCartStateValue();
+    const favoriteState$ = this.favoritesService.getFavoritesValue();
     const products$ = this.productsService.getProducts();
-    return combineLatest([cardState$, products$]).pipe(
-      map(([cardValue, products]) => {
+    return combineLatest([cartState$, favoriteState$, products$]).pipe(
+      map(([cartValue, favoriteValue, products]) => {
         products.data.map(el => {
-          el.inCard = cardValue.includes(el.id);
+          const orderProducts = cartValue?.list.map(orderProduct => orderProduct?.product?.id);
+          const favoritesProducts = favoriteValue?.map(el => el.id)
+          el.inCart = orderProducts?.includes(el.id);
+          el.isFavorite = favoritesProducts?.includes(el.id);
           return el;
         })
         return products
       })
     )
-    
-    
-    this.productsService.getProducts();
   }
 }

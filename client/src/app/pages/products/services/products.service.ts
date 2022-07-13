@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Params } from '@angular/router';
+import { ProductsSort } from '@shared/enums/sort.enum';
 import { Products } from '@shared/models/products/products.model';
 import { ProductsApiService } from '@shared/services/api_es/products-api/products-api.service';
 import { BehaviorSubject, Observable } from 'rxjs';
@@ -19,6 +20,7 @@ export class ProductsService {
         switchMap( (param: Params) => {
           const params: Params = {
             page: 1,
+            sort: ProductsSort.POPULAR,
             ...param
           }
           return this.productsApiService.getProducts(params);

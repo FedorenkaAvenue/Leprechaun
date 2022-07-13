@@ -7,7 +7,7 @@
       </div>
       <div>
         <div class="products-page__sorting">
-          <lpch-select-field (onChange)="changeSorting($event)"></lpch-select-field>
+          <lpch-select-field [items]="sortData" [selected]="currentSortItem" (onChange)="changeSorting($event)"></lpch-select-field>
         </div>
         <div class="products-page__search">
           <lpch-input-field type="search"></lpch-input-field>
@@ -16,9 +16,15 @@
     </header>
     <section class="products-page__wrap">
       <app-products-filter></app-products-filter>
-      <div class="products-list">
+      <div class="content">
         <ng-container *ngIf="productsList$ | async as products">
-          <app-products-list [products]="products" (toCardEvent)="addToCard($event)"></app-products-list>
+          <app-products-list
+            [products]="products"
+            (toCartEvent)="addToCart($event)"
+            (toFavoriteEvent)="addToFavorite($event)"
+            (deleteFromFavoriteEvent)="deleteFromFavorite($event)"
+          ></app-products-list>
+          
           <ng-container *ngIf="products?.pagination as pagination">
             <app-paginator
               *ngIf="pagination.pageCount > 1"

@@ -2,13 +2,13 @@
   "name": "admin",
   "version": "0.0.0",
   "engines": {
-    "node": "14.17.3",
-    "yarn": "1.x"
+    "node": "16.15.0",
+    "npm": "8.3.*",
+    "yarn": "1.22.*"
   },
   "scripts": {
     "ng": "ng",
-    "start": "ng serve --port 80 --host 0.0.0.0 --disable-host-check --poll 500 --proxy-config proxy.conf.json",
-    "serve": "ng serve --port 4200 --proxy-config proxy.conf.json",
+    "serve:docker": "ng serve --port 80 --host 0.0.0.0 --disable-host-check --poll 500 --proxy-config proxy.conf.docker.json",
     "serve:local": "ng serve --port 4202 --proxy-config proxy.local-conf.json",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
@@ -38,7 +38,7 @@
     "@types/jasmine": "~3.8.0",
     "@types/node": "^12.11.1",
     "jasmine-core": "~3.8.0",
-    "karma": "~6.3.0",
+    "karma": "~6.3.16",
     "karma-chrome-launcher": "~3.1.0",
     "karma-coverage": "~2.0.3",
     "karma-jasmine": "~4.0.0",

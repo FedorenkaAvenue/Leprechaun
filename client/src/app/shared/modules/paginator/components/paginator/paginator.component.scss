@@ -1,22 +1,24 @@
-@import "/src/styles/core/variables";
-
 :host {
   display: flex;
   justify-content: center;
   margin: 0 auto;
 }
+
 .paginator {
   display: flex;
   align-items: center;
+
   &-list {
     padding: 0 20px;
     display: flex;
+
     &__item {
       margin: 0 3px;
       padding: 0px 3px;
       cursor: pointer;
+
       &.active-item {
-        border: 1px solid $btn-rose;
+        // border: 1px solid colors.$btn-rose;
       }
     }
 

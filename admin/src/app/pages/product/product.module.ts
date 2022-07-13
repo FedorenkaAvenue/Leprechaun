@@ -2,11 +2,10 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { ProductRoutingModule } from './product-routing.module';
-import { ProductPageComponent } from './components/product-page/product-page.component';
+// import { ProductPageComponent } from '../products/components/product-page/product-page.component';
 import { ProductFormComponent } from './components/product-form/product-form.component';
 import { EditProductComponent } from './components/edit-product/edit-product.component';
 import { CreateProductComponent } from './components/create-product/create-product.component';
-import { ProductsListComponent } from './components/products-list/products-list.component';
 import { ProductsService } from './sevices/products.service';
 import { ProductsApiService } from 'src/app/shared/services/products/products-api.service';
 import { DefaultImageModule } from 'src/app/shared/directives/default-image/default-image.module';
@@ -21,17 +20,18 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { ModalModule } from 'src/app/shared/modules/modal/modal.module';
-import { ConfirmationDialogModule } from 'src/app/shared/components/confirmation-dialog/confirmation-dialog.module';
+// import { ModalModule } from 'src/app/shared/modules/modal/modal.module';
+// import { ConfirmationDialogModule } from 'src/app/shared/components/confirmation-dialog/confirmation-dialog.module';
 import { PaginatorModule } from 'src/app/shared/modules/paginator';
+import { FileUploaderModule } from 'src/app/shared/fields/file-uploader/file-uploader.module';
+import { ProductsListModule } from 'src/app/shared/components/products-list/products-list.module';
 
 @NgModule({
   declarations: [
-    ProductPageComponent,
+    // ProductPageComponent,
     ProductFormComponent,
     EditProductComponent,
     CreateProductComponent,
-    ProductsListComponent,
   ],
   imports: [
     CommonModule,
@@ -47,9 +47,11 @@ import { PaginatorModule } from 'src/app/shared/modules/paginator';
     MatSlideToggleModule,
     MatFormFieldModule,
     MatInputModule,
-    ModalModule,
-    ConfirmationDialogModule,
+    // ModalModule,
+    // ConfirmationDialogModule,
     PaginatorModule,
+    FileUploaderModule,
+    ProductsListModule
   ],
   providers: [ProductsService, ProductsApiService, CategoriesApiService],
 })

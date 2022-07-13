@@ -1,0 +1,22 @@
+@use '/src/styles/variables/layouts';
+
+.cart-page {
+  width: 100%;
+  max-width: layouts.$container-width;
+  margin: 0 auto;
+}
+
+.cart-page__wrapper {
+  display: flex;
+  align-items: flex-start;
+}
+
+.cart-list {
+  flex-basis: 70%;
+}
+
+.cart-data {
+  position: sticky;
+  top: 0;
+  flex-basis: 30%;
+}

@@ -1,23 +1,26 @@
+import { ProductStatus } from '@enums/Product';
+import { SortType } from '@enums/Query';
+
 export interface IPriceSearchQuery {
-    from: number,
-    to: number
+    min: number,
+    max: number
 }
 
-enum SellStatus {
-    SOLD = 0,
-    SELL
-}
+export type DinamicQueryFilters = object | null;
 
-export interface ISearchQeuries {
+// parsed queries
+export interface ISearchQueries {
+    sort: SortType
     page: number
     price: IPriceSearchQuery | null
-    sell: SellStatus | null
-    restQueries: Object // dinamical filters
+    status: ProductStatus | null
+    dinamicFilters: DinamicQueryFilters | null
 }
 
-// queries from ulr
+// queries from url
 export interface ISearchReqQueries {
-    page: string
-    price: string
-    sell: string
+    sort: SortType
+    page: string | undefined
+    price: string | undefined
+    status: ProductStatus | undefined
 }

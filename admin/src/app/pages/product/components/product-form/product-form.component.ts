@@ -53,17 +53,16 @@ public removeProductImage(index: number): void {
 
   private initForm() {
     this.form = this.fb.group({
-      price: this.fb.control(null, Validators.required),
+      price_current: this.fb.control(null, Validators.required),
       title: this.fb.control(null, Validators.required),
       category: this.categoryControl,
-      isPublic: this.fb.control(true),
+      is_public: this.fb.control(true),
       images: this.fb.control([], Validators.required)
     })
   }
   
-  public uploadFiles(event: Event) {
-    const target = event.target as HTMLInputElement;
-    this.form.get('images')?.setValue(target.files);
+  public uploadFiles(files: any) {
+    this.form.get('images')?.setValue(files);
   }
 
   public saveForm() {
