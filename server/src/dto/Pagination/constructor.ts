@@ -1,5 +1,5 @@
-import { ICreatePagintaion, IPagination, IPaginationResult } from '@interfaces/Pagination';
-import { ApiProperty } from '@nestjs/swagger';
+import { ICreatePagintaion, IPagination } from '@interfaces/Pagination';
+import { PaginationDTO, PaginationResultDTO } from '.';
 
 /**
  * @description pagination data result
@@ -7,17 +7,9 @@ import { ApiProperty } from '@nestjs/swagger';
  * @param currentPage current active page
  * @param totalCount all items count
  */
-export class PaginationDTO implements IPagination {
-    @ApiProperty({ description: 'current selected page' })
-    currentPage: number;
-
-    @ApiProperty({ description: 'summary items amount' })
-    totalCount: number;
-
-    @ApiProperty({ description: 'pages amoun' })
-    pageCount: number;
-
+export class Pagination extends PaginationDTO {
     constructor({ totalCount, currentPage, itemPortion }: ICreatePagintaion) {
+        super();
         this.currentPage = Number(currentPage);
         this.totalCount = totalCount;
         this.pageCount = Math.ceil(totalCount / itemPortion);
@@ -29,12 +21,13 @@ export class PaginationDTO implements IPagination {
  * @param paginationDTO paginationDTO options
  * @param result array of result
  */
- export class PaginationResultDTO<TData> implements IPaginationResult<any> {
+ export class PaginationResult<TData> extends PaginationResultDTO<TData> {
     pagination: IPagination;
     data: Array<TData>;
 
     constructor(data: Array<TData>, paginationDTO: ICreatePagintaion) {
+        super();
         this.data = data;
-        this.pagination = new PaginationDTO(paginationDTO);
+        this.pagination = new Pagination(paginationDTO);
     }
 }

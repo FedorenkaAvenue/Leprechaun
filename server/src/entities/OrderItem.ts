@@ -20,7 +20,7 @@ export class OrderItemBaseEntity implements IOrderItemBase {
 @Entity('order_item')
 export class OrderItemEntity extends OrderItemBaseEntity implements IOrderItem {
     @CreateDateColumn()
-    @ApiProperty({ required: false })
+    @ApiProperty()
     created_at: Date;
 
     @ManyToOne(

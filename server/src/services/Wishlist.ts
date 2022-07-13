@@ -5,9 +5,9 @@ import { DeepPartial, Repository } from 'typeorm';
 import WishlistEntity from '@entities/Wishlist';
 import { IProduct, IPublicProduct } from '@interfaces/Product';
 import { ISession } from '@interfaces/Session';
-import { PublicProductDTO } from '@dto/Product';
 import { PRODUCT_RELATIONS } from './Product';
 import { ProductEntity } from '@entities/Product';
+import { PublicProduct } from '@dto/Product/constructor';
 
 @Injectable()
 export default class WishlistService {
@@ -36,7 +36,7 @@ export default class WishlistService {
             relations: PRODUCT_RELATIONS
         });
 
-        return wishlist.map(({ product }) => new PublicProductDTO(product));
+        return wishlist.map(({ product }) => new PublicProduct(product));
     }
 
     async removeItem(

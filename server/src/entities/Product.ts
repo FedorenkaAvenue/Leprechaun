@@ -4,39 +4,30 @@ import {
     OneToMany, PrimaryGeneratedColumn
 } from 'typeorm';
 import { CategoryEntity } from '@entities/Category';
-import { IBaseProduct, IPrice, IProduct, IPublicProduct } from '@interfaces/Product';
+import { IBaseProduct, IProduct, IPublicProduct } from '@interfaces/Product';
 import { ProductStatus } from '@enums/Product';
 import { ImageEntity } from '@entities/Image';
 import { ICategory } from '@interfaces/Category';
 import { IProperty } from '@interfaces/Property';
 import { PropertyEntity } from '@entities/Property';
-
-export class PriceEntity implements IPrice {
-    @Column({ name: 'price_current' })
-    @ApiProperty({ required: false })
-    current: number;
-
-    @Column({ name: 'price_old', nullable: true })
-    @ApiProperty({ required: false, nullable: true })
-    old: number;
-}
+import { PriceEntity } from './_Price';
 
 export class BaseProductEntity implements IBaseProduct {
     @PrimaryGeneratedColumn('uuid')
-    @ApiProperty({ required: false })
+    @ApiProperty()
     id: string;
 
     @Column()
-    @ApiProperty({ required: false })
+    @ApiProperty()
     title: string;
 
     @Column({ default: ProductStatus.AVAILABLE })
-    @ApiProperty({ enum: ProductStatus, required: false })
+    @ApiProperty({ enum: ProductStatus })
     status: ProductStatus;
 
     @Column(() => PriceEntity, { prefix: false })
-    @ApiProperty({ type: PriceEntity, required: false })
-    price: IPrice;
+    @ApiProperty({ type: PriceEntity })
+    price: PriceEntity;
 }
 
 export class PublicProductEntity extends BaseProductEntity implements IPublicProduct {
@@ -45,7 +36,7 @@ export class PublicProductEntity extends BaseProductEntity implements IPublicPro
         ({ product_id }) => product_id,
         { eager: true }
     )
-    @ApiProperty({ type: ImageEntity, isArray: true, required: false })
+    @ApiProperty({ type: ImageEntity, isArray: true })
     images: ImageEntity[];
 
     @ManyToMany(
@@ -58,11 +49,7 @@ export class PublicProductEntity extends BaseProductEntity implements IPublicPro
         joinColumn: { name: 'product_id' },
         inverseJoinColumn: { name: 'property_id' }
     })
-    @ApiProperty({
-        type: PropertyEntity,
-        required: false,
-        isArray: true
-    })
+    @ApiProperty({ type: PropertyEntity, isArray: true })
     properties: Array<IProperty>;
 
     @ManyToOne(
@@ -71,7 +58,7 @@ export class PublicProductEntity extends BaseProductEntity implements IPublicPro
         { onDelete: 'NO ACTION' }
     )
     @JoinColumn({ name: 'category', referencedColumnName: 'id' })
-    @ApiProperty({ type: () => CategoryEntity, required: false })
+    @ApiProperty({ type: () => CategoryEntity })
     category: ICategory;
 }
 
@@ -79,26 +66,22 @@ export class PublicProductEntity extends BaseProductEntity implements IPublicPro
 @Entity('product')
 export class ProductEntity extends PublicProductEntity implements IProduct {
     @CreateDateColumn()
-    @ApiProperty({ required: false })
+    @ApiProperty()
     created_at: Date;
 
     @Column({ default: false })
-    @ApiProperty({ required: false })
+    @ApiProperty()
     is_public: boolean;
 
     @Column({ default: 0 })
-    @ApiProperty({
-        required: false,
-        default: 0,
-        description: 'product rating by sellering'
-    })
+    @ApiProperty({ default: 0, description: 'product rating by sellering' })
     rating: number;
 
     @Column({ default: true })
-    @ApiProperty({ required: false, description: 'novelty status' })
+    @ApiProperty({ description: 'novelty status' })
     is_new: boolean;
 
     @Column({ nullable: true })
-    @ApiProperty({ required: false })
+    @ApiProperty()
     comment: string;
 }

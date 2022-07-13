@@ -7,19 +7,19 @@ import { ProductGroupBaseEntity, PropertyGroupEntity } from '@entities/PropertGr
 
 export class CategoryBaseEntity implements ICategoryBase {
     @PrimaryGeneratedColumn('rowid')
-    @ApiProperty({ required: false })
+    @ApiProperty()
     id: number;
 
     @Column({ unique: true })
-    @ApiProperty({ required: false })
+    @ApiProperty()
     url: string;
 
     @Column({ unique: true })
-    @ApiProperty({ required: false })
+    @ApiProperty()
     title: string;
 
     @Column({ nullable: true })
-    @ApiProperty({ required: false })
+    @ApiProperty()
     icon: string;
 }
 
@@ -47,16 +47,15 @@ export class CategoryEntity extends CategoryBaseEntity implements ICategory {
     })
     @ApiProperty({
         type: ProductGroupBaseEntity,
-        isArray: true,
-        required: false
+        isArray: true
     })
     property_groups: PropertyGroupEntity[];
 
     @Column({ nullable: true })
-    @ApiProperty({ required: false })
+    @ApiProperty()
     comment: string;
 
     @Column({ default: false })
-    @ApiProperty({ required: false })
+    @ApiProperty()
     is_public: boolean;
 }

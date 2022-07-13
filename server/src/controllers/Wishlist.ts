@@ -5,7 +5,7 @@ import WishlistService from '@services/Wishlist';
 import { Session } from '@decorators/Session';
 import { ISession } from '@interfaces/Session';
 import { IPublicProduct } from '@interfaces/Product';
-import { PublicProductDTO } from '@dto/Product';
+import { PublicProduct } from '@dto/Product/constructor';
 
 @Controller('wishlist')
 @ApiTags('Wishlist 🧑‍💻')
@@ -16,7 +16,7 @@ export class WishlistPublicController {
 
     @Get()
     @ApiOperation({ summary: 'get wishlist' })
-    @ApiResponse({ type: PublicProductDTO, isArray: true })
+    @ApiResponse({ type: PublicProduct, isArray: true })
     getWishlist(
         @Session() { id }: ISession
     ): Promise<IPublicProduct[]> {
@@ -25,7 +25,7 @@ export class WishlistPublicController {
     
     @Post(':productId')
     @ApiOperation({ summary: 'add product to wishlist' })
-    @ApiResponse({ type: PublicProductDTO, isArray: true })
+    @ApiResponse({ type: PublicProduct, isArray: true })
     addItem(
         @Param('productId', ParseUUIDPipe) productId: string,
         @Session() { id }: ISession
@@ -35,7 +35,7 @@ export class WishlistPublicController {
 
     @Delete(':productId')
     @ApiOperation({ summary: 'remove product from wishlist' })
-    @ApiResponse({ type: PublicProductDTO, isArray: true })
+    @ApiResponse({ type: PublicProduct, isArray: true })
     @ApiNotFoundResponse({ description: 'product not found' })
     deleteItem(
         @Param('productId', ParseUUIDPipe) productId: string,

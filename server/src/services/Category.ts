@@ -1,11 +1,12 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { DeleteResult, Repository, UpdateResult } from 'typeorm';
+import { DeleteResult, Repository } from 'typeorm';
 
 import { CategoryEntity } from '@entities/Category';
-import { CategoryPublicDTO, CreateCategoryDTO, CreateCategoryDTOСonstructor } from '@dto/Category';
+import { CreateCategoryDTO } from '@dto/Category';
 import { FOLDER_TYPES, FSService } from '@services/FS';
 import { ICategory, ICategoryPublic } from '@interfaces/Category';
+import { Category, CategoryPublic } from '@dto/Category/constructor';
 
 @Injectable()
 export class CategoryService {
@@ -19,7 +20,7 @@ export class CategoryService {
 			where: { is_public: true }
 		});
 
-		return res.map(cat => new CategoryPublicDTO(cat));
+		return res.map(cat => new CategoryPublic(cat));
 	}
 
 	async getPublicCategory(categoryUrl: string): Promise<ICategoryPublic> {
@@ -28,7 +29,7 @@ export class CategoryService {
 				where: { url: categoryUrl, is_public: true }
 			});
 
-			return new CategoryPublicDTO(res);
+			return new CategoryPublic(res);
 		} catch(err) {
 			throw new NotFoundException('category not found');
 		}
@@ -48,7 +49,7 @@ export class CategoryService {
 	}
 
 	async createCategory(newCategory: CreateCategoryDTO, icon: Express.Multer.File): Promise<void> {
-		const { id } = await this.categoryRepo.save(new CreateCategoryDTOСonstructor(newCategory));
+		const { id } = await this.categoryRepo.save(new Category(newCategory));
 
 		if (icon) {
 			const [ uploadedIcon ] = await this.FSService.saveFiles(

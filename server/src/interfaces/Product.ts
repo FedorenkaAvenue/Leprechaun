@@ -3,11 +3,7 @@ import { IImage } from '@interfaces/Image';
 import { IProperty } from '@interfaces/Property';
 import { ILabel } from '@interfaces/Label';
 import { ProductStatus } from '@enums/Product';
-
-export interface IPrice {
-    current: number
-    old: number | null
-}
+import { IPrice } from './Price';
 
 export interface IBaseProduct {
     id?: string

@@ -4,7 +4,8 @@ import { DeepPartial, DeleteResult, Not, Repository, SelectQueryBuilder, UpdateR
 
 import { OrderEntity } from '@entities/Order';
 import { OrderItemEntity } from '@entities/OrderItem';
-import { UpdateOrderStatusDTO, CreateOrderDTO, OrderPublicDTO } from '@dto/Order';
+import { UpdateOrderStatusDTO, CreateOrderDTO } from '@dto/Order';
+import { OrderPublic } from '@dto/Order/constructor';
 import { ISession } from '@interfaces/Session';
 import { IOrder, IOrderPublic } from '@interfaces/Order';
 import { OrderStatus } from '@enums/Order';
@@ -51,7 +52,7 @@ export class OrderService {
 
             if (!res.length) return [];
 
-            return res.map(order => new OrderPublicDTO(order));
+            return res.map(order => new OrderPublic(order));
         } catch(err) {
             throw new NotFoundException('no any active order');
         }
@@ -135,7 +136,7 @@ export class OrderService {
 	 */
     async getOrder(
         qb: SelectQueryBuilder<OrderEntity>,
-    ): Promise<OrderPublicDTO> {
+    ): Promise<OrderPublic> {
         const res = await qb
             .leftJoinAndSelect('order.list', 'list')
             .leftJoinAndSelect('list.product', 'product')
@@ -144,7 +145,7 @@ export class OrderService {
             .getOne();
 
             // fictive order if doesn't exists
-            return new OrderPublicDTO(res || { id: null, status: null, list: [] });
+            return new OrderPublic(res || { id: null, status: null, list: [] });
     }
 
     clearUselessOrders() {
