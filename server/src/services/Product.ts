@@ -2,7 +2,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { DeleteResult, Repository, SelectQueryBuilder } from 'typeorm';
 
-import { CreateProductDTO, PublicProductDTO } from '@dto/Product';
+import { CreateProductDTO } from '@dto/Product';
 import { ProductEntity } from '@entities/Product';
 import { FOLDER_TYPES, FSService } from '@services/FS';
 import { ImageService } from '@services/Image';
@@ -122,7 +122,7 @@ export class ProductService {
 			.leftJoinAndSelect('product.category', 'category')
 			.where('product.is_public = true');
 
-		return this.renderResult<IPublicProduct>(qb, queries, params, PublicProductDTO);
+		return this.renderResult<IPublicProduct>(qb, queries, params, PublicProduc);
 	}
 
 	async getAdminProducts(
@@ -148,7 +148,7 @@ export class ProductService {
 			.where('category.url = :categoryUrl', { categoryUrl })
 			.andWhere('product.is_public = true');
 
-		return this.renderResult<IPublicProduct>(qb, queries, params, PublicProductDTO);
+		return this.renderResult<IPublicProduct>(qb, queries, params, PublicProduct);
 	}
 
 	async getCategoryAdminProducts(
