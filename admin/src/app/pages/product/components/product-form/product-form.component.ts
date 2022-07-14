@@ -7,7 +7,7 @@ import { CategoryDto } from 'src/app/shared/models/categories.model';
   templateUrl: './product-form.component.html',
   styleUrls: ['./product-form.component.scss']
 })
-export class ProductFormComponent implements OnInit, AfterViewInit {
+export class ProductFormComponent implements OnInit {
 
   @Output() saveFormEvent = new EventEmitter<any>();
   @Input() categories: CategoryDto[] | null;
@@ -21,7 +21,6 @@ export class ProductFormComponent implements OnInit, AfterViewInit {
   ngOnInit(): void {
     this.initForm();
     this.form.get('images')?.valueChanges.subscribe(res => {
-      // console.log(res);
       
       this.previewImages = [];
       const list = [...res]
@@ -33,30 +32,26 @@ export class ProductFormComponent implements OnInit, AfterViewInit {
           this.previewImages.push(url);
         });
       })
-      console.log(this.fileInput.nativeElement.files);
     })
-  }
-
-  ngAfterViewInit(): void {
-    console.log(this.fileInput.nativeElement.files);
-    
   }
 
 public removeProductImage(index: number): void {
   const control = this.form.get('images');
   const fileList = [...control?.value];
-  // this.fileInput.nativeElement.files.
   control?.patchValue(fileList.splice(index, 1));
   control?.updateValueAndValidity();
-  // this.cd
+
 }
 
   private initForm() {
     this.form = this.fb.group({
       price_current: this.fb.control(null, Validators.required),
+      price_old: this.fb.control(null),
       title: this.fb.control(null, Validators.required),
       category: this.categoryControl,
       is_public: this.fb.control(true),
+      rating: this.fb.control(null),
+      is_new: this.fb.control(true),
       images: this.fb.control([], Validators.required)
     })
   }

@@ -56,12 +56,14 @@ export class ProductPayloadDto {
   public price_current: number;
   public price_old?: number;
   public is_public: boolean;
+  public is_new: boolean;
   public status: AvailabilityStatus;
   public description: string;
   public category: number;
   public labels: any[];
   public properties: any[];
   public comment: string;
+  public rating: string;
   public images: Array<File>;
 } 
 

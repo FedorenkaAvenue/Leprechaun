@@ -1,0 +1,24 @@
+<mat-slider
+  class="slider"
+  [max]="100"
+  [min]="0"
+  [thumbLabel]="true"
+  [tickInterval]="10"
+  [value]="value"
+  (change)="changeValue($event)"
+  aria-labelledby="example-name-label"
+>
+</mat-slider>
+<mat-form-field class="input-field" appearance="fill" floatLabel="always">
+  <mat-label>Rating</mat-label>
+  <input
+    matInput
+    type="number"
+    min="0"
+    max="100"
+    [(ngModel)]="value"
+    (ngModelChange)="changeFielddValue($event)"
+    class="example-right-align"
+    placeholder="0"
+  />
+</mat-form-field>

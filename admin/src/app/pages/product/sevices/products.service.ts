@@ -34,7 +34,6 @@ export class ProductsService {
   }
 
   public createProduct(data: any): Observable<any> {
-    console.log(data);
     return this.productsApiService.createProduct(data);
   }
 

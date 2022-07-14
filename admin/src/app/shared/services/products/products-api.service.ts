@@ -22,6 +22,7 @@ export class ProductsApiService {
       // , {params}
     );
   }
+  
 
   public createProduct(data: ProductPayloadDto): Observable<any> {
     const formData = new FormData();
