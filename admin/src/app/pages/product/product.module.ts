@@ -20,11 +20,11 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-// import { ModalModule } from 'src/app/shared/modules/modal/modal.module';
-// import { ConfirmationDialogModule } from 'src/app/shared/components/confirmation-dialog/confirmation-dialog.module';
 import { PaginatorModule } from 'src/app/shared/modules/paginator';
 import { FileUploaderModule } from 'src/app/shared/fields/file-uploader/file-uploader.module';
 import { ProductsListModule } from 'src/app/shared/components/products-list/products-list.module';
+import {MatSliderModule} from '@angular/material/slider';
+import { SliderFieldModule } from 'src/app/shared/fields/slider-field/slider-field.module';
 
 @NgModule({
   declarations: [
@@ -47,11 +47,11 @@ import { ProductsListModule } from 'src/app/shared/components/products-list/prod
     MatSlideToggleModule,
     MatFormFieldModule,
     MatInputModule,
-    // ModalModule,
-    // ConfirmationDialogModule,
     PaginatorModule,
     FileUploaderModule,
-    ProductsListModule
+    ProductsListModule,
+    MatSliderModule,
+    SliderFieldModule
   ],
   providers: [ProductsService, ProductsApiService, CategoriesApiService],
 })

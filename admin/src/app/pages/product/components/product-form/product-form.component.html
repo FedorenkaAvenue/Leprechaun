@@ -1,5 +1,4 @@
 <form class="product-form" [formGroup]="form">
-
   <mat-form-field appearance="fill">
     <mat-label>Title</mat-label>
     <input matInput formControlName="title" />
@@ -16,6 +15,19 @@
     />
     <span matPrefix>&#8372;</span>
   </mat-form-field>
+
+  <mat-form-field appearance="fill" floatLabel="always">
+    <mat-label>Old Price</mat-label>
+    <input
+      matInput
+      type="number"
+      formControlName="price_old"
+      class="example-right-align"
+      placeholder="0"
+    />
+    <span matPrefix>&#8372;</span>
+  </mat-form-field>
+
 
   <mat-form-field appearance="fill">
     <mat-label>Choose an category</mat-label>
@@ -35,7 +47,23 @@
     public
   </mat-slide-toggle>
 
-<app-file-uploader [multiple]="true"  class="product-form_files" (changeFiles)="uploadFiles($event)"></app-file-uploader>
+  <app-file-uploader
+    [multiple]="true"
+    class="product-form_files"
+    (changeFiles)="uploadFiles($event)"
+  ></app-file-uploader>
+
+  <app-slider-field  formControlName="rating"></app-slider-field>
+
+
+  <mat-slide-toggle
+  formControlName="is_new"
+  class="product-form_toogle"
+  [checked]="true"
+  [disabled]="false"
+>
+  Is new
+</mat-slide-toggle>
 
 
   <button
