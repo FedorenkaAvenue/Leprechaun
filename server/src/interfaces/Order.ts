@@ -8,10 +8,16 @@ export interface IOrderCustomerData {
     phone: string
 }
 
+export interface IOrderSummary {
+    price: number
+    productsAmount: number
+}
+
 export interface IOrderBase<T = IOrderItem> {
     id?: string
     status?: OrderStatus
     list?: Array<T>
+    summary?: IOrderSummary
 }
 
 export interface IOrderPublic extends IOrderBase<IOrderItemPublic> {}

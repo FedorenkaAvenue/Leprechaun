@@ -4,24 +4,22 @@ import { ApiProperty } from '@nestjs/swagger';
 import { ProductEntity } from '@entities/Product';
 import { ICategory, ICategoryBase } from '@interfaces/Category';
 import { ProductGroupBaseEntity, PropertyGroupEntity } from '@entities/PropertGroup';
-import { IProduct } from '@interfaces/Product';
-import { IPropertyGroup } from '@interfaces/PropertyGroup';
 
 export class CategoryBaseEntity implements ICategoryBase {
     @PrimaryGeneratedColumn('rowid')
-    @ApiProperty({ required: false })
+    @ApiProperty()
     id: number;
 
     @Column({ unique: true })
-    @ApiProperty({ required: false })
+    @ApiProperty()
     url: string;
 
     @Column({ unique: true })
-    @ApiProperty({ required: false })
+    @ApiProperty()
     title: string;
 
     @Column({ nullable: true })
-    @ApiProperty({ required: false })
+    @ApiProperty()
     icon: string;
 }
 
@@ -29,7 +27,7 @@ export class CategoryBaseEntity implements ICategoryBase {
 export class CategoryEntity extends CategoryBaseEntity implements ICategory {
     @OneToMany(() => ProductEntity, ({ category }) => category)
     @ApiProperty({ type: ProductEntity, isArray: true })
-    products: IProduct[];
+    products: ProductEntity[];
 
     @ManyToMany(
         () => PropertyGroupEntity,
@@ -49,16 +47,15 @@ export class CategoryEntity extends CategoryBaseEntity implements ICategory {
     })
     @ApiProperty({
         type: ProductGroupBaseEntity,
-        isArray: true,
-        required: false
+        isArray: true
     })
-    property_groups: IPropertyGroup[];
+    property_groups: PropertyGroupEntity[];
 
     @Column({ nullable: true })
-    @ApiProperty({ required: false })
+    @ApiProperty()
     comment: string;
 
     @Column({ default: false })
-    @ApiProperty({ required: false })
+    @ApiProperty()
     is_public: boolean;
 }

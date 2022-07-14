@@ -1,25 +1,24 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 
-import { IProperty } from '@interfaces/Property';
 import { PropertyEntity } from './Property';
 import { IPropertyGroup } from '@interfaces/PropertyGroup';
 
 export class ProductGroupBaseEntity implements IPropertyGroup {
     @PrimaryGeneratedColumn('rowid')
-    @ApiProperty({ required: false })
+    @ApiProperty()
     id: number;
 
     @Column({ unique: true })
-    @ApiProperty({ required: false })
+    @ApiProperty()
     title: string;
 
     @Column({ unique: true })
-    @ApiProperty({ required: false })
+    @ApiProperty()
     alt_name: string;
 
     @Column({ nullable: true, select: false })
-    @ApiProperty({ required: false })
+    @ApiProperty()
     comment: string;
 }
 
@@ -29,6 +28,6 @@ export class PropertyGroupEntity extends ProductGroupBaseEntity implements IProp
         () => PropertyEntity,
         ({ property_group }) => property_group
     )
-    @ApiProperty({ type: () => PropertyEntity, isArray: true, required: false })
-    properties: IProperty[];
+    @ApiProperty({ type: () => PropertyEntity, isArray: true })
+    properties: PropertyEntity[];
 }

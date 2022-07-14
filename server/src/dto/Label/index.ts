@@ -9,9 +9,4 @@ export class LabelDTO implements ILabel {
 
     @ApiProperty({ required: false, nullable: true })
     value?: string;
-
-    constructor(type: ILabel['type'], value?: ILabel['value']) {
-        this.type = type;
-        this.value = value || null;
-    }
 }

@@ -1,9 +1,9 @@
 import { IProduct } from './Product';
 import { ISession } from './Session';
 
-export interface IWishlistItem<T = IProduct> {
+export interface IWishlistItem {
     id?: string
-    created_at?: Date
-    product: T
+    product: IProduct
     session_id?: ISession['id'] | null
+    created_at?: Date
 }

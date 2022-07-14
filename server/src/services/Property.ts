@@ -2,9 +2,10 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { DeleteResult, Repository } from 'typeorm';
 
-import { CreatePropertyDTO, CreatePropertyDTOConstructor } from '@dto/Property';
+import { CreatePropertyDTO } from '@dto/Property';
 import { PropertyEntity } from '@entities/Property';
 import { IProperty } from '@interfaces/Property';
+import { Property } from '@dto/Property/constructor';
 
 @Injectable()
 export class PropertyService {
@@ -13,7 +14,7 @@ export class PropertyService {
 	) {}
 
 	async createProperty(property: CreatePropertyDTO): Promise<void> {
-		await this.propertyRepo.save(new CreatePropertyDTOConstructor(property));
+		await this.propertyRepo.save(new Property(property));
 	}
 
 	getProperty(propertyId: number): Promise<IProperty> {

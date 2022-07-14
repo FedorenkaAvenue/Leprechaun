@@ -3,23 +3,22 @@ import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 't
 
 import { IProperty } from '@interfaces/Property';
 import { PropertyGroupEntity } from './PropertGroup';
-import { IPropertyGroup } from '@interfaces/PropertyGroup';
 
 export class PropertyBaseEntity implements IProperty {
     @PrimaryGeneratedColumn('rowid')
-    @ApiProperty({ required: false })
+    @ApiProperty()
     id: number;
 
     @Column({ unique: true })
-    @ApiProperty({ required: false })
+    @ApiProperty()
     title: string;
 
     @Column({ unique: true })
-    @ApiProperty({ required: false })
+    @ApiProperty()
     alt_name: string;
 
     @Column({ nullable: true, select: false })
-    @ApiProperty({ required: false })
+    @ApiProperty()
     comment: string;
 }
 
@@ -31,6 +30,6 @@ export class PropertyEntity extends PropertyBaseEntity implements IProperty {
         { onDelete: 'CASCADE', nullable: false }
     )
     @JoinColumn({ name: 'property_group' })
-    @ApiProperty({ required: false })
-    property_group: IPropertyGroup;
+    @ApiProperty()
+    property_group: PropertyGroupEntity;
 }

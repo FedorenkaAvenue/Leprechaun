@@ -7,7 +7,8 @@ import { FilterType } from '@enums/Filter';
 import { IPropertyGroup } from "@interfaces/PropertyGroup";
 import { IProperty } from "@interfaces/Property";
 import { ISearchReqQueries } from "@interfaces/Queries";
-import { RangeQueryDTO, SearchQueriesDTO } from "./Queries";
+import { RangeQueryDTO } from "@dto/Queries";
+import { SearchQueries } from "@dto/Queries/constructor";
 
 class ListFilterDTO implements IListFilter {
     @ApiProperty({ required: false })
@@ -112,7 +113,7 @@ export class FiltersDTO implements IFilters {
     status: IFilterListGroup;
 
     constructor(propertyGroups: IPropertyGroup[], queryFilters: ISearchReqQueries) {
-        const { price, dinamicFilters, status } = new SearchQueriesDTO(queryFilters);
+        const { price, dinamicFilters, status } = new SearchQueries(queryFilters);
         
         this.price = new FilterRangeGroupDTO(
             {

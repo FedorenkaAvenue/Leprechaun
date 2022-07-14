@@ -6,16 +6,15 @@ import {
     ApiBadRequestResponse, ApiNotFoundResponse, ApiOkResponse, ApiOperation,
     ApiQuery, ApiServiceUnavailableResponse, ApiTags, ApiUnsupportedMediaTypeResponse
 } from '@nestjs/swagger';
-import { DeleteResult, UpdateResult } from 'typeorm';
+import { DeleteResult } from 'typeorm';
 import { FilesInterceptor } from '@nestjs/platform-express';
 
-import { CreateProductDTO, ProductPreviewDTO, PublicProductDTO } from '@dto/Product';
+import { CreateProductDTO, ProductPreviewDTO } from '@dto/Product';
 import { ProductEntity } from '@entities/Product';
 import { ProductService } from '@services/Product';
 import { ISearchReqQueries } from '@interfaces/Queries';
-import { PaginationDTO, PaginationResultDTO } from '@dto/Pagination';
+import { PaginationResultDTO } from '@dto/Pagination';
 import { ApiPaginatedResponse } from '@decorators/Swagger';
-import { CommonDashboardsDTO, UserDashboardsDTO } from '@dto/Dashboard';
 import { IProduct, IProductPreview, IPublicProduct } from '@interfaces/Product';
 import { QueryGETListDTO } from '@dto/Queries';
 import { Cookies } from '@decorators/Cookies';
@@ -28,6 +27,9 @@ import { Session } from '@decorators/Session';
 import InvalidPaginationPageInterceptor from '@interceptors/InvalidPaginationPage';
 import UndefinedResultInterceptor from '@interceptors/UndefinedResult';
 import AffectedResultInterceptor from '@interceptors/AffectedResult';
+import { PublicProduct } from '@dto/Product/constructor';
+import { CommonDashboards, UserDashboards } from '@dto/Dashboard/constructor';
+import { Pagination } from '@dto/Pagination/constructor';
 
 @Controller('product')
 @ApiTags('Product 🧑‍💻')
@@ -41,7 +43,7 @@ export class ProductPublicController {
     @UseInterceptors(CacheInterceptor)
     @UseInterceptors(InvalidPaginationPageInterceptor)
     @ApiOperation({ summary: 'get all public products 💾' })
-    @ApiPaginatedResponse(PublicProductDTO)
+    @ApiPaginatedResponse(PublicProduct)
     getProducts(
         @Query() queries: ISearchReqQueries,
         @Cookies() { portion }: ICookies
@@ -54,7 +56,7 @@ export class ProductPublicController {
 	@UseInterceptors(InvalidPaginationPageInterceptor)
 	@ApiOperation({ summary: 'get public products by category URL 💾' })
     @ApiNotFoundResponse({ description: 'category not found' })
-	@ApiPaginatedResponse(PublicProductDTO)
+	@ApiPaginatedResponse(PublicProduct)
 	getCategoryProducts(
 		@Query() queries: ISearchReqQueries,
         @Cookies() { portion }: ICookies,
@@ -66,17 +68,17 @@ export class ProductPublicController {
     @Get('dashboard/common')
     @UseInterceptors(CacheInterceptor)
     @ApiOperation({ summary: 'get common dashboards 💾' })
-    @ApiOkResponse({ type: CommonDashboardsDTO })
-    getCommonDashboards(): Promise<CommonDashboardsDTO> {
+    @ApiOkResponse({ type: CommonDashboards })
+    getCommonDashboards(): Promise<CommonDashboards> {
         return this.productService.getCommonDashboards();
     }
 
     @Get('dashboard/user')
     @ApiOperation({ summary: 'get individual user dashboards' })
-    @ApiOkResponse({ type: UserDashboardsDTO })
+    @ApiOkResponse({ type: UserDashboards })
     getMostPopularProducts(
         @Session() { history }: ISession
-    ): Promise<UserDashboardsDTO> {
+    ): Promise<UserDashboards> {
         return this.productService.getUserDashboards({ history });
     }
 
@@ -106,7 +108,7 @@ export class ProductPublicController {
     @Get(':productId')
     @UseInterceptors(CacheInterceptor)
     @ApiOperation({ summary: 'get public product by ID 💾' })
-    @ApiOkResponse({ type: PublicProductDTO })
+    @ApiOkResponse({ type: PublicProduct })
     @ApiBadRequestResponse({ description: 'invalid product ID' })
     @ApiNotFoundResponse({ description: 'product not found' })
     getProduct(
@@ -166,7 +168,7 @@ export class ProductAdminController {
     @Get(':productId')
     @UseInterceptors(UndefinedResultInterceptor)
     @ApiOperation({ summary: 'get product by ID' })
-    @ApiOkResponse({ type: PublicProductDTO })
+    @ApiOkResponse({ type: PublicProduct })
     @ApiBadRequestResponse({ description: 'invalid product ID' })
     @ApiNotFoundResponse({ description: 'product not found' })
     getProduct(
@@ -177,7 +179,7 @@ export class ProductAdminController {
 
     // ! DONT TOUCH
     // ! preloading DTO schemas
-    @ApiUnsupportedMediaTypeResponse({ type: PaginationDTO, description: 'never mind. it\'s a bug for feature' })
+    @ApiUnsupportedMediaTypeResponse({ type: Pagination, description: 'never mind. it\'s a bug for feature' })
     @ApiServiceUnavailableResponse({ type: ProductEntity, description: 'never mind. it\'s a bug for feature' })
     // ! 
     @Delete(':productId')

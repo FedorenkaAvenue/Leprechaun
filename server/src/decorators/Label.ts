@@ -1,6 +1,6 @@
-import { LabelDTO } from "@dto/Label";
 import { LabelType } from "@enums/Label";
 import { IProduct } from "@interfaces/Product";
+import { Label } from "@dto/Label/constructor";
 import getPercentDifference from "@utils/getPercentDifference";
 
 /**
@@ -9,7 +9,7 @@ import getPercentDifference from "@utils/getPercentDifference";
  */
 export default function WithLabels(...labels: Array<LabelType>) {
     return function <T extends { new(...args: any[]): {} }>(constr: T) {
-        return class extends constr {
+        return class Kozyan extends constr {
             labels: IProduct['labels'];
     
             constructor(...args: any[]) {
@@ -22,7 +22,7 @@ export default function WithLabels(...labels: Array<LabelType>) {
                     switch(label) {
                         case LabelType.DISCOUNT: {
                             if (typeof old === 'number' && (old > current)) {
-                                this.labels.push(new LabelDTO(
+                                this.labels.push(new Label(
                                     LabelType.DISCOUNT, getPercentDifference(old, current)
                                 ));
                             }
@@ -31,13 +31,13 @@ export default function WithLabels(...labels: Array<LabelType>) {
                         }
 
                         case LabelType.POPULAR: {
-                            if (rating > 70) this.labels.push(new LabelDTO(LabelType.POPULAR, 'популярнi'));
+                            if (rating > 70) this.labels.push(new Label(LabelType.POPULAR, 'популярнi'));
 
                             break;
                         }
 
                         case LabelType.NEW: {
-                            if (is_new) this.labels.push(new LabelDTO(LabelType.NEW, 'новинки'));
+                            if (is_new) this.labels.push(new Label(LabelType.NEW, 'новинки'));
 
                             break;
                         }

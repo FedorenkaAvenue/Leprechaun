@@ -2,7 +2,7 @@ import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
-import { CreateImageDTO } from '@dto/Image';
+import { Image } from '@dto/Image/constructor';
 import { ImageEntity } from '@entities/Image';
 
 @Injectable()
@@ -17,8 +17,8 @@ export class ImageService {
 	 * @param imgUrl image url
 	 * @returns promise of saved result
 	 */
-	async addImage(imageDTO: CreateImageDTO): Promise<ImageEntity> {
-		return this.imageRepo.save(imageDTO);
+	async addImage(img: Image): Promise<ImageEntity> {
+		return this.imageRepo.save(img);
 	}
 
 	/**
@@ -30,7 +30,7 @@ export class ImageService {
 		try {
 			await Promise.all(
 				imgArr.map(
-					imgUrl => this.addImage(new CreateImageDTO(productId, imgUrl))
+					imgUrl => this.addImage(new Image(productId, imgUrl))
 				)
 			);
 		} catch(err) {

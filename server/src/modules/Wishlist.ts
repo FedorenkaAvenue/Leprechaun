@@ -6,7 +6,7 @@ import WishlistService from '@services/Wishlist';
 import { WishlistPublicController } from '@controllers/Wishlist';
 
 @Module({
-    imports: [ TypeOrmModule.forFeature([ WishlistEntity ]), ],
+    imports: [ TypeOrmModule.forFeature([ WishlistEntity ]) ],
     controllers: [ WishlistPublicController ],
     providers: [ WishlistService ],
     exports: [ WishlistService ]

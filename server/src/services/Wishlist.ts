@@ -1,11 +1,13 @@
-import { BadRequestException, Injectable, NotAcceptableException } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { DeepPartial, Repository } from 'typeorm';
 
 import WishlistEntity from '@entities/Wishlist';
-import { IProduct, IProductPreview } from '@interfaces/Product';
+import { IProduct, IPublicProduct } from '@interfaces/Product';
 import { ISession } from '@interfaces/Session';
-import { ProductPreviewDTO } from '@dto/Product';
+import { PRODUCT_RELATIONS } from './Product';
+import { ProductEntity } from '@entities/Product';
+import { PublicProduct } from '@dto/Product/constructor';
 
 @Injectable()
 export default class WishlistService {
@@ -13,18 +15,14 @@ export default class WishlistService {
         @InjectRepository(WishlistEntity) public readonly wishlistRepo: Repository<WishlistEntity>
     ) {}
 
+    // COTROLLERS
+
     async addItem(
-        productId: IProduct['id'],
+        product: IProduct['id'],
         session_id: ISession['id']
-    ): Promise<IProductPreview[]> {
-        //@ts-ignore
-        const res = await this.wishlistRepo.findOne({ session_id, product: productId });
-
-        if (res) throw new NotAcceptableException('product already exist');
-
+    ): Promise<IPublicProduct[]> {
         try {
-            //@ts-ignore
-            await this.wishlistRepo.save({ product: productId, session_id });
+            await this.wishlistRepo.save({ product, session_id } as DeepPartial<ProductEntity>);
 
             return this.getWishlist(session_id);
         } catch(err) {
@@ -32,27 +30,25 @@ export default class WishlistService {
         }
     }
 
-    async getWishlist(session_id: ISession['id']): Promise<IProductPreview[]> {
-        const res = await this.wishlistRepo.find({
+    async getWishlist(session_id: ISession['id']): Promise<IPublicProduct[]> {
+        const wishlist = await this.wishlistRepo.find({
             where: { session_id },
-            relations: [ 'product' ]
+            relations: PRODUCT_RELATIONS
         });
 
-        if (!res.length) return [];
-
-        //@ts-ignore
-        return res.map(({ product }) => new ProductPreviewDTO(product));
+        return wishlist.map(({ product }) => new PublicProduct(product));
     }
 
     async removeItem(
-        productId: IProduct['id'],
+        product: IProduct['id'],
         session_id: ISession['id']
-    ): Promise<IProductPreview[]> {
-        //@ts-ignore
-        await this.wishlistRepo.delete({ product: productId, session_id });
+    ): Promise<IPublicProduct[]> {
+        await this.wishlistRepo.delete({ product, session_id } as DeepPartial<ProductEntity>);
 
         return this.getWishlist(session_id);
     }
+
+    // HELPERS
 
     clearUselessWishlist() {
         console.log(111);

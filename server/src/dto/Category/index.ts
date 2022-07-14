@@ -47,26 +47,4 @@ export class CreateCategoryDTO implements ICategory {
     comment: string;
 }
 
-export class CreateCategoryDTOСonstructor extends CreateCategoryDTO {
-    constructor({ url, title, is_public, property_groups, comment }: CreateCategoryDTO) {        
-        super();
-        this.url = url;
-        this.title = title;
-        this.is_public = is_public;
-        this.comment = comment || null;
-        // @ts-ignore for table relations
-        this.property_groups = property_groups
-            ? property_groups.map(groupId => ({ id: Number(groupId) }))
-            : null;
-    }
-}
-
-export class CategoryPublicDTO extends CategoryBaseEntity implements ICategoryPublic {
-    constructor({ id, title, url, icon }: ICategory) {
-        super();
-        this.id = id;
-        this.title = title;
-        this.url = url;
-        this.icon = icon;
-    }
-}
+export class CategoryPublicDTO extends CategoryBaseEntity implements ICategoryPublic {}

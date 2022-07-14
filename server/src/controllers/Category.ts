@@ -11,11 +11,12 @@ import { DeleteResult } from 'typeorm';
 
 import { CategoryService } from '@services/Category';
 import { CategoryEntity } from '@entities/Category';
-import { CategoryPublicDTO, CreateCategoryDTO } from '@dto/Category';
+import { CreateCategoryDTO } from '@dto/Category';
 import { FSService } from '@services/FS';
 import { ICategory, ICategoryPublic } from '@interfaces/Category';
 import UndefinedResultInterceptor from '@interceptors/UndefinedResult';
 import AffectedResultInterceptor from '@interceptors/AffectedResult';
+import { CategoryPublic } from '@dto/Category/constructor';
 
 const TCategoryAdmin = OmitType(CategoryEntity, ['products']);
 
@@ -27,14 +28,14 @@ export class CategoryPublicController {
 
 	@Get('list')
 	@ApiOperation({ summary: 'get all public categories 💾' })
-	@ApiOkResponse({ type: CategoryPublicDTO, isArray: true })
+	@ApiOkResponse({ type: CategoryPublic, isArray: true })
 	getAllCategories(): Promise<ICategoryPublic[]> {
 		return this.categoryService.getPublicCategories();
 	}
 
 	@Get(':category')
 	@ApiOperation({ summary: 'get category info by URL 💾' })
-	@ApiOkResponse({ type: CategoryPublicDTO })
+	@ApiOkResponse({ type: CategoryPublic })
 	@ApiNotFoundResponse({ description: 'category not found' })
 	getCategory(
 		@Param('category') category: string
