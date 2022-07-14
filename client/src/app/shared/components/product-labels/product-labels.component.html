@@ -1,3 +1,3 @@
 <div *ngFor="let label of labelsData" [ngClass]="'label-' + label?.type" class="label fs-1 fw-2">
-    {{ label?.value }}
+    {{ label | labelValue }}
 </div>

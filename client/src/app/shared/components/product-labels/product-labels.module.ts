@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ProductLabelsComponent } from './product-labels.component';
+import { LabelsValueModule } from '@shared/pipes/labels-value/labels-value.module';
 
 
 
@@ -9,7 +10,8 @@ import { ProductLabelsComponent } from './product-labels.component';
     ProductLabelsComponent
   ],
   imports: [
-    CommonModule
+    CommonModule,
+    LabelsValueModule
   ],
   exports: [
     ProductLabelsComponent
