@@ -122,7 +122,7 @@ export class ProductService {
 			.leftJoinAndSelect('product.category', 'category')
 			.where('product.is_public = true');
 
-		return this.renderResult<IPublicProduct>(qb, queries, params, PublicProduc);
+		return this.renderResult<IPublicProduct>(qb, queries, params, PublicProduct);
 	}
 
 	async getAdminProducts(
