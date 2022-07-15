@@ -6,6 +6,7 @@ import AdminController from '@controllers/Admin';
 
 @Module({
     controllers: [ AdminController ],
-    providers: [ AdminService, CacheService ]
+    providers: [ AdminService, CacheService ],
+    exports: [ CacheService ]
 })
 export default class AdminModule {}

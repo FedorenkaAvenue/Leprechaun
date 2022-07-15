@@ -7,5 +7,6 @@ export default class CacheService {
 
     async resetCache() {
         await this.cacheManager.reset();
+        console.log('cache reseted');
     }
 }

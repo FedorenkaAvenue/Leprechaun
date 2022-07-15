@@ -102,7 +102,7 @@ export class FSService implements MulterOptionsFactory {
      */
     async removeFolder(folderType: FOLDER_TYPES, folderName: string | number): Promise<void> {
         try {
-            await promises.rmdir(
+            await promises.rm(
                 `${this.hostingPath}${folderType}/${folderName}`,
                 { recursive: true }
             );
