@@ -12,6 +12,9 @@ import { OrderStatus } from '@enums/Order';
 import { CreateOrderItemDTO, UpdateOrderItemDTO } from '@dto/OrderItem';
 import { IOrderItem } from '@interfaces/OrderItem';
 import { ProductEntity } from '@entities/Product';
+import { IProduct } from '@interfaces/Product';
+
+const ORDER_RELATIONS = [ 'list', 'list.product' ];
 
 @Injectable()
 export class OrderService {
@@ -46,7 +49,7 @@ export class OrderService {
         try {
             const res = await this.orderRepo.find({
                 where: { session_id, status: Not(OrderStatus.INIT) },
-                relations: [ 'list', 'list.product' ],
+                relations: ORDER_RELATIONS,
                 order: { status: 'ASC' }
             });
 
@@ -61,7 +64,7 @@ export class OrderService {
     async addOrderItem(orderItem: CreateOrderItemDTO, session_id: ISession['id']): Promise<IOrderPublic> {
         const res = await this.orderRepo.findOne({
             where: { session_id, status: OrderStatus.INIT },
-            relations: ['list', 'list.product']
+            relations: ORDER_RELATIONS
         });
 
         if (res) { // order is existed
@@ -115,8 +118,17 @@ export class OrderService {
 
     getAdminOrders(): Promise<IOrder[]> {
         return this.orderRepo.find({
-            relations: ['list', 'list.product']
+            relations: ORDER_RELATIONS
         });
+    }
+
+    async getOrdersByProductId(productId: IProduct['id']): Promise<IOrder[]> {
+        return await this.orderRepo
+            .createQueryBuilder('order')
+            .leftJoinAndSelect('order.list', 'list')
+            .leftJoin('list.product', 'product')
+            .where('product.id = :id', { id: productId })
+            .getMany();
     }
 
     removeOrder(id: IOrder['id']): Promise<DeleteResult> {

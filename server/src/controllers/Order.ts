@@ -15,7 +15,6 @@ import { ISession } from '@interfaces/Session';
 import AffectedResultInterceptor from '@interceptors/AffectedResult';
 import { IOrder, IOrderPublic } from '@interfaces/Order';
 import { CreateOrderItemDTO, UpdateOrderItemDTO } from '@dto/OrderItem';
-import { IOrderItem } from '@interfaces/OrderItem';
 import { OrderEntity } from '@entities/Order';
 import { OrderPublic } from '@dto/Order/constructor';
 
@@ -72,7 +71,7 @@ export class OrderPublicController {
     @ApiOkResponse({ type: OrderPublic })
     @ApiNotFoundResponse({ description: 'order item not found' })
     removeItem(
-        @Param('itemId', ParseUUIDPipe) orderItemId: IOrderItem['id'],
+        @Param('itemId', ParseUUIDPipe) orderItemId: string,
         @Session() { id }: ISession
     ): Promise<IOrderPublic> {
         return this.orderService.removeOrderItem(orderItemId, id);
@@ -100,16 +99,25 @@ export class OrderAdminController {
     @ApiOkResponse({ type: OrderPublic })
     @ApiNotFoundResponse({ description: 'order not found' })
     getOrderById(
-        @Param('orderId', ParseUUIDPipe) orderId: IOrder['id']
+        @Param('orderId', ParseUUIDPipe) orderId: string
     ): Promise<IOrderPublic> {
         return this.orderService.getOrderById(orderId);
+    }
+
+    @Get('product/:productId')
+    @ApiOperation({ summary: 'get orders which contain product' })
+    @ApiOkResponse({ type: OrderEntity, isArray: true })
+    getOrdersByProductId(
+        @Param('productId', ParseUUIDPipe) productId: string
+    ): Promise<IOrder[]> {
+        return this.orderService.getOrdersByProductId(productId);
     }
 
     @Patch('status/:orderId')
     @UseInterceptors(AffectedResultInterceptor)
     @ApiOperation({ summary: 'change order status' })
     changeOrderStatus(
-        @Param('orderId', ParseUUIDPipe) orderId: IOrder['id'],
+        @Param('orderId', ParseUUIDPipe) orderId: string,
         @Body(new ValidationPipe({ transform: true })) body: UpdateOrderStatusDTO
     ) {
         return this.orderService.changeOrderStatus(orderId, body);

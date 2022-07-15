@@ -25,7 +25,8 @@ export class OrderItemEntity extends OrderItemBaseEntity implements IOrderItem {
 
     @ManyToOne(
         () => ProductEntity,
-        ({ id }) => id
+        ({ id }) => id,
+        { onDelete: 'CASCADE' }
     )
     @JoinColumn({ name: 'product', referencedColumnName: 'id' })
     @ApiProperty({ type: ProductPreviewDTO , required: true })
