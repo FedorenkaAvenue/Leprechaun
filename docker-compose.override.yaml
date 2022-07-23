@@ -31,6 +31,7 @@ services:
         container_name: leprechaun_server
         environment:
             - APP_NAME
+            - LANGS
             - POSTGRES_HOST
             - POSTGRES_PORT
             - POSTGRES_PASSWORD
@@ -72,6 +73,7 @@ services:
         container_name: leprechaun_client
         environment:
             - APP_NAME
+            - LANGS
             - PORT=80
         depends_on:
             - server

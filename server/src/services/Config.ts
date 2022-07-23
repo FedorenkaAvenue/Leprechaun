@@ -7,6 +7,8 @@ import { createClient, RedisClientOptions } from 'redis';
 import { CacheModuleOptions, Injectable } from '@nestjs/common';
 import * as redisCacheStore from 'cache-manager-redis-store';
 
+const ENV_ARRAY_SPLIT_SYMBOL = ',';
+
 interface IHostingParams {
     HOSTING_PATH: string
 }
@@ -28,19 +30,21 @@ export default class ConfigService {
      * @param key environment variable key
      * @returns variable value
      */
-    getVal(key: string): string {
+    getVal(key: string): string | Array<string> {
         const envVariable = process.env[key];
 
         if (typeof envVariable === 'undefined') throw new Error(`config error: missing env ${key}`);
 
-        return envVariable;
+        return envVariable.includes(ENV_ARRAY_SPLIT_SYMBOL)
+            ? envVariable.split(ENV_ARRAY_SPLIT_SYMBOL).map(env => env.trim())
+            : envVariable;
     }
 
     /**
      * @description get application name
      */
     getAppName(): string {
-        return this.getVal('APP_NAME');
+        return this.getVal('APP_NAME') as string;
     }
 
     /**
@@ -49,11 +53,11 @@ export default class ConfigService {
     getTypeOrmConfig(): TypeOrmModuleOptions {
         return ({
             type: 'postgres',
-			host: this.getVal('POSTGRES_HOST'),
+			host: this.getVal('POSTGRES_HOST') as string,
 			port: Number(this.getVal('POSTGRES_PORT')),
-			username: this.getVal('POSTGRES_USER'),
-			password: this.getVal('POSTGRES_PASSWORD'),
-			database: this.getVal('POSTGRES_DATABASE'),
+			username: this.getVal('POSTGRES_USER') as string,
+			password: this.getVal('POSTGRES_PASSWORD') as string,
+			database: this.getVal('POSTGRES_DATABASE') as string,
             // TODO поправить после того как разберусь с миграциями
 			// synchronize: this.isDev,
 			synchronize: true,
@@ -66,7 +70,7 @@ export default class ConfigService {
      */
     getHostingParams(): IHostingParams {
         return ({
-            HOSTING_PATH: this.getVal('HOSTING_PATH')
+            HOSTING_PATH: this.getVal('HOSTING_PATH') as string
         })
     }
 
@@ -82,12 +86,12 @@ export default class ConfigService {
      */
     getMailConfig(): SMTPTransport.Options {
         return ({
-            host: this.getVal('MAIL_SMTP_HOST'),
+            host: this.getVal('MAIL_SMTP_HOST') as string,
             secure: false,
             port: Number(this.getVal('MAIL_SMTP_PORT')),
             auth: {
-                user: this.getVal('MAIL_SENDER_ACCOUNT'),
-                pass: this.getVal('MAIL_SENDER_PASSWORD')
+                user: this.getVal('MAIL_SENDER_ACCOUNT') as string,
+                pass: this.getVal('MAIL_SENDER_PASSWORD') as string
             },
             tls: { ciphers:'SSLv3' }
         });
@@ -105,7 +109,7 @@ export default class ConfigService {
      * @description get development mail account
      */
     getDevMailReciever(): string {
-        return this.getVal('DEV_MAIL_RECIEVER');
+        return this.getVal('DEV_MAIL_RECIEVER') as string;
     }
 
     /**
@@ -115,8 +119,8 @@ export default class ConfigService {
     getRedisConfig(DBNumber: number): RedisClientOptions<any, any> {
         return ({
             url: `redis://${this.getVal('REDIS_HOST')}:${this.getVal('REDIS_PORT')}`,
-            username: this.getVal('REDIS_USER'),
-            password: this.getVal('REDIS_PASSWORD'),
+            username: this.getVal('REDIS_USER') as string,
+            password: this.getVal('REDIS_PASSWORD') as string,
             database: DBNumber,
             legacyMode: true
         });
