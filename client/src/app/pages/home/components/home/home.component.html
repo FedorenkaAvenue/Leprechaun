@@ -4,7 +4,7 @@
     <ng-container  *ngIf="historyProducts$ | async as historyProducts">
       <app-dashboard
       *ngIf="historyProducts?.length"
-      [title]="'Products History'"
+      [title]="'dashboard.new-products' | translate"
       [products]="historyProducts$ | async"
       (toFavoriteEvent)="addToFavorite($event)"
       (deleteFromFavoriteEvent)="deleteFromFavorite($event)"
@@ -12,13 +12,14 @@
     </ng-container>  
   
     <app-dashboard
-      [title]="'New Product'"
+    [title]="'dashboard.new-products' | translate"
       [products]="commonProducts?.newest"
       (toFavoriteEvent)="addToFavorite($event)"
       (deleteFromFavoriteEvent)="deleteFromFavorite($event)"
     ></app-dashboard>
     <app-dashboard
-      [title]="'Popular Products'"
+    popular-products
+    [title]="'dashboard.popular-products' | translate"
       [products]="commonProducts?.popular"
       (toFavoriteEvent)="addToFavorite($event)"
       (deleteFromFavoriteEvent)="deleteFromFavorite($event)"

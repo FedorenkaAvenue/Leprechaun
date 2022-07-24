@@ -1,0 +1,11 @@
+{
+    "dashboard": {
+        "new-products": "Нові товари",
+        "popular-products": "Популярні товари"
+
+    },
+    "HELLO": "hi",
+    "ROUTES.heroes": "heroes",
+    "ROUTES.home": "home",
+    "ROUTES.dashboard": "dashboard"
+}

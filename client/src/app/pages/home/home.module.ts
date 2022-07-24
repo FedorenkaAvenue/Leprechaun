@@ -7,6 +7,7 @@ import { HomeComponent } from './components/home/home.component';
 import { HomeApiService } from '@shared/services/api_es/home-api/home-api.service';
 import { HomeService } from './services/home.service';
 import { HomeBannerComponent } from './components/home-banner/home-banner.component';
+import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
   declarations: [
@@ -16,7 +17,8 @@ import { HomeBannerComponent } from './components/home-banner/home-banner.compon
   imports: [
     CommonModule,
     HomeRoutingModule,
-    DashboardModule
+    DashboardModule,
+    TranslateModule.forChild()
   ],
   providers: [
     HomeApiService,
