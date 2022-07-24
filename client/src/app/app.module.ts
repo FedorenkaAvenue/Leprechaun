@@ -1,7 +1,7 @@
 // angular
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HttpClient, HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 // libs
@@ -10,7 +10,7 @@ import { TransferHttpCacheModule } from '@nguniversal/common';
 // shared
 import { SharedModule } from '@shared/shared.module';
 // components
-import { AppRoutes } from './app.routing';
+// import { AppRoutes } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { UniversalStorage } from '@shared/storage/universal.storage';
 import { CustomMetaModule } from './core/modules/custom-meta/custom-meta.module';
@@ -25,7 +25,16 @@ import { CartStateService } from '@shared/services/cart/cart-state/cart-state.se
 import { WithCredentialsInterceptor } from '@shared/interceptors/with-cred.interceptor';
 import { withCredentialsInterceptor } from '@shared/interceptors/withCred.interceptor';
 import { FavoritesStateService } from '@shared/services/favorite/favorite-state/favorites-state.service';
+import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { environment } from 'environments/environment';
+import { AppRoutingModule } from './app-routing.module';
 // interceptors
+
+
+export function createTranslateLoader(http: HttpClient) {
+  return new TranslateHttpLoader(http, `${environment.locales}assets/locales/`, '.json');
+}
 
 @NgModule({
   imports: [
@@ -33,7 +42,9 @@ import { FavoritesStateService } from '@shared/services/favorite/favorite-state/
     TransferHttpCacheModule,
     HttpClientModule,
     RouterModule,
-    AppRoutes,
+    AppRoutingModule,
+    // AppRoutes,
+    
     BrowserAnimationsModule,
     CookieModule.forRoot(),
     SharedModule.forRoot(),
@@ -41,6 +52,13 @@ import { FavoritesStateService } from '@shared/services/favorite/favorite-state/
     CustomMetaModule,
     NgSelectModule,
     LeprachaunIconsModule.forRoot(),
+    TranslateModule.forRoot({
+      loader: {
+        provide: TranslateLoader,
+        useFactory: (createTranslateLoader),
+        deps: [/* PLATFORM_ID, */HttpClient]
+      }
+    })
   ],
   declarations: [AppComponent],
   providers: [

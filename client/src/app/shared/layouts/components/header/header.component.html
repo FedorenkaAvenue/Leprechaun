@@ -1,9 +1,9 @@
 <header class="header p-v-3 container">
-  <a routerLink="/" class="header_logo">Leprechaun</a>
+  <a [routerLink]="'/' | localize" class="header_logo">Leprechaun</a>
   <nav class="header_nav fs-2 fw-2">
     <ul class="g-4">
       <li>
-        <a [routerLink]="['/products']" routerLinkActive="active">
+        <a [routerLink]="['products'] | localize" routerLinkActive="active">
           <span>каталог</span>
         </a>
       </li>
@@ -14,10 +14,10 @@
         </button>
       </li> -->
       <li>
-        <app-language-switch [languages]="languages"></app-language-switch>
+        <app-language-switch (changeLang)="changeLang($event)" [languages]="languages"></app-language-switch>
       </li>
       <li>
-        <a [routerLink]="['/favorites']" routerLinkActive="active" class="header_favorites main-btn">
+        <a [routerLink]="['/favorites'] | localize" routerLinkActive="active" class="header_favorites main-btn">
           <app-leprachaun-icon name="heart" color="gray"> </app-leprachaun-icon>
           <ng-container *ngIf="(favoriteValue$ | async)?.length as favoritesCount">
             <span>{{favoritesCount}}</span>
@@ -25,7 +25,7 @@
         </a>
       </li>
       <li>
-        <a [routerLink]="['/cart']" routerLinkActive="active" class="header_cart main-btn">
+        <a [routerLink]="['/cart'] | localize" routerLinkActive="active" class="header_cart main-btn">
           <app-leprachaun-icon name="cart" color="gray"> </app-leprachaun-icon>
           <ng-container *ngIf="(cartValue$ | async)?.length as cartCount">
             <span>{{cartCount}}</span>

@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { CartStateService } from '@shared/services/cart/cart-state/cart-state.service';
 import { FavoritesStateService } from '@shared/services/favorite/favorite-state/favorites-state.service';
+import { LocalizeRouterService } from '@gilsdav/ngx-translate-router';
 
 @Component({
   selector: 'app-header',
@@ -18,7 +19,8 @@ export class HeaderComponent implements OnInit {
   public languages = LANGUAGES;
   constructor(
     private readonly cartStateService: CartStateService,
-    private readonly favoritesStateService: FavoritesStateService) { }
+    private readonly favoritesStateService: FavoritesStateService,
+    private readonly localizeService: LocalizeRouterService) { }
 
   ngOnInit(): void {
     this.cartValue$ = this.cartStateService.getCartStateValue().pipe(
@@ -28,4 +30,9 @@ export class HeaderComponent implements OnInit {
     this.favoriteValue$ = this.favoritesStateService.getFavoritesStateValue();
   }
 
+
+  public changeLang(lang: string): void {
+    console.log(lang)
+    this.localizeService.changeLanguage(lang)
+  }
 }

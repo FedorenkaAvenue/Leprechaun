@@ -5,6 +5,8 @@ import { LanguageSwitchModule } from '@shared/components/language-switch/languag
 import { cartIcon, heartIcon, LeprachaunIconRegistryService, LeprachaunIconsModule, questionIcon } from '@shared/modules/leprachaun-icons';
 import { LpchInputModule } from '@shared/controls/lpch-input/lpch-input.module';
 import { RouterModule } from '@angular/router';
+import { TranslateModule } from '@ngx-translate/core';
+import { LocalizeRouterModule } from '@gilsdav/ngx-translate-router';
 
 
 
@@ -18,6 +20,8 @@ import { RouterModule } from '@angular/router';
     LeprachaunIconsModule,
     LpchInputModule,
     RouterModule,
+    TranslateModule.forChild(),
+    LocalizeRouterModule
   ],
   exports: [
     HeaderComponent

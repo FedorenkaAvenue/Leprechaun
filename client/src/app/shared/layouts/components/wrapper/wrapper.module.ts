@@ -4,6 +4,7 @@ import { WrapperComponent } from './wrapper.component';
 import { HeaderModule } from '../header/header.module';
 import { WrapperRoutingModule } from './wrapper.routing.module';
 import { RouterModule } from '@angular/router';
+import { TranslateModule } from '@ngx-translate/core';
 
 
 
@@ -15,7 +16,7 @@ import { RouterModule } from '@angular/router';
     CommonModule,
     WrapperRoutingModule,
     HeaderModule,
-    RouterModule,
+    TranslateModule.forChild()
   ]
 })
 export class WrapperModule { }
