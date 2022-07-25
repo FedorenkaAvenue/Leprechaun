@@ -1,12 +1,1 @@
-{
-
-    "dashboard": {
-        "new-products": "Новые товары",
-        "popular-products": "Популярные товары"
-
-    },
-    "HELLO": "hello !",
-    "ROUTES.heroes": "heroes",
-    "ROUTES.home": "home",
-    "ROUTES.dashboard": "dashboard"
-}
+{"titles":{"basket":"Корзина","newest":"Новинки"}}

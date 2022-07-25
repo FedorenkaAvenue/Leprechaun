@@ -29,6 +29,10 @@ migrations:
 manticore_index:
 	@make -f ./manticore/Makefile index_all
 
+translation:
+	@echo 'Building translations⏳...'
+	@cd ./translations && make build
+
 _cp_admin_client_static:
 	@rm -rf ./nginx/admin
 	@mkdir -p ./nginx/admin/ && cp -r ./admin/ ./nginx/

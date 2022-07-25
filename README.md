@@ -77,6 +77,7 @@ Boilerplate for web store
 
  * other
 
+    * `make translation` build translations
     * `make open_image_hosting` open image hosting GUI folder (*linux*)
     * `make migrations` run DB migrations
     * `make manticore_index` index *Manticore* search engine
