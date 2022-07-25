@@ -1,10 +1,10 @@
 version: "3.8"
 
 services:
-  nginx:
+  server:
     restart: on-failure:5
     build:
-      context: ./nginx
+      context: ./server
       dockerfile: Dockerfile.prod
       args:
         - ADMIN_CLIENT_PATH
@@ -12,16 +12,16 @@ services:
     depends_on:
       - client
 
-  postgres:
+  db:
     restart: on-failure:5
 
-  redis:
+  cache:
     restart: on-failure:5
 
-  server:
+  api:
     restart: on-failure:5
     build:
-      context: ./server
+      context: ./api
       dockerfile: Dockerfile.prod
     environment:
       - IS_DEV=false

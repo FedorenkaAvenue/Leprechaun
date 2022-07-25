@@ -1,7 +1,7 @@
 {
-  "name": "server",
+  "name": "api",
   "version": "0.0.1",
-  "description": "server application for @Leprechaun project",
+  "description": "API application for @Leprechaun project",
   "author": "August Luzanovsky",
   "private": false,
   "license": "UNLICENSED",

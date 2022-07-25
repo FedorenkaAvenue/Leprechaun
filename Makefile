@@ -24,7 +24,7 @@ open_image_hosting:
 	@sudo xdg-open /var/lib/docker/volumes/leprechaun_image_hosting/_data
 
 migrations:
-	@yarn --cwd ./server migrations:run
+	@yarn --cwd ./api migrations:run
 
 manticore_index:
 	@make -f ./manticore/Makefile index_all
@@ -34,5 +34,5 @@ translation:
 	@cd ./translations && make build
 
 _cp_admin_client_static:
-	@rm -rf ./nginx/admin
-	@mkdir -p ./nginx/admin/ && cp -r ./admin/ ./nginx/
+	@rm -rf ./server/admin
+	@mkdir -p ./server/admin/ && cp -r ./admin/ ./server/

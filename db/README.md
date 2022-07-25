@@ -1,10 +1,10 @@
-# PostgreSQL
+# PostgreSQL DB
 
 ## Params
 
  * local
 
-    * **host**: `leprechaun_postgres`
+    * **host**: `leprechaun_db`
     * **port**: `5432`
     * **user**: `postgres`
     * **password**: `barabaka35`

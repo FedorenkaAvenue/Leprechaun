@@ -1,36 +1,36 @@
 version: "3.8"
 
 services:
-  nginx:
+  server:
     restart: unless-stopped
     build:
-      context: ./nginx
+      context: ./server
       dockerfile: Dockerfile
       args:
         - HOSTING_PATH
     volumes:
-      - ./nginx/conf/nginx.conf:/etc/nginx/nginx.conf
-      - ./nginx/conf/leprechaun.conf:/etc/nginx/conf.d/leprechaun.conf
-      - ./nginx/conf/leprechaun.dev.conf:/etc/nginx/conf.d/leprechaun.dev.conf
+      - ./server/conf/nginx.conf:/etc/nginx/nginx.conf
+      - ./server/conf/leprechaun.conf:/etc/nginx/conf.d/leprechaun.conf
+      - ./server/conf/leprechaun.dev.conf:/etc/nginx/conf.d/leprechaun.dev.conf
     depends_on:
       - admin
       - client
 
-  postgres:
+  db:
     restart: unless-stopped
     volumes:
-      - ./postgres/postgresql.conf:/app/postgresql.conf
+      - ./db/postgresql.conf:/app/postgresql.conf
 
-  redis:
+  cache:
     restart: unless-stopped
     volumes:
-      - ./redis/redis.conf:/app/redis.conf
+      - ./cache/redis.conf:/app/redis.conf
 
-  server:
+  api:
     restart: unless-stopped
-    build: ./server
+    build: ./api
     volumes:
-      - ./server:/app
+      - ./api:/app
     environment:
       - IS_DEV=true
 
@@ -56,4 +56,4 @@ services:
     environment:
       - APP_NAME
     depends_on:
-      - server
+      - api

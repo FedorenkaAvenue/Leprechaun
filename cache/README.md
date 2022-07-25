@@ -1,11 +1,11 @@
-# Redis
+# Cache by Redis
 
 ## Params
 
  * local
    * **user**: `default`
    * **root pass**: `barabaka35`
-   * **host**: `leprechaun_redis`
+   * **host**: `leprechaun_cache`
    * **port**: `6379`
 
  * DB numeric

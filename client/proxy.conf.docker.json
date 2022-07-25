@@ -1,6 +1,6 @@
 {
   "/api": {
-    "target": "http://leprechaun_server",
+    "target": "http://leprechaun_api",
     "secure": true,
     "changeOrigin": true,
     "pathRewrite": {
@@ -10,7 +10,7 @@
     "withCredentials": true
   },
   "/img": {
-    "target": "http://leprechaun_nginx",
+    "target": "http://leprechaun_server",
     "secure": true,
     "changeOrigin": true,
     "logLevel": "debug"

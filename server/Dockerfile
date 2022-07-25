@@ -1,7 +1,20 @@
-FROM node:16.15.0-alpine3.14
+FROM nginx:1.14
 
-WORKDIR /app
+ARG HOSTING_PATH
 
-COPY . .
+RUN rm /etc/nginx/conf.d/default.conf && \
+    apt update && \
+    apt install -y apache2-utils tree
 
-CMD yarn dev
+# nginx-module-image-filter
+RUN echo "deb http://nginx.org/packages/mainline/debian/ stretch nginx" >> /etc/apt/sources.list && \
+    apt-get install -y wget gnupg2 && \
+    wget https://nginx.org/keys/nginx_signing.key && apt-key add nginx_signing.key && \
+    apt-get update && apt-get install nginx-module-image-filter -y
+
+# create hosting folders
+RUN mkdir -p ${HOSTING_PATH}img/category/ && \
+    mkdir -p ${HOSTING_PATH}img/product/
+
+COPY ./conf/nginx.conf /etc/nginx/
+COPY ./conf/leprechaun.conf ./conf/leprechaun.dev.conf /etc/nginx/conf.d/

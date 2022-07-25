@@ -1,8 +1,14 @@
 type TTranslates = {
-	titles: {
-		basket: string
-		newest: string
-	}
+	dashboard: {
+        newProducts: string,
+        popularProducts: string
+    },
+    HELLO: string,
+    ROUTES: {
+        heroes: string
+        home: string
+        dashboard: string
+    }
 }
 
 export default TTranslates;
