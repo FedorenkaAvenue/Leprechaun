@@ -1,6 +1,3 @@
-*.sql linguist-detectable=true
-*.sql linguist-language=SQL
-
 docker-compose.* linguist-detectable=true
 docker-compose.* linguist-language=Dockerfile
 
