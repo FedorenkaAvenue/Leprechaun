@@ -8,4 +8,6 @@ Dockerfile.prod linguist-detectable=true
 Dockerfile.prod linguist-language=Dockerfile
 
 *.conf linguist-detectable=true
+*.conf linguist-language=Nginx
+
 *.yaml linguist-detectable=true
