@@ -55,5 +55,7 @@ services:
       - ./admin:/app
     environment:
       - APP_NAME
+      - DOMAIN_API
+      - DOMAIN_MEDIA
     depends_on:
       - api

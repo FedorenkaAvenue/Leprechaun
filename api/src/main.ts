@@ -14,10 +14,7 @@ async function runServer() {
 		.use(cookieParser())
 		.use(session(singleConfigServie.getSessionConfig()))
 		.enableCors({
-			origin: [
-				'https://leprechaun.tech',
-				'https://adm.leprechaun.tech'
-			],
+			origin: singleConfigServie.getAvailableCORSDomains(),
 			methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
 			credentials: true,
 		});

@@ -168,6 +168,16 @@ export default class ConfigService {
             db: +this.getVal('REDIS_CASH_DB_NUMBER')
         });
     }
+
+    /**
+     * @description get array of available domains for CORS
+     */
+    getAvailableCORSDomains(): Array<string> {
+        return [
+            this.getVal('DOMAIN') as string,
+            this.getVal('DOMAIN_ADM') as string
+        ];
+    }
 }
 
 export const singleConfigServie = new ConfigService();

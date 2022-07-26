@@ -9,6 +9,8 @@ services:
       args:
         - ADMIN_CLIENT_PATH
         - HOSTING_PATH
+        - DOMAIN_MEDIA
+        - DOMAIN_API
     depends_on:
       - client
 
