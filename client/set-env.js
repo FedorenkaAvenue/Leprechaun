@@ -4,8 +4,9 @@ if (process.env.NODE_ENV === 'dev') {
   require('dotenv').config({ path: '../.env' });
 }
 
-const environment = process.env.NODE_ENV;
-const targetPath = `./src/environments/environment.${environment}.ts`;
+// TO DO
+// const environment = process.env.NODE_ENV;
+const targetPath = `./src/environments/environment.global.ts`;
 const envConfigFile = `
 export const environment = {
   langs: "${process.env.LANGS}",
