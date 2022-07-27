@@ -79,6 +79,7 @@ services:
       - APP_NAME
       - LANGS
       - DOMAIN_MEDIA
+      - DOMAIN_API
       - PORT=80
     depends_on:
       - api
