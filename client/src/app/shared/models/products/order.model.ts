@@ -6,28 +6,30 @@ export interface OrderProductI {
   id: string;
   amount: number;
   product: any;
-  // id: string;
-  // title: string;
-  // status: ProductStatus;
-  // price: PriceI;
-  // image: string;
 }
 
+export interface SummaryOrderI {
+  price: number;
+  productsAmount: number;
+}
 export interface OrderI {
   id: string;
   status: OrderStatus;
   list: Array<OrderCartItemDto>;
+  summary: SummaryOrderI;
 }
 
 export class OrderDto {
   id: string;
   status: OrderStatus;
   list: Array<OrderCartItemDto>;
+  summary: SummaryOrderI;
   constructor(order?: OrderI) {
-    const { id, status, list } = order || {};
+    const { id, status, list, summary } = order || {};
     this.id = id || null;
     this.status = status || null;
     this.list = list || null;
+    this.summary = summary
   }
 }
 
