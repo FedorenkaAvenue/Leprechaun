@@ -10,7 +10,9 @@ const targetPath = `./src/environments/environment.global.ts`;
 const envConfigFile = `
 export const environment = {
   langs: "${process.env.LANGS}",
-  appName: "${process.env.APP_NAME}"
+  appName: "${process.env.APP_NAME}",
+  apiEndpoint: "${process.env.DOMAIN_API}",
+  mediaEndpoint: "${process.env.DOMAIN_MEDIA}",
 };
 `;
 

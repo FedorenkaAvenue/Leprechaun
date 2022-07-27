@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { TransferHttpService } from '@gorniv/ngx-universal';
 import { ProductsCommonI } from '@shared/models';
-import { environment } from 'environments/environment';
+import { environment } from 'environments/environment.global';
 import { Observable, of } from 'rxjs';
 
 

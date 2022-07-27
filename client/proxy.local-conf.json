@@ -7,11 +7,5 @@
       "^/api": ""
     },
     "logLevel": "debug"
-  },
-  "/img": {
-    "target": "https://leprechaun.tech",
-    "secure": true,
-    "changeOrigin": true,
-    "logLevel": "debug"
   }
 }

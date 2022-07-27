@@ -2,7 +2,7 @@ import { HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { TransferHttpService } from '@gorniv/ngx-universal';
 import { ProductDetailsI } from '@shared/models';
-import { environment } from 'environments/environment';
+import { environment } from 'environments/environment.global';
 import { Observable } from 'rxjs';
 
 @Injectable({
