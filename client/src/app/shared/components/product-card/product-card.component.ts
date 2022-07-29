@@ -1,5 +1,6 @@
 import { Component, OnInit, ChangeDetectionStrategy, Input, EventEmitter, Output, OnChanges, SimpleChanges } from '@angular/core';
 import { ProductCardI } from '@shared/models/products/products.model';
+import { environment } from 'environments/environment.global';
 
 @Component({
   selector: 'app-product-card',
@@ -14,6 +15,7 @@ export class ProductCardComponent implements OnInit {
   @Output() toFavoriteEvent: EventEmitter<string> = new EventEmitter<string>();
   @Output() deleteFromFavoriteEvent: EventEmitter<string> = new EventEmitter<string>();
 
+  public apiUrl = environment.mediaEndpoint;
   constructor() { }
 
   ngOnInit(): void {
