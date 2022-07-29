@@ -1,7 +1,8 @@
 
 <section (click)="goToCategProds(category?.url)" class="category-card">
   <span class="category-title">{{ category?.title }}</span>
-  <img stubImage class="category-image" [src]="category?.icon || ''" alt="" />
+  <lpch-image [src]="category?.icon || ''"></lpch-image>
+ 
   <span class="category-status">published</span>
   <div class="category-actions card__actions">
     <a

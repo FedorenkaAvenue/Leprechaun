@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { TransferHttpService } from '@gorniv/ngx-universal';
 // import { CardItemDto } from '@shared/models';
 import { arrayToString } from '@shared/utils/transformers';
-import { environment } from 'environments/environment';
+import { environment } from 'environments/environment.global';
 import { Observable } from 'rxjs';
 
 @Injectable({

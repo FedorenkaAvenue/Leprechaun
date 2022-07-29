@@ -12,6 +12,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { LpchCounterInputModule } from '@shared/controls/lpch-counter-input/lpch-counter-input.module';
 import { CartItemsListComponent } from './components/cart-items-list/cart-items-list.component';
 import { CartDetailsComponent } from './components/cart-details/cart-details.component';
+import { LpchImageModule } from '@shared/components/lpch-image/lpch-image.module';
 
 @NgModule({
   declarations: [
@@ -28,7 +29,8 @@ import { CartDetailsComponent } from './components/cart-details/cart-details.com
     LpchInputModule,
     LpchPhoneModule,
     ReactiveFormsModule,
-    LpchCounterInputModule
+    LpchCounterInputModule,
+    LpchImageModule
   ],
   providers: [
   ]

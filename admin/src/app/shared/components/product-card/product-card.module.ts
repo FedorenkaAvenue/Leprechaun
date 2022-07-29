@@ -4,7 +4,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { RouterModule } from '@angular/router';
-import { DefaultImageModule } from '../../directives/default-image/default-image.module';
+import { LpchImageModule } from '../lpch-image/lpch-image.module';
 import { ProductCardComponent } from './product-card.component';
 
 
@@ -13,10 +13,10 @@ import { ProductCardComponent } from './product-card.component';
   imports: [
     CommonModule,
     MatCardModule,
-    DefaultImageModule,
     MatButtonModule,
     MatIconModule,
-    RouterModule
+    RouterModule,
+    LpchImageModule
   ],
   exports: [ProductCardComponent],
 })

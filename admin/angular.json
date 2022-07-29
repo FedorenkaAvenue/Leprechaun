@@ -84,8 +84,7 @@
             }
           },
           "options": {
-            "browserTarget": "admin:build",
-            "proxyConfig": "proxy.conf.json"
+            "browserTarget": "admin:build"
           },
           "defaultConfiguration": "development"
         },

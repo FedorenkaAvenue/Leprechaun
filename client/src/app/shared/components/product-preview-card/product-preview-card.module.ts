@@ -6,6 +6,7 @@ import { RouterModule } from '@angular/router';
 import { ProductPriceModule } from '../product-price/product-price.module';
 import { ProductLabelsModule } from '../product-labels/product-labels.module';
 import { CurtainsModule } from '@shared/directives/curtains/curtains.module';
+import { LpchImageModule } from '../lpch-image/lpch-image.module';
 
 
 
@@ -19,7 +20,8 @@ import { CurtainsModule } from '@shared/directives/curtains/curtains.module';
     LeprachaunIconsModule,
     CurtainsModule,
     ProductPriceModule,
-    ProductLabelsModule
+    ProductLabelsModule,
+    LpchImageModule
   ],
   exports: [
     ProductPreviewCardComponent

@@ -1,4 +1,5 @@
 import { Directive, ElementRef, HostBinding, HostListener, Input } from '@angular/core';
+import { environment } from 'environments/environment.global';
 
 @Directive({
   selector: '[appCurtains]'
@@ -10,7 +11,7 @@ export class CurtainsDirective {
   constructor(private element: ElementRef) { }
 
   @HostListener('mouseenter') onMouseEnter() {
-    const url = 'url(' + this.appCurtains + ')'
+    const url = 'url(' + environment.mediaEndpoint + '/' + this.appCurtains + ')'
     this.isActive = true;
     this.element.nativeElement.parentElement.style.backgroundImage = url;
   };

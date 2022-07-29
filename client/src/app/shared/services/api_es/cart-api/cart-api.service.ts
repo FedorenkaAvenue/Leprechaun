@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { TransferHttpService } from '@gorniv/ngx-universal';
 import { CustomerData, OrderDto, OrderI, ProductAmountPayload } from '@shared/models/products/order.model';
-import { environment } from 'environments/environment';
+import { environment } from 'environments/environment.global';
 import { Observable, of } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 

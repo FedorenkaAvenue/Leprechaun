@@ -54,6 +54,9 @@ services:
     volumes:
       - ./admin:/app
     environment:
+      - LANGS
       - APP_NAME
+      - DOMAIN_API
+      - DOMAIN_MEDIA
     depends_on:
       - api

@@ -25,6 +25,7 @@ import { ProductsListModule } from 'src/app/shared/components/products-list/prod
 import { PaginatorModule } from 'src/app/shared/modules/paginator';
 import { ProductsService } from '../product/sevices/products.service';
 import { ProductsApiService } from 'src/app/shared/services/products/products-api.service';
+import { LpchImageModule } from 'src/app/shared/components/lpch-image/lpch-image.module';
 
 @NgModule({
   declarations: [
@@ -51,6 +52,7 @@ import { ProductsApiService } from 'src/app/shared/services/products/products-ap
     FileUploaderModule,
     ProductsListModule,
     PaginatorModule,
+    LpchImageModule
   ],
   providers: [
     CategoriesApiService,

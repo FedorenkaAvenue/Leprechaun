@@ -5,7 +5,6 @@ services:
     container_name: leprechaun_server
     ports:
       - ${NGINX_HTTP_PORT}:80
-      # - ${NGINX_HTTPS_PORT}:443
     volumes:
       - image_hosting:/var/www/img:rw
       - ./server/.http_auth:/etc/nginx/.http_auth
@@ -33,6 +32,8 @@ services:
   api:
     container_name: leprechaun_api
     environment:
+      - DOMAIN
+      - DOMAIN_ADM
       - APP_NAME
       - LANGS
       - POSTGRES_HOST
@@ -77,6 +78,8 @@ services:
     environment:
       - APP_NAME
       - LANGS
+      - DOMAIN_MEDIA
+      - DOMAIN_API
       - PORT=80
     depends_on:
       - api
