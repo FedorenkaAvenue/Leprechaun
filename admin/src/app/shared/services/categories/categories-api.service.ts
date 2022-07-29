@@ -4,7 +4,7 @@ import { Observable, of } from 'rxjs';
 import { CategoryDto } from '../../models/categories.model';
 import { catchError}   from 'rxjs/operators';
 import { CATEGORY_SHORT_LIST } from 'src/app/mock/category';
-import { environment } from 'src/environments/environment';
+import { environment } from 'src/environments/environment.global';
 
 @Injectable()
 export class CategoriesApiService {

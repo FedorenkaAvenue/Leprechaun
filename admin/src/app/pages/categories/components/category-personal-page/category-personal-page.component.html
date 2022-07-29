@@ -3,7 +3,7 @@
     <ng-container *ngIf="category$ | async as category">
       <div class="category-info">
         <div class="category-header">
-          <img class="category-image" [src]="category?.icon" alt="" />
+          <lpch-image [src]="category?.icon || ''"></lpch-image>
           <h1 class="category-title">{{ category?.title }}</h1>
         </div>
 

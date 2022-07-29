@@ -37,11 +37,6 @@ export class CategoryPersonalPageComponent implements OnInit {
     this.productsService.init();
     this.getProducts();
     this.changeParams();
-    
-    this.products$.subscribe(res => {
-      console.log(res);
-      
-    })
   }
 
   private getCategory(url: string): Observable<CategoryDto> {
