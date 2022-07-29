@@ -1,7 +1,7 @@
 
 export const environment = {
-  langs: "ua,ru",
+  langs: "undefined",
   appName: "Leprechaun",
-  apiEndpoint: "https://api.leprechaun.tech",
-  mediaEndpoint: "https://media.leprechaun.tech",
+  apiEndpoint: "http://api.leprechaun",
+  mediaEndpoint: "http://media.leprechaun",
 };
