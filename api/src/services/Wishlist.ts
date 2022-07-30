@@ -3,11 +3,12 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { DeepPartial, Repository } from 'typeorm';
 
 import WishlistEntity from '@entities/Wishlist';
-import { IProduct, IPublicProduct } from '@interfaces/Product';
+import { IProduct } from '@interfaces/Product';
 import { ISession } from '@interfaces/Session';
 import { PRODUCT_RELATIONS } from './Product';
 import { ProductEntity } from '@entities/Product';
-import { PublicProduct } from '@dto/Product/constructor';
+import { ProductPublic } from '@dto/Product/constructor';
+import { TWishListPublic } from '@interfaces/Wishlist';
 
 @Injectable()
 export default class WishlistService {
@@ -20,7 +21,7 @@ export default class WishlistService {
     async addItem(
         product: IProduct['id'],
         session_id: ISession['id']
-    ): Promise<IPublicProduct[]> {
+    ): Promise<TWishListPublic> {
         try {
             await this.wishlistRepo.save({ product, session_id } as DeepPartial<ProductEntity>);
 
@@ -30,19 +31,19 @@ export default class WishlistService {
         }
     }
 
-    async getWishlist(session_id: ISession['id']): Promise<IPublicProduct[]> {
+    async getWishlist(session_id: ISession['id']): Promise<TWishListPublic> {
         const wishlist = await this.wishlistRepo.find({
             where: { session_id },
             relations: PRODUCT_RELATIONS
         });
 
-        return wishlist.map(({ product }) => new PublicProduct(product));
+        return wishlist.map(({ product }) => new ProductPublic(product));
     }
 
     async removeItem(
         product: IProduct['id'],
         session_id: ISession['id']
-    ): Promise<IPublicProduct[]> {
+    ): Promise<TWishListPublic> {
         await this.wishlistRepo.delete({ product, session_id } as DeepPartial<ProductEntity>);
 
         return this.getWishlist(session_id);

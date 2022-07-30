@@ -27,7 +27,7 @@ import { Session } from '@decorators/Session';
 import InvalidPaginationPageInterceptor from '@interceptors/InvalidPaginationPage';
 import UndefinedResultInterceptor from '@interceptors/UndefinedResult';
 import AffectedResultInterceptor from '@interceptors/AffectedResult';
-import { PublicProduct } from '@dto/Product/constructor';
+import { ProductPublic } from '@dto/Product/constructor';
 import { CommonDashboards, UserDashboards } from '@dto/Dashboard/constructor';
 import { Pagination } from '@dto/Pagination/constructor';
 
@@ -43,7 +43,7 @@ export class ProductPublicController {
     @UseInterceptors(CacheInterceptor)
     @UseInterceptors(InvalidPaginationPageInterceptor)
     @ApiOperation({ summary: 'get all public products 💾' })
-    @ApiPaginatedResponse(PublicProduct)
+    @ApiPaginatedResponse(ProductPublic)
     getProducts(
         @Query() queries: ISearchReqQueries,
         @Cookies() { portion }: ICookies
@@ -56,7 +56,7 @@ export class ProductPublicController {
 	@UseInterceptors(InvalidPaginationPageInterceptor)
 	@ApiOperation({ summary: 'get public products by category URL 💾' })
     @ApiNotFoundResponse({ description: 'category not found' })
-	@ApiPaginatedResponse(PublicProduct)
+	@ApiPaginatedResponse(ProductPublic)
 	getCategoryProducts(
 		@Query() queries: ISearchReqQueries,
         @Cookies() { portion }: ICookies,
@@ -108,7 +108,7 @@ export class ProductPublicController {
     @Get(':productId')
     @UseInterceptors(CacheInterceptor)
     @ApiOperation({ summary: 'get public product by ID 💾' })
-    @ApiOkResponse({ type: PublicProduct })
+    @ApiOkResponse({ type: ProductPublic })
     @ApiBadRequestResponse({ description: 'invalid product ID' })
     @ApiNotFoundResponse({ description: 'product not found' })
     getProduct(
@@ -168,7 +168,7 @@ export class ProductAdminController {
     @Get(':productId')
     @UseInterceptors(UndefinedResultInterceptor)
     @ApiOperation({ summary: 'get product by ID' })
-    @ApiOkResponse({ type: PublicProduct })
+    @ApiOkResponse({ type: ProductPublic })
     @ApiBadRequestResponse({ description: 'invalid product ID' })
     @ApiNotFoundResponse({ description: 'product not found' })
     getProduct(

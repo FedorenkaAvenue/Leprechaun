@@ -40,7 +40,7 @@ export class ProductPreview extends ProductPreviewDTO {
 }
 
 @WithLabels(LabelType.NEW, LabelType.POPULAR, LabelType.DISCOUNT)
-export class PublicProduct extends PublicProductDTO {
+export class ProductPublic extends PublicProductDTO {
     constructor({ id, title, price, status, images, properties, category }: IProduct) {
         super();
         this.id = id;

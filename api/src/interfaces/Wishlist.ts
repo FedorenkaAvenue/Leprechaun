@@ -1,4 +1,4 @@
-import { IProduct } from './Product';
+import { IProduct, IPublicProduct } from './Product';
 import { ISession } from './Session';
 
 export interface IWishlistItem {
@@ -7,3 +7,6 @@ export interface IWishlistItem {
     session_id?: ISession['id'] | null
     created_at?: Date
 }
+
+export type TWishList = Array<IWishlistItem>;
+export type TWishListPublic = Array<IPublicProduct>;

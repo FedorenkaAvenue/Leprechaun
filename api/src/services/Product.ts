@@ -14,7 +14,7 @@ import { CommonDashboardsDTO, UserDashboardsDTO } from '@dto/Dashboard';
 import { IProduct, IProductPreview, IPublicProduct } from '@interfaces/Product';
 import ConfigService from './Config';
 import { IUserDashboards } from '@interfaces/Dashboard';
-import { Product, ProductPreview, PublicProduct } from '@dto/Product/constructor';
+import { Product, ProductPreview, ProductPublic } from '@dto/Product/constructor';
 import { CommonDashboards, UserDashboards } from '@dto/Dashboard/constructor';
 import { PaginationResult } from '@dto/Pagination/constructor';
 import { SearchQueries } from '@dto/Queries/constructor';
@@ -60,7 +60,7 @@ export class ProductService {
 				relations: PRODUCT_RELATIONS
 			});
 
-			return new PublicProduct(res);
+			return new ProductPublic(res);
 		} catch(err) {
 			throw new NotFoundException('product not found');
 		}
@@ -122,7 +122,7 @@ export class ProductService {
 			.leftJoinAndSelect('product.category', 'category')
 			.where('product.is_public = true');
 
-		return this.renderResult<IPublicProduct>(qb, queries, params, PublicProduct);
+		return this.renderResult<IPublicProduct>(qb, queries, params, ProductPublic);
 	}
 
 	async getAdminProducts(
@@ -148,7 +148,7 @@ export class ProductService {
 			.where('category.url = :categoryUrl', { categoryUrl })
 			.andWhere('product.is_public = true');
 
-		return this.renderResult<IPublicProduct>(qb, queries, params, PublicProduct);
+		return this.renderResult<IPublicProduct>(qb, queries, params, ProductPublic);
 	}
 
 	async getCategoryAdminProducts(
