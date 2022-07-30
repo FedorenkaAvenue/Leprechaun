@@ -25,16 +25,6 @@ export class OrderPublicController {
         private readonly orderService : OrderService
     ) {}
 
-    @Get()
-    @ApiOperation({ summary: 'get current order (basket)' })
-    @ApiOkResponse({ type: OrderPublic })
-    @ApiNotFoundResponse({ description: 'no active order' })
-    getCurrentOrder(
-        @Session() { id }: ISession
-    ): Promise<IOrderPublic> {
-        return this.orderService.getCurrentOrder(id);
-    }
-
     @Post('item')
     @ApiOperation({ summary: 'add new order item' })
     @ApiOkResponse({ type: OrderPublic })

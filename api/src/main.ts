@@ -14,7 +14,7 @@ async function runServer() {
 		.use(cookieParser())
 		.use(session(singleConfigServie.getSessionConfig()))
 		.enableCors({
-			origin: [ ...singleConfigServie.getAvailableCORSDomains(), 'http://localhost'],
+			origin: singleConfigServie.getAvailableCORSDomains(),
 			methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
 			credentials: true,
 		});

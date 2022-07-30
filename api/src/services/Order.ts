@@ -30,19 +30,11 @@ export class OrderService {
             .createQueryBuilder('order')
             .where({ id });
 
-        return await this.getOrder(qb);
-    }
+        const res = await this.getOrder(qb);
 
-    async getCurrentOrder(session_id: ISession['id']): Promise<IOrderPublic> {
-        const qb = this.orderRepo
-            .createQueryBuilder('order')
-            .where('order.session_id = :session_id', { session_id })
-            .andWhere(
-                'order.status = :status',
-                { status: OrderStatus.INIT }
-            );
+        if (res) return res;
 
-        return await this.getOrder(qb);
+        throw new NotFoundException('order not found');
     }
 
     async getOrderHistory(session_id: ISession['id']): Promise<IOrderPublic[]> {
@@ -81,7 +73,7 @@ export class OrderService {
             await this.orderItemRepo.save({ order_id, ...orderItem } as DeepPartial<ProductEntity>);
         }
 
-        return await this.getCurrentOrder(session_id);
+        return await this.getCart(session_id);
     }
 
     async changeOrderItemAmount(
@@ -90,7 +82,7 @@ export class OrderService {
     ): Promise<IOrderPublic> {
         await this.orderItemRepo.update({ id: order_item }, { amount });
 
-        return this.getCurrentOrder(sessionId);
+        return this.getCart(sessionId);
     }
 
     sendOrder({ order, customer }: CreateOrderDTO): Promise<UpdateResult> {
@@ -106,7 +98,7 @@ export class OrderService {
     ): Promise<IOrderPublic> {
         await this.orderItemRepo.delete({ id });
 
-        return this.getCurrentOrder(sessionId);
+        return this.getCart(sessionId);
     }
 
     changeOrderStatus(
@@ -137,6 +129,23 @@ export class OrderService {
 
     // HELPERS
 
+    /**
+     * @description get current order by session ID
+     * @param session_id
+     * @returns cart
+     */
+    async getCart(session_id: ISession['id']): Promise<IOrderPublic> {
+        const qb = this.orderRepo
+            .createQueryBuilder('order')
+            .where('order.session_id = :session_id', { session_id })
+            .andWhere(
+                'order.status = :status',
+                { status: OrderStatus.INIT }
+            );
+
+        return await this.getOrder(qb);
+    }
+
     createOrderItem(orderId: IOrder['id'], item: CreateOrderItemDTO): Promise<IOrderItem> {
         return this.orderItemRepo.save({ order_id: orderId, ...item } as DeepPartial<ProductEntity>);
     }
@@ -144,11 +153,11 @@ export class OrderService {
     /**
 	 * @description split relative tables for order by query builder
 	 * @param qb current query builder to continue building query
-	 * @returns completed OrderPublicDTO
+	 * @returns completed OrderPublicDTO or null
 	 */
     async getOrder(
         qb: SelectQueryBuilder<OrderEntity>,
-    ): Promise<OrderPublic> {
+    ): Promise<OrderPublic | null> {
         const res = await qb
             .leftJoinAndSelect('order.list', 'list')
             .leftJoinAndSelect('list.product', 'product')
@@ -156,8 +165,7 @@ export class OrderService {
             .orderBy('list.created_at', 'ASC')
             .getOne();
 
-            // fictive order if doesn't exists
-            return new OrderPublic(res || { id: null, status: null, list: [] });
+            return res ? new OrderPublic(res) : null;
     }
 
     clearUselessOrders() {

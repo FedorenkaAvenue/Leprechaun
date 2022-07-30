@@ -1,4 +1,4 @@
-import { Controller, Delete, Get, Param, ParseUUIDPipe, Post } from '@nestjs/common';
+import { Controller, Delete, Param, ParseUUIDPipe, Post } from '@nestjs/common';
 import { ApiNotFoundResponse, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 
 import WishlistService from '@services/Wishlist';
@@ -13,15 +13,6 @@ export class WishlistPublicController {
     constructor(
         private readonly wishlistService: WishlistService
     ) {}
-
-    @Get()
-    @ApiOperation({ summary: 'get wishlist' })
-    @ApiResponse({ type: ProductPublic, isArray: true })
-    getWishlist(
-        @Session() { id }: ISession
-    ): Promise<TWishListPublic> {
-        return this.wishlistService.getWishlist(id);
-    }
     
     @Post(':productId')
     @ApiOperation({ summary: 'add product to wishlist' })

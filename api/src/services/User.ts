@@ -20,7 +20,7 @@ export default class UserService {
 	async getUserData({ id }: ISession): Promise<UserPublic> {
 		return new UserPublic({
 			wishlist: await this.wishlistService.getWishlist(id),
-			cart: await this.orderService.getCurrentOrder(id),
+			cart: await this.orderService.getCart(id),
             session: id
 		});
 	}

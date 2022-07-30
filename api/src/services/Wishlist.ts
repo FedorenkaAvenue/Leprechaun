@@ -31,15 +31,6 @@ export default class WishlistService {
         }
     }
 
-    async getWishlist(session_id: ISession['id']): Promise<TWishListPublic> {
-        const wishlist = await this.wishlistRepo.find({
-            where: { session_id },
-            relations: PRODUCT_RELATIONS
-        });
-
-        return wishlist.map(({ product }) => new ProductPublic(product));
-    }
-
     async removeItem(
         product: IProduct['id'],
         session_id: ISession['id']
@@ -50,6 +41,20 @@ export default class WishlistService {
     }
 
     // HELPERS
+
+    /**
+     * @description get current wishlist by session ID
+     * @param session_id 
+     * @returns wishlist
+     */
+    async getWishlist(session_id: ISession['id']): Promise<TWishListPublic> {
+        const wishlist = await this.wishlistRepo.find({
+            where: { session_id },
+            relations: PRODUCT_RELATIONS
+        });
+
+        return wishlist.map(({ product }) => new ProductPublic(product));
+    }
 
     clearUselessWishlist() {
         console.log(111);
