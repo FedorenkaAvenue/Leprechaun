@@ -6,11 +6,10 @@ import { IProductPreview } from '@interfaces/Product';
 
 @Injectable()
 export default class UserService {
-    constructor(
-        private readonly productService: ProductService
-    ) {}
-
-    getHistory(history: ISession['history']): Promise<IProductPreview[]> {
-        return this.productService.getProductPreviewList(history);
-    }
+	constructor(
+		private readonly productService: ProductService
+	) { }
+	getHistory(history: ISession['history']): Promise<IProductPreview[]> {
+		return this.productService.getProductPreviewList(history);
+	}
 }
