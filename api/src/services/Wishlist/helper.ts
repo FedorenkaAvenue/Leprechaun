@@ -1,3 +1,4 @@
+import { Injectable } from "@nestjs/common";
 import { Repository } from "typeorm";
 import { InjectRepository } from "@nestjs/typeorm";
 
@@ -5,8 +6,9 @@ import { ProductPublic } from "@dto/Product/constructor";
 import WishlistEntity from "@entities/Wishlist";
 import { ISession } from "@interfaces/Session";
 import { TWishListPublic } from "@interfaces/Wishlist";
-import { PRODUCT_RELATIONS } from "../Product";
+import { PRODUCT_DEEP_RELATIONS } from "../Product";
 
+@Injectable()
 export default class WishlistHelperService {
     constructor(
         @InjectRepository(WishlistEntity) public readonly wishlistRepo: Repository<WishlistEntity>
@@ -20,7 +22,7 @@ export default class WishlistHelperService {
     async getWishlist(session_id: ISession['id']): Promise<TWishListPublic> {
         const wishlist = await this.wishlistRepo.find({
             where: { session_id },
-            relations: PRODUCT_RELATIONS
+            relations: PRODUCT_DEEP_RELATIONS
         });
 
         return wishlist.map(({ product }) => new ProductPublic(product));

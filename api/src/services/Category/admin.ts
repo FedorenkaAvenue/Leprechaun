@@ -1,4 +1,5 @@
 import { DeleteResult } from 'typeorm';
+import { Injectable } from '@nestjs/common';
 
 import { CreateCategoryDTO } from '@dto/Category';
 import { FOLDER_TYPES } from '@services/FS';
@@ -6,6 +7,7 @@ import { ICategory } from '@interfaces/Category';
 import { Category } from '@dto/Category/constructor';
 import CategoryHelperService from './helper';
 
+@Injectable()
 export default class CategoryAdminService extends CategoryHelperService {
     getAdminCategories(): Promise<ICategory[]> {
 		return this.categoryRepo.find({

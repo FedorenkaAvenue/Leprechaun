@@ -1,12 +1,12 @@
-# Cache by Redis
+# Sessions by Redis
 
 ## Params
 
  * local
    * **user**: `default`
    * **root pass**: `barabaka35`
-   * **host**: `leprechaun_cache`
-   * **port**: `6380`
+   * **host**: `leprechaun_session`
+   * **port**: `6379`
    * **db number**: `0`
 
 ## Tools

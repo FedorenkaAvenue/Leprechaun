@@ -113,26 +113,16 @@ export default class ConfigService {
     }
 
     /**
-     * @description get config for RedisClient connection
-     * @param DBNumber number of Redis database
-     */
-    getRedisConfig(DBNumber: number): RedisClientOptions<any, any> {
-        return ({
-            url: `redis://${this.getVal('REDIS_HOST')}:${this.getVal('REDIS_PORT')}`,
-            username: this.getVal('REDIS_USER') as string,
-            password: this.getVal('REDIS_PASSWORD') as string,
-            database: DBNumber,
-            legacyMode: true
-        });
-    }
-
-    /**
      * @description get config for `express-session` package
      */
     getSessionConfig(): SessionOptions {
-        const client = createClient(
-            this.getRedisConfig(+this.getVal('REDIS_SESSION_DB_NUMBER'))
-        );
+        const client = createClient({
+            url: `redis://${this.getVal('SESSION_HOST')}:${this.getVal('SESSION_CONTAINER_PORT')}`,
+            username: this.getVal('SESSION_USER') as string,
+            password: this.getVal('SESSION_PASSWORD') as string,
+            database: +this.getVal('SESSION_DB_NUMBER'),
+            legacyMode: true
+        });
         client.connect();
         const redisStore = RedisStore(session);
 
@@ -156,16 +146,15 @@ export default class ConfigService {
     /**
      * @description get cache manager config
      */
-    getCacheStoreCongig(): CacheModuleOptions {
+    getCacheStoreConfig(): CacheModuleOptions {
         return ({
-            //@ts-ignore
-            store: redisCacheStore,
-            host: this.getVal('REDIS_HOST'),
-            port: this.getVal('REDIS_PORT'),
-            auth_pass: this.getVal('REDIS_PASSWORD'),
+            store: redisCacheStore as any,
+            host: this.getVal('CACHE_HOST'),
+            port: this.getVal('CACHE_CONTAINER_PORT'),
+            auth_pass: this.getVal('CACHE_PASSWORD'),
             ttl: +this.getVal('DEFAULT_CACHE_TTL'),
             max: 1000,
-            db: +this.getVal('REDIS_CASH_DB_NUMBER')
+            db: +this.getVal('CACHE_DB_NUMBER')
         });
     }
 

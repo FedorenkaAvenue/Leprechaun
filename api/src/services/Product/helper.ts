@@ -1,5 +1,6 @@
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, SelectQueryBuilder } from 'typeorm';
+import { Injectable } from '@nestjs/common';
 
 import { ProductEntity } from '@entities/Product';
 import { FSService } from '@services/FS';
@@ -12,6 +13,7 @@ import ConfigService from '../Config';
 import { PaginationResult } from '@dto/Pagination/constructor';
 import { SearchQueries } from '@dto/Queries/constructor';
 
+@Injectable()
 export default class ProductHelperService {
     dashboardPortion: number;
 

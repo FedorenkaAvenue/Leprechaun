@@ -1,6 +1,7 @@
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository  } from 'typeorm';
 import { DeepPartial, SelectQueryBuilder } from 'typeorm';
+import { Injectable } from '@nestjs/common';
 
 import { OrderEntity } from '@entities/Order';
 import { OrderItemEntity } from '@entities/OrderItem';
@@ -12,6 +13,7 @@ import { CreateOrderItemDTO } from '@dto/OrderItem';
 import { IOrderItem } from '@interfaces/OrderItem';
 import { ProductEntity } from '@entities/Product';
 
+@Injectable()
 export default class OrderHelperService {
     constructor(
         @InjectRepository(OrderEntity) public readonly orderRepo: Repository<OrderEntity>,

@@ -1,4 +1,4 @@
-import { NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { DeleteResult, UpdateResult } from 'typeorm';
 
 import { UpdateOrderStatusDTO } from '@dto/Order';
@@ -7,6 +7,7 @@ import OrderHelperService from './helper';
 import { IProduct } from '@interfaces/Product';
 import { ORDER_RELATIONS } from '.';
 
+@Injectable()
 export default class OrderAdminService extends OrderHelperService {
     async getOrderById(id: IOrder['id']): Promise<IOrderPublic> {
         const qb = this.orderRepo

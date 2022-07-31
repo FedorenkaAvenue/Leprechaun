@@ -4,3 +4,5 @@ Dockerfile.prod
 
 node_modules
 README.md
+
+dist

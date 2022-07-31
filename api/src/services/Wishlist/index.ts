@@ -1,4 +1,4 @@
-import { BadRequestException } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { DeepPartial } from 'typeorm';
 
 import { IProduct } from '@interfaces/Product';
@@ -7,6 +7,7 @@ import { ProductEntity } from '@entities/Product';
 import { TWishListPublic } from '@interfaces/Wishlist';
 import WishlistAdminService from './admin';
 
+@Injectable()
 export default class WishlistService extends WishlistAdminService {
     async addItem(
         product: IProduct['id'],

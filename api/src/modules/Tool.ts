@@ -11,7 +11,7 @@ import CacheService from '@services/Cache';
     imports: [
         CacheNestModule.registerAsync({
             inject: [ConfigService],
-            useFactory: async (configService: ConfigService) => configService.getCacheStoreCongig(),
+            useFactory: async (configService: ConfigService) => configService.getCacheStoreConfig(),
         })
     ],
     providers: [ ConfigService, MailService, FSService, CacheService ],
