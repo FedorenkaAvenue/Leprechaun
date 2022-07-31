@@ -2,7 +2,8 @@ import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { MulterModule } from '@nestjs/platform-express';
 
-import { CategoryAdminController, CategoryPublicController } from '@controllers/Category';
+import CategoryPublicController from '@controllers/Category/public';
+import CategoryAdminController from '@controllers/Category/admin';
 import { CategoryEntity } from '@entities/Category';
 import { CategoryService } from '@services/Category';
 import { FSService } from '@services/FS';

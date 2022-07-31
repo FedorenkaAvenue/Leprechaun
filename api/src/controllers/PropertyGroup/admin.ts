@@ -11,7 +11,7 @@ import UndefinedResultInterceptor from '@interceptors/UndefinedResult';
 
 @Controller('adm/propertygroup')
 @ApiTags('Property group 🤵🏿‍♂️')
-export class PropertyGroupAdminController {
+export default class PropertyGroupAdminController {
     constructor(private readonly propertyGroupService: PropertyGroupService) {}
 
     @Post()

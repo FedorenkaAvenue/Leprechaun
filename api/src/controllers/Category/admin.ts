@@ -1,10 +1,8 @@
 import {
-	Controller, Get, Param, Body, UseInterceptors, Delete, Post, UploadedFile,
-	ValidationPipe, CacheInterceptor
+	Controller, Get, Param, Body, UseInterceptors, Delete, Post, UploadedFile, ValidationPipe
 } from '@nestjs/common';
 import {
-	ApiCreatedResponse, ApiNotFoundResponse, ApiOkResponse,
-	ApiOperation, ApiTags, OmitType
+	ApiCreatedResponse, ApiNotFoundResponse, ApiOkResponse, ApiOperation, ApiTags, OmitType
 } from '@nestjs/swagger';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { DeleteResult } from 'typeorm';
@@ -13,40 +11,15 @@ import { CategoryService } from '@services/Category';
 import { CategoryEntity } from '@entities/Category';
 import { CreateCategoryDTO } from '@dto/Category';
 import { FSService } from '@services/FS';
-import { ICategory, ICategoryPublic } from '@interfaces/Category';
+import { ICategory } from '@interfaces/Category';
 import UndefinedResultInterceptor from '@interceptors/UndefinedResult';
 import AffectedResultInterceptor from '@interceptors/AffectedResult';
-import { CategoryPublic } from '@dto/Category/constructor';
 
 const TCategoryAdmin = OmitType(CategoryEntity, ['products']);
 
-@Controller('category')
-@ApiTags('Category 🧑‍💻')
-@UseInterceptors(CacheInterceptor)
-export class CategoryPublicController {
-	constructor(private readonly categoryService: CategoryService) {}
-
-	@Get('list')
-	@ApiOperation({ summary: 'get all public categories 💾' })
-	@ApiOkResponse({ type: CategoryPublic, isArray: true })
-	getAllCategories(): Promise<ICategoryPublic[]> {
-		return this.categoryService.getPublicCategories();
-	}
-
-	@Get(':category')
-	@ApiOperation({ summary: 'get category info by URL 💾' })
-	@ApiOkResponse({ type: CategoryPublic })
-	@ApiNotFoundResponse({ description: 'category not found' })
-	getCategory(
-		@Param('category') category: string
-	): Promise<ICategoryPublic> {
-		return this.categoryService.getPublicCategory(category);
-	}
-}
-
 @Controller('adm/category')
 @ApiTags('Category 🤵🏿‍♂️')
-export class CategoryAdminController {
+export default class CategoryAdminController {
 	constructor(private readonly categoryService: CategoryService) {}
 
 	@Post()

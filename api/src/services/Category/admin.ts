@@ -1,0 +1,47 @@
+import { DeleteResult } from 'typeorm';
+
+import { CreateCategoryDTO } from '@dto/Category';
+import { FOLDER_TYPES } from '@services/FS';
+import { ICategory } from '@interfaces/Category';
+import { Category } from '@dto/Category/constructor';
+import CategoryHelperService from './helper';
+
+export default class CategoryAdminService extends CategoryHelperService {
+    getAdminCategories(): Promise<ICategory[]> {
+		return this.categoryRepo.find({
+			relations: ['property_groups']
+		});
+	}
+
+    async createCategory(newCategory: CreateCategoryDTO, icon: Express.Multer.File): Promise<void> {
+		const { id } = await this.categoryRepo.save(new Category(newCategory));
+
+		if (icon) {
+			const [ uploadedIcon ] = await this.FSService.saveFiles(
+				FOLDER_TYPES.CATEGORY,
+				id,
+				[ icon ]
+			);
+
+			await this.categoryRepo.update(
+				{ id },
+				{ icon: uploadedIcon }
+			);
+		}
+	}
+
+    async getAdminCategory(categoryUrl: string): Promise<ICategory> {
+		return await this.categoryRepo.findOne({
+			where: { url: categoryUrl },
+			relations: ['property_groups']
+		});
+	}
+
+	async deleteCategory(categoryId: number): Promise<DeleteResult> {
+		const res = await this.categoryRepo.delete({ id: categoryId });
+
+		this.FSService.removeFolder(FOLDER_TYPES.CATEGORY, categoryId);
+
+		return res;
+	}
+}

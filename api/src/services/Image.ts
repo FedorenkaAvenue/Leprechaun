@@ -13,8 +13,6 @@ export class ImageService {
 
 	/**
 	 * @description save one image to DB
-	 * @param productId product ID
-	 * @param imgUrl image url
 	 * @returns promise of saved result
 	 */
 	async addImage(img: Image): Promise<ImageEntity> {

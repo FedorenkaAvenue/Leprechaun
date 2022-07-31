@@ -9,7 +9,7 @@ import { TWishListPublic } from '@interfaces/Wishlist';
 
 @Controller('wishlist')
 @ApiTags('Wishlist 🧑‍💻')
-export class WishlistPublicController {
+export default class WishlistPublicController {
     constructor(
         private readonly wishlistService: WishlistService
     ) {}

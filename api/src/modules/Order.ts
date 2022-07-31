@@ -4,7 +4,8 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { OrderEntity } from '@entities/Order';
 import { OrderItemEntity } from '@entities/OrderItem';
 import { OrderService } from '@services/Order';
-import { OrderAdminController, OrderPublicController } from '@controllers/Order';
+import OrderPublicController from '@controllers/Order/public';
+import OrderAdminController from '@controllers/Order/admin';
 
 @Module({
 	imports: [

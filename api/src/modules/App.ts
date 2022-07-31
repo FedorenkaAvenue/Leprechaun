@@ -14,9 +14,9 @@ import OrderModule from './Order';
 import WishlistModule from './Wishlist';
 import ScheduleModule from './Sheduler';
 import { CacheReset } from '@middlewares/CacheReset';
-import { ProductAdminController } from '@controllers/Product';
-import { CategoryAdminController } from '@controllers/Category';
-import { PropertyAdminController } from '@controllers/Property';
+import ProductAdminController from '@controllers/Product/admin';
+import CategoryAdminController from '@controllers/Category/admin';
+import PropertyAdminController from '@controllers/Property/admin';
 
 @Module({
 	imports: [

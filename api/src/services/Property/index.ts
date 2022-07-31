@@ -17,14 +17,14 @@ export class PropertyService {
 		await this.propertyRepo.save(new Property(property));
 	}
 
-	getProperty(propertyId: number): Promise<IProperty> {
+	getProperty(propertyId: IProperty['id']): Promise<IProperty> {
 		return this.propertyRepo.findOne({
 			where: { id: propertyId },
 			relations: [ 'property_group' ]
 		});
 	}
 
-	deleteProperty(propertyId): Promise<DeleteResult> {
+	deleteProperty(propertyId: IProperty['id']): Promise<DeleteResult> {
 		return this.propertyRepo.delete({ id: propertyId });
 	}
 }

@@ -10,7 +10,7 @@ import { UserPublic } from '@dto/User/constructor';
 
 @Controller('user')
 @ApiTags('User 🧑‍💻')
-export default class UserController {
+export default class UserPublicController {
     constructor(
         private readonly userService: UserService
     ) {}
