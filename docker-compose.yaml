@@ -13,8 +13,8 @@ services:
       - ./server/conf/leprechaun.conf:/etc/nginx/conf.d/leprechaun.conf
       - ./server/conf/leprechaun.dev.conf:/etc/nginx/conf.d/leprechaun.dev.conf
     depends_on:
-      - admin
-      - client
+      - client_admin
+      - client_user
 
   db:
     restart: unless-stopped
@@ -44,20 +44,20 @@ services:
     ports:
       - ${MANTICORE_PORT}:${MANTICORE_PORT}
 
-  client:
+  client_user:
     restart: unless-stopped
-    build: ./client
+    build: ./clients/user
     volumes:
-      - ./client:/app
+      - ./clients/user:/app
     environment:
       - IS_DEV=true
 
-  admin:
-    container_name: leprechaun_admin
+  client_admin:
+    container_name: leprechaun_client_admin
     restart: unless-stopped
-    build: ./admin
+    build: ./clients/admin
     volumes:
-      - ./admin:/app
+      - ./clients/admin:/app
     environment:
       - LANGS
       - APP_NAME

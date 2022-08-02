@@ -35,4 +35,4 @@ translation:
 
 _cp_admin_client_static:
 	@rm -rf ./server/admin
-	@mkdir -p ./server/admin/ && cp -r ./admin/ ./server/
+	@mkdir -p ./server/admin/ && cp -r ./clients/admin/ ./server/

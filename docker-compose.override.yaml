@@ -89,8 +89,8 @@ services:
     depends_on:
       - db
 
-  client:
-    container_name: leprechaun_client
+  client_user:
+    container_name: leprechaun_client_user
     environment:
       - APP_NAME
       - LANGS

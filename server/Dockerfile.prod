@@ -1,4 +1,4 @@
-### admin client bundle
+### ADMIN CLIENT BUNDLE
 
 FROM node:16.15.0-alpine3.14 AS ADMIN_CLIENT
 
@@ -20,7 +20,7 @@ COPY ./admin/. .
 
 RUN npm run build
 
-### Nginx
+### NGINX
 
 FROM nginx:1.14
 

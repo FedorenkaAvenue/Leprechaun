@@ -12,7 +12,7 @@ services:
         - DOMAIN_MEDIA
         - DOMAIN_API
     depends_on:
-      - client
+      - client_user
 
   db:
     restart: on-failure:5
@@ -35,10 +35,10 @@ services:
   manticore:
     restart: on-failure:5
 
-  client:
+  client_user:
     restart: on-failure:5
     build:
-      context: ./client
+      context: ./clients/user
       dockerfile: Dockerfile.prod
     environment:
       - IS_DEV=false
