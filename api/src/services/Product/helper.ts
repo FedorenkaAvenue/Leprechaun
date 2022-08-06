@@ -42,7 +42,6 @@ export default class ProductHelperService {
 	 * @description render product search result with filters, sorting and pagination
 	 * @param qb current query builder to continue building query
 	 * @param queries
-	 * @param cookies
 	 * @param resultMapConstructor constructor for maping result
 	 * @returns completed search result with pagination
 	 */

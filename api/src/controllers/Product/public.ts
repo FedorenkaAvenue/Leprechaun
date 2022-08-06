@@ -17,19 +17,18 @@ import { ICookies } from '@interfaces/Cookies';
 import { UndefinedPipe } from '@pipes/Undefined';
 import { QueryArrayPipe } from '@pipes/QueryArray';
 import { ISession } from '@interfaces/Session';
-import ConfigService from '@services/Config';
 import { Session } from '@decorators/Session';
 import InvalidPaginationPageInterceptor from '@interceptors/InvalidPaginationPage';
 import { ProductPublic } from '@dto/Product/constructor';
 import { CommonDashboards, UserDashboards } from '@dto/Dashboard/constructor';
+import { singleConfigServie } from '@services/Config';
+
+const USER_HISTORY_LENGTH = singleConfigServie.getVal('USER_HISTORY_LENGTH');
 
 @Controller('product')
 @ApiTags('Product 🧑‍💻')
 export default class ProductPublicController {
-    constructor(
-        private readonly productService: ProductService,
-        private readonly configService: ConfigService
-    ) {}
+    constructor(private readonly productService: ProductService) {}
 
     @Get('list')
     @UseInterceptors(CacheInterceptor)
@@ -110,7 +109,7 @@ export default class ProductPublicController {
         session.history =
             [...new Set([
                 productId,
-                ...session.history.slice(0, +this.configService.getVal('USER_HISTORY_LENGTH'))
+                ...session.history.slice(0, Number(USER_HISTORY_LENGTH))
             ])];
 
         return this.productService.getPublicProduct(productId);

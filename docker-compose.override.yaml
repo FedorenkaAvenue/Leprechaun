@@ -75,6 +75,7 @@ services:
       - DASHBOARD_PORTION
       - USER_HISTORY_LENGTH
       - DEFAULT_CACHE_TTL
+      - PRODUCT_PUBLIC_IMAGE_AMOUNT
     volumes:
       - image_hosting:/var/www/img:rw
     depends_on:
