@@ -1,7 +1,6 @@
 import { NestFactory } from '@nestjs/core';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import * as cookieParser from 'cookie-parser';
-import * as session from 'express-session';
 
 import AppModule from '@modules/App';
 import { singleConfigServie } from '@services/Config';
@@ -12,7 +11,6 @@ async function runServer() {
 
 	app
 		.use(cookieParser())
-		.use(session(singleConfigServie.getSessionConfig()))
 		.enableCors({
 			origin: singleConfigServie.getAvailableCORSDomains(),
 			methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
