@@ -12,9 +12,9 @@ import CacheService from '@services/Cache';
         CacheNestModule.registerAsync({
             inject: [ConfigService],
             useFactory: async (configService: ConfigService) => configService.getCacheStoreConfig(),
-        })
+        }),
     ],
-    providers: [ ConfigService, MailService, FSService, CacheService ],
-    exports: [ ConfigService, MailService, FSService, CacheNestModule ]
+    providers: [ConfigService, MailService, FSService, CacheService],
+    exports: [ConfigService, MailService, FSService, CacheNestModule],
 })
 export default class ToolModule {}

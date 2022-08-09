@@ -9,11 +9,8 @@ import { CategoryService } from '@services/Category';
 import { FSService } from '@services/FS';
 
 @Module({
-	imports: [
-		TypeOrmModule.forFeature([CategoryEntity]),
-		MulterModule.registerAsync({ useClass: FSService })
-	],
-	controllers: [ CategoryPublicController, CategoryAdminController ],
-	providers: [ CategoryService, FSService ],
+    imports: [TypeOrmModule.forFeature([CategoryEntity]), MulterModule.registerAsync({ useClass: FSService })],
+    controllers: [CategoryPublicController, CategoryAdminController],
+    providers: [CategoryService, FSService],
 })
 export default class CategoryModule {}

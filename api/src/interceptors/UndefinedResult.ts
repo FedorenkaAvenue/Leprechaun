@@ -8,12 +8,10 @@ import { Observable, tap } from 'rxjs';
 @Injectable()
 export default class UndefinedResultInterceptor implements NestInterceptor {
     intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
-        return next
-            .handle()
-            .pipe(
-                tap(data => {
-                    if (data === undefined) throw new NotFoundException();
-                })
-            );
+        return next.handle().pipe(
+            tap(data => {
+                if (data === undefined) throw new NotFoundException();
+            }),
+        );
     }
 }

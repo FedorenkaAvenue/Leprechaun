@@ -7,29 +7,27 @@ import { singleConfigServie } from '@services/Config';
 import { UncaughtExceptionFilter } from '@filters/UncaughtException';
 
 async function runServer() {
-	const app = await NestFactory.create(AppModule);
+    const app = await NestFactory.create(AppModule);
 
-	app
-		.use(cookieParser())
-		.enableCors({
-			origin: singleConfigServie.getAvailableCORSDomains(),
-			methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
-			credentials: true,
-		});
+    app.use(cookieParser()).enableCors({
+        origin: singleConfigServie.getAvailableCORSDomains(),
+        methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
+        credentials: true,
+    });
 
-	if (!singleConfigServie.isDev) app.useGlobalFilters(new UncaughtExceptionFilter());
+    if (!singleConfigServie.isDev) app.useGlobalFilters(new UncaughtExceptionFilter());
 
-	// Swagger
-	const config = new DocumentBuilder()
-		.setTitle(singleConfigServie.getAppName())
-		.setDescription(`💾 - cached |  🧑‍💻 - user |  🤵🏿‍♂️ - admin`)
-		.build();
-	const document = SwaggerModule.createDocument(app, config, {
-		ignoreGlobalPrefix: true
-	});
-	SwaggerModule.setup('/docs', app, document);
+    // Swagger
+    const config = new DocumentBuilder()
+        .setTitle(singleConfigServie.getAppName())
+        .setDescription(`💾 - cached |  🧑‍💻 - user |  🤵🏿‍♂️ - admin`)
+        .build();
+    const document = SwaggerModule.createDocument(app, config, {
+        ignoreGlobalPrefix: true,
+    });
+    SwaggerModule.setup('/docs', app, document);
 
-	await app.listen(80);
+    await app.listen(80);
 }
 
 runServer();

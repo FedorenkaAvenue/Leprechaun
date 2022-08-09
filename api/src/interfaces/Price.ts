@@ -1,4 +1,4 @@
 export interface IPrice {
-    current: number
-    old: number | null
+    current: number;
+    old: number | null;
 }

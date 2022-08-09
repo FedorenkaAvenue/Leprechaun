@@ -1,7 +1,14 @@
 import { ApiProperty } from '@nestjs/swagger';
 import {
-    Column, CreateDateColumn, Entity, JoinColumn, JoinTable, ManyToMany, ManyToOne,
-    OneToMany, PrimaryGeneratedColumn
+    Column,
+    CreateDateColumn,
+    Entity,
+    JoinColumn,
+    JoinTable,
+    ManyToMany,
+    ManyToOne,
+    OneToMany,
+    PrimaryGeneratedColumn,
 } from 'typeorm';
 import { CategoryEntity } from '@entities/Category';
 import { IBaseProduct, IProduct, IPublicProduct } from '@interfaces/Product';
@@ -31,32 +38,20 @@ export class BaseProductEntity implements IBaseProduct {
 }
 
 export class PublicProductEntity extends BaseProductEntity implements IPublicProduct {
-    @OneToMany(
-        () => ImageEntity,
-        ({ product_id }) => product_id,
-        { eager: true }
-    )
+    @OneToMany(() => ImageEntity, ({ product_id }) => product_id, { eager: true })
     @ApiProperty({ type: ImageEntity, isArray: true })
     images: ImageEntity[];
 
-    @ManyToMany(
-        () => PropertyEntity,
-        ({ id }) => id,
-        { cascade: true }
-    )
+    @ManyToMany(() => PropertyEntity, ({ id }) => id, { cascade: true })
     @JoinTable({
         name: '_products_to_properties',
         joinColumn: { name: 'product_id' },
-        inverseJoinColumn: { name: 'property_id' }
+        inverseJoinColumn: { name: 'property_id' },
     })
     @ApiProperty({ type: PropertyEntity, isArray: true })
     properties: Array<IProperty>;
 
-    @ManyToOne(
-        () => CategoryEntity,
-        ({ products }) => products,
-        { onDelete: 'NO ACTION' }
-    )
+    @ManyToOne(() => CategoryEntity, ({ products }) => products, { onDelete: 'NO ACTION' })
     @JoinColumn({ name: 'category', referencedColumnName: 'id' })
     @ApiProperty({ type: () => CategoryEntity })
     category: ICategory;

@@ -10,20 +10,27 @@ import { DevLogMail } from '@dto/Mail/constructor';
  */
 @Catch(InternalServerErrorException, QueryFailedError)
 export class UncaughtExceptionFilter implements ExceptionFilter {
-	catch(exception: InternalServerErrorException | QueryFailedError, host: ArgumentsHost) {
-		const timestamp = new Date().toISOString();
-		const ctx = host.switchToHttp();
-		const response = ctx.getResponse<Response>();
-		const { url, body, cookies, method, ip } = ctx.getRequest<Request>();
-		const { message, stack } = exception;
+    catch(exception: InternalServerErrorException | QueryFailedError, host: ArgumentsHost) {
+        const timestamp = new Date().toISOString();
+        const ctx = host.switchToHttp();
+        const response = ctx.getResponse<Response>();
+        const { url, body, cookies, method, ip } = ctx.getRequest<Request>();
+        const { message, stack } = exception;
 
-		const log = new DevLogMail({
-			url, cookies, method, body, stack, message, ip, timestamp
-		});
+        const log = new DevLogMail({
+            url,
+            cookies,
+            method,
+            body,
+            stack,
+            message,
+            ip,
+            timestamp,
+        });
 
-		singleMailSerbice.sendErrorLogMail(log);
-		console.error(log);
+        singleMailSerbice.sendErrorLogMail(log);
+        console.error(log);
 
-		response.sendStatus(500);
-	}
+        response.sendStatus(500);
+    }
 }

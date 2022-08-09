@@ -29,25 +29,21 @@ export class CategoryEntity extends CategoryBaseEntity implements ICategory {
     @ApiProperty({ type: ProductEntity, isArray: true })
     products: ProductEntity[];
 
-    @ManyToMany(
-        () => PropertyGroupEntity,
-        ({ id }) => id,
-        { cascade: true }
-    )
+    @ManyToMany(() => PropertyGroupEntity, ({ id }) => id, { cascade: true })
     @JoinTable({
         name: '_categories_to_propertygroups',
         joinColumn: {
             name: 'category_id',
-            referencedColumnName: 'id'
+            referencedColumnName: 'id',
         },
         inverseJoinColumn: {
             name: 'propertygroup_id',
-            referencedColumnName: 'id'
-        }
+            referencedColumnName: 'id',
+        },
     })
     @ApiProperty({
         type: ProductGroupBaseEntity,
-        isArray: true
+        isArray: true,
     })
     property_groups: PropertyGroupEntity[];
 

@@ -24,10 +24,7 @@ export class ProductGroupBaseEntity implements IPropertyGroup {
 
 @Entity('property_group')
 export class PropertyGroupEntity extends ProductGroupBaseEntity implements IPropertyGroup {
-    @OneToMany(
-        () => PropertyEntity,
-        ({ property_group }) => property_group
-    )
+    @OneToMany(() => PropertyEntity, ({ property_group }) => property_group)
     @ApiProperty({ type: () => PropertyEntity, isArray: true })
     properties: PropertyEntity[];
 }

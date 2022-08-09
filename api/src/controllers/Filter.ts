@@ -16,7 +16,7 @@ export class FilterController {
     @ApiNotFoundResponse({ description: 'category not found' })
     getCategoryFilters(
         @Param('categoryUrl') categoryUrl: string,
-        @Query() queries: ISearchReqQueries
+        @Query() queries: ISearchReqQueries,
     ): Promise<FiltersDTO> {
         return this.filterService.getCategoryFilters(categoryUrl, queries);
     }

@@ -37,7 +37,7 @@ export class CreateProductDTO implements IProduct {
     @ApiProperty({
         enum: ProductStatus,
         required: false,
-        default: ProductStatus.AVAILABLE
+        default: ProductStatus.AVAILABLE,
     })
     status: ProductStatus;
 
@@ -51,7 +51,7 @@ export class CreateProductDTO implements IProduct {
     @ApiProperty({
         required: true,
         type: 'number',
-        description: 'category id'
+        description: 'category id',
     })
     category: ICategory;
 
@@ -61,7 +61,7 @@ export class CreateProductDTO implements IProduct {
         type: 'file',
         isArray: true,
         required: false,
-        default: []
+        default: [],
     })
     images: IImage[];
 
@@ -71,7 +71,7 @@ export class CreateProductDTO implements IProduct {
         description: 'array of properties',
         isArray: true,
         required: false,
-        default: []
+        default: [],
     })
     properties: IProperty[];
 
@@ -80,7 +80,7 @@ export class CreateProductDTO implements IProduct {
     @ApiProperty({
         required: false,
         default: true,
-        description: 'novelty status'
+        description: 'novelty status',
     })
     is_new: boolean;
 

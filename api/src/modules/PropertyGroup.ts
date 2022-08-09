@@ -6,10 +6,8 @@ import PropertyGroupAdminController from '@controllers/PropertyGroup/admin';
 import { PropertyGroupEntity } from '@entities/PropertGroup';
 
 @Module({
-	imports: [
-		TypeOrmModule.forFeature([ PropertyGroupEntity ])
-	],
-	controllers: [ PropertyGroupAdminController ],
-	providers: [ PropertyGroupService ],
+    imports: [TypeOrmModule.forFeature([PropertyGroupEntity])],
+    controllers: [PropertyGroupAdminController],
+    providers: [PropertyGroupService],
 })
 export default class PropertyGroupModule {}

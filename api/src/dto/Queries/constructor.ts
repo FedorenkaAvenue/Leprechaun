@@ -11,7 +11,7 @@ import { QueryGETListDTO, RangeQueryDTO, SearchQueriesDTO } from '.';
  */
 export class RangeQuery extends RangeQueryDTO {
     constructor(priceQuery: string) {
-        const [ min = 0, max ] = priceQuery.split('-');
+        const [min = 0, max] = priceQuery.split('-');
 
         super();
         this.min = Number(max);

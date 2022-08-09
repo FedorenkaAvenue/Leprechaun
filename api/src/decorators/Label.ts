@@ -1,30 +1,32 @@
-import { LabelType } from "@enums/Label";
-import { IProduct } from "@interfaces/Product";
-import { Label } from "@dto/Label/constructor";
-import getPercentDifference from "@utils/getPercentDifference";
+import { LabelType } from '@enums/Label';
+import { IProduct } from '@interfaces/Product';
+import { Label } from '@dto/Label/constructor';
+import getPercentDifference from '@utils/getPercentDifference';
 
 /**
  * @description set labels key for wrapped class. queue of label type is important
  * @param labels list of label types
  */
 export default function WithLabels(...labels: Array<LabelType>) {
-    return function <T extends { new(...args: any[]): {} }>(constr: T) {
+    return function <T extends { new (...args: any[]): {} }>(constr: T) {
         return class Kozyan extends constr {
             labels: IProduct['labels'];
-    
+
             constructor(...args: any[]) {
                 super(...args);
                 this.labels = [];
 
-                const { price: { old, current }, is_new, rating } = args[0] as IProduct;
+                const {
+                    price: { old, current },
+                    is_new,
+                    rating,
+                } = args[0] as IProduct;
 
                 labels.forEach(label => {
-                    switch(label) {
+                    switch (label) {
                         case LabelType.DISCOUNT: {
-                            if (typeof old === 'number' && (old > current)) {
-                                this.labels.push(new Label(
-                                    LabelType.DISCOUNT, getPercentDifference(old, current)
-                                ));
+                            if (typeof old === 'number' && old > current) {
+                                this.labels.push(new Label(LabelType.DISCOUNT, getPercentDifference(old, current)));
                             }
 
                             break;
@@ -44,6 +46,6 @@ export default function WithLabels(...labels: Array<LabelType>) {
                     }
                 });
             }
-        }
-    }
+        };
+    };
 }

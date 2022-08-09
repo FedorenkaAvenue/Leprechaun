@@ -3,5 +3,5 @@ export enum OrderStatus {
     POSTED,
     IN_PROCESS,
     COMPLETED,
-    CANCELED
+    CANCELED,
 }

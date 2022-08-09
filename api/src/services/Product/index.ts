@@ -11,96 +11,98 @@ import { CommonDashboards, UserDashboards } from '@dto/Dashboard/constructor';
 import ProductAdminService from './admin';
 
 export const PRODUCT_RELATIONS = ['category', 'properties', 'properties.property_group'];
-export const PRODUCT_DEEP_RELATIONS = ['product','product.category', 'product.properties', 'product.properties.property_group'];
+export const PRODUCT_DEEP_RELATIONS = [
+    'product',
+    'product.category',
+    'product.properties',
+    'product.properties.property_group',
+];
 
 @Injectable()
 export class ProductService extends ProductAdminService {
-	async getPublicProduct(productId: IProduct['id']): Promise<IPublicProduct> {
-		try {
-			const res = await this.productRepo.findOneOrFail({
-				where: { id: productId, is_public: true },
-				relations: PRODUCT_RELATIONS
-			});
+    async getPublicProduct(productId: IProduct['id']): Promise<IPublicProduct> {
+        try {
+            const res = await this.productRepo.findOneOrFail({
+                where: { id: productId, is_public: true },
+                relations: PRODUCT_RELATIONS,
+            });
 
-			return new ProductPublic(res);
-		} catch(err) {
+            return new ProductPublic(res);
+        } catch (err) {
             console.log(err);
-            
-			throw new NotFoundException('product not found');
-		}
-	}
 
-	async getProductPreview(productId: IProduct['id']): Promise<IProductPreview> {
-		try {
-			const res = await this.productRepo.findOneOrFail({
-				where: { id: productId, is_public: true }
-			});
+            throw new NotFoundException('product not found');
+        }
+    }
 
-			return new ProductPreview(res);
-		} catch(err) {
-			throw new NotFoundException('product not found');
-		}
-	}
+    async getProductPreview(productId: IProduct['id']): Promise<IProductPreview> {
+        try {
+            const res = await this.productRepo.findOneOrFail({
+                where: { id: productId, is_public: true },
+            });
 
-	async getProductPreviewList(productIds: Array<IProduct['id']>): Promise<IProductPreview[]> {
-		const res = await this.productRepo
-			.createQueryBuilder('product')
-			.leftJoinAndSelect('product.images', 'images')
-			.where('product.id IN (:...productIds)', { productIds })
-			.andWhere('product.is_public = true')
-			.getMany();
+            return new ProductPreview(res);
+        } catch (err) {
+            throw new NotFoundException('product not found');
+        }
+    }
 
-		return res.map(prod => new ProductPreview(prod));
-	}
+    async getProductPreviewList(productIds: Array<IProduct['id']>): Promise<IProductPreview[]> {
+        const res = await this.productRepo
+            .createQueryBuilder('product')
+            .leftJoinAndSelect('product.images', 'images')
+            .where('product.id IN (:...productIds)', { productIds })
+            .andWhere('product.is_public = true')
+            .getMany();
 
-	async getCommonDashboards(): Promise<CommonDashboardsDTO> {
-		const [ popular, newest ] = await Promise.all([
-			this.productRepo.find({
-				where: { is_public: true },
-				take: this.dashboardPortion,
-				order: { rating: 'DESC' }
-			}),
-			this.productRepo.find({
-				where: { is_public: true },
-				take: this.dashboardPortion,
-				order: { created_at: 'DESC' }
-			})
-		]);
+        return res.map(prod => new ProductPreview(prod));
+    }
 
-		return new CommonDashboards({ popular, newest });
-	}
+    async getCommonDashboards(): Promise<CommonDashboardsDTO> {
+        const [popular, newest] = await Promise.all([
+            this.productRepo.find({
+                where: { is_public: true },
+                take: this.dashboardPortion,
+                order: { rating: 'DESC' },
+            }),
+            this.productRepo.find({
+                where: { is_public: true },
+                take: this.dashboardPortion,
+                order: { created_at: 'DESC' },
+            }),
+        ]);
 
-	async getUserDashboards({ history }: IUserDashboards<string[]>): Promise<UserDashboardsDTO> {
-		return new UserDashboards({
-			history: history.length ? await this.getProductPreviewList(history) : []
-		});
-	}
+        return new CommonDashboards({ popular, newest });
+    }
 
-	async getPublicProducts(
-		queries: ISearchReqQueries,
-		params: ICookies
-	): Promise<PaginationResultDTO<IPublicProduct>> {
-		const qb = this.getProductQueryBulder();
+    async getUserDashboards({ history }: IUserDashboards<string[]>): Promise<UserDashboardsDTO> {
+        return new UserDashboards({
+            history: history.length ? await this.getProductPreviewList(history) : [],
+        });
+    }
 
-		qb
-			.leftJoinAndSelect('product.category', 'category')
-			.where('product.is_public = true');
+    async getPublicProducts(
+        queries: ISearchReqQueries,
+        params: ICookies,
+    ): Promise<PaginationResultDTO<IPublicProduct>> {
+        const qb = this.getProductQueryBulder();
 
-		return this.renderResult<IPublicProduct>(qb, queries, params, ProductPublic);
-	}
+        qb.leftJoinAndSelect('product.category', 'category').where('product.is_public = true');
 
-	async getCategoryPublicProducts(
-		categoryUrl: string,
-		queries: ISearchReqQueries,
-		params: ICookies
-	): Promise<PaginationResultDTO<IPublicProduct>> {
-		const qb = this.getProductQueryBulder();
+        return this.renderResult<IPublicProduct>(qb, queries, params, ProductPublic);
+    }
 
-		qb
-			.innerJoin('product.category', 'category')
-			.where('category.url = :categoryUrl', { categoryUrl })
-			.andWhere('product.is_public = true');
+    async getCategoryPublicProducts(
+        categoryUrl: string,
+        queries: ISearchReqQueries,
+        params: ICookies,
+    ): Promise<PaginationResultDTO<IPublicProduct>> {
+        const qb = this.getProductQueryBulder();
 
-		return this.renderResult<IPublicProduct>(qb, queries, params, ProductPublic);
-	}
+        qb.innerJoin('product.category', 'category')
+            .where('category.url = :categoryUrl', { categoryUrl })
+            .andWhere('product.is_public = true');
+
+        return this.renderResult<IPublicProduct>(qb, queries, params, ProductPublic);
+    }
 }

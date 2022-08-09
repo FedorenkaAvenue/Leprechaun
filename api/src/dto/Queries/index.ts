@@ -9,8 +9,8 @@ export class RangeQueryDTO implements IPriceSearchQuery {
 
 export class SearchQueriesDTO implements ISearchQueries {
     sort: SortType;
-    page: number
-    price: IPriceSearchQuery
+    page: number;
+    price: IPriceSearchQuery;
     status: ProductStatus;
     dinamicFilters: DinamicQueryFilters;
 }

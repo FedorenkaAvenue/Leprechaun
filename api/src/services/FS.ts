@@ -10,7 +10,7 @@ import genUUID from '@utils/genUUID';
 
 export enum FOLDER_TYPES {
     CATEGORY = 'img/category/',
-    PRODUCT = 'img/product/'
+    PRODUCT = 'img/product/',
 }
 
 /**
@@ -20,28 +20,26 @@ export enum FOLDER_TYPES {
 export class FSService implements MulterOptionsFactory {
     hostingPath: string;
 
-    constructor(
-        private readonly configService: ConfigService
-    ) {
+    constructor(private readonly configService: ConfigService) {
         this.hostingPath = this.configService.getHostingParams().HOSTING_PATH;
     }
 
     /**
      * @description method to filter file's extensions for MulterOptions
      * @param extentions spreaded extensions ('svg', 'png' etc)
-    */
+     */
     public static fileFilterOption(...extentions: Array<string>): MulterOptions['fileFilter'] {
-        return function(_, { originalname }, cb) {
+        return function (_, { originalname }, cb) {
             try {
                 extentions.forEach(ext => {
                     if (extname(originalname) !== `.${ext}`) throw Error;
                 });
-            } catch(err) {
+            } catch (err) {
                 return cb(new BadRequestException(), false);
             }
 
             cb(null, true);
-        }
+        };
     }
 
     /**
@@ -61,22 +59,24 @@ export class FSService implements MulterOptionsFactory {
     async saveFiles(
         itemType: FOLDER_TYPES,
         folderId: string | number,
-        files: Array<Express.Multer.File>
+        files: Array<Express.Multer.File>,
     ): Promise<string[]> {
         const itemDirPath = `${this.hostingPath}/${itemType}/${folderId}`;
-    
+
         try {
             await promises.mkdir(itemDirPath, { recursive: true });
-    
-            return await Promise.all(files.map(async ({ originalname, buffer }) => {
-                const newFileName = genUUID() + extname(originalname);
-                const imageHref = `${itemType}${folderId}/${newFileName}`;
-    
-                await promises.appendFile(`${this.hostingPath}/${imageHref}`, buffer);
-    
-                return imageHref;
-            }));
-        } catch(err) {
+
+            return await Promise.all(
+                files.map(async ({ originalname, buffer }) => {
+                    const newFileName = genUUID() + extname(originalname);
+                    const imageHref = `${itemType}${folderId}/${newFileName}`;
+
+                    await promises.appendFile(`${this.hostingPath}/${imageHref}`, buffer);
+
+                    return imageHref;
+                }),
+            );
+        } catch (err) {
             throw new InternalServerErrorException(err);
         }
     }
@@ -87,10 +87,12 @@ export class FSService implements MulterOptionsFactory {
      */
     async removeFiles(files: Array<string>): Promise<void> {
         try {
-            await Promise.all(files.map(file => {
-                return promises.rm(this.hostingPath + file);
-            }));
-        } catch(err) {
+            await Promise.all(
+                files.map(file => {
+                    return promises.rm(this.hostingPath + file);
+                }),
+            );
+        } catch (err) {
             throw new InternalServerErrorException(err);
         }
     }
@@ -102,11 +104,8 @@ export class FSService implements MulterOptionsFactory {
      */
     async removeFolder(folderType: FOLDER_TYPES, folderName: string | number): Promise<void> {
         try {
-            await promises.rm(
-                `${this.hostingPath}${folderType}/${folderName}`,
-                { recursive: true }
-            );
-        } catch(err) {
+            await promises.rm(`${this.hostingPath}${folderType}/${folderName}`, { recursive: true });
+        } catch (err) {
             throw new InternalServerErrorException(err);
         }
     }

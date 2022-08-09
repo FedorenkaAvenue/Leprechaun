@@ -8,7 +8,7 @@ import { FSService } from '@services/FS';
 @Injectable()
 export default class CategoryHelperService {
     constructor(
-		@InjectRepository(CategoryEntity) protected readonly categoryRepo: Repository<CategoryEntity>,
-		protected readonly FSService: FSService
-	) {}
+        @InjectRepository(CategoryEntity) protected readonly categoryRepo: Repository<CategoryEntity>,
+        protected readonly FSService: FSService,
+    ) {}
 }

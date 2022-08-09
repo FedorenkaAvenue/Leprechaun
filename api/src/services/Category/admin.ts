@@ -10,40 +10,33 @@ import CategoryHelperService from './helper';
 @Injectable()
 export default class CategoryAdminService extends CategoryHelperService {
     getAdminCategories(): Promise<ICategory[]> {
-		return this.categoryRepo.find({
-			relations: ['property_groups']
-		});
-	}
+        return this.categoryRepo.find({
+            relations: ['property_groups'],
+        });
+    }
 
     async createCategory(newCategory: CreateCategoryDTO, icon: Express.Multer.File): Promise<void> {
-		const { id } = await this.categoryRepo.save(new Category(newCategory));
+        const { id } = await this.categoryRepo.save(new Category(newCategory));
 
-		if (icon) {
-			const [ uploadedIcon ] = await this.FSService.saveFiles(
-				FOLDER_TYPES.CATEGORY,
-				id,
-				[ icon ]
-			);
+        if (icon) {
+            const [uploadedIcon] = await this.FSService.saveFiles(FOLDER_TYPES.CATEGORY, id, [icon]);
 
-			await this.categoryRepo.update(
-				{ id },
-				{ icon: uploadedIcon }
-			);
-		}
-	}
+            await this.categoryRepo.update({ id }, { icon: uploadedIcon });
+        }
+    }
 
     async getAdminCategory(categoryUrl: string): Promise<ICategory> {
-		return await this.categoryRepo.findOne({
-			where: { url: categoryUrl },
-			relations: ['property_groups']
-		});
-	}
+        return await this.categoryRepo.findOne({
+            where: { url: categoryUrl },
+            relations: ['property_groups'],
+        });
+    }
 
-	async deleteCategory(categoryId: number): Promise<DeleteResult> {
-		const res = await this.categoryRepo.delete({ id: categoryId });
+    async deleteCategory(categoryId: number): Promise<DeleteResult> {
+        const res = await this.categoryRepo.delete({ id: categoryId });
 
-		this.FSService.removeFolder(FOLDER_TYPES.CATEGORY, categoryId);
+        this.FSService.removeFolder(FOLDER_TYPES.CATEGORY, categoryId);
 
-		return res;
-	}
+        return res;
+    }
 }

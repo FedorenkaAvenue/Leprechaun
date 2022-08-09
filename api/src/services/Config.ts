@@ -10,7 +10,7 @@ import * as redisCacheStore from 'cache-manager-redis-store';
 const ENV_ARRAY_SPLIT_SYMBOL = ',';
 
 interface IHostingParams {
-    HOSTING_PATH: string
+    HOSTING_PATH: string;
 }
 
 /**
@@ -51,27 +51,27 @@ export default class ConfigService {
      * @description get TypeORM config object
      */
     getTypeOrmConfig(): TypeOrmModuleOptions {
-        return ({
+        return {
             type: 'postgres',
-			host: this.getVal('POSTGRES_HOST') as string,
-			port: Number(this.getVal('POSTGRES_PORT')),
-			username: this.getVal('POSTGRES_USER') as string,
-			password: this.getVal('POSTGRES_PASSWORD') as string,
-			database: this.getVal('POSTGRES_DATABASE') as string,
+            host: this.getVal('POSTGRES_HOST') as string,
+            port: Number(this.getVal('POSTGRES_PORT')),
+            username: this.getVal('POSTGRES_USER') as string,
+            password: this.getVal('POSTGRES_PASSWORD') as string,
+            database: this.getVal('POSTGRES_DATABASE') as string,
             // TODO поправить после того как разберусь с миграциями
-			// synchronize: this.isDev,
-			synchronize: true,
-			autoLoadEntities: true
-        });
+            // synchronize: this.isDev,
+            synchronize: true,
+            autoLoadEntities: true,
+        };
     }
 
     /**
      * @description get hosting folder's paths
      */
     getHostingParams(): IHostingParams {
-        return ({
-            HOSTING_PATH: this.getVal('HOSTING_PATH') as string
-        })
+        return {
+            HOSTING_PATH: this.getVal('HOSTING_PATH') as string,
+        };
     }
 
     /**
@@ -85,16 +85,16 @@ export default class ConfigService {
      * @description get Nodemailer config
      */
     getMailConfig(): SMTPTransport.Options {
-        return ({
+        return {
             host: this.getVal('MAIL_SMTP_HOST') as string,
             secure: false,
             port: Number(this.getVal('MAIL_SMTP_PORT')),
             auth: {
                 user: this.getVal('MAIL_SENDER_ACCOUNT') as string,
-                pass: this.getVal('MAIL_SENDER_PASSWORD') as string
+                pass: this.getVal('MAIL_SENDER_PASSWORD') as string,
             },
-            tls: { ciphers:'SSLv3' }
-        });
+            tls: { ciphers: 'SSLv3' },
+        };
     }
 
     /**
@@ -121,12 +121,12 @@ export default class ConfigService {
             username: this.getVal('SESSION_USER') as string,
             password: this.getVal('SESSION_PASSWORD') as string,
             database: +this.getVal('SESSION_DB_NUMBER'),
-            legacyMode: true
+            legacyMode: true,
         });
         client.connect();
         const redisStore = RedisStore(session);
 
-        return ({
+        return {
             store: new redisStore({ client, logErrors: true }),
             proxy: true,
             secret: this.getVal('SESSION_COOKIE_SECRET'),
@@ -137,35 +137,32 @@ export default class ConfigService {
                 httpOnly: true,
                 maxAge: +this.getVal('SESSION_AGE'),
                 // TODO set to TRUE in production
-                secure: false // secure: !this.isDev
+                secure: false, // secure: !this.isDev
             },
-            name: 'session'
-        });
+            name: 'session',
+        };
     }
 
     /**
      * @description get cache manager config
      */
     getCacheStoreConfig(): CacheModuleOptions {
-        return ({
+        return {
             store: redisCacheStore as any,
             host: this.getVal('CACHE_HOST'),
             port: this.getVal('CACHE_CONTAINER_PORT'),
             auth_pass: this.getVal('CACHE_PASSWORD'),
             ttl: +this.getVal('DEFAULT_CACHE_TTL'),
             max: 1000,
-            db: +this.getVal('CACHE_DB_NUMBER')
-        });
+            db: +this.getVal('CACHE_DB_NUMBER'),
+        };
     }
 
     /**
      * @description get array of available domains for CORS
      */
     getAvailableCORSDomains(): Array<string> {
-        return [
-            this.getVal('DOMAIN') as string,
-            this.getVal('DOMAIN_ADM') as string
-        ];
+        return [this.getVal('DOMAIN') as string, this.getVal('DOMAIN_ADM') as string];
     }
 }
 

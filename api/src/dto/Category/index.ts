@@ -26,7 +26,7 @@ export class CreateCategoryDTO implements ICategory {
         type: 'file',
         required: false,
         description: 'only SVG extension',
-        default: null
+        default: null,
     })
     icon: string;
 
@@ -37,7 +37,7 @@ export class CreateCategoryDTO implements ICategory {
         type: 'number',
         description: 'array of the property groups ID',
         isArray: true,
-        default: []
+        default: [],
     })
     property_groups: IPropertyGroup[];
 

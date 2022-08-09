@@ -15,11 +15,7 @@ export class ImageEntity implements IImage {
     @ApiProperty()
     src: string;
 
-    @ManyToOne(
-        () => ProductEntity,
-        ({ images }) => images,
-        { onDelete: 'CASCADE' }
-    )
+    @ManyToOne(() => ProductEntity, ({ images }) => images, { onDelete: 'CASCADE' })
     @JoinColumn({ name: 'product_id', referencedColumnName: 'id' })
     @ApiProperty()
     product_id: IProduct['id'];

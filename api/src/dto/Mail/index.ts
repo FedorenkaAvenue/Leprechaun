@@ -1,4 +1,4 @@
-import { IDevLogMail } from "@interfaces/Mail";
+import { IDevLogMail } from '@interfaces/Mail';
 
 export class DevLogMailDTO implements IDevLogMail {
     method: string;

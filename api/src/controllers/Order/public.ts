@@ -1,9 +1,16 @@
 import {
-    Body, Controller, Delete, Get, Param, ParseUUIDPipe, Patch, Post, UseInterceptors, ValidationPipe
+    Body,
+    Controller,
+    Delete,
+    Get,
+    Param,
+    ParseUUIDPipe,
+    Patch,
+    Post,
+    UseInterceptors,
+    ValidationPipe,
 } from '@nestjs/common';
-import {
-    ApiBadRequestResponse, ApiNotFoundResponse, ApiOkResponse, ApiOperation, ApiTags
-} from '@nestjs/swagger';
+import { ApiBadRequestResponse, ApiNotFoundResponse, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { UpdateResult } from 'typeorm';
 
 import { OrderService } from '@services/Order';
@@ -18,9 +25,7 @@ import { OrderPublic } from '@dto/Order/constructor';
 @Controller('order')
 @ApiTags('Order 🧑‍💻')
 export default class OrderPublicController {
-    constructor(
-        private readonly orderService : OrderService
-    ) {}
+    constructor(private readonly orderService: OrderService) {}
 
     @Post('item')
     @ApiOperation({ summary: 'add new order item' })
@@ -28,7 +33,7 @@ export default class OrderPublicController {
     @ApiBadRequestResponse({ description: 'product already exists' })
     addOrderItem(
         @Session() { id }: ISession,
-        @Body(new ValidationPipe({ transform: true })) orderItem: CreateOrderItemDTO
+        @Body(new ValidationPipe({ transform: true })) orderItem: CreateOrderItemDTO,
     ): Promise<IOrderPublic> {
         return this.orderService.addOrderItem(orderItem, id);
     }
@@ -38,7 +43,7 @@ export default class OrderPublicController {
     @ApiOkResponse({ type: OrderPublic })
     changeOrderItemAmount(
         @Body(new ValidationPipe({ transform: true })) orderItem: UpdateOrderItemDTO,
-        @Session() { id }: ISession
+        @Session() { id }: ISession,
     ): Promise<IOrderPublic> {
         return this.orderService.changeOrderItemAmount(orderItem, id);
     }
@@ -47,9 +52,7 @@ export default class OrderPublicController {
     @UseInterceptors(AffectedResultInterceptor)
     @ApiOperation({ summary: 'send order' })
     @ApiOkResponse({ type: OrderPublic })
-    sendOrder(
-        @Body(new ValidationPipe({ transform: true })) order: CreateOrderDTO
-    ): Promise<UpdateResult> {
+    sendOrder(@Body(new ValidationPipe({ transform: true })) order: CreateOrderDTO): Promise<UpdateResult> {
         return this.orderService.sendOrder(order);
     }
 
@@ -59,7 +62,7 @@ export default class OrderPublicController {
     @ApiNotFoundResponse({ description: 'order item not found' })
     removeItem(
         @Param('itemId', ParseUUIDPipe) orderItemId: string,
-        @Session() { id }: ISession
+        @Session() { id }: ISession,
     ): Promise<IOrderPublic> {
         return this.orderService.removeOrderItem(orderItemId, id);
     }
@@ -67,9 +70,7 @@ export default class OrderPublicController {
     @Get('history')
     @ApiOperation({ summary: 'get order history' })
     @ApiOkResponse({ type: OrderPublic, isArray: true })
-    getOrderHistory(
-        @Session() { id }: ISession
-    ): Promise<IOrderPublic[]> {
+    getOrderHistory(@Session() { id }: ISession): Promise<IOrderPublic[]> {
         return this.orderService.getOrderHistory(id);
     }
 }

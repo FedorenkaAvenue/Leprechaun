@@ -7,17 +7,15 @@ import renderTemplate from '@utils/renderTemplate';
 import { IDevLogMail } from '@interfaces/Mail';
 
 type IMailOptions = Mail.Options & {
-    to: string | Array<string>
-}
+    to: string | Array<string>;
+};
 
 /**
  * @description e-mail service
  */
 @Injectable()
 export default class MailService {
-    constructor(
-        private readonly configService: ConfigService
-    ) {}
+    constructor(private readonly configService: ConfigService) {}
     /**
      * @description create connection
      */
@@ -31,13 +29,16 @@ export default class MailService {
      */
     async sendMail({ to, subject, html, text }: IMailOptions): Promise<void> {
         if (Array.isArray(to)) to = to.join(', '); // mass recieving
-    
+
         try {
             await this.createConnection().sendMail({
                 from: this.configService.getMailCredentials(),
-                to, subject, text, html
+                to,
+                subject,
+                text,
+                html,
             });
-        } catch(err) {
+        } catch (err) {
             console.error(err);
         }
     }
@@ -46,12 +47,7 @@ export default class MailService {
      * @description create and mail body content and send to developer
      */
     async sendErrorLogMail(logData: IDevLogMail): Promise<void> {
-        await this.sendDevMail(
-            renderTemplate(
-                'devMailErrorLog',
-                logData
-            )
-        );
+        await this.sendDevMail(renderTemplate('devMailErrorLog', logData));
     }
 
     /**
@@ -61,7 +57,7 @@ export default class MailService {
         await this.sendMail({
             to: this.configService.getDevMailReciever(),
             subject: 'Development mail',
-            html: content
+            html: content,
         });
     }
 }

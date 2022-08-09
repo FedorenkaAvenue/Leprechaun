@@ -6,10 +6,7 @@ import { OrderPublicDTO, OrderSummaryDTO } from '.';
 export class OrderSummary extends OrderSummaryDTO {
     constructor(items: Array<IOrderItem>) {
         super();
-        this.price = items.reduce<number>(
-            (prev, { product, amount }) => product.price.current * amount + prev,
-            0
-        );
+        this.price = items.reduce<number>((prev, { product, amount }) => product.price.current * amount + prev, 0);
         this.productsAmount = items.length;
     }
 }

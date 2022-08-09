@@ -1,8 +1,11 @@
+import { Controller, Get, Param, ParseUUIDPipe, UseInterceptors, Query, CacheInterceptor } from '@nestjs/common';
 import {
-    Controller, Get, Param, ParseUUIDPipe, UseInterceptors, Query, CacheInterceptor
-} from '@nestjs/common';
-import {
-    ApiBadRequestResponse, ApiNotFoundResponse, ApiOkResponse, ApiOperation, ApiQuery, ApiTags
+    ApiBadRequestResponse,
+    ApiNotFoundResponse,
+    ApiOkResponse,
+    ApiOperation,
+    ApiQuery,
+    ApiTags,
 } from '@nestjs/swagger';
 
 import { ProductPreviewDTO } from '@dto/Product';
@@ -37,24 +40,24 @@ export default class ProductPublicController {
     @ApiPaginatedResponse(ProductPublic)
     getProducts(
         @Query() queries: ISearchReqQueries,
-        @Cookies() { portion }: ICookies
+        @Cookies() { portion }: ICookies,
     ): Promise<PaginationResultDTO<IPublicProduct>> {
         return this.productService.getPublicProducts(queries, { portion });
     }
 
     @Get('category/:categoryUrl')
     @UseInterceptors(CacheInterceptor)
-	@UseInterceptors(InvalidPaginationPageInterceptor)
-	@ApiOperation({ summary: 'get public products by category URL 💾' })
+    @UseInterceptors(InvalidPaginationPageInterceptor)
+    @ApiOperation({ summary: 'get public products by category URL 💾' })
     @ApiNotFoundResponse({ description: 'category not found' })
-	@ApiPaginatedResponse(ProductPublic)
-	getCategoryProducts(
-		@Query() queries: ISearchReqQueries,
+    @ApiPaginatedResponse(ProductPublic)
+    getCategoryProducts(
+        @Query() queries: ISearchReqQueries,
         @Cookies() { portion }: ICookies,
-		@Param('categoryUrl') categoryUrl: string
-	): Promise<PaginationResultDTO<IPublicProduct>> {
-		return this.productService.getCategoryPublicProducts(categoryUrl, queries, { portion });
-	}
+        @Param('categoryUrl') categoryUrl: string,
+    ): Promise<PaginationResultDTO<IPublicProduct>> {
+        return this.productService.getCategoryPublicProducts(categoryUrl, queries, { portion });
+    }
 
     @Get('dashboard/common')
     @UseInterceptors(CacheInterceptor)
@@ -67,9 +70,7 @@ export default class ProductPublicController {
     @Get('dashboard/user')
     @ApiOperation({ summary: 'get individual user dashboards' })
     @ApiOkResponse({ type: UserDashboards })
-    getMostPopularProducts(
-        @Session() { history }: ISession
-    ): Promise<UserDashboards> {
+    getMostPopularProducts(@Session() { history }: ISession): Promise<UserDashboards> {
         return this.productService.getUserDashboards({ history });
     }
 
@@ -77,10 +78,8 @@ export default class ProductPublicController {
     @ApiOperation({ summary: 'get product preview list by IDs' })
     @ApiQuery({ name: 'ids', required: true, description: 'array of product IDs', type: 'string' })
     @ApiOkResponse({ type: ProductPreviewDTO, isArray: true })
-    @ApiBadRequestResponse({ description: 'ID\'s array is empty' })
-    getProductPreviewList(
-        @Query('ids', UndefinedPipe, QueryArrayPipe) ids: QueryGETListDTO['queryList']
-    ) { 
+    @ApiBadRequestResponse({ description: "ID's array is empty" })
+    getProductPreviewList(@Query('ids', UndefinedPipe, QueryArrayPipe) ids: QueryGETListDTO['queryList']) {
         return this.productService.getProductPreviewList(ids);
     }
 
@@ -90,9 +89,7 @@ export default class ProductPublicController {
     @ApiOkResponse({ type: ProductPreviewDTO })
     @ApiBadRequestResponse({ description: 'invalid product ID' })
     @ApiNotFoundResponse({ description: 'product not found' })
-    getProductPreview(
-        @Param('productId', ParseUUIDPipe) productId: string
-    ): Promise<IProductPreview> {
+    getProductPreview(@Param('productId', ParseUUIDPipe) productId: string): Promise<IProductPreview> {
         return this.productService.getProductPreview(productId);
     }
 
@@ -104,13 +101,9 @@ export default class ProductPublicController {
     @ApiNotFoundResponse({ description: 'product not found' })
     getProduct(
         @Param('productId', ParseUUIDPipe) productId: string,
-        @Session() session: ISession
+        @Session() session: ISession,
     ): Promise<IPublicProduct> {
-        session.history =
-            [...new Set([
-                productId,
-                ...session.history.slice(0, Number(USER_HISTORY_LENGTH))
-            ])];
+        session.history = [...new Set([productId, ...session.history.slice(0, Number(USER_HISTORY_LENGTH))])];
 
         return this.productService.getPublicProduct(productId);
     }

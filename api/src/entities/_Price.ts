@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Column } from 'typeorm';
 
-import { IPrice } from "@interfaces/Price";
+import { IPrice } from '@interfaces/Price';
 
 export class PriceEntity implements IPrice {
     @Column({ name: 'price_current' })

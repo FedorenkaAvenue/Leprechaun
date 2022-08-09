@@ -21,7 +21,7 @@ export class Pagination extends PaginationDTO {
  * @param paginationDTO paginationDTO options
  * @param result array of result
  */
- export class PaginationResult<TData> extends PaginationResultDTO<TData> {
+export class PaginationResult<TData> extends PaginationResultDTO<TData> {
     pagination: IPagination;
     data: Array<TData>;
 

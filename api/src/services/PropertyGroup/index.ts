@@ -10,25 +10,25 @@ import { PropertyGroup } from '@dto/PropertyGroup/constructor';
 @Injectable()
 export class PropertyGroupService {
     constructor(
-		@InjectRepository(PropertyGroupEntity) private readonly propertyGroupRepo: Repository<PropertyGroupEntity>
-	) {}
+        @InjectRepository(PropertyGroupEntity) private readonly propertyGroupRepo: Repository<PropertyGroupEntity>,
+    ) {}
 
-	async createGroup(newGroup: CreatePropertyGroupDTO): Promise<void> {
-		await this.propertyGroupRepo.save(new PropertyGroup(newGroup));
-	}
+    async createGroup(newGroup: CreatePropertyGroupDTO): Promise<void> {
+        await this.propertyGroupRepo.save(new PropertyGroup(newGroup));
+    }
 
-	getGroup(groupId: number): Promise<IPropertyGroup> {
-		return this.propertyGroupRepo.findOne({
-			where: { id: groupId },
-			relations: [ 'properties' ]
-		});
-	}
+    getGroup(groupId: number): Promise<IPropertyGroup> {
+        return this.propertyGroupRepo.findOne({
+            where: { id: groupId },
+            relations: ['properties'],
+        });
+    }
 
-	getAllGroups(): Promise<IPropertyGroup[]> {
-		return this.propertyGroupRepo.find();
-	}
+    getAllGroups(): Promise<IPropertyGroup[]> {
+        return this.propertyGroupRepo.find();
+    }
 
-	deleteGroup(groupId: number): Promise<DeleteResult> {
-		return this.propertyGroupRepo.delete({ id: groupId });
-	}
+    deleteGroup(groupId: number): Promise<DeleteResult> {
+        return this.propertyGroupRepo.delete({ id: groupId });
+    }
 }

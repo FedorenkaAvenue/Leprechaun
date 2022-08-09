@@ -23,20 +23,12 @@ export class OrderItemEntity extends OrderItemBaseEntity implements IOrderItem {
     @ApiProperty()
     created_at: Date;
 
-    @ManyToOne(
-        () => ProductEntity,
-        ({ id }) => id,
-        { onDelete: 'CASCADE' }
-    )
+    @ManyToOne(() => ProductEntity, ({ id }) => id, { onDelete: 'CASCADE' })
     @JoinColumn({ name: 'product', referencedColumnName: 'id' })
-    @ApiProperty({ type: ProductPreviewDTO , required: true })
+    @ApiProperty({ type: ProductPreviewDTO, required: true })
     product: ProductEntity;
 
-    @ManyToOne(
-        () => OrderEntity,
-        ({ id }) => id,
-        { onDelete: 'CASCADE' }
-    )
+    @ManyToOne(() => OrderEntity, ({ id }) => id, { onDelete: 'CASCADE' })
     @JoinColumn({ name: 'order_id', referencedColumnName: 'id' })
     @ApiProperty()
     order_id: IOrder['id'];

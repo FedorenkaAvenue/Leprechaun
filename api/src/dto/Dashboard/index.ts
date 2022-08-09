@@ -9,7 +9,7 @@ export class CommonDashboardsDTO implements ICommonDashboards {
         description: 'popular products',
         type: ProductPreviewDTO,
         isArray: true,
-        required: false
+        required: false,
     })
     popular: IProductPreview[];
 
@@ -17,7 +17,7 @@ export class CommonDashboardsDTO implements ICommonDashboards {
         description: 'new products',
         type: ProductPreviewDTO,
         isArray: true,
-        required: false
+        required: false,
     })
     newest: IProductPreview[];
 }
@@ -27,7 +27,7 @@ export class UserDashboardsDTO implements IUserDashboards {
         description: 'recently visited products',
         type: ProductPreviewDTO,
         isArray: true,
-        required: false
+        required: false,
     })
     history: IProductPreview[];
 }

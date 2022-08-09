@@ -7,8 +7,8 @@ import OrderModule from './Order';
 import WishlistModule from './Wishlist';
 
 @Module({
-    controllers: [ UserController ],
-    providers: [ UserService ],
-    imports: [ ProductModule, OrderModule, WishlistModule ]
+    controllers: [UserController],
+    providers: [UserService],
+    imports: [ProductModule, OrderModule, WishlistModule],
 })
 export default class UserModule {}

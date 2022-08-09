@@ -10,9 +10,7 @@ import { ORDER_RELATIONS } from '.';
 @Injectable()
 export default class OrderAdminService extends OrderHelperService {
     async getOrderById(id: IOrder['id']): Promise<IOrderPublic> {
-        const qb = this.orderRepo
-            .createQueryBuilder('order')
-            .where({ id });
+        const qb = this.orderRepo.createQueryBuilder('order').where({ id });
 
         const res = await this.getOrder(qb);
 
@@ -21,16 +19,13 @@ export default class OrderAdminService extends OrderHelperService {
         throw new NotFoundException('order not found');
     }
 
-    changeOrderStatus(
-        orderId: IOrder['id'],
-        { status }: UpdateOrderStatusDTO
-    ): Promise<UpdateResult> {
+    changeOrderStatus(orderId: IOrder['id'], { status }: UpdateOrderStatusDTO): Promise<UpdateResult> {
         return this.orderRepo.update({ id: orderId }, { status });
     }
 
     getAdminOrders(): Promise<IOrder[]> {
         return this.orderRepo.find({
-            relations: ORDER_RELATIONS
+            relations: ORDER_RELATIONS,
         });
     }
 

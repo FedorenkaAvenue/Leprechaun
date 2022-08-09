@@ -11,7 +11,7 @@ export class OrderItemPublic extends OrderItemDTO {
         this.product = new ProductPreview(product);
         this.summaryPrice = new Price({
             current: product.price.current * amount,
-            old: product.price.old * amount
+            old: product.price.old * amount,
         });
     }
 }

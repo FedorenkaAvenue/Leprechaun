@@ -31,16 +31,13 @@ export class OrderEntity extends OrderBaseEntity implements IOrder {
     @CreateDateColumn()
     @ApiProperty()
     created_at: Date;
-    
-    @OneToMany(
-        () => OrderItemEntity,
-        ({ order_id }) => order_id
-    )
+
+    @OneToMany(() => OrderItemEntity, ({ order_id }) => order_id)
     @ApiProperty({ type: OrderItemEntity, isArray: true })
     list: IOrderItem[];
 
     @Column(() => OrderCustomerDataEntity, { prefix: false })
-    @ApiProperty({ description: 'customer\'s order credentials' })
+    @ApiProperty({ description: "customer's order credentials" })
     customer: IOrderCustomerData;
 
     @Column({ nullable: true })

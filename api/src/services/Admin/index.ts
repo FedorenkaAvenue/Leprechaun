@@ -4,9 +4,7 @@ import CacheService from '../Cache';
 
 @Injectable()
 export default class AdminService {
-    constructor(
-        private readonly cacheService: CacheService
-    ) {}
+    constructor(private readonly cacheService: CacheService) {}
 
     clearCache() {
         this.cacheService.resetCache();

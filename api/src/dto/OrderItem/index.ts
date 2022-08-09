@@ -26,7 +26,7 @@ export class CreateOrderItemDTO implements IOrderItem<string> {
     @ApiProperty({
         required: false,
         description: 'product items amount',
-        default: 1
+        default: 1,
     })
     amount: number;
 }

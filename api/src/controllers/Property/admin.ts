@@ -17,9 +17,7 @@ export default class PropertyAdminController {
     @Post()
     @ApiOperation({ summary: 'add new property' })
     @ApiOkResponse({ description: 'success' })
-    createProperty(
-        @Body(new ValidationPipe({ transform: true })) filter: CreatePropertyDTO
-    ): Promise<void> {
+    createProperty(@Body(new ValidationPipe({ transform: true })) filter: CreatePropertyDTO): Promise<void> {
         return this.propertyService.createProperty(filter);
     }
 
@@ -27,18 +25,14 @@ export default class PropertyAdminController {
     @UseInterceptors(UndefinedResultInterceptor)
     @ApiOperation({ summary: 'get property by ID' })
     @ApiOkResponse({ type: PropertyEntity })
-    getProperty(
-        @Param('propertyId') propertyId: number
-    ): Promise<IProperty> {
+    getProperty(@Param('propertyId') propertyId: number): Promise<IProperty> {
         return this.propertyService.getProperty(propertyId);
     }
 
     @Delete(':propertyId')
     @UseInterceptors(AffectedResultInterceptor)
     @ApiOperation({ summary: 'delete property by ID' })
-    deleteProperty(
-        @Param('propertyId') propertyId: number
-    ): Promise<DeleteResult> {
+    deleteProperty(@Param('propertyId') propertyId: number): Promise<DeleteResult> {
         return this.propertyService.deleteProperty(propertyId);
     }
 }

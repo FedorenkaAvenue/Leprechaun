@@ -8,11 +8,9 @@ import OrderPublicController from '@controllers/Order/public';
 import OrderAdminController from '@controllers/Order/admin';
 
 @Module({
-	imports: [
-		TypeOrmModule.forFeature([ OrderEntity, OrderItemEntity ])
-	],
-	controllers: [ OrderPublicController, OrderAdminController ],
-	providers: [ OrderService ],
-	exports: [ OrderService ]
+    imports: [TypeOrmModule.forFeature([OrderEntity, OrderItemEntity])],
+    controllers: [OrderPublicController, OrderAdminController],
+    providers: [OrderService],
+    exports: [OrderService],
 })
 export default class OrderModule {}

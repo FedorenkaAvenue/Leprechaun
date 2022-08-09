@@ -1,5 +1,13 @@
 import {
-    Body, Controller, Delete, Get, Param, ParseUUIDPipe, Patch, UseInterceptors, ValidationPipe
+    Body,
+    Controller,
+    Delete,
+    Get,
+    Param,
+    ParseUUIDPipe,
+    Patch,
+    UseInterceptors,
+    ValidationPipe,
 } from '@nestjs/common';
 import { ApiNotFoundResponse, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 
@@ -13,26 +21,20 @@ import { OrderPublic } from '@dto/Order/constructor';
 @Controller('adm/order')
 @ApiTags('Order 🤵🏿‍♂️')
 export default class OrderAdminController {
-    constructor(
-        private readonly orderService: OrderService
-    ) {}
+    constructor(private readonly orderService: OrderService) {}
 
     @Get(':orderId')
     @ApiOperation({ summary: 'get order by ID' })
     @ApiOkResponse({ type: OrderPublic })
     @ApiNotFoundResponse({ description: 'order not found' })
-    getOrderById(
-        @Param('orderId', ParseUUIDPipe) orderId: string
-    ): Promise<IOrderPublic> {
+    getOrderById(@Param('orderId', ParseUUIDPipe) orderId: string): Promise<IOrderPublic> {
         return this.orderService.getOrderById(orderId);
     }
 
     @Get('product/:productId')
     @ApiOperation({ summary: 'get orders which contain product' })
     @ApiOkResponse({ type: OrderEntity, isArray: true })
-    getOrdersByProductId(
-        @Param('productId', ParseUUIDPipe) productId: string
-    ): Promise<IOrder[]> {
+    getOrdersByProductId(@Param('productId', ParseUUIDPipe) productId: string): Promise<IOrder[]> {
         return this.orderService.getOrdersByProductId(productId);
     }
 
@@ -41,7 +43,7 @@ export default class OrderAdminController {
     @ApiOperation({ summary: 'change order status' })
     changeOrderStatus(
         @Param('orderId', ParseUUIDPipe) orderId: string,
-        @Body(new ValidationPipe({ transform: true })) body: UpdateOrderStatusDTO
+        @Body(new ValidationPipe({ transform: true })) body: UpdateOrderStatusDTO,
     ) {
         return this.orderService.changeOrderStatus(orderId, body);
     }
@@ -58,9 +60,7 @@ export default class OrderAdminController {
     @UseInterceptors(AffectedResultInterceptor)
     @ApiOperation({ summary: 'remove order' })
     @ApiNotFoundResponse({ description: 'order not found' })
-    removeOrder(
-        @Param('orderId', ParseUUIDPipe) orderId: string
-    ) {
+    removeOrder(@Param('orderId', ParseUUIDPipe) orderId: string) {
         return this.orderService.removeOrder(orderId);
     }
 }

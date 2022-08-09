@@ -7,7 +7,7 @@ import { QueryGETList } from '@dto/Queries/constructor';
  */
 @Injectable()
 export class QueryArrayPipe implements PipeTransform {
-	transform(list: string): QueryGETList['queryList'] {
+    transform(list: string): QueryGETList['queryList'] {
         return new QueryGETList(list).queryList;
-	}
+    }
 }

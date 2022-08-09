@@ -26,14 +26,11 @@ export default class ProductAdminService extends ProductHelperService {
     async getAdminProduct(productId: IProduct['id']): Promise<IProduct> {
         return this.productRepo.findOne({
             where: { id: productId },
-            relations: PRODUCT_RELATIONS
+            relations: PRODUCT_RELATIONS,
         });
     }
 
-    async getAdminProducts(
-        queries: ISearchReqQueries,
-        params: ICookies
-    ): Promise<PaginationResultDTO<IProduct>> {
+    async getAdminProducts(queries: ISearchReqQueries, params: ICookies): Promise<PaginationResultDTO<IProduct>> {
         const qb = this.getProductQueryBulder();
 
         qb.leftJoinAndSelect('product.category', 'category');
@@ -44,13 +41,11 @@ export default class ProductAdminService extends ProductHelperService {
     async getCategoryAdminProducts(
         categoryUrl: string,
         queries: ISearchReqQueries,
-        params: ICookies
+        params: ICookies,
     ): Promise<PaginationResultDTO<IProduct>> {
         const qb = this.getProductQueryBulder();
 
-        qb
-            .innerJoin('product.category', 'category')
-            .where('category.url = :categoryUrl', { categoryUrl });
+        qb.innerJoin('product.category', 'category').where('category.url = :categoryUrl', { categoryUrl });
 
         return this.renderResult<IProduct>(qb, queries, params);
     }

@@ -9,23 +9,17 @@ import WishlistAdminService from './admin';
 
 @Injectable()
 export default class WishlistService extends WishlistAdminService {
-    async addItem(
-        product: IProduct['id'],
-        session_id: ISession['id']
-    ): Promise<TWishListPublic> {
+    async addItem(product: IProduct['id'], session_id: ISession['id']): Promise<TWishListPublic> {
         try {
             await this.wishlistRepo.save({ product, session_id } as DeepPartial<ProductEntity>);
 
             return this.getWishlist(session_id);
-        } catch(err) {
+        } catch (err) {
             throw new BadRequestException('product not found');
         }
     }
 
-    async removeItem(
-        product: IProduct['id'],
-        session_id: ISession['id']
-    ): Promise<TWishListPublic> {
+    async removeItem(product: IProduct['id'], session_id: ISession['id']): Promise<TWishListPublic> {
         await this.wishlistRepo.delete({ product, session_id } as FindOptionsWhere<ProductEntity>);
 
         return this.getWishlist(session_id);

@@ -6,11 +6,7 @@ import OrderModule from './Order';
 import WishlistModule from './Wishlist';
 
 @Module({
-    imports: [
-        ScheduleModuleRoot.forRoot(),
-        OrderModule,
-        WishlistModule
-    ],
-    providers: [ SchedulerService ]
+    imports: [ScheduleModuleRoot.forRoot(), OrderModule, WishlistModule],
+    providers: [SchedulerService],
 })
 export default class ScheduleModule {}

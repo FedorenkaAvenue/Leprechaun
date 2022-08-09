@@ -14,12 +14,21 @@ export class Product extends CreateProductDTO {
     price?: IPrice;
 
     constructor({
-        title, price_current, price_old, is_public, category, properties, status, description, comment, is_new
+        title,
+        price_current,
+        price_old,
+        is_public,
+        category,
+        properties,
+        status,
+        description,
+        comment,
+        is_new,
     }: CreateProductDTO) {
         super();
         this.title = title;
         this.price = new Price({ current: price_current, old: price_old });
-        this.is_public = <unknown>is_public as string === 'true';
+        this.is_public = ((<unknown>is_public) as string) === 'true';
         this.status = status || ProductStatus.AVAILABLE;
         this.is_new = typeof is_new === 'boolean' ? is_new : true;
         this.category = category;

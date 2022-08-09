@@ -13,10 +13,9 @@ export default class AffectedResultInterceptor implements NestInterceptor {
             .pipe(
                 tap(({ affected }) => {
                     if (!affected) throw new NotFoundException();
-                })
+                }),
                 //TODO: rebuild 200 Responce
-            ).pipe(
-                map(() => { })
-            );
+            )
+            .pipe(map(() => {}));
     }
 }

@@ -1,5 +1,5 @@
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository  } from 'typeorm';
+import { Repository } from 'typeorm';
 import { DeepPartial, SelectQueryBuilder } from 'typeorm';
 import { Injectable } from '@nestjs/common';
 
@@ -17,10 +17,10 @@ import { ProductEntity } from '@entities/Product';
 export default class OrderHelperService {
     constructor(
         @InjectRepository(OrderEntity) public readonly orderRepo: Repository<OrderEntity>,
-        @InjectRepository(OrderItemEntity) public readonly orderItemRepo: Repository<OrderItemEntity>
+        @InjectRepository(OrderItemEntity) public readonly orderItemRepo: Repository<OrderItemEntity>,
     ) {}
 
-     /**
+    /**
      * @description get current order by session ID
      * @param session_id
      * @returns cart
@@ -29,32 +29,27 @@ export default class OrderHelperService {
         const qb = this.orderRepo
             .createQueryBuilder('order')
             .where('order.session_id = :session_id', { session_id })
-            .andWhere(
-                'order.status = :status',
-                { status: OrderStatus.INIT }
-            );
+            .andWhere('order.status = :status', { status: OrderStatus.INIT });
 
         return await this.getOrder(qb);
     }
 
     /**
      * @description save order item to DB
-     * @param orderId 
-     * @param item 
-     * @returns 
+     * @param orderId
+     * @param item
+     * @returns
      */
     createOrderItem(orderId: IOrder['id'], item: CreateOrderItemDTO): Promise<IOrderItem> {
         return this.orderItemRepo.save({ order_id: orderId, ...item } as DeepPartial<ProductEntity>);
     }
 
     /**
-	 * @description split relative tables for order by query builder
-	 * @param qb current query builder to continue building query
-	 * @returns completed OrderPublicDTO or null
-	 */
-    async getOrder(
-        qb: SelectQueryBuilder<OrderEntity>,
-    ): Promise<OrderPublic | null> {
+     * @description split relative tables for order by query builder
+     * @param qb current query builder to continue building query
+     * @returns completed OrderPublicDTO or null
+     */
+    async getOrder(qb: SelectQueryBuilder<OrderEntity>): Promise<OrderPublic | null> {
         const res = await qb
             .leftJoinAndSelect('order.list', 'list')
             .leftJoinAndSelect('list.product', 'product')
@@ -62,7 +57,7 @@ export default class OrderHelperService {
             .orderBy('list.created_at', 'ASC')
             .getOne();
 
-            return res ? new OrderPublic(res) : null;
+        return res ? new OrderPublic(res) : null;
     }
 
     clearUselessOrders() {

@@ -12,7 +12,7 @@ export class PaginationDTO implements IPagination {
     pageCount: number;
 }
 
- export class PaginationResultDTO<TData> implements IPaginationResult<any> {
+export class PaginationResultDTO<TData> implements IPaginationResult<any> {
     pagination: IPagination;
     data: Array<TData>;
 }

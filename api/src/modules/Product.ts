@@ -10,13 +10,13 @@ import { FSService } from '@services/FS';
 import ImageModule from '@modules/Image';
 
 @Module({
-	imports: [
-		TypeOrmModule.forFeature([ProductEntity]),
-		MulterModule.registerAsync({ useClass: FSService }),
-		ImageModule
-	],
-	controllers: [ ProductPublicController, ProductAdminController ],
-	providers: [ ProductService, FSService ],
-	exports: [ ProductService ]
+    imports: [
+        TypeOrmModule.forFeature([ProductEntity]),
+        MulterModule.registerAsync({ useClass: FSService }),
+        ImageModule,
+    ],
+    controllers: [ProductPublicController, ProductAdminController],
+    providers: [ProductService, FSService],
+    exports: [ProductService],
 })
 export default class ProductModule {}

@@ -1,7 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import {
-    IsEnum, IsNotEmpty, IsNotEmptyObject, IsObject, IsOptional, IsString, ValidateNested
-} from 'class-validator';
+import { IsEnum, IsNotEmpty, IsNotEmptyObject, IsObject, IsOptional, IsString, ValidateNested } from 'class-validator';
 import { Type } from 'class-transformer';
 
 import { IOrder, IOrderCustomerData, IOrderPublic, IOrderSummary } from '@interfaces/Order';
@@ -35,7 +33,7 @@ export class CreateOrderDTO {
     @ApiProperty({
         type: CreateOrderCustomerDataDTO,
         required: true,
-        description: 'reciever/user data'
+        description: 'reciever/user data',
     })
     customer: IOrderCustomerData;
 }
@@ -46,12 +44,11 @@ export class UpdateOrderStatusDTO implements IOrder {
     status?: OrderStatus;
 }
 
-
 export class OrderSummaryDTO implements IOrderSummary {
-    @ApiProperty({ type: PriceEntity ,description: 'summary order price' })
+    @ApiProperty({ type: PriceEntity, description: 'summary order price' })
     price: number;
 
-    @ApiProperty({ description: 'product\s amount' })
+    @ApiProperty({ description: 'products amount' })
     productsAmount: number;
 }
 

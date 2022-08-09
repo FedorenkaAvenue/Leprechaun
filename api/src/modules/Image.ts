@@ -5,10 +5,8 @@ import { ImageEntity } from '@entities/Image';
 import { ImageService } from '@services/Image';
 
 @Module({
-	imports: [
-		TypeOrmModule.forFeature([ ImageEntity ])
-	],
-	providers: [ ImageService ],
-	exports: [ ImageService ]
+    imports: [TypeOrmModule.forFeature([ImageEntity])],
+    providers: [ImageService],
+    exports: [ImageService],
 })
 export default class ImageModule {}

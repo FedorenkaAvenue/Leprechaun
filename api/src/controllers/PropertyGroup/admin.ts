@@ -16,10 +16,8 @@ export default class PropertyGroupAdminController {
 
     @Post()
     @ApiOperation({ summary: 'add new property group' })
-    @ApiOkResponse({ description : 'success' })
-    createGroup(
-        @Body(new ValidationPipe({ transform: true })) group: CreatePropertyGroupDTO
-    ): Promise<void> {
+    @ApiOkResponse({ description: 'success' })
+    createGroup(@Body(new ValidationPipe({ transform: true })) group: CreatePropertyGroupDTO): Promise<void> {
         return this.propertyGroupService.createGroup(group);
     }
 
@@ -34,18 +32,14 @@ export default class PropertyGroupAdminController {
     @UseInterceptors(UndefinedResultInterceptor)
     @ApiOperation({ summary: 'get property group by ID' })
     @ApiOkResponse({ type: PropertyGroupEntity })
-    getGroup(
-        @Param('groupId') groupId: number
-    ): Promise<IPropertyGroup> {
+    getGroup(@Param('groupId') groupId: number): Promise<IPropertyGroup> {
         return this.propertyGroupService.getGroup(groupId);
     }
 
     @Delete(':groupId')
     @UseInterceptors(AffectedResultInterceptor)
     @ApiOperation({ summary: 'delete property group by ID' })
-    deleteGroup(
-        @Param('groupId') groupId: number
-    ): Promise<DeleteResult> {
+    deleteGroup(@Param('groupId') groupId: number): Promise<DeleteResult> {
         return this.propertyGroupService.deleteGroup(groupId);
     }
 }

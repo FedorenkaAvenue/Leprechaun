@@ -10,16 +10,14 @@ import { TWishListPublic } from '@interfaces/Wishlist';
 @Controller('wishlist')
 @ApiTags('Wishlist 🧑‍💻')
 export default class WishlistPublicController {
-    constructor(
-        private readonly wishlistService: WishlistService
-    ) {}
-    
+    constructor(private readonly wishlistService: WishlistService) {}
+
     @Post(':productId')
     @ApiOperation({ summary: 'add product to wishlist' })
     @ApiResponse({ type: ProductPublic, isArray: true })
     addItem(
         @Param('productId', ParseUUIDPipe) productId: string,
-        @Session() { id }: ISession
+        @Session() { id }: ISession,
     ): Promise<TWishListPublic> {
         return this.wishlistService.addItem(productId, id);
     }
@@ -30,7 +28,7 @@ export default class WishlistPublicController {
     @ApiNotFoundResponse({ description: 'product not found' })
     deleteItem(
         @Param('productId', ParseUUIDPipe) productId: string,
-        @Session() { id }: ISession
+        @Session() { id }: ISession,
     ): Promise<TWishListPublic> {
         return this.wishlistService.removeItem(productId, id);
     }

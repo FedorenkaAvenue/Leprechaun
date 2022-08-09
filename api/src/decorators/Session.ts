@@ -8,12 +8,10 @@ import { UserSession } from '@dto/Session/constructor';
  * @warning getting and setting the key w'll not change session.
  *  To CRUD session outside decorator You must get all session object
  */
-export const Session = createParamDecorator(
-    (_: any, ctx: ExecutionContext): ISession => {
-        const req = ctx.switchToHttp().getRequest();
+export const Session = createParamDecorator((_: any, ctx: ExecutionContext): ISession => {
+    const req = ctx.switchToHttp().getRequest();
 
-        req.session = Object.assign(req.session, new UserSession(req.session));
+    req.session = Object.assign(req.session, new UserSession(req.session));
 
-        return req.session;
-    }
-);
+    return req.session;
+});

@@ -5,9 +5,9 @@ import { PipeTransform, Injectable, BadRequestException } from '@nestjs/common';
  */
 @Injectable()
 export class UndefinedPipe implements PipeTransform {
-	transform(val: any) {
-		if (typeof val === 'undefined') throw new BadRequestException('undefined param');
+    transform(val: any) {
+        if (typeof val === 'undefined') throw new BadRequestException('undefined param');
 
-		return val;
-	}
+        return val;
+    }
 }

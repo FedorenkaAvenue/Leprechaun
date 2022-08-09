@@ -4,11 +4,11 @@ import { UtilsApi, ApiClient } from 'manticoresearch';
 import ConfigService from './Config';
 
 export interface IManticoreResult<TIndexItem> {
-    columns: any
-    data: Array<TIndexItem>
-    total: number
-    error: string
-    warning: string
+    columns: any;
+    data: Array<TIndexItem>;
+    total: number;
+    error: string;
+    warning: string;
 }
 
 /**
@@ -16,9 +16,7 @@ export interface IManticoreResult<TIndexItem> {
  */
 @Injectable()
 export default class ManticoreService {
-    constructor(
-        private readonly configService: ConfigService
-    ) {}
+    constructor(private readonly configService: ConfigService) {}
 
     /**
      * @description create Manticore client
@@ -47,17 +45,17 @@ export default class ManticoreService {
      */
     async searchByQuery(indexTable: string, searchExp: string): Promise<any[]> {
         try {
-            const res = await this.createSearchClient().sql(
+            const res = (await this.createSearchClient().sql(
                 `mode=raw&query=
                     SELECT *
                     FROM ${indexTable}
                     WHERE match('${searchExp}')
                     LIMIT ${10} OFFSET ${0}
-                `
-            ) as IManticoreResult<any>;
-            
+                `,
+            )) as IManticoreResult<any>;
+
             return res.data;
-        } catch(err) {
+        } catch (err) {
             throw new InternalServerErrorException(err.message);
         }
     }

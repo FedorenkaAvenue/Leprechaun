@@ -22,32 +22,32 @@ import ProductPublicController from '@controllers/Product/public';
 import UserPublicController from '@controllers/User/public';
 
 @Module({
-	imports: [
-		TypeOrmModule.forRootAsync({
-			inject: [ ConfigService ],
-			useFactory: async (configService: ConfigService) => configService.getTypeOrmConfig()
-		}),
-		CategoryModule,
-		ProductModule,
-		OrderModule,
-		WishlistModule,
-		UserModule,
-		PropertyGroupModule,
-		PropertyModule,
-		ImageModule,
-		ToolModule,
-		ScheduleModule,
-		AdminModule
-	]
+    imports: [
+        TypeOrmModule.forRootAsync({
+            inject: [ConfigService],
+            useFactory: async (configService: ConfigService) => configService.getTypeOrmConfig(),
+        }),
+        CategoryModule,
+        ProductModule,
+        OrderModule,
+        WishlistModule,
+        UserModule,
+        PropertyGroupModule,
+        PropertyModule,
+        ImageModule,
+        ToolModule,
+        ScheduleModule,
+        AdminModule,
+    ],
 })
 export default class AppModule implements NestModule {
-	configure(consumer: MiddlewareConsumer) {
-		consumer
-			.apply(CacheReset)
-			.exclude({ path: '(.*)', method: RequestMethod.GET })
-			.forRoutes(ProductAdminController, CategoryAdminController, PropertyAdminController)
+    configure(consumer: MiddlewareConsumer) {
+        consumer
+            .apply(CacheReset)
+            .exclude({ path: '(.*)', method: RequestMethod.GET })
+            .forRoutes(ProductAdminController, CategoryAdminController, PropertyAdminController);
         consumer
             .apply(session(singleConfigServie.getSessionConfig()))
-            .forRoutes(ProductPublicController, UserPublicController)
-	}
+            .forRoutes(ProductPublicController, UserPublicController);
+    }
 }

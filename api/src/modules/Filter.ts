@@ -6,9 +6,9 @@ import { FilterController } from '@controllers/Filter';
 import { CategoryEntity } from '@entities/Category';
 
 @Module({
-	imports: [ TypeOrmModule.forFeature([ CategoryEntity ]) ],
-    controllers: [ FilterController ],
-	providers: [ FilterService ],
-	exports: [ FilterService ]
+    imports: [TypeOrmModule.forFeature([CategoryEntity])],
+    controllers: [FilterController],
+    providers: [FilterService],
+    exports: [FilterService],
 })
 export default class FilterModule {}
