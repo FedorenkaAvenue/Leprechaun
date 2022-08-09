@@ -3,7 +3,7 @@ import { SessionOptions } from 'express-session';
 import SMTPTransport from 'nodemailer/lib/smtp-transport';
 import * as RedisStore from 'connect-redis';
 import * as session from 'express-session';
-import { createClient, RedisClientOptions } from 'redis';
+import { createClient } from 'redis';
 import { CacheModuleOptions, Injectable } from '@nestjs/common';
 import * as redisCacheStore from 'cache-manager-redis-store';
 

@@ -3,7 +3,6 @@ import { Repository, SelectQueryBuilder } from 'typeorm';
 import { Injectable } from '@nestjs/common';
 
 import { ProductEntity } from '@entities/Product';
-import { FSService } from '@services/FS';
 import { ImageService } from '@services/Image';
 import { ICookies } from '@interfaces/Cookies';
 import { ISearchReqQueries } from '@interfaces/Queries';
@@ -19,7 +18,6 @@ export default class ProductHelperService {
 
     constructor(
 		@InjectRepository(ProductEntity) protected readonly productRepo: Repository<ProductEntity>,
-		protected readonly FSService: FSService,
 		protected readonly imageService: ImageService,
 		protected readonly configService: ConfigService
 	) {
