@@ -14,7 +14,6 @@ import { SharedModule } from '@shared/shared.module';
 import { AppComponent } from './app.component';
 import { UniversalStorage } from '@shared/storage/universal.storage';
 import { CustomMetaModule } from './core/modules/custom-meta/custom-meta.module';
-import { TranslocoModule } from '@ngneat/transloco';
 import { LeprachaunIconsModule } from '@shared/modules/leprachaun-icons';
 import { AuthService } from '@shared/services/auth/auth.service';
 import { NgSelectModule } from '@ng-select/ng-select';
@@ -48,8 +47,7 @@ export function createTranslateLoader(http: HttpClient) {
     BrowserAnimationsModule,
     CookieModule.forRoot(),
     SharedModule.forRoot(),
-    TranslocoModule,
-    CustomMetaModule,
+    // CustomMetaModule,
     NgSelectModule,
     LeprachaunIconsModule.forRoot(),
     TranslateModule.forRoot({

@@ -1,38 +1,46 @@
 import { Component, OnInit } from '@angular/core';
 import { OrderCartItemDto, OrderDto } from '@shared/models/products/order.model';
-import { LANGUAGES } from '@shared/static/languages';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { CartStateService } from '@shared/services/cart/cart-state/cart-state.service';
 import { FavoritesStateService } from '@shared/services/favorite/favorite-state/favorites-state.service';
 import { LocalizeRouterService } from '@gilsdav/ngx-translate-router';
 
+// TO  DO
+const LANGUAGES = [
+  {
+    label: 'ua',
+    code: 'ua'
+  },
+  {
+    label: 'ru',
+    code: 'ru'
+  }
+,];
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
-  styleUrls: ['./header.component.scss']
+  styleUrls: ['./header.component.scss'],
 })
 export class HeaderComponent implements OnInit {
-
-  public cartValue$: Observable<string[]>
-  public favoriteValue$: Observable<Array<string>>
+  public cartValue$: Observable<string[]>;
+  public favoriteValue$: Observable<Array<string>>;
   public languages = LANGUAGES;
   constructor(
     private readonly cartStateService: CartStateService,
     private readonly favoritesStateService: FavoritesStateService,
-    private readonly localizeService: LocalizeRouterService) { }
+    private readonly localizeService: LocalizeRouterService,
+  ) {}
 
   ngOnInit(): void {
-    this.cartValue$ = this.cartStateService.getCartStateValue().pipe(
-      map((order: OrderDto) => order?.list.map((product: OrderCartItemDto) => product?.id)
-      )
-    );
+    this.cartValue$ = this.cartStateService
+      .getCartStateValue()
+      .pipe(map((order: OrderDto) => order?.list.map((product: OrderCartItemDto) => product?.id)));
     this.favoriteValue$ = this.favoritesStateService.getFavoritesStateValue();
   }
 
-
   public changeLang(lang: string): void {
-    console.log(lang)
-    this.localizeService.changeLanguage(lang)
+    console.log(lang);
+    this.localizeService.changeLanguage(lang);
   }
 }

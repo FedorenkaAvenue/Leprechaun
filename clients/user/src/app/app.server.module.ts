@@ -11,9 +11,6 @@ import { AppModule } from './app.module';
 // import { InlineStyleModule } from './inline-style/inline-style.module';
 import { CookieService, CookieBackendService, CookieModule } from '@gorniv/ngx-universal';
 
-// core
-import { TranslocoServerModule } from './core/modules/transloco/transloco-server/transloco-server.module';
-
 @NgModule({
   imports: [
     // AppModule - FIRST!!!
@@ -22,7 +19,6 @@ import { TranslocoServerModule } from './core/modules/transloco/transloco-server
     NoopAnimationsModule,
     ServerTransferStateModule,
     // InlineStyleModule,
-    TranslocoServerModule,
 ],
   bootstrap: [AppComponent,
     //  InlineStyleComponent

@@ -10,11 +10,6 @@ import { AppModule } from './app.module';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { StateTransferInitializerModule } from '@nguniversal/common';
 
-// core
-import { TranslocoBrowserModule } from './core/modules/transloco';
-
-// import { ServiceWorkerModule } from '@angular/service-worker';
-
 // the Request object only lives on the server
 export function getRequest(): any {
   return { headers: { cookie: document.cookie } };
@@ -26,7 +21,6 @@ export function getRequest(): any {
     AppModule,
     StateTransferInitializerModule,
     BrowserTransferStateModule,
-    TranslocoBrowserModule,
     ServiceWorkerModule.register('/ngsw-worker.js', { enabled: false }),
   ],
   providers: [
