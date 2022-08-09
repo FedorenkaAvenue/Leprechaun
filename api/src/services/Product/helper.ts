@@ -2,6 +2,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, SelectQueryBuilder } from 'typeorm';
 import { Injectable } from '@nestjs/common';
 
+import { FSService } from '@services/FS';
 import { ProductEntity } from '@entities/Product';
 import { ImageService } from '@services/Image';
 import { ICookies } from '@interfaces/Cookies';
@@ -20,6 +21,7 @@ export default class ProductHelperService {
         @InjectRepository(ProductEntity) protected readonly productRepo: Repository<ProductEntity>,
         protected readonly imageService: ImageService,
         protected readonly configService: ConfigService,
+        protected readonly FSService: FSService,
     ) {
         this.dashboardPortion = +this.configService.getVal('DASHBOARD_PORTION');
     }
