@@ -1,0 +1,12 @@
+<form [formGroup]="form">
+    <ng-container *ngFor="let item of listControls.controls; let i = index">
+        <div>
+           <a [routerLink]="'./'" [queryParams]="amd">{{item?.get('title')?.value}}</a>
+            <!-- <form [formGroup]="item">
+                <div>{{item?.get('title')?.value}}</div>
+                <input [formControlName]="'selected'" form type="checkbox">
+            </form>
+           -->
+        </div>
+    </ng-container>
+</form>

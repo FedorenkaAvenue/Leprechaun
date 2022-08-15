@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ProductsRoutingModule } from './products-routing.module';
 import { ProductsPageComponent } from './components/products-page/products-page.component';
-import { ProductsFilterComponent } from './components/products-filter/products-filter.component';
+import { ProductsFilterComponent } from './components/products-filter/components/products-filter/products-filter.component';
 import { ProductsService } from './services/products.service';
 import { ProductCardModule } from '@shared/components/product-card/product-card.module';
 import { PaginatorModule } from '@shared/modules/paginator';
@@ -12,12 +12,15 @@ import { LpchInputModule } from '@shared/controls/lpch-input/lpch-input.module';
 import { ProductsManagerService } from './services/products-manager/products-manager.service';
 import { ProductsListComponent } from './components/products-list/products-list.component';
 import { cartIcon, cartSelectedIcon, heartIcon, heartIconFilled, LeprachaunIconRegistryService, LeprachaunIconsModule } from '@shared/modules/leprachaun-icons';
+import { FiltersModule } from '@shared/components/fiters/filters.module';
+import { FilterCheckboxComponent } from './components/products-filter/components/filter-checkbox/filter-checkbox.component';
 
 @NgModule({
   declarations: [
     ProductsPageComponent,
     ProductsListComponent,
-    ProductsFilterComponent
+    ProductsFilterComponent,
+    FilterCheckboxComponent
   ],
   imports: [
     CommonModule,
@@ -29,6 +32,7 @@ import { cartIcon, cartSelectedIcon, heartIcon, heartIconFilled, LeprachaunIconR
     LpchInputModule,
     FormsModule,
     ReactiveFormsModule,
+    FiltersModule
   ],
   providers: [
     ProductsService,

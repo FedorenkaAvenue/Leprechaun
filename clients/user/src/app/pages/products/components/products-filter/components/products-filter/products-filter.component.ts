@@ -1,4 +1,5 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { FILTERS } from 'app/mock/filters';
 
 @Component({
   selector: 'app-products-filter',
@@ -8,9 +9,11 @@ import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 })
 export class ProductsFilterComponent implements OnInit {
 
+  public fllters = FILTERS[0]
   constructor() { }
 
   ngOnInit(): void {
   }
 
+  
 }
