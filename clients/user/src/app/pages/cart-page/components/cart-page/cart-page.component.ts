@@ -1,6 +1,6 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { CustomerData, OrderDto, ProductAmountPayload } from '@shared/models/products/order.model';
+import { CustomerData } from '@shared/models';
+import {  OrderDto, ProductAmountPayload } from '@shared/models';
 import { CartService } from '@shared/services/cart/cart/cart.service';
 import { Observable } from 'rxjs';
 import { take } from 'rxjs/operators';

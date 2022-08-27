@@ -1,5 +1,5 @@
-import { Component, OnInit, ChangeDetectionStrategy, Input, Output, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
-import { OrderCartItemDto } from '@shared/models/products/order.model';
+import { Component, OnInit, ChangeDetectionStrategy, Input, Output, EventEmitter} from '@angular/core';
+import { OrderCartItemDto } from '@shared/models';
 
 
 @Component({

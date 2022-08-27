@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { OrderDto, OrderProductI } from '@shared/models/products/order.model';
+import { OrderDto } from '@shared/models';
 import { BehaviorSubject, Observable } from 'rxjs';
 
 @Injectable()

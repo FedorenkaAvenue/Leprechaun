@@ -1,14 +1,13 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { ActivatedRoute, Params, Router } from '@angular/router';
-import { OrderDto } from '@shared/models/products/order.model';
 import { Products } from '@shared/models/products/products.model';
 import { CartService } from '@shared/services/cart/cart/cart.service';
 import { Observable } from 'rxjs';
 import { ProductsManagerService } from '../../services/products-manager/products-manager.service';
 import { FavoritesService } from '@shared/services/favorite/favotite/favorites.service';
 import { LpchRouterService } from '@shared/services/router/lpch-router.service';
-import { FavoritesDto } from '@shared/models';
+import { FavoritesDto, OrderDto } from '@shared/models';
 import { take } from 'rxjs/operators';
 import { SORTING } from '@shared/constants/sorting';
 import { ProductsSort } from '@shared/enums/sort.enum';

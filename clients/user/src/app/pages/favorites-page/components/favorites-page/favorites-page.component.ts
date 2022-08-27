@@ -1,6 +1,5 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
-import { FavoritesDto } from '@shared/models';
-import { OrderDto } from '@shared/models/products/order.model';
+import { FavoritesDto, OrderDto } from '@shared/models';
 import { CartService } from '@shared/services/cart/cart/cart.service';
 import { FavoritesService } from '@shared/services/favorite/favotite/favorites.service';
 import { LpchRouterService } from '@shared/services/router/lpch-router.service';

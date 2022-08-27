@@ -17,4 +17,8 @@ export class HistoryApiService {
   public getProductsHistory(): Observable<Array<ProductsPreviewI>>{
     return this.http.get(`${this.apiUrl}`);
   }
+
+  public getProductsViewed(): Observable<Array<ProductsPreviewI>>{
+    return this.http.get(`${this.apiUrl}`);
+  }
 }

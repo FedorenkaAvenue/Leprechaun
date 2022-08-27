@@ -1,6 +1,7 @@
 <section class="product r p-3 content">
   <ng-content select=".from-favorite-btn"></ng-content>
   <app-product-labels
+  class="asdasdas2323"
     *ngIf="product?.labels?.length"
     [labelsData]="product?.labels"
   ></app-product-labels>
@@ -9,7 +10,7 @@
       <div class="product-preview__wrap">
         <div
           class="product-preview__image"
-          [ngStyle]="{ 'background-image': 'url(' + apiUrl + '/' + (product?.images?.[0]?.src || product?.image) + ')' }"
+          [ngStyle]="{ 'background-image': 'url(' + (product?.images?.[0]?.src || product?.image) + ')' }"
         >
           <ng-container *ngFor="let image of product.images">
             <div class="product-preview__curtain" [appCurtains]="image.src"></div>

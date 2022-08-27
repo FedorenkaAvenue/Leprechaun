@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { OrderDto, OrderI } from '@shared/models/products/order.model';
+import { OrderDto, OrderI } from '@shared/models/order/order.model';
 import { CartApiService } from '@shared/services/api_es/cart-api/cart-api.service';
 import { Observable, of } from 'rxjs';
 

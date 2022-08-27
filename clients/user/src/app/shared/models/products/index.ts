@@ -1,4 +1,6 @@
 export * from './favorites.model'
-export * from './order.model'
+export * from '../order/order.model'
+export * from '../order/cart.model'
+export * from '../order/orders-history.model'
 export * from './product-price.model'
 export * from './products.model'

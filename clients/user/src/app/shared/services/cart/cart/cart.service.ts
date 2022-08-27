@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
-import { CustomerData, OrderDto, OrderI, ProductAmountPayload } from '@shared/models/products/order.model';
+import { OrderDto, OrderI, ProductAmountPayload } from '@shared/models';
+import { CustomerData } from '@shared/models/order/cart.model';
 import { CartApiService } from '@shared/services/api_es/cart-api/cart-api.service';
 import { BehaviorSubject, merge, Observable } from 'rxjs';
 import { filter } from 'rxjs/operators';

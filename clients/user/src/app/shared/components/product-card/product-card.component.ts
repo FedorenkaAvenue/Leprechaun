@@ -8,7 +8,7 @@ import { environment } from 'environments/environment.global';
   styleUrls: ['./product-card.component.scss'],
   // changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ProductCardComponent implements OnInit {
+export class ProductCardComponent implements OnInit, OnChanges {
 
   @Input() product: ProductCardI;
   @Output() toCartEvent: EventEmitter<number> = new EventEmitter<number>();
@@ -20,6 +20,18 @@ export class ProductCardComponent implements OnInit {
 
   ngOnInit(): void {
   }
+
+
+  ngOnChanges(changes: SimpleChanges): void {
+  console.log();
+  
+    if(changes.product.currentValue) {
+      console.log(this.product);
+      
+    }
+
+  }
+
 
   addToCart(productId: number): void {
     this.toCartEvent.emit(productId);
