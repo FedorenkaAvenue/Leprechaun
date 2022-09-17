@@ -1,4 +1,4 @@
-import { Controller, Get } from '@nestjs/common';
+import { Controller, Delete, Get } from '@nestjs/common';
 import { ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 
 import UserService from '@services/User';
@@ -27,5 +27,11 @@ export default class UserPublicController {
         if (!history.length) return [];
 
         return this.userService.getHistory(history);
+    }
+
+    @Delete('history')
+    @ApiOperation({ summary: 'clear history' })
+    clearHistory(@Session() session: ISession) {
+        session.history = [];
     }
 }
