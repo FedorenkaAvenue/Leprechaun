@@ -18,8 +18,8 @@ import { CacheReset } from '@middlewares/CacheReset';
 import ProductAdminController from '@controllers/Product/admin';
 import CategoryAdminController from '@controllers/Category/admin';
 import PropertyAdminController from '@controllers/Property/admin';
-import ProductPublicController from '@controllers/Product/public';
-import UserPublicController from '@controllers/User/public';
+// import ProductPublicController from '@controllers/Product/public';
+// import UserPublicController from '@controllers/User/public';
 
 @Module({
     imports: [
@@ -48,6 +48,7 @@ export default class AppModule implements NestModule {
             .forRoutes(ProductAdminController, CategoryAdminController, PropertyAdminController);
         consumer
             .apply(session(singleConfigServie.getSessionConfig()))
-            .forRoutes(ProductPublicController, UserPublicController);
+            // .forRoutes(ProductPublicController, UserPublicController);
+            .forRoutes('*')
     }
 }
