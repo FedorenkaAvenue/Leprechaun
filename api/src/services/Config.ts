@@ -162,7 +162,12 @@ export default class ConfigService {
      * @description get array of available domains for CORS
      */
     getAvailableCORSDomains(): Array<string> {
-        return [this.getVal('DOMAIN') as string, this.getVal('DOMAIN_ADM') as string];
+        return [
+            this.getVal('DOMAIN') as string,
+            this.getVal('DOMAIN_ADM') as string,
+            //TODO remove localhost
+            'localhost'
+        ];
     }
 }
 
