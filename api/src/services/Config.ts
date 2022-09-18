@@ -166,7 +166,7 @@ export default class ConfigService {
             this.getVal('DOMAIN') as string,
             this.getVal('DOMAIN_ADM') as string,
             //TODO remove localhost
-            'http://localhost'
+            'http://localhost:4201'
         ];
     }
 }
