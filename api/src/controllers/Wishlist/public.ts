@@ -1,5 +1,5 @@
 import { Controller, Delete, Param, ParseUUIDPipe, Post } from '@nestjs/common';
-import { ApiNotFoundResponse, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { ApiBadRequestResponse, ApiNotFoundResponse, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 
 import WishlistService from '@services/Wishlist';
 import { Session } from '@decorators/Session';
@@ -15,6 +15,8 @@ export default class WishlistPublicController {
     @Post(':productId')
     @ApiOperation({ summary: 'add product to wishlist' })
     @ApiResponse({ type: ProductPublic, isArray: true })
+    @ApiBadRequestResponse({ description: 'product is already added to wishlist' })
+    @ApiNotFoundResponse({ description: 'product not found' })
     addItem(
         @Param('productId', ParseUUIDPipe) productId: string,
         @Session() { id }: ISession,
@@ -25,7 +27,6 @@ export default class WishlistPublicController {
     @Delete(':productId')
     @ApiOperation({ summary: 'remove product from wishlist' })
     @ApiResponse({ type: ProductPublic, isArray: true })
-    @ApiNotFoundResponse({ description: 'product not found' })
     deleteItem(
         @Param('productId', ParseUUIDPipe) productId: string,
         @Session() { id }: ISession,

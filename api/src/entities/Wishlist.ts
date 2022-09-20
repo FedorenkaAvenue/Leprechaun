@@ -10,7 +10,7 @@ export default class WishlistEntity implements IWishlistItem {
     @ApiProperty({ required: true })
     id: string;
 
-    @ManyToOne(() => ProductEntity, ({ images }) => images, { onDelete: 'CASCADE' })
+    @ManyToOne(() => ProductEntity, ({ id }) => id, { onDelete: 'CASCADE' })
     @JoinColumn({ name: 'product', referencedColumnName: 'id' })
     @ApiProperty({ required: true })
     product: ProductEntity;
