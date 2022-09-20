@@ -1,1 +1,12 @@
-<div *ngIf="productDetails$ | async"></div>
+<section class="product-page">
+    <!-- <div *ngIf="productDetails$ | async"> -->
+    <h1 class="product-page__header">Header</h1>
+    <nav class="product-tabs">
+        <a class="product-tabs__link" routerLink="about-product">Про товар</a>
+        <a class="product-tabs__link" routerLink="characteristics">Характеристика</a>
+        <a class="product-tabs__link" routerLink="photo">Фото</a>
+    </nav>
+<!-- </div> -->
+</section>
+<router-outlet></router-outlet>
+
