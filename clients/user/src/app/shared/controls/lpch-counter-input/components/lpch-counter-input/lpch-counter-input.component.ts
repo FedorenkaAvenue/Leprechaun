@@ -9,7 +9,7 @@ import {
   OnChanges,
   OnDestroy,
 } from '@angular/core';
-import { ControlValueAccessor, FormControl, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { ControlValueAccessor, UntypedFormControl, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
 
@@ -32,7 +32,7 @@ export class LpchCounterInputComponent implements OnInit, OnDestroy, ControlValu
     this.control.patchValue(value);
   }
 
-  public control = new FormControl(1);
+  public control = new UntypedFormControl(1);
   public subscription: Subscription;
   constructor() {}
 

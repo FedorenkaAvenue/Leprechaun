@@ -1,5 +1,5 @@
 import { Component, OnInit, ChangeDetectionStrategy, Input, InjectionToken, forwardRef } from '@angular/core';
-import { ControlValueAccessor, FormBuilder, FormGroup, NG_VALUE_ACCESSOR, Validators } from '@angular/forms';
+import { ControlValueAccessor, FormBuilder, UntypedFormGroup, NG_VALUE_ACCESSOR, Validators } from '@angular/forms';
 
 // const NG_VALUE_ACCESSOR: InjectionToken<ControlValueAccessor>;
 
@@ -21,7 +21,7 @@ export class LpchPhoneComponent implements OnInit, ControlValueAccessor  {
   @Input() type: string = 'tel';
   @Input() placeholder: string = 'Enter your data...';
   @Input() maxLength: string;
-  public userForm: FormGroup;
+  public userForm: UntypedFormGroup;
   public value: string;
   public disabled = false;
   constructor() {}

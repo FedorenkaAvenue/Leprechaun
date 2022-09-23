@@ -1,5 +1,5 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { UntypedFormControl } from '@angular/forms';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Products } from '@shared/models/products/products.model';
 import { CartService } from '@shared/services/cart/cart/cart.service';
@@ -21,7 +21,7 @@ import { ProductsSort } from '@shared/enums/sort.enum';
 export class ProductsPageComponent implements OnInit {
   public productsCount = 1019;
   public productsList$: Observable<Products>;
-  public myCustomControl = new FormControl();
+  public myCustomControl = new UntypedFormControl();
   public sortData = SORTING;
   public currentSortItem: number;
   constructor(

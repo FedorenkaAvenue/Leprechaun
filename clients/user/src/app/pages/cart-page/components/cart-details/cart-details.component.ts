@@ -1,5 +1,5 @@
 import { Component, OnInit, ChangeDetectionStrategy, Input, Output, EventEmitter } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { OrderDto } from '@shared/models';
 
 @Component({
@@ -11,9 +11,9 @@ import { OrderDto } from '@shared/models';
 export class CartDetailsComponent implements OnInit {
   @Input() cartData: OrderDto;
   @Output() changeUserData = new EventEmitter<any>()
-  userForm: FormGroup;
+  userForm: UntypedFormGroup;
 
-  constructor(private readonly fb: FormBuilder) {
+  constructor(private readonly fb: UntypedFormBuilder) {
     this.createForm();
   }
 
