@@ -46,9 +46,8 @@ export class AppComponent implements OnInit {
 
 
 private getUserState(): void {
-  this.userService.getUser().subscribe(res => {
+  this.userService.userSatate$.subscribe(res => {
     console.log(res);
-    
   })
 }
 }

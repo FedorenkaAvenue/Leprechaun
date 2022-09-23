@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { TransferHttpService } from '@gorniv/ngx-universal';
+import { UserI } from '@shared/models/user';
 import { environment } from 'environments/environment.global';
 import { Observable } from 'rxjs';
 
@@ -14,9 +15,7 @@ export class UserApiService {
     private readonly http: TransferHttpService
   ) { }
 
-  public getUser(): Observable<any>{
-    console.log(3423);
-    
+  public getUser(): Observable<UserI>{
     return this.http.get(`${this.apiUrl}`);
   }
 }

@@ -2,8 +2,9 @@ import { Injectable } from '@angular/core';
 import { OrderDto, OrderI, ProductAmountPayload } from '@shared/models';
 import { CustomerData } from '@shared/models/order/cart.model';
 import { CartApiService } from '@shared/services/api_es/cart-api/cart-api.service';
+import { UserService } from '@shared/services/user/user/user.service';
 import { BehaviorSubject, merge, Observable } from 'rxjs';
-import { filter } from 'rxjs/operators';
+import { filter, pluck } from 'rxjs/operators';
 import { CartStateService } from '../cart-state/cart-state.service';
 
 @Injectable()
@@ -14,6 +15,7 @@ export class CartService {
   constructor(
     private readonly cartApiService: CartApiService,
     private readonly cartStateService: CartStateService,
+    private readonly userService: UserService
     ) {
     this.cartValue$ = new BehaviorSubject<OrderDto>(null); 
   }
@@ -23,7 +25,7 @@ export class CartService {
   }
   
   public getProducts(): Observable<OrderDto> {
-    const products = this.cartApiService.getProducts()
+    const products = this.userService.userSatate$?.pipe(pluck('cart'));
     return merge(products, this.cartValue$).pipe(filter(res => !!res))
   }
 
