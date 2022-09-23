@@ -1,3 +1,5 @@
+DOCKER_PROD_CONF_PATH = -f docker-compose.override.yaml -f docker-compose.prod.yaml
+
 build:
 	@docker compose up --build -d
 
@@ -6,10 +8,10 @@ build_single:
 
 build_prod:
 	@make _cp_admin_client_static
-	@docker compose -f docker-compose.override.yaml -f docker-compose.prod.yaml up --build -d
+	@docker compose ${DOCKER_PROD_CONF_PATH} up --build -d
 
 build_prod_single:
-	@docker compose -f docker-compose.override.yaml -f docker-compose.prod.yaml up -d --build --no-deps --force-recreate $(args)
+	@docker compose ${DOCKER_PROD_CONF_PATH} up --build -d --no-deps --force-recreate $(args)
 
 start:
 	@docker compose start
