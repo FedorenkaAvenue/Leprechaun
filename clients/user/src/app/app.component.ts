@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { MetaService } from '@ngx-meta/core';
+// import { MetaService } from '@ngx-meta/core';
 import { FavoritesDto, OrderDto } from '@shared/models';
 import { CartService } from '@shared/services/cart/cart/cart.service';
 import { FavoritesService } from '@shared/services/favorite/favotite/favorites.service';
@@ -12,13 +12,13 @@ import { take } from 'rxjs/operators';
 })
 export class AppComponent implements OnInit {
   constructor(
-    private readonly meta: MetaService,
+    // private readonly meta: MetaService,
     private readonly cartService: CartService,
     private readonly favoritesService: FavoritesService,
     private readonly userService: UserService,
 
     ) {
-    this.meta.setTag('og:title', 'home ctor');
+    // this.meta.setTag('og:title', 'home ctor');
   }
 
   ngOnInit(): void {
