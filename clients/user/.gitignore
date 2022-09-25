@@ -6,6 +6,5 @@ server.js.map
 server.js
 dist
 dist-server
-static
 
 environment.global.ts
