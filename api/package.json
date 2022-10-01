@@ -24,7 +24,7 @@
         "test:e2e": "jest --config ./test/jest-e2e.json"
     },
     "engines": {
-        "node": "16.15.0",
+        "node": "16.17.*",
         "npm": "8.3.*",
         "yarn": "1.22.*"
     },
