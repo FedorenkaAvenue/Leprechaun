@@ -13,6 +13,7 @@ export const environment = {
   appName: "${process.env.APP_NAME}",
   apiEndpoint: "${process.env.DOMAIN_API}",
   mediaEndpoint: "${process.env.DOMAIN_MEDIA}",
+  domain: "${process.env.DOMAIN}",
 };
 `;
 
