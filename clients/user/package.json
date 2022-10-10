@@ -1,10 +1,10 @@
 {
-  "name": "universal-demo",
-  "version": "11.0.0",
+  "name": "user_client",
+  "version": "0.0.1",
   "license": "MIT",
   "engines": {
     "node": "16.17.*",
-    "npm": "8.3.*",
+    "npm": "8.*",
     "yarn": "1.22.*"
   },
   "scripts": {

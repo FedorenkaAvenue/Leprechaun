@@ -5,6 +5,11 @@
     "author": "August Luzanovsky",
     "private": false,
     "license": "UNLICENSED",
+    "engines": {
+        "node": "16.17.*",
+        "npm": "8.*",
+        "yarn": "1.22.*"
+    },
     "scripts": {
         "prepare": "cd .. && husky install api/.husky",
         "dev": "nest start --watch",
@@ -22,11 +27,6 @@
         "test:cov": "jest --coverage",
         "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
         "test:e2e": "jest --config ./test/jest-e2e.json"
-    },
-    "engines": {
-        "node": "16.17.*",
-        "npm": "8.3.*",
-        "yarn": "1.22.*"
     },
     "dependencies": {
         "@nestjs/common": "^9.0.8",

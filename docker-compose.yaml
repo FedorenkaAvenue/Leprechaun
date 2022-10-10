@@ -33,7 +33,7 @@ services:
 
   api:
     restart: unless-stopped
-    image: node:16.17-alpine
+    image: node:16.17.1-alpine3.15
     working_dir: /app
     command: yarn dev
     volumes:
@@ -48,7 +48,7 @@ services:
 
   client_user:
     restart: unless-stopped
-    image: node:16.17-alpine
+    image: node:16.17.1-alpine3.15
     working_dir: /app
     command: npm run serve:docker
     volumes:
@@ -59,7 +59,7 @@ services:
   client_admin:
     container_name: leprechaun_client_admin
     restart: unless-stopped
-    image: node:16.17-alpine
+    image: node:16.17.1-alpine3.15
     working_dir: /app
     volumes:
       - ./clients/admin:/app
