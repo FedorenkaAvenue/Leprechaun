@@ -1,25 +1,23 @@
 const fs = require('fs');
 
-if (process.env.NODE_ENV === 'dev') {
+if (!process.env.APP_NAME) {
   require('dotenv').config({ path: '../../.env' });
 }
 
-// TO DO
-// const environment = process.env.NODE_ENV;
-const targetPath = `./src/environments/environment.global.ts`;
+const { APP_NAME, LANGS, DOMAIN_API, DOMAIN_MEDIA } = process.env;
+
+const TARGET_PATH = `./src/environments/environment.global.ts`;
 const envConfigFile = `
 export const environment = {
-  langs: "${process.env.LANGS}",
-  appName: "${process.env.APP_NAME}",
-  apiEndpoint: "${process.env.DOMAIN_API}",
-  mediaEndpoint: "${process.env.DOMAIN_MEDIA}",
+  langs: "${LANGS}",
+  appName: "${APP_NAME}",
+  apiEndpoint: "${DOMAIN_API}",
+  mediaEndpoint: "${DOMAIN_MEDIA}",
 };
 `;
 
-fs.writeFile(targetPath, envConfigFile, function (err) {
-  if (err) {
-    console.log(err);
-  }
+fs.writeFile(TARGET_PATH, envConfigFile, function (err) {
+  if (err) console.error(err);
 
-  console.log(`Output generated at ${targetPath}`);
+  console.log(`Output generated at ${TARGET_PATH}`);
 });

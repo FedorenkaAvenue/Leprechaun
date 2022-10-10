@@ -95,6 +95,7 @@ services:
     environment:
       - APP_NAME
       - LANGS
+      - DOMAIN
       - DOMAIN_MEDIA
       - DOMAIN_API
       - PORT=80

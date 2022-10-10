@@ -33,7 +33,9 @@ services:
 
   api:
     restart: unless-stopped
-    build: ./api
+    image: node:16.17-alpine
+    working_dir: /app
+    command: yarn dev
     volumes:
       - ./api:/app
     environment:
@@ -46,7 +48,9 @@ services:
 
   client_user:
     restart: unless-stopped
-    build: ./clients/user
+    image: node:16.17-alpine
+    working_dir: /app
+    command: npm run serve:docker
     volumes:
       - ./clients/user:/app
     environment:
@@ -55,12 +59,15 @@ services:
   client_admin:
     container_name: leprechaun_client_admin
     restart: unless-stopped
-    build: ./clients/admin
+    image: node:16.17-alpine
+    working_dir: /app
     volumes:
       - ./clients/admin:/app
+    command: npm run serve:docker
     environment:
       - LANGS
       - APP_NAME
+      - DOMAIN
       - DOMAIN_API
       - DOMAIN_MEDIA
     depends_on:

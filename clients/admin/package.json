@@ -8,11 +8,10 @@
   },
   "scripts": {
     "ng": "ng",
-    "config:dev": "cross-env NODE_ENV=dev node ./set-env.js",
-    "config:prod": "cross-env NODE_ENV=production node ./set-env.js",
-    "serve:docker": "npm run config:dev && ng serve --port 80 --host 0.0.0.0 --disable-host-check --poll 500",
-    "serve:local": "npm run config:dev && ng serve --port 4202",
-    "build": "npm run config:prod && ng build",
+    "config": "node ./set-env.js",
+    "serve:local": "npm run config && ng serve --port 4202",
+    "serve:docker": "npm run config && ng serve --port 80 --host 0.0.0.0 --disable-host-check --poll 500",
+    "build": "npm run config && ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test"
   },
