@@ -10,7 +10,7 @@
     "ng": "ng",
     "config": "node ./set-env.js",
     "serve:local": "npm run config && ng serve --port 4202",
-    "serve:docker": "npm run config && ng serve --port 80 --host 0.0.0.0 --disable-host-check --poll 500",
+    "serve:docker": "node ./set-env.js && ng serve --port 80 --host 0.0.0.0 --disable-host-check --poll 500",
     "build": "npm run config && ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test"
