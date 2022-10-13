@@ -3,10 +3,10 @@ import { ModuleWithProviders, NgModule } from '@angular/core';
 import { TransferHttpModule } from '@gorniv/ngx-universal';
 
 import { LayoutsModule } from './layouts/layouts.module';
-import { SharedMetaModule } from './shared-meta';
+// import { SharedMetaModule } from './shared-meta';
 
 @NgModule({
-  exports: [LayoutsModule, SharedMetaModule, TransferHttpModule],
+  exports: [LayoutsModule, TransferHttpModule],
   providers: [],
   declarations: [
     
