@@ -19,7 +19,7 @@
     "build": "ng build",
     "build:server": "ng run universal-demo:server:production",
     "build:prod": "ng build --configuration production",
-    "build:universal": "npm run config && ng run universal-demo:build:production && ng run universal-demo:server:production",
+    "build:universal": "node ./set-env.js && ng run universal-demo:build:production && ng run universal-demo:server:production",
     "server": "node dist-server/main.js",
     "test": "ng test",
     "test:ci": "cross-env CI=true ng test",
