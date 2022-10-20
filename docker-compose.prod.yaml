@@ -40,5 +40,11 @@ services:
     build:
       context: ./clients/user
       dockerfile: Dockerfile.prod
+      args:
+        - APP_NAME
+        - LANGS
+        - DOMAIN
+        - DOMAIN_MEDIA
+        - DOMAIN_API
     environment:
       - IS_DEV=false
