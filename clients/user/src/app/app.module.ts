@@ -13,7 +13,6 @@ import { SharedModule } from '@shared/shared.module';
 // import { AppRoutes } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { UniversalStorage } from '@shared/storage/universal.storage';
-// import { CustomMetaModule } from './core/modules/custom-meta/custom-meta.module';
 import { LeprachaunIconsModule } from '@shared/modules/leprachaun-icons';
 import { AuthService } from '@shared/services/auth/auth.service';
 import { NgSelectModule } from '@ng-select/ng-select';
@@ -26,13 +25,13 @@ import { withCredentialsInterceptor } from '@shared/interceptors/withCred.interc
 import { FavoritesStateService } from '@shared/services/favorite/favorite-state/favorites-state.service';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
-import { environment } from 'environments/environment';
+import { environment } from 'environments/environment.global';
 import { AppRoutingModule } from './app-routing.module';
 // interceptors
 
 
 export function createTranslateLoader(http: HttpClient) {
-  return new TranslateHttpLoader(http, `${environment.locales}assets/locales/`, '.json');
+  return new TranslateHttpLoader(http, `${environment.domain}/assets/locales/`, '.json');
 }
 
 @NgModule({
