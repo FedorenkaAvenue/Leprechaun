@@ -163,7 +163,10 @@ export default class ConfigService {
      */
     getAvailableCORSDomains(): Array<string> | string {
         return this.getAppName() === 'Leprechaun' ?
-            '*' :
+            [
+                'http://localhost:4201',
+                'http://localhost:4202',
+            ] :
             [
                 this.getVal('DOMAIN') as string,
                 this.getVal('DOMAIN_ADM') as string,
