@@ -16,4 +16,4 @@ import CacheService from '@services/Cache';
     providers: [MailService, FSService, CacheService],
     exports: [MailService, FSService, CacheNestModule],
 })
-export default class ToolModule { }
+export default class ToolModule {}

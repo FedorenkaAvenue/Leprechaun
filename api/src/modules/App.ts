@@ -48,6 +48,6 @@ export default class AppModule implements NestModule {
             .forRoutes(ProductAdminController, CategoryAdminController, PropertyAdminController);
         consumer
             .apply(session(configService.getSessionConfig()))
-            .forRoutes(ProductPublicController, UserPublicController, OrderPublicController)
+            .forRoutes(ProductPublicController, UserPublicController, OrderPublicController);
     }
 }
