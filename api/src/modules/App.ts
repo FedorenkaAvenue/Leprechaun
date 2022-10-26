@@ -8,7 +8,7 @@ import PropertyGroupModule from './PropertyGroup';
 import PropertyModule from './Property';
 import ImageModule from './Image';
 import ToolModule from './Tool';
-import ConfigService, { singleConfigServie } from '@services/Config';
+import configService from '@services/Config';
 import AdminModule from './Admin';
 import UserModule from './User';
 import OrderModule from './Order';
@@ -25,8 +25,7 @@ import OrderPublicController from '@controllers/Order/public';
 @Module({
     imports: [
         TypeOrmModule.forRootAsync({
-            inject: [ConfigService],
-            useFactory: async (configService: ConfigService) => configService.getTypeOrmConfig(),
+            useFactory: async () => configService.getTypeOrmConfig(),
         }),
         CategoryModule,
         ProductModule,
@@ -48,7 +47,7 @@ export default class AppModule implements NestModule {
             .exclude({ path: '(.*)', method: RequestMethod.GET })
             .forRoutes(ProductAdminController, CategoryAdminController, PropertyAdminController);
         consumer
-            .apply(session(singleConfigServie.getSessionConfig()))
-            .forRoutes(ProductPublicController, UserPublicController, OrderPublicController)
+            .apply(session(configService.getSessionConfig()))
+            .forRoutes(ProductPublicController, UserPublicController, OrderPublicController);
     }
 }

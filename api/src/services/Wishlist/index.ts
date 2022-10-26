@@ -12,7 +12,7 @@ export default class WishlistService extends WishlistAdminService {
     async addItem(product: IProduct['id'], session_id: ISession['id']): Promise<TWishListPublic> {
         const res = await this.wishlistRepo.findOneBy({
             product: { id: product },
-            session_id
+            session_id,
         });
 
         if (res) throw new BadRequestException('product is already added to wishlist');
@@ -28,8 +28,8 @@ export default class WishlistService extends WishlistAdminService {
 
     async removeItem(product: IProduct['id'], session_id: ISession['id']): Promise<TWishListPublic> {
         await this.wishlistRepo.delete({
-            product: { id : product },
-            session_id
+            product: { id: product },
+            session_id,
         });
 
         return this.getWishlist(session_id);

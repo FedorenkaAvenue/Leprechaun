@@ -8,7 +8,7 @@ export interface IFilters {
     status: IFilterListGroup;
 }
 
-export interface IFilterGroup extends IPropertyGroup {}
+export type IFilterGroup = IPropertyGroup;
 
 export interface IFilterListGroup extends IFilterGroup {
     type: FilterType.List;

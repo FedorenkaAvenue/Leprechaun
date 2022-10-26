@@ -24,9 +24,9 @@ import { Session } from '@decorators/Session';
 import InvalidPaginationPageInterceptor from '@interceptors/InvalidPaginationPage';
 import { ProductPublic } from '@dto/Product/constructor';
 import { CommonDashboards, UserDashboards } from '@dto/Dashboard/constructor';
-import { singleConfigServie } from '@services/Config';
+import configService from '@services/Config';
 
-const USER_HISTORY_LENGTH = singleConfigServie.getVal('USER_HISTORY_LENGTH');
+const USER_HISTORY_LENGTH = configService.getVal('USER_HISTORY_LENGTH');
 
 @Controller('product')
 @ApiTags('Product 🧑‍💻')

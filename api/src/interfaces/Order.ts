@@ -19,7 +19,7 @@ export interface IOrderBase<T = IOrderItem> {
     summary?: IOrderSummary;
 }
 
-export interface IOrderPublic extends IOrderBase<IOrderItemPublic> {}
+export type IOrderPublic = IOrderBase<IOrderItemPublic>;
 
 export interface IOrder extends IOrderBase {
     created_at?: Date;

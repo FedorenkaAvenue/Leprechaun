@@ -4,7 +4,7 @@ import SMTPTransport from 'nodemailer/lib/smtp-transport';
 import * as RedisStore from 'connect-redis';
 import * as session from 'express-session';
 import { createClient } from 'redis';
-import { CacheModuleOptions, Injectable } from '@nestjs/common';
+import { CacheModuleOptions } from '@nestjs/common';
 import * as redisCacheStore from 'cache-manager-redis-store';
 
 const ENV_ARRAY_SPLIT_SYMBOL = ',';
@@ -17,8 +17,7 @@ interface IHostingParams {
  * @description configuration service (esp working with a environment variables)
  * @property {Boolean} isDev is development environment
  */
-@Injectable()
-export default class ConfigService {
+class ConfigService {
     isDev: boolean;
 
     constructor() {
@@ -161,14 +160,13 @@ export default class ConfigService {
     /**
      * @description get array of available domains for CORS
      */
-    getAvailableCORSDomains(): Array<string> {
-        return [
-            this.getVal('DOMAIN') as string,
-            this.getVal('DOMAIN_ADM') as string,
-            //TODO remove localhost
-            'http://localhost:4201'
-        ];
+    getAvailableCORSDomains(): Array<string> | string {
+        return this.getAppName() === 'Leprechaun'
+            ? ['http://localhost:4201', 'http://localhost:4202']
+            : [this.getVal('DOMAIN') as string, this.getVal('DOMAIN_ADM') as string];
     }
 }
 
-export const singleConfigServie = new ConfigService();
+const configService = new ConfigService();
+
+export default configService;
