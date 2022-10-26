@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 // import { MetaService } from '@ngx-meta/core';
 import { FavoritesDto, OrderDto } from '@shared/models';
+import { UserI } from '@shared/models/user/user.model';
 import { CartService } from '@shared/services/cart/cart/cart.service';
 import { FavoritesService } from '@shared/services/favorite/favotite/favorites.service';
 import { UserService } from '@shared/services/user/user.service';
+import { Observable } from 'rxjs';
 // import { UserService } from '@shared/services/user/user/user.service';
 import { take } from 'rxjs/operators';
 
@@ -23,10 +25,10 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // this.getCardState();
-    // this.getFavoritesState();
     this.getUserState()
-
+    this.getCardState();
+    this.getFavoritesState();
+    
   }
 
   private getCardState(): void {
@@ -47,8 +49,14 @@ export class AppComponent implements OnInit {
 
 
 private getUserState(): void {
-  this.userService.userSatate$.subscribe(res => {
-    console.log(res);
+  this.userService.getUser();
+  this.userService.userSatate$.subscribe((user: UserI) => {
+    console.log(user);
+    
+    // const cartValue = new OrderDto(user.cart)
+    // this.cartService.updateCart(cartValue)
+    // const wishlistValue = 
+    // this.favoritesService.updateFavorites(user.wishlist);
   })
 }
 }

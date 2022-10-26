@@ -9,9 +9,9 @@ import { UserApiService } from '../api_es/user-api/user-state.service';
 })
 export class UserService {
   constructor(private readonly userApiService: UserApiService) {}
-
-  public userSatate$: Observable<UserI> = this.userApiService.getUser().pipe(shareReplay(1));
-  public getUser(): Observable<UserI> {
-   return this.userApiService.getUser()
+  public userSatate$: Observable<UserI>
+  public getUser(): void {
+   this.userSatate$  = this.userApiService.getUser().pipe(shareReplay(1));
+  //  return this.userApiService.getUser()
   }
 }

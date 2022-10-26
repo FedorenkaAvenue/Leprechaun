@@ -19,10 +19,10 @@ const labels = [
 })
 export class LabelValuePipe implements PipeTransform {
   transform(data: any): string {
-    console.log(data);
+    // console.log(data);
     
     const obj = labels?.find(el => el?.type === data?.type);
-    console.log(obj);
+    // console.log(obj);
     
    return obj?.value || data?.value;
   }

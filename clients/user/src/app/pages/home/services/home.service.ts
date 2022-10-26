@@ -25,7 +25,7 @@ export class HomeService {
       }),
     );
   }
-
+  
   public getHistoryProducts(): Observable<Array<ProductsPreviewI>> {
     const favoriteState$ = this.favoritesService.getFavoritesValue();
     const products$ = this.historyService.getHistoryProducts();
