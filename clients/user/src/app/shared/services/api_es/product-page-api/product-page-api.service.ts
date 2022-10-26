@@ -1,4 +1,4 @@
-import { HttpParams } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { TransferHttpService } from '@gorniv/ngx-universal';
 import { ProductDetailsI } from '@shared/models';
@@ -11,7 +11,7 @@ import { Observable } from 'rxjs';
 export class ProductPageApiService {
   private readonly apiUrl = `${environment?.apiEndpoint}/product`;
   constructor(
-    private readonly http: TransferHttpService
+    private readonly http: HttpClient
   ) { }
 
   public getProduct(id: string): Observable<ProductDetailsI> {

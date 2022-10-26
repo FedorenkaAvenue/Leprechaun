@@ -1,3 +1,4 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { TransferHttpService } from '@gorniv/ngx-universal';
 
@@ -9,7 +10,7 @@ export class CategoriesService {
 
   
   constructor(
-    private readonly http: TransferHttpService
+    private readonly http: HttpClient
   ) { }
 
   public getCategoryShortList() {

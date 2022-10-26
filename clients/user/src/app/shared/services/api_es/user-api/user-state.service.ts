@@ -1,3 +1,4 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { TransferHttpService } from '@gorniv/ngx-universal';
 import { UserI } from '@shared/models/user/user.model';
@@ -12,10 +13,10 @@ export class UserApiService {
   private readonly apiUrl = `${environment?.apiEndpoint}/user`;
 
   constructor(
-    private readonly http: TransferHttpService
+    private readonly http: HttpClient
   ) { }
 
   public getUser(): Observable<UserI>{
-    return this.http.get(`${this.apiUrl}`);
+    return this.http.get<UserI>(`${this.apiUrl}`);
   }
 }

@@ -1,3 +1,4 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { TransferHttpService } from '@gorniv/ngx-universal';
 import { ProductsPreviewI } from '@shared/models';
@@ -11,10 +12,10 @@ export class HistoryApiService {
   private readonly apiUrl = `${environment?.apiEndpoint}/user/history`;
 
   constructor(
-    private readonly http: TransferHttpService
+    private readonly http: HttpClient
   ) { }
 
   public getProductsHistory(): Observable<Array<ProductsPreviewI>>{
-    return this.http.get(`${this.apiUrl}`);
+    return this.http.get<Array<ProductsPreviewI>>(`${this.apiUrl}`);
   }
 }

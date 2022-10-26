@@ -1,4 +1,4 @@
-import { HttpParams } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Params } from '@angular/router';
 import { TransferHttpService } from '@gorniv/ngx-universal';
@@ -11,10 +11,10 @@ import { Observable } from 'rxjs';
 export class ProductsApiService {
   private readonly apiUrl = `${environment?.apiEndpoint}/product`;
   constructor(
-    private readonly http: TransferHttpService
+    private readonly http: HttpClient
   ) { }
 
-  public getProducts(param: Params): Observable<Products> {    
+  public getProducts(param: Params): Observable<Products> { 
     const params = new HttpParams()
     .set('page', param.page)
     .set('sort', param.sort);
