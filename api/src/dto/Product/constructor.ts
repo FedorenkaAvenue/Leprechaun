@@ -59,7 +59,7 @@ export class ProductPublic extends PublicProductDTO {
         this.title = title;
         this.price = price;
         this.status = status;
-        this.images = images.slice(Number(PRODUCT_PUBLIC_IMAGE_AMOUNT)) as ImageEntity[];
+        this.images = images.slice(0, Number(PRODUCT_PUBLIC_IMAGE_AMOUNT)) as ImageEntity[];
         this.properties = properties;
         this.category = category;
     }
