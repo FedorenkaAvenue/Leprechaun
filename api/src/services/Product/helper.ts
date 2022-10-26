@@ -9,7 +9,7 @@ import { ICookies } from '@interfaces/Cookies';
 import { ISearchReqQueries } from '@interfaces/Queries';
 import { SortType } from '@enums/Query';
 import { PaginationResultDTO } from '@dto/Pagination';
-import ConfigService from '../Config';
+import configService from '../Config';
 import { PaginationResult } from '@dto/Pagination/constructor';
 import { SearchQueries } from '@dto/Queries/constructor';
 
@@ -20,10 +20,9 @@ export default class ProductHelperService {
     constructor(
         @InjectRepository(ProductEntity) protected readonly productRepo: Repository<ProductEntity>,
         protected readonly imageService: ImageService,
-        protected readonly configService: ConfigService,
         protected readonly FSService: FSService,
     ) {
-        this.dashboardPortion = +this.configService.getVal('DASHBOARD_PORTION');
+        this.dashboardPortion = +configService.getVal('DASHBOARD_PORTION');
     }
 
     /**

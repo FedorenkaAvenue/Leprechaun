@@ -6,9 +6,9 @@ import { LabelType } from '@enums/Label';
 import { ImageEntity } from '@entities/Image';
 import { CreateProductDTO, ProductPreviewDTO, PublicProductDTO } from '.';
 import { Price } from '@dto/Price/constructor';
-import { singleConfigServie } from '@src/services/Config';
+import configService from '@src/services/Config';
 
-const PRODUCT_PUBLIC_IMAGE_AMOUNT = singleConfigServie.getVal('PRODUCT_PUBLIC_IMAGE_AMOUNT');
+const PRODUCT_PUBLIC_IMAGE_AMOUNT = configService.getVal('PRODUCT_PUBLIC_IMAGE_AMOUNT');
 
 export class Product extends CreateProductDTO {
     price?: IPrice;

@@ -1,7 +1,7 @@
 import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import { UtilsApi, ApiClient } from 'manticoresearch';
 
-import ConfigService from './Config';
+import configService from './Config';
 
 export interface IManticoreResult<TIndexItem> {
     columns: any;
@@ -16,15 +16,13 @@ export interface IManticoreResult<TIndexItem> {
  */
 @Injectable()
 export default class ManticoreService {
-    constructor(private readonly configService: ConfigService) {}
-
     /**
      * @description create Manticore client
      * @returns Manticore client
      */
     createConnection() {
         const client = new ApiClient();
-        client.basePath = this.configService.getManticoreConfig();
+        client.basePath = configService.getManticoreConfig();
 
         return client;
     }

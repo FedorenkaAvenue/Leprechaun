@@ -3,23 +3,23 @@ import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import * as cookieParser from 'cookie-parser';
 
 import AppModule from '@modules/App';
-import { singleConfigServie } from '@services/Config';
+import configService from '@services/Config';
 import { UncaughtExceptionFilter } from '@filters/UncaughtException';
 
 async function runServer() {
     const app = await NestFactory.create(AppModule);
 
     app.use(cookieParser()).enableCors({
-        origin: singleConfigServie.getAvailableCORSDomains(),
+        origin: configService.getAvailableCORSDomains(),
         methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
         credentials: true,
     });
 
-    if (!singleConfigServie.isDev) app.useGlobalFilters(new UncaughtExceptionFilter());
+    if (!configService.isDev) app.useGlobalFilters(new UncaughtExceptionFilter());
 
     // Swagger
     const config = new DocumentBuilder()
-        .setTitle(singleConfigServie.getAppName())
+        .setTitle(configService.getAppName())
         .setDescription(`💾 - cached |  🧑‍💻 - user |  🤵🏿‍♂️ - admin`)
         .build();
     const document = SwaggerModule.createDocument(app, config, {

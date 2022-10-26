@@ -4,7 +4,7 @@ import SMTPTransport from 'nodemailer/lib/smtp-transport';
 import * as RedisStore from 'connect-redis';
 import * as session from 'express-session';
 import { createClient } from 'redis';
-import { CacheModuleOptions, Injectable } from '@nestjs/common';
+import { CacheModuleOptions } from '@nestjs/common';
 import * as redisCacheStore from 'cache-manager-redis-store';
 
 const ENV_ARRAY_SPLIT_SYMBOL = ',';
@@ -17,8 +17,7 @@ interface IHostingParams {
  * @description configuration service (esp working with a environment variables)
  * @property {Boolean} isDev is development environment
  */
-@Injectable()
-export default class ConfigService {
+class ConfigService {
     isDev: boolean;
 
     constructor() {
@@ -174,4 +173,6 @@ export default class ConfigService {
     }
 }
 
-export const singleConfigServie = new ConfigService();
+const configService = new ConfigService();
+
+export default configService;

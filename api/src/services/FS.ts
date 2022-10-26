@@ -5,7 +5,7 @@ import { memoryStorage } from 'multer';
 import { promises } from 'fs';
 import { extname } from 'path';
 
-import ConfigService from '@services/Config';
+import configService from '@services/Config';
 import genUUID from '@utils/genUUID';
 
 export enum FOLDER_TYPES {
@@ -20,8 +20,8 @@ export enum FOLDER_TYPES {
 export class FSService implements MulterOptionsFactory {
     hostingPath: string;
 
-    constructor(private readonly configService: ConfigService) {
-        this.hostingPath = this.configService.getHostingParams().HOSTING_PATH;
+    constructor() {
+        this.hostingPath = configService.getHostingParams().HOSTING_PATH;
     }
 
     /**
