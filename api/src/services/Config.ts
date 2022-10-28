@@ -6,6 +6,7 @@ import * as session from 'express-session';
 import { createClient } from 'redis';
 import { CacheModuleOptions } from '@nestjs/common';
 import * as redisCacheStore from 'cache-manager-redis-store';
+import { CorsOptions } from '@nestjs/common/interfaces/external/cors-options.interface';
 
 const ENV_ARRAY_SPLIT_SYMBOL = ',';
 
@@ -158,12 +159,17 @@ class ConfigService {
     }
 
     /**
-     * @description get array of available domains for CORS
+     * @description get CORS config
      */
-    getAvailableCORSDomains(): Array<string> | string {
-        return this.getAppName() === 'Leprechaun' || this.isDev
-            ? ['http://localhost:4201', 'http://localhost:4202', 'http://leprechaun']
-            : [this.getVal('DOMAIN') as string, this.getVal('DOMAIN_ADM') as string];
+    getCORSConfig(): CorsOptions {
+        return {
+            origin:
+                this.getAppName() === 'Leprechaun'
+                    ? ['http://localhost:4201', 'http://localhost:4202']
+                    : [this.getVal('DOMAIN') as string, this.getVal('DOMAIN_ADM') as string],
+            methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
+            credentials: true,
+        };
     }
 }
 

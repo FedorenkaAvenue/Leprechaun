@@ -9,11 +9,7 @@ import { UncaughtExceptionFilter } from '@filters/UncaughtException';
 async function runServer() {
     const app = await NestFactory.create(AppModule);
 
-    app.use(cookieParser()).enableCors({
-        origin: configService.getAvailableCORSDomains(),
-        methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
-        credentials: true,
-    });
+    app.use(cookieParser()).enableCors(configService.getCORSConfig());
 
     if (!configService.isDev) app.useGlobalFilters(new UncaughtExceptionFilter());
 
