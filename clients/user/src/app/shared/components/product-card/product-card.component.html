@@ -5,7 +5,7 @@
     [labelsData]="product?.labels"
   ></app-product-labels>
   <div class="product__wrap">
-    <a [routerLink]="['/product', product.id]" routerLinkActive="router-link-active">
+    <a [routerLink]="['/product', product.id] | localize" routerLinkActive="router-link-active">
       <div class="product-preview__wrap">
         <div
           class="product-preview__image"

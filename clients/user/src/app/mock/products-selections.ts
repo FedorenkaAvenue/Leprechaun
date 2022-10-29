@@ -1,4 +1,4 @@
-import { ProductsBaseI, ProductsCommonI } from "@shared/models";
+import { ProductsBaseI, DasboardCommonProductsI } from "@shared/models";
 import { PRODUCT_IMAGES_1, PRODUCT_IMAGES_2, PRODUCT_IMAGES_3 } from "./product-images";
 import { PRODUCT_LABELS_1, PRODUCT_LABELS_2, PRODUCT_LABELS_3 } from "./product-labels";
 

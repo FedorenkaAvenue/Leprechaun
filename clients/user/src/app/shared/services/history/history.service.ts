@@ -12,6 +12,7 @@ export class HistoryService {
   private readonly historyApiService: HistoryApiService
   ) { }
 
+  // TO DO FROM USER
   public getHistoryProducts(): Observable<Array<ProductsPreviewI>> {
     return this.historyApiService.getProductsHistory();
   }

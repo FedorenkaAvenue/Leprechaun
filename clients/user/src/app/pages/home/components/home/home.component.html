@@ -1,16 +1,19 @@
 <section class="home">
   <div class="home__banner"></div>
-  <ng-container *ngIf="products$ | async as commonProducts">
-    <ng-container  *ngIf="historyProducts$ | async as historyProducts">
+  <ng-container  *ngIf="dasboardUserProducts$ | async as userProducts">
+    <ng-container *ngIf="userProducts?.history.length">
       <app-dashboard
-      *ngIf="historyProducts?.length"
       [title]="'dashboard.newProducts' | translate"
-      [products]="historyProducts$ | async"
+      [products]="(userProducts | async)?.history"
       (toFavoriteEvent)="addToFavorite($event)"
       (deleteFromFavoriteEvent)="deleteFromFavorite($event)"
     ></app-dashboard>
-    </ng-container>  
-  
+    </ng-container>
+
+  </ng-container>  
+
+
+  <ng-container *ngIf="dasboardCommonProducts$ | async as commonProducts">
     <app-dashboard
     [title]="'dashboard.newProducts' | translate"
       [products]="commonProducts?.newest"

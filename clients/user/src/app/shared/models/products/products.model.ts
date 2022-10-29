@@ -41,11 +41,14 @@ export interface ProductsBaseI {
   comment?: string;
 }
 
-export interface ProductsCommonI {
+export interface DasboardCommonProductsI {
   popular: ProductsPreviewI[];
   newest: ProductsPreviewI[];
 }
 
+export interface DasboardUserProductsI {
+  history: ProductsPreviewI[];
+}
 export interface ProductDetailsI extends ProductsBaseI {
   properties: Array<ProductPropertiesI>;
   category: CategoryI;

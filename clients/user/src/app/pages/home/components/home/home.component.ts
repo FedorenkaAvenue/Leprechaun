@@ -1,5 +1,5 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
-import { FavoritesDto, ProductsCommonI, ProductsPreviewI } from '@shared/models';
+import { FavoritesDto, DasboardCommonProductsI, ProductsPreviewI, DasboardUserProductsI } from '@shared/models';
 import { FavoritesService } from '@shared/services/favorite/favotite/favorites.service';
 import { Observable } from 'rxjs';
 import { take } from 'rxjs/operators';
@@ -12,24 +12,24 @@ import { HomeService } from '../../services/home.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HomeComponent implements OnInit {
-  public products$: Observable<ProductsCommonI>;
-  public historyProducts$: Observable<Array<ProductsPreviewI>>;
+  public dasboardCommonProducts$: Observable<DasboardCommonProductsI>;
+  public dasboardUserProducts$: Observable<DasboardUserProductsI>;
   constructor(
     private readonly homeService: HomeService,
     private readonly favoritesService: FavoritesService,
   ) {}
 
   ngOnInit(): void {
-    this.products$ = this.getProducts();
-    this.historyProducts$ = this.getHistoryProducts();
+    this.dasboardCommonProducts$ = this.getDasboardCommonProducts();
+    this.dasboardUserProducts$ = this.getDashboardUserProducts();
   }
 
-  private getProducts(): Observable<ProductsCommonI> {
+  private getDasboardCommonProducts(): Observable<DasboardCommonProductsI> {
     return this.homeService.getSelectionProducts();
   }
 
-  private getHistoryProducts(): Observable<Array<ProductsPreviewI>> {
-    return this.homeService.getHistoryProducts();
+  private getDashboardUserProducts(): Observable<DasboardUserProductsI> {
+    return this.homeService.getUserSelectionProducts();
   }
 
 

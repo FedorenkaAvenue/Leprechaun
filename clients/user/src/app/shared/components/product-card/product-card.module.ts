@@ -6,6 +6,7 @@ import { RouterModule } from '@angular/router';
 import { CurtainsModule } from '@shared/directives/curtains/curtains.module';
 import { ProductPriceModule } from '../product-price/product-price.module';
 import { ProductLabelsModule } from '../product-labels/product-labels.module';
+import { LocalizeRouterModule } from '@gilsdav/ngx-translate-router';
 
 
 
@@ -18,7 +19,8 @@ import { ProductLabelsModule } from '../product-labels/product-labels.module';
     RouterModule,
     CurtainsModule,
     ProductPriceModule,
-    ProductLabelsModule
+    ProductLabelsModule,
+    LocalizeRouterModule
   ],
   exports: [
     ProductCardComponent
