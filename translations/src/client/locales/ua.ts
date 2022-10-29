@@ -3,7 +3,8 @@ import TTranslations from '../interface';
 const data: TTranslations = {
     dashboard: {
         newProducts: "Новi товари",
-        popularProducts: "Популярнi товари"
+        popularProducts: "Популярнi товари",
+        history: "Історія",
     },
     HELLO: "hello !",
     ROUTES: {

@@ -3,8 +3,8 @@
   <ng-container  *ngIf="dasboardUserProducts$ | async as userProducts">
     <ng-container *ngIf="userProducts?.history.length">
       <app-dashboard
-      [title]="'dashboard.newProducts' | translate"
-      [products]="(userProducts | async)?.history"
+      [title]="'dashboard.history' | translate"
+      [products]="userProducts.history"
       (toFavoriteEvent)="addToFavorite($event)"
       (deleteFromFavoriteEvent)="deleteFromFavorite($event)"
     ></app-dashboard>

@@ -2,7 +2,7 @@ import { writeFile } from 'fs';
 import { sync } from 'glob';
 import { resolve, parse } from 'path';
 
-generateModules('./src/client/locales/', '../client/src/assets/locales/'); // client
+generateModules('./src/client/locales/', '../clients/user/src/assets/locales/'); // client
 
 /**
  * @description generate translations for locales

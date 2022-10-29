@@ -1,7 +1,8 @@
 type TTranslates = {
 	dashboard: {
         newProducts: string,
-        popularProducts: string
+        popularProducts: string,
+        history: string
     },
     HELLO: string,
     ROUTES: {
