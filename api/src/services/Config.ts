@@ -136,8 +136,8 @@ class ConfigService {
             cookie: {
                 httpOnly: true,
                 maxAge: +this.getVal('SESSION_AGE'),
-                // TODO set to TRUE in production
-                secure: false, // secure: !this.isDev
+                sameSite: 'strict',
+                secure: !this.isDev,
             },
             name: 'session',
         };
