@@ -21,6 +21,7 @@ import PropertyAdminController from '@controllers/Property/admin';
 import ProductPublicController from '@controllers/Product/public';
 import UserPublicController from '@controllers/User/public';
 import OrderPublicController from '@controllers/Order/public';
+import WishlistPublicController from '@controllers/Wishlist/public';
 
 @Module({
     imports: [
@@ -48,6 +49,6 @@ export default class AppModule implements NestModule {
             .forRoutes(ProductAdminController, CategoryAdminController, PropertyAdminController);
         consumer
             .apply(session(configService.getSessionConfig()))
-            .forRoutes(ProductPublicController, UserPublicController, OrderPublicController);
+            .forRoutes(ProductPublicController, UserPublicController, OrderPublicController, WishlistPublicController);
     }
 }
