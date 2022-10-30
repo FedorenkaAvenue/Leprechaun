@@ -2,8 +2,8 @@
 
 ## Links
 
- * **local**: http://api.leprechaun
- * **remote test API server**: https://api.leprechaun.tech
+ * **local**: http://leprechaun/api
+ * **remote test API server**: https://leprechaun.tech/api
 
 ## Tools
 

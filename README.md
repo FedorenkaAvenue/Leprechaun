@@ -11,7 +11,7 @@ Boilerplate for web store
    - create `.env` file inside root directory based on `.env.dist` file with own config parameters
    - install all *npm* dependencies inside **server**, **client**, **admin** and **translations** folders (using `npm i` or `yarn` commands)
    - run `make build` to deploy and start all containers
-   - add `leprechaun docs.leprechaun adm.leprechaun api.leprechaun media.leprechaun` aliases to Your `/etc/hosts` list
+   - add `leprechaun` alias to Your `/etc/hosts` list
 
  * #### remote test server🌐
 
@@ -22,18 +22,18 @@ Boilerplate for web store
  * local
 
    * http://leprechaun user client
-   * http://adm.leprechaun admin client
-   * http://docs.leprechaun *Swagger* docs
-   * http://api.leprechaun RestFull API server
-   * http://media.leprechaun media files server
+   * http://leprechaun/adm admin client
+   * http://leprechaun/docs *Swagger* docs
+   * http://leprechaun/api RestFull API server
+   * http://leprechaun/media media files server
 
  * remote test server
 
    * https://leprechaun.store user client
-   * https://adm.leprechaun.store admin client
-   * https://docs.leprechaun.store *Swagger* docs
-   * https://api.leprechaun.store RestFull API server
-   * https://media.leprechaun.store media files server
+   * https://leprechaun.store/adm admin client
+   * https://leprechaun.store/docs *Swagger* docs
+   * https://leprechaun.store/api RestFull API server
+   * https://leprechaun.store/media media files server
 
 ## Docs
 
