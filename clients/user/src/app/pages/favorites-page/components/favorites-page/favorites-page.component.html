@@ -7,18 +7,16 @@
       <ng-container *ngIf="products.length; else emptyContent">
         <ul class="gr-4 g-1">
           <li *ngFor="let product of products">
-
             <app-product-card
-            [product]="product"
-            (toCartEvent)="addToCart($event)"
-            (toFavoriteEvent)="addToFavorite($event)"
-            (deleteFromFavoriteEvent)="deleteFromFavorite($event)"
+              [product]="product"
+              (toCartEvent)="addToCart($event)"
+              (toFavoriteEvent)="addToFavorite($event)"
+              (deleteFromFavoriteEvent)="deleteFromFavorite($event)"
             >
-            <button (click)="deleteFromFavorite(product?.id)" class="from-favorite-btn icon-btn">
-              <app-leprachaun-icon name="trash" color="rose" [width]="22" [height]="22">
-              </app-leprachaun-icon>
-            </button></app-product-card>
-          
+              <button (click)="deleteFromFavorite(product?.id)" class="from-favorite-btn icon-btn">
+                <app-leprachaun-icon name="trash" color="rose" [width]="22" [height]="22">
+                </app-leprachaun-icon></button
+            ></app-product-card>
           </li>
         </ul>
       </ng-container>
