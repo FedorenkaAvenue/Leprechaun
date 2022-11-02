@@ -49,7 +49,7 @@
     "@angular/service-worker": "14.2.6",
     "@gilsdav/ngx-translate-router": "~5.1.0",
     "@gorniv/ngx-universal": "2.2.3",
-    "@ng-select/ng-select": "^6.1.0",
+    "@ng-select/ng-select": "^9.0.2",
     "@ngneat/transloco": "^4.1.1",
     "@nguniversal/common": "14.2.0",
     "@nguniversal/express-engine": "14.2.0",
