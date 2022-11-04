@@ -56,6 +56,25 @@ services:
     environment:
       - IS_DEV=true
 
+  client_user_ssr:
+    container_name: leprechaun_client_user_ssr
+    restart: unless-stopped
+    image: node:16.17.1-alpine3.15
+    working_dir: /app
+    command: npm run ssr:watch
+    volumes:
+      - ./clients/user:/app
+    environment:
+      - IS_DEV=true
+      - APP_NAME
+      - LANGS
+      - DOMAIN
+      - DOMAIN_MEDIA
+      - DOMAIN_API
+      - PORT=80
+    depends_on:
+      - api
+
   client_admin:
     container_name: leprechaun_client_admin
     restart: unless-stopped
