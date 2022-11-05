@@ -58,6 +58,7 @@ export function app() {
   const redirectohttps = false;
   const wwwredirecto = true;
   server.use((req, res, next) => {
+ 
     // for domain/index.html
     if (req.url === '/index.html') {
       res.redirect(301, 'https://' + req.hostname);
@@ -109,6 +110,15 @@ export function app() {
   server.set('view engine', 'html');
   server.set('views', distFolder);
 
+   // cokies
+   server.use(cookieparser());
+
+   server.use((req, res, next) => {
+     console.log(req.cookies);
+     
+     next()
+   })
+
   // Example Express Rest API endpoints
   // server.get('/api/**', (req, res) => { });
   // Serve static files from /browser
@@ -121,38 +131,12 @@ export function app() {
 
   // All regular routes use the Universal engine
   server.get('*', (req, res) => {
-    global['navigator'] = { userAgent: req['headers']['user-agent'] } as Navigator;
-    const http =
-      req.headers['x-forwarded-proto'] === undefined ? 'http' : req.headers['x-forwarded-proto'];
-
     res.render(indexHtml, {
       req,
       providers: [
         { provide: APP_BASE_HREF, useValue: req.baseUrl },
-
-        // for http and cookies
-        {
-          provide: REQUEST,
-          useValue: req,
-        },
-        {
-          provide: RESPONSE,
-          useValue: res,
-        },
-        /// for cookie
-        {
-          provide: NgxRequest,
-          useValue: req,
-        },
-        {
-          provide: NgxResponse,
-          useValue: res,
-        },
-        // for absolute path
-        {
-          provide: 'ORIGIN_URL',
-          useValue: `${http}://${req.headers.host}`,
-        },
+        { provide: 'REQUEST', useValue: req },
+        { provide: 'RESPONSE', useValue: res },
       ],
     });
   });
@@ -167,9 +151,7 @@ function run() {
   const server = app();
   // gzip
   server.use(compression());
-  // cokies
-  server.use(cookieparser());
-
+ 
   server.listen(port, () => {
     console.log(`Node Express server listening on http://localhost:${port}`);
   });
