@@ -61,7 +61,7 @@ services:
     extends:
       file: docker-compose.shared.yaml
       service: node
-    command: npm run ssr:watch
+    command: npm run serve:ssr:docker
     volumes:
       - ./clients/user:/app
     environment:
@@ -71,7 +71,6 @@ services:
       - DOMAIN
       - DOMAIN_MEDIA
       - DOMAIN_API
-      - PORT=80
     depends_on:
       - api
 
