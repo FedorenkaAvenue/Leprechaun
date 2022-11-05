@@ -1,0 +1,7 @@
+version: "3.8"
+
+services:
+  node:
+    restart: unless-stopped
+    image: node:16.17.1-alpine3.15
+    working_dir: /app

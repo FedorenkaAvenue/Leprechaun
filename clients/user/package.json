@@ -13,6 +13,7 @@
     "start": "ng serve --port 80 --host 0.0.0.0 --disable-host-check --poll 500",
     "serve:local": "npm run config && ng serve  --port 4201",
     "serve:docker": "node ./set-env.js && ng serve --port 80 --host 0.0.0.0 --disable-host-check --poll 500",
+    "serve:ssr:docker": "node ./set-env.js && ng run universal-demo:serve-ssr --port 8000",
     "ssr": "ng run universal-demo:serve-ssr ",
     "ssr:watch": "ng run universal-demo:serve-ssr:dev",
     "format:check": "prettier --write --config ./.prettierrc --list-different \"src/{app,environments,styles}/**/*{.ts,.json,.scss}\"",
@@ -31,7 +32,6 @@
     "bundle-report": "ng build --stats-json && webpack-bundle-analyzer dist/stats.json",
     "bundle-report:prod": "ng build --stats-json --configuration production && webpack-bundle-analyzer dist/stats.json",
     "dev:ssr": "npm run config && ng run universal-demo:serve-ssr",
-    "serve:ssr": "node dist-server/main.js",
     "build:ssr": "ng build --configuration production && ng run universal-demo:server:production",
     "prerender": "ng run universal-demo:prerender",
     "postinstall": "ngcc"
