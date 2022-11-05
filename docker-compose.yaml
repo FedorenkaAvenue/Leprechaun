@@ -32,9 +32,9 @@ services:
       - ./cache/redis.conf:/app/redis.conf
 
   api:
-    restart: unless-stopped
-    image: node:16.17.1-alpine3.15
-    working_dir: /app
+    extends:
+      file: docker-compose.shared.yaml
+      service: node
     command: yarn dev
     volumes:
       - ./api:/app
@@ -47,9 +47,9 @@ services:
       - ${MANTICORE_PORT}:${MANTICORE_PORT}
 
   client_user:
-    restart: unless-stopped
-    image: node:16.17.1-alpine3.15
-    working_dir: /app
+    extends:
+      file: docker-compose.shared.yaml
+      service: node
     command: npm run serve:docker
     volumes:
       - ./clients/user:/app
@@ -58,9 +58,9 @@ services:
 
   client_user_ssr:
     container_name: leprechaun_client_user_ssr
-    restart: unless-stopped
-    image: node:16.17.1-alpine3.15
-    working_dir: /app
+    extends:
+      file: docker-compose.shared.yaml
+      service: node
     command: npm run ssr:watch
     volumes:
       - ./clients/user:/app
@@ -77,9 +77,9 @@ services:
 
   client_admin:
     container_name: leprechaun_client_admin
-    restart: unless-stopped
-    image: node:16.17.1-alpine3.15
-    working_dir: /app
+    extends:
+      file: docker-compose.shared.yaml
+      service: node
     volumes:
       - ./clients/admin:/app
     command: npm run serve:docker
