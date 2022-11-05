@@ -1,6 +1,5 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { TransferHttpService } from '@gorniv/ngx-universal';
 import { ProductsPreviewI } from '@shared/models';
 import { environment } from 'environments/environment.global';
 import { Observable } from 'rxjs';

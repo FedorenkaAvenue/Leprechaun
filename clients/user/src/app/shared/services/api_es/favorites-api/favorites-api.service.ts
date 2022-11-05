@@ -1,6 +1,5 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { TransferHttpService } from '@gorniv/ngx-universal';
 import { UserService } from '@shared/services/user/user.service';
 // import { CardItemDto } from '@shared/models';
 import { arrayToString } from '@shared/utils/transformers';

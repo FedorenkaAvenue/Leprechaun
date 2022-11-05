@@ -1,6 +1,5 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { TransferHttpService } from '@gorniv/ngx-universal';
 import { CustomerData, OrderDto, OrderI, ProductAmountPayload } from '@shared/models/products/order.model';
 import { UserService } from '@shared/services/user/user.service';
 import { environment } from 'environments/environment.global';
