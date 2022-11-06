@@ -98,7 +98,6 @@ services:
       - DOMAIN
       - DOMAIN_MEDIA
       - DOMAIN_API
-      - PORT=80
     depends_on:
       - api
 
