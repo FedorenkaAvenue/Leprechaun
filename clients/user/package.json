@@ -13,7 +13,7 @@
     "start": "ng serve --port 80 --host 0.0.0.0 --disable-host-check --poll 500",
     "serve:local": "npm run config && ng serve  --port 4201",
     "serve:docker": "node ./set-env.js && ng serve --port 80 --host 0.0.0.0 --disable-host-check --poll 500",
-    "serve:ssr:local": "npm run config && ng run universal-demo:serve-ssr",
+    "serve:ssr:local": "npm run config && ng run universal-demo:serve-ssr --port 80",
     "serve:ssr:docker": "node ./set-env.js && ng run universal-demo:serve-ssr --port 80 --proxy-config proxy.conf.json",
     "ssr": "ng run universal-demo:serve-ssr ",
     "ssr:watch": "ng run universal-demo:serve-ssr:dev",
