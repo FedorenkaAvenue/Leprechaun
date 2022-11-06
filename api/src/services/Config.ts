@@ -137,7 +137,6 @@ class ConfigService {
                 httpOnly: true,
                 maxAge: +this.getVal('SESSION_AGE'),
                 sameSite: 'strict',
-                //secure: !this.isDev,
             },
             name: 'session',
         };
