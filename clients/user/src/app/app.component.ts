@@ -51,8 +51,6 @@ export class AppComponent implements OnInit {
 private getUserState(): void {
   this.userService.getUser();
   this.userService.userSatate$.subscribe((user: UserI) => {
-    console.log(user);
-    
     // const cartValue = new OrderDto(user.cart)
     // this.cartService.updateCart(cartValue)
     // const wishlistValue = 

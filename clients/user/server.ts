@@ -13,6 +13,11 @@ import * as compression from 'compression';
 import * as cookieparser from 'cookie-parser';
 import { exit } from 'process';
 
+import * as xhr2 from 'xhr2';
+
+//HACK - enables setting cookie header
+xhr2.prototype._restrictedHeaders.cookie = false;
+
 // for debug
 require('source-map-support').install();
 
