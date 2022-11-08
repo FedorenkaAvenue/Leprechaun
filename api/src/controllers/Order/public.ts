@@ -27,6 +27,13 @@ import { OrderPublic } from '@dto/Order/constructor';
 export default class OrderPublicController {
     constructor(private readonly orderService: OrderService) {}
 
+    @Get('list')
+    @ApiOperation({ summary: 'get order list (without current cart)' })
+    @ApiOkResponse({ type: OrderPublic, isArray: true })
+    getOrderHistory(@Session() { id }: ISession): Promise<IOrderPublic[]> {
+        return this.orderService.getOrderList(id);
+    }
+
     @Post('item')
     @ApiOperation({ summary: 'add new order item' })
     @ApiOkResponse({ type: OrderPublic })
@@ -65,12 +72,5 @@ export default class OrderPublicController {
         @Session() { id }: ISession,
     ): Promise<IOrderPublic> {
         return this.orderService.removeOrderItem(orderItemId, id);
-    }
-
-    @Get('history')
-    @ApiOperation({ summary: 'get order history' })
-    @ApiOkResponse({ type: OrderPublic, isArray: true })
-    getOrderHistory(@Session() { id }: ISession): Promise<IOrderPublic[]> {
-        return this.orderService.getOrderHistory(id);
     }
 }

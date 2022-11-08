@@ -15,22 +15,6 @@ export const ORDER_RELATIONS = ['list', 'list.product'];
 
 @Injectable()
 export class OrderService extends OrderAdminService {
-    async getOrderHistory(session_id: ISession['id']): Promise<IOrderPublic[]> {
-        try {
-            const res = await this.orderRepo.find({
-                where: { session_id, status: Not(OrderStatus.INIT) },
-                relations: ORDER_RELATIONS,
-                order: { status: 'ASC' },
-            });
-
-            if (!res.length) return [];
-
-            return res.map(order => new OrderPublic(order));
-        } catch (err) {
-            throw new NotFoundException('no any active order');
-        }
-    }
-
     async addOrderItem(orderItem: CreateOrderItemDTO, session_id: ISession['id']): Promise<IOrderPublic> {
         const res = await this.orderRepo.findOne({
             where: { session_id, status: OrderStatus.INIT },
@@ -69,6 +53,22 @@ export class OrderService extends OrderAdminService {
 
     sendOrder({ order, customer }: CreateOrderDTO): Promise<UpdateResult> {
         return this.orderRepo.update({ id: order.id }, { status: OrderStatus.POSTED, customer });
+    }
+
+    async getOrderList(session_id: ISession['id']): Promise<IOrderPublic[]> {
+        try {
+            const res = await this.orderRepo.find({
+                where: { session_id, status: Not(OrderStatus.INIT) },
+                relations: ORDER_RELATIONS,
+                order: { created_at: 'ASC' },
+            });
+
+            if (!res.length) return [];
+
+            return res.map(order => new OrderPublic(order));
+        } catch (err) {
+            throw new NotFoundException('no any active order');
+        }
     }
 
     async removeOrderItem(id: IOrderItem['id'], sessionId: ISession['id']): Promise<IOrderPublic> {
