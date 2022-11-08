@@ -1,4 +1,4 @@
-import { Controller, Delete, Param, ParseUUIDPipe, Post } from '@nestjs/common';
+import { Controller, Delete, Param, ParseUUIDPipe, Post, UseInterceptors } from '@nestjs/common';
 import { ApiBadRequestResponse, ApiNotFoundResponse, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 
 import WishlistService from '@services/Wishlist';
@@ -6,6 +6,7 @@ import { Session } from '@decorators/Session';
 import { ISession } from '@interfaces/Session';
 import { ProductPublic } from '@dto/Product/constructor';
 import { TWishListPublic } from '@interfaces/Wishlist';
+import AffectedResultInterceptor from '@interceptors/AffectedResult';
 
 @Controller('wishlist')
 @ApiTags('Wishlist 🧑‍💻')
@@ -32,5 +33,13 @@ export default class WishlistPublicController {
         @Session() { id }: ISession,
     ): Promise<TWishListPublic> {
         return this.wishlistService.removeItem(productId, id);
+    }
+
+    @Delete()
+    @UseInterceptors(AffectedResultInterceptor)
+    @ApiOperation({ summary: 'clear wishlist' })
+    @ApiNotFoundResponse({ description: 'wishlist is empty' })
+    clearWishlist(@Session() { id }: ISession) {
+        return this.wishlistService.clearWishlist(id);
     }
 }

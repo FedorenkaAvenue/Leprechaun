@@ -1,5 +1,5 @@
 import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
-import { DeepPartial } from 'typeorm';
+import { DeepPartial, DeleteResult } from 'typeorm';
 
 import { IProduct } from '@interfaces/Product';
 import { ISession } from '@interfaces/Session';
@@ -33,5 +33,9 @@ export default class WishlistService extends WishlistAdminService {
         });
 
         return this.getWishlist(session_id);
+    }
+
+    async clearWishlist(session_id: ISession['id']): Promise<DeleteResult> {
+        return this.wishlistRepo.delete({ session_id });
     }
 }
