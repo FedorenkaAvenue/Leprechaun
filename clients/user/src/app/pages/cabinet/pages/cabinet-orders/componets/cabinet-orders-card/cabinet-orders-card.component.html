@@ -1,0 +1,16 @@
+<div class="order">
+    <div class="order-status" [appOrderStatusIndic]="order?.status">
+
+    </div>
+    <div>
+        <span>№ 741 435 226 від 22.07.22</span>
+        <p>Виконано</p>
+    </div>
+    <div>
+        <span>Сума замовлення</span>
+        <p>{{order?.summary?.price?.current}}</p>
+    </div>
+    <div>
+    <img class="order-images" width="80" height="80" src="https://www.sinsay.com/media/catalog/product/cache/1200/a4e40ebdc3e371adff845072e1c73f37/2/9/2976Q-59X-050-1-483349_1.jpg" alt="">
+    </div>
+</div>

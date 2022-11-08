@@ -1,0 +1,10 @@
+<div>
+   <header>
+      <h1>Мої замовлення</h1>
+    </header>
+     <ul class="orders-list">
+      <li class="orders-item" *ngFor="let order of orders$ | async">
+         <app-cabinet-orders-card [order]="order"></app-cabinet-orders-card>
+      </li>
+     </ul>
+</div>

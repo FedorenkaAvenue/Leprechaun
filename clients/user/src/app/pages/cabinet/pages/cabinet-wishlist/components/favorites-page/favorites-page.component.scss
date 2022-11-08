@@ -1,0 +1,6 @@
+@use '/src/styles/variables/layouts';
+
+.card-page {
+  max-width: layouts.$container-width;
+  margin: 0 auto;
+}
