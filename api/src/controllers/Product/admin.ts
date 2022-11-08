@@ -94,7 +94,7 @@ export default class ProductAdminController {
     @ApiServiceUnavailableResponse({ type: ProductEntity, description: "never mind. it's a bug for feature" })
     // !
     @Delete(':productId')
-    @UseInterceptors(AffectedResultInterceptor)
+    @UseInterceptors(AffectedResultInterceptor('product not found'))
     @ApiOperation({ summary: 'delete product by ID' })
     @ApiOkResponse({ description: 'success' })
     @ApiBadRequestResponse({ description: 'invalid product ID' })

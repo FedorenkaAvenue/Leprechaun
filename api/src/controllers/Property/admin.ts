@@ -1,5 +1,5 @@
 import { Body, Controller, Delete, Get, Param, Post, UseInterceptors, ValidationPipe } from '@nestjs/common';
-import { ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
+import { ApiNotFoundResponse, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { DeleteResult } from 'typeorm';
 
 import { CreatePropertyDTO } from '@dto/Property';
@@ -30,8 +30,9 @@ export default class PropertyAdminController {
     }
 
     @Delete(':propertyId')
-    @UseInterceptors(AffectedResultInterceptor)
+    @UseInterceptors(AffectedResultInterceptor('property not found'))
     @ApiOperation({ summary: 'delete property by ID' })
+    @ApiNotFoundResponse({ description: 'property not found' })
     deleteProperty(@Param('propertyId') propertyId: number): Promise<DeleteResult> {
         return this.propertyService.deleteProperty(propertyId);
     }

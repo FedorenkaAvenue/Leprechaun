@@ -1,4 +1,4 @@
-import { Controller, Delete, Param, ParseUUIDPipe, Post, UseInterceptors } from '@nestjs/common';
+import { BadRequestException, Controller, Delete, Param, ParseUUIDPipe, Post, UseInterceptors } from '@nestjs/common';
 import { ApiBadRequestResponse, ApiNotFoundResponse, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 
 import WishlistService from '@services/Wishlist';
@@ -36,9 +36,9 @@ export default class WishlistPublicController {
     }
 
     @Delete()
-    @UseInterceptors(AffectedResultInterceptor)
+    @UseInterceptors(AffectedResultInterceptor('wishlist is already empty', BadRequestException))
     @ApiOperation({ summary: 'clear wishlist' })
-    @ApiNotFoundResponse({ description: 'wishlist is empty' })
+    @ApiBadRequestResponse({ description: 'wishlist is already empty' })
     clearWishlist(@Session() { id }: ISession) {
         return this.wishlistService.clearWishlist(id);
     }

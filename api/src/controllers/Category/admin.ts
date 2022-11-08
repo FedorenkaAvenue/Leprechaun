@@ -63,7 +63,7 @@ export default class CategoryAdminController {
     }
 
     @Delete(':category')
-    @UseInterceptors(AffectedResultInterceptor)
+    @UseInterceptors(AffectedResultInterceptor('category not found'))
     @ApiOperation({ summary: 'delete category by ID' })
     @ApiOkResponse({ description: 'success' })
     @ApiNotFoundResponse({ description: 'category not found' })

@@ -49,7 +49,7 @@ export default class OrderPublicController {
     }
 
     @Post()
-    @UseInterceptors(AffectedResultInterceptor)
+    @UseInterceptors(AffectedResultInterceptor())
     @ApiOperation({ summary: 'send order' })
     @ApiOkResponse({ type: OrderPublic })
     sendOrder(@Body(new ValidationPipe({ transform: true })) order: CreateOrderDTO): Promise<UpdateResult> {

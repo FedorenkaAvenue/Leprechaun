@@ -3,19 +3,25 @@ import { map, Observable, tap } from 'rxjs';
 
 /**
  * @description check if DB result is not affected and throw NotFoundException
+ * @param responceErrMsg unsuccessfull responce message
+ * @param httpExeption unsuccessfull responce HTTP exeption type
  * @returns 200 or 404
  */
-@Injectable()
-export default class AffectedResultInterceptor implements NestInterceptor {
-    intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
-        return next
-            .handle()
-            .pipe(
-                tap(({ affected }) => {
-                    if (!affected) throw new NotFoundException();
-                }),
-                //TODO: rebuild 200 Responce
-            )
-            .pipe(map(() => {}));
+export default function AffectedResultInterceptor(responceErrMsg?: string, httpExeption = NotFoundException) {
+    @Injectable()
+    class AffectedResultInterceptorr implements NestInterceptor {
+        intercept(_: ExecutionContext, next: CallHandler): Observable<any> {
+            return next
+                .handle()
+                .pipe(
+                    tap(({ affected }) => {
+                        if (!affected) throw new httpExeption(responceErrMsg);
+                    }),
+                    //TODO: rebuild 200 Responce
+                )
+                .pipe(map(() => {}));
+        }
     }
+
+    return AffectedResultInterceptorr;
 }

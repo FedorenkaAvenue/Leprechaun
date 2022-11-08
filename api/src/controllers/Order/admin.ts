@@ -39,8 +39,9 @@ export default class OrderAdminController {
     }
 
     @Patch('status/:orderId')
-    @UseInterceptors(AffectedResultInterceptor)
+    @UseInterceptors(AffectedResultInterceptor('order not found'))
     @ApiOperation({ summary: 'change order status' })
+    @ApiNotFoundResponse({ description: 'order not found' })
     changeOrderStatus(
         @Param('orderId', ParseUUIDPipe) orderId: string,
         @Body(new ValidationPipe({ transform: true })) body: UpdateOrderStatusDTO,
@@ -57,7 +58,7 @@ export default class OrderAdminController {
     }
 
     @Delete(':orderId')
-    @UseInterceptors(AffectedResultInterceptor)
+    @UseInterceptors(AffectedResultInterceptor('order not found'))
     @ApiOperation({ summary: 'remove order' })
     @ApiNotFoundResponse({ description: 'order not found' })
     removeOrder(@Param('orderId', ParseUUIDPipe) orderId: string) {
