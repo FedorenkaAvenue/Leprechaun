@@ -7,7 +7,7 @@ import { map, Observable, tap } from 'rxjs';
  * @param httpExeption unsuccessfull responce HTTP exeption type
  * @returns 200 or 404
  */
-export default function AffectedResultInterceptor(responceErrMsg?: string, httpExeption = NotFoundException) {
+export default function AffectedResultInterceptor(responceErrMsg?: string, httpExeption = NotFoundException): any {
     @Injectable()
     class AffectedResultInterceptorr implements NestInterceptor {
         intercept(_: ExecutionContext, next: CallHandler): Observable<any> {
