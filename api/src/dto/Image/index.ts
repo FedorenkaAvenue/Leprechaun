@@ -1,6 +1,6 @@
-import { IImage } from '@interfaces/Image';
+import { ImageI } from '@interfaces/Image';
 
-export class ImageDTO implements IImage {
+export class ImageDTO implements ImageI {
     src: string;
     product_id: string;
 }

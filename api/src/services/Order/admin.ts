@@ -2,14 +2,14 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { DeleteResult, UpdateResult } from 'typeorm';
 
 import { UpdateOrderStatusDTO } from '@dto/Order';
-import { IOrder, IOrderPublic } from '@interfaces/Order';
+import { OrderI, OrderPublicT } from '@interfaces/Order';
 import OrderHelperService from './helper';
-import { IProduct } from '@interfaces/Product';
+import { ProductI } from '@interfaces/Product';
 import { ORDER_RELATIONS } from '.';
 
 @Injectable()
 export default class OrderAdminService extends OrderHelperService {
-    async getOrderById(id: IOrder['id']): Promise<IOrderPublic> {
+    async getOrderById(id: OrderI['id']): Promise<OrderPublicT> {
         const qb = this.orderRepo.createQueryBuilder('order').where({ id });
 
         const res = await this.getOrder(qb);
@@ -19,17 +19,17 @@ export default class OrderAdminService extends OrderHelperService {
         throw new NotFoundException('order not found');
     }
 
-    changeOrderStatus(orderId: IOrder['id'], { status }: UpdateOrderStatusDTO): Promise<UpdateResult> {
+    changeOrderStatus(orderId: OrderI['id'], { status }: UpdateOrderStatusDTO): Promise<UpdateResult> {
         return this.orderRepo.update({ id: orderId }, { status });
     }
 
-    getAdminOrders(): Promise<IOrder[]> {
+    getAdminOrders(): Promise<OrderI[]> {
         return this.orderRepo.find({
             relations: ORDER_RELATIONS,
         });
     }
 
-    async getOrdersByProductId(productId: IProduct['id']): Promise<IOrder[]> {
+    async getOrdersByProductId(productId: ProductI['id']): Promise<OrderI[]> {
         return await this.orderRepo
             .createQueryBuilder('order')
             .leftJoinAndSelect('order.list', 'list')
@@ -38,7 +38,7 @@ export default class OrderAdminService extends OrderHelperService {
             .getMany();
     }
 
-    removeOrder(id: IOrder['id']): Promise<DeleteResult> {
+    removeOrder(id: OrderI['id']): Promise<DeleteResult> {
         return this.orderRepo.delete({ id });
     }
 }

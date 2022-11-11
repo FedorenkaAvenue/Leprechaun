@@ -14,7 +14,7 @@ import { ApiNotFoundResponse, ApiOkResponse, ApiOperation, ApiTags } from '@nest
 import { OrderService } from '@services/Order';
 import { UpdateOrderStatusDTO } from '@dto/Order';
 import AffectedResultInterceptor from '@interceptors/AffectedResult';
-import { IOrder, IOrderPublic } from '@interfaces/Order';
+import { OrderI, OrderPublicT } from '@interfaces/Order';
 import { OrderEntity } from '@entities/Order';
 import { OrderPublic } from '@dto/Order/constructor';
 
@@ -27,14 +27,14 @@ export default class OrderAdminController {
     @ApiOperation({ summary: 'get order by ID' })
     @ApiOkResponse({ type: OrderPublic })
     @ApiNotFoundResponse({ description: 'order not found' })
-    getOrderById(@Param('orderId', ParseUUIDPipe) orderId: string): Promise<IOrderPublic> {
+    getOrderById(@Param('orderId', ParseUUIDPipe) orderId: string): Promise<OrderPublicT> {
         return this.orderService.getOrderById(orderId);
     }
 
     @Get('product/:productId')
     @ApiOperation({ summary: 'get orders which contain product' })
     @ApiOkResponse({ type: OrderEntity, isArray: true })
-    getOrdersByProductId(@Param('productId', ParseUUIDPipe) productId: string): Promise<IOrder[]> {
+    getOrdersByProductId(@Param('productId', ParseUUIDPipe) productId: string): Promise<OrderI[]> {
         return this.orderService.getOrdersByProductId(productId);
     }
 
@@ -53,7 +53,7 @@ export default class OrderAdminController {
     @Get('list')
     @ApiOperation({ summary: 'get order list' })
     @ApiOkResponse({ type: OrderEntity, isArray: true })
-    getOrders(): Promise<IOrder[]> {
+    getOrders(): Promise<OrderI[]> {
         return this.orderService.getAdminOrders();
     }
 

@@ -6,11 +6,11 @@ import { Injectable } from '@nestjs/common';
 import { OrderEntity } from '@entities/Order';
 import { OrderItemEntity } from '@entities/OrderItem';
 import { OrderPublic } from '@dto/Order/constructor';
-import { ISession } from '@interfaces/Session';
-import { IOrder, IOrderPublic } from '@interfaces/Order';
+import { SessionI } from '@interfaces/Session';
+import { OrderI, OrderPublicT } from '@interfaces/Order';
 import { OrderStatus } from '@enums/Order';
 import { CreateOrderItemDTO } from '@dto/OrderItem';
-import { IOrderItem } from '@interfaces/OrderItem';
+import { OrderItemI } from '@interfaces/OrderItem';
 import { ProductEntity } from '@entities/Product';
 
 @Injectable()
@@ -25,7 +25,7 @@ export default class OrderHelperService {
      * @param session_id
      * @returns cart
      */
-    async getCart(session_id: ISession['id']): Promise<IOrderPublic> {
+    async getCart(session_id: SessionI['id']): Promise<OrderPublicT> {
         const qb = this.orderRepo
             .createQueryBuilder('order')
             .where('order.session_id = :session_id', { session_id })
@@ -40,7 +40,7 @@ export default class OrderHelperService {
      * @param item
      * @returns
      */
-    createOrderItem(orderId: IOrder['id'], item: CreateOrderItemDTO): Promise<IOrderItem> {
+    createOrderItem(orderId: OrderI['id'], item: CreateOrderItemDTO): Promise<OrderItemI> {
         return this.orderItemRepo.save({ order_id: orderId, ...item } as DeepPartial<ProductEntity>);
     }
 

@@ -1,6 +1,6 @@
-import { ICookies } from '@interfaces/Cookies';
+import { CookiesI } from '@interfaces/Cookies';
 
-export class CookieDTO implements ICookies {
+export class CookieDTO implements CookiesI {
     sort: number;
     portion: number;
     session: string;

@@ -3,9 +3,9 @@ import { ApiBadRequestResponse, ApiNotFoundResponse, ApiOperation, ApiResponse, 
 
 import WishlistService from '@services/Wishlist';
 import { Session } from '@decorators/Session';
-import { ISession } from '@interfaces/Session';
+import { SessionI } from '@interfaces/Session';
 import { ProductPublic } from '@dto/Product/constructor';
-import { TWishListPublic } from '@interfaces/Wishlist';
+import { WishListTPublicT } from '@interfaces/Wishlist';
 import AffectedResultInterceptor from '@interceptors/AffectedResult';
 
 @Controller('wishlist')
@@ -20,8 +20,8 @@ export default class WishlistPublicController {
     @ApiNotFoundResponse({ description: 'product not found' })
     addItem(
         @Param('productId', ParseUUIDPipe) productId: string,
-        @Session() { id }: ISession,
-    ): Promise<TWishListPublic> {
+        @Session() { id }: SessionI,
+    ): Promise<WishListTPublicT> {
         return this.wishlistService.addItem(productId, id);
     }
 
@@ -30,8 +30,8 @@ export default class WishlistPublicController {
     @ApiResponse({ type: ProductPublic, isArray: true })
     deleteItem(
         @Param('productId', ParseUUIDPipe) productId: string,
-        @Session() { id }: ISession,
-    ): Promise<TWishListPublic> {
+        @Session() { id }: SessionI,
+    ): Promise<WishListTPublicT> {
         return this.wishlistService.removeItem(productId, id);
     }
 
@@ -39,7 +39,7 @@ export default class WishlistPublicController {
     @UseInterceptors(AffectedResultInterceptor('wishlist is already empty', BadRequestException))
     @ApiOperation({ summary: 'clear wishlist' })
     @ApiBadRequestResponse({ description: 'wishlist is already empty' })
-    clearWishlist(@Session() { id }: ISession) {
+    clearWishlist(@Session() { id }: SessionI) {
         return this.wishlistService.clearWishlist(id);
     }
 }

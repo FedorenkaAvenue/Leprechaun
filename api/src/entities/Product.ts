@@ -11,15 +11,15 @@ import {
     PrimaryGeneratedColumn,
 } from 'typeorm';
 import { CategoryEntity } from '@entities/Category';
-import { IBaseProduct, IProduct, IPublicProduct } from '@interfaces/Product';
+import { BaseProductI, ProductI, PublicProductI } from '@interfaces/Product';
 import { ProductStatus } from '@enums/Product';
 import { ImageEntity } from '@entities/Image';
-import { ICategory } from '@interfaces/Category';
-import { IProperty } from '@interfaces/Property';
+import { CategoryI } from '@interfaces/Category';
+import { PropertyI } from '@interfaces/Property';
 import { PropertyEntity } from '@entities/Property';
 import { PriceEntity } from './_Price';
 
-export class BaseProductEntity implements IBaseProduct {
+export class BaseProductEntity implements BaseProductI {
     @PrimaryGeneratedColumn('uuid')
     @ApiProperty()
     id: string;
@@ -37,7 +37,7 @@ export class BaseProductEntity implements IBaseProduct {
     price: PriceEntity;
 }
 
-export class PublicProductEntity extends BaseProductEntity implements IPublicProduct {
+export class PublicProductEntity extends BaseProductEntity implements PublicProductI {
     @OneToMany(() => ImageEntity, ({ product_id }) => product_id, { eager: true })
     @ApiProperty({ type: ImageEntity, isArray: true })
     images: ImageEntity[];
@@ -49,17 +49,17 @@ export class PublicProductEntity extends BaseProductEntity implements IPublicPro
         inverseJoinColumn: { name: 'property_id' },
     })
     @ApiProperty({ type: PropertyEntity, isArray: true })
-    properties: Array<IProperty>;
+    properties: Array<PropertyI>;
 
     @ManyToOne(() => CategoryEntity, ({ products }) => products, { onDelete: 'NO ACTION' })
     @JoinColumn({ name: 'category', referencedColumnName: 'id' })
     @ApiProperty({ type: () => CategoryEntity })
-    category: ICategory;
+    category: CategoryI;
 }
 
 // for admin properties
 @Entity('product')
-export class ProductEntity extends PublicProductEntity implements IProduct {
+export class ProductEntity extends PublicProductEntity implements ProductI {
     @CreateDateColumn()
     @ApiProperty()
     created_at: Date;

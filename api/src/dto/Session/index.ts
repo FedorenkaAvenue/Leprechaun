@@ -1,5 +1,5 @@
-import { ISession } from '@interfaces/Session';
+import { SessionI } from '@interfaces/Session';
 
-export class UserSessionSessionDTO implements ISession {
+export class UserSessionDTO implements SessionI {
     history: string[];
 }

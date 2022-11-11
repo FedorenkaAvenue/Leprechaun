@@ -2,9 +2,9 @@ import { ApiProperty } from '@nestjs/swagger';
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 
 import { PropertyEntity } from './Property';
-import { IPropertyGroup } from '@interfaces/PropertyGroup';
+import { PropertyGroupI } from '@interfaces/PropertyGroup';
 
-export class ProductGroupBaseEntity implements IPropertyGroup {
+export class ProductGroupBaseEntity implements PropertyGroupI {
     @PrimaryGeneratedColumn('rowid')
     @ApiProperty()
     id: number;
@@ -23,7 +23,7 @@ export class ProductGroupBaseEntity implements IPropertyGroup {
 }
 
 @Entity('property_group')
-export class PropertyGroupEntity extends ProductGroupBaseEntity implements IPropertyGroup {
+export class PropertyGroupEntity extends ProductGroupBaseEntity implements PropertyGroupI {
     @OneToMany(() => PropertyEntity, ({ property_group }) => property_group)
     @ApiProperty({ type: () => PropertyEntity, isArray: true })
     properties: PropertyEntity[];

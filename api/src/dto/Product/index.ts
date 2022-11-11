@@ -1,17 +1,17 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsBooleanString, IsEnum, IsNotEmpty, IsNumberString, IsOptional, IsString } from 'class-validator';
 
-import { ICategory } from '@interfaces/Category';
-import { IProduct, IProductPreview, IPublicProduct } from '@interfaces/Product';
-import { IPrice } from '@interfaces/Price';
+import { CategoryI } from '@interfaces/Category';
+import { ProductI, ProductPreviewI, PublicProductI } from '@interfaces/Product';
+import { PriceI } from '@interfaces/Price';
 import { ProductStatus } from '@enums/Product';
-import { IProperty } from '@interfaces/Property';
-import { IImage } from '@interfaces/Image';
+import { PropertyI } from '@interfaces/Property';
+import { ImageI } from '@interfaces/Image';
 import { BaseProductEntity, PublicProductEntity } from '@entities/Product';
-import { ILabel } from '@interfaces/Label';
+import { LabelI } from '@interfaces/Label';
 import { LabelDTO } from '@dto/Label';
 
-export class CreateProductDTO implements IProduct {
+export class CreateProductDTO implements ProductI {
     @IsNotEmpty()
     @IsString()
     @ApiProperty({ required: true })
@@ -20,12 +20,12 @@ export class CreateProductDTO implements IProduct {
     @IsNotEmpty()
     @IsNumberString()
     @ApiProperty({ required: true })
-    price_current: IPrice['current'];
+    price_current: PriceI['current'];
 
     @IsOptional()
     @IsNumberString()
     @ApiProperty({ required: false, default: null })
-    price_old: IPrice['old'];
+    price_old: PriceI['old'];
 
     @IsOptional()
     @IsBooleanString()
@@ -53,7 +53,7 @@ export class CreateProductDTO implements IProduct {
         type: 'number',
         description: 'category id',
     })
-    category: ICategory;
+    category: CategoryI;
 
     @IsOptional()
     @ApiProperty({
@@ -63,7 +63,7 @@ export class CreateProductDTO implements IProduct {
         required: false,
         default: [],
     })
-    images: IImage[];
+    images: ImageI[];
 
     @IsOptional()
     @IsNumberString({}, { each: true })
@@ -73,7 +73,7 @@ export class CreateProductDTO implements IProduct {
         required: false,
         default: [],
     })
-    properties: IProperty[];
+    properties: PropertyI[];
 
     @IsOptional()
     @IsBooleanString()
@@ -90,15 +90,15 @@ export class CreateProductDTO implements IProduct {
     comment: string;
 }
 
-export class ProductPreviewDTO extends BaseProductEntity implements IProductPreview {
+export class ProductPreviewDTO extends BaseProductEntity implements ProductPreviewI {
     @ApiProperty({ required: false })
     image: string;
 
     @ApiProperty({ type: LabelDTO, isArray: true, required: false })
-    labels: ILabel[];
+    labels: LabelI[];
 }
 
-export class PublicProductDTO extends PublicProductEntity implements IPublicProduct {
+export class PublicProductDTO extends PublicProductEntity implements PublicProductI {
     @ApiProperty({ type: LabelDTO, isArray: true, required: false })
-    labels: ILabel[];
+    labels: LabelI[];
 }

@@ -16,9 +16,9 @@ import { UpdateResult } from 'typeorm';
 import { OrderService } from '@services/Order';
 import { CreateOrderDTO } from '@dto/Order';
 import { Session } from '@decorators/Session';
-import { ISession } from '@interfaces/Session';
+import { SessionI } from '@interfaces/Session';
 import AffectedResultInterceptor from '@interceptors/AffectedResult';
-import { IOrderPublic } from '@interfaces/Order';
+import { OrderPublicT } from '@interfaces/Order';
 import { CreateOrderItemDTO, UpdateOrderItemDTO } from '@dto/OrderItem';
 import { OrderPublic } from '@dto/Order/constructor';
 
@@ -30,7 +30,7 @@ export default class OrderPublicController {
     @Get('list')
     @ApiOperation({ summary: 'get order list (without current cart)' })
     @ApiOkResponse({ type: OrderPublic, isArray: true })
-    getOrderHistory(@Session() { id }: ISession): Promise<IOrderPublic[]> {
+    getOrderHistory(@Session() { id }: SessionI): Promise<OrderPublicT[]> {
         return this.orderService.getOrderList(id);
     }
 
@@ -39,9 +39,9 @@ export default class OrderPublicController {
     @ApiOkResponse({ type: OrderPublic })
     @ApiBadRequestResponse({ description: 'product already exists' })
     addOrderItem(
-        @Session() { id }: ISession,
+        @Session() { id }: SessionI,
         @Body(new ValidationPipe({ transform: true })) orderItem: CreateOrderItemDTO,
-    ): Promise<IOrderPublic> {
+    ): Promise<OrderPublicT> {
         return this.orderService.addOrderItem(orderItem, id);
     }
 
@@ -50,8 +50,8 @@ export default class OrderPublicController {
     @ApiOkResponse({ type: OrderPublic })
     changeOrderItemAmount(
         @Body(new ValidationPipe({ transform: true })) orderItem: UpdateOrderItemDTO,
-        @Session() { id }: ISession,
-    ): Promise<IOrderPublic> {
+        @Session() { id }: SessionI,
+    ): Promise<OrderPublicT> {
         return this.orderService.changeOrderItemAmount(orderItem, id);
     }
 
@@ -69,8 +69,8 @@ export default class OrderPublicController {
     @ApiNotFoundResponse({ description: 'order item not found' })
     removeItem(
         @Param('itemId', ParseUUIDPipe) orderItemId: string,
-        @Session() { id }: ISession,
-    ): Promise<IOrderPublic> {
+        @Session() { id }: SessionI,
+    ): Promise<OrderPublicT> {
         return this.orderService.removeOrderItem(orderItemId, id);
     }
 }

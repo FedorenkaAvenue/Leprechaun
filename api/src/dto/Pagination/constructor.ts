@@ -1,4 +1,4 @@
-import { ICreatePagintaion, IPagination } from '@interfaces/Pagination';
+import { CreatePagintaionI, PaginationI } from '@interfaces/Pagination';
 import { PaginationDTO, PaginationResultDTO } from '.';
 
 /**
@@ -8,7 +8,7 @@ import { PaginationDTO, PaginationResultDTO } from '.';
  * @param totalCount all items count
  */
 export class Pagination extends PaginationDTO {
-    constructor({ totalCount, currentPage, itemPortion }: ICreatePagintaion) {
+    constructor({ totalCount, currentPage, itemPortion }: CreatePagintaionI) {
         super();
         this.currentPage = Number(currentPage);
         this.totalCount = totalCount;
@@ -22,10 +22,10 @@ export class Pagination extends PaginationDTO {
  * @param result array of result
  */
 export class PaginationResult<TData> extends PaginationResultDTO<TData> {
-    pagination: IPagination;
+    pagination: PaginationI;
     data: Array<TData>;
 
-    constructor(data: Array<TData>, paginationDTO: ICreatePagintaion) {
+    constructor(data: Array<TData>, paginationDTO: CreatePagintaionI) {
         super();
         this.data = data;
         this.pagination = new Pagination(paginationDTO);

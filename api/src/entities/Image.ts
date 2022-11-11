@@ -2,11 +2,11 @@ import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 't
 import { ApiProperty } from '@nestjs/swagger';
 
 import { ProductEntity } from '@entities/Product';
-import { IImage } from '@interfaces/Image';
-import { IProduct } from '@interfaces/Product';
+import { ImageI } from '@interfaces/Image';
+import { ProductI } from '@interfaces/Product';
 
 @Entity('image')
-export class ImageEntity implements IImage {
+export class ImageEntity implements ImageI {
     @PrimaryGeneratedColumn('uuid')
     @ApiProperty()
     id: string;
@@ -18,5 +18,5 @@ export class ImageEntity implements IImage {
     @ManyToOne(() => ProductEntity, ({ images }) => images, { onDelete: 'CASCADE' })
     @JoinColumn({ name: 'product_id', referencedColumnName: 'id' })
     @ApiProperty()
-    product_id: IProduct['id'];
+    product_id: ProductI['id'];
 }

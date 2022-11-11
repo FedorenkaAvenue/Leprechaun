@@ -1,10 +1,10 @@
-import { IOrder } from '@interfaces/Order';
-import { IOrderItem } from '@interfaces/OrderItem';
+import { OrderI } from '@interfaces/Order';
+import { OrderItemI } from '@interfaces/OrderItem';
 import { OrderItemPublic } from '@dto/OrderItem/constructor';
 import { OrderPublicDTO, OrderSummaryDTO } from '.';
 
 export class OrderSummary extends OrderSummaryDTO {
-    constructor(items: Array<IOrderItem>) {
+    constructor(items: Array<OrderItemI>) {
         super();
         this.price = items.reduce<number>((prev, { product, amount }) => product.price.current * amount + prev, 0);
         this.productsAmount = items.length;
@@ -12,7 +12,7 @@ export class OrderSummary extends OrderSummaryDTO {
 }
 
 export class OrderPublic extends OrderPublicDTO {
-    constructor({ id, status, list }: IOrder) {
+    constructor({ id, status, list }: OrderI) {
         super();
         this.id = id;
         this.status = status;

@@ -1,11 +1,11 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsBooleanString, IsNotEmpty, IsNumberString, IsOptional, IsString } from 'class-validator';
 
-import { IPropertyGroup } from '@interfaces/PropertyGroup';
-import { ICategory, ICategoryPublic } from '@interfaces/Category';
+import { PropertyGroupI } from '@interfaces/PropertyGroup';
+import { CategoryI, CategoryPublicI } from '@interfaces/Category';
 import { CategoryBaseEntity } from '@entities/Category';
 
-export class CreateCategoryDTO implements ICategory {
+export class CreateCategoryDTO implements CategoryI {
     @IsNotEmpty()
     @IsString()
     @ApiProperty()
@@ -39,7 +39,7 @@ export class CreateCategoryDTO implements ICategory {
         isArray: true,
         default: [],
     })
-    property_groups: IPropertyGroup[];
+    property_groups: PropertyGroupI[];
 
     @IsOptional()
     @IsString()
@@ -47,4 +47,4 @@ export class CreateCategoryDTO implements ICategory {
     comment: string;
 }
 
-export class CategoryPublicDTO extends CategoryBaseEntity implements ICategoryPublic {}
+export class CategoryPublicDTO extends CategoryBaseEntity implements CategoryPublicI {}

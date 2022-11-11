@@ -1,24 +1,24 @@
 import { ProductStatus } from '@enums/Product';
 import { SortType } from '@enums/Query';
 
-export interface IPriceSearchQuery {
+export interface PriceSearchQueryI {
     min: number;
     max: number;
 }
 
-export type DinamicQueryFilters = object | null;
+export type DinamicQueryFiltersT = object | null;
 
 // parsed queries
-export interface ISearchQueries {
+export interface SearchQueriesI {
     sort: SortType;
     page: number;
-    price: IPriceSearchQuery | null;
+    price: PriceSearchQueryI | null;
     status: ProductStatus | null;
-    dinamicFilters: DinamicQueryFilters | null;
+    dinamicFilters: DinamicQueryFiltersT | null;
 }
 
 // queries from url
-export interface ISearchReqQueries {
+export interface SearchReqQueriesI {
     sort: SortType;
     page: string | undefined;
     price: string | undefined;

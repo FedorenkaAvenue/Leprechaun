@@ -1,12 +1,12 @@
-import { IProduct, IPublicProduct } from './Product';
-import { ISession } from './Session';
+import { ProductI, PublicProductI } from './Product';
+import { SessionI } from './Session';
 
-export interface IWishlistItem {
+export interface WishlistItemI {
     id?: string;
-    product: IProduct;
-    session_id?: ISession['id'] | null;
+    product: ProductI;
+    session_id?: SessionI['id'] | null;
     created_at?: Date;
 }
 
-export type TWishList = Array<IWishlistItem>;
-export type TWishListPublic = Array<IPublicProduct>;
+export type WishListT = Array<WishlistItemI>;
+export type WishListTPublicT = Array<PublicProductI>;

@@ -1,11 +1,11 @@
 import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { ApiProperty } from '@nestjs/swagger';
 
-import { IWishlistItem } from '@interfaces/Wishlist';
+import { WishlistItemI } from '@interfaces/Wishlist';
 import { ProductEntity } from './Product';
 
 @Entity('wishlist')
-export default class WishlistEntity implements IWishlistItem {
+export default class WishlistEntity implements WishlistItemI {
     @PrimaryGeneratedColumn('uuid')
     @ApiProperty({ required: true })
     id: string;

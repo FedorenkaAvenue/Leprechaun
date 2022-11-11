@@ -3,11 +3,11 @@ import { DeepPartial, Not, UpdateResult } from 'typeorm';
 
 import { CreateOrderDTO } from '@dto/Order';
 import { OrderPublic } from '@dto/Order/constructor';
-import { ISession } from '@interfaces/Session';
-import { IOrderPublic } from '@interfaces/Order';
+import { SessionI } from '@interfaces/Session';
+import { OrderPublicT } from '@interfaces/Order';
 import { OrderStatus } from '@enums/Order';
 import { CreateOrderItemDTO, UpdateOrderItemDTO } from '@dto/OrderItem';
-import { IOrderItem } from '@interfaces/OrderItem';
+import { OrderItemI } from '@interfaces/OrderItem';
 import { ProductEntity } from '@entities/Product';
 import OrderAdminService from './admin';
 
@@ -15,7 +15,7 @@ export const ORDER_RELATIONS = ['list', 'list.product'];
 
 @Injectable()
 export class OrderService extends OrderAdminService {
-    async addOrderItem(orderItem: CreateOrderItemDTO, session_id: ISession['id']): Promise<IOrderPublic> {
+    async addOrderItem(orderItem: CreateOrderItemDTO, session_id: SessionI['id']): Promise<OrderPublicT> {
         const res = await this.orderRepo.findOne({
             where: { session_id, status: OrderStatus.INIT },
             relations: ORDER_RELATIONS,
@@ -44,8 +44,8 @@ export class OrderService extends OrderAdminService {
 
     async changeOrderItemAmount(
         { order_item, amount }: UpdateOrderItemDTO,
-        sessionId: ISession['id'],
-    ): Promise<IOrderPublic> {
+        sessionId: SessionI['id'],
+    ): Promise<OrderPublicT> {
         await this.orderItemRepo.update({ id: order_item }, { amount });
 
         return this.getCart(sessionId);
@@ -55,7 +55,7 @@ export class OrderService extends OrderAdminService {
         return this.orderRepo.update({ id: order.id }, { status: OrderStatus.POSTED, customer });
     }
 
-    async getOrderList(session_id: ISession['id']): Promise<IOrderPublic[]> {
+    async getOrderList(session_id: SessionI['id']): Promise<OrderPublicT[]> {
         try {
             const res = await this.orderRepo.find({
                 where: { session_id, status: Not(OrderStatus.INIT) },
@@ -71,7 +71,7 @@ export class OrderService extends OrderAdminService {
         }
     }
 
-    async removeOrderItem(id: IOrderItem['id'], sessionId: ISession['id']): Promise<IOrderPublic> {
+    async removeOrderItem(id: OrderItemI['id'], sessionId: SessionI['id']): Promise<OrderPublicT> {
         await this.orderItemRepo.delete({ id });
 
         return this.getCart(sessionId);

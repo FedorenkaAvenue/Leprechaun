@@ -1,4 +1,4 @@
-export interface IDevLogMail {
+export interface DevLogMailI {
     method: string;
     message: string;
     url: string;

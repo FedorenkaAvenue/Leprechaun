@@ -1,15 +1,15 @@
 import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { DeepPartial, DeleteResult } from 'typeorm';
 
-import { IProduct } from '@interfaces/Product';
-import { ISession } from '@interfaces/Session';
-import { TWishListPublic } from '@interfaces/Wishlist';
+import { ProductI } from '@interfaces/Product';
+import { SessionI } from '@interfaces/Session';
+import { WishListTPublicT } from '@interfaces/Wishlist';
 import WishlistAdminService from './admin';
 import WishlistEntity from '@entities/Wishlist';
 
 @Injectable()
 export default class WishlistService extends WishlistAdminService {
-    async addItem(product: IProduct['id'], session_id: ISession['id']): Promise<TWishListPublic> {
+    async addItem(product: ProductI['id'], session_id: SessionI['id']): Promise<WishListTPublicT> {
         const res = await this.wishlistRepo.findOneBy({
             product: { id: product },
             session_id,
@@ -20,22 +20,22 @@ export default class WishlistService extends WishlistAdminService {
         try {
             await this.wishlistRepo.save({ product, session_id } as DeepPartial<WishlistEntity>);
 
-            return this.getWishlist(session_id);
+            return this.geWishListT(session_id);
         } catch (err) {
             throw new NotFoundException('product not found');
         }
     }
 
-    async removeItem(product: IProduct['id'], session_id: ISession['id']): Promise<TWishListPublic> {
+    async removeItem(product: ProductI['id'], session_id: SessionI['id']): Promise<WishListTPublicT> {
         await this.wishlistRepo.delete({
             product: { id: product },
             session_id,
         });
 
-        return this.getWishlist(session_id);
+        return this.geWishListT(session_id);
     }
 
-    async clearWishlist(session_id: ISession['id']): Promise<DeleteResult> {
+    async clearWishlist(session_id: SessionI['id']): Promise<DeleteResult> {
         return this.wishlistRepo.delete({ session_id });
     }
 }

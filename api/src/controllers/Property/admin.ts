@@ -5,7 +5,7 @@ import { DeleteResult } from 'typeorm';
 import { CreatePropertyDTO } from '@dto/Property';
 import { PropertyEntity } from '@entities/Property';
 import { PropertyService } from '@services/Property';
-import { IProperty } from '@interfaces/Property';
+import { PropertyI } from '@interfaces/Property';
 import AffectedResultInterceptor from '@interceptors/AffectedResult';
 import UndefinedResultInterceptor from '@interceptors/UndefinedResult';
 
@@ -25,7 +25,7 @@ export default class PropertyAdminController {
     @UseInterceptors(UndefinedResultInterceptor)
     @ApiOperation({ summary: 'get property by ID' })
     @ApiOkResponse({ type: PropertyEntity })
-    getProperty(@Param('propertyId') propertyId: number): Promise<IProperty> {
+    getProperty(@Param('propertyId') propertyId: number): Promise<PropertyI> {
         return this.propertyService.getProperty(propertyId);
     }
 

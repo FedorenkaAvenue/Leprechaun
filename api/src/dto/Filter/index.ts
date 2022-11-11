@@ -1,21 +1,21 @@
 import { ApiProperty } from '@nestjs/swagger';
 
 import {
-    IListFilter,
-    IFilterListGroup,
-    IFilters,
-    IRangeFilter,
-    IFilterRangeGroup,
-    IFilterGroup,
+    ListFilterI,
+    FilterListGroupI,
+    FiltersI,
+    RangeFilterI,
+    FilterRangeGroupI,
+    FilterGroupT,
 } from '@interfaces/Filter';
 import { FilterType } from '@enums/Filter';
-import { IPropertyGroup } from '@interfaces/PropertyGroup';
-import { IProperty } from '@interfaces/Property';
-import { ISearchReqQueries } from '@interfaces/Queries';
+import { PropertyGroupI } from '@interfaces/PropertyGroup';
+import { PropertyI } from '@interfaces/Property';
+import { SearchReqQueriesI } from '@interfaces/Queries';
 import { RangeQueryDTO } from '@dto/Queries';
 import { SearchQueries } from '@dto/Queries/constructor';
 
-class ListFilterDTO implements IListFilter {
+class ListFilterDTO implements ListFilterI {
     @ApiProperty({ required: false })
     id: number;
 
@@ -28,7 +28,7 @@ class ListFilterDTO implements IListFilter {
     @ApiProperty({ required: false })
     selected: boolean;
 
-    constructor({ title, alt_name, id }: IProperty, isSelected: boolean) {
+    constructor({ title, alt_name, id }: PropertyI, isSelected: boolean) {
         this.title = title;
         this.id = id;
         this.alt_name = alt_name;
@@ -36,7 +36,7 @@ class ListFilterDTO implements IListFilter {
     }
 }
 
-class RangeFilterDTO implements IRangeFilter {
+class RangeFilterDTO implements RangeFilterI {
     @ApiProperty({ required: false })
     min: number;
 
@@ -49,7 +49,7 @@ class RangeFilterDTO implements IRangeFilter {
     }
 }
 
-class FilterGroupDTO implements IFilterGroup {
+class FilterGroupDTO implements FilterGroupT {
     @ApiProperty({ required: false })
     title: string;
 
@@ -60,18 +60,18 @@ class FilterGroupDTO implements IFilterGroup {
     type: FilterType;
 }
 
-class FilterListGroupDTO extends FilterGroupDTO implements IFilterListGroup {
+class FilterListGroupDTO extends FilterGroupDTO implements FilterListGroupI {
     @ApiProperty({
         description: 'array of filter items',
         isArray: true,
         required: false,
     })
-    list: IListFilter[];
+    list: ListFilterI[];
 
     @ApiProperty({ required: false })
     type: FilterType.List;
 
-    constructor({ title, alt_name, properties }: IPropertyGroup, selectedFilters?: string | undefined) {
+    constructor({ title, alt_name, properties }: PropertyGroupI, selectedFilters?: string | undefined) {
         super();
         this.alt_name = alt_name;
         this.title = title;
@@ -80,14 +80,14 @@ class FilterListGroupDTO extends FilterGroupDTO implements IFilterListGroup {
     }
 }
 
-class FilterRangeGroupDTO extends FilterGroupDTO implements IFilterRangeGroup {
+class FilterRangeGroupDTO extends FilterGroupDTO implements FilterRangeGroupI {
     @ApiProperty({ type: RangeFilterDTO, required: false })
-    range: IRangeFilter;
+    range: RangeFilterI;
 
     @ApiProperty({ required: false })
     type: FilterType.Range;
 
-    constructor({ title, alt_name }: IPropertyGroup, range: any) {
+    constructor({ title, alt_name }: PropertyGroupI, range: any) {
         super();
         this.alt_name = alt_name;
         this.title = title;
@@ -96,28 +96,28 @@ class FilterRangeGroupDTO extends FilterGroupDTO implements IFilterRangeGroup {
     }
 }
 
-export class FiltersDTO implements IFilters {
+export class FiltersDTO implements FiltersI {
     @ApiProperty({
         type: FilterRangeGroupDTO,
         description: 'static price filter',
         required: false,
     })
-    price: IFilterRangeGroup;
+    price: FilterRangeGroupI;
 
     @ApiProperty({
         type: FilterListGroupDTO,
         isArray: true,
         required: false,
     })
-    dinamicFilters: IFilterListGroup[];
+    dinamicFilters: FilterListGroupI[];
 
     @ApiProperty({
         type: FilterListGroupDTO,
         required: false,
     })
-    status: IFilterListGroup;
+    status: FilterListGroupI;
 
-    constructor(propertyGroups: IPropertyGroup[], queryFilters: ISearchReqQueries) {
+    constructor(propertyGroups: PropertyGroupI[], queryFilters: SearchReqQueriesI) {
         const { price, dinamicFilters, status } = new SearchQueries(queryFilters);
 
         this.price = new FilterRangeGroupDTO(

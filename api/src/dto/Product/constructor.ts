@@ -1,5 +1,5 @@
-import { IProduct } from '@interfaces/Product';
-import { IPrice } from '@interfaces/Price';
+import { ProductI } from '@interfaces/Product';
+import { PriceI } from '@interfaces/Price';
 import { ProductStatus } from '@enums/Product';
 import WithLabels from '@decorators/Label';
 import { LabelType } from '@enums/Label';
@@ -11,7 +11,7 @@ import configService from '@src/services/Config';
 const PRODUCT_PUBLIC_IMAGE_AMOUNT = configService.getVal('PRODUCT_PUBLIC_IMAGE_AMOUNT');
 
 export class Product extends CreateProductDTO {
-    price?: IPrice;
+    price?: PriceI;
 
     constructor({
         title,
@@ -41,7 +41,7 @@ export class Product extends CreateProductDTO {
 
 @WithLabels(LabelType.DISCOUNT)
 export class ProductPreview extends ProductPreviewDTO {
-    constructor({ id, title, price, status, images }: IProduct) {
+    constructor({ id, title, price, status, images }: ProductI) {
         super();
         this.id = id;
         this.title = title;
@@ -53,7 +53,7 @@ export class ProductPreview extends ProductPreviewDTO {
 
 @WithLabels(LabelType.NEW, LabelType.POPULAR, LabelType.DISCOUNT)
 export class ProductPublic extends PublicProductDTO {
-    constructor({ id, title, price, status, images, properties, category }: IProduct) {
+    constructor({ id, title, price, status, images, properties, category }: ProductI) {
         super();
         this.id = id;
         this.title = title;

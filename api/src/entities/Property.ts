@@ -1,10 +1,10 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 
-import { IProperty } from '@interfaces/Property';
+import { PropertyI } from '@interfaces/Property';
 import { PropertyGroupEntity } from './PropertGroup';
 
-export class PropertyBaseEntity implements IProperty {
+export class PropertyBaseEntity implements PropertyI {
     @PrimaryGeneratedColumn('rowid')
     @ApiProperty()
     id: number;
@@ -23,7 +23,7 @@ export class PropertyBaseEntity implements IProperty {
 }
 
 @Entity('property')
-export class PropertyEntity extends PropertyBaseEntity implements IProperty {
+export class PropertyEntity extends PropertyBaseEntity implements PropertyI {
     @ManyToOne(() => PropertyGroupEntity, ({ properties }) => properties, { onDelete: 'CASCADE', nullable: false })
     @JoinColumn({ name: 'property_group' })
     @ApiProperty()

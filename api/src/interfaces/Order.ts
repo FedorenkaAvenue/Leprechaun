@@ -1,28 +1,28 @@
-import { IOrderItem, IOrderItemPublic } from './OrderItem';
-import { ISession } from './Session';
+import { OrderItemI, OrderItemPublicI } from './OrderItem';
+import { SessionI } from './Session';
 import { OrderStatus } from '@enums/Order';
 
-export interface IOrderCustomerData {
+export interface OrderCustomerDataI {
     name: string;
     phone: string;
 }
 
-export interface IOrderSummary {
+export interface OrderSummaryI {
     price: number;
     productsAmount: number;
 }
 
-export interface IOrderBase<T = IOrderItem> {
+export interface OrderBaseI<T = OrderItemI> {
     id?: string;
     status?: OrderStatus;
     list?: Array<T>;
-    summary?: IOrderSummary;
+    summary?: OrderSummaryI;
 }
 
-export type IOrderPublic = IOrderBase<IOrderItemPublic>;
+export type OrderPublicT = OrderBaseI<OrderItemPublicI>;
 
-export interface IOrder extends IOrderBase {
+export interface OrderI extends OrderBaseI {
     created_at?: Date;
-    customer?: IOrderCustomerData; // reciever data
-    session_id?: ISession['id'] | null; // for non-authorizated users
+    customer?: OrderCustomerDataI; // reciever data
+    session_id?: SessionI['id'] | null; // for non-authorizated users
 }

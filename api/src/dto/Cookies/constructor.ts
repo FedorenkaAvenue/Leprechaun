@@ -1,4 +1,4 @@
-import { ICookies } from '@interfaces/Cookies';
+import { CookiesI } from '@interfaces/Cookies';
 import { CookieDTO } from '.';
 
 /**
@@ -6,7 +6,7 @@ import { CookieDTO } from '.';
  * @param portion item count per page
  */
 export class Cookie extends CookieDTO {
-    constructor({ portion, session }: ICookies) {
+    constructor({ portion, session }: CookiesI) {
         super();
         this.portion = Number(portion) || 10;
         this.session = session || null;

@@ -24,7 +24,7 @@ import { CategoryService } from '@services/Category';
 import { CategoryEntity } from '@entities/Category';
 import { CreateCategoryDTO } from '@dto/Category';
 import { FSService } from '@services/FS';
-import { ICategory } from '@interfaces/Category';
+import { CategoryI } from '@interfaces/Category';
 import UndefinedResultInterceptor from '@interceptors/UndefinedResult';
 import AffectedResultInterceptor from '@interceptors/AffectedResult';
 
@@ -49,7 +49,7 @@ export default class CategoryAdminController {
     @Get('list')
     @ApiOperation({ summary: 'get all categories' })
     @ApiOkResponse({ type: TCategoryAdmin, isArray: true })
-    getAllCategories(): Promise<ICategory[]> {
+    getAllCategories(): Promise<CategoryI[]> {
         return this.categoryService.getAdminCategories();
     }
 
@@ -58,7 +58,7 @@ export default class CategoryAdminController {
     @ApiOperation({ summary: 'get category info by URL' })
     @ApiOkResponse({ type: TCategoryAdmin })
     @ApiNotFoundResponse({ description: 'category not found' })
-    getCategory(@Param('category') category: string): Promise<ICategory> {
+    getCategory(@Param('category') category: string): Promise<CategoryI> {
         return this.categoryService.getAdminCategory(category);
     }
 

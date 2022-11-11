@@ -1,8 +1,8 @@
-import { IPropertyGroup } from './PropertyGroup';
+import { PropertyGroupI } from './PropertyGroup';
 
-export interface IProperty {
+export interface PropertyI {
     id?: number;
-    property_group?: IPropertyGroup;
+    property_group?: PropertyGroupI;
     title: string;
     alt_name: string;
     comment?: string;

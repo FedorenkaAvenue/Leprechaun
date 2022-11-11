@@ -1,29 +1,29 @@
-import { ICategory } from '@interfaces/Category';
-import { IImage } from '@interfaces/Image';
-import { IProperty } from '@interfaces/Property';
-import { ILabel } from '@interfaces/Label';
+import { CategoryI } from '@interfaces/Category';
+import { ImageI } from '@interfaces/Image';
+import { PropertyI } from '@interfaces/Property';
+import { LabelI } from '@interfaces/Label';
 import { ProductStatus } from '@enums/Product';
-import { IPrice } from './Price';
+import { PriceI } from './Price';
 
-export interface IBaseProduct {
+export interface BaseProductI {
     id?: string;
     title: string;
     status: ProductStatus;
-    price?: IPrice;
-    labels?: Array<ILabel>;
+    price?: PriceI;
+    labels?: Array<LabelI>;
 }
 
-export interface IProductPreview extends IBaseProduct {
+export interface ProductPreviewI extends BaseProductI {
     image: string;
 }
 
-export interface IPublicProduct extends IBaseProduct {
-    images: Array<IImage>;
-    category?: ICategory;
-    properties?: Array<IProperty>;
+export interface PublicProductI extends BaseProductI {
+    images: Array<ImageI>;
+    category?: CategoryI;
+    properties?: Array<PropertyI>;
 }
 
-export interface IProduct extends IPublicProduct {
+export interface ProductI extends PublicProductI {
     rating?: number;
     created_at?: Date;
     is_public?: boolean;
