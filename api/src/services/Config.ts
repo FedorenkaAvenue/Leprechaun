@@ -136,7 +136,8 @@ class ConfigService {
             cookie: {
                 httpOnly: true,
                 maxAge: +this.getVal('SESSION_AGE'),
-                sameSite: 'strict',
+                sameSite: this.getAppName() === 'Leprechaun' ? 'none' : 'strict',
+                secure: !this.isDev,
             },
             name: 'session',
         };
@@ -164,7 +165,7 @@ class ConfigService {
         return {
             origin:
                 this.getAppName() === 'Leprechaun'
-                    ? ['http://localhost:4201', 'http://localhost:4202']
+                    ? ['http://localhost:4201', 'http://localhost:4202', 'https://localhost:4201']
                     : [this.getVal('DOMAIN') as string, this.getVal('DOMAIN_ADM') as string],
             methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
             credentials: true,
