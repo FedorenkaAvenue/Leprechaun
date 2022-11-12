@@ -11,6 +11,6 @@ export default class SchedulerService {
     @Cron('0 0 3 * * 1')
     clearUselessSessionData() {
         this.orderService.clearUselessOrders();
-        this.wishlistService.clearUselessWishlist();
+        // this.wishlistService.clearUselessWishlist();
     }
 }

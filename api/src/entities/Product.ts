@@ -11,7 +11,7 @@ import {
     PrimaryGeneratedColumn,
 } from 'typeorm';
 import { CategoryEntity } from '@entities/Category';
-import { BaseProductI, ProductI, PublicProductI } from '@interfaces/Product';
+import { BaseProductI, ProductI, ProductPublicI } from '@interfaces/Product';
 import { ProductStatus } from '@enums/Product';
 import { ImageEntity } from '@entities/Image';
 import { CategoryI } from '@interfaces/Category';
@@ -37,7 +37,7 @@ export class BaseProductEntity implements BaseProductI {
     price: PriceEntity;
 }
 
-export class PublicProductEntity extends BaseProductEntity implements PublicProductI {
+export class PublicProductEntity extends BaseProductEntity implements ProductPublicI {
     @OneToMany(() => ImageEntity, ({ product_id }) => product_id, { eager: true })
     @ApiProperty({ type: ImageEntity, isArray: true })
     images: ImageEntity[];

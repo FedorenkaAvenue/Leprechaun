@@ -17,13 +17,13 @@ export interface ProductPreviewI extends BaseProductI {
     image: string;
 }
 
-export interface PublicProductI extends BaseProductI {
+export interface ProductPublicI extends BaseProductI {
     images: Array<ImageI>;
     category?: CategoryI;
     properties?: Array<PropertyI>;
 }
 
-export interface ProductI extends PublicProductI {
+export interface ProductI extends ProductPublicI {
     rating?: number;
     created_at?: Date;
     is_public?: boolean;

@@ -13,7 +13,7 @@ import { ProductService } from '@services/Product';
 import { SearchReqQueriesI } from '@interfaces/Queries';
 import { PaginationResultDTO } from '@dto/Pagination';
 import { ApiPaginatedResponse } from '@decorators/Swagger';
-import { ProductPreviewI, PublicProductI } from '@interfaces/Product';
+import { ProductPreviewI, ProductPublicI } from '@interfaces/Product';
 import { QueryGETListDTO } from '@dto/Queries';
 import { Cookies } from '@decorators/Cookies';
 import { CookiesI } from '@interfaces/Cookies';
@@ -41,7 +41,7 @@ export default class ProductPublicController {
     getProducts(
         @Query() queries: SearchReqQueriesI,
         @Cookies() { portion }: CookiesI,
-    ): Promise<PaginationResultDTO<PublicProductI>> {
+    ): Promise<PaginationResultDTO<ProductPublicI>> {
         return this.productService.getPublicProducts(queries, { portion });
     }
 
@@ -55,7 +55,7 @@ export default class ProductPublicController {
         @Query() queries: SearchReqQueriesI,
         @Cookies() { portion }: CookiesI,
         @Param('categoryUrl') categoryUrl: string,
-    ): Promise<PaginationResultDTO<PublicProductI>> {
+    ): Promise<PaginationResultDTO<ProductPublicI>> {
         return this.productService.getCategoryPublicProducts(categoryUrl, queries, { portion });
     }
 
@@ -102,7 +102,7 @@ export default class ProductPublicController {
     getProduct(
         @Param('productId', ParseUUIDPipe) productId: string,
         @Session() session: SessionI,
-    ): Promise<PublicProductI> {
+    ): Promise<ProductPublicI> {
         session.history = [...new Set([productId, ...session.history.slice(0, Number(USER_HISTORY_LENGTH))])];
 
         return this.productService.getPublicProduct(productId);

@@ -3,14 +3,15 @@ import { DeepPartial, DeleteResult } from 'typeorm';
 
 import { ProductI } from '@interfaces/Product';
 import { SessionI } from '@interfaces/Session';
-import { WishListTPublicT } from '@interfaces/Wishlist';
 import WishlistAdminService from './admin';
-import WishlistEntity from '@entities/Wishlist';
+import WishlistItemEntity from '@entities/WishlistItem';
+import { WishlistItemI, WishlistItemPublicI } from '@interfaces/WishlistItem';
+import { WishlistItemPublic } from '@dto/WishlistItem/constructor';
 
 @Injectable()
 export default class WishlistService extends WishlistAdminService {
-    async addItem(product: ProductI['id'], session_id: SessionI['id']): Promise<WishListTPublicT> {
-        const res = await this.wishlistRepo.findOneBy({
+    async addItem(product: ProductI['id'], session_id: SessionI['id']): Promise<WishlistItemPublicI> {
+        const res = await this.wishlistItemRepo.findOneBy({
             product: { id: product },
             session_id,
         });
@@ -18,24 +19,24 @@ export default class WishlistService extends WishlistAdminService {
         if (res) throw new BadRequestException('product is already added to wishlist');
 
         try {
-            await this.wishlistRepo.save({ product, session_id } as DeepPartial<WishlistEntity>);
+            const { id } = await this.wishlistItemRepo.save({ product, session_id } as DeepPartial<WishlistItemEntity>);
 
-            return this.geWishListT(session_id);
+            const it = await this.getWishlistItem(id);
+
+            console.log(it);
+
+            return new WishlistItemPublic(it);
         } catch (err) {
+            console.log(err);
             throw new NotFoundException('product not found');
         }
     }
 
-    async removeItem(product: ProductI['id'], session_id: SessionI['id']): Promise<WishListTPublicT> {
-        await this.wishlistRepo.delete({
-            product: { id: product },
-            session_id,
-        });
-
-        return this.geWishListT(session_id);
+    async removeItem(id: WishlistItemI['id']): Promise<DeleteResult> {
+        return await this.wishlistItemRepo.delete({ id });
     }
 
     async clearWishlist(session_id: SessionI['id']): Promise<DeleteResult> {
-        return this.wishlistRepo.delete({ session_id });
+        return this.wishlistItemRepo.delete({ session_id });
     }
 }

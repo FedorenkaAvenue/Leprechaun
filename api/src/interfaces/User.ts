@@ -1,9 +1,9 @@
 import { OrderPublicT } from './Order';
 import { SessionI } from './Session';
-import { WishListTPublicT } from './Wishlist';
+import { WishListIPublicI } from './Wishlist';
 
 export interface UserPublicI {
     cart: OrderPublicT;
-    wishlist: WishListTPublicT;
+    wishlist: WishListIPublicI;
     session: SessionI['id'];
 }

@@ -6,16 +6,6 @@ import { OrderStatus } from '@enums/Order';
 import { OrderItemI } from '@interfaces/OrderItem';
 import { OrderItemEntity } from './OrderItem';
 
-export class OrderCustomerDataEntity implements OrderCustomerDataI {
-    @Column({ name: 'customer_name', nullable: true })
-    @ApiProperty()
-    name: string;
-
-    @Column({ name: 'customer_phone', nullable: true })
-    @ApiProperty()
-    phone: string;
-}
-
 export class OrderBaseEntity implements OrderBaseI {
     @PrimaryGeneratedColumn('uuid')
     @ApiProperty({ description: 'order ID' })
@@ -24,6 +14,16 @@ export class OrderBaseEntity implements OrderBaseI {
     @Column({ default: OrderStatus.INIT })
     @ApiProperty({ enum: OrderStatus })
     status: OrderStatus;
+}
+
+export class OrderCustomerDataEntity implements OrderCustomerDataI {
+    @Column({ name: 'customer_name', nullable: true })
+    @ApiProperty()
+    name: string;
+
+    @Column({ name: 'customer_phone', nullable: true })
+    @ApiProperty()
+    phone: string;
 }
 
 @Entity('order')

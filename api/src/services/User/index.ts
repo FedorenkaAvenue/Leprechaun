@@ -9,7 +9,7 @@ import UserAdminService from './admin';
 export default class UserService extends UserAdminService {
     async getUserData({ id }: SessionI): Promise<UserPublic> {
         return new UserPublic({
-            wishlist: await this.wishlistService.geWishListT(id),
+            wishlist: await this.wishlistService.getWishList(id),
             cart: await this.orderService.getCart(id),
             session: id,
         });

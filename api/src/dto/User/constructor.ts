@@ -1,11 +1,11 @@
 import { OrderPublicT } from '@interfaces/Order';
-import { WishListTPublicT } from '@interfaces/Wishlist';
+import { WishListIPublicI } from '@interfaces/Wishlist';
 import { SessionI } from '@interfaces/Session';
 import { UserPublicDTO } from '.';
 
 type UserPublicPapamsT = {
     cart: OrderPublicT;
-    wishlist: WishListTPublicT;
+    wishlist: WishListIPublicI;
     session: SessionI['id'];
 };
 

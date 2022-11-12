@@ -29,7 +29,7 @@ import { ProductService } from '@services/Product';
 import { SearchReqQueriesI } from '@interfaces/Queries';
 import { PaginationResultDTO } from '@dto/Pagination';
 import { ApiPaginatedResponse } from '@decorators/Swagger';
-import { ProductI, PublicProductI } from '@interfaces/Product';
+import { ProductI, ProductPublicI } from '@interfaces/Product';
 import { Cookies } from '@decorators/Cookies';
 import { CookiesI } from '@interfaces/Cookies';
 import InvalidPaginationPageInterceptor from '@interceptors/InvalidPaginationPage';
@@ -84,7 +84,7 @@ export default class ProductAdminController {
     @ApiOkResponse({ type: ProductPublic })
     @ApiBadRequestResponse({ description: 'invalid product ID' })
     @ApiNotFoundResponse({ description: 'product not found' })
-    getProduct(@Param('productId', ParseUUIDPipe) productId: string): Promise<PublicProductI> {
+    getProduct(@Param('productId', ParseUUIDPipe) productId: string): Promise<ProductPublicI> {
         return this.productService.getAdminProduct(productId);
     }
 
