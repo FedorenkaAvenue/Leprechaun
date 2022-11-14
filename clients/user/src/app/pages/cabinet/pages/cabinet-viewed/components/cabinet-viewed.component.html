@@ -1,7 +1,7 @@
 <div class="viewed-page__wrapper">
   <div class="viewed-page">
     <header>
-      <h1>Переглянуті</h1>
+      <h1>{{"cabinet.viewed.header" | translate}}</h1>
     </header>
     <ng-container *ngIf="viewedData$ | async as products">
       <ng-container *ngIf="products.length; else emptyContent">

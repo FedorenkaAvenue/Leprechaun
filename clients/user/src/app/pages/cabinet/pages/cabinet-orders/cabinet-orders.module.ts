@@ -7,6 +7,9 @@ import { CabinetOrdersCardComponent } from './componets/cabinet-orders-card/cabi
 import { CabinetOrdersService } from './services/cabinet-orders.service';
 import { OrdersApiService } from '@shared/services/api_es/orders-api/orders-api.service';
 import { OrderStatusIndicatorDirective } from './directives/order-status-indicator/order-status-indicator.directive';
+import { LpchImageModule } from '@shared/components/lpch-image/lpch-image.module';
+import { TranslateModule } from '@ngx-translate/core';
+import { chevronIcon, LeprachaunIconRegistryService, LeprachaunIconsModule } from '@shared/modules/leprachaun-icons';
 
 
 @NgModule({
@@ -17,7 +20,10 @@ import { OrderStatusIndicatorDirective } from './directives/order-status-indicat
   ],
   imports: [
     CommonModule,
-    CabinetOrdersRoutingModule
+    CabinetOrdersRoutingModule,
+    LpchImageModule,
+    LeprachaunIconsModule,
+    TranslateModule.forChild(),
   ],
   exports: [OrderStatusIndicatorDirective],
   providers: [
@@ -25,4 +31,11 @@ import { OrderStatusIndicatorDirective } from './directives/order-status-indicat
     OrdersApiService
   ]
 })
-export class CabinetOrdersModule { }
+export class CabinetOrdersModule {
+  constructor(private readonly leprachaunIconRegistryService: LeprachaunIconRegistryService) {
+    this.leprachaunIconRegistryService.registerIcons(
+      [
+        chevronIcon
+      ]);
+  }
+}

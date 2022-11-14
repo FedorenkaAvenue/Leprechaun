@@ -1,5 +1,5 @@
 import { Component, OnInit, ChangeDetectionStrategy, OnDestroy } from '@angular/core';
-import { FavoritesDto, OrderDto } from '@shared/models';
+import { FavoritesDto, OrderDto, ProductsPreviewI } from '@shared/models';
 import { CartService } from '@shared/services/cart/cart/cart.service';
 import { FavoritesService } from '@shared/services/favorite/favotite/favorites.service';
 import { LpchRouterService } from '@shared/services/router/lpch-router.service';
@@ -15,7 +15,7 @@ import { CabinetViewedService } from '../services/cabinet-viewed.service';
 })
 export class CabinetViewedComponent implements OnInit, OnDestroy {
 
-  public viewedData$: Observable<[]>;
+  public viewedData$: Observable<Array<ProductsPreviewI>>;
   public cartSubscription: Subscription;
   public addFavoriteSubscription: Subscription;
   public deleteFavoriteSubscription: Subscription;

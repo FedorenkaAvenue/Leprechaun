@@ -31,9 +31,8 @@ import { AppRoutingModule } from './app-routing.module';
 
 
 export function createTranslateLoader(http: HttpClient) {
-  return new TranslateHttpLoader(http, `${environment.domain}/assets/locales/`, '.json');
+  return new TranslateHttpLoader(http, `/assets/locales/`, '.json');
 }
-
 @NgModule({
   imports: [
     BrowserModule.withServerTransition({ appId: 'my-app' }),

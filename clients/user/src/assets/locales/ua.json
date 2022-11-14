@@ -1,1 +1,39 @@
-{"dashboard":{"newProducts":"Новi товари","popularProducts":"Популярнi товари","history":"Історія"},"HELLO":"hello !","ROUTES":{"heroes":"heroes","home":"home","dashboard":"dashboard"}}
+{
+  "dashboard": {
+    "newProducts": "Новi товари",
+    "popularProducts": "Популярнi товари",
+    "history": "Історія"
+  },
+
+  "cabinet": {
+    "nav": {
+        "wishlist": "Список бажань",
+        "orders": "Мої замовлення",
+        "viewed": "Переглянуті товари"
+    },
+
+    "wishlist": {
+        "header": "Список бажань"
+    },
+    "orders": {
+        "header": "Мої замовлення"
+    },
+    "viewed": {
+        "header": "Переглянуті товари"
+    }
+  },
+
+  "order": {
+    "sum": "Сума замовлення", 
+    "status": {
+        "init": "Init",
+        "posted": "Відправлено",
+        "inProcess": "В процесі",
+        "completed": "Завершено",
+        "canseled": "Скасовано"
+    }
+  },
+
+  "HELLO": "hello !",
+  "ROUTES": { "heroes": "heroes", "home": "home", "dashboard": "dashboard" }
+}

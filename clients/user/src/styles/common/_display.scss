@@ -11,6 +11,21 @@
     flex-direction: column;
 }
 
+.fl-j-c {
+    display: flex;
+    justify-content: center;
+}
+
+.fl-a-c {
+    display: flex;
+    align-items: center;
+}
+
+
+
+.dn {
+    display: none;
+}
 // grid
 
 $box-sizes: layouts.$box-size-1, layouts.$box-size-2, layouts.$box-size-3, layouts.$box-size-4, layouts.$box-size-5;
