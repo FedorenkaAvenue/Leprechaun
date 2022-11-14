@@ -1,8 +1,8 @@
-import { ISession } from '@interfaces/Session';
-import { UserSessionSessionDTO } from '.';
+import { SessionI } from '@interfaces/Session';
+import { UserSessionDTO } from '.';
 
-export class UserSession extends UserSessionSessionDTO {
-    constructor({ history }: ISession) {
+export class UserSession extends UserSessionDTO {
+    constructor({ history }: SessionI) {
         super();
         this.history = history || [];
     }

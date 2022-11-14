@@ -16,9 +16,9 @@ import { UpdateResult } from 'typeorm';
 import { OrderService } from '@services/Order';
 import { CreateOrderDTO } from '@dto/Order';
 import { Session } from '@decorators/Session';
-import { ISession } from '@interfaces/Session';
+import { SessionI } from '@interfaces/Session';
 import AffectedResultInterceptor from '@interceptors/AffectedResult';
-import { IOrderPublic } from '@interfaces/Order';
+import { OrderPublicI } from '@interfaces/Order';
 import { CreateOrderItemDTO, UpdateOrderItemDTO } from '@dto/OrderItem';
 import { OrderPublic } from '@dto/Order/constructor';
 
@@ -27,14 +27,21 @@ import { OrderPublic } from '@dto/Order/constructor';
 export default class OrderPublicController {
     constructor(private readonly orderService: OrderService) {}
 
+    @Get('list')
+    @ApiOperation({ summary: 'get order list (without current cart)' })
+    @ApiOkResponse({ type: OrderPublic, isArray: true })
+    getOrderHistory(@Session() { id }: SessionI): Promise<OrderPublicI[]> {
+        return this.orderService.getOrderList(id);
+    }
+
     @Post('item')
     @ApiOperation({ summary: 'add new order item' })
     @ApiOkResponse({ type: OrderPublic })
     @ApiBadRequestResponse({ description: 'product already exists' })
     addOrderItem(
-        @Session() { id }: ISession,
+        @Session() { id }: SessionI,
         @Body(new ValidationPipe({ transform: true })) orderItem: CreateOrderItemDTO,
-    ): Promise<IOrderPublic> {
+    ): Promise<OrderPublicI> {
         return this.orderService.addOrderItem(orderItem, id);
     }
 
@@ -43,13 +50,13 @@ export default class OrderPublicController {
     @ApiOkResponse({ type: OrderPublic })
     changeOrderItemAmount(
         @Body(new ValidationPipe({ transform: true })) orderItem: UpdateOrderItemDTO,
-        @Session() { id }: ISession,
-    ): Promise<IOrderPublic> {
+        @Session() { id }: SessionI,
+    ): Promise<OrderPublicI> {
         return this.orderService.changeOrderItemAmount(orderItem, id);
     }
 
     @Post()
-    @UseInterceptors(AffectedResultInterceptor)
+    @UseInterceptors(AffectedResultInterceptor())
     @ApiOperation({ summary: 'send order' })
     @ApiOkResponse({ type: OrderPublic })
     sendOrder(@Body(new ValidationPipe({ transform: true })) order: CreateOrderDTO): Promise<UpdateResult> {
@@ -62,15 +69,8 @@ export default class OrderPublicController {
     @ApiNotFoundResponse({ description: 'order item not found' })
     removeItem(
         @Param('itemId', ParseUUIDPipe) orderItemId: string,
-        @Session() { id }: ISession,
-    ): Promise<IOrderPublic> {
+        @Session() { id }: SessionI,
+    ): Promise<OrderPublicI> {
         return this.orderService.removeOrderItem(orderItemId, id);
-    }
-
-    @Get('history')
-    @ApiOperation({ summary: 'get order history' })
-    @ApiOkResponse({ type: OrderPublic, isArray: true })
-    getOrderHistory(@Session() { id }: ISession): Promise<IOrderPublic[]> {
-        return this.orderService.getOrderHistory(id);
     }
 }

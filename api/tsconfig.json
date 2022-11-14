@@ -13,7 +13,6 @@
     "skipLibCheck": true,
     "baseUrl": "./src",
     "paths": {
-      "@src/*": ["./*"],
       "@modules/*": ["modules/*"],
       "@services/*": ["services/*"],
       "@interceptors/*": ["interceptors/*"],

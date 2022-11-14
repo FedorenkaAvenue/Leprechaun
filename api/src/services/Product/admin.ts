@@ -3,10 +3,10 @@ import { Injectable } from '@nestjs/common';
 
 import { CreateProductDTO } from '@dto/Product';
 import { FOLDER_TYPES } from '@services/FS';
-import { ICookies } from '@interfaces/Cookies';
-import { ISearchReqQueries } from '@interfaces/Queries';
+import { CookiesI } from '@interfaces/Cookies';
+import { SearchReqQueriesI } from '@interfaces/Queries';
 import { PaginationResultDTO } from '@dto/Pagination';
-import { IProduct } from '@interfaces/Product';
+import { ProductI } from '@interfaces/Product';
 import { Product } from '@dto/Product/constructor';
 import ProductHelperService from './helper';
 import { PRODUCT_RELATIONS } from './index';
@@ -23,31 +23,31 @@ export default class ProductAdminService extends ProductHelperService {
         }
     }
 
-    async getAdminProduct(productId: IProduct['id']): Promise<IProduct> {
+    async getAdminProduct(productId: ProductI['id']): Promise<ProductI> {
         return this.productRepo.findOne({
             where: { id: productId },
             relations: PRODUCT_RELATIONS,
         });
     }
 
-    async getAdminProducts(queries: ISearchReqQueries, params: ICookies): Promise<PaginationResultDTO<IProduct>> {
+    async getAdminProducts(queries: SearchReqQueriesI, params: CookiesI): Promise<PaginationResultDTO<ProductI>> {
         const qb = this.getProductQueryBulder();
 
         qb.leftJoinAndSelect('product.category', 'category');
 
-        return this.renderResult<IProduct>(qb, queries, params);
+        return this.renderResult<ProductI>(qb, queries, params);
     }
 
     async getCategoryAdminProducts(
         categoryUrl: string,
-        queries: ISearchReqQueries,
-        params: ICookies,
-    ): Promise<PaginationResultDTO<IProduct>> {
+        queries: SearchReqQueriesI,
+        params: CookiesI,
+    ): Promise<PaginationResultDTO<ProductI>> {
         const qb = this.getProductQueryBulder();
 
         qb.innerJoin('product.category', 'category').where('category.url = :categoryUrl', { categoryUrl });
 
-        return this.renderResult<IProduct>(qb, queries, params);
+        return this.renderResult<ProductI>(qb, queries, params);
     }
 
     async deleteProduct(productId: string): Promise<DeleteResult> {

@@ -3,13 +3,13 @@ import { Injectable } from '@nestjs/common';
 
 import { CreateCategoryDTO } from '@dto/Category';
 import { FOLDER_TYPES } from '@services/FS';
-import { ICategory } from '@interfaces/Category';
+import { CategoryI } from '@interfaces/Category';
 import { Category } from '@dto/Category/constructor';
 import CategoryHelperService from './helper';
 
 @Injectable()
 export default class CategoryAdminService extends CategoryHelperService {
-    getAdminCategories(): Promise<ICategory[]> {
+    getAdminCategories(): Promise<CategoryI[]> {
         return this.categoryRepo.find({
             relations: ['property_groups'],
         });
@@ -25,7 +25,7 @@ export default class CategoryAdminService extends CategoryHelperService {
         }
     }
 
-    async getAdminCategory(categoryUrl: string): Promise<ICategory> {
+    async getAdminCategory(categoryUrl: string): Promise<CategoryI> {
         return await this.categoryRepo.findOne({
             where: { url: categoryUrl },
             relations: ['property_groups'],

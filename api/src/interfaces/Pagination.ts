@@ -1,21 +1,21 @@
-export interface IPaginationOptions {
+export interface PaginationOptionsI {
     limit: number;
     pageNumber: number;
 }
 
-export interface IPagination {
+export interface PaginationI {
     currentPage: number;
     totalCount: number;
     pageCount: number;
 }
 
-export interface ICreatePagintaion {
+export interface CreatePagintaionI {
     totalCount: number;
     currentPage: number;
     itemPortion: number;
 }
 
-export interface IPaginationResult<TDataResult> {
-    pagination: IPagination;
+export interface PaginationIResultI<TDataResult> {
+    pagination: PaginationI;
     data: Array<TDataResult>;
 }

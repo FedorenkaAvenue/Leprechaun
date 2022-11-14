@@ -3,7 +3,7 @@ import { ApiNotFoundResponse, ApiOkResponse, ApiOperation, ApiTags } from '@nest
 
 import { FilterService } from '@services/Filter';
 import { FiltersDTO } from '@dto/Filter';
-import { ISearchReqQueries } from '@interfaces/Queries';
+import { SearchReqQueriesI } from '@interfaces/Queries';
 
 @Controller('filter')
 @ApiTags('Filter 🤵🏿‍♂️')
@@ -16,7 +16,7 @@ export class FilterController {
     @ApiNotFoundResponse({ description: 'category not found' })
     getCategoryFilters(
         @Param('categoryUrl') categoryUrl: string,
-        @Query() queries: ISearchReqQueries,
+        @Query() queries: SearchReqQueriesI,
     ): Promise<FiltersDTO> {
         return this.filterService.getCategoryFilters(categoryUrl, queries);
     }

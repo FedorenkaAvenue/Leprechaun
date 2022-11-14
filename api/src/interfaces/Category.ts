@@ -1,18 +1,18 @@
-import { IProduct } from '@interfaces/Product';
-import { IPropertyGroup } from '@interfaces/PropertyGroup';
+import { ProductI } from '@interfaces/Product';
+import { PropertyGroupI } from '@interfaces/PropertyGroup';
 
-export interface ICategoryBase<T = string> {
+export interface CategoryBaseI<T = string> {
     id?: number;
     url: string;
     title: string;
     icon: T | null;
 }
 
-export type ICategoryPublic = ICategoryBase;
+export type CategoryPublicI = CategoryBaseI;
 
-export interface ICategory extends ICategoryBase {
-    products?: Array<IProduct> | null;
-    property_groups?: Array<IPropertyGroup> | null;
+export interface CategoryI extends CategoryBaseI {
+    products?: Array<ProductI> | null;
+    property_groups?: Array<PropertyGroupI> | null;
     is_public: boolean;
     comment: string;
 }

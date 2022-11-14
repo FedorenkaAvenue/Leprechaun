@@ -1,10 +1,10 @@
-import { IOrderItem } from '@interfaces/OrderItem';
+import { OrderItemI } from '@interfaces/OrderItem';
 import { OrderItemDTO } from '.';
 import { Price } from '@dto/Price/constructor';
 import { ProductPreview } from '@dto/Product/constructor';
 
 export class OrderItemPublic extends OrderItemDTO {
-    constructor({ id, amount, product }: IOrderItem) {
+    constructor({ id, amount, product }: OrderItemI) {
         super();
         this.id = id;
         this.amount = amount;

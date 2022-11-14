@@ -3,7 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { DeleteResult, Repository } from 'typeorm';
 
 import { CreatePropertyGroupDTO } from '@dto/PropertyGroup';
-import { IPropertyGroup } from '@interfaces/PropertyGroup';
+import { PropertyGroupI } from '@interfaces/PropertyGroup';
 import { PropertyGroupEntity } from '@entities/PropertGroup';
 import { PropertyGroup } from '@dto/PropertyGroup/constructor';
 
@@ -17,14 +17,14 @@ export class PropertyGroupService {
         await this.propertyGroupRepo.save(new PropertyGroup(newGroup));
     }
 
-    getGroup(groupId: number): Promise<IPropertyGroup> {
+    getGroup(groupId: number): Promise<PropertyGroupI> {
         return this.propertyGroupRepo.findOne({
             where: { id: groupId },
             relations: ['properties'],
         });
     }
 
-    getAllGroups(): Promise<IPropertyGroup[]> {
+    getAllGroups(): Promise<PropertyGroupI[]> {
         return this.propertyGroupRepo.find();
     }
 

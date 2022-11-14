@@ -1,6 +1,6 @@
 import { LabelType } from '@enums/Label';
 
-export interface ILabel {
+export interface LabelI {
     type: LabelType;
     value?: string;
 }

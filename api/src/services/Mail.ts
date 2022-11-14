@@ -4,7 +4,7 @@ import { Injectable } from '@nestjs/common';
 
 import configService from './Config';
 import renderTemplate from '@utils/renderTemplate';
-import { IDevLogMail } from '@interfaces/Mail';
+import { DevLogMailI } from '@interfaces/Mail';
 
 type IMailOptions = Mail.Options & {
     to: string | Array<string>;
@@ -45,7 +45,7 @@ export default class MailService {
     /**
      * @description create and mail body content and send to developer
      */
-    async sendErrorLogMail(logData: IDevLogMail): Promise<void> {
+    async sendErrorLogMail(logData: DevLogMailI): Promise<void> {
         await this.sendDevMail(renderTemplate('devMailErrorLog', logData));
     }
 

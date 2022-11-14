@@ -22,7 +22,6 @@ Boilerplate for web store
  * local
 
    * http://leprechaun user client
-   * http://leprechaun/ssr user client **SSR** mode
    * http://leprechaun/adm admin client
    * http://leprechaun/docs *Swagger* docs
    * http://leprechaun/api RestFull API server

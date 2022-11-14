@@ -4,7 +4,7 @@ import { DeleteResult, Repository } from 'typeorm';
 
 import { CreatePropertyDTO } from '@dto/Property';
 import { PropertyEntity } from '@entities/Property';
-import { IProperty } from '@interfaces/Property';
+import { PropertyI } from '@interfaces/Property';
 import { Property } from '@dto/Property/constructor';
 
 @Injectable()
@@ -15,14 +15,14 @@ export class PropertyService {
         await this.propertyRepo.save(new Property(property));
     }
 
-    getProperty(propertyId: IProperty['id']): Promise<IProperty> {
+    getProperty(propertyId: PropertyI['id']): Promise<PropertyI> {
         return this.propertyRepo.findOne({
             where: { id: propertyId },
             relations: ['property_group'],
         });
     }
 
-    deleteProperty(propertyId: IProperty['id']): Promise<DeleteResult> {
+    deleteProperty(propertyId: PropertyI['id']): Promise<DeleteResult> {
         return this.propertyRepo.delete({ id: propertyId });
     }
 }

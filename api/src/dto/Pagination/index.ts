@@ -1,7 +1,7 @@
-import { IPagination, IPaginationResult } from '@interfaces/Pagination';
+import { PaginationI, PaginationIResultI } from '@interfaces/Pagination';
 import { ApiProperty } from '@nestjs/swagger';
 
-export class PaginationDTO implements IPagination {
+export class PaginationDTO implements PaginationI {
     @ApiProperty({ description: 'current selected page' })
     currentPage: number;
 
@@ -12,7 +12,7 @@ export class PaginationDTO implements IPagination {
     pageCount: number;
 }
 
-export class PaginationResultDTO<TData> implements IPaginationResult<any> {
-    pagination: IPagination;
+export class PaginationResultDTO<TData> implements PaginationIResultI<any> {
+    pagination: PaginationI;
     data: Array<TData>;
 }

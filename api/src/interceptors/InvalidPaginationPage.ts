@@ -2,7 +2,7 @@ import { CallHandler, ExecutionContext, Injectable, NestInterceptor, NotAcceptab
 import { Observable, tap } from 'rxjs';
 
 import { PaginationResultDTO } from '@dto/Pagination';
-import { ISearchReqQueries } from '@interfaces/Queries';
+import { SearchReqQueriesI } from '@interfaces/Queries';
 
 /**
  * @description check incorrect pagination requested page
@@ -11,7 +11,7 @@ import { ISearchReqQueries } from '@interfaces/Queries';
 @Injectable()
 export default class InvalidPaginationPageInterceptor implements NestInterceptor {
     intercept(context: ExecutionContext, next: CallHandler): Observable<PaginationResultDTO<any>> {
-        const { page } = context.getArgs()[0].query as ISearchReqQueries;
+        const { page } = context.getArgs()[0].query as SearchReqQueriesI;
 
         return next.handle().pipe(
             tap(({ pagination: { currentPage, pageCount } }: PaginationResultDTO<any>) => {

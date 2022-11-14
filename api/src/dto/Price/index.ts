@@ -1,4 +1,4 @@
 import { PriceEntity } from '@entities/_Price';
-import { IPrice } from '@interfaces/Price';
+import { PriceI } from '@interfaces/Price';
 
-export class PriceDTO extends PriceEntity implements IPrice {}
+export class PriceDTO extends PriceEntity implements PriceI {}

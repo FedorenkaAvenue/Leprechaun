@@ -1,21 +1,26 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsNotEmpty, IsNumber, IsOptional, IsUUID } from 'class-validator';
 
-import { IOrderItem } from '@interfaces/OrderItem';
-import { OrderItemBaseEntity } from '@entities/OrderItem';
-import { IProductPreview } from '@interfaces/Product';
+import { OrderItemI } from '@interfaces/OrderItem';
+import { ProductPreviewI } from '@interfaces/Product';
 import { ProductPreviewDTO } from '@dto/Product';
-import { IPrice } from '@interfaces/Price';
+import { PriceI } from '@interfaces/Price';
 
-export class OrderItemDTO extends OrderItemBaseEntity implements IOrderItem<IProductPreview> {
+export class OrderItemDTO implements OrderItemI<ProductPreviewI> {
+    @ApiProperty({ description: 'order item ID', required: true })
+    id: string;
+
     @ApiProperty({ type: ProductPreviewDTO })
-    product: IProductPreview;
+    product: ProductPreviewI;
 
     @ApiProperty({ description: 'summary product items price' })
-    summaryPrice?: IPrice;
+    summaryPrice: PriceI;
+
+    @ApiProperty({ required: true })
+    amount: number;
 }
 
-export class CreateOrderItemDTO implements IOrderItem<string> {
+export class CreateOrderItemDTO implements OrderItemI<string> {
     @IsNotEmpty()
     @IsUUID()
     @ApiProperty({ description: 'product ID', required: true })
@@ -35,10 +40,10 @@ export class UpdateOrderItemDTO {
     @IsNotEmpty()
     @IsUUID()
     @ApiProperty({ description: 'order item ID', required: true })
-    order_item: IOrderItem['id'];
+    order_item: OrderItemI['id'];
 
     @IsNotEmpty()
     @IsNumber()
     @ApiProperty({ required: true, description: 'product items amount' })
-    amount: IOrderItem['amount'];
+    amount: OrderItemI['amount'];
 }
