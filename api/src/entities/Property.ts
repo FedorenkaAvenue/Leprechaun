@@ -4,7 +4,8 @@ import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 't
 import { PropertyI } from '@interfaces/Property';
 import { PropertyGroupEntity } from './PropertGroup';
 
-export class PropertyBaseEntity implements PropertyI {
+@Entity('property')
+export class PropertyEntity implements PropertyI {
     @PrimaryGeneratedColumn('rowid')
     @ApiProperty()
     id: number;
@@ -20,10 +21,7 @@ export class PropertyBaseEntity implements PropertyI {
     @Column({ nullable: true, select: false })
     @ApiProperty()
     comment: string;
-}
 
-@Entity('property')
-export class PropertyEntity extends PropertyBaseEntity implements PropertyI {
     @ManyToOne(() => PropertyGroupEntity, ({ properties }) => properties, { onDelete: 'CASCADE', nullable: false })
     @JoinColumn({ name: 'property_group' })
     @ApiProperty()

@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 
-import { OrderPublicT } from '@interfaces/Order';
+import { OrderPublicI } from '@interfaces/Order';
 import { UserPublicI } from '@interfaces/User';
 import { WishListIPublicI } from '@interfaces/Wishlist';
 import { SessionI } from '@interfaces/Session';
@@ -9,7 +9,7 @@ import { WishlistItemPublic } from '../WishlistItem/constructor';
 
 export class UserPublicDTO implements UserPublicI {
     @ApiProperty({ description: 'current order', type: OrderPublic })
-    cart: OrderPublicT;
+    cart: OrderPublicI;
 
     @ApiProperty({ type: WishlistItemPublic, isArray: true })
     wishlist: WishListIPublicI;

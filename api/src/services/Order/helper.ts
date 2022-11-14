@@ -7,7 +7,7 @@ import { OrderEntity } from '@entities/Order';
 import { OrderItemEntity } from '@entities/OrderItem';
 import { OrderPublic } from '@dto/Order/constructor';
 import { SessionI } from '@interfaces/Session';
-import { OrderI, OrderPublicT } from '@interfaces/Order';
+import { OrderI, OrderPublicI } from '@interfaces/Order';
 import { OrderStatus } from '@enums/Order';
 import { CreateOrderItemDTO } from '@dto/OrderItem';
 import { OrderItemI } from '@interfaces/OrderItem';
@@ -25,7 +25,7 @@ export default class OrderHelperService {
      * @param session_id
      * @returns cart
      */
-    async getCart(session_id: SessionI['id']): Promise<OrderPublicT> {
+    async getCart(session_id: SessionI['id']): Promise<OrderPublicI> {
         const qb = this.orderRepo
             .createQueryBuilder('order')
             .where('order.session_id = :session_id', { session_id })
@@ -58,9 +58,5 @@ export default class OrderHelperService {
             .getOne();
 
         return res ? new OrderPublic(res) : null;
-    }
-
-    clearUselessOrders() {
-        // console.log(777);
     }
 }

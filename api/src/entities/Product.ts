@@ -11,7 +11,7 @@ import {
     PrimaryGeneratedColumn,
 } from 'typeorm';
 import { CategoryEntity } from '@entities/Category';
-import { BaseProductI, ProductI, ProductPublicI } from '@interfaces/Product';
+import { ProductI } from '@interfaces/Product';
 import { ProductStatus } from '@enums/Product';
 import { ImageEntity } from '@entities/Image';
 import { CategoryI } from '@interfaces/Category';
@@ -19,7 +19,8 @@ import { PropertyI } from '@interfaces/Property';
 import { PropertyEntity } from '@entities/Property';
 import { PriceEntity } from './_Price';
 
-export class BaseProductEntity implements BaseProductI {
+@Entity('product')
+export class ProductEntity implements ProductI {
     @PrimaryGeneratedColumn('uuid')
     @ApiProperty()
     id: string;
@@ -35,9 +36,7 @@ export class BaseProductEntity implements BaseProductI {
     @Column(() => PriceEntity, { prefix: false })
     @ApiProperty({ type: PriceEntity })
     price: PriceEntity;
-}
 
-export class PublicProductEntity extends BaseProductEntity implements ProductPublicI {
     @OneToMany(() => ImageEntity, ({ product_id }) => product_id, { eager: true })
     @ApiProperty({ type: ImageEntity, isArray: true })
     images: ImageEntity[];
@@ -55,11 +54,7 @@ export class PublicProductEntity extends BaseProductEntity implements ProductPub
     @JoinColumn({ name: 'category', referencedColumnName: 'id' })
     @ApiProperty({ type: () => CategoryEntity })
     category: CategoryI;
-}
 
-// for admin properties
-@Entity('product')
-export class ProductEntity extends PublicProductEntity implements ProductI {
     @CreateDateColumn()
     @ApiProperty()
     created_at: Date;

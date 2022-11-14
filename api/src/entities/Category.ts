@@ -3,7 +3,7 @@ import { ApiProperty } from '@nestjs/swagger';
 
 import { ProductEntity } from '@entities/Product';
 import { CategoryI, CategoryBaseI } from '@interfaces/Category';
-import { ProductGroupBaseEntity, PropertyGroupEntity } from '@entities/PropertGroup';
+import { PropertyGroupEntity } from '@entities/PropertGroup';
 
 export class CategoryBaseEntity implements CategoryBaseI {
     @PrimaryGeneratedColumn('rowid')
@@ -42,7 +42,7 @@ export class CategoryEntity extends CategoryBaseEntity implements CategoryI {
         },
     })
     @ApiProperty({
-        type: ProductGroupBaseEntity,
+        type: PropertyGroupEntity,
         isArray: true,
     })
     property_groups: PropertyGroupEntity[];

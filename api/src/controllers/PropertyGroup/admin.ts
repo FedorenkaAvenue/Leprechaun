@@ -3,7 +3,7 @@ import { ApiNotFoundResponse, ApiOkResponse, ApiOperation, ApiTags } from '@nest
 import { DeleteResult } from 'typeorm';
 
 import { CreatePropertyGroupDTO } from '@dto/PropertyGroup';
-import { ProductGroupBaseEntity, PropertyGroupEntity } from '@entities/PropertGroup';
+import { PropertyGroupEntity } from '@entities/PropertGroup';
 import { PropertyGroupService } from '@services/PropertyGroup';
 import { PropertyGroupI } from '@interfaces/PropertyGroup';
 import AffectedResultInterceptor from '@interceptors/AffectedResult';
@@ -23,7 +23,7 @@ export default class PropertyGroupAdminController {
 
     @Get('list')
     @ApiOperation({ summary: 'get all property groups' })
-    @ApiOkResponse({ type: ProductGroupBaseEntity, isArray: true })
+    @ApiOkResponse({ type: PropertyGroupEntity, isArray: true })
     getAllGroups(): Promise<PropertyGroupI[]> {
         return this.propertyGroupService.getAllGroups();
     }

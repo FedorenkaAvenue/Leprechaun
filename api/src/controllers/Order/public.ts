@@ -18,7 +18,7 @@ import { CreateOrderDTO } from '@dto/Order';
 import { Session } from '@decorators/Session';
 import { SessionI } from '@interfaces/Session';
 import AffectedResultInterceptor from '@interceptors/AffectedResult';
-import { OrderPublicT } from '@interfaces/Order';
+import { OrderPublicI } from '@interfaces/Order';
 import { CreateOrderItemDTO, UpdateOrderItemDTO } from '@dto/OrderItem';
 import { OrderPublic } from '@dto/Order/constructor';
 
@@ -30,7 +30,7 @@ export default class OrderPublicController {
     @Get('list')
     @ApiOperation({ summary: 'get order list (without current cart)' })
     @ApiOkResponse({ type: OrderPublic, isArray: true })
-    getOrderHistory(@Session() { id }: SessionI): Promise<OrderPublicT[]> {
+    getOrderHistory(@Session() { id }: SessionI): Promise<OrderPublicI[]> {
         return this.orderService.getOrderList(id);
     }
 
@@ -41,7 +41,7 @@ export default class OrderPublicController {
     addOrderItem(
         @Session() { id }: SessionI,
         @Body(new ValidationPipe({ transform: true })) orderItem: CreateOrderItemDTO,
-    ): Promise<OrderPublicT> {
+    ): Promise<OrderPublicI> {
         return this.orderService.addOrderItem(orderItem, id);
     }
 
@@ -51,7 +51,7 @@ export default class OrderPublicController {
     changeOrderItemAmount(
         @Body(new ValidationPipe({ transform: true })) orderItem: UpdateOrderItemDTO,
         @Session() { id }: SessionI,
-    ): Promise<OrderPublicT> {
+    ): Promise<OrderPublicI> {
         return this.orderService.changeOrderItemAmount(orderItem, id);
     }
 
@@ -70,7 +70,7 @@ export default class OrderPublicController {
     removeItem(
         @Param('itemId', ParseUUIDPipe) orderItemId: string,
         @Session() { id }: SessionI,
-    ): Promise<OrderPublicT> {
+    ): Promise<OrderPublicI> {
         return this.orderService.removeOrderItem(orderItemId, id);
     }
 }

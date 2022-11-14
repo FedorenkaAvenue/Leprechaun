@@ -2,7 +2,7 @@ import { ProductI, ProductPreviewI } from './Product';
 import { OrderI } from './Order';
 import { PriceI } from './Price';
 
-export interface OrderItemBaseI {
+interface OrderItemBaseI {
     id?: string;
     amount: number;
     summaryPrice?: PriceI;

@@ -7,9 +7,12 @@ import { PriceI } from '@interfaces/Price';
 import { ProductStatus } from '@enums/Product';
 import { PropertyI } from '@interfaces/Property';
 import { ImageI } from '@interfaces/Image';
-import { BaseProductEntity, PublicProductEntity } from '@entities/Product';
 import { LabelI } from '@interfaces/Label';
 import { LabelDTO } from '@dto/Label';
+import { PriceEntity } from '@entities/_Price';
+import { ImageEntity } from '@entities/Image';
+import { PropertyEntity } from '@entities/Property';
+import { CategoryEntity } from '@entities/Category';
 
 export class CreateProductDTO implements ProductI {
     @IsNotEmpty()
@@ -90,7 +93,19 @@ export class CreateProductDTO implements ProductI {
     comment: string;
 }
 
-export class ProductPreviewDTO extends BaseProductEntity implements ProductPreviewI {
+export class ProductPreviewDTO implements ProductPreviewI {
+    @ApiProperty()
+    id: string;
+
+    @ApiProperty()
+    title: string;
+
+    @ApiProperty({ enum: ProductStatus })
+    status: ProductStatus;
+
+    @ApiProperty({ type: PriceEntity })
+    price: PriceEntity;
+
     @ApiProperty({ required: false })
     image: string;
 
@@ -98,7 +113,28 @@ export class ProductPreviewDTO extends BaseProductEntity implements ProductPrevi
     labels: LabelI[];
 }
 
-export class PublicProductDTO extends PublicProductEntity implements ProductPublicI {
+export class PublicProductDTO implements ProductPublicI {
+    @ApiProperty()
+    id: string;
+
+    @ApiProperty()
+    title: string;
+
+    @ApiProperty({ enum: ProductStatus })
+    status: ProductStatus;
+
+    @ApiProperty({ type: PriceEntity })
+    price: PriceEntity;
+
+    @ApiProperty({ type: ImageEntity, isArray: true })
+    images: ImageEntity[];
+
+    @ApiProperty({ type: PropertyEntity, isArray: true })
+    properties: Array<PropertyI>;
+
+    @ApiProperty({ type: () => CategoryEntity })
+    category: CategoryI;
+
     @ApiProperty({ type: LabelDTO, isArray: true, required: false })
     labels: LabelI[];
 }

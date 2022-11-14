@@ -1,9 +1,14 @@
 import { PropertyI } from './Property';
 
-export interface PropertyGroupI {
+interface PropertyGroupBaseI {
     id?: number;
     title: string;
     alt_name: string;
     properties?: Array<PropertyI> | null;
+}
+
+export interface PropertyGroupI extends PropertyGroupBaseI {
     comment?: string;
 }
+
+export interface PropertyGroupPublicI extends PropertyGroupBaseI {}

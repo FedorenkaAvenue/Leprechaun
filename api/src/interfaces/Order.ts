@@ -12,14 +12,14 @@ export interface OrderSummaryI {
     productsAmount: number;
 }
 
-export interface OrderBaseI<T = OrderItemI> {
+interface OrderBaseI<T = OrderItemI> {
     id?: string;
     status?: OrderStatus;
     list?: Array<T>;
     summary?: OrderSummaryI;
 }
 
-export type OrderPublicT = OrderBaseI<OrderItemPublicI>;
+export interface OrderPublicI extends OrderBaseI<OrderItemPublicI> {}
 
 export interface OrderI extends OrderBaseI {
     created_at?: Date;

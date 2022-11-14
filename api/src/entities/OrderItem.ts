@@ -3,22 +3,16 @@ import { ApiProperty } from '@nestjs/swagger';
 
 import { OrderI } from '@interfaces/Order';
 import { ProductEntity } from './Product';
-import { OrderItemI, OrderItemBaseI } from '@interfaces/OrderItem';
+import { OrderItemI } from '@interfaces/OrderItem';
 import { OrderEntity } from './Order';
 import { ProductPreviewDTO } from '@dto/Product';
 
-export class OrderItemBaseEntity implements OrderItemBaseI {
+@Entity('order_item')
+export class OrderItemEntity implements OrderItemI {
     @PrimaryGeneratedColumn('uuid')
     @ApiProperty({ description: 'order item ID', required: true })
     id: string;
 
-    @Column({ default: 1, nullable: false })
-    @ApiProperty({ required: true })
-    amount: number;
-}
-
-@Entity('order_item')
-export class OrderItemEntity extends OrderItemBaseEntity implements OrderItemI {
     @CreateDateColumn()
     @ApiProperty()
     created_at: Date;
@@ -32,4 +26,8 @@ export class OrderItemEntity extends OrderItemBaseEntity implements OrderItemI {
     @JoinColumn({ name: 'order_id', referencedColumnName: 'id' })
     @ApiProperty()
     order_id: OrderI['id'];
+
+    @Column({ default: 1, nullable: false })
+    @ApiProperty({ required: true })
+    amount: number;
 }

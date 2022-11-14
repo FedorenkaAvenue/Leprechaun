@@ -1,7 +1,8 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsNotEmpty, IsOptional, IsString } from 'class-validator';
 
-import { PropertyGroupI } from '@interfaces/PropertyGroup';
+import { PropertyGroupI, PropertyGroupPublicI } from '@interfaces/PropertyGroup';
+import { PropertyEntity } from '@entities/Property';
 
 export class CreatePropertyGroupDTO implements PropertyGroupI {
     @IsNotEmpty()
@@ -19,3 +20,17 @@ export class CreatePropertyGroupDTO implements PropertyGroupI {
     @ApiProperty({ required: false, default: null })
     comment: string;
 }
+
+// export class PropertyGroupPublicDTO implements PropertyGroupPublicI {
+//     @ApiProperty()
+//     id: number;
+
+//     @ApiProperty()
+//     title: string;
+
+//     @ApiProperty()
+//     alt_name: string;
+
+//     @ApiProperty({ type: () => PropertyEntity, isArray: true })
+//     properties: PropertyEntity[];
+// }

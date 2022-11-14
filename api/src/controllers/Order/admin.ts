@@ -14,7 +14,7 @@ import { ApiNotFoundResponse, ApiOkResponse, ApiOperation, ApiTags } from '@nest
 import { OrderService } from '@services/Order';
 import { UpdateOrderStatusDTO } from '@dto/Order';
 import AffectedResultInterceptor from '@interceptors/AffectedResult';
-import { OrderI, OrderPublicT } from '@interfaces/Order';
+import { OrderI, OrderPublicI } from '@interfaces/Order';
 import { OrderEntity } from '@entities/Order';
 import { OrderPublic } from '@dto/Order/constructor';
 
@@ -27,7 +27,7 @@ export default class OrderAdminController {
     @ApiOperation({ summary: 'get order by ID' })
     @ApiOkResponse({ type: OrderPublic })
     @ApiNotFoundResponse({ description: 'order not found' })
-    getOrderById(@Param('orderId', ParseUUIDPipe) orderId: string): Promise<OrderPublicT> {
+    getOrderById(@Param('orderId', ParseUUIDPipe) orderId: string): Promise<OrderPublicI> {
         return this.orderService.getOrderById(orderId);
     }
 

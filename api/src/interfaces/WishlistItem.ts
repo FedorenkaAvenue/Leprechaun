@@ -1,7 +1,7 @@
 import { ProductI, ProductPublicI } from './Product';
 import { SessionI } from './Session';
 
-export interface WishlistItemBaseI<P = ProductI> {
+interface WishlistItemBaseI<P = ProductI> {
     id?: string;
     product: P;
     created_at?: Date;

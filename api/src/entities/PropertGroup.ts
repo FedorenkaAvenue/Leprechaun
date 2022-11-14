@@ -4,7 +4,8 @@ import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { PropertyEntity } from './Property';
 import { PropertyGroupI } from '@interfaces/PropertyGroup';
 
-export class ProductGroupBaseEntity implements PropertyGroupI {
+@Entity('property_group')
+export class PropertyGroupEntity implements PropertyGroupI {
     @PrimaryGeneratedColumn('rowid')
     @ApiProperty()
     id: number;
@@ -20,10 +21,7 @@ export class ProductGroupBaseEntity implements PropertyGroupI {
     @Column({ nullable: true, select: false })
     @ApiProperty()
     comment: string;
-}
 
-@Entity('property_group')
-export class PropertyGroupEntity extends ProductGroupBaseEntity implements PropertyGroupI {
     @OneToMany(() => PropertyEntity, ({ property_group }) => property_group)
     @ApiProperty({ type: () => PropertyEntity, isArray: true })
     properties: PropertyEntity[];
