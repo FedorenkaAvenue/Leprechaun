@@ -4,7 +4,7 @@ if (!process.env.APP_NAME) {
   require('dotenv').config({ path: '../../.env' });
 }
 
-const { APP_NAME, LANGS, DOMAIN_API, DOMAIN_MEDIA, DOMAIN } = process.env;
+const { APP_NAME, LANGS, DOMAIN_API, DOMAIN_MEDIA, DOMAIN, CURRENCY_SYMBOL } = process.env;
 
 const TARGET_PATH = `./src/environments/environment.global.ts`;
 const envConfigFile = `
@@ -13,7 +13,8 @@ export const environment = {
   appName: "${APP_NAME}",
   apiEndpoint: "${DOMAIN_API}",
   mediaEndpoint: "${DOMAIN_MEDIA}",
-  domain: "${DOMAIN}"
+  domain: "${DOMAIN}",
+  currencySymbol: "${CURRENCY_SYMBOL}"
 };
 `;
 

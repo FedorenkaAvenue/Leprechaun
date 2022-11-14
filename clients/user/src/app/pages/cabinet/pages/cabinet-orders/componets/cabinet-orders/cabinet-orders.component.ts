@@ -16,10 +16,6 @@ export class CabinetOrdersComponent implements OnInit {
 
   ngOnInit(): void {
     this.orders$ = this.cabinetOrdersService.getOrderHistory();
-    this.orders$.subscribe(res => {
-      console.log(res);
-      
-    })
   }
   
 }

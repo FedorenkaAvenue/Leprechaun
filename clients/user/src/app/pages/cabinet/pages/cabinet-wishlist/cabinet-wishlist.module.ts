@@ -9,6 +9,7 @@ import { ProductPreviewCardModule } from '@shared/components/product-preview-car
 import { ProductCardModule } from '@shared/components/product-card/product-card.module';
 import { FavoritesApiService } from '@shared/services/api_es/favorites-api/favorites-api.service';
 import { FavoritesPageService } from './services/favorites-page.service';
+import { TranslateModule } from '@ngx-translate/core';
 
 
 @NgModule({
@@ -21,7 +22,8 @@ import { FavoritesPageService } from './services/favorites-page.service';
     LeprachaunIconsModule,
     ProductPriceModule,
     ProductPreviewCardModule,
-    ProductCardModule
+    ProductCardModule,
+    TranslateModule.forChild(),
   ],
   providers: [
     FavoritesApiService,

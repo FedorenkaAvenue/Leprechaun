@@ -5,6 +5,7 @@ import { CabinetViewedRoutingModule } from './cabinet-viewed-routing.module';
 import { CabinetViewedComponent } from './components/cabinet-viewed.component';
 import { CabinetViewedService } from './services/cabinet-viewed.service';
 import { ProductCardModule } from '@shared/components/product-card/product-card.module';
+import { TranslateModule } from '@ngx-translate/core';
 
 
 @NgModule({
@@ -14,7 +15,8 @@ import { ProductCardModule } from '@shared/components/product-card/product-card.
   imports: [
     CommonModule,
     CabinetViewedRoutingModule,
-    ProductCardModule
+    ProductCardModule,
+    TranslateModule.forChild(),
   ],
   providers: [CabinetViewedService]
 })

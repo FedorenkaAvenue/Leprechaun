@@ -7,8 +7,7 @@ import { Observable } from 'rxjs';
 export class CabinetOrdersService {
 
   constructor(private readonly ordersApiService: OrdersApiService) { }
-
-
+  
   public getOrderHistory(): Observable<Array<OrderI>> {
     return this.ordersApiService.getOrdersHistory()
   }
