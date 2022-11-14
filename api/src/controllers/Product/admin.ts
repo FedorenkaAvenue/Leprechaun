@@ -26,12 +26,12 @@ import { FilesInterceptor } from '@nestjs/platform-express';
 import { CreateProductDTO } from '@dto/Product';
 import { ProductEntity } from '@entities/Product';
 import { ProductService } from '@services/Product';
-import { ISearchReqQueries } from '@interfaces/Queries';
+import { SearchReqQueriesI } from '@interfaces/Queries';
 import { PaginationResultDTO } from '@dto/Pagination';
 import { ApiPaginatedResponse } from '@decorators/Swagger';
-import { IProduct, IPublicProduct } from '@interfaces/Product';
+import { ProductI, ProductPublicI } from '@interfaces/Product';
 import { Cookies } from '@decorators/Cookies';
-import { ICookies } from '@interfaces/Cookies';
+import { CookiesI } from '@interfaces/Cookies';
 import InvalidPaginationPageInterceptor from '@interceptors/InvalidPaginationPage';
 import UndefinedResultInterceptor from '@interceptors/UndefinedResult';
 import AffectedResultInterceptor from '@interceptors/AffectedResult';
@@ -59,9 +59,9 @@ export default class ProductAdminController {
     @ApiOperation({ summary: 'get product list' })
     @ApiPaginatedResponse(ProductEntity)
     getproducts(
-        @Query() queries: ISearchReqQueries,
-        @Cookies() { portion }: ICookies,
-    ): Promise<PaginationResultDTO<IProduct>> {
+        @Query() queries: SearchReqQueriesI,
+        @Cookies() { portion }: CookiesI,
+    ): Promise<PaginationResultDTO<ProductI>> {
         return this.productService.getAdminProducts(queries, { portion });
     }
 
@@ -71,10 +71,10 @@ export default class ProductAdminController {
     @ApiNotFoundResponse({ description: 'category not found' })
     @ApiPaginatedResponse(ProductEntity)
     getCategoryProducts(
-        @Query() queries: ISearchReqQueries,
-        @Cookies() { portion }: ICookies,
+        @Query() queries: SearchReqQueriesI,
+        @Cookies() { portion }: CookiesI,
         @Param('categoryUrl') categoryUrl: string,
-    ): Promise<PaginationResultDTO<IProduct>> {
+    ): Promise<PaginationResultDTO<ProductI>> {
         return this.productService.getCategoryAdminProducts(categoryUrl, queries, { portion });
     }
 
@@ -84,7 +84,7 @@ export default class ProductAdminController {
     @ApiOkResponse({ type: ProductPublic })
     @ApiBadRequestResponse({ description: 'invalid product ID' })
     @ApiNotFoundResponse({ description: 'product not found' })
-    getProduct(@Param('productId', ParseUUIDPipe) productId: string): Promise<IPublicProduct> {
+    getProduct(@Param('productId', ParseUUIDPipe) productId: string): Promise<ProductPublicI> {
         return this.productService.getAdminProduct(productId);
     }
 
@@ -94,7 +94,7 @@ export default class ProductAdminController {
     @ApiServiceUnavailableResponse({ type: ProductEntity, description: "never mind. it's a bug for feature" })
     // !
     @Delete(':productId')
-    @UseInterceptors(AffectedResultInterceptor)
+    @UseInterceptors(AffectedResultInterceptor('product not found'))
     @ApiOperation({ summary: 'delete product by ID' })
     @ApiOkResponse({ description: 'success' })
     @ApiBadRequestResponse({ description: 'invalid product ID' })

@@ -1,6 +1,6 @@
-import { IProduct } from './Product';
+import { ProductI } from './Product';
 
-export interface ISession {
+export interface SessionI {
     id?: string;
-    history: Array<IProduct['id']>;
+    history: Array<ProductI['id']>;
 }

@@ -2,31 +2,37 @@ import { Injectable } from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 
-import { ProductPublic } from '@dto/Product/constructor';
-import WishlistEntity from '@entities/Wishlist';
-import { ISession } from '@interfaces/Session';
-import { TWishListPublic } from '@interfaces/Wishlist';
+import WishlistItemEntity from '@entities/WishlistItem';
+import { SessionI } from '@interfaces/Session';
+import { WishListIPublicI } from '@interfaces/Wishlist';
 import { PRODUCT_DEEP_RELATIONS } from '../Product';
+import { WishlistItemPublic } from '@dto/WishlistItem/constructor';
+import { WishlistItemI } from '@interfaces/WishlistItem';
 
 @Injectable()
 export default class WishlistHelperService {
-    constructor(@InjectRepository(WishlistEntity) public readonly wishlistRepo: Repository<WishlistEntity>) {}
+    constructor(
+        @InjectRepository(WishlistItemEntity) public readonly wishlistItemRepo: Repository<WishlistItemEntity>,
+    ) {}
 
     /**
      * @description get current wishlist by session ID
      * @param session_id
      * @returns wishlist
      */
-    async getWishlist(session_id: ISession['id']): Promise<TWishListPublic> {
-        const wishlist = await this.wishlistRepo.find({
+    async getWishList(session_id: SessionI['id']): Promise<WishListIPublicI> {
+        const wishlist = await this.wishlistItemRepo.find({
             where: { session_id },
             relations: PRODUCT_DEEP_RELATIONS,
         });
 
-        return wishlist.map(({ product }) => new ProductPublic(product));
+        return wishlist.map(item => new WishlistItemPublic(item));
     }
 
-    clearUselessWishlist() {
-        // console.log(111);
+    async getWishlistItem(id: WishlistItemI['id']): Promise<WishlistItemEntity> {
+        return this.wishlistItemRepo.findOne({
+            where: { id },
+            relations: PRODUCT_DEEP_RELATIONS,
+        });
     }
 }

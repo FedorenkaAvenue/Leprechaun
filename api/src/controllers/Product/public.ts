@@ -10,16 +10,16 @@ import {
 
 import { ProductPreviewDTO } from '@dto/Product';
 import { ProductService } from '@services/Product';
-import { ISearchReqQueries } from '@interfaces/Queries';
+import { SearchReqQueriesI } from '@interfaces/Queries';
 import { PaginationResultDTO } from '@dto/Pagination';
 import { ApiPaginatedResponse } from '@decorators/Swagger';
-import { IProductPreview, IPublicProduct } from '@interfaces/Product';
+import { ProductPreviewI, ProductPublicI } from '@interfaces/Product';
 import { QueryGETListDTO } from '@dto/Queries';
 import { Cookies } from '@decorators/Cookies';
-import { ICookies } from '@interfaces/Cookies';
+import { CookiesI } from '@interfaces/Cookies';
 import { UndefinedPipe } from '@pipes/Undefined';
 import { QueryArrayPipe } from '@pipes/QueryArray';
-import { ISession } from '@interfaces/Session';
+import { SessionI } from '@interfaces/Session';
 import { Session } from '@decorators/Session';
 import InvalidPaginationPageInterceptor from '@interceptors/InvalidPaginationPage';
 import { ProductPublic } from '@dto/Product/constructor';
@@ -39,9 +39,9 @@ export default class ProductPublicController {
     @ApiOperation({ summary: 'get all public products 💾' })
     @ApiPaginatedResponse(ProductPublic)
     getProducts(
-        @Query() queries: ISearchReqQueries,
-        @Cookies() { portion }: ICookies,
-    ): Promise<PaginationResultDTO<IPublicProduct>> {
+        @Query() queries: SearchReqQueriesI,
+        @Cookies() { portion }: CookiesI,
+    ): Promise<PaginationResultDTO<ProductPublicI>> {
         return this.productService.getPublicProducts(queries, { portion });
     }
 
@@ -52,10 +52,10 @@ export default class ProductPublicController {
     @ApiNotFoundResponse({ description: 'category not found' })
     @ApiPaginatedResponse(ProductPublic)
     getCategoryProducts(
-        @Query() queries: ISearchReqQueries,
-        @Cookies() { portion }: ICookies,
+        @Query() queries: SearchReqQueriesI,
+        @Cookies() { portion }: CookiesI,
         @Param('categoryUrl') categoryUrl: string,
-    ): Promise<PaginationResultDTO<IPublicProduct>> {
+    ): Promise<PaginationResultDTO<ProductPublicI>> {
         return this.productService.getCategoryPublicProducts(categoryUrl, queries, { portion });
     }
 
@@ -70,7 +70,7 @@ export default class ProductPublicController {
     @Get('dashboard/user')
     @ApiOperation({ summary: 'get individual user dashboards' })
     @ApiOkResponse({ type: UserDashboards })
-    getMostPopularProducts(@Session() { history }: ISession): Promise<UserDashboards> {
+    getMostPopularProducts(@Session() { history }: SessionI): Promise<UserDashboards> {
         return this.productService.getUserDashboards({ history });
     }
 
@@ -89,7 +89,7 @@ export default class ProductPublicController {
     @ApiOkResponse({ type: ProductPreviewDTO })
     @ApiBadRequestResponse({ description: 'invalid product ID' })
     @ApiNotFoundResponse({ description: 'product not found' })
-    getProductPreview(@Param('productId', ParseUUIDPipe) productId: string): Promise<IProductPreview> {
+    getProductPreview(@Param('productId', ParseUUIDPipe) productId: string): Promise<ProductPreviewI> {
         return this.productService.getProductPreview(productId);
     }
 
@@ -101,8 +101,8 @@ export default class ProductPublicController {
     @ApiNotFoundResponse({ description: 'product not found' })
     getProduct(
         @Param('productId', ParseUUIDPipe) productId: string,
-        @Session() session: ISession,
-    ): Promise<IPublicProduct> {
+        @Session() session: SessionI,
+    ): Promise<ProductPublicI> {
         session.history = [...new Set([productId, ...session.history.slice(0, Number(USER_HISTORY_LENGTH))])];
 
         return this.productService.getPublicProduct(productId);

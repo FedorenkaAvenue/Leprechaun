@@ -1,12 +1,12 @@
 import { ApiProperty } from '@nestjs/swagger';
 
-import { ILabel } from '@interfaces/Label';
+import { LabelI } from '@interfaces/Label';
 import { LabelType } from 'enums/Label';
 
-export class LabelDTO implements ILabel {
+export class LabelDTO implements LabelI {
     @ApiProperty({ enum: LabelType, required: false })
     type: LabelType;
 
     @ApiProperty({ required: false, nullable: true })
-    value?: string;
+    value: string;
 }

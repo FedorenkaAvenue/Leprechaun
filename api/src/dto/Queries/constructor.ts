@@ -1,4 +1,4 @@
-import { ISearchReqQueries } from '@interfaces/Queries';
+import { SearchReqQueriesI } from '@interfaces/Queries';
 import { SortType } from '@enums/Query';
 import { availableEnum } from '@utils/enum';
 import { ProductStatus } from '@enums/Product';
@@ -28,7 +28,7 @@ export class RangeQuery extends RangeQueryDTO {
  * @param restQueries dinamic filters
  */
 export class SearchQueries extends SearchQueriesDTO {
-    constructor({ sort, page, price, status, ...restQueries }: ISearchReqQueries) {
+    constructor({ sort, page, price, status, ...restQueries }: SearchReqQueriesI) {
         super();
         this.sort = Number(sort) || SortType.POPULAR;
         this.page = Number(page) || 1;

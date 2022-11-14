@@ -2,14 +2,12 @@ import { ApiProperty } from '@nestjs/swagger';
 import { IsEnum, IsNotEmpty, IsNotEmptyObject, IsObject, IsOptional, IsString, ValidateNested } from 'class-validator';
 import { Type } from 'class-transformer';
 
-import { IOrder, IOrderCustomerData, IOrderPublic, IOrderSummary } from '@interfaces/Order';
+import { OrderI, OrderCustomerDataI, OrderPublicI, OrderSummaryI } from '@interfaces/Order';
 import { OrderStatus } from '@enums/Order';
-import { OrderBaseEntity } from '@entities/Order';
-import { IOrderItemPublic } from '@interfaces/OrderItem';
+import { OrderItemPublicI } from '@interfaces/OrderItem';
 import { OrderItemPublic } from '@dto/OrderItem/constructor';
-import { PriceEntity } from '@entities/_Price';
 
-export class CreateOrderCustomerDataDTO implements IOrderCustomerData {
+export class CreateOrderCustomerDataDTO implements OrderCustomerDataI {
     @IsOptional()
     @IsString()
     @ApiProperty({ description: 'customer name', required: false })
@@ -21,10 +19,11 @@ export class CreateOrderCustomerDataDTO implements IOrderCustomerData {
     phone: string;
 }
 
+// post order (update status from 1 to 2)
 export class CreateOrderDTO {
     @IsNotEmpty()
     @ApiProperty({ description: 'order object', required: true })
-    order: IOrder;
+    order: OrderI;
 
     @IsObject()
     @IsNotEmptyObject()
@@ -35,27 +34,36 @@ export class CreateOrderDTO {
         required: true,
         description: 'reciever/user data',
     })
-    customer: IOrderCustomerData;
+    customer: OrderCustomerDataI;
 }
 
-export class UpdateOrderStatusDTO implements IOrder {
+export class UpdateOrderStatusDTO implements Pick<OrderI, 'status'> {
     @IsEnum(OrderStatus)
     @ApiProperty({ required: true, enum: OrderStatus })
-    status?: OrderStatus;
+    status: OrderStatus;
 }
 
-export class OrderSummaryDTO implements IOrderSummary {
-    @ApiProperty({ type: PriceEntity, description: 'summary order price' })
+export class OrderSummaryDTO implements OrderSummaryI {
+    @ApiProperty({ description: 'summary order price' })
     price: number;
 
     @ApiProperty({ description: 'products amount' })
     productsAmount: number;
 }
 
-export class OrderPublicDTO extends OrderBaseEntity implements IOrderPublic {
+export class OrderPublicDTO implements OrderPublicI {
+    @ApiProperty({ description: 'order ID' })
+    id: string;
+
+    @ApiProperty({ enum: OrderStatus })
+    status: OrderStatus;
+
     @ApiProperty({ type: OrderItemPublic, isArray: true, description: 'order items array' })
-    list?: IOrderItemPublic[];
+    list: OrderItemPublicI[];
 
     @ApiProperty({ type: OrderSummaryDTO, description: 'summary order data' })
-    summary?: IOrderSummary;
+    summary: OrderSummaryI;
+
+    @ApiProperty({ type: Date, description: 'date of last changed status' })
+    updated_at: Date;
 }

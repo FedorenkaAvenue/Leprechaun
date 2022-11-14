@@ -2,7 +2,7 @@ import { Controller, Get, Param, UseInterceptors, CacheInterceptor } from '@nest
 import { ApiNotFoundResponse, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 
 import { CategoryService } from '@services/Category';
-import { ICategoryPublic } from '@interfaces/Category';
+import { CategoryPublicI } from '@interfaces/Category';
 import { CategoryPublic } from '@dto/Category/constructor';
 
 @Controller('category')
@@ -14,7 +14,7 @@ export default class CategoryPublicController {
     @Get('list')
     @ApiOperation({ summary: 'get all public categories 💾' })
     @ApiOkResponse({ type: CategoryPublic, isArray: true })
-    getAllCategories(): Promise<ICategoryPublic[]> {
+    getAllCategories(): Promise<CategoryPublicI[]> {
         return this.categoryService.getPublicCategories();
     }
 
@@ -22,7 +22,7 @@ export default class CategoryPublicController {
     @ApiOperation({ summary: 'get category info by URL 💾' })
     @ApiOkResponse({ type: CategoryPublic })
     @ApiNotFoundResponse({ description: 'category not found' })
-    getCategory(@Param('category') category: string): Promise<ICategoryPublic> {
+    getCategory(@Param('category') category: string): Promise<CategoryPublicI> {
         return this.categoryService.getPublicCategory(category);
     }
 }

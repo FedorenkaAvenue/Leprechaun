@@ -1,12 +1,12 @@
-import { IProductPreview } from './Product';
+import { ProductPreviewI } from './Product';
 
-type TDashboard = Array<IProductPreview>;
+type DashboardT = Array<ProductPreviewI>;
 
-export interface ICommonDashboards {
-    newest: TDashboard;
-    popular: TDashboard;
+export interface CommonDashboardsI {
+    newest: DashboardT;
+    popular: DashboardT;
 }
 
-export interface IUserDashboards<T = TDashboard> {
+export interface UserDashboardsI<T = DashboardT> {
     history: T;
 }

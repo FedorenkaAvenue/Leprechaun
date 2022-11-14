@@ -1,17 +1,20 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsBooleanString, IsEnum, IsNotEmpty, IsNumberString, IsOptional, IsString } from 'class-validator';
 
-import { ICategory } from '@interfaces/Category';
-import { IProduct, IProductPreview, IPublicProduct } from '@interfaces/Product';
-import { IPrice } from '@interfaces/Price';
+import { CategoryI } from '@interfaces/Category';
+import { ProductI, ProductPreviewI, ProductPublicI } from '@interfaces/Product';
+import { PriceI } from '@interfaces/Price';
 import { ProductStatus } from '@enums/Product';
-import { IProperty } from '@interfaces/Property';
-import { IImage } from '@interfaces/Image';
-import { BaseProductEntity, PublicProductEntity } from '@entities/Product';
-import { ILabel } from '@interfaces/Label';
+import { PropertyI } from '@interfaces/Property';
+import { ImageI } from '@interfaces/Image';
+import { LabelI } from '@interfaces/Label';
 import { LabelDTO } from '@dto/Label';
+import { PriceEntity } from '@entities/_Price';
+import { ImageEntity } from '@entities/Image';
+import { PropertyEntity } from '@entities/Property';
+import { CategoryEntity } from '@entities/Category';
 
-export class CreateProductDTO implements IProduct {
+export class CreateProductDTO implements ProductI {
     @IsNotEmpty()
     @IsString()
     @ApiProperty({ required: true })
@@ -20,12 +23,12 @@ export class CreateProductDTO implements IProduct {
     @IsNotEmpty()
     @IsNumberString()
     @ApiProperty({ required: true })
-    price_current: IPrice['current'];
+    price_current: PriceI['current'];
 
     @IsOptional()
     @IsNumberString()
     @ApiProperty({ required: false, default: null })
-    price_old: IPrice['old'];
+    price_old: PriceI['old'];
 
     @IsOptional()
     @IsBooleanString()
@@ -53,7 +56,7 @@ export class CreateProductDTO implements IProduct {
         type: 'number',
         description: 'category id',
     })
-    category: ICategory;
+    category: CategoryI;
 
     @IsOptional()
     @ApiProperty({
@@ -63,7 +66,7 @@ export class CreateProductDTO implements IProduct {
         required: false,
         default: [],
     })
-    images: IImage[];
+    images: ImageI[];
 
     @IsOptional()
     @IsNumberString({}, { each: true })
@@ -73,7 +76,7 @@ export class CreateProductDTO implements IProduct {
         required: false,
         default: [],
     })
-    properties: IProperty[];
+    properties: PropertyI[];
 
     @IsOptional()
     @IsBooleanString()
@@ -90,15 +93,48 @@ export class CreateProductDTO implements IProduct {
     comment: string;
 }
 
-export class ProductPreviewDTO extends BaseProductEntity implements IProductPreview {
+export class ProductPreviewDTO implements ProductPreviewI {
+    @ApiProperty()
+    id: string;
+
+    @ApiProperty()
+    title: string;
+
+    @ApiProperty({ enum: ProductStatus })
+    status: ProductStatus;
+
+    @ApiProperty({ type: PriceEntity })
+    price: PriceEntity;
+
     @ApiProperty({ required: false })
     image: string;
 
     @ApiProperty({ type: LabelDTO, isArray: true, required: false })
-    labels: ILabel[];
+    labels: LabelI[];
 }
 
-export class PublicProductDTO extends PublicProductEntity implements IPublicProduct {
+export class PublicProductDTO implements ProductPublicI {
+    @ApiProperty()
+    id: string;
+
+    @ApiProperty()
+    title: string;
+
+    @ApiProperty({ enum: ProductStatus })
+    status: ProductStatus;
+
+    @ApiProperty({ type: PriceEntity })
+    price: PriceEntity;
+
+    @ApiProperty({ type: ImageEntity, isArray: true })
+    images: ImageEntity[];
+
+    @ApiProperty({ type: PropertyEntity, isArray: true })
+    properties: Array<PropertyI>;
+
+    @ApiProperty({ type: () => CategoryEntity })
+    category: CategoryI;
+
     @ApiProperty({ type: LabelDTO, isArray: true, required: false })
-    labels: ILabel[];
+    labels: LabelI[];
 }

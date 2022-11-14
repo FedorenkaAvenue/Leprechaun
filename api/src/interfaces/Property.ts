@@ -1,9 +1,14 @@
-import { IPropertyGroup } from './PropertyGroup';
+import { PropertyGroupI } from './PropertyGroup';
 
-export interface IProperty {
+interface PropertyBaseI {
     id?: number;
-    property_group?: IPropertyGroup;
+    property_group?: PropertyGroupI;
     title: string;
     alt_name: string;
+}
+
+export interface PropertyI extends PropertyBaseI {
     comment?: string;
 }
+
+export interface PropertyPublicI extends PropertyBaseI {}

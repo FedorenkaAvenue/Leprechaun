@@ -9,7 +9,6 @@ import { OrdersApiService } from '@shared/services/api_es/orders-api/orders-api.
 import { OrderStatusIndicatorDirective } from './directives/order-status-indicator/order-status-indicator.directive';
 import { LpchImageModule } from '@shared/components/lpch-image/lpch-image.module';
 import { TranslateModule } from '@ngx-translate/core';
-import { OrderStatusPipe } from './pipes/order-status.pipe';
 import { chevronIcon, LeprachaunIconRegistryService, LeprachaunIconsModule } from '@shared/modules/leprachaun-icons';
 
 
@@ -18,7 +17,6 @@ import { chevronIcon, LeprachaunIconRegistryService, LeprachaunIconsModule } fro
     CabinetOrdersComponent,
     CabinetOrdersCardComponent,
     OrderStatusIndicatorDirective,
-    OrderStatusPipe
   ],
   imports: [
     CommonModule,

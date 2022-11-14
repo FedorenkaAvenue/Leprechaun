@@ -1,4 +1,4 @@
-import { ICategory } from '@interfaces/Category';
+import { CategoryI } from '@interfaces/Category';
 import { CategoryPublicDTO, CreateCategoryDTO } from '.';
 
 export class Category extends CreateCategoryDTO {
@@ -14,7 +14,7 @@ export class Category extends CreateCategoryDTO {
 }
 
 export class CategoryPublic extends CategoryPublicDTO {
-    constructor({ id, title, url, icon }: ICategory) {
+    constructor({ id, title, url, icon }: CategoryI) {
         super();
         this.id = id;
         this.title = title;

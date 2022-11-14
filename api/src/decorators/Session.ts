@@ -1,6 +1,6 @@
 import { createParamDecorator, ExecutionContext } from '@nestjs/common';
 
-import { ISession } from '@interfaces/Session';
+import { SessionI } from '@interfaces/Session';
 import { UserSession } from '@dto/Session/constructor';
 
 /**
@@ -8,7 +8,7 @@ import { UserSession } from '@dto/Session/constructor';
  * @warning getting and setting the key w'll not change session.
  *  To CRUD session outside decorator You must get all session object
  */
-export const Session = createParamDecorator((_: any, ctx: ExecutionContext): ISession => {
+export const Session = createParamDecorator((_: any, ctx: ExecutionContext): SessionI => {
     const req = ctx.switchToHttp().getRequest();
 
     req.session = Object.assign(req.session, new UserSession(req.session));

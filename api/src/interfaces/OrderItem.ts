@@ -1,19 +1,19 @@
-import { IProduct, IProductPreview } from './Product';
-import { IOrder } from './Order';
-import { IPrice } from './Price';
+import { ProductI, ProductPreviewI } from './Product';
+import { OrderI } from './Order';
+import { PriceI } from './Price';
 
-export interface IOrderItemBase {
+interface OrderItemBaseI {
     id?: string;
     amount: number;
-    summaryPrice?: IPrice;
+    summaryPrice?: PriceI;
 }
 
-export interface IOrderItemPublic extends IOrderItemBase {
-    product: IProductPreview;
+export interface OrderItemPublicI extends OrderItemBaseI {
+    product: ProductPreviewI;
 }
 
-export interface IOrderItem<T = IProduct> extends IOrderItemBase {
-    order_id?: IOrder['id'];
+export interface OrderItemI<T = ProductI> extends OrderItemBaseI {
+    order_id?: OrderI['id'];
     product: T;
     created_at?: Date;
 }
