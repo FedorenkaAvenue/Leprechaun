@@ -1,3 +1,7 @@
 export enum OrderStatus {
-    CREATED = 'CREATED'
+    INIT = 1,
+    POSTED,
+    IN_PROCESS,
+    COMPLETED,
+    CANCELED
 }

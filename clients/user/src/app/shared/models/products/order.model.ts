@@ -6,10 +6,12 @@ export interface OrderProductI {
   id: string;
   amount: number;
   product: any;
+  summaryPrice: any
+
 }
 
 export interface SummaryOrderI {
-  price: number;
+  price: PriceI;
   productsAmount: number;
 }
 export interface OrderI {
@@ -37,6 +39,7 @@ export class OrderCartItemDto {
   amount: number;
   id: string;
   product: OrderProductDto;
+  summaryPrice: any;
 }
 
 export class OrderProductDto {

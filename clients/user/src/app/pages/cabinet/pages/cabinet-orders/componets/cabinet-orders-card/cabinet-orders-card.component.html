@@ -1,0 +1,62 @@
+<div class="order fl-c">
+  <div class="order-header">
+    <div class="order-status" [appOrderStatusIndic]="order?.status"></div>
+    <div>
+      <span>№ 741 435 226 від 22.07.22</span>
+      <p>{{ orderStatuses[order.status].name | translate }}</p>
+    </div>
+    <ng-container *ngIf="!isOpen">
+      <div>
+        <span>{{ 'order.sum' | translate }}</span>
+        <p>{{ order?.summary?.price }}</p>
+      </div>
+      <ul class="fl">
+        <li class="m-r-3" *ngFor="let item of order?.list">
+          <lpch-image class="order-images" [src]="item?.product?.image"></lpch-image>
+        </li>
+      </ul>
+    </ng-container>
+      <app-leprachaun-icon
+      (click)="toogle()"
+        class="order-chevron"
+        [class.order-chevron-open]="isOpen"
+        name="chevron"
+        [width]="22"
+        [height]="22"
+      >
+      </app-leprachaun-icon>
+  </div>
+  <div [class.dn]="!isOpen" class="fl-c order-body">
+    <ul class="fl-c m-b-4 order-products-list">
+      <li *ngFor="let item of order.list" class="fl">
+        <div class="order-product-title">
+          <lpch-image class="order-images" [src]="item?.product?.image"></lpch-image>
+          <span>{{ item?.product?.title }}</span>
+        </div>
+        <div class="fl order-option">
+          <div class="fl-c fl-a-c product-price">
+            <span>ціна</span>
+            <p>{{ item?.product?.price?.current }}</p>
+          </div>
+          <div class="fl-c fl-a-c product-count">
+            <span>кількість</span>
+            <p>{{ item?.amount }}</p>
+          </div>
+          <div class="fl-c fl-a-c product-total">
+            <span>сумма</span>
+            <p>{{ item?.summaryPrice.current }}</p>
+          </div>
+        </div>
+      </li>
+    </ul>
+    <!-- </div> -->
+    <div class="fl">
+      <div>
+        <span>Загальна сумма</span>
+        <p>{{order?.summary?.price}}<span>{{currencySymbol}}</span></p>
+      </div>
+      <button (click)="resendOrder()">Повторити замовлення</button>
+    </div>
+  </div>
+</div>
+

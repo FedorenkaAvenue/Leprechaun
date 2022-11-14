@@ -1,0 +1,53 @@
+<div class="viewed-page__wrapper">
+  <div class="viewed-page">
+    <header>
+      <h1>{{"cabinet.viewed.header" | translate}}</h1>
+    </header>
+    <ng-container *ngIf="viewedData$ | async as products">
+      <ng-container *ngIf="products.length; else emptyContent">
+        <ul class="gr-4 g-1">
+          <li *ngFor="let product of products">
+            <app-product-card [product]="product">
+              <button (click)="deleteFromViewed(product?.id)" class="from-viewed-btn icon-btn">
+                <app-leprachaun-icon
+                  name="trash"
+                  color="rose"
+                  [width]="22"
+                  [height]="22"
+                >
+                </app-leprachaun-icon>
+              </button>
+              <button
+                (click)="
+                  product?.isFavorite ? deleteFromFavorite(product?.id) : addToFavorite(product?.id)
+                "
+                class="to-viewed-btn icon-btn"
+              >
+                <app-leprachaun-icon
+                  name="heart"
+                  [strokedColor]="product?.isFavorite ? 'rose' : 'none'"
+                  [width]="24"
+                  [height]="24"
+                >
+                </app-leprachaun-icon>
+              </button>
+              <button (click)="addToCart(product?.id)" class="to-card-btn icon-btn">
+                <app-leprachaun-icon
+                  name="cart"
+                  [color]="product?.inCart ? 'green' : 'rose'"
+                  [width]="22"
+                  [height]="22"
+                >
+                </app-leprachaun-icon>
+                <!-- <app-leprachaun-icon name="cardSelected" color="rose" [width]="22" [height]="22"> </app-leprachaun-icon> -->
+              </button>
+            </app-product-card>
+          </li>
+        </ul>
+      </ng-container>
+    </ng-container>
+    <ng-template #emptyContent>
+      <div>тут повинно бути повідомлення про порожній список переглянутих товарів</div>
+    </ng-template>
+  </div>
+</div>

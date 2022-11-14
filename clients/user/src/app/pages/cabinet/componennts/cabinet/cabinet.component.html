@@ -1,0 +1,19 @@
+<aside class="cabinet-sidebar">
+    <div class="cabinet-user">User</div>
+    <nav class="cabinet-nav">
+        <ul class="cabinet-nav-list">
+            <li class="cabinet-nav-item">
+                <a class="cabinet-nav-link" [routerLinkActive]="'active'" [routerLink]="['./wishlist'] | localize">{{"cabinet.wishlist.header" | translate}}</a>
+            </li>
+            <li class="cabinet-nav-item">
+                <a class="cabinet-nav-link" [routerLinkActive]="'active'"  [routerLink]="['./orders'] | localize" >{{"cabinet.orders.header" | translate}}</a>
+            </li>
+            <li class="cabinet-nav-item">
+                <a class="cabinet-nav-link" [routerLinkActive]="'active'"  [routerLink]="['./viewed'] | localize" >{{"cabinet.viewed.header" | translate}} </a>
+            </li>
+        </ul>
+    </nav>
+</aside>
+<main class="cabinet-content">
+    <router-outlet></router-outlet>
+</main>
