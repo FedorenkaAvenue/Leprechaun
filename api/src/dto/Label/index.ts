@@ -8,5 +8,5 @@ export class LabelDTO implements LabelI {
     type: LabelType;
 
     @ApiProperty({ required: false, nullable: true })
-    value?: string;
+    value: string;
 }

@@ -17,6 +17,7 @@ interface OrderBaseI<T = OrderItemI> {
     status?: OrderStatus;
     list?: Array<T>;
     summary?: OrderSummaryI;
+    updated_at: Date;
 }
 
 export interface OrderPublicI extends OrderBaseI<OrderItemPublicI> {}

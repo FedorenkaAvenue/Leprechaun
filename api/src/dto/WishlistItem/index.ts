@@ -5,7 +5,7 @@ import { ProductPublic } from '../Product/constructor';
 
 export class WishlistItemPublicDTO implements WishlistItemPublicI {
     @ApiProperty()
-    id?: string;
+    id: string;
 
     @ApiProperty()
     created_at: Date;

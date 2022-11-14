@@ -34,7 +34,7 @@ export class OrderService extends OrderAdminService {
             }
         } else {
             // create new order
-            const { id: order_id } = await this.orderRepo.save({ session_id });
+            const { id: order_id } = await this.createOrder(session_id);
 
             await this.orderItemRepo.save({ order_id, ...orderItem } as DeepPartial<ProductEntity>);
         }

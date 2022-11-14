@@ -14,7 +14,7 @@ export class OrderItemDTO implements OrderItemI<ProductPreviewI> {
     product: ProductPreviewI;
 
     @ApiProperty({ description: 'summary product items price' })
-    summaryPrice?: PriceI;
+    summaryPrice: PriceI;
 
     @ApiProperty({ required: true })
     amount: number;

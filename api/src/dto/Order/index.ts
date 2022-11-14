@@ -19,6 +19,7 @@ export class CreateOrderCustomerDataDTO implements OrderCustomerDataI {
     phone: string;
 }
 
+// post order (update status from 1 to 2)
 export class CreateOrderDTO {
     @IsNotEmpty()
     @ApiProperty({ description: 'order object', required: true })
@@ -36,10 +37,10 @@ export class CreateOrderDTO {
     customer: OrderCustomerDataI;
 }
 
-export class UpdateOrderStatusDTO implements OrderI {
+export class UpdateOrderStatusDTO implements Pick<OrderI, 'status'> {
     @IsEnum(OrderStatus)
     @ApiProperty({ required: true, enum: OrderStatus })
-    status?: OrderStatus;
+    status: OrderStatus;
 }
 
 export class OrderSummaryDTO implements OrderSummaryI {
@@ -58,8 +59,11 @@ export class OrderPublicDTO implements OrderPublicI {
     status: OrderStatus;
 
     @ApiProperty({ type: OrderItemPublic, isArray: true, description: 'order items array' })
-    list?: OrderItemPublicI[];
+    list: OrderItemPublicI[];
 
     @ApiProperty({ type: OrderSummaryDTO, description: 'summary order data' })
-    summary?: OrderSummaryI;
+    summary: OrderSummaryI;
+
+    @ApiProperty({ type: Date, description: 'date of last changed status' })
+    updated_at: Date;
 }

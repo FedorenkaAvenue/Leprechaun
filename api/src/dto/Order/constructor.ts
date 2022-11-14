@@ -12,11 +12,12 @@ export class OrderSummary extends OrderSummaryDTO {
 }
 
 export class OrderPublic extends OrderPublicDTO {
-    constructor({ id, status, list }: OrderI) {
+    constructor({ id, status, list, updated_at }: OrderI) {
         super();
         this.id = id;
         this.status = status;
         this.list = list.map(prod => new OrderItemPublic(prod));
         this.summary = new OrderSummary(list);
+        this.updated_at = updated_at;
     }
 }

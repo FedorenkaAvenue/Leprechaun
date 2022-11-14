@@ -1,4 +1,12 @@
-import { Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import {
+    AfterUpdate,
+    Column,
+    CreateDateColumn,
+    Entity,
+    OneToMany,
+    PrimaryGeneratedColumn,
+    UpdateDateColumn,
+} from 'typeorm';
 import { ApiProperty } from '@nestjs/swagger';
 
 import { OrderI, OrderCustomerDataI } from '@interfaces/Order';
@@ -29,6 +37,10 @@ export class OrderEntity implements OrderI {
     @CreateDateColumn()
     @ApiProperty()
     created_at: Date;
+
+    @UpdateDateColumn()
+    @ApiProperty({ type: Date, description: 'date of last changed status' })
+    updated_at: Date;
 
     @OneToMany(() => OrderItemEntity, ({ order_id }) => order_id)
     @ApiProperty({ type: OrderItemEntity, isArray: true })

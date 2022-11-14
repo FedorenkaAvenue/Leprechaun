@@ -1,17 +1,14 @@
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { DeepPartial, SelectQueryBuilder } from 'typeorm';
+import { SelectQueryBuilder } from 'typeorm';
 import { Injectable } from '@nestjs/common';
 
 import { OrderEntity } from '@entities/Order';
 import { OrderItemEntity } from '@entities/OrderItem';
 import { OrderPublic } from '@dto/Order/constructor';
 import { SessionI } from '@interfaces/Session';
-import { OrderI, OrderPublicI } from '@interfaces/Order';
+import { OrderPublicI } from '@interfaces/Order';
 import { OrderStatus } from '@enums/Order';
-import { CreateOrderItemDTO } from '@dto/OrderItem';
-import { OrderItemI } from '@interfaces/OrderItem';
-import { ProductEntity } from '@entities/Product';
 
 @Injectable()
 export default class OrderHelperService {
@@ -19,6 +16,15 @@ export default class OrderHelperService {
         @InjectRepository(OrderEntity) public readonly orderRepo: Repository<OrderEntity>,
         @InjectRepository(OrderItemEntity) public readonly orderItemRepo: Repository<OrderItemEntity>,
     ) {}
+
+    /**
+     * @description create new order with session ID
+     * @param session_id
+     * @returns created order with 1 status
+     */
+    async createOrder(session_id: SessionI['id']): Promise<OrderEntity> {
+        return await this.orderRepo.save({ session_id });
+    }
 
     /**
      * @description get current order by session ID
@@ -32,16 +38,6 @@ export default class OrderHelperService {
             .andWhere('order.status = :status', { status: OrderStatus.INIT });
 
         return await this.getOrder(qb);
-    }
-
-    /**
-     * @description save order item to DB
-     * @param orderId
-     * @param item
-     * @returns
-     */
-    createOrderItem(orderId: OrderI['id'], item: CreateOrderItemDTO): Promise<OrderItemI> {
-        return this.orderItemRepo.save({ order_id: orderId, ...item } as DeepPartial<ProductEntity>);
     }
 
     /**
