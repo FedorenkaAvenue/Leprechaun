@@ -1,13 +1,20 @@
 import { BadRequestException, Controller, Delete, Param, ParseUUIDPipe, Post, UseInterceptors } from '@nestjs/common';
-import { ApiBadRequestResponse, ApiNotFoundResponse, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import {
+    ApiBadRequestResponse,
+    ApiNotFoundResponse,
+    ApiOkResponse,
+    ApiOperation,
+    ApiResponse,
+    ApiTags,
+} from '@nestjs/swagger';
 import { DeleteResult } from 'typeorm';
 
 import WishlistService from '@services/Wishlist';
 import { Session } from '@decorators/Session';
 import { SessionI } from '@interfaces/Session';
-import { ProductPublic } from '@dto/Product/constructor';
 import AffectedResultInterceptor from '@interceptors/AffectedResult';
-import { WishlistItemPublicI } from '@src/interfaces/WishlistItem';
+import { WishlistItemPublic } from '@dto/WishlistItem/constructor';
+import { WishlistItemPublicI } from '@interfaces/WishlistItem';
 
 @Controller('wishlist')
 @ApiTags('Wishlist 🧑‍💻')
@@ -16,7 +23,7 @@ export default class WishlistPublicController {
 
     @Post(':productId')
     @ApiOperation({ summary: 'add product to wishlist' })
-    @ApiResponse({ type: ProductPublic, isArray: true })
+    @ApiOkResponse({ type: WishlistItemPublic })
     @ApiBadRequestResponse({ description: 'product is already added to wishlist' })
     @ApiNotFoundResponse({ description: 'product not found' })
     addItem(
