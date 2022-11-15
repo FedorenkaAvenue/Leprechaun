@@ -11,7 +11,7 @@ import { environment } from 'environments/environment.global';
 })
 export class CabinetOrdersCardComponent implements OnInit {
 
-  public orderStatuses  = ORDER_STATUS;
+  public orderStatuses = ORDER_STATUS;
   public isOpen = false;
   public currencySymbol = environment.currencySymbol
   @Input() order: OrderI;
