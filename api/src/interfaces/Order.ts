@@ -13,7 +13,7 @@ export interface OrderSummaryI {
 }
 
 interface OrderBaseI<T = OrderItemI> {
-    id?: string;
+    id?: number;
     status?: OrderStatus;
     list?: Array<T>;
     summary?: OrderSummaryI;

@@ -9,6 +9,7 @@ import { OrderPublic } from '@dto/Order/constructor';
 import { SessionI } from '@interfaces/Session';
 import { OrderPublicI } from '@interfaces/Order';
 import { OrderStatus } from '@enums/Order';
+import { genID } from '@utils/genIds';
 
 @Injectable()
 export default class OrderHelperService {
@@ -23,7 +24,7 @@ export default class OrderHelperService {
      * @returns created order with 1 status
      */
     async createOrder(session_id: SessionI['id']): Promise<OrderEntity> {
-        return await this.orderRepo.save({ session_id });
+        return await this.orderRepo.save({ session_id, id: genID() });
     }
 
     /**

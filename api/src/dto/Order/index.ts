@@ -53,7 +53,7 @@ export class OrderSummaryDTO implements OrderSummaryI {
 
 export class OrderPublicDTO implements OrderPublicI {
     @ApiProperty({ description: 'order ID' })
-    id: string;
+    id: number;
 
     @ApiProperty({ enum: OrderStatus })
     status: OrderStatus;

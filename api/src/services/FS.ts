@@ -6,7 +6,7 @@ import { promises } from 'fs';
 import { extname } from 'path';
 
 import configService from '@services/Config';
-import genUUID from '@utils/genUUID';
+import { genUUID } from '@utils/genIds';
 
 export enum FOLDER_TYPES {
     CATEGORY = 'img/category/',

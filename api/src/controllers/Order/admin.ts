@@ -28,7 +28,7 @@ export default class OrderAdminController {
     @ApiOkResponse({ type: OrderPublic })
     @ApiNotFoundResponse({ description: 'order not found' })
     getOrderById(@Param('orderId', ParseUUIDPipe) orderId: string): Promise<OrderPublicI> {
-        return this.orderService.getOrderById(orderId);
+        return this.orderService.getOrderById(Number(orderId));
     }
 
     @Get('product/:productId')
@@ -46,7 +46,7 @@ export default class OrderAdminController {
         @Param('orderId', ParseUUIDPipe) orderId: string,
         @Body(new ValidationPipe({ transform: true })) body: UpdateOrderStatusDTO,
     ) {
-        return this.orderService.changeOrderStatus(orderId, body);
+        return this.orderService.changeOrderStatus(Number(orderId), body);
     }
 
     // TODO query filers
@@ -62,6 +62,6 @@ export default class OrderAdminController {
     @ApiOperation({ summary: 'remove order' })
     @ApiNotFoundResponse({ description: 'order not found' })
     removeOrder(@Param('orderId', ParseUUIDPipe) orderId: string) {
-        return this.orderService.removeOrder(orderId);
+        return this.orderService.removeOrder(Number(orderId));
     }
 }
