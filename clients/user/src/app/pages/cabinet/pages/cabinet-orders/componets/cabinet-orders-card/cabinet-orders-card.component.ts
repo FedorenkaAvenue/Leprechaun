@@ -1,6 +1,6 @@
 import { Component, OnInit, ChangeDetectionStrategy, Input } from '@angular/core';
+import { ORDER_STATUS } from '@shared/constants/order-status';
 import { OrderI } from '@shared/models';
-import { ORDER_STATUS } from '@shared/static/order-status';
 import { environment } from 'environments/environment.global';
 
 @Component({
@@ -11,7 +11,7 @@ import { environment } from 'environments/environment.global';
 })
 export class CabinetOrdersCardComponent implements OnInit {
 
-  public orderStatuses  = ORDER_STATUS;
+  public orderStatuses = ORDER_STATUS;
   public isOpen = false;
   public currencySymbol = environment.currencySymbol
   @Input() order: OrderI;
