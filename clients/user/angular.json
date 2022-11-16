@@ -76,10 +76,7 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "universal-demo:build",
-            "ssl": true,
-            "sslKey": "localhost.key",
-            "sslCert": "./localhost.crt"
+            "browserTarget": "universal-demo:build"
           },
           "configurations": {
             "dev": {

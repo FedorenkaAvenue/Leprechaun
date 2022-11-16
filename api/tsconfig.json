@@ -28,5 +28,6 @@
       "@filters/*": ["filters/*"],
       "@enums/*": ["enums/*"]
     },
-  }
+  },
+  "include": ["**/*.ts", "**/*.tsx", "**/*.d.ts"],
 }

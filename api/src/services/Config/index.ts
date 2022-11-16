@@ -1,12 +1,14 @@
 import { TypeOrmModuleOptions } from '@nestjs/typeorm';
+import { CacheModuleOptions } from '@nestjs/common';
+import { CorsOptions } from '@nestjs/common/interfaces/external/cors-options.interface';
 import { SessionOptions } from 'express-session';
 import SMTPTransport from 'nodemailer/lib/smtp-transport';
 import * as RedisStore from 'connect-redis';
 import * as session from 'express-session';
 import { createClient } from 'redis';
-import { CacheModuleOptions } from '@nestjs/common';
 import * as redisCacheStore from 'cache-manager-redis-store';
-import { CorsOptions } from '@nestjs/common/interfaces/external/cors-options.interface';
+
+import { ConfigDevService } from './dev';
 
 const ENV_ARRAY_SPLIT_SYMBOL = ',';
 
@@ -18,11 +20,14 @@ interface IHostingParams {
  * @description configuration service (esp working with a environment variables)
  * @property {Boolean} isDev is development environment
  */
-class ConfigService {
+export class ConfigService extends ConfigDevService {
     isDev: boolean;
+    isLepr: boolean;
 
     constructor() {
+        super();
         this.isDev = this.getVal('IS_DEV') === 'true';
+        this.isLepr = this.getAppName() === 'Leprechaun';
     }
 
     /**
@@ -128,6 +133,7 @@ class ConfigService {
 
         return {
             store: new redisStore({ client, logErrors: true }),
+            genid: (this.isLepr || this.isDev) ? this.genSessionId() : undefined,
             proxy: true,
             secret: this.getVal('SESSION_COOKIE_SECRET'),
             resave: false,
@@ -136,7 +142,7 @@ class ConfigService {
             cookie: {
                 httpOnly: true,
                 maxAge: +this.getVal('SESSION_AGE'),
-                sameSite: this.getAppName() === 'Leprechaun' ? 'none' : 'strict',
+                sameSite: this.isLepr ? 'none' : 'strict',
                 secure: !this.isDev,
             },
             name: 'session',
@@ -164,7 +170,7 @@ class ConfigService {
     getCORSConfig(): CorsOptions {
         return {
             origin:
-                this.getAppName() === 'Leprechaun'
+                this.isLepr
                     ? ['http://localhost:4201', 'http://localhost:4202', 'https://localhost:4201']
                     : [this.getVal('DOMAIN') as string, this.getVal('DOMAIN_ADM') as string],
             methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
