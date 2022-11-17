@@ -1,6 +1,5 @@
 <div class="cart-page__wrapper">
-  <div class="cart-page" *ngIf="cartData$ | async as cartData">
-    <ng-container *ngIf="cartData?.list?.length; else emptyContent">
+  <div class="cart-page" *ngIf="cartData$ | async as cartData; else emptyContent">
       <header>
         <h1>Корзина</h1>
       </header>
@@ -18,7 +17,7 @@
           <app-cart-details [cartData]="cartData" (changeUserData)="sendOrder($event, cartData)"></app-cart-details>
         </div>
       </section>
-    </ng-container>
+
   </div>
   <ng-template #emptyContent>
     <div>тут повинно бути повідомлення про порожній кошик</div>

@@ -48,6 +48,8 @@ export class CartPageComponent implements OnInit {
     const customerData: CustomerData = customerForm;
     const phone = customerData?.phone.replace(/[^0-9]/g, '');
     const customer = { ...customerData, phone };
-    this.cartService.sendOrder(order, customer).subscribe((res) => {});
+    this.cartService.sendOrder(order, customer).subscribe((res) => {
+      this.cartService.updateCart(null);
+    });
   }
 }

@@ -41,7 +41,7 @@ export class CartService {
     return this.cartApiService.sendOrder(order, customerData)
   }
 
-  public updateCart(order: OrderDto): void {
+  public updateCart(order: OrderDto | null): void {
     this.cartValue$.next(order);
     this.cartStateService.updateCart(order);
   }
