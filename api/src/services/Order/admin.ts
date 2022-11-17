@@ -5,7 +5,7 @@ import { UpdateOrderStatusDTO } from '@dto/Order';
 import { OrderI, OrderPublicI } from '@interfaces/Order';
 import OrderHelperService from './helper';
 import { ProductI } from '@interfaces/Product';
-import { ORDER_RELATIONS } from '.';
+import { ORDER_RELATIONS } from '@constants/relations';
 
 @Injectable()
 export default class OrderAdminService extends OrderHelperService {
@@ -23,10 +23,8 @@ export default class OrderAdminService extends OrderHelperService {
         return this.orderRepo.update({ id: orderId }, { status });
     }
 
-    getAdminOrders(): Promise<OrderI[]> {
-        return this.orderRepo.find({
-            relations: ORDER_RELATIONS,
-        });
+    getOrders(): Promise<OrderI[]> {
+        return this.orderRepo.find({ relations: ORDER_RELATIONS });
     }
 
     async getOrdersByProductId(productId: ProductI['id']): Promise<OrderI[]> {

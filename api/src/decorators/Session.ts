@@ -1,7 +1,8 @@
 import { createParamDecorator, ExecutionContext } from '@nestjs/common';
+import { Request } from 'express';
 
-import { SessionI } from '@interfaces/Session';
 import { UserSession } from '@dto/Session/constructor';
+import { SessionI } from '@interfaces/Session';
 
 /**
  * @description get session object
@@ -9,9 +10,13 @@ import { UserSession } from '@dto/Session/constructor';
  *  To CRUD session outside decorator You must get all session object
  */
 export const Session = createParamDecorator((_: any, ctx: ExecutionContext): SessionI => {
-    const req = ctx.switchToHttp().getRequest();
+    const req: Request = ctx.switchToHttp().getRequest();
+    const { ip, url, session } = req;
 
-    req.session = Object.assign(req.session, new UserSession(req.session));
+    req.session = Object.assign(session, new UserSession({
+        history: req.session.history,
+        ip, url
+    }));
 
     return req.session;
 });

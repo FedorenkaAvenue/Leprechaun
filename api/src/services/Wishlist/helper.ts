@@ -5,9 +5,9 @@ import { InjectRepository } from '@nestjs/typeorm';
 import WishlistItemEntity from '@entities/WishlistItem';
 import { SessionI } from '@interfaces/Session';
 import { WishListIPublicI } from '@interfaces/Wishlist';
-import { PRODUCT_DEEP_RELATIONS } from '../Product';
 import { WishlistItemPublic } from '@dto/WishlistItem/constructor';
 import { WishlistItemI } from '@interfaces/WishlistItem';
+import { PRODUCT_DEEP_RELATIONS } from '@constants/relations';
 
 @Injectable()
 export default class WishlistHelperService {

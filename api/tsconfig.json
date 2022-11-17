@@ -20,6 +20,7 @@
       "@interfaces/*": ["interfaces/*"],
       "@dto/*": ["dto/*"],
       "@controllers/*": ["controllers/*"],
+      "@constants/*": ["constants/*"],
       "@middlewares/*": ["middlewares/*"],
       "@decorators/*": ["decorators/*"],
       "@templates/*": ["templates/*"],
@@ -28,5 +29,6 @@
       "@filters/*": ["filters/*"],
       "@enums/*": ["enums/*"]
     },
-  }
+  },
+  "include": ["**/*.ts", "**/*.tsx", "**/*.d.ts"],
 }
