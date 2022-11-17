@@ -54,7 +54,7 @@ export default class OrderAdminController {
     @ApiOperation({ summary: 'get order list' })
     @ApiOkResponse({ type: OrderEntity, isArray: true })
     getOrders(): Promise<OrderI[]> {
-        return this.orderService.getAdminOrders();
+        return this.orderService.getOrders();
     }
 
     @Delete(':orderId')

@@ -20,6 +20,7 @@
       "@interfaces/*": ["interfaces/*"],
       "@dto/*": ["dto/*"],
       "@controllers/*": ["controllers/*"],
+      "@constants/*": ["constants/*"],
       "@middlewares/*": ["middlewares/*"],
       "@decorators/*": ["decorators/*"],
       "@templates/*": ["templates/*"],

@@ -10,8 +10,7 @@ import { CreateOrderItemDTO, UpdateOrderItemDTO } from '@dto/OrderItem';
 import { OrderItemI } from '@interfaces/OrderItem';
 import { ProductEntity } from '@entities/Product';
 import OrderAdminService from './admin';
-
-export const ORDER_RELATIONS = ['list', 'list.product'];
+import { ORDER_RELATIONS } from '@constants/relations';
 
 @Injectable()
 export class OrderService extends OrderAdminService {
