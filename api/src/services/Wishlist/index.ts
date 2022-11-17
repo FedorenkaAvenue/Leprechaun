@@ -21,11 +21,7 @@ export default class WishlistService extends WishlistAdminService {
         try {
             const { id } = await this.wishlistItemRepo.save({ product, session_id } as DeepPartial<WishlistItemEntity>);
 
-            const it = await this.getWishlistItem(id);
-
-            console.log(it);
-
-            return new WishlistItemPublic(it);
+            return new WishlistItemPublic(await this.getWishlistItem(id));
         } catch (err) {
             console.log(err);
             throw new NotFoundException('product not found');

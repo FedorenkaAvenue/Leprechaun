@@ -9,7 +9,7 @@ import { PaginationResultDTO } from '@dto/Pagination';
 import { ProductI } from '@interfaces/Product';
 import { Product } from '@dto/Product/constructor';
 import ProductHelperService from './helper';
-import { PRODUCT_RELATIONS } from './index';
+import { PRODUCT_RELATIONS } from '@constants/relations';
 
 @Injectable()
 export default class ProductAdminService extends ProductHelperService {

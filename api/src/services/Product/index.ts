@@ -9,14 +9,7 @@ import { UserDashboardsI } from '@interfaces/Dashboard';
 import { ProductPreview, ProductPublic } from '@dto/Product/constructor';
 import { CommonDashboards, UserDashboards } from '@dto/Dashboard/constructor';
 import ProductAdminService from './admin';
-
-export const PRODUCT_RELATIONS = ['category', 'properties', 'properties.property_group'];
-export const PRODUCT_DEEP_RELATIONS = [
-    'product',
-    'product.category',
-    'product.properties',
-    'product.properties.property_group',
-];
+import { PRODUCT_RELATIONS } from '@constants/relations';
 
 @Injectable()
 export class ProductService extends ProductAdminService {
