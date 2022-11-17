@@ -41,9 +41,9 @@ export class ProductsManagerService {
       map(([cartValue, favoriteValue, products]) => {
         products.data.map(el => {
           const orderProducts = cartValue?.list.map(orderProduct => orderProduct?.product?.id);
-          const favoritesProducts = favoriteValue?.map(el => el.id)
           el.inCart = orderProducts?.includes(el.id);
-          el.isFavorite = favoritesProducts?.includes(el.id);
+          el.favoriteId = favoriteValue?.find(favorite => favorite.product.id === el.id)?.id; 
+          el.isFavorite = !!el.favoriteId;
           return el;
         })
         return products

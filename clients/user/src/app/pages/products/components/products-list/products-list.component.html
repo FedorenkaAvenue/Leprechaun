@@ -4,9 +4,6 @@
       <li>
         <app-product-card
         [product]="product"
-        (toCartEvent)="addToCart($event)"
-        (toFavoriteEvent)="addToFavorite($event)"
-        (deleteFromFavoriteEvent)="deleteFromFavorite($event)"
         >
         <button (click)="addToCart(product?.id)" class="to-card-btn icon-btn">
           <app-leprachaun-icon
@@ -20,7 +17,7 @@
         </button>
         <button
           (click)="
-            product?.isFavorite ? deleteFromFavorite(product?.id) : addToFavorite(product?.id)
+            product?.isFavorite ? deleteFromFavorite(product?.favoriteId) : addToFavorite(product?.id)
           "
           class="to-favorite-btn icon-btn"
         >

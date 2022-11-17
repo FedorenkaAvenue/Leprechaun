@@ -3,35 +3,28 @@
     <header>
       <h1>{{"cabinet.wishlist.header" | translate}}</h1>
     </header>
-    <ng-container *ngIf="favoritesData$ | async as products">
-      <ng-container *ngIf="products.length; else emptyContent">
+    <ng-container *ngIf="favoritesData$ | async as favorites">
+      <ng-container *ngIf="favorites.length; else emptyContent">
         <ul class="gr-4 g-1">
-          <li *ngFor="let product of products">
+          <li *ngFor="let favorite of favorites">
 
             <app-product-card
-            [product]="product"
-            (toCartEvent)="addToCart($event)"
-            (toFavoriteEvent)="addToFavorite($event)"
-            (deleteFromFavoriteEvent)="deleteFromFavorite($event)"
+            [product]="favorite.product"
             >
-            <button (click)="deleteFromFavorite(product?.id)" class="from-favorite-btn icon-btn">
+            <button (click)="deleteFromFavorite(favorite?.id)" class="from-favorite-btn icon-btn">
               <app-leprachaun-icon name="trash" color="rose" [width]="22" [height]="22">
               </app-leprachaun-icon>
             </button>
-            <button
-            (click)="
-              product?.isFavorite ? deleteFromFavorite(product?.id) : addToFavorite(product?.id)
-            "
-            class="to-favorite-btn icon-btn"
-          >
-            <app-leprachaun-icon
-              name="heart"
-              [strokedColor]="product?.isFavorite ? 'rose' : 'none'"
-              [width]="24"
-              [height]="24"
-            >
-            </app-leprachaun-icon>
-          </button>
+            <button (click)="addToCart(favorite?.product?.id)" class="to-card-btn icon-btn">
+              <app-leprachaun-icon
+                name="cart"
+                [color]="favorite?.product?.inCart ? 'green' : 'rose'"
+                [width]="22"
+                [height]="22"
+              >
+              </app-leprachaun-icon>
+              <!-- <app-leprachaun-icon name="cardSelected" color="rose" [width]="22" [height]="22"> </app-leprachaun-icon> -->
+            </button>
           </app-product-card>
           
           </li>

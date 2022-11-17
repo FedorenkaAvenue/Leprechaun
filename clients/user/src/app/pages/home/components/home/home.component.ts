@@ -1,5 +1,5 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
-import { FavoritesDto, DasboardCommonProductsI, ProductsPreviewI, DasboardUserProductsI } from '@shared/models';
+import { FavoriteProductDto, DasboardCommonProductsI, ProductsPreviewI, DasboardUserProductsI, FavoriteDto } from '@shared/models';
 import { FavoritesService } from '@shared/services/favorite/favotite/favorites.service';
 import { Observable } from 'rxjs';
 import { take } from 'rxjs/operators';
@@ -37,8 +37,8 @@ export class HomeComponent implements OnInit {
     this.favoritesService
       .addToFavorites(productId)
       .pipe(take(1))
-      .subscribe((favorites: Array<FavoritesDto>) => {
-        this.favoritesService.updateFavorites(favorites);
+      .subscribe((favorite: FavoriteDto) => {
+        this.favoritesService.addToFavoriteSore(favorite);
       });
   }
 
@@ -46,8 +46,7 @@ export class HomeComponent implements OnInit {
     this.favoritesService
       .deleteProduct(productId)
       .pipe(take(1))
-      .subscribe((favorites: Array<FavoritesDto>) => {
-        this.favoritesService.updateFavorites(favorites);
+      .subscribe(() => {
       });
   }
 }

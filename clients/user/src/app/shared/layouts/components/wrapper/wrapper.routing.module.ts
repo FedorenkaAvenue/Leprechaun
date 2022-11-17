@@ -23,11 +23,6 @@ const routes: Routes = [
             {
                 path: 'cart',
                 loadChildren: () => import('../../../../pages/cart-page/cart-page.module').then(m => m.CartPageModule)
-            }
-            ,
-            {
-                path: 'favorites',
-                loadChildren: () => import('../../../../pages/favorites-page/favorites-page.module').then(m => m.FavoritesPageModule)
             },
             {
                 path: 'cabinet',

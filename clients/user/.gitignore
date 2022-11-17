@@ -7,5 +7,6 @@ server.js
 dist
 dist-server
 static
+cert
 
 environment.global.ts

@@ -78,8 +78,24 @@
           "options": {
             "browserTarget": "universal-demo:build",
             "ssl": true,
-            "sslKey": "localhost.key",
-            "sslCert": "./localhost.crt"
+            "sslKey": "./cert/localhost.key",
+            "sslCert": "./cert/localhost.crt"
+          },
+          "configurations": {
+            "dev": {
+              "browserTarget": "universal-demo:build:dev"
+              
+            },
+            "production": {
+              "browserTarget": "universal-demo:build:production"
+            }
+            
+          }
+        },
+        "serve-docker": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "browserTarget": "universal-demo:build"
           },
           "configurations": {
             "dev": {

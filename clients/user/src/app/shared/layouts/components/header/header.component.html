@@ -17,7 +17,7 @@
         <app-language-switch (changeLang)="changeLang($event)" [languages]="languages"></app-language-switch>
       </li>
       <li>
-        <a [routerLink]="['/favorites'] | localize" routerLinkActive="active" class="header_favorites main-btn">
+        <a [routerLink]="['/cabinet/wishlist'] | localize" routerLinkActive="active" class="header_favorites main-btn">
           <app-leprachaun-icon name="heart" color="gray"> </app-leprachaun-icon>
           <ng-container *ngIf="(favoriteValue$ | async)?.length as favoritesCount">
             <span>{{favoritesCount}}</span>

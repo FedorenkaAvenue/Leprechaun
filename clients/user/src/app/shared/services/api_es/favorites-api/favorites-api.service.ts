@@ -1,5 +1,6 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { FavoriteDto } from '@shared/models';
 import { UserService } from '@shared/services/user/user.service';
 // import { CardItemDto } from '@shared/models';
 import { arrayToString } from '@shared/utils/transformers';
@@ -17,15 +18,18 @@ export class FavoritesApiService {
     private readonly userService: UserService
     ) {}
 
-  public getProducts(): Observable<any[]> {
-    return this.userService.userSatate$.pipe(map(res => res.wishlist))
+  public getProducts(): Observable<FavoriteDto[]> {
+    return this.userService.userSatate$.pipe(map(res => {
+      console.log(res.wishlist);
+      return res.wishlist;
+    }))
   }
 
-  public addProductToFavorites(id: string): Observable<any[]> {
-    return this.http.post<any[]>(`${this.apiUrl}/${id}`, null)
+  public addProductToFavorites(id: string): Observable<FavoriteDto> {
+    return this.http.post<FavoriteDto>(`${this.apiUrl}/${id}`, null)
   }
 
-  public deleteProductFromFavorites(id: string): Observable<any[]> {
-    return this.http.delete<any>(`${this.apiUrl}/${id}`);
+  public deleteProductFromFavorites(id: string): Observable<string> {
+    return this.http.delete<string>(`${this.apiUrl}/${id}`);
   }
 }
