@@ -59,7 +59,7 @@ export class OrderService extends OrderAdminService {
             const res = await this.orderRepo.find({
                 where: { session_id, status: Not(OrderStatus.INIT) },
                 relations: ORDER_RELATIONS,
-                order: { created_at: 'ASC' },
+                order: { updated_at: 'DESC' },
             });
 
             if (!res.length) return [];
