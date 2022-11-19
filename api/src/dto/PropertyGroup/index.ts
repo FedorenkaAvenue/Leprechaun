@@ -1,8 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsNotEmpty, IsOptional, IsString } from 'class-validator';
 
-import { PropertyGroupI, PropertyGroupPublicI } from '@interfaces/PropertyGroup';
-import { PropertyEntity } from '@entities/Property';
+import { PropertyGroupI } from '@interfaces/PropertyGroup';
 
 export class CreatePropertyGroupDTO implements PropertyGroupI {
     @IsNotEmpty()

@@ -20,7 +20,7 @@ interface OrderBaseI<T = OrderItemI> {
     updated_at: Date;
 }
 
-export interface OrderPublicI extends OrderBaseI<OrderItemPublicI> {}
+export type OrderPublicI = OrderBaseI<OrderItemPublicI>;
 
 export interface OrderI extends OrderBaseI {
     created_at?: Date;

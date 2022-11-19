@@ -11,4 +11,4 @@ export interface PropertyI extends PropertyBaseI {
     comment?: string;
 }
 
-export interface PropertyPublicI extends PropertyBaseI {}
+export type PropertyPublicI = PropertyBaseI;

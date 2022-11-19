@@ -20,7 +20,7 @@ export default class ProductHelperService {
     constructor(
         @InjectRepository(ProductEntity) protected readonly productRepo: Repository<ProductEntity>,
         protected readonly imageService: ImageService,
-        protected readonly FSService: FSService,
+        protected readonly FSService: FSService
     ) {
         this.dashboardPortion = +configService.getVal('DASHBOARD_PORTION');
     }

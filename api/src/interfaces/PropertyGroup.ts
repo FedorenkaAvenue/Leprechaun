@@ -11,4 +11,4 @@ export interface PropertyGroupI extends PropertyGroupBaseI {
     comment?: string;
 }
 
-export interface PropertyGroupPublicI extends PropertyGroupBaseI {}
+export type PropertyGroupPublicI = PropertyGroupBaseI;

@@ -133,7 +133,7 @@ export class ConfigService extends ConfigDevService {
 
         return {
             store: new redisStore({ client, logErrors: true }),
-            genid: (this.isLepr || this.isDev) ? this.genSessionId() : undefined,
+            genid: this.isLepr || this.isDev ? this.genSessionId() : undefined,
             proxy: true,
             secret: this.getVal('SESSION_COOKIE_SECRET'),
             resave: false,
@@ -169,10 +169,9 @@ export class ConfigService extends ConfigDevService {
      */
     getCORSConfig(): CorsOptions {
         return {
-            origin:
-                this.isLepr
-                    ? ['http://localhost:4201', 'http://localhost:4202', 'https://localhost:4201']
-                    : [this.getVal('DOMAIN') as string, this.getVal('DOMAIN_ADM') as string],
+            origin: this.isLepr
+                ? ['http://localhost:4201', 'http://localhost:4202', 'https://localhost:4201']
+                : [this.getVal('DOMAIN') as string, this.getVal('DOMAIN_ADM') as string],
             methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
             credentials: true,
         };

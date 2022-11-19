@@ -118,7 +118,7 @@ export class FiltersDTO implements FiltersI {
     status: FilterListGroupI;
 
     constructor(propertyGroups: PropertyGroupI[], queryFilters: SearchReqQueriesI) {
-        const { price, dinamicFilters, status } = new SearchQueries(queryFilters);
+        const { price, dinamicFilters } = new SearchQueries(queryFilters);
 
         this.price = new FilterRangeGroupDTO(
             {

@@ -11,4 +11,4 @@ export interface WishlistItemI extends WishlistItemBaseI {
     session_id: SessionI['id'] | null;
 }
 
-export interface WishlistItemPublicI extends WishlistItemBaseI<ProductPublicI> {}
+export type WishlistItemPublicI = WishlistItemBaseI<ProductPublicI>;
