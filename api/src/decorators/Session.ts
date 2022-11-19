@@ -11,12 +11,15 @@ import { SessionI } from '@interfaces/Session';
  */
 export const Session = createParamDecorator((_: any, ctx: ExecutionContext): SessionI => {
     const req: Request = ctx.switchToHttp().getRequest();
-    const { ip, url, session } = req;
 
-    req.session = Object.assign(session, new UserSession({
-        history: req.session.history,
-        ip, url
-    }));
+    if (!req.session.ip) {
+        const { ip, url, session } = req;
+
+        req.session = Object.assign(session, new UserSession({
+            history: session.history,
+            ip, url
+        }));
+    }
 
     return req.session;
 });
