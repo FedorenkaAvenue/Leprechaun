@@ -20,9 +20,6 @@ services:
   db:
     restart: on-failure:5
 
-  session:
-    restart: on-failure:5
-
   cache:
     restart: on-failure:5
 
