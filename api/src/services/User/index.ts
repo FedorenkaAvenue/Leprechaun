@@ -15,7 +15,7 @@ export default class UserService extends UserAdminService {
         });
     }
 
-    getHistory(history: SessionI['history']): Promise<ProductPreviewI[]> {
+    getHistory(history: SessionI['productHistory']): Promise<ProductPreviewI[]> {
         return this.productService.getProductPreviewList(history);
     }
 }

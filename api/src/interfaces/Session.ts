@@ -4,5 +4,5 @@ export interface SessionI {
     id?: string;
     ip?: string;
     url?: string;
-    history?: Array<ProductI['id']>;
+    productHistory?: Array<ProductI['id']>;
 }

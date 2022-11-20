@@ -23,15 +23,15 @@ export default class UserPublicController {
     @Get('history')
     @ApiOperation({ summary: 'get user history' })
     @ApiOkResponse({ type: ProductPreview, isArray: true })
-    getUserHistory(@Session() { history }: SessionI): Promise<ProductPreviewI[]> | [] {
-        if (!history.length) return [];
+    getUserHistory(@Session() { productHistory }: SessionI): Promise<ProductPreviewI[]> | [] {
+        if (!productHistory.length) return [];
 
-        return this.userService.getHistory(history);
+        return this.userService.getHistory(productHistory);
     }
 
     @Delete('history')
     @ApiOperation({ summary: 'clear history' })
     clearHistory(@Session() session: SessionI) {
-        session.history = [];
+        session.productHistory = [];
     }
 }

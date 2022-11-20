@@ -1,5 +1,5 @@
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository, SelectQueryBuilder } from 'typeorm';
+import { In, Repository, SelectQueryBuilder } from 'typeorm';
 import { Injectable } from '@nestjs/common';
 
 import { FSService } from '@services/FS';
@@ -12,6 +12,8 @@ import { PaginationResultDTO } from '@dto/Pagination';
 import configService from '../Config';
 import { PaginationResult } from '@dto/Pagination/constructor';
 import { SearchQueries } from '@dto/Queries/constructor';
+import { ProductPreview } from '@dto/Product/constructor';
+import { ProductI, ProductPreviewI } from '@interfaces/Product';
 
 @Injectable()
 export default class ProductHelperService {
@@ -23,6 +25,26 @@ export default class ProductHelperService {
         protected readonly FSService: FSService
     ) {
         this.dashboardPortion = +configService.getVal('DASHBOARD_PORTION');
+    }
+
+    // async getProductPreview(productId: ProductI['id']): Promise<ProductPreviewI> {
+    //     try {
+    //         const res = await this.productRepo.findOneByOrFail({
+    //             id: productId, is_public: true,
+    //         });
+
+    //         return new ProductPreview(res);
+    //     } catch (err) {
+    //         throw new NotFoundException('product not found');
+    //     }
+    // }
+
+    async getProductPreviewList(productIds: Array<ProductI['id']>): Promise<ProductPreviewI[]> {
+        const res = await this.productRepo.findBy({
+            id: In(productIds), is_public: true,
+        });
+
+        return res.map(prod => new ProductPreview(prod));
     }
 
     /**

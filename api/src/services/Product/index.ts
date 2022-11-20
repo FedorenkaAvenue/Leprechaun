@@ -4,9 +4,9 @@ import { CookiesI } from '@interfaces/Cookies';
 import { SearchReqQueriesI } from '@interfaces/Queries';
 import { PaginationResultDTO } from '@dto/Pagination';
 import { CommonDashboardsDTO, UserDashboardsDTO } from '@dto/Dashboard';
-import { ProductI, ProductPreviewI, ProductPublicI } from '@interfaces/Product';
+import { ProductI, ProductPublicI } from '@interfaces/Product';
 import { UserDashboardsI } from '@interfaces/Dashboard';
-import { ProductPreview, ProductPublic } from '@dto/Product/constructor';
+import { ProductPublic } from '@dto/Product/constructor';
 import { CommonDashboards, UserDashboards } from '@dto/Dashboard/constructor';
 import ProductAdminService from './admin';
 import { PRODUCT_RELATIONS } from '@constants/relations';
@@ -22,33 +22,8 @@ export class ProductService extends ProductAdminService {
 
             return new ProductPublic(res);
         } catch (err) {
-            console.log(err);
-
             throw new NotFoundException('product not found');
         }
-    }
-
-    async getProductPreview(productId: ProductI['id']): Promise<ProductPreviewI> {
-        try {
-            const res = await this.productRepo.findOneOrFail({
-                where: { id: productId, is_public: true },
-            });
-
-            return new ProductPreview(res);
-        } catch (err) {
-            throw new NotFoundException('product not found');
-        }
-    }
-
-    async getProductPreviewList(productIds: Array<ProductI['id']>): Promise<ProductPreviewI[]> {
-        const res = await this.productRepo
-            .createQueryBuilder('product')
-            .leftJoinAndSelect('product.images', 'images')
-            .where('product.id IN (:...productIds)', { productIds })
-            .andWhere('product.is_public = true')
-            .getMany();
-
-        return res.map(prod => new ProductPreview(prod));
     }
 
     async getCommonDashboards(): Promise<CommonDashboardsDTO> {

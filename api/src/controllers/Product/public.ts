@@ -8,12 +8,11 @@ import {
     ApiTags,
 } from '@nestjs/swagger';
 
-import { ProductPreviewDTO } from '@dto/Product';
 import { ProductService } from '@services/Product';
 import { SearchReqQueriesI } from '@interfaces/Queries';
 import { PaginationResultDTO } from '@dto/Pagination';
 import { ApiPaginatedResponse } from '@decorators/Swagger';
-import { ProductPreviewI, ProductPublicI } from '@interfaces/Product';
+import { ProductPublicI } from '@interfaces/Product';
 import { QueryGETListDTO } from '@dto/Queries';
 import { Cookies } from '@decorators/Cookies';
 import { CookiesI } from '@interfaces/Cookies';
@@ -22,11 +21,9 @@ import { QueryArrayPipe } from '@pipes/QueryArray';
 import { SessionI } from '@interfaces/Session';
 import { Session } from '@decorators/Session';
 import InvalidPaginationPageInterceptor from '@interceptors/InvalidPaginationPage';
-import { ProductPublic } from '@dto/Product/constructor';
+import { ProductPreview, ProductPublic } from '@dto/Product/constructor';
 import { CommonDashboards, UserDashboards } from '@dto/Dashboard/constructor';
-import configService from '@services/Config';
-
-const USER_HISTORY_LENGTH = configService.getVal('USER_HISTORY_LENGTH');
+import { SessionProductHistoryInterceptor } from '@interceptors/Session';
 
 @Controller('product')
 @ApiTags('Product 🧑‍💻')
@@ -70,41 +67,39 @@ export default class ProductPublicController {
     @Get('dashboard/user')
     @ApiOperation({ summary: 'get individual user dashboards' })
     @ApiOkResponse({ type: UserDashboards })
-    getMostPopularProducts(@Session() { history }: SessionI): Promise<UserDashboards> {
-        return this.productService.getUserDashboards({ history });
+    getMostPopularProducts(@Session() { productHistory }: SessionI): Promise<UserDashboards> {
+        return this.productService.getUserDashboards({ history: productHistory });
     }
 
     @Get('/preview/list')
     @ApiOperation({ summary: 'get product preview list by IDs' })
     @ApiQuery({ name: 'ids', required: true, description: 'array of product IDs', type: 'string' })
-    @ApiOkResponse({ type: ProductPreviewDTO, isArray: true })
+    @ApiOkResponse({ type: ProductPreview, isArray: true })
     @ApiBadRequestResponse({ description: "ID's array is empty" })
     getProductPreviewList(@Query('ids', UndefinedPipe, QueryArrayPipe) ids: QueryGETListDTO['queryList']) {
         return this.productService.getProductPreviewList(ids);
     }
 
-    @Get('/preview/:productId')
-    @UseInterceptors(CacheInterceptor)
-    @ApiOperation({ summary: 'get product preview by ID 💾' })
-    @ApiOkResponse({ type: ProductPreviewDTO })
-    @ApiBadRequestResponse({ description: 'invalid product ID' })
-    @ApiNotFoundResponse({ description: 'product not found' })
-    getProductPreview(@Param('productId', ParseUUIDPipe) productId: string): Promise<ProductPreviewI> {
-        return this.productService.getProductPreview(productId);
-    }
-
     @Get(':productId')
     @UseInterceptors(CacheInterceptor)
+    @UseInterceptors(SessionProductHistoryInterceptor)
     @ApiOperation({ summary: 'get public product by ID 💾' })
     @ApiOkResponse({ type: ProductPublic })
     @ApiBadRequestResponse({ description: 'invalid product ID' })
     @ApiNotFoundResponse({ description: 'product not found' })
     getProduct(
         @Param('productId', ParseUUIDPipe) productId: string,
-        @Session() session: SessionI,
     ): Promise<ProductPublicI> {
-        session.history = [...new Set([productId, ...session.history.slice(0, Number(USER_HISTORY_LENGTH))])];
-
         return this.productService.getPublicProduct(productId);
     }
+
+    // @Get('/preview/:productId')
+    // @UseInterceptors(CacheInterceptor)
+    // @ApiOperation({ summary: 'get product preview by ID 💾' })
+    // @ApiOkResponse({ type: ProductPreview })
+    // @ApiBadRequestResponse({ description: 'invalid product ID' })
+    // @ApiNotFoundResponse({ description: 'product not found' })
+    // getProductPreview(@Param('productId', ParseUUIDPipe) productId: string): Promise<ProductPreviewI> {
+    //     return this.productService.getProductPreview(productId);
+    // }
 }

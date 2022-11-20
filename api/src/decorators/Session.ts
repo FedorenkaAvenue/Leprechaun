@@ -19,7 +19,7 @@ export const Session = createParamDecorator((_: unknown, ctx: ExecutionContext):
         req.session = Object.assign(
             session,
             new UserSession({
-                history: session.history,
+                productHistory: session.productHistory,
                 ip,
                 url,
             }),
