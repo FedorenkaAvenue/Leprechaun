@@ -7,15 +7,16 @@ import UserAdminService from './admin';
 
 @Injectable()
 export default class UserService extends UserAdminService {
-    async getUserData({ id }: SessionI): Promise<UserPublic> {
+    async getUserData(sid: SessionI['sid']): Promise<UserPublic> {
         return new UserPublic({
-            wishlist: await this.wishlistService.getWishList(id),
-            cart: await this.orderService.getCart(id),
-            session: id,
+            wishlist: await this.wishlistService.getWishList(sid),
+            cart: await this.orderService.getCart(sid),
+            session: sid,
         });
     }
 
-    getHistory(history: SessionI['productHistory']): Promise<ProductPreviewI[]> {
+    // TODO
+    getHistory(history): Promise<ProductPreviewI[]> {
         return this.productService.getProductPreviewList(history);
     }
 }

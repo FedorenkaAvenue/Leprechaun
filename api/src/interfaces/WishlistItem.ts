@@ -8,7 +8,7 @@ interface WishlistItemBaseI<P = ProductI> {
 }
 
 export interface WishlistItemI extends WishlistItemBaseI {
-    session_id: SessionI['id'] | null;
+    session_id: SessionI['sid'] | null;
 }
 
 export type WishlistItemPublicI = WishlistItemBaseI<ProductPublicI>;

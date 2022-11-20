@@ -8,7 +8,7 @@ import { PropertyI } from '@interfaces/Property';
 import { Property } from '@dto/Property/constructor';
 
 @Injectable()
-export class PropertyService {
+export default class PropertyService {
     constructor(@InjectRepository(PropertyEntity) private readonly propertyRepo: Repository<PropertyEntity>) {}
 
     async createProperty(property: CreatePropertyDTO): Promise<void> {

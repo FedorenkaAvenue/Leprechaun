@@ -5,5 +5,5 @@ import { WishListIPublicI } from './Wishlist';
 export interface UserPublicI {
     cart: OrderPublicI;
     wishlist: WishListIPublicI;
-    session: SessionI['id'];
+    session: SessionI['sid'];
 }

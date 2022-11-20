@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
-import { PropertyGroupService } from '@services/PropertyGroup';
+import PropertyGroupService from '@services/PropertyGroup';
 import PropertyGroupAdminController from '@controllers/PropertyGroup/admin';
 import { PropertyGroupEntity } from '@entities/PropertGroup';
 

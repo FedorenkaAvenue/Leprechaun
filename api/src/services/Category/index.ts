@@ -5,7 +5,7 @@ import { CategoryPublic } from '@dto/Category/constructor';
 import CategoryAdminService from './admin';
 
 @Injectable()
-export class CategoryService extends CategoryAdminService {
+export default class CategoryService extends CategoryAdminService {
     async getPublicCategories(): Promise<CategoryPublicI[]> {
         const res = await this.categoryRepo.find({
             where: { is_public: true },

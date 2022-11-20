@@ -22,7 +22,7 @@ export default class ProductHelperService {
     constructor(
         @InjectRepository(ProductEntity) protected readonly productRepo: Repository<ProductEntity>,
         protected readonly imageService: ImageService,
-        protected readonly FSService: FSService
+        protected readonly FSService: FSService,
     ) {
         this.dashboardPortion = +configService.getVal('DASHBOARD_PORTION');
     }
@@ -41,7 +41,8 @@ export default class ProductHelperService {
 
     async getProductPreviewList(productIds: Array<ProductI['id']>): Promise<ProductPreviewI[]> {
         const res = await this.productRepo.findBy({
-            id: In(productIds), is_public: true,
+            id: In(productIds),
+            is_public: true,
         });
 
         return res.map(prod => new ProductPreview(prod));

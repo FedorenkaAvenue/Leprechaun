@@ -1,4 +1,13 @@
-import { Controller, Get, Param, ParseUUIDPipe, UseInterceptors, Query, CacheInterceptor } from '@nestjs/common';
+import {
+    Controller,
+    Get,
+    Param,
+    ParseUUIDPipe,
+    UseInterceptors,
+    Query,
+    CacheInterceptor,
+    Session,
+} from '@nestjs/common';
 import {
     ApiBadRequestResponse,
     ApiNotFoundResponse,
@@ -8,7 +17,7 @@ import {
     ApiTags,
 } from '@nestjs/swagger';
 
-import { ProductService } from '@services/Product';
+import ProductService from '@services/Product';
 import { SearchReqQueriesI } from '@interfaces/Queries';
 import { PaginationResultDTO } from '@dto/Pagination';
 import { ApiPaginatedResponse } from '@decorators/Swagger';
@@ -18,8 +27,6 @@ import { Cookies } from '@decorators/Cookies';
 import { CookiesI } from '@interfaces/Cookies';
 import { UndefinedPipe } from '@pipes/Undefined';
 import { QueryArrayPipe } from '@pipes/QueryArray';
-import { SessionI } from '@interfaces/Session';
-import { Session } from '@decorators/Session';
 import InvalidPaginationPageInterceptor from '@interceptors/InvalidPaginationPage';
 import { ProductPreview, ProductPublic } from '@dto/Product/constructor';
 import { CommonDashboards, UserDashboards } from '@dto/Dashboard/constructor';
@@ -67,8 +74,9 @@ export default class ProductPublicController {
     @Get('dashboard/user')
     @ApiOperation({ summary: 'get individual user dashboards' })
     @ApiOkResponse({ type: UserDashboards })
-    getMostPopularProducts(@Session() { productHistory }: SessionI): Promise<UserDashboards> {
-        return this.productService.getUserDashboards({ history: productHistory });
+    // TODO
+    getMostPopularProducts(@Session() { id }): Promise<UserDashboards> {
+        return this.productService.getUserDashboards({ history: [] });
     }
 
     @Get('/preview/list')
@@ -87,9 +95,7 @@ export default class ProductPublicController {
     @ApiOkResponse({ type: ProductPublic })
     @ApiBadRequestResponse({ description: 'invalid product ID' })
     @ApiNotFoundResponse({ description: 'product not found' })
-    getProduct(
-        @Param('productId', ParseUUIDPipe) productId: string,
-    ): Promise<ProductPublicI> {
+    getProduct(@Param('productId', ParseUUIDPipe) productId: string): Promise<ProductPublicI> {
         return this.productService.getPublicProduct(productId);
     }
 

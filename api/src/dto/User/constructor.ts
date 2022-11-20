@@ -1,16 +1,7 @@
-import { OrderPublicI } from '@interfaces/Order';
-import { WishListIPublicI } from '@interfaces/Wishlist';
-import { SessionI } from '@interfaces/Session';
 import { UserPublicDTO } from '.';
 
-type UserPublicPapamsT = {
-    cart: OrderPublicI;
-    wishlist: WishListIPublicI;
-    session: SessionI['id'];
-};
-
 export class UserPublic extends UserPublicDTO {
-    constructor({ cart, wishlist, session }: UserPublicPapamsT) {
+    constructor({ cart, wishlist, session }: UserPublicDTO) {
         super();
         this.cart = cart;
         this.wishlist = wishlist;

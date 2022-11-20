@@ -18,9 +18,7 @@ export class SessionProductHistoryInterceptor implements NestInterceptor {
                 const req = context.switchToHttp().getRequest() as Request;
 
                 req.session.productHistory = [
-                    ...new Set([
-                        id, ...req.session.productHistory
-                    ].slice(0, Number(USER_HISTORY_LENGTH)))
+                    ...new Set([id, ...req.session.productHistory].slice(0, Number(USER_HISTORY_LENGTH))),
                 ];
             }),
         );

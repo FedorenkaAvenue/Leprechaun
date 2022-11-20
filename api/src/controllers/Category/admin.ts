@@ -20,7 +20,7 @@ import {
 import { FileInterceptor } from '@nestjs/platform-express';
 import { DeleteResult } from 'typeorm';
 
-import { CategoryService } from '@services/Category';
+import CategoryService from '@services/Category';
 import { CategoryEntity } from '@entities/Category';
 import { CreateCategoryDTO } from '@dto/Category';
 import { FSService } from '@services/FS';

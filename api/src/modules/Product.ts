@@ -5,7 +5,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import ProductPublicController from '@controllers/Product/public';
 import ProductAdminController from '@controllers/Product/admin';
 import { ProductEntity } from '@entities/Product';
-import { ProductService } from '@services/Product';
+import ProductService from '@services/Product';
 import { FSService } from '@services/FS';
 import ImageModule from '@modules/Image';
 

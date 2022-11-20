@@ -25,7 +25,7 @@ import { FilesInterceptor } from '@nestjs/platform-express';
 
 import { CreateProductDTO } from '@dto/Product';
 import { ProductEntity } from '@entities/Product';
-import { ProductService } from '@services/Product';
+import ProductService from '@services/Product';
 import { SearchReqQueriesI } from '@interfaces/Queries';
 import { PaginationResultDTO } from '@dto/Pagination';
 import { ApiPaginatedResponse } from '@decorators/Swagger';

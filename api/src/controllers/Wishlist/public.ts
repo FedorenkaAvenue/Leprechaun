@@ -1,10 +1,17 @@
-import { BadRequestException, Controller, Delete, Param, ParseUUIDPipe, Post, UseInterceptors } from '@nestjs/common';
+import {
+    BadRequestException,
+    Controller,
+    Delete,
+    Param,
+    ParseUUIDPipe,
+    Post,
+    Session,
+    UseInterceptors,
+} from '@nestjs/common';
 import { ApiBadRequestResponse, ApiNotFoundResponse, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { DeleteResult } from 'typeorm';
 
 import WishlistService from '@services/Wishlist';
-import { Session } from '@decorators/Session';
-import { SessionI } from '@interfaces/Session';
 import AffectedResultInterceptor from '@interceptors/AffectedResult';
 import { WishlistItemPublic } from '@dto/WishlistItem/constructor';
 import { WishlistItemPublicI } from '@interfaces/WishlistItem';
@@ -19,10 +26,7 @@ export default class WishlistPublicController {
     @ApiOkResponse({ type: WishlistItemPublic })
     @ApiBadRequestResponse({ description: 'product is already added to wishlist' })
     @ApiNotFoundResponse({ description: 'product not found' })
-    addItem(
-        @Param('productId', ParseUUIDPipe) productId: string,
-        @Session() { id }: SessionI,
-    ): Promise<WishlistItemPublicI> {
+    addItem(@Param('productId', ParseUUIDPipe) productId: string, @Session() { id }): Promise<WishlistItemPublicI> {
         return this.wishlistService.addItem(productId, id);
     }
 
@@ -38,7 +42,7 @@ export default class WishlistPublicController {
     @UseInterceptors(AffectedResultInterceptor('wishlist is already empty', BadRequestException))
     @ApiOperation({ summary: 'clear wishlist' })
     @ApiBadRequestResponse({ description: 'wishlist is already empty' })
-    clearWishlist(@Session() { id }: SessionI) {
+    clearWishlist(@Session() { id }) {
         return this.wishlistService.clearWishlist(id);
     }
 }

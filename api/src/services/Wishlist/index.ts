@@ -10,7 +10,7 @@ import { WishlistItemPublic } from '@dto/WishlistItem/constructor';
 
 @Injectable()
 export default class WishlistService extends WishlistAdminService {
-    async addItem(product: ProductI['id'], session_id: SessionI['id']): Promise<WishlistItemPublicI> {
+    async addItem(product: ProductI['id'], session_id: SessionI['sid']): Promise<WishlistItemPublicI> {
         const res = await this.wishlistItemRepo.findOneBy({
             product: { id: product },
             session_id,
@@ -32,7 +32,7 @@ export default class WishlistService extends WishlistAdminService {
         return await this.wishlistItemRepo.delete({ id });
     }
 
-    async clearWishlist(session_id: SessionI['id']): Promise<DeleteResult> {
+    async clearWishlist(session_id: SessionI['sid']): Promise<DeleteResult> {
         return this.wishlistItemRepo.delete({ session_id });
     }
 }

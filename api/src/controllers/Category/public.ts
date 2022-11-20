@@ -1,7 +1,7 @@
 import { Controller, Get, Param, UseInterceptors, CacheInterceptor } from '@nestjs/common';
 import { ApiNotFoundResponse, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 
-import { CategoryService } from '@services/Category';
+import CategoryService from '@services/Category';
 import { CategoryPublicI } from '@interfaces/Category';
 import { CategoryPublic } from '@dto/Category/constructor';
 

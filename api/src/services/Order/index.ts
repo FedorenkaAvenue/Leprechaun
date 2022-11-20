@@ -13,8 +13,8 @@ import OrderAdminService from './admin';
 import { ORDER_RELATIONS } from '@constants/relations';
 
 @Injectable()
-export class OrderService extends OrderAdminService {
-    async addOrderItem(orderItem: CreateOrderItemDTO, session_id: SessionI['id']): Promise<OrderPublicI> {
+export default class OrderService extends OrderAdminService {
+    async addOrderItem(orderItem: CreateOrderItemDTO, session_id: SessionI['sid']): Promise<OrderPublicI> {
         const res = await this.orderRepo.findOne({
             where: { session_id, status: OrderStatus.INIT },
             relations: ORDER_RELATIONS,
@@ -43,7 +43,7 @@ export class OrderService extends OrderAdminService {
 
     async changeOrderItemAmount(
         { order_item, amount }: UpdateOrderItemDTO,
-        sessionId: SessionI['id'],
+        sessionId: SessionI['sid'],
     ): Promise<OrderPublicI> {
         await this.orderItemRepo.update({ id: order_item }, { amount });
 
@@ -54,7 +54,7 @@ export class OrderService extends OrderAdminService {
         return this.orderRepo.update({ id: order.id }, { status: OrderStatus.POSTED, customer });
     }
 
-    async getOrderList(session_id: SessionI['id']): Promise<OrderPublicI[]> {
+    async getOrderList(session_id: SessionI['sid']): Promise<OrderPublicI[]> {
         try {
             const res = await this.orderRepo.find({
                 where: { session_id, status: Not(OrderStatus.INIT) },
@@ -70,7 +70,7 @@ export class OrderService extends OrderAdminService {
         }
     }
 
-    async removeOrderItem(id: OrderItemI['id'], sessionId: SessionI['id']): Promise<OrderPublicI> {
+    async removeOrderItem(id: OrderItemI['id'], sessionId: SessionI['sid']): Promise<OrderPublicI> {
         await this.orderItemRepo.delete({ id });
 
         return this.getCart(sessionId);

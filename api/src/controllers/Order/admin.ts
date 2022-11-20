@@ -11,7 +11,7 @@ import {
 } from '@nestjs/common';
 import { ApiNotFoundResponse, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 
-import { OrderService } from '@services/Order';
+import OrderService from '@services/Order';
 import { UpdateOrderStatusDTO } from '@dto/Order';
 import AffectedResultInterceptor from '@interceptors/AffectedResult';
 import { OrderI, OrderPublicI } from '@interfaces/Order';

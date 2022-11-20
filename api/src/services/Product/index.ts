@@ -12,7 +12,7 @@ import ProductAdminService from './admin';
 import { PRODUCT_RELATIONS } from '@constants/relations';
 
 @Injectable()
-export class ProductService extends ProductAdminService {
+export default class ProductService extends ProductAdminService {
     async getPublicProduct(productId: ProductI['id']): Promise<ProductPublicI> {
         try {
             const res = await this.productRepo.findOneOrFail({

@@ -3,10 +3,10 @@ import { CacheModuleOptions } from '@nestjs/common';
 import { CorsOptions } from '@nestjs/common/interfaces/external/cors-options.interface';
 import { SessionOptions } from 'express-session';
 import SMTPTransport from 'nodemailer/lib/smtp-transport';
-import * as RedisStore from 'connect-redis';
 import * as session from 'express-session';
-import { createClient } from 'redis';
 import * as redisCacheStore from 'cache-manager-redis-store';
+import { Pool as PGPool } from 'pg';
+const pgConnect = require('connect-pg-simple');
 
 import { ConfigDevService } from './dev';
 
@@ -53,20 +53,33 @@ export class ConfigService extends ConfigDevService {
     }
 
     /**
+     * @description get main DB connection data
+     */
+    getDBConnectionData() {
+        return {
+            username: this.getVal('POSTGRES_USER') as string,
+            password: this.getVal('POSTGRES_PASSWORD') as string,
+            host: this.getVal('POSTGRES_HOST') as string,
+            port: Number(this.getVal('POSTGRES_PORT')),
+            database: this.getVal('POSTGRES_DATABASE') as string,
+        };
+    }
+
+    /**
      * @description get TypeORM config object
      */
     getTypeOrmConfig(): TypeOrmModuleOptions {
+        const { username, password, host, port, database } = this.getDBConnectionData();
+
         return {
             type: 'postgres',
-            host: this.getVal('POSTGRES_HOST') as string,
-            port: Number(this.getVal('POSTGRES_PORT')),
-            username: this.getVal('POSTGRES_USER') as string,
-            password: this.getVal('POSTGRES_PASSWORD') as string,
-            database: this.getVal('POSTGRES_DATABASE') as string,
-            // TODO поправить после того как разберусь с миграциями
-            // synchronize: this.isDev,
             synchronize: true,
             autoLoadEntities: true,
+            host,
+            port,
+            username,
+            password,
+            database,
         };
     }
 
@@ -121,31 +134,27 @@ export class ConfigService extends ConfigDevService {
      * @description get config for `express-session` package
      */
     getSessionConfig(): SessionOptions {
-        const client = createClient({
-            url: `redis://${this.getVal('SESSION_HOST')}:${this.getVal('SESSION_CONTAINER_PORT')}`,
-            username: this.getVal('SESSION_USER') as string,
-            password: this.getVal('SESSION_PASSWORD') as string,
-            database: +this.getVal('SESSION_DB_NUMBER'),
-            legacyMode: true,
-        });
-        client.connect();
-        const redisStore = RedisStore(session);
+        const pgSession = pgConnect(session);
+        const { username, password, host, port, database } = this.getDBConnectionData();
 
         return {
-            store: new redisStore({ client, logErrors: true }),
+            store: new pgSession({
+                pool: new PGPool({ user: username, database, password, host, port }),
+                tableName: 'session',
+            }),
             genid: this.isLepr || this.isDev ? this.genSessionId() : undefined,
             proxy: true,
+            name: 'session',
             secret: this.getVal('SESSION_COOKIE_SECRET'),
             resave: false,
-            saveUninitialized: false,
             unset: 'destroy',
+            saveUninitialized: true,
             cookie: {
                 httpOnly: true,
                 maxAge: +this.getVal('SESSION_AGE'),
                 sameSite: this.isLepr ? 'none' : 'strict',
                 secure: !this.isDev,
             },
-            name: 'session',
         };
     }
 

@@ -14,6 +14,7 @@ import UserModule from './User';
 import OrderModule from './Order';
 import WishlistModule from './Wishlist';
 import ScheduleModule from './Sheduler';
+import SessionModule from './Session';
 import CacheReset from '@middlewares/CacheReset';
 import ProductAdminController from '@controllers/Product/admin';
 import CategoryAdminController from '@controllers/Category/admin';
@@ -39,6 +40,7 @@ import WishlistPublicController from '@controllers/Wishlist/public';
         ToolModule,
         ScheduleModule,
         AdminModule,
+        SessionModule,
     ],
 })
 export default class AppModule implements NestModule {

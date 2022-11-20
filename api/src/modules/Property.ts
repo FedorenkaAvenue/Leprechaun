@@ -3,7 +3,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 
 import PropertyAdminController from '@controllers/Property/admin';
 import { PropertyEntity } from '@entities/Property';
-import { PropertyService } from '@services/Property';
+import PropertyService from '@services/Property';
 
 @Module({
     imports: [TypeOrmModule.forFeature([PropertyEntity])],

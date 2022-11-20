@@ -4,7 +4,7 @@ import { DeleteResult } from 'typeorm';
 
 import { CreatePropertyDTO } from '@dto/Property';
 import { PropertyEntity } from '@entities/Property';
-import { PropertyService } from '@services/Property';
+import PropertyService from '@services/Property';
 import { PropertyI } from '@interfaces/Property';
 import AffectedResultInterceptor from '@interceptors/AffectedResult';
 import UndefinedResultInterceptor from '@interceptors/UndefinedResult';
