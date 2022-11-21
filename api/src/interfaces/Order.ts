@@ -15,7 +15,7 @@ export interface OrderSummaryI {
 interface OrderBaseI<T = OrderItemI> {
     id?: number;
     status?: OrderStatus;
-    list?: Array<T>;
+    list?: T[];
     summary?: OrderSummaryI;
     updated_at: Date;
 }

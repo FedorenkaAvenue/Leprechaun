@@ -17,10 +17,10 @@ import ScheduleModule from './Sheduler';
 import SessionModule from './Session';
 import HistoryModule from './History';
 import CacheReset from '@middlewares/CacheReset';
-import ProductAdminController from '@controllers/Product/admin';
-import CategoryAdminController from '@controllers/Category/admin';
-import PropertyAdminController from '@controllers/Property/admin';
-import ProductPublicController from '@controllers/Product/public';
+import ProductAdminController from '@controllers/Product/private';
+import CategoryPrivateController from '@controllers/Category/private';
+import PropertyAdminController from '@controllers/Property/private';
+import ProductCardController from '@controllers/Product/public';
 import UserPublicController from '@controllers/User/public';
 import OrderPublicController from '@controllers/Order/public';
 import WishlistPublicController from '@controllers/Wishlist/public';
@@ -51,11 +51,11 @@ export default class AppModule implements NestModule {
         consumer
             .apply(CacheReset)
             .exclude({ path: '(.*)', method: RequestMethod.GET })
-            .forRoutes(ProductAdminController, CategoryAdminController, PropertyAdminController);
+            .forRoutes(ProductAdminController, CategoryPrivateController, PropertyAdminController);
         consumer
             .apply(session(configService.getSessionConfig()))
             .forRoutes(
-                ProductPublicController,
+                ProductCardController,
                 UserPublicController,
                 OrderPublicController,
                 WishlistPublicController,

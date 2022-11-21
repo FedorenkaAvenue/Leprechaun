@@ -1,28 +1,14 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { Injectable } from '@nestjs/common';
 
-import { CategoryPublicI } from '@interfaces/Category';
-import { CategoryPublic } from '@dto/Category/constructor';
-import CategoryAdminService from './admin';
+import { CategoryEntity } from '@entities/Category';
+import { FSService } from '@services/FS';
 
 @Injectable()
-export default class CategoryService extends CategoryAdminService {
-    async getPublicCategories(): Promise<CategoryPublicI[]> {
-        const res = await this.categoryRepo.find({
-            where: { is_public: true },
-        });
-
-        return res.map(cat => new CategoryPublic(cat));
-    }
-
-    async getPublicCategory(categoryUrl: string): Promise<CategoryPublicI> {
-        try {
-            const res = await this.categoryRepo.findOneOrFail({
-                where: { url: categoryUrl, is_public: true },
-            });
-
-            return new CategoryPublic(res);
-        } catch (err) {
-            throw new NotFoundException('category not found');
-        }
-    }
+export default class CategoryService {
+    constructor(
+        @InjectRepository(CategoryEntity) protected readonly categoryRepo: Repository<CategoryEntity>,
+        protected readonly FSService: FSService,
+    ) {}
 }

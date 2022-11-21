@@ -4,12 +4,12 @@ import { CommonDashboardsDTO, UserDashboardsDTO } from '.';
 import { ProductPreview } from '@dto/Product/constructor';
 
 interface CommonDashboardsIConstructorI {
-    popular: Array<ProductI>;
-    newest: Array<ProductI>;
+    popular: ProductI[];
+    newest: ProductI[];
 }
 
 interface UserDashboardsIConstructorI {
-    history: Array<ProductPreviewI>;
+    history: ProductPreviewI[];
 }
 
 export class CommonDashboards extends CommonDashboardsDTO implements CommonDashboardsI {

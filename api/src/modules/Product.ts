@@ -2,8 +2,8 @@ import { Module } from '@nestjs/common';
 import { MulterModule } from '@nestjs/platform-express';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
-import ProductPublicController from '@controllers/Product/public';
-import ProductAdminController from '@controllers/Product/admin';
+import ProductCardController from '@controllers/Product/public';
+import ProductAdminController from '@controllers/Product/private';
 import { ProductEntity } from '@entities/Product';
 import ProductService from '@services/Product';
 import { FSService } from '@services/FS';
@@ -17,7 +17,7 @@ import HistoryModule from './History';
         ImageModule,
         HistoryModule,
     ],
-    controllers: [ProductPublicController, ProductAdminController],
+    controllers: [ProductCardController, ProductAdminController],
     providers: [ProductService, FSService],
     exports: [ProductService],
 })

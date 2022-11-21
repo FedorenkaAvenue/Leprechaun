@@ -28,7 +28,7 @@ export class FSService implements MulterOptionsFactory {
      * @description method to filter file's extensions for MulterOptions
      * @param extentions spreaded extensions ('svg', 'png' etc)
      */
-    public static fileFilterOption(...extentions: Array<string>): MulterOptions['fileFilter'] {
+    public static fileFilterOption(...extentions: string[]): MulterOptions['fileFilter'] {
         return function (_, { originalname }, cb) {
             try {
                 extentions.forEach(ext => {
@@ -59,7 +59,7 @@ export class FSService implements MulterOptionsFactory {
     async saveFiles(
         itemType: FOLDER_TYPES,
         folderId: string | number,
-        files: Array<Express.Multer.File>,
+        files: Express.Multer.File[],
     ): Promise<string[]> {
         const itemDirPath = `${this.hostingPath}/${itemType}/${folderId}`;
 
@@ -85,7 +85,7 @@ export class FSService implements MulterOptionsFactory {
      * @description remove one file
      * @param fileHref file path
      */
-    async removeFiles(files: Array<string>): Promise<void> {
+    async removeFiles(files: string[]): Promise<void> {
         try {
             await Promise.all(
                 files.map(file => {

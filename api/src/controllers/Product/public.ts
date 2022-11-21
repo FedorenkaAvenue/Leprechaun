@@ -8,40 +8,34 @@ import {
     CacheInterceptor,
     Session,
 } from '@nestjs/common';
-import {
-    ApiBadRequestResponse,
-    ApiNotFoundResponse,
-    ApiOkResponse,
-    ApiOperation,
-    ApiTags,
-} from '@nestjs/swagger';
+import { ApiBadRequestResponse, ApiNotFoundResponse, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 
 import ProductService from '@services/Product';
 import { SearchReqQueriesI } from '@interfaces/Queries';
 import { PaginationResultDTO } from '@dto/Pagination';
 import { ApiPaginatedResponse } from '@decorators/Swagger';
-import { ProductPublicI } from '@interfaces/Product';
+import { ProductCardI } from '@interfaces/Product';
 import { Cookies } from '@decorators/Cookies';
 import { CookiesI } from '@interfaces/Cookies';
 import InvalidPaginationPageInterceptor from '@interceptors/InvalidPaginationPage';
-import { ProductPublic } from '@dto/Product/constructor';
+import { ProductCard } from '@dto/Product/constructor';
 import { CommonDashboards, UserDashboards } from '@dto/Dashboard/constructor';
 import { SessionProductHistoryInterceptor } from '@interceptors/Session';
 
 @Controller('product')
 @ApiTags('Product 🧑‍💻')
-export default class ProductPublicController {
+export default class ProductCardController {
     constructor(private readonly productService: ProductService) {}
 
     @Get('list')
     @UseInterceptors(CacheInterceptor)
     @UseInterceptors(InvalidPaginationPageInterceptor)
     @ApiOperation({ summary: 'get all public products 💾' })
-    @ApiPaginatedResponse(ProductPublic)
+    @ApiPaginatedResponse(ProductCard)
     getProducts(
         @Query() queries: SearchReqQueriesI,
         @Cookies() { portion }: CookiesI,
-    ): Promise<PaginationResultDTO<ProductPublicI>> {
+    ): Promise<PaginationResultDTO<ProductCardI>> {
         return this.productService.getPublicProducts(queries, { portion });
     }
 
@@ -50,12 +44,12 @@ export default class ProductPublicController {
     @UseInterceptors(InvalidPaginationPageInterceptor)
     @ApiOperation({ summary: 'get public products by category URL 💾' })
     @ApiNotFoundResponse({ description: 'category not found' })
-    @ApiPaginatedResponse(ProductPublic)
+    @ApiPaginatedResponse(ProductCard)
     getCategoryProducts(
         @Query() queries: SearchReqQueriesI,
         @Cookies() { portion }: CookiesI,
         @Param('categoryUrl') categoryUrl: string,
-    ): Promise<PaginationResultDTO<ProductPublicI>> {
+    ): Promise<PaginationResultDTO<ProductCardI>> {
         return this.productService.getCategoryPublicProducts(categoryUrl, queries, { portion });
     }
 
@@ -78,10 +72,10 @@ export default class ProductPublicController {
     @UseInterceptors(CacheInterceptor)
     @UseInterceptors(SessionProductHistoryInterceptor)
     @ApiOperation({ summary: 'get public product by ID 💾' })
-    @ApiOkResponse({ type: ProductPublic })
+    @ApiOkResponse({ type: ProductCard })
     @ApiBadRequestResponse({ description: 'invalid product ID' })
     @ApiNotFoundResponse({ description: 'product not found' })
-    getProduct(@Param('productId', ParseUUIDPipe) productId: string): Promise<ProductPublicI> {
+    getProduct(@Param('productId', ParseUUIDPipe) productId: string): Promise<ProductCardI> {
         return this.productService.getPublicProduct(productId);
     }
 }

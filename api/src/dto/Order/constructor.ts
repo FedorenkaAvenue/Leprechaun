@@ -4,7 +4,7 @@ import { OrderItemPublic } from '@dto/OrderItem/constructor';
 import { OrderPublicDTO, OrderSummaryDTO } from '.';
 
 export class OrderSummary extends OrderSummaryDTO {
-    constructor(items: Array<OrderItemI>) {
+    constructor(items: OrderItemI[]) {
         super();
         this.price = items.reduce<number>((prev, { product, amount }) => product.price.current * amount + prev, 0);
         this.productsAmount = items.length;

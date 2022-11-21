@@ -14,5 +14,5 @@ export class PaginationDTO implements PaginationI {
 
 export class PaginationResultDTO<TData> implements PaginationIResultI<any> {
     pagination: PaginationI;
-    data: Array<TData>;
+    data: TData[];
 }

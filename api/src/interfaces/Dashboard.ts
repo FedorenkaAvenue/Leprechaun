@@ -1,6 +1,6 @@
 import { ProductPreviewI } from './Product';
 
-type DashboardT = Array<ProductPreviewI>;
+type DashboardT = ProductPreviewI[];
 
 export interface CommonDashboardsI {
     newest: DashboardT;

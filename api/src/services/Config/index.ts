@@ -35,7 +35,7 @@ export class ConfigService extends ConfigDevService {
      * @param key environment variable key
      * @returns variable value
      */
-    getVal(key: string): string | Array<string> {
+    getVal(key: string): string | string[] {
         const envVariable = process.env[key];
 
         if (typeof envVariable === 'undefined') throw new Error(`config error: missing env ${key}`);

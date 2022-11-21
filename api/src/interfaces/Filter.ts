@@ -4,7 +4,7 @@ import { FilterType } from '@enums/Filter';
 
 export interface FiltersI {
     price: FilterRangeGroupI;
-    dinamicFilters: Array<FilterGroupT>;
+    dinamicFilters: FilterGroupT[];
     status: FilterListGroupI;
 }
 
@@ -12,7 +12,7 @@ export type FilterGroupT = PropertyGroupI;
 
 export interface FilterListGroupI extends FilterGroupT {
     type: FilterType.List;
-    list: Array<ListFilterI>;
+    list: ListFilterI[];
 }
 
 export interface FilterRangeGroupI extends FilterGroupT {

@@ -2,7 +2,7 @@ import { BadRequestException, Controller, Delete, Get, Session, UseInterceptors 
 import { ApiBadRequestResponse, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { DeleteResult } from 'typeorm';
 
-import { ProductPublic } from '@dto/Product/constructor';
+import { ProductCard } from '@dto/Product/constructor';
 import HistoryPublicService from '@services/History/public';
 import AffectedResultInterceptor from '@interceptors/AffectedResult';
 
@@ -13,8 +13,8 @@ export default class HistoryPublicController {
 
     @Get('product')
     @ApiOperation({ summary: 'get user product history' })
-    @ApiOkResponse({ type: ProductPublic, isArray: true })
-    getUserHistory(@Session() { id }): Promise<ProductPublic[]> {
+    @ApiOkResponse({ type: ProductCard, isArray: true })
+    getUserHistory(@Session() { id }): Promise<ProductCard[]> {
         return this.historyService.getHistoryPublicList(id);
     }
 
