@@ -17,12 +17,12 @@ export default class WishlistHelperService {
 
     /**
      * @description get current wishlist by session ID
-     * @param session_id
+     * @param sid
      * @returns wishlist
      */
-    async getWishList(session_id: SessionI['sid']): Promise<WishListIPublicI> {
+    async getWishList(sid: SessionI['sid']): Promise<WishListIPublicI> {
         const wishlist = await this.wishlistItemRepo.find({
-            where: { session_id },
+            where: { sid },
             relations: PRODUCT_DEEP_RELATIONS,
         });
 

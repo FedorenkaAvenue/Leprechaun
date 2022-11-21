@@ -10,16 +10,16 @@ import { WishlistItemPublic } from '@dto/WishlistItem/constructor';
 
 @Injectable()
 export default class WishlistService extends WishlistAdminService {
-    async addItem(product: ProductI['id'], session_id: SessionI['sid']): Promise<WishlistItemPublicI> {
+    async addItem(product: ProductI['id'], sid: SessionI['sid']): Promise<WishlistItemPublicI> {
         const res = await this.wishlistItemRepo.findOneBy({
             product: { id: product },
-            session_id,
+            sid,
         });
 
         if (res) throw new BadRequestException('product is already added to wishlist');
 
         try {
-            const { id } = await this.wishlistItemRepo.save({ product, session_id } as DeepPartial<WishlistItemEntity>);
+            const { id } = await this.wishlistItemRepo.save({ product, sid } as DeepPartial<WishlistItemEntity>);
 
             return new WishlistItemPublic(await this.getWishlistItem(id));
         } catch (err) {
@@ -32,7 +32,7 @@ export default class WishlistService extends WishlistAdminService {
         return await this.wishlistItemRepo.delete({ id });
     }
 
-    async clearWishlist(session_id: SessionI['sid']): Promise<DeleteResult> {
-        return this.wishlistItemRepo.delete({ session_id });
+    async clearWishlist(sid: SessionI['sid']): Promise<DeleteResult> {
+        return this.wishlistItemRepo.delete({ sid });
     }
 }

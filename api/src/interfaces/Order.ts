@@ -25,5 +25,5 @@ export type OrderPublicI = OrderBaseI<OrderItemPublicI>;
 export interface OrderI extends OrderBaseI {
     created_at?: Date;
     customer?: OrderCustomerDataI; // reciever data
-    session_id?: SessionI['sid'] | null; // for non-authorizated users
+    sid?: SessionI['sid']; // for non-authorizated users
 }
