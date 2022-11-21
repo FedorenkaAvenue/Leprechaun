@@ -12,9 +12,13 @@ export class LpchRouterService {
     private localize: LocalizeRouterService
     ) { }
 
-  public navigateToCart() {
-    console.log(34234234);
+  public navigateToCart():void {
     let cartPath: any = this.localize.translateRoute('/cart');
     this.router.navigate([cartPath])
+  }
+
+  public navigateToOrderHistory():void {
+    let orderHistoryPath: any = this.localize.translateRoute('/cabinet/orders');
+    this.router.navigate([orderHistoryPath])
   }
 }

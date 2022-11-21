@@ -19,6 +19,7 @@ export interface OrderI {
   status: OrderStatus;
   list: Array<OrderCartItemDto>;
   summary: SummaryOrderI;
+  updated_at: string;
 }
 
 export class OrderDto {

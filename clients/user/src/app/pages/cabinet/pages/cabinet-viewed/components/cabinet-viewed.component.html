@@ -1,27 +1,18 @@
 <div class="viewed-page__wrapper">
   <div class="viewed-page">
-    <header>
-      <h1>{{"cabinet.viewed.header" | translate}}</h1>
-    </header>
     <ng-container *ngIf="viewedData$ | async as products">
       <ng-container *ngIf="products.length; else emptyContent">
+        <ng-container *ngTemplateOutlet="header; context: {products}"></ng-container>
         <ul class="gr-4 g-1">
           <li *ngFor="let product of products">
             <app-product-card [product]="product">
-              <button (click)="deleteFromViewed(product?.id)" class="from-viewed-btn icon-btn">
-                <app-leprachaun-icon
-                  name="trash"
-                  color="rose"
-                  [width]="22"
-                  [height]="22"
-                >
-                </app-leprachaun-icon>
-              </button>
               <button
                 (click)="
-                  product?.isFavorite ? deleteFromFavorite(product?.id) : addToFavorite(product?.id)
+                  product?.isFavorite
+                    ? deleteFromFavorite(product?.favoriteId)
+                    : addToFavorite(product?.id)
                 "
-                class="to-viewed-btn icon-btn"
+                class="to-favorite-btn icon-btn"
               >
                 <app-leprachaun-icon
                   name="heart"
@@ -47,7 +38,14 @@
       </ng-container>
     </ng-container>
     <ng-template #emptyContent>
+      <ng-container *ngTemplateOutlet="header"></ng-container>
       <div>тут повинно бути повідомлення про порожній список переглянутих товарів</div>
+    </ng-template>
+    <ng-template #header let-products="products">
+      <header class="fl-j-sb fl-a-c">
+        <h1>{{ 'cabinet.viewed.header' | translate }}</h1>
+        <button *ngIf="products?.length" (click)="deleteFromViewed()">Очистити історію</button>
+      </header>
     </ng-template>
   </div>
 </div>

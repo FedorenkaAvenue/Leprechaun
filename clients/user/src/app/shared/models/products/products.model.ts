@@ -67,6 +67,7 @@ export class ProductPreviewBaseI {
   price: PriceI;
   status: number;
   isFavorite: boolean;
+  inCart: boolean;
   favoriteId: string;
   labels: Array<ProductLabelI>;
 }

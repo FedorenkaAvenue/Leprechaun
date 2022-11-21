@@ -2,6 +2,7 @@ import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CustomerData, OrderDto, ProductAmountPayload } from '@shared/models/products/order.model';
 import { CartService } from '@shared/services/cart/cart/cart.service';
+import { LpchRouterService } from '@shared/services/router/lpch-router.service';
 import { Observable } from 'rxjs';
 import { take } from 'rxjs/operators';
 @Component({
@@ -13,7 +14,10 @@ import { take } from 'rxjs/operators';
 export class CartPageComponent implements OnInit {
   public cartData$: Observable<OrderDto>;
  
-  constructor(private readonly cartService: CartService) {
+  constructor(
+    private readonly cartService: CartService,
+    private readonly lpchRouterService: LpchRouterService
+    ) {
    
   }
 
@@ -50,6 +54,7 @@ export class CartPageComponent implements OnInit {
     const customer = { ...customerData, phone };
     this.cartService.sendOrder(order, customer).subscribe((res) => {
       this.cartService.updateCart(null);
+      this.lpchRouterService.navigateToOrderHistory();
     });
   }
 }

@@ -2,13 +2,14 @@
   <div class="order-header">
     <div class="order-status" [appOrderStatusIndic]="order?.status"></div>
     <div>
-      <span>№ 741 435 226 від 22.07.22</span>
+      <span>№ {{order?.id}}</span>
+      <span>від {{order?.updated_at | date: 'shortDate'}}</span>
       <p>{{ orderStatuses[order.status].name | translate }}</p>
     </div>
     <ng-container *ngIf="!isOpen">
       <div>
         <span>{{ 'order.sum' | translate }}</span>
-        <p>{{ order?.summary?.price }}</p>
+        <p>{{ order?.summary?.price }}<span>{{currencySymbol}}</span></p>
       </div>
       <ul class="fl">
         <li class="m-r-3" *ngFor="let item of order?.list">
@@ -36,7 +37,7 @@
         <div class="fl order-option">
           <div class="fl-c fl-a-c product-price">
             <span>ціна</span>
-            <p>{{ item?.product?.price?.current }}</p>
+            <p>{{ item?.product?.price?.current }}<span>{{currencySymbol}}</span></p>
           </div>
           <div class="fl-c fl-a-c product-count">
             <span>кількість</span>
@@ -44,7 +45,7 @@
           </div>
           <div class="fl-c fl-a-c product-total">
             <span>сумма</span>
-            <p>{{ item?.summaryPrice.current }}</p>
+            <p>{{ item?.summaryPrice.current }}<span>{{currencySymbol}}</span></p>
           </div>
         </div>
       </li>

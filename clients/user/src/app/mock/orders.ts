@@ -27,6 +27,7 @@ export const ORDERS_HISTORY: Array<OrderI> = [
       },
       productsAmount: 0,
     },
+    updated_at: "2022-11-17T21:53:41.668Z"
   },
 
 
@@ -57,6 +58,8 @@ export const ORDERS_HISTORY: Array<OrderI> = [
       },
       productsAmount: 0,
     },
+    updated_at: "2022-11-17T21:53:41.668Z"
+
   },
   {
     id: '3',
@@ -76,6 +79,8 @@ export const ORDERS_HISTORY: Array<OrderI> = [
       },
       productsAmount: 0,
     },
+    updated_at: "2022-11-17T21:53:41.668Z"
+
   },
   {
     id: '4',
@@ -95,6 +100,8 @@ export const ORDERS_HISTORY: Array<OrderI> = [
       },
       productsAmount: 0,
     },
+    updated_at: "2022-11-17T21:53:41.668Z"
+
   },
   {
     id: '5',
@@ -114,5 +121,6 @@ export const ORDERS_HISTORY: Array<OrderI> = [
       },
       productsAmount: 0,
     },
+    updated_at: "2022-11-17T21:53:41.668Z"
   },
 ];

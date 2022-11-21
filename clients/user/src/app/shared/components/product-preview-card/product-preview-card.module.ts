@@ -7,6 +7,7 @@ import { ProductPriceModule } from '../product-price/product-price.module';
 import { ProductLabelsModule } from '../product-labels/product-labels.module';
 import { CurtainsModule } from '@shared/directives/curtains/curtains.module';
 import { LpchImageModule } from '../lpch-image/lpch-image.module';
+import { LocalizeRouterModule } from '@gilsdav/ngx-translate-router';
 
 
 
@@ -21,7 +22,8 @@ import { LpchImageModule } from '../lpch-image/lpch-image.module';
     CurtainsModule,
     ProductPriceModule,
     ProductLabelsModule,
-    LpchImageModule
+    LpchImageModule,
+    LocalizeRouterModule
   ],
   exports: [
     ProductPreviewCardComponent

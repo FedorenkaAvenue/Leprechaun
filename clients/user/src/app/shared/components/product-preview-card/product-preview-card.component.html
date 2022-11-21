@@ -6,7 +6,7 @@
   ></app-product-labels>
   <a
     class="product-image m-b-2"
-    [routerLink]="['/product', product.id]"
+    [routerLink]="['/product', product.id] | localize"
     routerLinkActive="router-link-active"
   >
     <lpch-image
@@ -16,7 +16,7 @@
     ></lpch-image>
   </a>
   <a
-    [routerLink]="['/product', product.id]"
+    [routerLink]="['/product', product.id] | localize"
     [title]="product?.title"
     routerLinkActive="router-link-active"
     class="product-preview_title fs-2 m-b-2"

@@ -32,4 +32,8 @@ export class FavoritesApiService {
   public deleteProductFromFavorites(id: string): Observable<string> {
     return this.http.delete<string>(`${this.apiUrl}/${id}`);
   }
+
+  public clearAllProductsFromFavorites(): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}`);
+  }
 }

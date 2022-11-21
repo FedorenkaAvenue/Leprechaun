@@ -1,30 +1,44 @@
-<section class="product r p-3 content">
-  <ng-content select=".from-favorite-btn"></ng-content>
-  <app-product-labels
-    *ngIf="product?.labels?.length"
-    [labelsData]="product?.labels"
-  ></app-product-labels>
-  <div class="product__wrap">
-    <a [routerLink]="['/product', product.id] | localize" routerLinkActive="router-link-active">
-      <div class="product-preview__wrap">
-        <div
-          class="product-preview__image"
-          [ngStyle]="{ 'background-image': 'url(' + apiUrl + '/' + (product?.images?.[0]?.src || product?.image) + ')' }"
-        >
-          <ng-container *ngFor="let image of product.images">
-            <div class="product-preview__curtain" [appCurtains]="image.src"></div>
-          </ng-container>
+<article class="product r p-3 content">
+  <header class="header a p-3 fl-j-sb">
+    <div class="labels">
+      <app-product-labels
+      *ngIf="product?.labels?.length"
+      [labelsData]="product?.labels"
+    ></app-product-labels>
+    </div>
+    <div class="header_controls">
+      <ng-content select=".delete-card-btn"></ng-content>
+    </div>
+  </header>
+    <div class="gallery">
+      <a [routerLink]="['/product', product.id] | localize">
+        <div class="product-preview__wrap">
+          <div
+            class="product-preview__image"
+            [ngStyle]="{ 'background-image': 'url(' + apiUrl + '/' + (product?.images?.[0]?.src || product?.image) + ')' }"
+          >
+            <ng-container *ngFor="let image of product.images">
+              <div class="product-preview__curtain" [appCurtains]="image.src"></div>
+            </ng-container>
+          </div>
         </div>
-      </div>
-      <span class="product-title">{{ product?.title }}</span>
-    </a>
-    <div class="product-main">
+      </a>
+    </div>
+    <div class="info p-v-3">
+      <a [routerLink]="['/product', product.id] | localize">
+        <span class="product-title">{{ product?.title }}</span>
+      </a>
+  
+    </div>
+  <footer class="fl-j-sb">
+    <div class="footer_data">
       <div class="product__price-wrap">
-        <app-product-price [price]="product?.price"></app-product-price>
-        <ng-content select=".to-card-btn"></ng-content>
-        <ng-content select=".to-favorite-btn"></ng-content>
-    
+        <app-product-price [price]="product?.price"></app-product-price> 
       </div>
     </div>
-  </div>
-</section>
+    <div class="footer_controls">
+      <ng-content select=".to-card-btn"></ng-content>
+      <ng-content select=".to-favorite-btn"></ng-content>
+    </div>
+  </footer>
+</article>

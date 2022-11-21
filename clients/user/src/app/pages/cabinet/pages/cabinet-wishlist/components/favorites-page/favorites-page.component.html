@@ -1,17 +1,15 @@
 <div class="favorites-page__wrapper">
   <div class="favorites-page">
-    <header>
-      <h1>{{"cabinet.wishlist.header" | translate}}</h1>
-    </header>
     <ng-container *ngIf="favoritesData$ | async as favorites">
       <ng-container *ngIf="favorites.length; else emptyContent">
+        <ng-container *ngTemplateOutlet="header; context: {favorites}"></ng-container>
         <ul class="gr-4 g-1">
           <li *ngFor="let favorite of favorites">
 
             <app-product-card
             [product]="favorite.product"
             >
-            <button (click)="deleteFromFavorite(favorite?.id)" class="from-favorite-btn icon-btn">
+            <button (click)="deleteFromFavorite(favorite?.id)" class="delete-card-btn icon-btn">
               <app-leprachaun-icon name="trash" color="rose" [width]="22" [height]="22">
               </app-leprachaun-icon>
             </button>
@@ -32,7 +30,14 @@
       </ng-container>
     </ng-container>
     <ng-template #emptyContent>
+      <ng-container *ngTemplateOutlet="header"></ng-container>
       <div>тут повинно бути повідомлення про порожній список улюблених товарів</div>
+    </ng-template>
+    <ng-template #header let-favorites="favorites">
+      <header class="fl-j-sb fl-a-c">
+        <h1>{{"cabinet.wishlist.header" | translate}}</h1>
+        <button *ngIf="favorites?.length" (click)="clearAllFavorites()">Очистити улюблені</button>
+      </header>
     </ng-template>
   </div>
 </div>

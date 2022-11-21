@@ -23,10 +23,6 @@ export class FavoritesPageComponent implements OnInit {
 
   ngOnInit(): void {
     this.favoritesData$ = this.favoritesService.getProducts();
-    this.favoritesData$.subscribe(res => {
-      console.log(res);
-      
-    })
     
   }
 
@@ -46,6 +42,12 @@ export class FavoritesPageComponent implements OnInit {
     .pipe(take(1))
     .subscribe(() => {
 
+    })
+  }
+
+  public clearAllFavorites(): void {
+    this.favoritesService.clearAllFavorites().subscribe(res => {
+      this.favoritesService.updateFavorites([])
     })
   }
   

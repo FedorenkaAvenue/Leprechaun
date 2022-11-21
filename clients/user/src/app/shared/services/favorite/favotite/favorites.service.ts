@@ -31,8 +31,6 @@ export class FavoritesService {
     ) as Observable<Array<FavoriteDto>>;
     return combineLatest([favoritesProducts$, cartState$]).pipe(
       map(([favoritesProducts, cartValue]) => {
-        console.log(favoritesProducts);
-        
         favoritesProducts.map((favorite) => {
           const orderProducts = cartValue?.list.map((orderProduct) => orderProduct?.product?.id);
           favorite.product.inCart = orderProducts?.includes(favorite.product.id);
@@ -44,19 +42,21 @@ export class FavoritesService {
   }
 
   public addToFavorites(id: string): Observable<FavoriteDto> {
-    return this.favoritesApiService.addProductToFavorites(id)
+    return this.favoritesApiService.addProductToFavorites(id);
   }
 
   public deleteProduct(id: string): Observable<string> {
     return this.favoritesApiService.deleteProductFromFavorites(id).pipe(
       tap((favoriteId: string) => {
-      const value = this.favoritesValue$.value;
-      const favorites = value.filter(el => el.id !== id);
-      console.log(favorites);
-      
+        const value = this.favoritesValue$.value;
+        const favorites = value.filter((el) => el.id !== id);
         this.updateFavorites(favorites);
       }),
     );
+  }
+
+  public clearAllFavorites(): Observable<void> {
+    return this.favoritesApiService.clearAllProductsFromFavorites();
   }
 
   public addToFavoriteSore(favorite: FavoriteDto): void {

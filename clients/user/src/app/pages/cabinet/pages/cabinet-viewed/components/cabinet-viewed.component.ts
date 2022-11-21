@@ -11,41 +11,49 @@ import { CabinetViewedService } from '../services/cabinet-viewed.service';
   selector: 'app-cabinet-viewed',
   templateUrl: './cabinet-viewed.component.html',
   styleUrls: ['./cabinet-viewed.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CabinetViewedComponent implements OnInit, OnDestroy {
-
   public viewedData$: Observable<Array<ProductsPreviewI>>;
   public cartSubscription: Subscription;
+  public clearViewedSubscription: Subscription;
   public addFavoriteSubscription: Subscription;
   public deleteFavoriteSubscription: Subscription;
+  public viewedProductsSubscription: Subscription;
   constructor(
     private readonly favoritesService: FavoritesService,
     private readonly cartService: CartService,
     private readonly cabinetViewedService: CabinetViewedService,
     private readonly lpchRouterService: LpchRouterService,
-  ) { }
+  ) {}
 
   ngOnInit(): void {
-    this.viewedData$ = this.cabinetViewedService.getViewedProducts();
-    this.viewedData$.subscribe(res => {
-      console.log(res);
-      
-    })
+    this.cabinetViewedService.init();
+    this.viewedProductsSubscription = this.cabinetViewedService.getViewedProducts().subscribe((viewed: Array<ProductsPreviewI>) => {
+      this.cabinetViewedService.updateViewed(viewed);
+    });
+
+    this.viewedData$ = this.cabinetViewedService.getProducts()
   }
 
   ngOnDestroy(): void {
-    if(this.cartSubscription) {
+    if (this.cartSubscription) {
       this.cartSubscription.unsubscribe();
     }
-    if(this.addFavoriteSubscription) {
+    if (this.addFavoriteSubscription) {
       this.addFavoriteSubscription.unsubscribe();
     }
-    if(this.deleteFavoriteSubscription) {
+    if (this.deleteFavoriteSubscription) {
       this.deleteFavoriteSubscription.unsubscribe();
     }
+    if (this.clearViewedSubscription) {
+      this.clearViewedSubscription.unsubscribe();
+    }
+    if (this.viewedProductsSubscription) {
+      this.viewedProductsSubscription.unsubscribe();
+    }
+    this.cabinetViewedService.destroy();
   }
-
 
   public addToCart(productId: string): void {
     const productinCart = this.cartService.checkAvailabilityInCart(productId);
@@ -55,7 +63,7 @@ export class CabinetViewedComponent implements OnInit, OnDestroy {
     }
     this.cartSubscription = this.cartService.addToCart(productId).subscribe((order: OrderDto) => {
       this.cartService.updateCart(order);
-    })
+    });
   }
 
   public addToFavorite(productId: string): void {
@@ -68,13 +76,14 @@ export class CabinetViewedComponent implements OnInit, OnDestroy {
   }
 
   public deleteFromFavorite(productId: string): void {
-    this.deleteFavoriteSubscription = this.favoritesService.deleteProduct(productId).subscribe((favorites: any) => {
-      this.favoritesService.updateFavorites(favorites);
-    });
+    this.deleteFavoriteSubscription = this.favoritesService
+      .deleteProduct(productId)
+      .subscribe((favorites: any) => {});
   }
 
   public deleteFromViewed(): void {
-    
+    this.clearViewedSubscription = this.cabinetViewedService.clearProductHistory().subscribe(res => {
+      this.cabinetViewedService.updateViewed([])
+    })
   }
-
 }

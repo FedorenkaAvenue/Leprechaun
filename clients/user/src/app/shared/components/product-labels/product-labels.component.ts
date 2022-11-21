@@ -10,7 +10,7 @@ import { ProductLabelI } from '@shared/models/products/product-label.model';
 })
 export class ProductLabelsComponent implements OnInit {
   @Input() labelsData: Array<ProductLabelI>;
-  @HostBinding('class') class = ['labels', 'a', 'fl-c', 'g-1'];
+  @HostBinding('class') class = ['labels', 'fl-c', 'g-1'];
   
   constructor() { }
 

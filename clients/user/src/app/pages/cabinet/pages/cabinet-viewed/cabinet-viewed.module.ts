@@ -6,6 +6,7 @@ import { CabinetViewedComponent } from './components/cabinet-viewed.component';
 import { CabinetViewedService } from './services/cabinet-viewed.service';
 import { ProductCardModule } from '@shared/components/product-card/product-card.module';
 import { TranslateModule } from '@ngx-translate/core';
+import { cartIcon, closeIcon, heartIcon, LeprachaunIconRegistryService, LeprachaunIconsModule, trashIcon } from '@shared/modules/leprachaun-icons';
 
 
 @NgModule({
@@ -17,7 +18,18 @@ import { TranslateModule } from '@ngx-translate/core';
     CabinetViewedRoutingModule,
     ProductCardModule,
     TranslateModule.forChild(),
+    LeprachaunIconsModule,
   ],
   providers: [CabinetViewedService]
 })
-export class CabinetViewedModule { }
+export class CabinetViewedModule {
+  constructor(private readonly leprachaunIconRegistryService: LeprachaunIconRegistryService) {
+    this.leprachaunIconRegistryService.registerIcons(
+      [
+       closeIcon,
+       trashIcon,
+       cartIcon,
+       heartIcon
+      ]);
+  }
+}
