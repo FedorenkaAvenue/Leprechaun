@@ -1,7 +1,6 @@
 import { Injectable } from '@nestjs/common';
 
 import { SessionI } from '@interfaces/Session';
-import { ProductPreviewI } from '@interfaces/Product';
 import { UserPublic } from '@dto/User/constructor';
 import UserAdminService from './admin';
 
@@ -13,10 +12,5 @@ export default class UserService extends UserAdminService {
             cart: await this.orderService.getCart(sid),
             session: sid,
         });
-    }
-
-    // TODO
-    getHistory(history): Promise<ProductPreviewI[]> {
-        return this.productService.getProductPreviewList(history);
     }
 }

@@ -71,22 +71,21 @@ export default class ProductPublicController {
         return this.productService.getCommonDashboards();
     }
 
-    @Get('dashboard/user')
-    @ApiOperation({ summary: 'get individual user dashboards' })
-    @ApiOkResponse({ type: UserDashboards })
-    // TODO
-    getMostPopularProducts(@Session() { id }): Promise<UserDashboards> {
-        return this.productService.getUserDashboards({ history: [] });
-    }
+    // @Get('dashboard/user')
+    // @ApiOperation({ summary: 'get individual user dashboards' })
+    // @ApiOkResponse({ type: UserDashboards })
+    // getMostPopularProducts(@Session() { id }): Promise<UserDashboards> {
+    //     return this.productService.getUserDashboards(id);
+    // }
 
-    @Get('/preview/list')
-    @ApiOperation({ summary: 'get product preview list by IDs' })
-    @ApiQuery({ name: 'ids', required: true, description: 'array of product IDs', type: 'string' })
-    @ApiOkResponse({ type: ProductPreview, isArray: true })
-    @ApiBadRequestResponse({ description: "ID's array is empty" })
-    getProductPreviewList(@Query('ids', UndefinedPipe, QueryArrayPipe) ids: QueryGETListDTO['queryList']) {
-        return this.productService.getProductPreviewList(ids);
-    }
+    // @Get('/preview/list')
+    // @ApiOperation({ summary: 'get product preview list by IDs' })
+    // @ApiQuery({ name: 'ids', required: true, description: 'array of product IDs', type: 'string' })
+    // @ApiOkResponse({ type: ProductPreview, isArray: true })
+    // @ApiBadRequestResponse({ description: "ID's array is empty" })
+    // getProductPreviewList(@Query('ids', UndefinedPipe, QueryArrayPipe) ids: QueryGETListDTO['queryList']) {
+    //     return this.productService.getProductPreviewList(ids);
+    // }
 
     @Get(':productId')
     @UseInterceptors(CacheInterceptor)

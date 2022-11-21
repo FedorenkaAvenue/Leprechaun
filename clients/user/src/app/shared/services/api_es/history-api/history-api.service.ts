@@ -8,7 +8,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class HistoryApiService {
-  private readonly apiUrl = `${environment?.apiEndpoint}/user/history`;
+  private readonly apiUrl = `${environment?.apiEndpoint}/history/product`;
 
   constructor(
     private readonly http: HttpClient

@@ -39,14 +39,14 @@ export default class ProductHelperService {
     //     }
     // }
 
-    async getProductPreviewList(productIds: Array<ProductI['id']>): Promise<ProductPreviewI[]> {
-        const res = await this.productRepo.findBy({
-            id: In(productIds),
-            is_public: true,
-        });
+    // async getProductPreviewList(productIds: Array<ProductI['id']>): Promise<ProductPreviewI[]> {
+    //     const res = await this.productRepo.findBy({
+    //         id: In(productIds),
+    //         is_public: true,
+    //     });
 
-        return res.map(prod => new ProductPreview(prod));
-    }
+    //     return res.map(prod => new ProductPreview(prod));
+    // }
 
     /**
      * @description get common product query builder

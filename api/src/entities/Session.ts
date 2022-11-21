@@ -9,14 +9,6 @@ export default class SessionEntity implements SessionI {
     @ApiProperty({ description: 'session ID' })
     sid: string;
 
-    @Column({ nullable: true })
-    @ApiProperty()
-    ip: string;
-
-    @Column({ nullable: true })
-    @ApiProperty()
-    token: string;
-
     @CreateDateColumn()
     @ApiProperty()
     created_at: Date;

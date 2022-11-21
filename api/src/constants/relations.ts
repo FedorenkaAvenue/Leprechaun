@@ -7,3 +7,5 @@ export const PRODUCT_DEEP_RELATIONS = [
     'product.properties',
     'product.properties.property_group',
 ];
+
+export const HISTORY_RELATIONS = ['product'];

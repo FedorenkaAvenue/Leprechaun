@@ -10,6 +10,7 @@ import { ProductPublic } from '@dto/Product/constructor';
 import { CommonDashboards, UserDashboards } from '@dto/Dashboard/constructor';
 import ProductAdminService from './admin';
 import { PRODUCT_RELATIONS } from '@constants/relations';
+import { SessionI } from '@interfaces/Session';
 
 @Injectable()
 export default class ProductService extends ProductAdminService {
@@ -43,11 +44,11 @@ export default class ProductService extends ProductAdminService {
         return new CommonDashboards({ popular, newest });
     }
 
-    async getUserDashboards({ history }: UserDashboardsI<string[]>): Promise<UserDashboardsDTO> {
-        return new UserDashboards({
-            history: history.length ? await this.getProductPreviewList(history) : [],
-        });
-    }
+    // async getUserDashboards(sid: SessionI['sid']): Promise<UserDashboardsDTO> {
+    //     return new UserDashboards({
+    //         history: await this.getProductPreviewList(history) : [],
+    //     });
+    // }
 
     async getPublicProducts(
         queries: SearchReqQueriesI,

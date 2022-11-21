@@ -3,23 +3,21 @@ import { Observable, tap } from 'rxjs';
 import { Request } from 'express';
 
 import { ProductI } from '@interfaces/Product';
-import configService from '@services/Config';
-
-const USER_HISTORY_LENGTH = configService.getVal('USER_HISTORY_LENGTH');
+import HistoryPublicService from '@services/History/public';
 
 /**
- * @description set user product history to session
+ * @description set product to history
  */
 @Injectable()
 export class SessionProductHistoryInterceptor implements NestInterceptor {
+    constructor(private readonly historyService: HistoryPublicService) {}
+
     intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
         return next.handle().pipe(
             tap(({ id }: ProductI) => {
                 const req = context.switchToHttp().getRequest() as Request;
 
-                // req.session.productHistory = [
-                //     ...new Set([id, ...req.session.productHistory].slice(0, Number(USER_HISTORY_LENGTH))),
-                // ];
+                this.historyService.addHistoryItem(id, req.session.id);
             }),
         );
     }
