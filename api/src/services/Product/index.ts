@@ -6,7 +6,7 @@ import { PaginationResultDTO } from '@dto/Pagination';
 import { CommonDashboardsDTO, UserDashboardsDTO } from '@dto/Dashboard';
 import { ProductI, ProductPublicI } from '@interfaces/Product';
 import { UserDashboardsI } from '@interfaces/Dashboard';
-import { ProductPublic } from '@dto/Product/constructor';
+import { ProductPreview, ProductPublic } from '@dto/Product/constructor';
 import { CommonDashboards, UserDashboards } from '@dto/Dashboard/constructor';
 import ProductAdminService from './admin';
 import { PRODUCT_RELATIONS } from '@constants/relations';
@@ -44,11 +44,13 @@ export default class ProductService extends ProductAdminService {
         return new CommonDashboards({ popular, newest });
     }
 
-    // async getUserDashboards(sid: SessionI['sid']): Promise<UserDashboardsDTO> {
-    //     return new UserDashboards({
-    //         history: await this.getProductPreviewList(history) : [],
-    //     });
-    // }
+    async getUserDashboards(sid: SessionI['sid']): Promise<UserDashboardsDTO> {
+        const history = await this.historyService.getHistoryList(sid);
+
+        return new UserDashboards({
+            history: history.map(({ product }) => new ProductPreview(product))
+        });
+    }
 
     async getPublicProducts(
         queries: SearchReqQueriesI,
