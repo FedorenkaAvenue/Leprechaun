@@ -2,7 +2,7 @@ import { ApiProperty } from '@nestjs/swagger';
 import { IsBooleanString, IsEnum, IsNotEmpty, IsNumberString, IsOptional, IsString } from 'class-validator';
 
 import { CategoryI } from '@interfaces/Category';
-import { ProductI, ProductPreviewI, ProductPublicI } from '@interfaces/Product';
+import { ProductI, ProductPreviewI, ProductCardI } from '@interfaces/Product';
 import { PriceI } from '@interfaces/Price';
 import { ProductStatus } from '@enums/Product';
 import { PropertyI } from '@interfaces/Property';
@@ -113,7 +113,7 @@ export class ProductPreviewDTO implements ProductPreviewI {
     labels: LabelI[];
 }
 
-export class PublicProductDTO implements ProductPublicI {
+export class ProductCardDTO implements ProductCardI {
     @ApiProperty()
     id: string;
 
@@ -130,10 +130,7 @@ export class PublicProductDTO implements ProductPublicI {
     images: ImageEntity[];
 
     @ApiProperty({ type: PropertyEntity, isArray: true })
-    properties: Array<PropertyI>;
-
-    @ApiProperty({ type: () => CategoryEntity })
-    category: CategoryI;
+    properties: PropertyI[];
 
     @ApiProperty({ type: LabelDTO, isArray: true, required: false })
     labels: LabelI[];

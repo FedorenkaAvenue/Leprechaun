@@ -5,10 +5,10 @@ import { CreateCategoryDTO } from '@dto/Category';
 import { FOLDER_TYPES } from '@services/FS';
 import { CategoryI } from '@interfaces/Category';
 import { Category } from '@dto/Category/constructor';
-import CategoryHelperService from './helper';
+import CategoryService from '.';
 
 @Injectable()
-export default class CategoryAdminService extends CategoryHelperService {
+export default class CategoryPrivateService extends CategoryService {
     getAdminCategories(): Promise<CategoryI[]> {
         return this.categoryRepo.find({
             relations: ['property_groups'],

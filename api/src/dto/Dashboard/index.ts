@@ -2,12 +2,12 @@ import { ApiProperty } from '@nestjs/swagger';
 
 import { CommonDashboardsI, UserDashboardsI } from '@interfaces/Dashboard';
 import { ProductPreviewI } from '@interfaces/Product';
-import { ProductPreviewDTO } from '@dto/Product';
+import { ProductPreview } from '@dto/Product/constructor';
 
 export class CommonDashboardsDTO implements CommonDashboardsI {
     @ApiProperty({
         description: 'popular products',
-        type: ProductPreviewDTO,
+        type: ProductPreview,
         isArray: true,
         required: false,
     })
@@ -15,7 +15,7 @@ export class CommonDashboardsDTO implements CommonDashboardsI {
 
     @ApiProperty({
         description: 'new products',
-        type: ProductPreviewDTO,
+        type: ProductPreview,
         isArray: true,
         required: false,
     })
@@ -25,7 +25,7 @@ export class CommonDashboardsDTO implements CommonDashboardsI {
 export class UserDashboardsDTO implements UserDashboardsI {
     @ApiProperty({
         description: 'recently visited products',
-        type: ProductPreviewDTO,
+        type: ProductPreview,
         isArray: true,
         required: false,
     })

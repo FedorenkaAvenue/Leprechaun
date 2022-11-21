@@ -22,7 +22,7 @@ export class ImageService {
      * @param productId product id
      * @param imgArr array of image ulrs
      */
-    async addImageArr(productId: string, imgArr: Array<string>): Promise<void> {
+    async addImageArr(productId: string, imgArr: string[]): Promise<void> {
         try {
             await Promise.all(imgArr.map(imgUrl => this.addImage(new Image(productId, imgUrl))));
         } catch (err) {

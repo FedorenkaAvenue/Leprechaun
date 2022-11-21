@@ -13,7 +13,7 @@ import { PRODUCT_RELATIONS } from '@constants/relations';
 
 @Injectable()
 export default class ProductAdminService extends ProductHelperService {
-    async createProduct(newProduct: CreateProductDTO, images: Array<Express.Multer.File>): Promise<void> {
+    async createProduct(newProduct: CreateProductDTO, images: Express.Multer.File[]): Promise<void> {
         const { id } = await this.productRepo.save(new Product(newProduct));
 
         if (images) {

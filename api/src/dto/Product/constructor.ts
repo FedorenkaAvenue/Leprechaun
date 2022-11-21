@@ -4,7 +4,7 @@ import { ProductStatus } from '@enums/Product';
 import WithLabels from '@decorators/Label';
 import { LabelType } from '@enums/Label';
 import { ImageEntity } from '@entities/Image';
-import { CreateProductDTO, ProductPreviewDTO, PublicProductDTO } from '.';
+import { CreateProductDTO, ProductPreviewDTO, ProductCardDTO } from '.';
 import { Price } from '@dto/Price/constructor';
 import configService from '@services/Config';
 
@@ -52,8 +52,8 @@ export class ProductPreview extends ProductPreviewDTO {
 }
 
 @WithLabels(LabelType.NEW, LabelType.POPULAR, LabelType.DISCOUNT)
-export class ProductPublic extends PublicProductDTO {
-    constructor({ id, title, price, status, images, properties, category }: ProductI) {
+export class ProductCard extends ProductCardDTO {
+    constructor({ id, title, price, status, images, properties }: ProductI) {
         super();
         this.id = id;
         this.title = title;
@@ -61,6 +61,5 @@ export class ProductPublic extends PublicProductDTO {
         this.status = status;
         this.images = images.slice(0, Number(PRODUCT_PUBLIC_IMAGE_AMOUNT)) as ImageEntity[];
         this.properties = properties;
-        this.category = category;
     }
 }

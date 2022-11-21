@@ -15,15 +15,15 @@ export interface OrderSummaryI {
 interface OrderBaseI<T = OrderItemI> {
     id?: number;
     status?: OrderStatus;
-    list?: Array<T>;
+    list?: T[];
     summary?: OrderSummaryI;
     updated_at: Date;
 }
 
-export interface OrderPublicI extends OrderBaseI<OrderItemPublicI> {}
+export type OrderPublicI = OrderBaseI<OrderItemPublicI>;
 
 export interface OrderI extends OrderBaseI {
     created_at?: Date;
     customer?: OrderCustomerDataI; // reciever data
-    session_id?: SessionI['id'] | null; // for non-authorizated users
+    sid?: SessionI['sid']; // for non-authorizated users
 }

@@ -13,10 +13,10 @@ import OrderAdminService from './admin';
 import { ORDER_RELATIONS } from '@constants/relations';
 
 @Injectable()
-export class OrderService extends OrderAdminService {
-    async addOrderItem(orderItem: CreateOrderItemDTO, session_id: SessionI['id']): Promise<OrderPublicI> {
+export default class OrderService extends OrderAdminService {
+    async addOrderItem(orderItem: CreateOrderItemDTO, sid: SessionI['sid']): Promise<OrderPublicI> {
         const res = await this.orderRepo.findOne({
-            where: { session_id, status: OrderStatus.INIT },
+            where: { sid, status: OrderStatus.INIT },
             relations: ORDER_RELATIONS,
         });
 
@@ -33,33 +33,33 @@ export class OrderService extends OrderAdminService {
             }
         } else {
             // create new order
-            const { id: order_id } = await this.createOrder(session_id);
+            const { id: order_id } = await this.createOrder(sid);
 
             await this.orderItemRepo.save({ order_id, ...orderItem } as DeepPartial<ProductEntity>);
         }
 
-        return await this.getCart(session_id);
+        return await this.getCart(sid);
     }
 
     async changeOrderItemAmount(
         { order_item, amount }: UpdateOrderItemDTO,
-        sessionId: SessionI['id'],
+        sid: SessionI['sid'],
     ): Promise<OrderPublicI> {
         await this.orderItemRepo.update({ id: order_item }, { amount });
 
-        return this.getCart(sessionId);
+        return this.getCart(sid);
     }
 
     sendOrder({ order, customer }: CreateOrderDTO): Promise<UpdateResult> {
         return this.orderRepo.update({ id: order.id }, { status: OrderStatus.POSTED, customer });
     }
 
-    async getOrderList(session_id: SessionI['id']): Promise<OrderPublicI[]> {
+    async getOrderList(sid: SessionI['sid']): Promise<OrderPublicI[]> {
         try {
             const res = await this.orderRepo.find({
-                where: { session_id, status: Not(OrderStatus.INIT) },
+                where: { sid, status: Not(OrderStatus.INIT) },
                 relations: ORDER_RELATIONS,
-                order: { created_at: 'ASC' },
+                order: { updated_at: 'DESC' },
             });
 
             if (!res.length) return [];
@@ -70,9 +70,9 @@ export class OrderService extends OrderAdminService {
         }
     }
 
-    async removeOrderItem(id: OrderItemI['id'], sessionId: SessionI['id']): Promise<OrderPublicI> {
+    async removeOrderItem(id: OrderItemI['id'], sid: SessionI['sid']): Promise<OrderPublicI> {
         await this.orderItemRepo.delete({ id });
 
-        return this.getCart(sessionId);
+        return this.getCart(sid);
     }
 }

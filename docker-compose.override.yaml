@@ -19,16 +19,6 @@ services:
       - POSTGRES_USER=${DB_USER}
       - POSTGRES_DATABASE=${DB_DATABASE}
 
-  session:
-    container_name: leprechaun_session
-    build:
-      context: ./session
-      dockerfile: Dockerfile
-      args:
-        - REDIS_PASSWORD:${SESSION_PASSWORD}
-    ports:
-      - ${SESSION_PORT}:${SESSION_CONTAINER_PORT}
-
   cache:
     container_name: leprechaun_cache
     build:
@@ -51,12 +41,6 @@ services:
       - POSTGRES_PASSWORD=${DB_PASSWORD}
       - POSTGRES_USER=${DB_USER}
       - POSTGRES_DATABASE=${DB_DATABASE}
-      - SESSION_HOST
-      - SESSION_PORT
-      - SESSION_CONTAINER_PORT
-      - SESSION_USER
-      - SESSION_PASSWORD
-      - SESSION_DB_NUMBER
       - CACHE_HOST
       - CACHE_PORT
       - CACHE_CONTAINER_PORT
@@ -98,6 +82,7 @@ services:
       - DOMAIN
       - DOMAIN_MEDIA
       - DOMAIN_API
+      - CURRENCY_SYMBOL
     depends_on:
       - api
 

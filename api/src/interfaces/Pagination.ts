@@ -17,5 +17,5 @@ export interface CreatePagintaionI {
 
 export interface PaginationIResultI<TDataResult> {
     pagination: PaginationI;
-    data: Array<TDataResult>;
+    data: TDataResult[];
 }

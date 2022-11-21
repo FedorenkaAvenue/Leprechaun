@@ -4,51 +4,27 @@ import { CookiesI } from '@interfaces/Cookies';
 import { SearchReqQueriesI } from '@interfaces/Queries';
 import { PaginationResultDTO } from '@dto/Pagination';
 import { CommonDashboardsDTO, UserDashboardsDTO } from '@dto/Dashboard';
-import { ProductI, ProductPreviewI, ProductPublicI } from '@interfaces/Product';
+import { ProductI, ProductCardI } from '@interfaces/Product';
 import { UserDashboardsI } from '@interfaces/Dashboard';
-import { ProductPreview, ProductPublic } from '@dto/Product/constructor';
+import { ProductPreview, ProductCard } from '@dto/Product/constructor';
 import { CommonDashboards, UserDashboards } from '@dto/Dashboard/constructor';
 import ProductAdminService from './admin';
 import { PRODUCT_RELATIONS } from '@constants/relations';
+import { SessionI } from '@interfaces/Session';
 
 @Injectable()
-export class ProductService extends ProductAdminService {
-    async getPublicProduct(productId: ProductI['id']): Promise<ProductPublicI> {
+export default class ProductService extends ProductAdminService {
+    async getPublicProduct(productId: ProductI['id']): Promise<ProductCardI> {
         try {
             const res = await this.productRepo.findOneOrFail({
                 where: { id: productId, is_public: true },
                 relations: PRODUCT_RELATIONS,
             });
 
-            return new ProductPublic(res);
-        } catch (err) {
-            console.log(err);
-
-            throw new NotFoundException('product not found');
-        }
-    }
-
-    async getProductPreview(productId: ProductI['id']): Promise<ProductPreviewI> {
-        try {
-            const res = await this.productRepo.findOneOrFail({
-                where: { id: productId, is_public: true },
-            });
-
-            return new ProductPreview(res);
+            return new ProductCard(res);
         } catch (err) {
             throw new NotFoundException('product not found');
         }
-    }
-
-    async getProductPreviewList(productIds: Array<ProductI['id']>): Promise<ProductPreviewI[]> {
-        const res = await this.productRepo
-            .createQueryBuilder('product')
-            .leftJoinAndSelect('product.images', 'images')
-            .where('product.id IN (:...productIds)', { productIds })
-            .andWhere('product.is_public = true')
-            .getMany();
-
-        return res.map(prod => new ProductPreview(prod));
     }
 
     async getCommonDashboards(): Promise<CommonDashboardsDTO> {
@@ -68,34 +44,33 @@ export class ProductService extends ProductAdminService {
         return new CommonDashboards({ popular, newest });
     }
 
-    async getUserDashboards({ history }: UserDashboardsI<string[]>): Promise<UserDashboardsDTO> {
+    async getUserDashboards(sid: SessionI['sid']): Promise<UserDashboardsDTO> {
+        const history = await this.historyService.getHistoryList(sid);
+
         return new UserDashboards({
-            history: history.length ? await this.getProductPreviewList(history) : [],
+            history: history.map(({ product }) => new ProductPreview(product)),
         });
     }
 
-    async getPublicProducts(
-        queries: SearchReqQueriesI,
-        params: CookiesI,
-    ): Promise<PaginationResultDTO<ProductPublicI>> {
+    async getPublicProducts(queries: SearchReqQueriesI, params: CookiesI): Promise<PaginationResultDTO<ProductCardI>> {
         const qb = this.getProductQueryBulder();
 
         qb.leftJoinAndSelect('product.category', 'category').where('product.is_public = true');
 
-        return this.renderResult<ProductPublicI>(qb, queries, params, ProductPublic);
+        return this.renderResult<ProductCardI>(qb, queries, params, ProductCard);
     }
 
     async getCategoryPublicProducts(
         categoryUrl: string,
         queries: SearchReqQueriesI,
         params: CookiesI,
-    ): Promise<PaginationResultDTO<ProductPublicI>> {
+    ): Promise<PaginationResultDTO<ProductCardI>> {
         const qb = this.getProductQueryBulder();
 
         qb.innerJoin('product.category', 'category')
             .where('category.url = :categoryUrl', { categoryUrl })
             .andWhere('product.is_public = true');
 
-        return this.renderResult<ProductPublicI>(qb, queries, params, ProductPublic);
+        return this.renderResult<ProductCardI>(qb, queries, params, ProductCard);
     }
 }

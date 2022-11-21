@@ -23,9 +23,9 @@ export class Pagination extends PaginationDTO {
  */
 export class PaginationResult<TData> extends PaginationResultDTO<TData> {
     pagination: PaginationI;
-    data: Array<TData>;
+    data: TData[];
 
-    constructor(data: Array<TData>, paginationDTO: CreatePagintaionI) {
+    constructor(data: TData[], paginationDTO: CreatePagintaionI) {
         super();
         this.data = data;
         this.pagination = new Pagination(paginationDTO);

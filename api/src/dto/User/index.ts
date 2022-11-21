@@ -15,5 +15,5 @@ export class UserPublicDTO implements UserPublicI {
     wishlist: WishListIPublicI;
 
     @ApiProperty({ description: 'session id', type: 'string' })
-    session: SessionI['id'];
+    session: SessionI['sid'];
 }

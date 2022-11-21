@@ -20,20 +20,20 @@ import {
 import { FileInterceptor } from '@nestjs/platform-express';
 import { DeleteResult } from 'typeorm';
 
-import { CategoryService } from '@services/Category';
 import { CategoryEntity } from '@entities/Category';
 import { CreateCategoryDTO } from '@dto/Category';
 import { FSService } from '@services/FS';
 import { CategoryI } from '@interfaces/Category';
 import UndefinedResultInterceptor from '@interceptors/UndefinedResult';
 import AffectedResultInterceptor from '@interceptors/AffectedResult';
+import CategoryPrivateService from '@services/Category/private';
 
 const TCategoryAdmin = OmitType(CategoryEntity, ['products']);
 
 @Controller('adm/category')
 @ApiTags('Category 🤵🏿‍♂️')
-export default class CategoryAdminController {
-    constructor(private readonly categoryService: CategoryService) {}
+export default class CategoryPrivateController {
+    constructor(private readonly categoryService: CategoryPrivateService) {}
 
     @Post()
     @UseInterceptors(FileInterceptor('icon', { fileFilter: FSService.fileFilterOption('svg') }))

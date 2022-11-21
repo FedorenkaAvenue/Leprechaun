@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { Cron } from '@nestjs/schedule';
 
-import { OrderService } from './Order';
+import OrderService from './Order';
 import WishlistService from './Wishlist';
 
 @Injectable()

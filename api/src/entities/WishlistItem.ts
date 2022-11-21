@@ -1,9 +1,10 @@
-import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { CreateDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { ApiProperty } from '@nestjs/swagger';
 
 import { WishlistItemI } from '@interfaces/WishlistItem';
 import { ProductEntity } from './Product';
 import { ProductI } from '@interfaces/Product';
+import SessionEntity from './Session';
 
 @Entity('wishlist_item')
 export default class WishlistItemEntity implements WishlistItemI {
@@ -20,7 +21,8 @@ export default class WishlistItemEntity implements WishlistItemI {
     @ApiProperty({ required: true })
     created_at: Date;
 
-    @Column({ nullable: true })
+    @ManyToOne(() => SessionEntity, ({ sid }) => sid, { onDelete: 'CASCADE' })
+    @JoinColumn({ name: 'sid', referencedColumnName: 'sid' })
     @ApiProperty()
-    session_id: string;
+    sid: string;
 }

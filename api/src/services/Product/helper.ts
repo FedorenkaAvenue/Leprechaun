@@ -12,6 +12,7 @@ import { PaginationResultDTO } from '@dto/Pagination';
 import configService from '../Config';
 import { PaginationResult } from '@dto/Pagination/constructor';
 import { SearchQueries } from '@dto/Queries/constructor';
+import HistoryService from '@services/History';
 
 @Injectable()
 export default class ProductHelperService {
@@ -20,6 +21,7 @@ export default class ProductHelperService {
     constructor(
         @InjectRepository(ProductEntity) protected readonly productRepo: Repository<ProductEntity>,
         protected readonly imageService: ImageService,
+        protected readonly historyService: HistoryService,
         protected readonly FSService: FSService,
     ) {
         this.dashboardPortion = +configService.getVal('DASHBOARD_PORTION');

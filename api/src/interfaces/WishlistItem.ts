@@ -1,4 +1,4 @@
-import { ProductI, ProductPublicI } from './Product';
+import { ProductI, ProductCardI } from './Product';
 import { SessionI } from './Session';
 
 interface WishlistItemBaseI<P = ProductI> {
@@ -8,7 +8,7 @@ interface WishlistItemBaseI<P = ProductI> {
 }
 
 export interface WishlistItemI extends WishlistItemBaseI {
-    session_id: SessionI['id'] | null;
+    sid: SessionI['sid'];
 }
 
-export interface WishlistItemPublicI extends WishlistItemBaseI<ProductPublicI> {}
+export type WishlistItemPublicI = WishlistItemBaseI<ProductCardI>;

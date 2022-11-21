@@ -48,7 +48,7 @@ export class ProductEntity implements ProductI {
         inverseJoinColumn: { name: 'property_id' },
     })
     @ApiProperty({ type: PropertyEntity, isArray: true })
-    properties: Array<PropertyI>;
+    properties: PropertyI[];
 
     @ManyToOne(() => CategoryEntity, ({ products }) => products, { onDelete: 'NO ACTION' })
     @JoinColumn({ name: 'category', referencedColumnName: 'id' })

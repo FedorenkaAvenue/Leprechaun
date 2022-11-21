@@ -16,5 +16,5 @@ export class SearchQueriesDTO implements SearchQueriesI {
 }
 
 export class QueryGETListDTO {
-    queryList: Array<string> | null;
+    queryList: string[] | null;
 }

@@ -2,7 +2,7 @@ import { NestFactory } from '@nestjs/core';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import * as cookieParser from 'cookie-parser';
 
-import AppModule from '@modules/App';
+import AppModule from '@modules/.';
 import configService from '@services/Config';
 import { UncaughtExceptionFilter } from '@filters/UncaughtException';
 

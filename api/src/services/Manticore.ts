@@ -5,7 +5,7 @@ import configService from './Config';
 
 export interface IManticoreResult<TIndexItem> {
     columns: any;
-    data: Array<TIndexItem>;
+    data: TIndexItem[];
     total: number;
     error: string;
     warning: string;

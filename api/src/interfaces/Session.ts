@@ -1,8 +1,9 @@
-import { ProductI } from './Product';
-
 export interface SessionI {
-    id?: string;
-    ip?: string;
-    url?: string;
-    history?: Array<ProductI['id']>;
+    sid: string;
+    created_at: Date;
+    expire: Date;
+    sess: string;
+    // ip?: string;
+    // token?: string;
+    // url?: string;
 }

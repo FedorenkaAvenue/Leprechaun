@@ -1,10 +1,20 @@
-import { Column, CreateDateColumn, Entity, OneToMany, PrimaryColumn, UpdateDateColumn } from 'typeorm';
+import {
+    Column,
+    CreateDateColumn,
+    Entity,
+    JoinColumn,
+    ManyToOne,
+    OneToMany,
+    PrimaryColumn,
+    UpdateDateColumn,
+} from 'typeorm';
 import { ApiProperty } from '@nestjs/swagger';
 
 import { OrderI, OrderCustomerDataI } from '@interfaces/Order';
 import { OrderStatus } from '@enums/Order';
 import { OrderItemI } from '@interfaces/OrderItem';
 import { OrderItemEntity } from './OrderItem';
+import SessionEntity from './Session';
 
 export class OrderCustomerDataEntity implements OrderCustomerDataI {
     @Column({ name: 'customer_name', nullable: true })
@@ -21,6 +31,11 @@ export class OrderEntity implements OrderI {
     @PrimaryColumn({ type: 'bigint' })
     @ApiProperty({ description: 'order ID' })
     id: number;
+
+    @ManyToOne(() => SessionEntity, ({ sid }) => sid, { onDelete: 'CASCADE' })
+    @JoinColumn({ name: 'sid', referencedColumnName: 'sid' })
+    @ApiProperty({ description: 'user session ID' })
+    sid: string;
 
     @Column({ default: OrderStatus.INIT })
     @ApiProperty({ enum: OrderStatus })
@@ -41,8 +56,4 @@ export class OrderEntity implements OrderI {
     @Column(() => OrderCustomerDataEntity, { prefix: false })
     @ApiProperty({ description: "customer's order credentials" })
     customer: OrderCustomerDataI;
-
-    @Column({ nullable: true })
-    @ApiProperty({ description: 'user session ID' })
-    session_id: string;
 }

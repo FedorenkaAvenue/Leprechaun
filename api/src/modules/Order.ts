@@ -3,9 +3,9 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 
 import { OrderEntity } from '@entities/Order';
 import { OrderItemEntity } from '@entities/OrderItem';
-import { OrderService } from '@services/Order';
+import OrderService from '@services/Order';
 import OrderPublicController from '@controllers/Order/public';
-import OrderAdminController from '@controllers/Order/admin';
+import OrderAdminController from '@controllers/Order/private';
 
 @Module({
     imports: [TypeOrmModule.forFeature([OrderEntity, OrderItemEntity])],

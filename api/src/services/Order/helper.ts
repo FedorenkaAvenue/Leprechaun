@@ -20,22 +20,22 @@ export default class OrderHelperService {
 
     /**
      * @description create new order with session ID
-     * @param session_id
+     * @param sid
      * @returns created order with 1 status
      */
-    async createOrder(session_id: SessionI['id']): Promise<OrderEntity> {
-        return await this.orderRepo.save({ session_id, id: genID() });
+    async createOrder(sid: SessionI['sid']): Promise<OrderEntity> {
+        return await this.orderRepo.save({ sid, id: genID() });
     }
 
     /**
      * @description get current order by session ID
-     * @param session_id
+     * @param sid
      * @returns cart
      */
-    async getCart(session_id: SessionI['id']): Promise<OrderPublicI> {
+    async getCart(sid: SessionI['sid']): Promise<OrderPublicI> {
         const qb = this.orderRepo
             .createQueryBuilder('order')
-            .where('order.session_id = :session_id', { session_id })
+            .where('order.sid = :sid', { sid })
             .andWhere('order.status = :status', { status: OrderStatus.INIT });
 
         return await this.getOrder(qb);

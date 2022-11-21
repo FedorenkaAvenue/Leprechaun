@@ -8,7 +8,7 @@ import { PropertyGroupEntity } from '@entities/PropertGroup';
 import { PropertyGroup } from '@dto/PropertyGroup/constructor';
 
 @Injectable()
-export class PropertyGroupService {
+export default class PropertyGroupService {
     constructor(
         @InjectRepository(PropertyGroupEntity) private readonly propertyGroupRepo: Repository<PropertyGroupEntity>,
     ) {}

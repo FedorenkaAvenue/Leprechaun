@@ -7,7 +7,7 @@ import getPercentDifference from '@utils/getPercentDifference';
  * @description set labels key for wrapped class. queue of label type is important
  * @param labels list of label types
  */
-export default function WithLabels(...labels: Array<LabelType>) {
+export default function WithLabels(...labels: LabelType[]) {
     return function <T extends { new (...args: any[]): {} }>(constr: T) {
         return class Kozyan extends constr {
             labels: ProductI['labels'];

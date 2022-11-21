@@ -25,17 +25,17 @@ import { FilesInterceptor } from '@nestjs/platform-express';
 
 import { CreateProductDTO } from '@dto/Product';
 import { ProductEntity } from '@entities/Product';
-import { ProductService } from '@services/Product';
+import ProductService from '@services/Product';
 import { SearchReqQueriesI } from '@interfaces/Queries';
 import { PaginationResultDTO } from '@dto/Pagination';
 import { ApiPaginatedResponse } from '@decorators/Swagger';
-import { ProductI, ProductPublicI } from '@interfaces/Product';
+import { ProductI, ProductCardI } from '@interfaces/Product';
 import { Cookies } from '@decorators/Cookies';
 import { CookiesI } from '@interfaces/Cookies';
 import InvalidPaginationPageInterceptor from '@interceptors/InvalidPaginationPage';
 import UndefinedResultInterceptor from '@interceptors/UndefinedResult';
 import AffectedResultInterceptor from '@interceptors/AffectedResult';
-import { ProductPublic } from '@dto/Product/constructor';
+import { ProductCard } from '@dto/Product/constructor';
 import { Pagination } from '@dto/Pagination/constructor';
 
 @Controller('adm/product')
@@ -49,7 +49,7 @@ export default class ProductAdminController {
     @ApiOkResponse({ description: 'success' })
     createProduct(
         @Body(new ValidationPipe({ transform: true })) product: CreateProductDTO,
-        @UploadedFiles() images: Array<Express.Multer.File>,
+        @UploadedFiles() images: Express.Multer.File[],
     ): Promise<void> {
         return this.productService.createProduct(product, images);
     }
@@ -81,10 +81,10 @@ export default class ProductAdminController {
     @Get(':productId')
     @UseInterceptors(UndefinedResultInterceptor)
     @ApiOperation({ summary: 'get product by ID' })
-    @ApiOkResponse({ type: ProductPublic })
+    @ApiOkResponse({ type: ProductCard })
     @ApiBadRequestResponse({ description: 'invalid product ID' })
     @ApiNotFoundResponse({ description: 'product not found' })
-    getProduct(@Param('productId', ParseUUIDPipe) productId: string): Promise<ProductPublicI> {
+    getProduct(@Param('productId', ParseUUIDPipe) productId: string): Promise<ProductCardI> {
         return this.productService.getAdminProduct(productId);
     }
 

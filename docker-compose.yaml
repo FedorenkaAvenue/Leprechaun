@@ -21,11 +21,6 @@ services:
     volumes:
       - ./db/postgresql.conf:/app/postgresql.conf
 
-  session:
-    restart: unless-stopped
-    volumes:
-      - ./session/redis.conf:/app/redis.conf
-
   cache:
     restart: unless-stopped
     volumes:

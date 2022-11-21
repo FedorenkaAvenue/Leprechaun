@@ -2,20 +2,22 @@ import { Module } from '@nestjs/common';
 import { MulterModule } from '@nestjs/platform-express';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
-import ProductPublicController from '@controllers/Product/public';
-import ProductAdminController from '@controllers/Product/admin';
+import ProductCardController from '@controllers/Product/public';
+import ProductAdminController from '@controllers/Product/private';
 import { ProductEntity } from '@entities/Product';
-import { ProductService } from '@services/Product';
+import ProductService from '@services/Product';
 import { FSService } from '@services/FS';
 import ImageModule from '@modules/Image';
+import HistoryModule from './History';
 
 @Module({
     imports: [
         TypeOrmModule.forFeature([ProductEntity]),
         MulterModule.registerAsync({ useClass: FSService }),
         ImageModule,
+        HistoryModule,
     ],
-    controllers: [ProductPublicController, ProductAdminController],
+    controllers: [ProductCardController, ProductAdminController],
     providers: [ProductService, FSService],
     exports: [ProductService],
 })
