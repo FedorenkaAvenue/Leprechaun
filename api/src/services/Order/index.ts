@@ -10,14 +10,12 @@ import { CreateOrderItemDTO, UpdateOrderItemDTO } from '@dto/OrderItem';
 import { OrderItemI } from '@interfaces/OrderItem';
 import { ProductEntity } from '@entities/Product';
 import OrderAdminService from './admin';
-import { ORDER_RELATIONS } from '@constants/relations';
 
 @Injectable()
 export default class OrderService extends OrderAdminService {
     async addOrderItem(orderItem: CreateOrderItemDTO, sid: SessionI['sid']): Promise<OrderPublicI> {
-        const res = await this.orderRepo.findOne({
-            where: { sid, status: OrderStatus.INIT },
-            relations: ORDER_RELATIONS,
+        const res = await this.orderRepo.findOneBy({
+            sid, status: OrderStatus.INIT
         });
 
         if (res) {
@@ -58,7 +56,6 @@ export default class OrderService extends OrderAdminService {
         try {
             const res = await this.orderRepo.find({
                 where: { sid, status: Not(OrderStatus.INIT) },
-                relations: ORDER_RELATIONS,
                 order: { updated_at: 'DESC' },
             });
 

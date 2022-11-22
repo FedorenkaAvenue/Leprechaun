@@ -20,7 +20,7 @@ import { OrderPublic } from '@dto/Order/constructor';
 
 @Controller('adm/order')
 @ApiTags('Order 🤵🏿‍♂️')
-export default class OrderAdminController {
+export default class OrderPrivateController {
     constructor(private readonly orderService: OrderService) {}
 
     @Get(':orderId')

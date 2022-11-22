@@ -40,7 +40,7 @@ import { Pagination } from '@dto/Pagination/constructor';
 
 @Controller('adm/product')
 @ApiTags('Product 🤵🏿‍♂️')
-export default class ProductAdminController {
+export default class ProductPrivateController {
     constructor(private readonly productService: ProductService) {}
 
     @Post()

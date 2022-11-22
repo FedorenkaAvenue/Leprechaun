@@ -7,7 +7,6 @@ import ProductModule from './Product';
 import PropertyGroupModule from './PropertyGroup';
 import PropertyModule from './Property';
 import ImageModule from './Image';
-import ToolModule from './Tool';
 import configService from '@services/Config';
 import AdminModule from './Admin';
 import UserModule from './User';
@@ -16,15 +15,18 @@ import WishlistModule from './Wishlist';
 import ScheduleModule from './Sheduler';
 import SessionModule from './Session';
 import HistoryModule from './History';
-import CacheReset from '@middlewares/CacheReset';
-import ProductAdminController from '@controllers/Product/private';
+import CacheModule from './Cache';
+import FSModule from './FS';
+import CacheResetMiddleware from '@middlewares/CacheReset';
+import ProductPrivateController from '@controllers/Product/private';
 import CategoryPrivateController from '@controllers/Category/private';
-import PropertyAdminController from '@controllers/Property/private';
-import ProductCardController from '@controllers/Product/public';
+import PropertyPrivateController from '@controllers/Property/private';
+import ProductPublicController from '@controllers/Product/public';
 import UserPublicController from '@controllers/User/public';
 import OrderPublicController from '@controllers/Order/public';
 import WishlistPublicController from '@controllers/Wishlist/public';
 import HistoryPublicController from '@controllers/History/public';
+import SesssionInitMiddleware from '@middlewares/SessionInit';
 
 @Module({
     imports: [
@@ -40,26 +42,30 @@ import HistoryPublicController from '@controllers/History/public';
         PropertyGroupModule,
         PropertyModule,
         ImageModule,
-        ToolModule,
         ScheduleModule,
         AdminModule,
         SessionModule,
+        CacheModule,
+        FSModule,
     ],
 })
 export default class AppModule implements NestModule {
     configure(consumer: MiddlewareConsumer) {
         consumer
-            .apply(CacheReset)
+            .apply(CacheResetMiddleware)
             .exclude({ path: '(.*)', method: RequestMethod.GET })
-            .forRoutes(ProductAdminController, CategoryPrivateController, PropertyAdminController);
+            .forRoutes(ProductPrivateController, CategoryPrivateController, PropertyPrivateController);
         consumer
             .apply(session(configService.getSessionConfig()))
             .forRoutes(
-                ProductCardController,
+                ProductPublicController,
                 UserPublicController,
                 OrderPublicController,
                 WishlistPublicController,
                 HistoryPublicController,
             );
+        consumer
+            .apply(SesssionInitMiddleware)
+            .forRoutes(UserPublicController)
     }
 }

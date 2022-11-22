@@ -18,6 +18,6 @@ export default class SessionEntity implements SessionI {
     expire: Date;
 
     @Column({ nullable: true, unique: false })
-    @ApiProperty()
+    @ApiProperty({ description: 'session data' })
     sess: string;
 }

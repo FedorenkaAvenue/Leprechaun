@@ -11,7 +11,7 @@ import UndefinedResultInterceptor from '@interceptors/UndefinedResult';
 
 @Controller('adm/property')
 @ApiTags('Property 🤵🏿‍♂️')
-export default class PropertyAdminController {
+export default class PropertyPrivateController {
     constructor(private readonly propertyService: PropertyService) {}
 
     @Post()

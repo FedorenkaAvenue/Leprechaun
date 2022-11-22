@@ -49,7 +49,7 @@ export class OrderEntity implements OrderI {
     @ApiProperty({ type: Date, description: 'date of last changed status' })
     updated_at: Date;
 
-    @OneToMany(() => OrderItemEntity, ({ order_id }) => order_id)
+    @OneToMany(() => OrderItemEntity, ({ order_id }) => order_id, { eager: true })
     @ApiProperty({ type: OrderItemEntity, isArray: true })
     list: OrderItemI[];
 

@@ -2,7 +2,7 @@ import { ExceptionFilter, Catch, ArgumentsHost, InternalServerErrorException } f
 import { Request, Response } from 'express';
 import { QueryFailedError } from 'typeorm';
 
-import { singleMailSerbice } from '@services/Mail';
+import singleMailSerbice from '@services/Mail';
 import { DevLogMail } from '@dto/Mail/constructor';
 
 /**

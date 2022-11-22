@@ -148,7 +148,7 @@ export class ConfigService extends ConfigDevService {
             secret: this.getVal('SESSION_COOKIE_SECRET'),
             resave: false,
             unset: 'destroy',
-            saveUninitialized: true,
+            saveUninitialized: false,
             cookie: {
                 httpOnly: true,
                 maxAge: +this.getVal('SESSION_AGE'),

@@ -3,7 +3,8 @@ export interface SessionI {
     created_at: Date;
     expire: Date;
     sess: string;
-    // ip?: string;
-    // token?: string;
-    // url?: string;
+}
+
+export interface SessionDataI {
+    ip?: string;
 }

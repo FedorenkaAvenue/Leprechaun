@@ -14,7 +14,7 @@ export class HistoryEntity implements HistoryI {
     @JoinColumn({ name: 'sid', referencedColumnName: 'sid' })
     sid: string;
 
-    @ManyToOne(() => ProductEntity, ({ id }) => id, { onDelete: 'CASCADE' })
+    @ManyToOne(() => ProductEntity, ({ id }) => id, { onDelete: 'CASCADE', eager: true })
     @JoinColumn({ name: 'product', referencedColumnName: 'id' })
     product: ProductI;
 

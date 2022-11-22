@@ -5,7 +5,7 @@ import AdminService from '@services/Admin';
 
 @Controller('adm')
 @ApiTags('Admin 🤵🏿‍♂️')
-export default class AdminController {
+export default class AdminPrivateController {
     constructor(private readonly adminService: AdminService) {}
 
     @Get('/cache/reset')

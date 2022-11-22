@@ -24,7 +24,7 @@ import { SessionProductHistoryInterceptor } from '@interceptors/Session';
 
 @Controller('product')
 @ApiTags('Product 🧑‍💻')
-export default class ProductCardController {
+export default class ProductPublicController {
     constructor(private readonly productService: ProductService) {}
 
     @Get('list')
