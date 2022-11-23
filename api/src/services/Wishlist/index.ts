@@ -28,8 +28,8 @@ export default class WishlistService extends WishlistAdminService {
         }
     }
 
-    async removeItem(id: WishlistItemI['id']): Promise<DeleteResult> {
-        return await this.wishlistItemRepo.delete({ id });
+    async removeItem(sid: SessionI['sid'], id: WishlistItemI['id']): Promise<DeleteResult> {
+        return await this.wishlistItemRepo.delete({ sid, id });
     }
 
     async clearWishlist(sid: SessionI['sid']): Promise<DeleteResult> {

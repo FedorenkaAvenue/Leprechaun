@@ -8,6 +8,7 @@ import {
     Patch,
     Post,
     Session,
+    UseGuards,
     UseInterceptors,
     ValidationPipe,
 } from '@nestjs/common';
@@ -20,6 +21,7 @@ import AffectedResultInterceptor from '@interceptors/AffectedResult';
 import { OrderPublicI } from '@interfaces/Order';
 import { CreateOrderItemDTO, UpdateOrderItemDTO } from '@dto/OrderItem';
 import { OrderPublic } from '@dto/Order/constructor';
+import { SessionGuard } from '@guards/Session';
 
 @Controller('order')
 @ApiTags('Order 🧑‍💻')
@@ -34,6 +36,7 @@ export default class OrderPublicController {
     }
 
     @Post('item')
+    @UseGuards(SessionGuard)
     @ApiOperation({ summary: 'add new order item' })
     @ApiOkResponse({ type: OrderPublic })
     @ApiBadRequestResponse({ description: 'product already exists' })
@@ -45,6 +48,7 @@ export default class OrderPublicController {
     }
 
     @Patch('item')
+    @UseGuards(SessionGuard)
     @ApiOperation({ summary: 'change order item amount (ПЕРЕДЕЛАТЬ order ID через path)' })
     @ApiOkResponse({ type: OrderPublic })
     changeOrderItemAmount(
@@ -55,6 +59,7 @@ export default class OrderPublicController {
     }
 
     @Post()
+    @UseGuards(SessionGuard)
     @UseInterceptors(AffectedResultInterceptor())
     @ApiOperation({ summary: 'send order' })
     @ApiOkResponse({ type: OrderPublic })
@@ -63,6 +68,7 @@ export default class OrderPublicController {
     }
 
     @Delete('item/:itemId')
+    @UseGuards(SessionGuard)
     @ApiOperation({ summary: 'delete order item' })
     @ApiOkResponse({ type: OrderPublic })
     @ApiNotFoundResponse({ description: 'order item not found' })
