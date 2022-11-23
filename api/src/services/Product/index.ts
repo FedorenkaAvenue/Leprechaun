@@ -1,11 +1,9 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 
-import { CookiesI } from '@interfaces/Cookies';
-import { SearchReqQueriesI } from '@interfaces/Queries';
+import { QueriesI } from '@interfaces/Queries';
 import { PaginationResultDTO } from '@dto/Pagination';
 import { CommonDashboardsDTO, UserDashboardsDTO } from '@dto/Dashboard';
 import { ProductI, ProductCardI } from '@interfaces/Product';
-import { UserDashboardsI } from '@interfaces/Dashboard';
 import { ProductPreview, ProductCard } from '@dto/Product/constructor';
 import { CommonDashboards, UserDashboards } from '@dto/Dashboard/constructor';
 import ProductAdminService from './admin';
@@ -52,18 +50,17 @@ export default class ProductService extends ProductAdminService {
         });
     }
 
-    async getPublicProducts(queries: SearchReqQueriesI, params: CookiesI): Promise<PaginationResultDTO<ProductCardI>> {
+    async getPublicProducts(queries: QueriesI): Promise<PaginationResultDTO<ProductCardI>> {
         const qb = this.getProductQueryBulder();
 
         qb.leftJoinAndSelect('product.category', 'category').where('product.is_public = true');
 
-        return this.renderResult<ProductCardI>(qb, queries, params, ProductCard);
+        return this.renderResult<ProductCardI>(qb, queries, ProductCard);
     }
 
     async getCategoryPublicProducts(
         categoryUrl: string,
-        queries: SearchReqQueriesI,
-        params: CookiesI,
+        queries: QueriesI,
     ): Promise<PaginationResultDTO<ProductCardI>> {
         const qb = this.getProductQueryBulder();
 
@@ -71,6 +68,6 @@ export default class ProductService extends ProductAdminService {
             .where('category.url = :categoryUrl', { categoryUrl })
             .andWhere('product.is_public = true');
 
-        return this.renderResult<ProductCardI>(qb, queries, params, ProductCard);
+        return this.renderResult<ProductCardI>(qb, queries, ProductCard);
     }
 }

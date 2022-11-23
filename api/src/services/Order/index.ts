@@ -15,7 +15,8 @@ import OrderAdminService from './admin';
 export default class OrderService extends OrderAdminService {
     async addOrderItem(orderItem: CreateOrderItemDTO, sid: SessionI['sid']): Promise<OrderPublicI> {
         const res = await this.orderRepo.findOneBy({
-            sid, status: OrderStatus.INIT
+            sid,
+            status: OrderStatus.INIT,
         });
 
         if (res) {

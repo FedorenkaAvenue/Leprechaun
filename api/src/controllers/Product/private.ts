@@ -8,7 +8,6 @@ import {
     Post,
     UploadedFiles,
     UseInterceptors,
-    Query,
     ValidationPipe,
 } from '@nestjs/common';
 import {
@@ -26,17 +25,16 @@ import { FilesInterceptor } from '@nestjs/platform-express';
 import { CreateProductDTO } from '@dto/Product';
 import { ProductEntity } from '@entities/Product';
 import ProductService from '@services/Product';
-import { SearchReqQueriesI } from '@interfaces/Queries';
 import { PaginationResultDTO } from '@dto/Pagination';
 import { ApiPaginatedResponse } from '@decorators/Swagger';
 import { ProductI, ProductCardI } from '@interfaces/Product';
-import { Cookies } from '@decorators/Cookies';
-import { CookiesI } from '@interfaces/Cookies';
 import InvalidPaginationPageInterceptor from '@interceptors/InvalidPaginationPage';
 import UndefinedResultInterceptor from '@interceptors/UndefinedResult';
 import AffectedResultInterceptor from '@interceptors/AffectedResult';
 import { ProductCard } from '@dto/Product/constructor';
 import { Pagination } from '@dto/Pagination/constructor';
+import { QueriesI } from '@interfaces/Queries';
+import { QueryDecorator as Query } from '@decorators/Query';
 
 @Controller('adm/product')
 @ApiTags('Product 🤵🏿‍♂️')
@@ -58,11 +56,8 @@ export default class ProductPrivateController {
     @UseInterceptors(InvalidPaginationPageInterceptor)
     @ApiOperation({ summary: 'get product list' })
     @ApiPaginatedResponse(ProductEntity)
-    getproducts(
-        @Query() queries: SearchReqQueriesI,
-        @Cookies() { portion }: CookiesI,
-    ): Promise<PaginationResultDTO<ProductI>> {
-        return this.productService.getAdminProducts(queries, { portion });
+    getproducts(@Query() queries: QueriesI): Promise<PaginationResultDTO<ProductI>> {
+        return this.productService.getAdminProducts(queries);
     }
 
     @Get('category/:categoryUrl')
@@ -71,11 +66,10 @@ export default class ProductPrivateController {
     @ApiNotFoundResponse({ description: 'category not found' })
     @ApiPaginatedResponse(ProductEntity)
     getCategoryProducts(
-        @Query() queries: SearchReqQueriesI,
-        @Cookies() { portion }: CookiesI,
         @Param('categoryUrl') categoryUrl: string,
+        @Query() queries: QueriesI,
     ): Promise<PaginationResultDTO<ProductI>> {
-        return this.productService.getCategoryAdminProducts(categoryUrl, queries, { portion });
+        return this.productService.getCategoryAdminProducts(categoryUrl, queries);
     }
 
     @Get(':productId')
