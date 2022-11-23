@@ -1,26 +1,16 @@
-import {
-    Controller,
-    Get,
-    Param,
-    ParseUUIDPipe,
-    UseInterceptors,
-    Query,
-    CacheInterceptor,
-    Session,
-} from '@nestjs/common';
+import { Controller, Get, Param, ParseUUIDPipe, UseInterceptors, CacheInterceptor, Session } from '@nestjs/common';
 import { ApiBadRequestResponse, ApiNotFoundResponse, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 
 import ProductService from '@services/Product';
-import { SearchReqQueriesI } from '@interfaces/Queries';
 import { PaginationResultDTO } from '@dto/Pagination';
 import { ApiPaginatedResponse } from '@decorators/Swagger';
 import { ProductCardI } from '@interfaces/Product';
-import { Cookies } from '@decorators/Cookies';
-import { CookiesI } from '@interfaces/Cookies';
 import InvalidPaginationPageInterceptor from '@interceptors/InvalidPaginationPage';
 import { ProductCard } from '@dto/Product/constructor';
 import { CommonDashboards, UserDashboards } from '@dto/Dashboard/constructor';
 import { SessionProductHistoryInterceptor } from '@interceptors/Session';
+import { QueryDecorator as Query } from '@decorators/Query';
+import { QueriesI } from '@interfaces/Queries';
 
 @Controller('product')
 @ApiTags('Product 🧑‍💻')
@@ -32,11 +22,8 @@ export default class ProductPublicController {
     @UseInterceptors(InvalidPaginationPageInterceptor)
     @ApiOperation({ summary: 'get all public products 💾' })
     @ApiPaginatedResponse(ProductCard)
-    getProducts(
-        @Query() queries: SearchReqQueriesI,
-        @Cookies() { portion }: CookiesI,
-    ): Promise<PaginationResultDTO<ProductCardI>> {
-        return this.productService.getPublicProducts(queries, { portion });
+    getProducts(@Query() queries: QueriesI): Promise<PaginationResultDTO<ProductCardI>> {
+        return this.productService.getPublicProducts(queries);
     }
 
     @Get('category/:categoryUrl')
@@ -46,11 +33,10 @@ export default class ProductPublicController {
     @ApiNotFoundResponse({ description: 'category not found' })
     @ApiPaginatedResponse(ProductCard)
     getCategoryProducts(
-        @Query() queries: SearchReqQueriesI,
-        @Cookies() { portion }: CookiesI,
         @Param('categoryUrl') categoryUrl: string,
+        @Query() queries: QueriesI,
     ): Promise<PaginationResultDTO<ProductCardI>> {
-        return this.productService.getCategoryPublicProducts(categoryUrl, queries, { portion });
+        return this.productService.getCategoryPublicProducts(categoryUrl, queries);
     }
 
     @Get('dashboard/common')

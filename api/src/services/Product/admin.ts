@@ -3,13 +3,12 @@ import { Injectable } from '@nestjs/common';
 
 import { CreateProductDTO } from '@dto/Product';
 import { FOLDER_TYPES } from '@services/FS';
-import { CookiesI } from '@interfaces/Cookies';
-import { SearchReqQueriesI } from '@interfaces/Queries';
 import { PaginationResultDTO } from '@dto/Pagination';
 import { ProductI } from '@interfaces/Product';
 import { Product } from '@dto/Product/constructor';
 import ProductHelperService from './helper';
 import { PRODUCT_RELATIONS } from '@constants/relations';
+import { Queries } from '@dto/Queries/constructor';
 
 @Injectable()
 export default class ProductAdminService extends ProductHelperService {
@@ -30,24 +29,20 @@ export default class ProductAdminService extends ProductHelperService {
         });
     }
 
-    async getAdminProducts(queries: SearchReqQueriesI, params: CookiesI): Promise<PaginationResultDTO<ProductI>> {
+    async getAdminProducts(queries: Queries): Promise<PaginationResultDTO<ProductI>> {
         const qb = this.getProductQueryBulder();
 
         qb.leftJoinAndSelect('product.category', 'category');
 
-        return this.renderResult<ProductI>(qb, queries, params);
+        return this.renderResult<ProductI>(qb, queries);
     }
 
-    async getCategoryAdminProducts(
-        categoryUrl: string,
-        queries: SearchReqQueriesI,
-        params: CookiesI,
-    ): Promise<PaginationResultDTO<ProductI>> {
+    async getCategoryAdminProducts(categoryUrl: string, queries: Queries): Promise<PaginationResultDTO<ProductI>> {
         const qb = this.getProductQueryBulder();
 
         qb.innerJoin('product.category', 'category').where('category.url = :categoryUrl', { categoryUrl });
 
-        return this.renderResult<ProductI>(qb, queries, params);
+        return this.renderResult<ProductI>(qb, queries);
     }
 
     async deleteProduct(productId: string): Promise<DeleteResult> {

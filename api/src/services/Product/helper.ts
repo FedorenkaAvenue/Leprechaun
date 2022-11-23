@@ -5,13 +5,11 @@ import { Injectable } from '@nestjs/common';
 import { FSService } from '@services/FS';
 import { ProductEntity } from '@entities/Product';
 import { ImageService } from '@services/Image';
-import { CookiesI } from '@interfaces/Cookies';
-import { SearchReqQueriesI } from '@interfaces/Queries';
 import { SortType } from '@enums/Query';
 import { PaginationResultDTO } from '@dto/Pagination';
 import configService from '../Config';
 import { PaginationResult } from '@dto/Pagination/constructor';
-import { SearchQueries } from '@dto/Queries/constructor';
+import { Queries } from '@dto/Queries/constructor';
 import HistoryService from '@services/History';
 
 @Injectable()
@@ -48,12 +46,10 @@ export default class ProductHelperService {
      */
     async renderResult<T>(
         qb: SelectQueryBuilder<ProductEntity>,
-        queries: SearchReqQueriesI,
-        params: CookiesI,
+        queries: Queries,
         resultMapConstructor?: any,
     ): Promise<PaginationResultDTO<T>> {
-        const { sort, page, price, status, dinamicFilters } = new SearchQueries(queries);
-        const { portion } = params;
+        const { sort, page, price, status, portion, dinamicFilters } = queries;
 
         // filtering by dinamical filters
         if (dinamicFilters) {

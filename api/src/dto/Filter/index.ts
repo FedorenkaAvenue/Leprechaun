@@ -11,9 +11,9 @@ import {
 import { FilterType } from '@enums/Filter';
 import { PropertyGroupI } from '@interfaces/PropertyGroup';
 import { PropertyI } from '@interfaces/Property';
-import { SearchReqQueriesI } from '@interfaces/Queries';
+import { QueriesReqI } from '@interfaces/Queries';
 import { RangeQueryDTO } from '@dto/Queries';
-import { SearchQueries } from '@dto/Queries/constructor';
+import { Queries } from '@dto/Queries/constructor';
 
 class ListFilterDTO implements ListFilterI {
     @ApiProperty({ required: false })
@@ -117,8 +117,8 @@ export class FiltersDTO implements FiltersI {
     })
     status: FilterListGroupI;
 
-    constructor(propertyGroups: PropertyGroupI[], queryFilters: SearchReqQueriesI) {
-        const { price, dinamicFilters } = new SearchQueries(queryFilters);
+    constructor(propertyGroups: PropertyGroupI[], queryFilters: QueriesReqI) {
+        const { price, dinamicFilters } = new Queries(queryFilters);
 
         this.price = new FilterRangeGroupDTO(
             {

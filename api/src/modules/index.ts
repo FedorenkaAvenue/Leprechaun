@@ -64,8 +64,6 @@ export default class AppModule implements NestModule {
                 WishlistPublicController,
                 HistoryPublicController,
             );
-        consumer
-            .apply(SesssionInitMiddleware)
-            .forRoutes(UserPublicController)
+        consumer.apply(SesssionInitMiddleware).forRoutes(UserPublicController);
     }
 }

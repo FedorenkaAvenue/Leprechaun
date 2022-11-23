@@ -1,8 +1,8 @@
-import { SearchReqQueriesI } from '@interfaces/Queries';
+import { QueriesReqI } from '@interfaces/Queries';
 import { SortType } from '@enums/Query';
 import { availableEnum } from '@utils/enum';
 import { ProductStatus } from '@enums/Product';
-import { QueryGETListDTO, RangeQueryDTO, SearchQueriesDTO } from '.';
+import { QueryGETListDTO, RangeQueryDTO, QueriesDTO } from '.';
 
 /**
  * @description create range object for filters
@@ -23,15 +23,17 @@ export class RangeQuery extends RangeQueryDTO {
  * @description rebuild url queries to object
  * @param sort sort type
  * @param page page number
+ * @param portion amount of items by one portion
  * @param price price range filter
  * @param sell item is selling
  * @param restQueries dinamic filters
  */
-export class SearchQueries extends SearchQueriesDTO {
-    constructor({ sort, page, price, status, ...restQueries }: SearchReqQueriesI) {
+export class Queries extends QueriesDTO {
+    constructor({ sort, page, price, status, portion, ...restQueries }: QueriesReqI) {
         super();
         this.sort = Number(sort) || SortType.POPULAR;
         this.page = Number(page) || 1;
+        this.portion = Number(portion) || 10;
         this.price = price ? new RangeQuery(price) : null;
         this.status = availableEnum(status, ProductStatus) ? status : ProductStatus.AVAILABLE;
         this.dinamicFilters = Object.keys(restQueries).length ? restQueries : null;
