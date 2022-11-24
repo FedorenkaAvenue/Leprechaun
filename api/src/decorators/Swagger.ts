@@ -8,7 +8,7 @@ import { Pagination } from '@dto/Pagination/constructor';
 /**
  * @description successful responce documentation for OpenAPI
  */
-export const ApiPaginatedResponse = <TModel extends Type<any>>(model: TModel) => {
+const ApiPaginatedResponse = <TModel extends Type<any>>(model: TModel) => {
     return applyDecorators(
         ApiOkResponse({
             schema: {
@@ -46,3 +46,5 @@ export const ApiPaginatedResponse = <TModel extends Type<any>>(model: TModel) =>
         }),
     );
 };
+
+export default ApiPaginatedResponse;

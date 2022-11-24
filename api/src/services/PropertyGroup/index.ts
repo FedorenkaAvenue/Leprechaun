@@ -1,34 +1,33 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { DeleteResult, Repository } from 'typeorm';
+import { Repository } from 'typeorm';
 
-import { CreatePropertyGroupDTO } from '@dto/PropertyGroup';
 import { PropertyGroupI } from '@interfaces/PropertyGroup';
 import { PropertyGroupEntity } from '@entities/PropertGroup';
-import { PropertyGroup } from '@dto/PropertyGroup/constructor';
 
 @Injectable()
 export default class PropertyGroupService {
     constructor(
-        @InjectRepository(PropertyGroupEntity) private readonly propertyGroupRepo: Repository<PropertyGroupEntity>,
+        @InjectRepository(PropertyGroupEntity) protected readonly propertyGroupRepo: Repository<PropertyGroupEntity>,
     ) {}
 
-    async createGroup(newGroup: CreatePropertyGroupDTO): Promise<void> {
-        await this.propertyGroupRepo.save(new PropertyGroup(newGroup));
-    }
-
-    getGroup(groupId: number): Promise<PropertyGroupI> {
-        return this.propertyGroupRepo.findOne({
-            where: { id: groupId },
+    /**
+     * @description get property group by ID
+     * @param id property group ID
+     * @returns property group
+     */
+    async getGroupByID(id: PropertyGroupI['id']): Promise<PropertyGroupI> {
+        return await this.propertyGroupRepo.findOne({
+            where: { id },
             relations: ['properties'],
         });
     }
 
-    getAllGroups(): Promise<PropertyGroupI[]> {
-        return this.propertyGroupRepo.find();
-    }
-
-    deleteGroup(groupId: number): Promise<DeleteResult> {
-        return this.propertyGroupRepo.delete({ id: groupId });
+    /**
+     * @description get all property groups
+     * @returns property group list
+     */
+    async getGroups(): Promise<PropertyGroupI[]> {
+        return await this.propertyGroupRepo.find();
     }
 }

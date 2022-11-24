@@ -42,7 +42,7 @@ import SesssionInitMiddleware from '@middlewares/SessionInit';
         PropertyGroupModule,
         PropertyModule,
         ImageModule,
-        ScheduleModule,
+        // ScheduleModule,
         AdminModule,
         SessionModule,
         CacheModule,

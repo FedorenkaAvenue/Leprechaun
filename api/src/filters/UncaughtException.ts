@@ -9,7 +9,7 @@ import { DevLogMail } from '@dto/Mail/constructor';
  * @description catch uncaughted error and send mail log
  */
 @Catch(InternalServerErrorException, QueryFailedError)
-export class UncaughtExceptionFilter implements ExceptionFilter {
+export default class UncaughtExceptionFilter implements ExceptionFilter {
     catch(exception: InternalServerErrorException | QueryFailedError, host: ArgumentsHost) {
         const timestamp = new Date().toISOString();
         const ctx = host.switchToHttp();

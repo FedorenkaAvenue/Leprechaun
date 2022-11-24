@@ -4,7 +4,7 @@ import { Injectable, CanActivate, ExecutionContext, UnauthorizedException } from
  * @description check if session cookie is provided
  */
 @Injectable()
-export class SessionGuard implements CanActivate {
+export default class SessionGuard implements CanActivate {
     canActivate(context: ExecutionContext): boolean {
         if (!context.switchToHttp().getRequest().session.ip)
             throw new UnauthorizedException('session cookie is not provided');

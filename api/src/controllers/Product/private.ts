@@ -24,9 +24,9 @@ import { FilesInterceptor } from '@nestjs/platform-express';
 
 import { CreateProductDTO } from '@dto/Product';
 import { ProductEntity } from '@entities/Product';
-import ProductService from '@services/Product';
+import ProductPrivateService from '@services/Product/private';
 import { PaginationResultDTO } from '@dto/Pagination';
-import { ApiPaginatedResponse } from '@decorators/Swagger';
+import ApiPaginatedResponse from '@decorators/Swagger';
 import { ProductI, ProductCardI } from '@interfaces/Product';
 import InvalidPaginationPageInterceptor from '@interceptors/InvalidPaginationPage';
 import UndefinedResultInterceptor from '@interceptors/UndefinedResult';
@@ -34,12 +34,12 @@ import AffectedResultInterceptor from '@interceptors/AffectedResult';
 import { ProductCard } from '@dto/Product/constructor';
 import { Pagination } from '@dto/Pagination/constructor';
 import { QueriesI } from '@interfaces/Queries';
-import { QueryDecorator as Query } from '@decorators/Query';
+import Query from '@decorators/Query';
 
 @Controller('adm/product')
 @ApiTags('Product 🤵🏿‍♂️')
 export default class ProductPrivateController {
-    constructor(private readonly productService: ProductService) {}
+    constructor(private readonly productService: ProductPrivateService) {}
 
     @Post()
     @UseInterceptors(FilesInterceptor('images'))

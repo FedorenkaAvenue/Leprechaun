@@ -6,7 +6,7 @@ import CategoryService from '.';
 
 @Injectable()
 export default class CategoryPublicService extends CategoryService {
-    async getPublicCategories(): Promise<CategoryPublicI[]> {
+    async getCategoryList(): Promise<CategoryPublicI[]> {
         const res = await this.categoryRepo.find({
             where: { is_public: true },
         });
@@ -14,7 +14,7 @@ export default class CategoryPublicService extends CategoryService {
         return res.map(cat => new CategoryPublic(cat));
     }
 
-    async getPublicCategory(categoryUrl: string): Promise<CategoryPublicI> {
+    async getCategory(categoryUrl: string): Promise<CategoryPublicI> {
         try {
             const res = await this.categoryRepo.findOneOrFail({
                 where: { url: categoryUrl, is_public: true },

@@ -33,7 +33,7 @@ export default class HistoryService {
         }
     }
 
-    async getHistoryList(sid: SessionI['sid']): Promise<HistoryEntity[]> {
+    async getHistoryListBySID(sid: SessionI['sid']): Promise<HistoryEntity[]> {
         return await this.historyRepo.find({
             where: { sid },
             order: { created_at: 'DESC' },

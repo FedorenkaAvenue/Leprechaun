@@ -3,11 +3,11 @@ import { DeleteResult, UpdateResult } from 'typeorm';
 
 import { UpdateOrderStatusDTO } from '@dto/Order';
 import { OrderI, OrderPublicI } from '@interfaces/Order';
-import OrderHelperService from './helper';
+import OrderService from '.';
 import { ProductI } from '@interfaces/Product';
 
 @Injectable()
-export default class OrderAdminService extends OrderHelperService {
+export default class OrderPrivateService extends OrderService {
     async getOrderById(id: OrderI['id']): Promise<OrderPublicI> {
         const qb = this.orderRepo.createQueryBuilder('order').where({ id });
 

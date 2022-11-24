@@ -6,12 +6,12 @@ import { FOLDER_TYPES } from '@services/FS';
 import { PaginationResultDTO } from '@dto/Pagination';
 import { ProductI } from '@interfaces/Product';
 import { Product } from '@dto/Product/constructor';
-import ProductHelperService from './helper';
+import ProductService from '.';
 import { PRODUCT_RELATIONS } from '@constants/relations';
 import { Queries } from '@dto/Queries/constructor';
 
 @Injectable()
-export default class ProductAdminService extends ProductHelperService {
+export default class ProductPrivateService extends ProductService {
     async createProduct(newProduct: CreateProductDTO, images: Express.Multer.File[]): Promise<void> {
         const { id } = await this.productRepo.save(new Product(newProduct));
 

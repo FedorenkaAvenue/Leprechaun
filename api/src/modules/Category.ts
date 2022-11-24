@@ -8,10 +8,15 @@ import { CategoryEntity } from '@entities/Category';
 import CategoryPublicService from '@services/Category/public';
 import { FSService } from '@services/FS';
 import CategoryPrivateService from '@services/Category/private';
+import FSModule from './FS';
 
 @Module({
-    imports: [TypeOrmModule.forFeature([CategoryEntity]), MulterModule.registerAsync({ useClass: FSService })],
+    imports: [
+        FSModule,
+        TypeOrmModule.forFeature([CategoryEntity]),
+        MulterModule.registerAsync({ useClass: FSService }),
+    ],
     controllers: [CategoryPublicController, CategoryPrivateController],
-    providers: [CategoryPublicService, CategoryPrivateService, FSService],
+    providers: [CategoryPublicService, CategoryPrivateService],
 })
 export default class CategoryModule {}

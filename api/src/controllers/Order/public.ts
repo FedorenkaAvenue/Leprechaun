@@ -15,18 +15,18 @@ import {
 import { ApiBadRequestResponse, ApiNotFoundResponse, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { UpdateResult } from 'typeorm';
 
-import OrderService from '@services/Order';
+import OrderPublicService from '@services/Order/public';
 import { CreateOrderDTO } from '@dto/Order';
 import AffectedResultInterceptor from '@interceptors/AffectedResult';
 import { OrderPublicI } from '@interfaces/Order';
 import { CreateOrderItemDTO, UpdateOrderItemDTO } from '@dto/OrderItem';
 import { OrderPublic } from '@dto/Order/constructor';
-import { SessionGuard } from '@guards/Session';
+import SessionGuard from '@guards/Session';
 
 @Controller('order')
 @ApiTags('Order 🧑‍💻')
 export default class OrderPublicController {
-    constructor(private readonly orderService: OrderService) {}
+    constructor(private readonly orderService: OrderPublicService) {}
 
     @Get()
     @ApiOperation({ summary: 'get cart' })

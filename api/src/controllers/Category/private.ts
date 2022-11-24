@@ -59,7 +59,7 @@ export default class CategoryPrivateController {
     @ApiOkResponse({ type: TCategoryAdmin })
     @ApiNotFoundResponse({ description: 'category not found' })
     getCategory(@Param('category') category: string): Promise<CategoryI> {
-        return this.categoryService.getAdminCategory(category);
+        return this.categoryService.getCategory(category);
     }
 
     @Delete(':category')

@@ -1,12 +1,12 @@
 import { Controller, Get } from '@nestjs/common';
 import { ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 
-import AdminService from '@services/Admin';
+import AdminPrivateService from '@services/Admin/private';
 
 @Controller('adm')
 @ApiTags('Admin 🤵🏿‍♂️')
 export default class AdminPrivateController {
-    constructor(private readonly adminService: AdminService) {}
+    constructor(private readonly adminService: AdminPrivateService) {}
 
     @Get('/cache/reset')
     @ApiOperation({ summary: 'reset DB cache' })

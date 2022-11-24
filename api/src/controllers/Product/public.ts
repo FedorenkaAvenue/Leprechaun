@@ -1,21 +1,21 @@
 import { Controller, Get, Param, ParseUUIDPipe, UseInterceptors, CacheInterceptor, Session } from '@nestjs/common';
 import { ApiBadRequestResponse, ApiNotFoundResponse, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 
-import ProductService from '@services/Product';
+import ProductPublicService from '@services/Product/public';
 import { PaginationResultDTO } from '@dto/Pagination';
-import { ApiPaginatedResponse } from '@decorators/Swagger';
+import ApiPaginatedResponse from '@decorators/Swagger';
 import { ProductCardI } from '@interfaces/Product';
 import InvalidPaginationPageInterceptor from '@interceptors/InvalidPaginationPage';
 import { ProductCard } from '@dto/Product/constructor';
 import { CommonDashboards, UserDashboards } from '@dto/Dashboard/constructor';
-import { SessionProductHistoryInterceptor } from '@interceptors/Session';
-import { QueryDecorator as Query } from '@decorators/Query';
+import SessionProductHistoryInterceptor from '@interceptors/SessionProductHistory';
+import Query from '@decorators/Query';
 import { QueriesI } from '@interfaces/Queries';
 
 @Controller('product')
 @ApiTags('Product 🧑‍💻')
 export default class ProductPublicController {
-    constructor(private readonly productService: ProductService) {}
+    constructor(private readonly productService: ProductPublicService) {}
 
     @Get('list')
     @UseInterceptors(CacheInterceptor)

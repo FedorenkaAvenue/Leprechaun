@@ -13,23 +13,23 @@ import {
 import { ApiBadRequestResponse, ApiNotFoundResponse, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { DeleteResult } from 'typeorm';
 
-import WishlistService from '@services/Wishlist';
+import WishlistPublicService from '@services/Wishlist/public';
 import AffectedResultInterceptor from '@interceptors/AffectedResult';
 import { WishlistItemPublic } from '@dto/WishlistItem/constructor';
 import { WishlistItemPublicI } from '@interfaces/WishlistItem';
-import { SessionGuard } from '@guards/Session';
+import SessionGuard from '@guards/Session';
 import { WishListIPublicI } from '@interfaces/Wishlist';
 
 @Controller('wishlist')
 @ApiTags('Wishlist 🧑‍💻')
 export default class WishlistPublicController {
-    constructor(private readonly wishlistService: WishlistService) {}
+    constructor(private readonly WishlistPublicService: WishlistPublicService) {}
 
     @Get()
     @ApiOperation({ summary: 'get wishlist' })
     @ApiOkResponse({ type: WishlistItemPublic, isArray: true })
     getWishlist(@Session() { id }): Promise<WishListIPublicI> {
-        return this.wishlistService.getWishlistPublic(id);
+        return this.WishlistPublicService.getWishlist(id);
     }
 
     @Post(':productId')
@@ -39,7 +39,7 @@ export default class WishlistPublicController {
     @ApiBadRequestResponse({ description: 'product is already added to wishlist' })
     @ApiNotFoundResponse({ description: 'product not found' })
     addItem(@Param('productId', ParseUUIDPipe) productId: string, @Session() { id }): Promise<WishlistItemPublicI> {
-        return this.wishlistService.addItem(productId, id);
+        return this.WishlistPublicService.addItem(productId, id);
     }
 
     @Delete(':wishlistItemId')
@@ -51,7 +51,7 @@ export default class WishlistPublicController {
         @Param('wishlistItemId', ParseUUIDPipe) wishlistItemId: string,
         @Session() { id },
     ): Promise<DeleteResult> {
-        return this.wishlistService.removeItem(id, wishlistItemId);
+        return this.WishlistPublicService.removeItem(id, wishlistItemId);
     }
 
     @Delete()
@@ -60,6 +60,6 @@ export default class WishlistPublicController {
     @ApiOperation({ summary: 'clear wishlist' })
     @ApiBadRequestResponse({ description: 'wishlist is already empty' })
     clearWishlist(@Session() { id }) {
-        return this.wishlistService.clearWishlist(id);
+        return this.WishlistPublicService.clearWishlist(id);
     }
 }

@@ -25,14 +25,14 @@ export default class CategoryPrivateService extends CategoryService {
         }
     }
 
-    async getAdminCategory(categoryUrl: string): Promise<CategoryI> {
+    async getCategory(categoryUrl: CategoryI['url']): Promise<CategoryI> {
         return await this.categoryRepo.findOne({
             where: { url: categoryUrl },
             relations: ['property_groups'],
         });
     }
 
-    async deleteCategory(categoryId: number): Promise<DeleteResult> {
+    async deleteCategory(categoryId: CategoryI['id']): Promise<DeleteResult> {
         const res = await this.categoryRepo.delete({ id: categoryId });
 
         this.FSService.removeFolder(FOLDER_TYPES.CATEGORY, categoryId);

@@ -11,7 +11,7 @@ import {
 } from '@nestjs/common';
 import { ApiNotFoundResponse, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 
-import OrderService from '@services/Order';
+import OrderPrivateService from '@services/Order/private';
 import { UpdateOrderStatusDTO } from '@dto/Order';
 import AffectedResultInterceptor from '@interceptors/AffectedResult';
 import { OrderI, OrderPublicI } from '@interfaces/Order';
@@ -21,7 +21,7 @@ import { OrderPublic } from '@dto/Order/constructor';
 @Controller('adm/order')
 @ApiTags('Order 🤵🏿‍♂️')
 export default class OrderPrivateController {
-    constructor(private readonly orderService: OrderService) {}
+    constructor(private readonly orderService: OrderPrivateService) {}
 
     @Get(':orderId')
     @ApiOperation({ summary: 'get order by ID' })

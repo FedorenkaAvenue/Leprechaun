@@ -6,7 +6,7 @@ import CacheService from '../Cache';
 export default class AdminService {
     constructor(private readonly cacheService: CacheService) {}
 
-    clearCache() {
-        this.cacheService.resetCache();
+    async clearCache(): Promise<void> {
+        await this.cacheService.resetCache();
     }
 }

@@ -1,14 +1,10 @@
 import { Module } from '@nestjs/common';
 
-import UserService from '@services/User';
+import UserPublicService from '@services/User/public';
 import UserController from '@controllers/User/public';
-import ProductModule from './Product';
-import OrderModule from './Order';
-import WishlistModule from './Wishlist';
 
 @Module({
     controllers: [UserController],
-    providers: [UserService],
-    imports: [ProductModule, OrderModule, WishlistModule],
+    providers: [UserPublicService],
 })
 export default class UserModule {}

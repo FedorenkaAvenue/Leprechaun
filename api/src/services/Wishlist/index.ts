@@ -1,45 +1,39 @@
-import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
-import { DeepPartial, DeleteResult } from 'typeorm';
+import { Injectable } from '@nestjs/common';
+import { Repository } from 'typeorm';
+import { InjectRepository } from '@nestjs/typeorm';
 
-import { ProductI } from '@interfaces/Product';
-import { SessionI } from '@interfaces/Session';
-import WishlistAdminService from './admin';
 import WishlistItemEntity from '@entities/WishlistItem';
-import { WishlistItemI, WishlistItemPublicI } from '@interfaces/WishlistItem';
-import { WishlistItemPublic } from '@dto/WishlistItem/constructor';
-import { WishListIPublicI } from '@interfaces/Wishlist';
+import { SessionI } from '@interfaces/Session';
+import { WishlistItemI } from '@interfaces/WishlistItem';
+import { PRODUCT_DEEP_RELATIONS } from '@constants/relations';
 
 @Injectable()
-export default class WishlistService extends WishlistAdminService {
-    async getWishlistPublic(sid: SessionI['sid']): Promise<WishListIPublicI> {
-        const res = await this.getWishList(sid);
+export default class WishlistService {
+    constructor(
+        @InjectRepository(WishlistItemEntity) public readonly wishlistItemRepo: Repository<WishlistItemEntity>,
+    ) {}
 
-        return res.map(item => new WishlistItemPublic(item));
-    }
-
-    async addItem(product: ProductI['id'], sid: SessionI['sid']): Promise<WishlistItemPublicI> {
-        const res = await this.wishlistItemRepo.findOneBy({
-            product: { id: product },
-            sid,
+    /**
+     * @description get current wishlist by session ID
+     * @param sid session ID
+     * @returns wishlist
+     */
+    async getWishlistBySID(sid: SessionI['sid']): Promise<WishlistItemEntity[]> {
+        return await this.wishlistItemRepo.find({
+            where: { sid },
+            relations: PRODUCT_DEEP_RELATIONS,
         });
-
-        if (res) throw new BadRequestException('product is already added to wishlist');
-
-        try {
-            const { id } = await this.wishlistItemRepo.save({ product, sid } as DeepPartial<WishlistItemEntity>);
-
-            return new WishlistItemPublic(await this.getWishlistItem(id));
-        } catch (err) {
-            console.log(err);
-            throw new NotFoundException('product not found');
-        }
     }
 
-    async removeItem(sid: SessionI['sid'], id: WishlistItemI['id']): Promise<DeleteResult> {
-        return await this.wishlistItemRepo.delete({ sid, id });
-    }
-
-    async clearWishlist(sid: SessionI['sid']): Promise<DeleteResult> {
-        return this.wishlistItemRepo.delete({ sid });
+    /**
+     * @description get wishlist item by ID
+     * @param id product ID
+     * @returns wishlist item
+     */
+    async getWishlistItemByID(id: WishlistItemI['id']): Promise<WishlistItemEntity> {
+        return await this.wishlistItemRepo.findOne({
+            where: { id },
+            relations: PRODUCT_DEEP_RELATIONS,
+        });
     }
 }
