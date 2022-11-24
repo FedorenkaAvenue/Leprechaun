@@ -7,8 +7,6 @@ import { OrderEntity } from '@entities/Order';
 import { OrderItemEntity } from '@entities/OrderItem';
 import { OrderPublic } from '@dto/Order/constructor';
 import { SessionI } from '@interfaces/Session';
-import { OrderPublicI } from '@interfaces/Order';
-import { OrderStatus } from '@enums/Order';
 import { genID } from '@utils/genIds';
 
 @Injectable()
@@ -25,20 +23,6 @@ export default class OrderHelperService {
      */
     async createOrder(sid: SessionI['sid']): Promise<OrderEntity> {
         return await this.orderRepo.save({ sid, id: genID() });
-    }
-
-    /**
-     * @description get current order by session ID
-     * @param sid
-     * @returns cart
-     */
-    async getCart(sid: SessionI['sid']): Promise<OrderPublicI> {
-        const qb = this.orderRepo
-            .createQueryBuilder('order')
-            .where('order.sid = :sid', { sid })
-            .andWhere('order.status = :status', { status: OrderStatus.INIT });
-
-        return await this.getOrder(qb);
     }
 
     /**

@@ -2,6 +2,7 @@ import {
     BadRequestException,
     Controller,
     Delete,
+    Get,
     Param,
     ParseUUIDPipe,
     Post,
@@ -17,11 +18,19 @@ import AffectedResultInterceptor from '@interceptors/AffectedResult';
 import { WishlistItemPublic } from '@dto/WishlistItem/constructor';
 import { WishlistItemPublicI } from '@interfaces/WishlistItem';
 import { SessionGuard } from '@guards/Session';
+import { WishListIPublicI } from '@interfaces/Wishlist';
 
 @Controller('wishlist')
 @ApiTags('Wishlist 🧑‍💻')
 export default class WishlistPublicController {
     constructor(private readonly wishlistService: WishlistService) {}
+
+    @Get()
+    @ApiOperation({ summary: 'get wishlist' })
+    @ApiOkResponse({ type: WishlistItemPublic, isArray: true })
+    getWishlist(@Session() { id }): Promise<WishListIPublicI> {
+        return this.wishlistService.getWishlistPublic(id);
+    }
 
     @Post(':productId')
     @UseGuards(SessionGuard)

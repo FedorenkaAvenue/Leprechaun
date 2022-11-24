@@ -13,6 +13,15 @@ import OrderAdminService from './admin';
 
 @Injectable()
 export default class OrderService extends OrderAdminService {
+    async getCart(sid: SessionI['sid']): Promise<OrderPublicI> {
+        const qb = this.orderRepo
+            .createQueryBuilder('order')
+            .where('order.sid = :sid', { sid })
+            .andWhere('order.status = :status', { status: OrderStatus.INIT });
+
+        return await this.getOrder(qb);
+    }
+
     async addOrderItem(orderItem: CreateOrderItemDTO, sid: SessionI['sid']): Promise<OrderPublicI> {
         const res = await this.orderRepo.findOneBy({
             sid,

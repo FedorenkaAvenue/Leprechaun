@@ -7,9 +7,16 @@ import WishlistAdminService from './admin';
 import WishlistItemEntity from '@entities/WishlistItem';
 import { WishlistItemI, WishlistItemPublicI } from '@interfaces/WishlistItem';
 import { WishlistItemPublic } from '@dto/WishlistItem/constructor';
+import { WishListIPublicI } from '@interfaces/Wishlist';
 
 @Injectable()
 export default class WishlistService extends WishlistAdminService {
+    async getWishlistPublic(sid: SessionI['sid']): Promise<WishListIPublicI> {
+        const res = await this.getWishList(sid);
+
+        return res.map(item => new WishlistItemPublic(item));
+    }
+
     async addItem(product: ProductI['id'], sid: SessionI['sid']): Promise<WishlistItemPublicI> {
         const res = await this.wishlistItemRepo.findOneBy({
             product: { id: product },

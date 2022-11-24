@@ -4,8 +4,6 @@ import { InjectRepository } from '@nestjs/typeorm';
 
 import WishlistItemEntity from '@entities/WishlistItem';
 import { SessionI } from '@interfaces/Session';
-import { WishListIPublicI } from '@interfaces/Wishlist';
-import { WishlistItemPublic } from '@dto/WishlistItem/constructor';
 import { WishlistItemI } from '@interfaces/WishlistItem';
 import { PRODUCT_DEEP_RELATIONS } from '@constants/relations';
 
@@ -20,13 +18,11 @@ export default class WishlistHelperService {
      * @param sid
      * @returns wishlist
      */
-    async getWishList(sid: SessionI['sid']): Promise<WishListIPublicI> {
-        const wishlist = await this.wishlistItemRepo.find({
+    async getWishList(sid: SessionI['sid']): Promise<WishlistItemEntity[]> {
+        return await this.wishlistItemRepo.find({
             where: { sid },
             relations: PRODUCT_DEEP_RELATIONS,
         });
-
-        return wishlist.map(item => new WishlistItemPublic(item));
     }
 
     async getWishlistItem(id: WishlistItemI['id']): Promise<WishlistItemEntity> {

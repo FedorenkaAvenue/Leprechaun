@@ -28,6 +28,13 @@ import { SessionGuard } from '@guards/Session';
 export default class OrderPublicController {
     constructor(private readonly orderService: OrderService) {}
 
+    @Get()
+    @ApiOperation({ summary: 'get cart' })
+    @ApiOkResponse({ type: OrderPublic })
+    getCart(@Session() { id }): Promise<OrderPublicI> {
+        return this.orderService.getCart(id);
+    }
+
     @Get('list')
     @ApiOperation({ summary: 'get order list (without current cart)' })
     @ApiOkResponse({ type: OrderPublic, isArray: true })
