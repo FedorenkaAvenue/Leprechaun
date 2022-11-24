@@ -2,13 +2,13 @@ import { CategoryI } from '@interfaces/Category';
 import { ImageI } from '@interfaces/Image';
 import { PropertyI } from '@interfaces/Property';
 import { LabelI } from '@interfaces/Label';
-import { ProductStatus } from '@enums/Product';
+import { ProductStatusE } from '@enums/Product';
 import { PriceI } from './Price';
 
 export interface BaseProductI {
     id?: string;
     title: string;
-    status: ProductStatus;
+    status: ProductStatusE;
     price?: PriceI;
     labels?: LabelI[];
 }

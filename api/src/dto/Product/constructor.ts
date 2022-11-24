@@ -1,6 +1,6 @@
 import { ProductI } from '@interfaces/Product';
 import { PriceI } from '@interfaces/Price';
-import { ProductStatus } from '@enums/Product';
+import { ProductStatusE } from '@enums/Product';
 import WithLabels from '@decorators/Label';
 import { LabelType } from '@enums/Label';
 import { ImageEntity } from '@entities/Image';
@@ -29,7 +29,7 @@ export class Product extends CreateProductDTO {
         this.title = title;
         this.price = new Price({ current: price_current, old: price_old });
         this.is_public = ((<unknown>is_public) as string) === 'true';
-        this.status = status || ProductStatus.AVAILABLE;
+        this.status = status || ProductStatusE.AVAILABLE;
         this.is_new = typeof is_new === 'boolean' ? is_new : true;
         this.category = category;
         this.description = description || null;

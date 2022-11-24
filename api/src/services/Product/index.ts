@@ -5,7 +5,7 @@ import { Injectable } from '@nestjs/common';
 import { FSService } from '@services/FS';
 import { ProductEntity } from '@entities/Product';
 import { ImageService } from '@services/Image';
-import { SortType } from '@enums/Query';
+import { SortTypeE } from '@enums/Query';
 import { PaginationResultDTO } from '@dto/Pagination';
 import configService from '../Config';
 import { PaginationResult } from '@dto/Pagination/constructor';
@@ -84,17 +84,17 @@ export default class ProductService {
 
         // sorting
         switch (sort) {
-            case SortType.PRICE_UP: {
+            case SortTypeE.PRICE_UP: {
                 qb.orderBy('product.price.current', 'ASC');
                 break;
             }
 
-            case SortType.PRICE_DOWN: {
+            case SortTypeE.PRICE_DOWN: {
                 qb.orderBy('product.price.current', 'DESC');
                 break;
             }
 
-            case SortType.NEW: {
+            case SortTypeE.NEW: {
                 qb.orderBy('product.created_at', 'DESC');
                 break;
             }

@@ -4,7 +4,7 @@ import { IsBooleanString, IsEnum, IsNotEmpty, IsNumberString, IsOptional, IsStri
 import { CategoryI } from '@interfaces/Category';
 import { ProductI, ProductPreviewI, ProductCardI } from '@interfaces/Product';
 import { PriceI } from '@interfaces/Price';
-import { ProductStatus } from '@enums/Product';
+import { ProductStatusE } from '@enums/Product';
 import { PropertyI } from '@interfaces/Property';
 import { ImageI } from '@interfaces/Image';
 import { LabelI } from '@interfaces/Label';
@@ -36,13 +36,13 @@ export class CreateProductDTO implements ProductI {
     is_public: boolean;
 
     @IsOptional()
-    @IsEnum(ProductStatus)
+    @IsEnum(ProductStatusE)
     @ApiProperty({
-        enum: ProductStatus,
+        enum: ProductStatusE,
         required: false,
-        default: ProductStatus.AVAILABLE,
+        default: ProductStatusE.AVAILABLE,
     })
-    status: ProductStatus;
+    status: ProductStatusE;
 
     @IsOptional()
     @IsString()
@@ -100,8 +100,8 @@ export class ProductPreviewDTO implements ProductPreviewI {
     @ApiProperty()
     title: string;
 
-    @ApiProperty({ enum: ProductStatus })
-    status: ProductStatus;
+    @ApiProperty({ enum: ProductStatusE })
+    status: ProductStatusE;
 
     @ApiProperty({ type: PriceEntity })
     price: PriceEntity;
@@ -120,8 +120,8 @@ export class ProductCardDTO implements ProductCardI {
     @ApiProperty()
     title: string;
 
-    @ApiProperty({ enum: ProductStatus })
-    status: ProductStatus;
+    @ApiProperty({ enum: ProductStatusE })
+    status: ProductStatusE;
 
     @ApiProperty({ type: PriceEntity })
     price: PriceEntity;

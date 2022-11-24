@@ -1,6 +1,6 @@
 import { DinamicQueryFiltersT, QueryPriceI, QueriesI } from '@interfaces/Queries';
-import { SortType } from '@enums/Query';
-import { ProductStatus } from '@enums/Product';
+import { SortTypeE } from '@enums/Query';
+import { ProductStatusE } from '@enums/Product';
 
 export class RangeQueryDTO implements QueryPriceI {
     min: number;
@@ -8,11 +8,11 @@ export class RangeQueryDTO implements QueryPriceI {
 }
 
 export class QueriesDTO implements QueriesI {
-    sort: SortType;
+    sort: SortTypeE;
     page: number;
     portion: number;
     price: QueryPriceI;
-    status: ProductStatus;
+    status: ProductStatusE;
     dinamicFilters: DinamicQueryFiltersT;
 }
 

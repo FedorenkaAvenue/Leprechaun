@@ -1,7 +1,7 @@
 import { QueriesReqI } from '@interfaces/Queries';
-import { SortType } from '@enums/Query';
+import { SortTypeE } from '@enums/Query';
 import { availableEnum } from '@utils/enum';
-import { ProductStatus } from '@enums/Product';
+import { ProductStatusE } from '@enums/Product';
 import { QueryGETListDTO, RangeQueryDTO, QueriesDTO } from '.';
 
 /**
@@ -31,11 +31,11 @@ export class RangeQuery extends RangeQueryDTO {
 export class Queries extends QueriesDTO {
     constructor({ sort, page, price, status, portion, ...restQueries }: QueriesReqI) {
         super();
-        this.sort = Number(sort) || SortType.POPULAR;
+        this.sort = Number(sort) || SortTypeE.POPULAR;
         this.page = Number(page) || 1;
         this.portion = Number(portion) || 10;
         this.price = price ? new RangeQuery(price) : null;
-        this.status = availableEnum(status, ProductStatus) ? status : ProductStatus.AVAILABLE;
+        this.status = availableEnum(status, ProductStatusE) ? status : ProductStatusE.AVAILABLE;
         this.dinamicFilters = Object.keys(restQueries).length ? restQueries : null;
     }
 }
