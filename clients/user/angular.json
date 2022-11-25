@@ -171,6 +171,9 @@
         "serve-ssr": {
           "builder": "@nguniversal/builders:ssr-dev-server",
           "options": {
+            "ssl": true,
+            "sslKey": "./cert/localhost.key",
+            "sslCert": "./cert/localhost.crt",
             "browserTarget": "universal-demo:build",
             "serverTarget": "universal-demo:server"
           },

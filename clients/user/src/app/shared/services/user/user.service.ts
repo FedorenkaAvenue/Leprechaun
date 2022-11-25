@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { UserI } from '@shared/models/user/user.model';
-import { Observable, of } from 'rxjs';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 import { shareReplay } from 'rxjs/operators';
 import { UserApiService } from '../api_es/user-api/user-state.service';
 
@@ -9,9 +9,18 @@ import { UserApiService } from '../api_es/user-api/user-state.service';
 })
 export class UserService {
   constructor(private readonly userApiService: UserApiService) {}
-  public userSatate$: Observable<UserI>
-  public getUser(): void {
-   this.userSatate$  = this.userApiService.getUser().pipe(shareReplay(1));
-  //  return this.userApiService.getUser()
+  public userSatate$ = new BehaviorSubject(null);
+  // public user$
+
+
+
+  public getUser(): Observable<UserI> {
+   return this.userApiService.getUser().pipe(shareReplay(1));
+  }
+
+  updateUser(user: UserI): void {
+    console.log(user);
+    
+    this.userSatate$.next(user)
   }
 }
