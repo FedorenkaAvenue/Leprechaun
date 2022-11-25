@@ -9,6 +9,7 @@ import { Product } from '@dto/Product/constructor';
 import ProductService from '.';
 import { PRODUCT_RELATIONS } from '@constants/relations';
 import { Queries } from '@dto/Queries/constructor';
+import { ProductEntity } from '@entities/Product';
 
 @Injectable()
 export default class ProductPrivateService extends ProductService {
@@ -22,27 +23,27 @@ export default class ProductPrivateService extends ProductService {
         }
     }
 
-    async getAdminProduct(productId: ProductI['id']): Promise<ProductI> {
+    async getAdminProduct(productId: ProductI['id']): Promise<ProductEntity> {
         return this.productRepo.findOne({
             where: { id: productId },
             relations: PRODUCT_RELATIONS,
         });
     }
 
-    async getAdminProducts(queries: Queries): Promise<PaginationResultDTO<ProductI>> {
+    async getAdminProducts(queries: Queries): Promise<PaginationResultDTO<ProductEntity>> {
         const qb = this.getProductQueryBulder();
 
         qb.leftJoinAndSelect('product.category', 'category');
 
-        return this.renderResult<ProductI>(qb, queries);
+        return this.renderResult<ProductEntity>(qb, queries);
     }
 
-    async getCategoryAdminProducts(categoryUrl: string, queries: Queries): Promise<PaginationResultDTO<ProductI>> {
+    async getCategoryAdminProducts(categoryUrl: string, queries: Queries): Promise<PaginationResultDTO<ProductEntity>> {
         const qb = this.getProductQueryBulder();
 
         qb.innerJoin('product.category', 'category').where('category.url = :categoryUrl', { categoryUrl });
 
-        return this.renderResult<ProductI>(qb, queries);
+        return this.renderResult<ProductEntity>(qb, queries);
     }
 
     async deleteProduct(productId: string): Promise<DeleteResult> {

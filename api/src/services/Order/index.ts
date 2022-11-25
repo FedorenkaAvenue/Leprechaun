@@ -5,7 +5,6 @@ import { Injectable } from '@nestjs/common';
 
 import { OrderEntity } from '@entities/Order';
 import { OrderItemEntity } from '@entities/OrderItem';
-import { OrderPublic } from '@dto/Order/constructor';
 import { SessionI } from '@interfaces/Session';
 import { genID } from '@utils/genIds';
 
@@ -30,7 +29,7 @@ export default class OrderService {
      * @param qb current query builder to continue building query
      * @returns completed OrderPublicDTO or null
      */
-    async getOrder(qb: SelectQueryBuilder<OrderEntity>): Promise<OrderPublic | null> {
+    async getOrder(qb: SelectQueryBuilder<OrderEntity>, resConstructor?: any) {
         const res = await qb
             .leftJoinAndSelect('order.list', 'list')
             .leftJoinAndSelect('list.product', 'product')
@@ -38,6 +37,6 @@ export default class OrderService {
             .orderBy('list.created_at', 'ASC')
             .getOne();
 
-        return res ? new OrderPublic(res) : null;
+        return res ? (resConstructor ? new resConstructor(res) : res) : null;
     }
 }

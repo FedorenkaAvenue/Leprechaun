@@ -16,7 +16,7 @@ export default class PropertyGroupService {
      * @param id property group ID
      * @returns property group
      */
-    async getGroupByID(id: PropertyGroupI['id']): Promise<PropertyGroupI> {
+    async getGroupByID(id: PropertyGroupI['id']): Promise<PropertyGroupEntity> {
         return await this.propertyGroupRepo.findOne({
             where: { id },
             relations: ['properties'],
@@ -27,7 +27,7 @@ export default class PropertyGroupService {
      * @description get all property groups
      * @returns property group list
      */
-    async getGroups(): Promise<PropertyGroupI[]> {
+    async getGroups(): Promise<PropertyGroupEntity[]> {
         return await this.propertyGroupRepo.find();
     }
 }

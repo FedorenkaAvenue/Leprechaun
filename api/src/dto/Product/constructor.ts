@@ -1,17 +1,19 @@
-import { ProductI } from '@interfaces/Product';
 import { PriceI } from '@interfaces/Price';
 import { ProductStatusE } from '@enums/Product';
 import WithLabels from '@decorators/Label';
 import { LabelType } from '@enums/Label';
 import { ImageEntity } from '@entities/Image';
-import { CreateProductDTO, ProductPreviewDTO, ProductCardDTO } from '.';
+import { CreateProductDTO, ProductPreviewDTO, ProductCardDTO, ProductPublicDTO } from '.';
 import { Price } from '@dto/Price/constructor';
 import configService from '@services/Config';
+import { PropertyPublic } from '@dto/Property/constructor';
+import { ProductEntity } from '@entities/Product';
+import { CategoryPublic } from '@dto/Category/constructor';
 
 const PRODUCT_PUBLIC_IMAGE_AMOUNT = configService.getVal('PRODUCT_PUBLIC_IMAGE_AMOUNT');
 
 export class Product extends CreateProductDTO {
-    price?: PriceI;
+    price: PriceI;
 
     constructor({
         title,
@@ -34,6 +36,7 @@ export class Product extends CreateProductDTO {
         this.category = category;
         this.description = description || null;
         this.comment = comment || null;
+        // TODO
         // @ts-ignore for properties relation
         this.properties = properties ? properties.map(property => ({ id: Number(property) })) : [];
     }
@@ -41,7 +44,7 @@ export class Product extends CreateProductDTO {
 
 @WithLabels(LabelType.DISCOUNT)
 export class ProductPreview extends ProductPreviewDTO {
-    constructor({ id, title, price, status, images }: ProductI) {
+    constructor({ id, title, price, status, images }: ProductEntity) {
         super();
         this.id = id;
         this.title = title;
@@ -53,13 +56,27 @@ export class ProductPreview extends ProductPreviewDTO {
 
 @WithLabels(LabelType.NEW, LabelType.POPULAR, LabelType.DISCOUNT)
 export class ProductCard extends ProductCardDTO {
-    constructor({ id, title, price, status, images, properties }: ProductI) {
+    constructor({ id, title, price, status, images, properties }: ProductEntity) {
         super();
         this.id = id;
         this.title = title;
         this.price = price;
         this.status = status;
         this.images = images.slice(0, Number(PRODUCT_PUBLIC_IMAGE_AMOUNT)) as ImageEntity[];
-        this.properties = properties;
+        this.properties = properties.filter(({ is_primary }) => is_primary).map(prop => new PropertyPublic(prop));
+    }
+}
+
+@WithLabels(LabelType.NEW, LabelType.POPULAR, LabelType.DISCOUNT)
+export class ProductPublic extends ProductPublicDTO {
+    constructor({ id, title, price, status, images, properties, category }: ProductEntity) {
+        super();
+        this.id = id;
+        this.title = title;
+        this.price = price;
+        this.status = status;
+        this.images = images.slice(0, Number(PRODUCT_PUBLIC_IMAGE_AMOUNT)) as ImageEntity[];
+        this.properties = properties.map(prop => new PropertyPublic(prop));
+        this.category = new CategoryPublic(category);
     }
 }

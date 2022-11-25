@@ -6,10 +6,11 @@ import { FOLDER_TYPES } from '@services/FS';
 import { CategoryI } from '@interfaces/Category';
 import { Category } from '@dto/Category/constructor';
 import CategoryService from '.';
+import { CategoryEntity } from '@entities/Category';
 
 @Injectable()
 export default class CategoryPrivateService extends CategoryService {
-    getAdminCategories(): Promise<CategoryI[]> {
+    getAdminCategories(): Promise<CategoryEntity[]> {
         return this.categoryRepo.find({
             relations: ['property_groups'],
         });
@@ -25,7 +26,7 @@ export default class CategoryPrivateService extends CategoryService {
         }
     }
 
-    async getCategory(categoryUrl: CategoryI['url']): Promise<CategoryI> {
+    async getCategory(categoryUrl: CategoryI['url']): Promise<CategoryEntity> {
         return await this.categoryRepo.findOne({
             where: { url: categoryUrl },
             relations: ['property_groups'],

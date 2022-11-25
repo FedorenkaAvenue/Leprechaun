@@ -5,6 +5,7 @@ import { CreatePropertyDTO } from '@dto/Property';
 import { PropertyI } from '@interfaces/Property';
 import { Property } from '@dto/Property/constructor';
 import PropertyService from '.';
+import { PropertyEntity } from '@entities/Property';
 
 @Injectable()
 export default class PropertyPrivateService extends PropertyService {
@@ -12,7 +13,7 @@ export default class PropertyPrivateService extends PropertyService {
         await this.propertyRepo.save(new Property(property));
     }
 
-    async getProperty(id: PropertyI['id']): Promise<PropertyI> {
+    async getProperty(id: PropertyI['id']): Promise<PropertyEntity> {
         return await this.getPropertyByID(id);
     }
 

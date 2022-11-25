@@ -26,6 +26,9 @@ class ListFilterDTO implements ListFilterI {
     alt_name: string;
 
     @ApiProperty({ required: false })
+    is_primary: boolean;
+
+    @ApiProperty({ required: false })
     selected: boolean;
 
     constructor({ title, alt_name, id }: PropertyI, isSelected: boolean) {

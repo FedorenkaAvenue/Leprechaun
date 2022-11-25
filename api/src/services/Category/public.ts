@@ -1,12 +1,12 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 
-import { CategoryPublicI } from '@interfaces/Category';
+import { CategoryI } from '@interfaces/Category';
 import { CategoryPublic } from '@dto/Category/constructor';
 import CategoryService from '.';
 
 @Injectable()
 export default class CategoryPublicService extends CategoryService {
-    async getCategoryList(): Promise<CategoryPublicI[]> {
+    async getCategoryList(): Promise<CategoryPublic[]> {
         const res = await this.categoryRepo.find({
             where: { is_public: true },
         });
@@ -14,7 +14,7 @@ export default class CategoryPublicService extends CategoryService {
         return res.map(cat => new CategoryPublic(cat));
     }
 
-    async getCategory(categoryUrl: string): Promise<CategoryPublicI> {
+    async getCategory(categoryUrl: CategoryI['url']): Promise<CategoryPublic> {
         try {
             const res = await this.categoryRepo.findOneOrFail({
                 where: { url: categoryUrl, is_public: true },

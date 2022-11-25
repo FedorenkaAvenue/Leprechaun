@@ -1,15 +1,15 @@
 import { CommonDashboardsI, UserDashboardsI } from '@interfaces/Dashboard';
-import { ProductI, ProductPreviewI } from '@interfaces/Product';
 import { CommonDashboardsDTO, UserDashboardsDTO } from '.';
 import { ProductPreview } from '@dto/Product/constructor';
+import { ProductEntity } from '@entities/Product';
 
 interface CommonDashboardsIConstructorI {
-    popular: ProductI[];
-    newest: ProductI[];
+    popular: ProductEntity[];
+    newest: ProductEntity[];
 }
 
 interface UserDashboardsIConstructorI {
-    history: ProductPreviewI[];
+    history: ProductPreview[];
 }
 
 export class CommonDashboards extends CommonDashboardsDTO implements CommonDashboardsI {

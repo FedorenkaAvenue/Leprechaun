@@ -4,9 +4,8 @@ import { ApiBadRequestResponse, ApiNotFoundResponse, ApiOkResponse, ApiOperation
 import ProductPublicService from '@services/Product/public';
 import { PaginationResultDTO } from '@dto/Pagination';
 import ApiPaginatedResponse from '@decorators/Swagger';
-import { ProductCardI } from '@interfaces/Product';
 import InvalidPaginationPageInterceptor from '@interceptors/InvalidPaginationPage';
-import { ProductCard } from '@dto/Product/constructor';
+import { ProductCard, ProductPublic } from '@dto/Product/constructor';
 import { CommonDashboards, UserDashboards } from '@dto/Dashboard/constructor';
 import SessionProductHistoryInterceptor from '@interceptors/SessionProductHistory';
 import Query from '@decorators/Query';
@@ -22,8 +21,8 @@ export default class ProductPublicController {
     @UseInterceptors(InvalidPaginationPageInterceptor)
     @ApiOperation({ summary: 'get all public products 💾' })
     @ApiPaginatedResponse(ProductCard)
-    getProducts(@Query() queries: QueriesI): Promise<PaginationResultDTO<ProductCardI>> {
-        return this.productService.getPublicProducts(queries);
+    getProducts(@Query() queries: QueriesI): Promise<PaginationResultDTO<ProductCard>> {
+        return this.productService.getProductList(queries);
     }
 
     @Get('category/:categoryUrl')
@@ -35,8 +34,8 @@ export default class ProductPublicController {
     getCategoryProducts(
         @Param('categoryUrl') categoryUrl: string,
         @Query() queries: QueriesI,
-    ): Promise<PaginationResultDTO<ProductCardI>> {
-        return this.productService.getCategoryPublicProducts(categoryUrl, queries);
+    ): Promise<PaginationResultDTO<ProductCard>> {
+        return this.productService.getCategoryProducts(categoryUrl, queries);
     }
 
     @Get('dashboard/common')
@@ -58,10 +57,10 @@ export default class ProductPublicController {
     @UseInterceptors(CacheInterceptor)
     @UseInterceptors(SessionProductHistoryInterceptor)
     @ApiOperation({ summary: 'get public product by ID 💾' })
-    @ApiOkResponse({ type: ProductCard })
+    @ApiOkResponse({ type: ProductPublic })
     @ApiBadRequestResponse({ description: 'invalid product ID' })
     @ApiNotFoundResponse({ description: 'product not found' })
-    getProduct(@Param('productId', ParseUUIDPipe) productId: string): Promise<ProductCardI> {
-        return this.productService.getPublicProduct(productId);
+    getProduct(@Param('productId', ParseUUIDPipe) productId: string): Promise<ProductPublic> {
+        return this.productService.getProduct(productId);
     }
 }

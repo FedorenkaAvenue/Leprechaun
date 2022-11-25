@@ -2,13 +2,15 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { DeleteResult, UpdateResult } from 'typeorm';
 
 import { UpdateOrderStatusDTO } from '@dto/Order';
-import { OrderI, OrderPublicI } from '@interfaces/Order';
+import { OrderI } from '@interfaces/Order';
 import OrderService from '.';
 import { ProductI } from '@interfaces/Product';
+import { OrderEntity } from '@entities/Order';
 
 @Injectable()
 export default class OrderPrivateService extends OrderService {
-    async getOrderById(id: OrderI['id']): Promise<OrderPublicI> {
+    // TODO
+    async getOrderById(id: OrderI['id']): Promise<OrderEntity> {
         const qb = this.orderRepo.createQueryBuilder('order').where({ id });
 
         const res = await this.getOrder(qb);
@@ -22,11 +24,11 @@ export default class OrderPrivateService extends OrderService {
         return this.orderRepo.update({ id: orderId }, { status });
     }
 
-    getOrders(): Promise<OrderI[]> {
+    getOrders(): Promise<OrderEntity[]> {
         return this.orderRepo.find();
     }
 
-    async getOrdersByProductId(productId: ProductI['id']): Promise<OrderI[]> {
+    async getOrdersByProductId(productId: ProductI['id']): Promise<OrderEntity[]> {
         return await this.orderRepo
             .createQueryBuilder('order')
             .leftJoinAndSelect('order.list', 'list')

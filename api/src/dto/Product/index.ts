@@ -2,17 +2,17 @@ import { ApiProperty } from '@nestjs/swagger';
 import { IsBooleanString, IsEnum, IsNotEmpty, IsNumberString, IsOptional, IsString } from 'class-validator';
 
 import { CategoryI } from '@interfaces/Category';
-import { ProductI, ProductPreviewI, ProductCardI } from '@interfaces/Product';
+import { ProductI, ProductPreviewI, ProductCardI, ProductPublicI } from '@interfaces/Product';
 import { PriceI } from '@interfaces/Price';
 import { ProductStatusE } from '@enums/Product';
-import { PropertyI } from '@interfaces/Property';
+import { PropertyI, PropertyPublicI } from '@interfaces/Property';
 import { ImageI } from '@interfaces/Image';
 import { LabelI } from '@interfaces/Label';
 import { LabelDTO } from '@dto/Label';
 import { PriceEntity } from '@entities/_Price';
 import { ImageEntity } from '@entities/Image';
-import { PropertyEntity } from '@entities/Property';
-import { CategoryEntity } from '@entities/Category';
+import { PropertyPublic } from '@dto/Property/constructor';
+import { CategoryPublic } from '@dto/Category/constructor';
 
 export class CreateProductDTO implements ProductI {
     @IsNotEmpty()
@@ -129,9 +129,35 @@ export class ProductCardDTO implements ProductCardI {
     @ApiProperty({ type: ImageEntity, isArray: true })
     images: ImageEntity[];
 
-    @ApiProperty({ type: PropertyEntity, isArray: true })
-    properties: PropertyI[];
+    @ApiProperty({ type: PropertyPublic, isArray: true })
+    properties: PropertyPublicI[];
 
     @ApiProperty({ type: LabelDTO, isArray: true, required: false })
     labels: LabelI[];
+}
+
+export class ProductPublicDTO implements ProductPublicI {
+    @ApiProperty()
+    id: string;
+
+    @ApiProperty()
+    title: string;
+
+    @ApiProperty({ enum: ProductStatusE })
+    status: ProductStatusE;
+
+    @ApiProperty({ type: PriceEntity })
+    price: PriceEntity;
+
+    @ApiProperty({ type: ImageEntity, isArray: true })
+    images: ImageEntity[];
+
+    @ApiProperty({ type: PropertyPublic, isArray: true })
+    properties: PropertyPublicI[];
+
+    @ApiProperty({ type: LabelDTO, isArray: true, required: false })
+    labels: LabelI[];
+
+    @ApiProperty({ type: CategoryPublic })
+    category: CategoryPublic;
 }

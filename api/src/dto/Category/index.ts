@@ -3,7 +3,6 @@ import { IsBooleanString, IsNotEmpty, IsNumberString, IsOptional, IsString } fro
 
 import { PropertyGroupI } from '@interfaces/PropertyGroup';
 import { CategoryI, CategoryPublicI } from '@interfaces/Category';
-import { CategoryBaseEntity } from '@entities/Category';
 
 export class CreateCategoryDTO implements CategoryI {
     @IsNotEmpty()
@@ -47,4 +46,16 @@ export class CreateCategoryDTO implements CategoryI {
     comment: string;
 }
 
-export class CategoryPublicDTO extends CategoryBaseEntity implements CategoryPublicI {}
+export class CategoryPublicDTO implements CategoryPublicI {
+    @ApiProperty()
+    id: number;
+
+    @ApiProperty()
+    url: string;
+
+    @ApiProperty()
+    title: string;
+
+    @ApiProperty()
+    icon: string;
+}

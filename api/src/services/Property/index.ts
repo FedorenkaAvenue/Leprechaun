@@ -14,7 +14,7 @@ export default class PropertyService {
      * @param id property ID
      * @returns property
      */
-    async getPropertyByID(id: PropertyI['id']): Promise<PropertyI> {
+    async getPropertyByID(id: PropertyI['id']): Promise<PropertyEntity> {
         return await this.propertyRepo.findOne({
             where: { id },
             relations: ['property_group'],

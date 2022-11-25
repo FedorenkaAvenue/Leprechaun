@@ -15,7 +15,6 @@ import { ProductI } from '@interfaces/Product';
 import { ProductStatusE } from '@enums/Product';
 import { ImageEntity } from '@entities/Image';
 import { CategoryI } from '@interfaces/Category';
-import { PropertyI } from '@interfaces/Property';
 import { PropertyEntity } from '@entities/Property';
 import { PriceEntity } from './_Price';
 
@@ -48,7 +47,7 @@ export class ProductEntity implements ProductI {
         inverseJoinColumn: { name: 'property_id' },
     })
     @ApiProperty({ type: PropertyEntity, isArray: true })
-    properties: PropertyI[];
+    properties: PropertyEntity[];
 
     @ManyToOne(() => CategoryEntity, ({ products }) => products, { onDelete: 'NO ACTION' })
     @JoinColumn({ name: 'category', referencedColumnName: 'id' })

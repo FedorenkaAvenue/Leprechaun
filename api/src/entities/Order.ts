@@ -12,7 +12,6 @@ import { ApiProperty } from '@nestjs/swagger';
 
 import { OrderI, OrderCustomerDataI } from '@interfaces/Order';
 import { OrderStatus } from '@enums/Order';
-import { OrderItemI } from '@interfaces/OrderItem';
 import { OrderItemEntity } from './OrderItem';
 import SessionEntity from './Session';
 
@@ -51,7 +50,7 @@ export class OrderEntity implements OrderI {
 
     @OneToMany(() => OrderItemEntity, ({ order_id }) => order_id, { eager: true })
     @ApiProperty({ type: OrderItemEntity, isArray: true })
-    list: OrderItemI[];
+    list: OrderItemEntity[];
 
     @Column(() => OrderCustomerDataEntity, { prefix: false })
     @ApiProperty({ description: "customer's order credentials" })

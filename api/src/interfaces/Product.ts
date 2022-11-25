@@ -1,11 +1,11 @@
-import { CategoryI } from '@interfaces/Category';
+import { CategoryI, CategoryPublicI } from '@interfaces/Category';
 import { ImageI } from '@interfaces/Image';
-import { PropertyI } from '@interfaces/Property';
+import { PropertyI, PropertyPublicI } from '@interfaces/Property';
 import { LabelI } from '@interfaces/Label';
 import { ProductStatusE } from '@enums/Product';
 import { PriceI } from './Price';
 
-export interface BaseProductI {
+export interface ProductBaseI {
     id?: string;
     title: string;
     status: ProductStatusE;
@@ -13,16 +13,24 @@ export interface BaseProductI {
     labels?: LabelI[];
 }
 
-export interface ProductPreviewI extends BaseProductI {
+export interface ProductPreviewI extends ProductBaseI {
     image: string;
 }
 
-export interface ProductCardI extends BaseProductI {
+export interface ProductCardI extends ProductBaseI {
     images: ImageI[];
-    properties?: PropertyI[];
+    properties?: PropertyPublicI[];
 }
 
-export interface ProductI extends ProductCardI {
+export interface ProductPublicI extends ProductBaseI {
+    category?: CategoryPublicI;
+    images: ImageI[];
+    properties?: PropertyPublicI[];
+}
+
+export interface ProductI extends ProductBaseI {
+    properties?: PropertyI[];
+    images: ImageI[];
     category?: CategoryI;
     rating?: number;
     created_at?: Date;

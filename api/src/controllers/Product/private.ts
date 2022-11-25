@@ -27,11 +27,9 @@ import { ProductEntity } from '@entities/Product';
 import ProductPrivateService from '@services/Product/private';
 import { PaginationResultDTO } from '@dto/Pagination';
 import ApiPaginatedResponse from '@decorators/Swagger';
-import { ProductI, ProductCardI } from '@interfaces/Product';
 import InvalidPaginationPageInterceptor from '@interceptors/InvalidPaginationPage';
 import UndefinedResultInterceptor from '@interceptors/UndefinedResult';
 import AffectedResultInterceptor from '@interceptors/AffectedResult';
-import { ProductCard } from '@dto/Product/constructor';
 import { Pagination } from '@dto/Pagination/constructor';
 import { QueriesI } from '@interfaces/Queries';
 import Query from '@decorators/Query';
@@ -56,7 +54,7 @@ export default class ProductPrivateController {
     @UseInterceptors(InvalidPaginationPageInterceptor)
     @ApiOperation({ summary: 'get product list' })
     @ApiPaginatedResponse(ProductEntity)
-    getproducts(@Query() queries: QueriesI): Promise<PaginationResultDTO<ProductI>> {
+    getproducts(@Query() queries: QueriesI): Promise<PaginationResultDTO<ProductEntity>> {
         return this.productService.getAdminProducts(queries);
     }
 
@@ -68,17 +66,17 @@ export default class ProductPrivateController {
     getCategoryProducts(
         @Param('categoryUrl') categoryUrl: string,
         @Query() queries: QueriesI,
-    ): Promise<PaginationResultDTO<ProductI>> {
+    ): Promise<PaginationResultDTO<ProductEntity>> {
         return this.productService.getCategoryAdminProducts(categoryUrl, queries);
     }
 
     @Get(':productId')
     @UseInterceptors(UndefinedResultInterceptor)
     @ApiOperation({ summary: 'get product by ID' })
-    @ApiOkResponse({ type: ProductCard })
+    @ApiOkResponse({ type: ProductEntity })
     @ApiBadRequestResponse({ description: 'invalid product ID' })
     @ApiNotFoundResponse({ description: 'product not found' })
-    getProduct(@Param('productId', ParseUUIDPipe) productId: string): Promise<ProductCardI> {
+    getProduct(@Param('productId', ParseUUIDPipe) productId: string): Promise<ProductEntity> {
         return this.productService.getAdminProduct(productId);
     }
 

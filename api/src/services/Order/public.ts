@@ -4,7 +4,6 @@ import { DeepPartial, Not, UpdateResult } from 'typeorm';
 import { CreateOrderDTO } from '@dto/Order';
 import { OrderPublic } from '@dto/Order/constructor';
 import { SessionI } from '@interfaces/Session';
-import { OrderPublicI } from '@interfaces/Order';
 import { OrderStatus } from '@enums/Order';
 import { CreateOrderItemDTO, UpdateOrderItemDTO } from '@dto/OrderItem';
 import { OrderItemI } from '@interfaces/OrderItem';
@@ -13,16 +12,16 @@ import OrderService from '.';
 
 @Injectable()
 export default class OrderPublicService extends OrderService {
-    async getCart(sid: SessionI['sid']): Promise<OrderPublicI> {
+    async getCart(sid: SessionI['sid']): Promise<OrderPublic> {
         const qb = this.orderRepo
             .createQueryBuilder('order')
             .where('order.sid = :sid', { sid })
             .andWhere('order.status = :status', { status: OrderStatus.INIT });
 
-        return await this.getOrder(qb);
+        return await this.getOrder(qb, OrderPublic);
     }
 
-    async addOrderItem(orderItem: CreateOrderItemDTO, sid: SessionI['sid']): Promise<OrderPublicI> {
+    async addOrderItem(orderItem: CreateOrderItemDTO, sid: SessionI['sid']): Promise<OrderPublic> {
         const res = await this.orderRepo.findOneBy({
             sid,
             status: OrderStatus.INIT,
@@ -52,7 +51,7 @@ export default class OrderPublicService extends OrderService {
     async changeOrderItemAmount(
         { order_item, amount }: UpdateOrderItemDTO,
         sid: SessionI['sid'],
-    ): Promise<OrderPublicI> {
+    ): Promise<OrderPublic> {
         await this.orderItemRepo.update({ id: order_item }, { amount });
 
         return this.getCart(sid);
@@ -62,7 +61,7 @@ export default class OrderPublicService extends OrderService {
         return this.orderRepo.update({ id: order.id }, { status: OrderStatus.POSTED, customer });
     }
 
-    async getOrderList(sid: SessionI['sid']): Promise<OrderPublicI[]> {
+    async getOrderList(sid: SessionI['sid']): Promise<OrderPublic[]> {
         try {
             const res = await this.orderRepo.find({
                 where: { sid, status: Not(OrderStatus.INIT) },
@@ -77,7 +76,7 @@ export default class OrderPublicService extends OrderService {
         }
     }
 
-    async removeOrderItem(id: OrderItemI['id'], sid: SessionI['sid']): Promise<OrderPublicI> {
+    async removeOrderItem(id: OrderItemI['id'], sid: SessionI['sid']): Promise<OrderPublic> {
         await this.orderItemRepo.delete({ id });
 
         return this.getCart(sid);

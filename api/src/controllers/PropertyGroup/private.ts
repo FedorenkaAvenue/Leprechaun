@@ -5,7 +5,6 @@ import { DeleteResult } from 'typeorm';
 import { CreatePropertyGroupDTO } from '@dto/PropertyGroup';
 import { PropertyGroupEntity } from '@entities/PropertGroup';
 import PropertyGroupService from '@services/PropertyGroup/private';
-import { PropertyGroupI } from '@interfaces/PropertyGroup';
 import AffectedResultInterceptor from '@interceptors/AffectedResult';
 import UndefinedResultInterceptor from '@interceptors/UndefinedResult';
 
@@ -16,15 +15,16 @@ export default class PropertyGroupPrivateController {
 
     @Post()
     @ApiOperation({ summary: 'add new property group' })
-    @ApiOkResponse({ type: PropertyGroupEntity })
-    createGroup(@Body(new ValidationPipe({ transform: true })) group: CreatePropertyGroupDTO): Promise<PropertyGroupI> {
+    createGroup(
+        @Body(new ValidationPipe({ transform: true })) group: CreatePropertyGroupDTO,
+    ): Promise<PropertyGroupEntity> {
         return this.propertyGroupService.createGroup(group);
     }
 
     @Get('list')
     @ApiOperation({ summary: 'get all property groups' })
     @ApiOkResponse({ type: PropertyGroupEntity, isArray: true })
-    getAllGroups(): Promise<PropertyGroupI[]> {
+    getAllGroups(): Promise<PropertyGroupEntity[]> {
         return this.propertyGroupService.getGroupList();
     }
 
@@ -32,7 +32,7 @@ export default class PropertyGroupPrivateController {
     @UseInterceptors(UndefinedResultInterceptor)
     @ApiOperation({ summary: 'get property group by ID' })
     @ApiOkResponse({ type: PropertyGroupEntity })
-    getGroup(@Param('groupId') groupId: number): Promise<PropertyGroupI> {
+    getGroup(@Param('groupId') groupId: number): Promise<PropertyGroupEntity> {
         return this.propertyGroupService.getGroup(groupId);
     }
 
