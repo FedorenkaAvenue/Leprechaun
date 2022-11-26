@@ -9,11 +9,12 @@ import ProductPrivateService from '@services/Product/private';
 import ImageModule from '@modules/Image';
 import HistoryModule from './History';
 import FSModule from './FS';
+import QueryBuilderService from '@services/QueryBuilder';
 
 @Module({
     imports: [TypeOrmModule.forFeature([ProductEntity]), ImageModule, HistoryModule, FSModule],
     controllers: [ProductPublicController, ProductPrivateController],
-    providers: [ProductPublicService, ProductPrivateService],
+    providers: [ProductPublicService, ProductPrivateService, QueryBuilderService],
     exports: [ProductPublicService, ProductPrivateService],
 })
 export default class ProductModule {}

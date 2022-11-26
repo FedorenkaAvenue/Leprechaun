@@ -2,7 +2,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 
 import { QueriesI } from '@interfaces/Queries';
 import { PaginationResultDTO } from '@dto/Pagination';
-import { ProductI, ProductCardI } from '@interfaces/Product';
+import { ProductI } from '@interfaces/Product';
 import { ProductPreview, ProductCard, ProductPublic } from '@dto/Product/constructor';
 import { CommonDashboards, UserDashboards } from '@dto/Dashboard/constructor';
 import { PRODUCT_RELATIONS } from '@constants/relations';

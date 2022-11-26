@@ -5,12 +5,11 @@ import { Injectable } from '@nestjs/common';
 import { FSService } from '@services/FS';
 import { ProductEntity } from '@entities/Product';
 import { ImageService } from '@services/Image';
-import { SortTypeE } from '@enums/Query';
 import { PaginationResultDTO } from '@dto/Pagination';
 import configService from '../Config';
-import { PaginationResult } from '@dto/Pagination/constructor';
 import { Queries } from '@dto/Queries/constructor';
 import HistoryPublicService from '@services/History/public';
+import QueryBuilderService from '@services/QueryBuilder';
 
 @Injectable()
 export default class ProductService {
@@ -20,6 +19,7 @@ export default class ProductService {
         @InjectRepository(ProductEntity) protected readonly productRepo: Repository<ProductEntity>,
         protected readonly imageService: ImageService,
         protected readonly historyService: HistoryPublicService,
+        private readonly qbService: QueryBuilderService,
         protected readonly FSService: FSService,
     ) {
         this.dashboardPortion = +configService.getVal('DASHBOARD_PORTION');
@@ -39,82 +39,25 @@ export default class ProductService {
 
     /**
      * @description render product search result with filters, sorting and pagination
-     * @param qb current query builder to continue building query
-     * @param queries
-     * @param resultMapConstructor constructor for maping result
+     * @param qb query builder to continue building query
+     * @param searchParams
+     * @param resultMapConstructor constructor for maping result. by default will return ProductEntity
      * @returns completed search result with pagination
      */
     async renderResult<T>(
         qb: SelectQueryBuilder<ProductEntity>,
-        queries: Queries,
+        searchParams: Queries,
         resultMapConstructor?: any,
     ): Promise<PaginationResultDTO<T>> {
-        const { sort, page, price, status, portion, dinamicFilters } = queries;
+        const { status, dinamicFilters, sort, price } = searchParams;
 
         // filtering by dinamical filters
-        if (dinamicFilters) {
-            const props = Object.keys(dinamicFilters);
-            const values = Object.values(dinamicFilters);
+        if (dinamicFilters) this.qbService.qbWithDinamicFilters.call(qb, dinamicFilters);
+        if (price) this.qbService.qbWithPrice.call(qb, price);
 
-            // ? на будущее переделать в subQuery
-            qb.andWhere(
-                `product.id = ANY(
-					SELECT product_id as p_id
-					FROM _products_to_properties
-					INNER JOIN property AS prop ON prop.id = _products_to_properties.property_id
-					INNER JOIN property_group AS prop_gr ON prop.property_group = prop_gr.id
-					WHERE property_id IN (:...values)
-					AND prop_gr.alt_name IN(:...props)
-					GROUP BY p_id
-					HAVING COUNT(*) = :filterLen
-				)`,
-                {
-                    props,
-                    values,
-                    filterLen: props.length,
-                },
-            );
-        }
+        this.qbService.qbWithSorting.call(qb, sort);
+        this.qbService.qbWithSellStatus.call(qb, status);
 
-        // filtering by price
-        if (price) qb.andWhere('product.price BETWEEN :from AND :to', { ...price });
-
-        // filtering by sell status
-        if (typeof status) qb.andWhere('product.status = :status', { status });
-
-        // sorting
-        switch (sort) {
-            case SortTypeE.PRICE_UP: {
-                qb.orderBy('product.price.current', 'ASC');
-                break;
-            }
-
-            case SortTypeE.PRICE_DOWN: {
-                qb.orderBy('product.price.current', 'DESC');
-                break;
-            }
-
-            case SortTypeE.NEW: {
-                qb.orderBy('product.created_at', 'DESC');
-                break;
-            }
-
-            default: // CookieSortType.POPULAR
-                qb.orderBy('product.rating', 'DESC');
-        }
-
-        const [result, resCount] = await qb
-            .take(portion)
-            .skip((page - 1) * portion)
-            .getManyAndCount();
-
-        return new PaginationResult<T>(
-            resultMapConstructor ? result.map(prod => new resultMapConstructor(prod)) : result,
-            {
-                currentPage: page,
-                totalCount: resCount,
-                itemPortion: portion,
-            },
-        );
+        return this.qbService.qbWithPagination.call(qb, searchParams, resultMapConstructor);
     }
 }
