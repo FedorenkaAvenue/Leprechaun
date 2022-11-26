@@ -15,9 +15,11 @@ export default class SessionProductHistoryInterceptor implements NestInterceptor
     intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
         return next.handle().pipe(
             tap(({ id }: ProductI) => {
-                const req = context.switchToHttp().getRequest() as Request;
+                const { session: { ip }, sessionID } = context.switchToHttp().getRequest() as Request;
 
-                this.historyService.addHistoryItem(id, req.session.id);
+                if (!ip) return;
+
+                this.historyService.addHistoryItem(id, sessionID);
             }),
         );
     }

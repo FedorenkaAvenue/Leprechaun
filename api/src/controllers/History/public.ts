@@ -6,6 +6,7 @@ import { ProductCard } from '@dto/Product/constructor';
 import HistoryPublicService from '@services/History/public';
 import AffectedResultInterceptor from '@interceptors/AffectedResult';
 import SessionGuard from '@guards/Session';
+import configService from '@services/Config';
 
 @Controller('history')
 @ApiTags('History 🧑‍💻')
@@ -13,7 +14,7 @@ export default class HistoryPublicController {
     constructor(private readonly historyService: HistoryPublicService) {}
 
     @Get('product')
-    @ApiOperation({ summary: 'get user product history' })
+    @ApiOperation({ summary: `get user product history (${Number(configService.getVal('USER_HISTORY_LENGTH'))} items max length)` })
     @ApiOkResponse({ type: ProductCard, isArray: true })
     getUserHistory(@Session() { id }): Promise<ProductCard[]> {
         return this.historyService.getHistoryList(id);

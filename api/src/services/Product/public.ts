@@ -5,21 +5,41 @@ import { PaginationResultDTO } from '@dto/Pagination';
 import { ProductI } from '@interfaces/Product';
 import { ProductPreview, ProductCard, ProductPublic } from '@dto/Product/constructor';
 import { CommonDashboards, UserDashboards } from '@dto/Dashboard/constructor';
-import { PRODUCT_RELATIONS } from '@constants/relations';
+// import { PRODUCT_RELATIONS } from '@constants/relations';
 import { SessionI } from '@interfaces/Session';
 import ProductService from '.';
+// import WishlistItemEntity from '@entities/WishlistItem';
 
 @Injectable()
 export default class ProductPublicService extends ProductService {
     async getProduct(productId: ProductI['id']): Promise<ProductPublic> {
         try {
-            const res = await this.productRepo.findOneOrFail({
-                where: { id: productId, is_public: true },
-                relations: PRODUCT_RELATIONS,
-            });
+            const qb = this.getProductQueryBulder();
+
+            qb.leftJoinAndSelect('product.category', 'category').where('product.is_public = true');
+            // qb.addSelect(
+                // qb =>
+                //     qb
+                //         .select('COUNT(*)', 'wishlistuu')
+                //         .from(WishlistItemEntity, 'w'),
+                //         // .where('w.product = product.id'),
+                // 'wishlistuu',
+            // );
+            // qb.leftJoinAndMapOne(
+            //     'product.wu',
+            //     qb => qb
+            //         .select('COUNT(*)', 'wishlistuu')
+            //         .from(WishlistItemEntity, 'w')
+            //         .where('w.product = product.id'),
+            //     'wu'
+            // );
+
+            const res = await qb.getOne();
+
+            // console.log(res);
 
             return new ProductPublic(res);
-        } catch (err) {
+        } catch (_) {
             throw new NotFoundException('product not found');
         }
     }
