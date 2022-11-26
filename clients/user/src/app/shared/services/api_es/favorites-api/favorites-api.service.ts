@@ -19,10 +19,7 @@ export class FavoritesApiService {
     ) {}
 
   public getProducts(): Observable<FavoriteDto[]> {
-    return this.userService.userSatate$.pipe(map(res => {
-      console.log(res.wishlist);
-      return res.wishlist;
-    }))
+    return this.http.get<FavoriteDto[]>(`${this.apiUrl}`)
   }
 
   public addProductToFavorites(id: string): Observable<FavoriteDto> {

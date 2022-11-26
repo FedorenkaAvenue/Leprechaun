@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
+import { Component, Inject, OnInit, PLATFORM_ID } from '@angular/core';
 // import { MetaService } from '@ngx-meta/core';
 import { FavoriteDto, FavoriteProductDto, OrderDto } from '@shared/models';
 import { UserI } from '@shared/models/user/user.model';
@@ -19,15 +20,18 @@ export class AppComponent implements OnInit {
     private readonly cartService: CartService,
     private readonly favoritesService: FavoritesService,
     private readonly userService: UserService,
+    @Inject(PLATFORM_ID) private platformId: string,
 
     ) {
     // this.meta.setTag('og:title', 'home ctor');
   }
 
   ngOnInit(): void {
+    if (isPlatformBrowser(this.platformId)) {
     this.getUserState()
     this.getCardState();
     this.getFavoritesState();
+    }
     
   }
 
@@ -49,7 +53,9 @@ export class AppComponent implements OnInit {
 
 
 private getUserState(): void {
-  this.userService.getUser();
+  this.userService.getUser().subscribe((user: UserI) => {
+    this.userService.updateUser(user)
+  });
   this.userService.userSatate$.subscribe((user: UserI) => {
     // const cartValue = new OrderDto(user.cart)
     // this.cartService.updateCart(cartValue)

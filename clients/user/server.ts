@@ -115,7 +115,8 @@ export function app() {
     server.set('views', distFolder);
 
     // cokies
-    server.use(cookieparser());
+    server.use(cookieparser()); 
+
 
     // Serve static files from /browser
     server.get(
@@ -124,6 +125,12 @@ export function app() {
             maxAge: '1y',
         }),
     );
+
+    //  All regular routes not use the Universal engine
+     server.get(['/**/cart', '/**/cabinet/**'], (req, res) => {
+        res.sendFile(distFolder + '/index.html') 
+    });
+
 
     // All regular routes use the Universal engine
     server.get('*', (req, res) => {

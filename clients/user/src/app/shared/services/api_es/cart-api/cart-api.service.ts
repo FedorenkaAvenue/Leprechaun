@@ -15,7 +15,7 @@ export class CartApiService {
     ) {}
 
   public getProducts(): Observable<OrderDto> {
-    return this.userService.userSatate$.pipe(map(res => res.cart))
+    return this.http.get<OrderI>(`${this.apiUrl}`);
   }
 
   public addProductToCart(product: string): Observable<OrderI> {

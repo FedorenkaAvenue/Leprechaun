@@ -19,8 +19,6 @@ export class UserService {
   }
 
   updateUser(user: UserI): void {
-    console.log(user);
-    
     this.userSatate$.next(user)
   }
 }
