@@ -109,7 +109,7 @@ export class ProductPreviewDTO implements ProductPreviewI {
     @ApiProperty({ required: false })
     image: string;
 
-    @ApiProperty({ type: LabelDTO, isArray: true, required: false })
+    @ApiProperty({ type: LabelDTO, isArray: true })
     labels: LabelI[];
 }
 
@@ -132,7 +132,7 @@ export class ProductCardDTO implements ProductCardI {
     @ApiProperty({ type: PropertyPublic, isArray: true })
     properties: PropertyPublicI[];
 
-    @ApiProperty({ type: LabelDTO, isArray: true, required: false })
+    @ApiProperty({ type: LabelDTO, isArray: true })
     labels: LabelI[];
 }
 
@@ -155,9 +155,12 @@ export class ProductPublicDTO implements ProductPublicI {
     @ApiProperty({ type: PropertyPublic, isArray: true })
     properties: PropertyPublicI[];
 
-    @ApiProperty({ type: LabelDTO, isArray: true, required: false })
+    @ApiProperty({ type: LabelDTO, isArray: true })
     labels: LabelI[];
 
     @ApiProperty({ type: CategoryPublic })
     category: CategoryPublic;
+
+    @ApiProperty({ description: 'how many users added this product to wishlist' })
+    wishlistCount: number;
 }

@@ -19,19 +19,20 @@ export interface ProductPreviewI extends ProductBaseI {
 
 export interface ProductCardI extends ProductBaseI {
     images: ImageI[];
-    properties?: PropertyPublicI[];
+    properties: PropertyPublicI[];
 }
 
 export interface ProductPublicI extends ProductBaseI {
-    category?: CategoryPublicI;
+    category: CategoryPublicI;
     images: ImageI[];
-    properties?: PropertyPublicI[];
+    properties: PropertyPublicI[];
+    wishlistCount: number;
 }
 
 export interface ProductI extends ProductBaseI {
-    properties?: PropertyI[];
+    properties: PropertyI[];
     images: ImageI[];
-    category?: CategoryI;
+    category: CategoryI;
     rating?: number;
     created_at?: Date;
     is_public?: boolean;
