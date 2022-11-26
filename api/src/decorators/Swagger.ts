@@ -1,14 +1,14 @@
 import { applyDecorators, Type } from '@nestjs/common';
 import { ApiNotAcceptableResponse, ApiOkResponse, ApiQuery, getSchemaPath } from '@nestjs/swagger';
 
-import { SortType } from '@enums/Query';
-import { ProductStatus } from '@enums/Product';
+import { SortE } from '@enums/Query';
+import { ProductStatusE } from '@enums/Product';
 import { Pagination } from '@dto/Pagination/constructor';
 
 /**
  * @description successful responce documentation for OpenAPI
  */
-export const ApiPaginatedResponse = <TModel extends Type<any>>(model: TModel) => {
+const ApiPaginatedResponse = <TModel extends Type<any>>(model: TModel) => {
     return applyDecorators(
         ApiOkResponse({
             schema: {
@@ -36,13 +36,15 @@ export const ApiPaginatedResponse = <TModel extends Type<any>>(model: TModel) =>
             name: 'sort',
             required: false,
             description: 'sort number',
-            enum: SortType,
+            enum: SortE,
         }),
         ApiQuery({
             name: 'status',
             required: false,
             description: 'include product statuses',
-            enum: ProductStatus,
+            enum: ProductStatusE,
         }),
     );
 };
+
+export default ApiPaginatedResponse;

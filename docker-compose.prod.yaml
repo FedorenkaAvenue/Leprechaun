@@ -46,5 +46,6 @@ services:
         - DOMAIN
         - DOMAIN_MEDIA
         - DOMAIN_API
+        - CURRENCY_SYMBOL
     environment:
       - IS_DEV=false

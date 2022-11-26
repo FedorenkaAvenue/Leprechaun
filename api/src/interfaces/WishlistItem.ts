@@ -1,14 +1,14 @@
 import { ProductI, ProductCardI } from './Product';
 import { SessionI } from './Session';
 
-interface WishlistItemBaseI<P = ProductI> {
+interface BaseI<P = ProductI> {
     id?: string;
     product: P;
     created_at?: Date;
 }
 
-export interface WishlistItemI extends WishlistItemBaseI {
+export interface WishlistItemI extends BaseI {
     sid: SessionI['sid'];
 }
 
-export type WishlistItemPublicI = WishlistItemBaseI<ProductCardI>;
+export type WishlistItemPublicI = BaseI<ProductCardI>;

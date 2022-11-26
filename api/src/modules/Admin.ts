@@ -1,12 +1,12 @@
 import { Module } from '@nestjs/common';
 
-import AdminService from '@services/Admin';
-import CacheService from '@services/Cache';
-import AdminController from '@controllers/Admin/admin';
+import AdminPrivateController from '@controllers/Admin/private';
+import CacheModule from './Cache';
+import AdminPrivateService from '@services/Admin/private';
 
 @Module({
-    controllers: [AdminController],
-    providers: [AdminService, CacheService],
-    exports: [CacheService],
+    imports: [CacheModule],
+    controllers: [AdminPrivateController],
+    providers: [AdminPrivateService],
 })
 export default class AdminModule {}

@@ -3,7 +3,6 @@ import { ApiProperty } from '@nestjs/swagger';
 
 import { WishlistItemI } from '@interfaces/WishlistItem';
 import { ProductEntity } from './Product';
-import { ProductI } from '@interfaces/Product';
 import SessionEntity from './Session';
 
 @Entity('wishlist_item')
@@ -15,7 +14,7 @@ export default class WishlistItemEntity implements WishlistItemI {
     @ManyToOne(() => ProductEntity, ({ id }) => id, { onDelete: 'CASCADE' })
     @JoinColumn({ name: 'product', referencedColumnName: 'id' })
     @ApiProperty({ required: true })
-    product: ProductI;
+    product: ProductEntity;
 
     @CreateDateColumn()
     @ApiProperty({ required: true })

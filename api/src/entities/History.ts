@@ -2,7 +2,6 @@ import { Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn
 
 import { HistoryI } from '@interfaces/History';
 import { ProductEntity } from './Product';
-import { ProductI } from '@interfaces/Product';
 import SessionEntity from './Session';
 
 @Entity('history')
@@ -14,9 +13,9 @@ export class HistoryEntity implements HistoryI {
     @JoinColumn({ name: 'sid', referencedColumnName: 'sid' })
     sid: string;
 
-    @ManyToOne(() => ProductEntity, ({ id }) => id, { onDelete: 'CASCADE' })
+    @ManyToOne(() => ProductEntity, ({ id }) => id, { onDelete: 'CASCADE', eager: true })
     @JoinColumn({ name: 'product', referencedColumnName: 'id' })
-    product: ProductI;
+    product: ProductEntity;
 
     @UpdateDateColumn()
     created_at: Date;

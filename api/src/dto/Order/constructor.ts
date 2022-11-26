@@ -1,7 +1,7 @@
-import { OrderI } from '@interfaces/Order';
 import { OrderItemI } from '@interfaces/OrderItem';
 import { OrderItemPublic } from '@dto/OrderItem/constructor';
 import { OrderPublicDTO, OrderSummaryDTO } from '.';
+import { OrderEntity } from '@entities/Order';
 
 export class OrderSummary extends OrderSummaryDTO {
     constructor(items: OrderItemI[]) {
@@ -12,7 +12,7 @@ export class OrderSummary extends OrderSummaryDTO {
 }
 
 export class OrderPublic extends OrderPublicDTO {
-    constructor({ id, status, list, updated_at }: OrderI) {
+    constructor({ id, status, list, updated_at }: OrderEntity) {
         super();
         this.id = id;
         this.status = status;

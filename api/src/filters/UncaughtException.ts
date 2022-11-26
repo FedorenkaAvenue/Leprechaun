@@ -2,14 +2,14 @@ import { ExceptionFilter, Catch, ArgumentsHost, InternalServerErrorException } f
 import { Request, Response } from 'express';
 import { QueryFailedError } from 'typeorm';
 
-import { singleMailSerbice } from '@services/Mail';
+import singleMailSerbice from '@services/Mail';
 import { DevLogMail } from '@dto/Mail/constructor';
 
 /**
  * @description catch uncaughted error and send mail log
  */
 @Catch(InternalServerErrorException, QueryFailedError)
-export class UncaughtExceptionFilter implements ExceptionFilter {
+export default class UncaughtExceptionFilter implements ExceptionFilter {
     catch(exception: InternalServerErrorException | QueryFailedError, host: ArgumentsHost) {
         const timestamp = new Date().toISOString();
         const ctx = host.switchToHttp();

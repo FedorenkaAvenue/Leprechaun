@@ -1,17 +1,17 @@
 import { Controller, Get } from '@nestjs/common';
 import { ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 
-import AdminService from '@services/Admin';
+import AdminPrivateService from '@services/Admin/private';
 
 @Controller('adm')
 @ApiTags('Admin 🤵🏿‍♂️')
-export default class AdminController {
-    constructor(private readonly adminService: AdminService) {}
+export default class AdminPrivateController {
+    constructor(private readonly adminService: AdminPrivateService) {}
 
     @Get('/cache/reset')
     @ApiOperation({ summary: 'reset DB cache' })
     @ApiOkResponse({ description: 'successfull reset' })
-    resetCache() {
-        this.adminService.clearCache();
+    async resetCache(): Promise<void> {
+        await this.adminService.clearCache();
     }
 }

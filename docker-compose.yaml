@@ -66,6 +66,7 @@ services:
       - DOMAIN
       - DOMAIN_MEDIA
       - DOMAIN_API
+      - CURRENCY_SYMBOL
     depends_on:
       - api
 

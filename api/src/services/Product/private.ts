@@ -3,16 +3,16 @@ import { Injectable } from '@nestjs/common';
 
 import { CreateProductDTO } from '@dto/Product';
 import { FOLDER_TYPES } from '@services/FS';
-import { CookiesI } from '@interfaces/Cookies';
-import { SearchReqQueriesI } from '@interfaces/Queries';
 import { PaginationResultDTO } from '@dto/Pagination';
 import { ProductI } from '@interfaces/Product';
 import { Product } from '@dto/Product/constructor';
-import ProductHelperService from './helper';
+import ProductService from '.';
 import { PRODUCT_RELATIONS } from '@constants/relations';
+import { Queries } from '@dto/Queries/constructor';
+import { ProductEntity } from '@entities/Product';
 
 @Injectable()
-export default class ProductAdminService extends ProductHelperService {
+export default class ProductPrivateService extends ProductService {
     async createProduct(newProduct: CreateProductDTO, images: Express.Multer.File[]): Promise<void> {
         const { id } = await this.productRepo.save(new Product(newProduct));
 
@@ -23,31 +23,27 @@ export default class ProductAdminService extends ProductHelperService {
         }
     }
 
-    async getAdminProduct(productId: ProductI['id']): Promise<ProductI> {
+    async getAdminProduct(productId: ProductI['id']): Promise<ProductEntity> {
         return this.productRepo.findOne({
             where: { id: productId },
             relations: PRODUCT_RELATIONS,
         });
     }
 
-    async getAdminProducts(queries: SearchReqQueriesI, params: CookiesI): Promise<PaginationResultDTO<ProductI>> {
+    async getAdminProducts(queries: Queries): Promise<PaginationResultDTO<ProductEntity>> {
         const qb = this.getProductQueryBulder();
 
         qb.leftJoinAndSelect('product.category', 'category');
 
-        return this.renderResult<ProductI>(qb, queries, params);
+        return this.renderResult<ProductEntity>(qb, queries);
     }
 
-    async getCategoryAdminProducts(
-        categoryUrl: string,
-        queries: SearchReqQueriesI,
-        params: CookiesI,
-    ): Promise<PaginationResultDTO<ProductI>> {
+    async getCategoryAdminProducts(categoryUrl: string, queries: Queries): Promise<PaginationResultDTO<ProductEntity>> {
         const qb = this.getProductQueryBulder();
 
         qb.innerJoin('product.category', 'category').where('category.url = :categoryUrl', { categoryUrl });
 
-        return this.renderResult<ProductI>(qb, queries, params);
+        return this.renderResult<ProductEntity>(qb, queries);
     }
 
     async deleteProduct(productId: string): Promise<DeleteResult> {

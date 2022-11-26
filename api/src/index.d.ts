@@ -1,5 +1,5 @@
-import { SessionI } from '@interfaces/Session';
+import { SessionDataI } from '@interfaces/Session';
 
 declare module 'express-session' {
-    interface SessionData extends SessionI {}
+    interface SessionData extends SessionDataI {}
 }

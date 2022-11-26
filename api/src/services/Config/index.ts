@@ -148,7 +148,7 @@ export class ConfigService extends ConfigDevService {
             secret: this.getVal('SESSION_COOKIE_SECRET'),
             resave: false,
             unset: 'destroy',
-            saveUninitialized: true,
+            saveUninitialized: false,
             cookie: {
                 httpOnly: true,
                 maxAge: +this.getVal('SESSION_AGE'),
@@ -179,7 +179,7 @@ export class ConfigService extends ConfigDevService {
     getCORSConfig(): CorsOptions {
         return {
             origin: this.isLepr
-                ? ['http://localhost:4201', 'http://localhost:4202', 'https://localhost:4201']
+                ? ['http://localhost:4201', 'http://localhost:4202', 'https://localhost:4201', 'https://localhost:4200']
                 : [this.getVal('DOMAIN') as string, this.getVal('DOMAIN_ADM') as string],
             methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
             credentials: true,

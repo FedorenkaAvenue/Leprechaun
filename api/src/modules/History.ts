@@ -10,6 +10,6 @@ import HistoryService from '@services/History';
     imports: [TypeOrmModule.forFeature([HistoryEntity])],
     controllers: [HistoryPublicController],
     providers: [HistoryPublicService, HistoryService],
-    exports: [HistoryPublicService, HistoryService],
+    exports: [HistoryPublicService],
 })
 export default class HistoryModule {}

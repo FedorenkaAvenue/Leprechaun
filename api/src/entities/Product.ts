@@ -12,10 +12,9 @@ import {
 } from 'typeorm';
 import { CategoryEntity } from '@entities/Category';
 import { ProductI } from '@interfaces/Product';
-import { ProductStatus } from '@enums/Product';
+import { ProductStatusE } from '@enums/Product';
 import { ImageEntity } from '@entities/Image';
 import { CategoryI } from '@interfaces/Category';
-import { PropertyI } from '@interfaces/Property';
 import { PropertyEntity } from '@entities/Property';
 import { PriceEntity } from './_Price';
 
@@ -29,9 +28,9 @@ export class ProductEntity implements ProductI {
     @ApiProperty()
     title: string;
 
-    @Column({ default: ProductStatus.AVAILABLE })
-    @ApiProperty({ enum: ProductStatus })
-    status: ProductStatus;
+    @Column({ default: ProductStatusE.AVAILABLE })
+    @ApiProperty({ enum: ProductStatusE })
+    status: ProductStatusE;
 
     @Column(() => PriceEntity, { prefix: false })
     @ApiProperty({ type: PriceEntity })
@@ -48,7 +47,7 @@ export class ProductEntity implements ProductI {
         inverseJoinColumn: { name: 'property_id' },
     })
     @ApiProperty({ type: PropertyEntity, isArray: true })
-    properties: PropertyI[];
+    properties: PropertyEntity[];
 
     @ManyToOne(() => CategoryEntity, ({ products }) => products, { onDelete: 'NO ACTION' })
     @JoinColumn({ name: 'category', referencedColumnName: 'id' })

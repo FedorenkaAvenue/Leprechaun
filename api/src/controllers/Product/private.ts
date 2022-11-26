@@ -8,7 +8,6 @@ import {
     Post,
     UploadedFiles,
     UseInterceptors,
-    Query,
     ValidationPipe,
 } from '@nestjs/common';
 import {
@@ -25,23 +24,20 @@ import { FilesInterceptor } from '@nestjs/platform-express';
 
 import { CreateProductDTO } from '@dto/Product';
 import { ProductEntity } from '@entities/Product';
-import ProductService from '@services/Product';
-import { SearchReqQueriesI } from '@interfaces/Queries';
+import ProductPrivateService from '@services/Product/private';
 import { PaginationResultDTO } from '@dto/Pagination';
-import { ApiPaginatedResponse } from '@decorators/Swagger';
-import { ProductI, ProductCardI } from '@interfaces/Product';
-import { Cookies } from '@decorators/Cookies';
-import { CookiesI } from '@interfaces/Cookies';
+import ApiPaginatedResponse from '@decorators/Swagger';
 import InvalidPaginationPageInterceptor from '@interceptors/InvalidPaginationPage';
 import UndefinedResultInterceptor from '@interceptors/UndefinedResult';
 import AffectedResultInterceptor from '@interceptors/AffectedResult';
-import { ProductCard } from '@dto/Product/constructor';
 import { Pagination } from '@dto/Pagination/constructor';
+import { QueriesI } from '@interfaces/Queries';
+import Query from '@decorators/Query';
 
 @Controller('adm/product')
 @ApiTags('Product 🤵🏿‍♂️')
-export default class ProductAdminController {
-    constructor(private readonly productService: ProductService) {}
+export default class ProductPrivateController {
+    constructor(private readonly productService: ProductPrivateService) {}
 
     @Post()
     @UseInterceptors(FilesInterceptor('images'))
@@ -58,11 +54,8 @@ export default class ProductAdminController {
     @UseInterceptors(InvalidPaginationPageInterceptor)
     @ApiOperation({ summary: 'get product list' })
     @ApiPaginatedResponse(ProductEntity)
-    getproducts(
-        @Query() queries: SearchReqQueriesI,
-        @Cookies() { portion }: CookiesI,
-    ): Promise<PaginationResultDTO<ProductI>> {
-        return this.productService.getAdminProducts(queries, { portion });
+    getproducts(@Query() queries: QueriesI): Promise<PaginationResultDTO<ProductEntity>> {
+        return this.productService.getAdminProducts(queries);
     }
 
     @Get('category/:categoryUrl')
@@ -71,20 +64,19 @@ export default class ProductAdminController {
     @ApiNotFoundResponse({ description: 'category not found' })
     @ApiPaginatedResponse(ProductEntity)
     getCategoryProducts(
-        @Query() queries: SearchReqQueriesI,
-        @Cookies() { portion }: CookiesI,
         @Param('categoryUrl') categoryUrl: string,
-    ): Promise<PaginationResultDTO<ProductI>> {
-        return this.productService.getCategoryAdminProducts(categoryUrl, queries, { portion });
+        @Query() queries: QueriesI,
+    ): Promise<PaginationResultDTO<ProductEntity>> {
+        return this.productService.getCategoryAdminProducts(categoryUrl, queries);
     }
 
     @Get(':productId')
     @UseInterceptors(UndefinedResultInterceptor)
     @ApiOperation({ summary: 'get product by ID' })
-    @ApiOkResponse({ type: ProductCard })
+    @ApiOkResponse({ type: ProductEntity })
     @ApiBadRequestResponse({ description: 'invalid product ID' })
     @ApiNotFoundResponse({ description: 'product not found' })
-    getProduct(@Param('productId', ParseUUIDPipe) productId: string): Promise<ProductCardI> {
+    getProduct(@Param('productId', ParseUUIDPipe) productId: string): Promise<ProductEntity> {
         return this.productService.getAdminProduct(productId);
     }
 

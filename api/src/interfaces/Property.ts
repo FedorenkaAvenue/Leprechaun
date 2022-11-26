@@ -1,14 +1,15 @@
-import { PropertyGroupI } from './PropertyGroup';
+import { PropertyGroupI, PropertyGroupPublicI } from './PropertyGroup';
 
-interface PropertyBaseI {
+interface BaseI<P = PropertyGroupI> {
     id?: number;
-    property_group?: PropertyGroupI;
     title: string;
     alt_name: string;
+    property_group?: P;
 }
 
-export interface PropertyI extends PropertyBaseI {
+export type PropertyPublicI = BaseI<PropertyGroupPublicI>;
+
+export interface PropertyI extends BaseI {
+    is_primary: boolean;
     comment?: string;
 }
-
-export type PropertyPublicI = PropertyBaseI;

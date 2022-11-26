@@ -4,7 +4,7 @@ import * as cookieParser from 'cookie-parser';
 
 import AppModule from '@modules/.';
 import configService from '@services/Config';
-import { UncaughtExceptionFilter } from '@filters/UncaughtException';
+import UncaughtExceptionFilter from '@filters/UncaughtException';
 
 async function runServer() {
     const app = await NestFactory.create(AppModule);

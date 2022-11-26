@@ -2,10 +2,11 @@ import { Column, Entity, JoinTable, ManyToMany, OneToMany, PrimaryGeneratedColum
 import { ApiProperty } from '@nestjs/swagger';
 
 import { ProductEntity } from '@entities/Product';
-import { CategoryI, CategoryBaseI } from '@interfaces/Category';
+import { CategoryI } from '@interfaces/Category';
 import { PropertyGroupEntity } from '@entities/PropertGroup';
 
-export class CategoryBaseEntity implements CategoryBaseI {
+@Entity('category')
+export class CategoryEntity implements CategoryI {
     @PrimaryGeneratedColumn('rowid')
     @ApiProperty()
     id: number;
@@ -21,10 +22,7 @@ export class CategoryBaseEntity implements CategoryBaseI {
     @Column({ nullable: true })
     @ApiProperty()
     icon: string;
-}
 
-@Entity('category')
-export class CategoryEntity extends CategoryBaseEntity implements CategoryI {
     @OneToMany(() => ProductEntity, ({ category }) => category)
     @ApiProperty({ type: ProductEntity, isArray: true })
     products: ProductEntity[];

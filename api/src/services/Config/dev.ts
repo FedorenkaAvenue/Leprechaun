@@ -9,7 +9,6 @@ export class ConfigDevService {
     genSessionId(): (req: Express.Request) => string {
         let count = 0;
 
-        // eslint-disable-next-line no-unused-vars
         return function (req: Express.Request): string {
             return String(++count);
         };

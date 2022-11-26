@@ -9,26 +9,16 @@ import {
     UploadedFile,
     ValidationPipe,
 } from '@nestjs/common';
-import {
-    ApiCreatedResponse,
-    ApiNotFoundResponse,
-    ApiOkResponse,
-    ApiOperation,
-    ApiTags,
-    OmitType,
-} from '@nestjs/swagger';
+import { ApiCreatedResponse, ApiNotFoundResponse, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { DeleteResult } from 'typeorm';
 
 import { CategoryEntity } from '@entities/Category';
 import { CreateCategoryDTO } from '@dto/Category';
 import { FSService } from '@services/FS';
-import { CategoryI } from '@interfaces/Category';
 import UndefinedResultInterceptor from '@interceptors/UndefinedResult';
 import AffectedResultInterceptor from '@interceptors/AffectedResult';
 import CategoryPrivateService from '@services/Category/private';
-
-const TCategoryAdmin = OmitType(CategoryEntity, ['products']);
 
 @Controller('adm/category')
 @ApiTags('Category 🤵🏿‍♂️')
@@ -48,18 +38,18 @@ export default class CategoryPrivateController {
 
     @Get('list')
     @ApiOperation({ summary: 'get all categories' })
-    @ApiOkResponse({ type: TCategoryAdmin, isArray: true })
-    getAllCategories(): Promise<CategoryI[]> {
+    @ApiOkResponse({ type: CategoryEntity, isArray: true })
+    getAllCategories(): Promise<CategoryEntity[]> {
         return this.categoryService.getAdminCategories();
     }
 
     @Get(':category')
     @UseInterceptors(UndefinedResultInterceptor)
     @ApiOperation({ summary: 'get category info by URL' })
-    @ApiOkResponse({ type: TCategoryAdmin })
+    @ApiOkResponse({ type: CategoryEntity, isArray: true })
     @ApiNotFoundResponse({ description: 'category not found' })
-    getCategory(@Param('category') category: string): Promise<CategoryI> {
-        return this.categoryService.getAdminCategory(category);
+    getCategory(@Param('category') category: string): Promise<CategoryEntity> {
+        return this.categoryService.getCategory(category);
     }
 
     @Delete(':category')

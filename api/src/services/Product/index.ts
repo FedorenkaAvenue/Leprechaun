@@ -1,76 +1,63 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository, SelectQueryBuilder } from 'typeorm';
+import { Injectable } from '@nestjs/common';
 
-import { CookiesI } from '@interfaces/Cookies';
-import { SearchReqQueriesI } from '@interfaces/Queries';
+import { FSService } from '@services/FS';
+import { ProductEntity } from '@entities/Product';
+import { ImageService } from '@services/Image';
 import { PaginationResultDTO } from '@dto/Pagination';
-import { CommonDashboardsDTO, UserDashboardsDTO } from '@dto/Dashboard';
-import { ProductI, ProductCardI } from '@interfaces/Product';
-import { UserDashboardsI } from '@interfaces/Dashboard';
-import { ProductPreview, ProductCard } from '@dto/Product/constructor';
-import { CommonDashboards, UserDashboards } from '@dto/Dashboard/constructor';
-import ProductAdminService from './admin';
-import { PRODUCT_RELATIONS } from '@constants/relations';
-import { SessionI } from '@interfaces/Session';
+import configService from '../Config';
+import { Queries } from '@dto/Queries/constructor';
+import HistoryPublicService from '@services/History/public';
+import QueryBuilderService from '@services/QueryBuilder';
 
 @Injectable()
-export default class ProductService extends ProductAdminService {
-    async getPublicProduct(productId: ProductI['id']): Promise<ProductCardI> {
-        try {
-            const res = await this.productRepo.findOneOrFail({
-                where: { id: productId, is_public: true },
-                relations: PRODUCT_RELATIONS,
-            });
+export default class ProductService {
+    dashboardPortion: number;
 
-            return new ProductCard(res);
-        } catch (err) {
-            throw new NotFoundException('product not found');
-        }
+    constructor(
+        @InjectRepository(ProductEntity) protected readonly productRepo: Repository<ProductEntity>,
+        protected readonly imageService: ImageService,
+        protected readonly historyService: HistoryPublicService,
+        private readonly qbService: QueryBuilderService,
+        protected readonly FSService: FSService,
+    ) {
+        this.dashboardPortion = +configService.getVal('DASHBOARD_PORTION');
     }
 
-    async getCommonDashboards(): Promise<CommonDashboardsDTO> {
-        const [popular, newest] = await Promise.all([
-            this.productRepo.find({
-                where: { is_public: true },
-                take: this.dashboardPortion,
-                order: { rating: 'DESC' },
-            }),
-            this.productRepo.find({
-                where: { is_public: true },
-                take: this.dashboardPortion,
-                order: { created_at: 'DESC' },
-            }),
-        ]);
-
-        return new CommonDashboards({ popular, newest });
+    /**
+     * @description get common product query builder
+     * @returns query builder
+     */
+    getProductQueryBulder(): SelectQueryBuilder<ProductEntity> {
+        return this.productRepo
+            .createQueryBuilder('product')
+            .leftJoinAndSelect('product.properties', 'properties')
+            .leftJoinAndSelect('product.images', 'images')
+            .leftJoinAndSelect('properties.property_group', 'property_group');
     }
 
-    async getUserDashboards(sid: SessionI['sid']): Promise<UserDashboardsDTO> {
-        const history = await this.historyService.getHistoryList(sid);
+    /**
+     * @description render product search result with filters, sorting and pagination
+     * @param qb query builder to continue building query
+     * @param searchParams
+     * @param resultMapConstructor constructor for maping result. by default will return ProductEntity
+     * @returns completed search result with pagination
+     */
+    async renderResult<T>(
+        qb: SelectQueryBuilder<ProductEntity>,
+        searchParams: Queries,
+        resultMapConstructor?: any,
+    ): Promise<PaginationResultDTO<T>> {
+        const { status, dinamicFilters, sort, price } = searchParams;
 
-        return new UserDashboards({
-            history: history.map(({ product }) => new ProductPreview(product)),
-        });
-    }
+        // filtering by dinamical filters
+        if (dinamicFilters) this.qbService.qbWithDinamicFilters.call(qb, dinamicFilters);
+        if (price) this.qbService.qbWithPrice.call(qb, price);
 
-    async getPublicProducts(queries: SearchReqQueriesI, params: CookiesI): Promise<PaginationResultDTO<ProductCardI>> {
-        const qb = this.getProductQueryBulder();
+        this.qbService.qbWithSorting.call(qb, sort);
+        this.qbService.qbWithSellStatus.call(qb, status);
 
-        qb.leftJoinAndSelect('product.category', 'category').where('product.is_public = true');
-
-        return this.renderResult<ProductCardI>(qb, queries, params, ProductCard);
-    }
-
-    async getCategoryPublicProducts(
-        categoryUrl: string,
-        queries: SearchReqQueriesI,
-        params: CookiesI,
-    ): Promise<PaginationResultDTO<ProductCardI>> {
-        const qb = this.getProductQueryBulder();
-
-        qb.innerJoin('product.category', 'category')
-            .where('category.url = :categoryUrl', { categoryUrl })
-            .andWhere('product.is_public = true');
-
-        return this.renderResult<ProductCardI>(qb, queries, params, ProductCard);
+        return this.qbService.qbWithPagination.call(qb, searchParams, resultMapConstructor);
     }
 }

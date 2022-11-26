@@ -4,13 +4,13 @@ import { Repository } from 'typeorm';
 
 import { CategoryEntity } from '@entities/Category';
 import { FiltersDTO } from '@dto/Filter';
-import { SearchReqQueriesI } from '@interfaces/Queries';
+import { QueriesReqI } from '@interfaces/Queries';
 
 @Injectable()
 export class FilterService {
     constructor(@InjectRepository(CategoryEntity) private readonly categoryRepo: Repository<CategoryEntity>) {}
 
-    async getCategoryFilters(categoryUrl: string, queries: SearchReqQueriesI): Promise<FiltersDTO> {
+    async getCategoryFilters(categoryUrl: string, queries: QueriesReqI): Promise<FiltersDTO> {
         const res = await this.categoryRepo.findOne({
             where: { url: categoryUrl },
             relations: ['property_groups', 'property_groups.properties'],

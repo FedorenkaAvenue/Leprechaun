@@ -5,7 +5,6 @@ import { DeepPartial, Repository } from 'typeorm';
 import { HistoryEntity } from '@entities/History';
 import { SessionI } from '@interfaces/Session';
 import { ProductI } from '@interfaces/Product';
-import { HISTORY_RELATIONS } from '@constants/relations';
 
 @Injectable()
 export default class HistoryService {
@@ -34,10 +33,9 @@ export default class HistoryService {
         }
     }
 
-    async getHistoryList(sid: SessionI['sid']): Promise<HistoryEntity[]> {
+    async getHistoryListBySID(sid: SessionI['sid']): Promise<HistoryEntity[]> {
         return await this.historyRepo.find({
             where: { sid },
-            relations: HISTORY_RELATIONS,
             order: { created_at: 'DESC' },
         });
     }

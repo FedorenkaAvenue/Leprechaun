@@ -7,11 +7,11 @@ import CacheService from '@services/Cache';
  * @description reset cache
  */
 @Injectable()
-export default class CacheReset implements NestMiddleware {
-    constructor(private readonly cahceService: CacheService) {}
+export default class CacheResetMiddleware implements NestMiddleware {
+    constructor(private readonly cacheService: CacheService) {}
 
     use(req: Request, res: Response, next: NextFunction) {
-        this.cahceService.resetCache();
+        this.cacheService.resetCache();
         next();
     }
 }

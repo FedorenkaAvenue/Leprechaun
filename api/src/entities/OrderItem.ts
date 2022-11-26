@@ -17,7 +17,7 @@ export class OrderItemEntity implements OrderItemI {
     @ApiProperty()
     created_at: Date;
 
-    @ManyToOne(() => ProductEntity, ({ id }) => id, { onDelete: 'CASCADE' })
+    @ManyToOne(() => ProductEntity, ({ id }) => id, { onDelete: 'CASCADE', eager: true })
     @JoinColumn({ name: 'product', referencedColumnName: 'id' })
     @ApiProperty({ type: ProductPreviewDTO, required: true })
     product: ProductEntity;

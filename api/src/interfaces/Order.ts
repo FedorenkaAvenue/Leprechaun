@@ -12,7 +12,7 @@ export interface OrderSummaryI {
     productsAmount: number;
 }
 
-interface OrderBaseI<T = OrderItemI> {
+interface BaseI<T = OrderItemI> {
     id?: number;
     status?: OrderStatus;
     list?: T[];
@@ -20,9 +20,9 @@ interface OrderBaseI<T = OrderItemI> {
     updated_at: Date;
 }
 
-export type OrderPublicI = OrderBaseI<OrderItemPublicI>;
+export type OrderPublicI = BaseI<OrderItemPublicI>;
 
-export interface OrderI extends OrderBaseI {
+export interface OrderI extends BaseI {
     created_at?: Date;
     customer?: OrderCustomerDataI; // reciever data
     sid?: SessionI['sid']; // for non-authorizated users

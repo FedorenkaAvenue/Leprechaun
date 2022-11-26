@@ -3,14 +3,15 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 
 import { OrderEntity } from '@entities/Order';
 import { OrderItemEntity } from '@entities/OrderItem';
-import OrderService from '@services/Order';
+import OrderPublicService from '@services/Order/public';
 import OrderPublicController from '@controllers/Order/public';
-import OrderAdminController from '@controllers/Order/private';
+import OrderPrivateController from '@controllers/Order/private';
+import OrderPrivateService from '@services/Order/private';
 
 @Module({
     imports: [TypeOrmModule.forFeature([OrderEntity, OrderItemEntity])],
-    controllers: [OrderPublicController, OrderAdminController],
-    providers: [OrderService],
-    exports: [OrderService],
+    controllers: [OrderPublicController, OrderPrivateController],
+    providers: [OrderPublicService, OrderPrivateService],
+    exports: [OrderPublicService, OrderPrivateService],
 })
 export default class OrderModule {}

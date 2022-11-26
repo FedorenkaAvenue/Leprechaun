@@ -2,7 +2,7 @@ import { createTransport, SentMessageInfo, Transporter } from 'nodemailer';
 import Mail from 'nodemailer/lib/mailer';
 import { Injectable } from '@nestjs/common';
 
-import configService from './Config';
+import configService from '../Config';
 import renderTemplate from '@utils/renderTemplate';
 import { DevLogMailI } from '@interfaces/Mail';
 
@@ -14,7 +14,7 @@ type IMailOptions = Mail.Options & {
  * @description e-mail service
  */
 @Injectable()
-export default class MailService {
+class MailService {
     /**
      * @description create connection
      */
@@ -61,5 +61,6 @@ export default class MailService {
     }
 }
 
-//TODO: убрать дефолтный экспорт
-export const singleMailSerbice = new MailService();
+const singleMailSerbice = new MailService();
+
+export default singleMailSerbice;

@@ -11,30 +11,29 @@ import {
 } from '@nestjs/common';
 import { ApiNotFoundResponse, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 
-import OrderService from '@services/Order';
+import OrderPrivateService from '@services/Order/private';
 import { UpdateOrderStatusDTO } from '@dto/Order';
 import AffectedResultInterceptor from '@interceptors/AffectedResult';
-import { OrderI, OrderPublicI } from '@interfaces/Order';
 import { OrderEntity } from '@entities/Order';
-import { OrderPublic } from '@dto/Order/constructor';
+import { DeleteResult, UpdateResult } from 'typeorm';
 
 @Controller('adm/order')
 @ApiTags('Order 🤵🏿‍♂️')
-export default class OrderAdminController {
-    constructor(private readonly orderService: OrderService) {}
+export default class OrderPrivateController {
+    constructor(private readonly orderService: OrderPrivateService) {}
 
     @Get(':orderId')
     @ApiOperation({ summary: 'get order by ID' })
-    @ApiOkResponse({ type: OrderPublic })
+    @ApiOkResponse({ type: OrderEntity })
     @ApiNotFoundResponse({ description: 'order not found' })
-    getOrderById(@Param('orderId', ParseUUIDPipe) orderId: string): Promise<OrderPublicI> {
+    getOrderById(@Param('orderId', ParseUUIDPipe) orderId: string): Promise<OrderEntity> {
         return this.orderService.getOrderById(Number(orderId));
     }
 
     @Get('product/:productId')
     @ApiOperation({ summary: 'get orders which contain product' })
     @ApiOkResponse({ type: OrderEntity, isArray: true })
-    getOrdersByProductId(@Param('productId', ParseUUIDPipe) productId: string): Promise<OrderI[]> {
+    getOrdersByProductId(@Param('productId', ParseUUIDPipe) productId: string): Promise<OrderEntity[]> {
         return this.orderService.getOrdersByProductId(productId);
     }
 
@@ -45,15 +44,14 @@ export default class OrderAdminController {
     changeOrderStatus(
         @Param('orderId', ParseUUIDPipe) orderId: string,
         @Body(new ValidationPipe({ transform: true })) body: UpdateOrderStatusDTO,
-    ) {
+    ): Promise<UpdateResult> {
         return this.orderService.changeOrderStatus(Number(orderId), body);
     }
 
-    // TODO query filers
     @Get('list')
     @ApiOperation({ summary: 'get order list' })
     @ApiOkResponse({ type: OrderEntity, isArray: true })
-    getOrders(): Promise<OrderI[]> {
+    getOrders(): Promise<OrderEntity[]> {
         return this.orderService.getOrders();
     }
 
@@ -61,7 +59,7 @@ export default class OrderAdminController {
     @UseInterceptors(AffectedResultInterceptor('order not found'))
     @ApiOperation({ summary: 'remove order' })
     @ApiNotFoundResponse({ description: 'order not found' })
-    removeOrder(@Param('orderId', ParseUUIDPipe) orderId: string) {
+    removeOrder(@Param('orderId', ParseUUIDPipe) orderId: string): Promise<DeleteResult> {
         return this.orderService.removeOrder(Number(orderId));
     }
 }
