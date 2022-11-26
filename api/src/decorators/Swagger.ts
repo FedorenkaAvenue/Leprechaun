@@ -1,7 +1,7 @@
 import { applyDecorators, Type } from '@nestjs/common';
 import { ApiNotAcceptableResponse, ApiOkResponse, ApiQuery, getSchemaPath } from '@nestjs/swagger';
 
-import { SortProductE } from '@enums/Query';
+import { SortE } from '@enums/Query';
 import { ProductStatusE } from '@enums/Product';
 import { Pagination } from '@dto/Pagination/constructor';
 
@@ -36,7 +36,7 @@ const ApiPaginatedResponse = <TModel extends Type<any>>(model: TModel) => {
             name: 'sort',
             required: false,
             description: 'sort number',
-            enum: SortProductE,
+            enum: SortE,
         }),
         ApiQuery({
             name: 'status',

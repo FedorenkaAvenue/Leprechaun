@@ -3,7 +3,7 @@ import { SelectQueryBuilder } from 'typeorm';
 
 import { Queries } from '@dto/Queries/constructor';
 import { ProductEntity } from '@entities/Product';
-import { SortProductE } from '@enums/Query';
+import { SortE } from '@enums/Query';
 import { PaginationResultDTO } from '@dto/Pagination';
 import { PaginationResult } from '@dto/Pagination/constructor';
 
@@ -66,17 +66,17 @@ export default class QueryBuilderService {
      */
     qbWithSorting(this: SelectQueryBuilder<ProductEntity>, sort: Queries['sort']): void {
         switch (sort) {
-            case SortProductE.PRICE_UP: {
+            case SortE.PRICE_UP: {
                 this.orderBy('product.price.current', 'ASC');
                 break;
             }
 
-            case SortProductE.PRICE_DOWN: {
+            case SortE.PRICE_DOWN: {
                 this.orderBy('product.price.current', 'DESC');
                 break;
             }
 
-            case SortProductE.NEW: {
+            case SortE.NEW: {
                 this.orderBy('product.created_at', 'DESC');
                 break;
             }
@@ -98,8 +98,7 @@ export default class QueryBuilderService {
         { portion, page }: Queries,
         resultMapConstructor?: any,
     ): Promise<PaginationResultDTO<C>> {
-        const [result, resCount] = await this
-            .take(portion)
+        const [result, resCount] = await this.take(portion)
             .skip((page - 1) * portion)
             .getManyAndCount();
 

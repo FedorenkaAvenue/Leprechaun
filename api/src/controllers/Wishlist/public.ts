@@ -17,6 +17,10 @@ import WishlistPublicService from '@services/Wishlist/public';
 import AffectedResultInterceptor from '@interceptors/AffectedResult';
 import { WishlistItemPublic } from '@dto/WishlistItem/constructor';
 import SessionGuard from '@guards/Session';
+import Queries from '@decorators/Query';
+import { QueriesI } from '@interfaces/Queries';
+import { PaginationResult } from '@dto/Pagination/constructor';
+import ApiPaginatedResponse from '@decorators/Swagger';
 
 @Controller('wishlist')
 @ApiTags('Wishlist 🧑‍💻')
@@ -25,9 +29,9 @@ export default class WishlistPublicController {
 
     @Get()
     @ApiOperation({ summary: 'get wishlist' })
-    @ApiOkResponse({ type: WishlistItemPublic, isArray: true })
-    getWishlist(@Session() { id }): Promise<WishlistItemPublic[]> {
-        return this.WishlistPublicService.getWishlist(id);
+    @ApiPaginatedResponse(WishlistItemPublic)
+    getWishlist(@Session() { id }, @Queries() queries: QueriesI): Promise<PaginationResult<WishlistItemPublic>> {
+        return this.WishlistPublicService.getWishlist(id, queries);
     }
 
     @Post(':productId')
