@@ -3,13 +3,16 @@ import { ApiBadRequestResponse, ApiNotFoundResponse, ApiOkResponse, ApiOperation
 
 import ProductPublicService from '@services/Product/public';
 import { PaginationResultDTO } from '@dto/Pagination';
-import ApiPaginatedResponse from '@decorators/Swagger';
+import {
+    ApiPaginatedResponseDecorator as ApiPaginatedResponse,
+    ApiQueriesRequestDecorator as ApiQueriesRequest,
+} from '@decorators/OpenAPI';
 import InvalidPaginationPageInterceptor from '@interceptors/InvalidPaginationPage';
 import { ProductCard, ProductPublic } from '@dto/Product/constructor';
 import { CommonDashboards, UserDashboards } from '@dto/Dashboard/constructor';
 import SessionProductHistoryInterceptor from '@interceptors/SessionProductHistory';
-import Query from '@decorators/Query';
-import { QueriesI } from '@interfaces/Queries';
+import Queries from '@decorators/Query';
+import { QueriesProductT } from '@interfaces/Queries';
 
 @Controller('product')
 @ApiTags('Product 🧑‍💻')
@@ -21,7 +24,8 @@ export default class ProductPublicController {
     @UseInterceptors(InvalidPaginationPageInterceptor)
     @ApiOperation({ summary: 'get all public products 💾' })
     @ApiPaginatedResponse(ProductCard)
-    getProducts(@Query() queries: QueriesI): Promise<PaginationResultDTO<ProductCard>> {
+    @ApiQueriesRequest()
+    getProducts(@Queries() queries: QueriesProductT): Promise<PaginationResultDTO<ProductCard>> {
         return this.productService.getProductList(queries);
     }
 
@@ -33,7 +37,7 @@ export default class ProductPublicController {
     @ApiPaginatedResponse(ProductCard)
     getCategoryProducts(
         @Param('categoryUrl') categoryUrl: string,
-        @Query() queries: QueriesI,
+        @Queries() queries: QueriesProductT,
     ): Promise<PaginationResultDTO<ProductCard>> {
         return this.productService.getCategoryProducts(categoryUrl, queries);
     }

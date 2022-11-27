@@ -18,7 +18,8 @@ import AffectedResultInterceptor from '@interceptors/AffectedResult';
 import { WishlistItemPublic } from '@dto/WishlistItem/constructor';
 import SessionGuard from '@guards/Session';
 import Queries from '@decorators/Query';
-import { QueriesI } from '@interfaces/Queries';
+import { QueriesWishlistT } from '@interfaces/Queries';
+import { ApiQueriesRequestDecorator as ApiQueriesRequest } from '@decorators/OpenAPI';
 
 @Controller('wishlist')
 @ApiTags('Wishlist 🧑‍💻')
@@ -28,7 +29,8 @@ export default class WishlistPublicController {
     @Get()
     @ApiOperation({ summary: 'get wishlist' })
     @ApiOkResponse({ type: WishlistItemPublic, isArray: true })
-    getWishlist(@Session() { id }, @Queries() queries: QueriesI): Promise<WishlistItemPublic[]> {
+    @ApiQueriesRequest()
+    getWishlist(@Session() { id }, @Queries() queries: QueriesWishlistT): Promise<WishlistItemPublic[]> {
         return this.WishlistPublicService.getWishlist(id, queries);
     }
 

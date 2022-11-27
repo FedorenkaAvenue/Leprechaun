@@ -26,12 +26,12 @@ import { CreateProductDTO } from '@dto/Product';
 import { ProductEntity } from '@entities/Product';
 import ProductPrivateService from '@services/Product/private';
 import { PaginationResultDTO } from '@dto/Pagination';
-import ApiPaginatedResponse from '@decorators/Swagger';
+import { ApiPaginatedResponseDecorator as ApiPaginatedResponse } from '@decorators/OpenAPI';
 import InvalidPaginationPageInterceptor from '@interceptors/InvalidPaginationPage';
 import UndefinedResultInterceptor from '@interceptors/UndefinedResult';
 import AffectedResultInterceptor from '@interceptors/AffectedResult';
 import { Pagination } from '@dto/Pagination/constructor';
-import { QueriesI } from '@interfaces/Queries';
+import { QueriesProductT } from '@interfaces/Queries';
 import Query from '@decorators/Query';
 
 @Controller('adm/product')
@@ -54,8 +54,8 @@ export default class ProductPrivateController {
     @UseInterceptors(InvalidPaginationPageInterceptor)
     @ApiOperation({ summary: 'get product list' })
     @ApiPaginatedResponse(ProductEntity)
-    getproducts(@Query() queries: QueriesI): Promise<PaginationResultDTO<ProductEntity>> {
-        return this.productService.getAdminProducts(queries);
+    getproducts(@Query() queries: QueriesProductT): Promise<PaginationResultDTO<ProductEntity>> {
+        return this.productService.getProductList(queries);
     }
 
     @Get('category/:categoryUrl')
@@ -65,9 +65,9 @@ export default class ProductPrivateController {
     @ApiPaginatedResponse(ProductEntity)
     getCategoryProducts(
         @Param('categoryUrl') categoryUrl: string,
-        @Query() queries: QueriesI,
+        @Query() queries: QueriesProductT,
     ): Promise<PaginationResultDTO<ProductEntity>> {
-        return this.productService.getCategoryAdminProducts(categoryUrl, queries);
+        return this.productService.getCategoryProducts(categoryUrl, queries);
     }
 
     @Get(':productId')
@@ -77,7 +77,7 @@ export default class ProductPrivateController {
     @ApiBadRequestResponse({ description: 'invalid product ID' })
     @ApiNotFoundResponse({ description: 'product not found' })
     getProduct(@Param('productId', ParseUUIDPipe) productId: string): Promise<ProductEntity> {
-        return this.productService.getAdminProduct(productId);
+        return this.productService.getProduct(productId);
     }
 
     // ! DONT TOUCH

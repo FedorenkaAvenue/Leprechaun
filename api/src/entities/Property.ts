@@ -18,7 +18,7 @@ export class PropertyEntity implements PropertyI {
     @ApiProperty()
     alt_name: string;
 
-    @Column({ nullable: true, select: false })
+    @Column({ nullable: true })
     @ApiProperty()
     comment: string;
 

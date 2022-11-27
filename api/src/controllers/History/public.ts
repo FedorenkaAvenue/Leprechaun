@@ -14,7 +14,9 @@ export default class HistoryPublicController {
     constructor(private readonly historyService: HistoryPublicService) {}
 
     @Get('product')
-    @ApiOperation({ summary: `get user product history (${Number(configService.getVal('USER_HISTORY_LENGTH'))} items max length)` })
+    @ApiOperation({
+        summary: `get user product history (${Number(configService.getVal('USER_HISTORY_LENGTH'))} items max length)`,
+    })
     @ApiOkResponse({ type: ProductCard, isArray: true })
     getUserHistory(@Session() { id }): Promise<ProductCard[]> {
         return this.historyService.getHistoryList(id);

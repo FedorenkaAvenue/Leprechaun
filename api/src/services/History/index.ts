@@ -42,7 +42,7 @@ export default class HistoryService {
             where: { sid },
             order: { created_at: 'DESC' },
             relations: PRODUCT_HISTORY_RELATIONS,
-            take: Number(configService.getVal('USER_HISTORY_LENGTH'))
+            take: Number(configService.getVal('USER_HISTORY_LENGTH')),
         });
     }
 }

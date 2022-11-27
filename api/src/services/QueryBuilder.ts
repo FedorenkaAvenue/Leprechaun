@@ -3,7 +3,7 @@ import { SelectQueryBuilder } from 'typeorm';
 
 import { Queries } from '@dto/Queries/constructor';
 import { ProductEntity } from '@entities/Product';
-import { SortE } from '@enums/Query';
+import { SortProductE } from '@enums/Query';
 import { PaginationResultDTO } from '@dto/Pagination';
 import { PaginationResult } from '@dto/Pagination/constructor';
 
@@ -66,17 +66,17 @@ export default class QueryBuilderService {
      */
     qbWithSorting(this: SelectQueryBuilder<ProductEntity>, sort: Queries['sort']): void {
         switch (sort) {
-            case SortE.PRICE_UP: {
+            case SortProductE.PRICE_UP: {
                 this.orderBy('product.price.current', 'ASC');
                 break;
             }
 
-            case SortE.PRICE_DOWN: {
+            case SortProductE.PRICE_DOWN: {
                 this.orderBy('product.price.current', 'DESC');
                 break;
             }
 
-            case SortE.NEW: {
+            case SortProductE.NEW: {
                 this.orderBy('product.created_at', 'DESC');
                 break;
             }

@@ -1,14 +1,13 @@
 import { applyDecorators, Type } from '@nestjs/common';
 import { ApiNotAcceptableResponse, ApiOkResponse, ApiQuery, getSchemaPath } from '@nestjs/swagger';
 
-import { SortE } from '@enums/Query';
-import { ProductStatusE } from '@enums/Product';
+import { SortProductE } from '@enums/Query';
 import { Pagination } from '@dto/Pagination/constructor';
 
 /**
- * @description successful responce documentation for OpenAPI
+ * @description pagination schema
  */
-const ApiPaginatedResponse = <TModel extends Type<any>>(model: TModel) => {
+export const ApiPaginatedResponseDecorator = <TModel extends Type<any>>(model: TModel) => {
     return applyDecorators(
         ApiOkResponse({
             schema: {
@@ -33,18 +32,29 @@ const ApiPaginatedResponse = <TModel extends Type<any>>(model: TModel) => {
             type: 'number',
         }),
         ApiQuery({
-            name: 'sort',
+            name: 'postion',
             required: false,
-            description: 'sort number',
-            enum: SortE,
-        }),
-        ApiQuery({
-            name: 'status',
-            required: false,
-            description: 'include product statuses',
-            enum: ProductStatusE,
+            description: 'amount of item by one page (default = 10)',
+            type: 'number',
         }),
     );
 };
 
-export default ApiPaginatedResponse;
+/**
+ * @description queries schema
+ */
+export const ApiQueriesRequestDecorator = () =>
+    applyDecorators(
+        ApiQuery({
+            name: 'sort',
+            required: false,
+            description: 'sort number',
+            enum: SortProductE,
+        }),
+        // ApiQuery({
+        //     name: 'status',
+        //     required: false,
+        //     description: 'include product statuses',
+        //     enum: ProductStatusE,
+        // }),
+    );

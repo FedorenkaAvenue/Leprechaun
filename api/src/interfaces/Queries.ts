@@ -1,5 +1,5 @@
 import { ProductStatusE } from '@enums/Product';
-import { SortE } from '@enums/Query';
+import { SortProductE, SortWishlistE } from '@enums/Query';
 
 export interface QueryPriceI {
     min: number;
@@ -9,8 +9,8 @@ export interface QueryPriceI {
 export type DinamicQueryFiltersT = object | null;
 
 // parsed queries
-export interface QueriesI {
-    sort: SortE;
+export interface QueriesI<S> {
+    sort: S;
     page: number;
     portion: number;
     price: QueryPriceI;
@@ -20,9 +20,12 @@ export interface QueriesI {
 
 // queries from url
 export interface QueriesReqI {
-    sort: SortE;
+    sort: SortProductE;
     page?: string;
     portion?: string;
     price?: string;
     status?: ProductStatusE;
 }
+
+export type QueriesProductT = QueriesI<SortProductE>;
+export type QueriesWishlistT = QueriesI<SortWishlistE>;

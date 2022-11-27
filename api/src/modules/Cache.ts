@@ -7,7 +7,7 @@ import configService from '@services/Config';
 @Module({
     imports: [
         CacheNestModule.registerAsync({
-            useFactory: async () => configService.getCacheStoreConfig(),
+            useFactory: async () => !configService.isDev && configService.getCacheStoreConfig(),
         }),
     ],
     providers: [CacheService],

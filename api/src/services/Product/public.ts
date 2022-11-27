@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 
-import { QueriesI } from '@interfaces/Queries';
+import { QueriesProductT } from '@interfaces/Queries';
 import { PaginationResultDTO } from '@dto/Pagination';
 import { ProductI } from '@interfaces/Product';
 import { ProductPreview, ProductCard, ProductPublic } from '@dto/Product/constructor';
@@ -9,21 +9,27 @@ import { CommonDashboards, UserDashboards } from '@dto/Dashboard/constructor';
 import { SessionI } from '@interfaces/Session';
 import ProductService from '.';
 // import WishlistItemEntity from '@entities/WishlistItem';
+import { PRODUCT_RELATIONS } from '@constants/relations';
 
 @Injectable()
 export default class ProductPublicService extends ProductService {
     async getProduct(productId: ProductI['id']): Promise<ProductPublic> {
         try {
-            const qb = this.getProductQueryBulder();
+            const res = await this.productRepo.findOneOrFail({
+                where: { id: productId, is_public: true },
+                relations: PRODUCT_RELATIONS,
+            });
 
-            qb.leftJoinAndSelect('product.category', 'category').where('product.is_public = true');
+            // const qb = this.getProductQueryBulder();
+
+            // qb.leftJoinAndSelect('product.category', 'category').where('product.is_public = true');
             // qb.addSelect(
-                // qb =>
-                //     qb
-                //         .select('COUNT(*)', 'wishlistuu')
-                //         .from(WishlistItemEntity, 'w'),
-                //         // .where('w.product = product.id'),
-                // 'wishlistuu',
+            //     qb =>
+            //         qb
+            //             .select('COUNT(*)', 'product.wishlistCount')
+            //             .from(WishlistItemEntity, 'w')
+            //             .where('w.product = product.id'),
+            //     'wishlistCount',
             // );
             // qb.leftJoinAndMapOne(
             //     'product.wu',
@@ -34,7 +40,7 @@ export default class ProductPublicService extends ProductService {
             //     'wu'
             // );
 
-            const res = await qb.getOne();
+            // const res = await qb.getOne();
 
             // console.log(res);
 
@@ -69,7 +75,7 @@ export default class ProductPublicService extends ProductService {
         });
     }
 
-    async getProductList(queries: QueriesI): Promise<PaginationResultDTO<ProductCard>> {
+    async getProductList(queries: QueriesProductT): Promise<PaginationResultDTO<ProductCard>> {
         const qb = this.getProductQueryBulder();
 
         qb.leftJoinAndSelect('product.category', 'category').where('product.is_public = true');
@@ -77,7 +83,10 @@ export default class ProductPublicService extends ProductService {
         return this.renderResult<ProductCard>(qb, queries, ProductCard);
     }
 
-    async getCategoryProducts(categoryUrl: string, queries: QueriesI): Promise<PaginationResultDTO<ProductCard>> {
+    async getCategoryProducts(
+        categoryUrl: string,
+        queries: QueriesProductT,
+    ): Promise<PaginationResultDTO<ProductCard>> {
         const qb = this.getProductQueryBulder();
 
         qb.innerJoin('product.category', 'category')

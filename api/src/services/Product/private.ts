@@ -23,14 +23,14 @@ export default class ProductPrivateService extends ProductService {
         }
     }
 
-    async getAdminProduct(productId: ProductI['id']): Promise<ProductEntity> {
+    async getProduct(productId: ProductI['id']): Promise<ProductEntity> {
         return this.productRepo.findOne({
             where: { id: productId },
             relations: PRODUCT_RELATIONS,
         });
     }
 
-    async getAdminProducts(queries: Queries): Promise<PaginationResultDTO<ProductEntity>> {
+    async getProductList(queries: Queries): Promise<PaginationResultDTO<ProductEntity>> {
         const qb = this.getProductQueryBulder();
 
         qb.leftJoinAndSelect('product.category', 'category');
@@ -38,7 +38,7 @@ export default class ProductPrivateService extends ProductService {
         return this.renderResult<ProductEntity>(qb, queries);
     }
 
-    async getCategoryAdminProducts(categoryUrl: string, queries: Queries): Promise<PaginationResultDTO<ProductEntity>> {
+    async getCategoryProducts(categoryUrl: string, queries: Queries): Promise<PaginationResultDTO<ProductEntity>> {
         const qb = this.getProductQueryBulder();
 
         qb.innerJoin('product.category', 'category').where('category.url = :categoryUrl', { categoryUrl });

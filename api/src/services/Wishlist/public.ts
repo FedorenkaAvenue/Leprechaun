@@ -7,30 +7,27 @@ import WishlistService from '.';
 import WishlistItemEntity from '@entities/WishlistItem';
 import { WishlistItemI } from '@interfaces/WishlistItem';
 import { WishlistItemPublic } from '@dto/WishlistItem/constructor';
-import { QueriesI } from '@interfaces/Queries';
+import { QueriesWishlistT } from '@interfaces/Queries';
 import { PRODUCT_DEEP_RELATIONS } from '@constants/relations';
-import { SortE } from '@enums/Query';
+import { SortWishlistE } from '@enums/Query';
 
 @Injectable()
 export default class WishlistPublicService extends WishlistService {
-    async getWishlist(
-        sid: SessionI['sid'],
-        { sort }: QueriesI,
-    ): Promise<WishlistItemPublic[]> {
+    async getWishlist(sid: SessionI['sid'], { sort }: QueriesWishlistT): Promise<WishlistItemPublic[]> {
         let sorting: FindOptionsOrder<WishlistItemEntity>;
 
         switch (sort) {
-            case SortE.PRICE_UP: {
+            case SortWishlistE.PRICE_UP: {
                 sorting = { product: { price: { current: 'ASC' } } };
                 break;
             }
 
-            case SortE.PRICE_DOWN: {
+            case SortWishlistE.PRICE_DOWN: {
                 sorting = { product: { price: { current: 'DESC' } } };
                 break;
             }
 
-            default:
+            default: // SortWishlistE.LATEST
                 sorting = { created_at: 'ASC' };
         }
 

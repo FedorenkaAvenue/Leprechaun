@@ -18,7 +18,7 @@ export class PropertyGroupEntity implements PropertyGroupI {
     @ApiProperty()
     alt_name: string;
 
-    @Column({ nullable: true, select: false })
+    @Column({ nullable: true })
     @ApiProperty()
     comment: string;
 
