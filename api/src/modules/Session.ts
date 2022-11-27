@@ -7,5 +7,6 @@ import SessionService from '@services/Session';
 @Module({
     imports: [TypeOrmModule.forFeature([SessionEntity])],
     providers: [SessionService],
+    exports: [SessionService],
 })
 export default class SessionModule {}

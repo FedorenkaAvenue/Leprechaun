@@ -1,5 +1,5 @@
 import { InjectRepository } from '@nestjs/typeorm';
-import { FindOptionsOrder, Repository, SelectQueryBuilder } from 'typeorm';
+import { FindOptionsOrder, Repository, SelectQueryBuilder, UpdateResult } from 'typeorm';
 import { Injectable, NotFoundException } from '@nestjs/common';
 
 import { FSService } from '@services/FS';
@@ -54,6 +54,15 @@ export default class ProductService {
             take,
             order,
         });
+    }
+
+    /**
+     * @description change "new" entity field
+     */
+    async changeNewStatus(): Promise<void> {
+        const { affected } = await this.productRepo.update({ is_new: true }, { is_new: false });
+
+        console.log(`${new Date().toISOString()}: ${affected} products was changed to is_new = false.`);
     }
 
     /**

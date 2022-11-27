@@ -1,12 +1,18 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { LessThan, Repository } from 'typeorm';
 
 import SessionEntity from '@entities/Session';
 
 @Injectable()
 export default class SessionService {
-    constructor(@InjectRepository(SessionEntity) public readonly sessionRepo: Repository<SessionEntity>) {}
+    constructor(@InjectRepository(SessionEntity) private readonly sessionRepo: Repository<SessionEntity>) {}
 
-    clearUselessSession() {}
+    async clearUselessSession() {
+        const currDate = new Date();
+
+        const { affected } = await this.sessionRepo.delete({ expire: LessThan(currDate) });
+
+        console.log(`${currDate.toISOString()}: Useless ${affected} session was deleted.`);
+    }
 }

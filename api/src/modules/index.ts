@@ -45,7 +45,7 @@ import DashboardPublicController from '@controllers/Dashboard/public';
         PropertyGroupModule,
         PropertyModule,
         ImageModule,
-        // ScheduleModule,
+        ScheduleModule,
         AdminModule,
         SessionModule,
         CacheModule,

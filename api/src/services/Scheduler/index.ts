@@ -1,14 +1,20 @@
 import { Injectable } from '@nestjs/common';
-import { Cron } from '@nestjs/schedule';
+import { Cron, CronExpression } from '@nestjs/schedule';
 
+import ProductService from '@services/Product';
 import SessionService from '@services/Session';
 
 @Injectable()
 export default class SchedulerService {
-    constructor(private readonly sessionService: SessionService) {}
+    constructor(private readonly sessionService: SessionService, private readonly productService: ProductService) {}
 
-    @Cron('0 0 3 * * 1')
-    clearUselessSessionData() {
+    @Cron(CronExpression.EVERY_DAY_AT_3AM)
+    dayly(): void {
         this.sessionService.clearUselessSession();
+    }
+
+    @Cron('0 0 3 * 1')
+    weekly(): void {
+        this.productService.changeNewStatus();
     }
 }
