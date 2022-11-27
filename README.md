@@ -52,12 +52,18 @@ Boilerplate for web store
       * `AVAILABLE`: **1** (в продаже)
       * `OUT_OF_STOCK`: **2** (закончился)
 
-    * sort type
+    * catalogue sort type
 
       * `POPULAR`: **1** (по популярности)
       * `PRICE_UP`: **2** (от дешевых к дорогим)
       * `PRICE_DOWN`: **3** (от дорогих к дешевым)
       * `NEW`: **4** (по новинкам)
+
+    * wishlist sort type
+
+      * `LASTEST`: **1**, (последние добавленные)
+      * `PRICE_UP`: **2** (от дешевых к дорогим)
+      * `PRICE_DOWN`: **3** (от дорогих к дешевым)
 
     * label types
 
