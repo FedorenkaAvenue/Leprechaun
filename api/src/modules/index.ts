@@ -4,6 +4,7 @@ import * as session from 'express-session';
 
 import CategoryModule from './Category';
 import ProductModule from './Product';
+import DashboardModule from './Dashboard';
 import PropertyGroupModule from './PropertyGroup';
 import PropertyModule from './Property';
 import ImageModule from './Image';
@@ -27,6 +28,7 @@ import OrderPublicController from '@controllers/Order/public';
 import WishlistPublicController from '@controllers/Wishlist/public';
 import HistoryPublicController from '@controllers/History/public';
 import SesssionInitMiddleware from '@middlewares/SessionInit';
+import DashboardPublicController from '@controllers/Dashboard/public';
 
 @Module({
     imports: [
@@ -35,6 +37,7 @@ import SesssionInitMiddleware from '@middlewares/SessionInit';
         }),
         CategoryModule,
         ProductModule,
+        DashboardModule,
         OrderModule,
         WishlistModule,
         UserModule,
@@ -63,6 +66,7 @@ export default class AppModule implements NestModule {
                 OrderPublicController,
                 WishlistPublicController,
                 HistoryPublicController,
+                DashboardPublicController,
             );
         consumer.apply(SesssionInitMiddleware).forRoutes(UserPublicController);
     }

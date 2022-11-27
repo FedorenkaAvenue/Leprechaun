@@ -7,7 +7,7 @@ import { Observable, of } from 'rxjs';
 
 @Injectable()
 export class HomeApiService {
-  private readonly apiUrl = `${environment?.apiEndpoint}/product`;
+  private readonly apiUrl = `${environment?.apiEndpoint}`;
 
   constructor(
     private readonly http: HttpClient

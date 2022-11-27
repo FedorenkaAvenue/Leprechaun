@@ -69,7 +69,7 @@ export class ProductCard extends ProductCardDTO {
 
 @WithLabels(LabelType.NEW, LabelType.POPULAR, LabelType.DISCOUNT)
 export class ProductPublic extends ProductPublicDTO {
-    constructor({ id, title, price, status, images, properties, category }: ProductEntity) {
+    constructor({ id, title, price, status, images, properties, category, wishlistCount }: ProductEntity) {
         super();
         this.id = id;
         this.title = title;
@@ -78,5 +78,6 @@ export class ProductPublic extends ProductPublicDTO {
         this.images = images.slice(0, Number(PRODUCT_PUBLIC_IMAGE_AMOUNT)) as ImageEntity[];
         this.properties = properties.map(prop => new PropertyPublic(prop));
         this.category = new CategoryPublic(category);
+        this.wishlistCount = wishlistCount.length;
     }
 }

@@ -1,4 +1,4 @@
-import { Controller, Get, Param, ParseUUIDPipe, UseInterceptors, CacheInterceptor, Session } from '@nestjs/common';
+import { Controller, Get, Param, ParseUUIDPipe, UseInterceptors, CacheInterceptor } from '@nestjs/common';
 import { ApiBadRequestResponse, ApiNotFoundResponse, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 
 import ProductPublicService from '@services/Product/public';
@@ -9,7 +9,6 @@ import {
 } from '@decorators/OpenAPI';
 import InvalidPaginationPageInterceptor from '@interceptors/InvalidPaginationPage';
 import { ProductCard, ProductPublic } from '@dto/Product/constructor';
-import { CommonDashboards, UserDashboards } from '@dto/Dashboard/constructor';
 import SessionProductHistoryInterceptor from '@interceptors/SessionProductHistory';
 import Queries from '@decorators/Query';
 import { QueriesProductT } from '@interfaces/Queries';
@@ -40,21 +39,6 @@ export default class ProductPublicController {
         @Queries() queries: QueriesProductT,
     ): Promise<PaginationResultDTO<ProductCard>> {
         return this.productService.getCategoryProducts(categoryUrl, queries);
-    }
-
-    @Get('dashboard/common')
-    @UseInterceptors(CacheInterceptor)
-    @ApiOperation({ summary: 'get common dashboards 💾' })
-    @ApiOkResponse({ type: CommonDashboards })
-    getCommonDashboards(): Promise<CommonDashboards> {
-        return this.productService.getCommonDashboards();
-    }
-
-    @Get('dashboard/user')
-    @ApiOperation({ summary: 'get individual user dashboards' })
-    @ApiOkResponse({ type: UserDashboards })
-    getMostPopularProducts(@Session() { id }): Promise<UserDashboards> {
-        return this.productService.getUserDashboards(id);
     }
 
     @Get(':productId')

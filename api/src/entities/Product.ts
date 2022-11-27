@@ -17,6 +17,7 @@ import { ImageEntity } from '@entities/Image';
 import { CategoryI } from '@interfaces/Category';
 import { PropertyEntity } from '@entities/Property';
 import { PriceEntity } from './_Price';
+import WishlistItemEntity from './WishlistItem';
 
 @Entity('product')
 export class ProductEntity implements ProductI {
@@ -73,4 +74,8 @@ export class ProductEntity implements ProductI {
     @Column({ nullable: true })
     @ApiProperty()
     comment: string;
+
+    // virtual property
+    @ApiProperty({ description: 'how many users added this product to wishlist' })
+    wishlistCount: WishlistItemEntity[];
 }

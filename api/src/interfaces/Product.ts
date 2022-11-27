@@ -4,6 +4,7 @@ import { PropertyI, PropertyPublicI } from '@interfaces/Property';
 import { LabelI } from '@interfaces/Label';
 import { ProductStatusE } from '@enums/Product';
 import { PriceI } from './Price';
+import WishlistItemEntity from '@entities/WishlistItem';
 
 export interface ProductBaseI {
     id?: string;
@@ -38,4 +39,5 @@ export interface ProductI extends ProductBaseI {
     is_public?: boolean;
     comment: string;
     is_new: boolean;
+    wishlistCount?: WishlistItemEntity[];
 }

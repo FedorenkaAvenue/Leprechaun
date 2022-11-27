@@ -2,6 +2,7 @@ import { CommonDashboardsI, UserDashboardsI } from '@interfaces/Dashboard';
 import { CommonDashboardsDTO, UserDashboardsDTO } from '.';
 import { ProductPreview } from '@dto/Product/constructor';
 import { ProductEntity } from '@entities/Product';
+import { HistoryEntity } from '@entities/History';
 
 interface CommonDashboardsIConstructorI {
     popular: ProductEntity[];
@@ -9,7 +10,7 @@ interface CommonDashboardsIConstructorI {
 }
 
 interface UserDashboardsIConstructorI {
-    history: ProductPreview[];
+    history: HistoryEntity[];
 }
 
 export class CommonDashboards extends CommonDashboardsDTO implements CommonDashboardsI {
@@ -23,6 +24,6 @@ export class CommonDashboards extends CommonDashboardsDTO implements CommonDashb
 export class UserDashboards extends UserDashboardsDTO implements UserDashboardsI {
     constructor({ history }: UserDashboardsIConstructorI) {
         super();
-        this.history = history;
+        this.history = history.map(({ product }) => new ProductPreview(product));
     }
 }
