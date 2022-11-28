@@ -36,11 +36,6 @@ services:
     environment:
       - IS_DEV=true
 
-  manticore:
-    restart: unless-stopped
-    ports:
-      - ${MANTICORE_PORT}:${MANTICORE_PORT}
-
   client_user:
     extends:
       file: docker-compose.shared.yaml

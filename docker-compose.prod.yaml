@@ -32,9 +32,6 @@ services:
       - IS_DEV=false
       - DEV_MAIL_RECIEVER
 
-  manticore:
-    restart: on-failure:5
-
   client_user:
     restart: on-failure:5
     build:

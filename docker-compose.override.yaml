@@ -48,8 +48,6 @@ services:
       - CACHE_PASSWORD
       - CACHE_DB_NUMBER
       - HOSTING_PATH
-      - MANTICORE_HOST
-      - MANTICORE_PORT
       - MAIL_SMTP_HOST
       - MAIL_SMTP_PORT
       - MAIL_SENDER_ACCOUNT
@@ -64,14 +62,6 @@ services:
       - image_hosting:/var/www/img:rw
     depends_on:
       - cache
-      - db
-
-  manticore:
-    container_name: leprechaun_manticore
-    image: manticoresearch/manticore
-    volumes:
-      - ./manticore/manticore.conf:/etc/manticoresearch/manticore.conf
-    depends_on:
       - db
 
   client_user:

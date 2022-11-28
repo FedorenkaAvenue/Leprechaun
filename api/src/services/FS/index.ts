@@ -87,11 +87,7 @@ export class FSService implements MulterOptionsFactory {
      */
     async removeFiles(files: string[]): Promise<void> {
         try {
-            await Promise.all(
-                files.map(file => {
-                    return promises.rm(this.hostingPath + file);
-                }),
-            );
+            await Promise.all(files.map(file => promises.rm(this.hostingPath + file)));
         } catch (err) {
             throw new InternalServerErrorException(err);
         }

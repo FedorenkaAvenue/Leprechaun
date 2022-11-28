@@ -28,9 +28,6 @@ open_image_hosting:
 migrations:
 	@yarn --cwd ./api migrations:run
 
-manticore_index:
-	@make -f ./manticore/Makefile index_all
-
 translation:
 	@echo 'Building translations⏳...'
 	@cd ./translations && make build

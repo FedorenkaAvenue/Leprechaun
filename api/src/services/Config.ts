@@ -91,13 +91,6 @@ export class ConfigService {
     }
 
     /**
-     * @description get params for Manticore search engine connection
-     */
-    getManticoreConfig(): string {
-        return `http://${this.getVal('MANTICORE_HOST')}:${this.getVal('MANTICORE_PORT')}`;
-    }
-
-    /**
      * @description get Nodemailer config
      */
     getMailConfig(): SMTPTransport.Options {
