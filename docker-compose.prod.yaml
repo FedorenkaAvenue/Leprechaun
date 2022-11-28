@@ -47,5 +47,7 @@ services:
         - DOMAIN_MEDIA
         - DOMAIN_API
         - CURRENCY_SYMBOL
+    volumes:
+      - ./clients/user/logs:/app/logs
     environment:
       - IS_DEV=false

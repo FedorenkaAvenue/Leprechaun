@@ -8,8 +8,6 @@ import * as redisCacheStore from 'cache-manager-redis-store';
 import { Pool as PGPool } from 'pg';
 const pgConnect = require('connect-pg-simple');
 
-import { ConfigDevService } from './dev';
-
 const ENV_ARRAY_SPLIT_SYMBOL = ',';
 
 interface IHostingParams {
@@ -19,13 +17,13 @@ interface IHostingParams {
 /**
  * @description configuration service (esp working with a environment variables)
  * @property {Boolean} isDev is development environment
+ * @property {Boolean} isLepr is "Leprechaun" test project
  */
-export class ConfigService extends ConfigDevService {
+export class ConfigService {
     isDev: boolean;
     isLepr: boolean;
 
     constructor() {
-        super();
         this.isDev = this.getVal('IS_DEV') === 'true';
         this.isLepr = this.getAppName() === 'Leprechaun';
     }
@@ -128,6 +126,18 @@ export class ConfigService extends ConfigDevService {
      */
     getDevMailReciever(): string {
         return this.getVal('DEV_MAIL_RECIEVER') as string;
+    }
+
+    /**
+     * @description create simple session ID (incrementing +1)
+     * @returns {Function} callback which returns session ID
+     */
+    genSessionId(): (req: Express.Request) => string {
+        let count = 0;
+
+        return function (req: Express.Request): string {
+            return String(++count);
+        };
     }
 
     /**

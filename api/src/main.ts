@@ -5,15 +5,16 @@ import * as cookieParser from 'cookie-parser';
 import AppModule from '@modules/.';
 import configService from '@services/Config';
 import UncaughtExceptionFilter from '@filters/UncaughtException';
+import logger from '@services/Logger';
 
 async function runServer() {
-    const app = await NestFactory.create(AppModule);
+    const app = await NestFactory.create(AppModule, { logger });
 
     app.use(cookieParser()).enableCors(configService.getCORSConfig());
 
     if (!configService.isDev) app.useGlobalFilters(new UncaughtExceptionFilter());
 
-    // Swagger
+    // OpenAPI
     const config = new DocumentBuilder()
         .setTitle(configService.getAppName())
         .setDescription(`💾 - cached |  🧑‍💻 - user |  🤵🏿‍♂️ - admin`)

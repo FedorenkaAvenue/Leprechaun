@@ -29,6 +29,7 @@ export default class UncaughtExceptionFilter implements ExceptionFilter {
         });
 
         singleMailSerbice.sendErrorLogMail(log);
+
         console.error(log);
 
         response.sendStatus(500);

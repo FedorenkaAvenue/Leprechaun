@@ -12,6 +12,7 @@ import WishlistItemEntity from '@entities/WishlistItem';
 import { ProductI } from '@interfaces/Product';
 import { SortProductE } from '@enums/Query';
 import { PaginationResult } from '@dto/Pagination/constructor';
+import logger from '@services/Logger';
 
 @Injectable()
 export default class ProductService {
@@ -62,7 +63,7 @@ export default class ProductService {
     async changeNewStatus(): Promise<void> {
         const { affected } = await this.productRepo.update({ is_new: true }, { is_new: false });
 
-        console.log(`${new Date().toISOString()}: ${affected} products was changed to is_new = false.`);
+        logger.info(`${affected} products was changed to is_new = false`);
     }
 
     /**
