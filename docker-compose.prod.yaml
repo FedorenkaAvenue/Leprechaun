@@ -31,6 +31,8 @@ services:
     environment:
       - IS_DEV=false
       - DEV_MAIL_RECIEVER
+    volumes:
+      - ./api/logs:/app/logs
 
   client_user:
     restart: on-failure:5
@@ -44,7 +46,5 @@ services:
         - DOMAIN_MEDIA
         - DOMAIN_API
         - CURRENCY_SYMBOL
-    volumes:
-      - ./clients/user/logs:/app/logs
     environment:
       - IS_DEV=false
