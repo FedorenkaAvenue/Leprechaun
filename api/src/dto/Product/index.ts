@@ -161,6 +161,9 @@ export class ProductPublicDTO implements ProductPublicI {
     @ApiProperty({ type: CategoryPublic })
     category: CategoryPublic;
 
+    @ApiProperty({ description: 'how many users ordered this product' })
+    orderCount: number;
+
     @ApiProperty({ description: 'how many users added this product to wishlist' })
     wishlistCount: number;
 }

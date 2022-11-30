@@ -75,6 +75,10 @@ export class ProductEntity implements ProductI {
     @ApiProperty()
     comment: string;
 
+    @Column({ nullable: true })
+    @ApiProperty({ description: 'how many users ordered this product' })
+    orderCount: number;
+
     // virtual property
     @ApiProperty({ description: 'how many users added this product to wishlist' })
     wishlistCount: WishlistItemEntity[];

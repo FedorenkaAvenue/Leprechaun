@@ -28,6 +28,7 @@ export interface ProductPublicI extends ProductBaseI {
     images: ImageI[];
     properties: PropertyPublicI[];
     wishlistCount: number;
+    orderCount: number;
 }
 
 export interface ProductI extends ProductBaseI {
@@ -39,5 +40,6 @@ export interface ProductI extends ProductBaseI {
     is_public?: boolean;
     comment: string;
     is_new: boolean;
+    orderCount?: number;
     wishlistCount?: WishlistItemEntity[];
 }

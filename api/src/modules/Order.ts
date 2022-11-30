@@ -7,9 +7,10 @@ import OrderPublicService from '@services/Order/public';
 import OrderPublicController from '@controllers/Order/public';
 import OrderPrivateController from '@controllers/Order/private';
 import OrderPrivateService from '@services/Order/private';
+import ProductModule from './Product';
 
 @Module({
-    imports: [TypeOrmModule.forFeature([OrderEntity, OrderItemEntity])],
+    imports: [TypeOrmModule.forFeature([OrderEntity, OrderItemEntity]), ProductModule],
     controllers: [OrderPublicController, OrderPrivateController],
     providers: [OrderPublicService, OrderPrivateService],
     exports: [OrderPublicService, OrderPrivateService],

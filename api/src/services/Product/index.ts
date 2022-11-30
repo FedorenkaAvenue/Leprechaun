@@ -67,6 +67,16 @@ export default class ProductService {
     }
 
     /**
+     * @description update (increment) product.orderCount field
+     * @param id product ID
+     */
+    async incrementProductOrderCount(id: ProductI['id']): Promise<void> {
+        const { orderCount } = await this.productRepo.findOneBy({ id });
+
+        await this.productRepo.update({ id }, { orderCount: orderCount + 1 });
+    }
+
+    /**
      * @description get common product query builder
      * @returns query builder
      */

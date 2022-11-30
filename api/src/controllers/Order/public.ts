@@ -70,7 +70,7 @@ export default class OrderPublicController {
     @ApiOperation({ summary: 'send order' })
     @ApiOkResponse({ type: OrderPublic })
     sendOrder(@Body(new ValidationPipe({ transform: true })) order: CreateOrderDTO): Promise<UpdateResult> {
-        return this.orderService.sendOrder(order);
+        return this.orderService.postOrder(order);
     }
 
     @Delete('item/:itemId')

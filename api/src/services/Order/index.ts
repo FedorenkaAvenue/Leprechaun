@@ -7,12 +7,14 @@ import { OrderEntity } from '@entities/Order';
 import { OrderItemEntity } from '@entities/OrderItem';
 import { SessionI } from '@interfaces/Session';
 import { genID } from '@utils/genIds';
+import ProductService from '@services/Product';
 
 @Injectable()
 export default class OrderService {
     constructor(
         @InjectRepository(OrderEntity) public readonly orderRepo: Repository<OrderEntity>,
         @InjectRepository(OrderItemEntity) public readonly orderItemRepo: Repository<OrderItemEntity>,
+        protected readonly productService: ProductService,
     ) {}
 
     /**

@@ -29,7 +29,7 @@ class Logger extends ConsoleLogger {
         const logFolder = `logs/${currDate.getMonth()}_${currDate.getFullYear()}`;
 
         try {
-            await appendFile(`${logFolder}/${type}.log`, `\n${currDate.toLocaleString()}: ${message}.`);
+            await appendFile(`${logFolder}/${type}.log`, `${currDate.toLocaleString()}: ${message}.\n`);
         } catch (_) {
             try {
                 console.log('try to create new folder for logs...');
