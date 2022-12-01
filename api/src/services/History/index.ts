@@ -8,6 +8,8 @@ import { ProductI } from '@interfaces/Product';
 import configService from '@services/Config';
 import { PRODUCT_HISTORY_RELATIONS } from '@constants/relations';
 
+const USER_HISTORY_LENGTH = Number(configService.getVal('USER_HISTORY_LENGTH'));
+
 @Injectable()
 export default class HistoryService {
     constructor(@InjectRepository(HistoryEntity) public readonly historyRepo: Repository<HistoryEntity>) {}
@@ -42,7 +44,7 @@ export default class HistoryService {
             where: { sid },
             order: { created_at: 'DESC' },
             relations: PRODUCT_HISTORY_RELATIONS,
-            take: Number(configService.getVal('USER_HISTORY_LENGTH')),
+            take: USER_HISTORY_LENGTH,
         });
     }
 }

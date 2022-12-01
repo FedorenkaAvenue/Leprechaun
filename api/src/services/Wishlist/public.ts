@@ -10,6 +10,9 @@ import { WishlistItemPublic } from '@dto/WishlistItem/constructor';
 import { QueriesWishlistT } from '@interfaces/Queries';
 import { PRODUCT_DEEP_RELATIONS } from '@constants/relations';
 import { SortWishlistE } from '@enums/Query';
+import configService from '@services/Config';
+
+const USER_WISHLIST_LENGTH = Number(configService.getVal('USER_WISHLIST_LENGTH'));
 
 @Injectable()
 export default class WishlistPublicService extends WishlistService {
@@ -35,6 +38,7 @@ export default class WishlistPublicService extends WishlistService {
             where: { sid },
             relations: PRODUCT_DEEP_RELATIONS,
             order: sorting,
+            take: USER_WISHLIST_LENGTH,
         });
 
         return result.map(item => new WishlistItemPublic(item));
