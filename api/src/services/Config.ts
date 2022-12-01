@@ -31,14 +31,16 @@ export class ConfigService {
     /**
      * @description get environment variable value by key
      * @param key environment variable key
+     * @param isOptional unnessesary variable (don't throw error)
      * @returns variable value
+     * @exception variable hasn't been set (if isOptional === false)
      */
-    getVal(key: string): string | string[] {
+    getVal(key: string, isOptional?: boolean): string | string[] {
         const envVariable = process.env[key];
 
-        if (typeof envVariable === 'undefined') throw new Error(`config error: missing env ${key}`);
+        if (typeof envVariable === 'undefined' && !isOptional) throw new Error(`config error: missing env ${key}`);
 
-        return envVariable.includes(ENV_ARRAY_SPLIT_SYMBOL)
+        return envVariable?.includes(ENV_ARRAY_SPLIT_SYMBOL)
             ? envVariable.split(ENV_ARRAY_SPLIT_SYMBOL).map(env => env.trim())
             : envVariable;
     }
@@ -182,7 +184,11 @@ export class ConfigService {
      */
     getCORSConfig(): CorsOptions {
         return {
-            origin: ['http://localhost:4201', 'http://localhost:4202', 'https://localhost:4201', 'https://localhost:4200', this.getVal('DOMAIN') as string, this.getVal('DOMAIN_ADM') as string],
+            origin: [
+                this.getVal('DOMAIN') as string,
+                this.getVal('DOMAIN_ADM') as string,
+                ...this.getVal('CORS_DOMAINS', true),
+            ],
             methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
             credentials: true,
         };

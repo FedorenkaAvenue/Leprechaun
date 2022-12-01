@@ -33,6 +33,7 @@ services:
     container_name: leprechaun_api
     environment:
       - HOST_NAME
+      - CORS_DOMAINS
       - DOMAIN
       - DOMAIN_ADM
       - APP_NAME
