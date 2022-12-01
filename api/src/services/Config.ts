@@ -156,6 +156,7 @@ export class ConfigService {
                 httpOnly: true,
                 maxAge: +this.getVal('SESSION_AGE'),
                 sameSite: this.isLepr ? 'none' : 'strict',
+                domain: `.${this.getVal('HOST_NAME')}`,
                 secure: !this.isDev,
             },
         };
