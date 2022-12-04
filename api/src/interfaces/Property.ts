@@ -10,6 +10,5 @@ interface BaseI<P = PropertyGroupI> {
 export type PropertyPublicI = BaseI<PropertyGroupPublicI>;
 
 export interface PropertyI extends BaseI {
-    is_primary: boolean;
     comment?: string;
 }

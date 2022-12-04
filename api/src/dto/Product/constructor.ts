@@ -63,7 +63,10 @@ export class ProductCard extends ProductCardDTO {
         this.price = price;
         this.status = status;
         this.images = images.slice(0, Number(PRODUCT_PUBLIC_IMAGE_AMOUNT)) as ImageEntity[];
-        this.properties = properties.filter(({ is_primary }) => is_primary).map(prop => new PropertyPublic(prop));
+        this.properties = properties.map(prop => new PropertyPublic(prop));
+        this.properties = properties
+            .filter(({ property_group: { is_primary } }) => is_primary)
+            .map(prop => new PropertyPublic(prop));
     }
 }
 

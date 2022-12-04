@@ -4,6 +4,7 @@ import { IsBooleanString, IsNotEmpty, IsNumber, IsOptional, IsString } from 'cla
 import { PropertyI, PropertyPublicI } from '@interfaces/Property';
 import { PropertyGroupI } from '@interfaces/PropertyGroup';
 import { PropertyGroupEntity } from '@entities/PropertGroup';
+import { PropertyGroupPublic } from '@dto/PropertyGroup/constructor';
 
 export class CreatePropertyDTO implements PropertyI {
     @IsNotEmpty()
@@ -22,11 +23,6 @@ export class CreatePropertyDTO implements PropertyI {
     alt_name: string;
 
     @IsOptional()
-    @IsBooleanString()
-    @ApiProperty({ description: 'visible property for ProductCard', default: false })
-    is_primary: boolean;
-
-    @IsOptional()
     @IsString()
     @ApiProperty({ required: false, default: null })
     comment: string;
@@ -43,5 +39,5 @@ export class PropertyPublicDTO implements PropertyPublicI {
     alt_name: string;
 
     @ApiProperty()
-    property_group: PropertyGroupEntity;
+    property_group: PropertyGroupPublic;
 }

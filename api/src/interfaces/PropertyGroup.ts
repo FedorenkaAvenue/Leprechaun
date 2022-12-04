@@ -8,6 +8,7 @@ interface BaseI {
 }
 
 export interface PropertyGroupI extends BaseI {
+    is_primary?: boolean;
     comment?: string;
 }
 

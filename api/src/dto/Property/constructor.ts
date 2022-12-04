@@ -1,3 +1,4 @@
+import { PropertyGroupPublic } from '@dto/PropertyGroup/constructor';
 import { PropertyEntity } from '@entities/Property';
 import { CreatePropertyDTO, PropertyPublicDTO } from '.';
 
@@ -17,6 +18,6 @@ export class PropertyPublic extends PropertyPublicDTO {
         this.id = id;
         this.title = title;
         this.alt_name = alt_name;
-        this.property_group = property_group;
+        this.property_group = new PropertyGroupPublic(property_group);
     }
 }

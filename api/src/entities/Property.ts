@@ -22,10 +22,6 @@ export class PropertyEntity implements PropertyI {
     @ApiProperty()
     comment: string;
 
-    @Column({ default: false })
-    @ApiProperty({ description: 'visible property for ProductCard' })
-    is_primary: boolean;
-
     @ManyToOne(() => PropertyGroupEntity, ({ properties }) => properties, { onDelete: 'CASCADE', nullable: false })
     @JoinColumn({ name: 'property_group' })
     @ApiProperty()

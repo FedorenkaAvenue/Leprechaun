@@ -25,4 +25,8 @@ export class PropertyGroupEntity implements PropertyGroupI {
     @OneToMany(() => PropertyEntity, ({ property_group }) => property_group)
     @ApiProperty({ type: () => PropertyEntity, isArray: true })
     properties: PropertyEntity[];
+
+    @Column({ default: false })
+    @ApiProperty({ description: 'visible property for ProductCard' })
+    is_primary: boolean;
 }
