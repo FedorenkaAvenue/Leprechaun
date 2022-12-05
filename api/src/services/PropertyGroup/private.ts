@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { DeleteResult } from 'typeorm';
 
 import PropertyGroupService from '.';
@@ -10,15 +10,26 @@ import { PropertyGroupEntity } from '@entities/PropertGroup';
 @Injectable()
 export default class PropertyGroupPrivateService extends PropertyGroupService {
     async getGroup(id: PropertyGroupI['id']): Promise<PropertyGroupEntity> {
-        return await this.getGroupByID(id);
+        try {
+            return await this.propertyGroupRepo.findOneOrFail({
+                where: { id },
+                relations: ['properties'],
+            });
+        } catch (_) {
+            throw new NotFoundException('property group not found');
+        }
     }
 
     async getGroupList(): Promise<PropertyGroupEntity[]> {
-        return await this.getGroups();
+        return await this.propertyGroupRepo.find();
     }
 
     async createGroup(newGroup: CreatePropertyGroupDTO): Promise<PropertyGroupEntity> {
-        return await this.propertyGroupRepo.save(new PropertyGroup(newGroup));
+        try {
+            return await this.propertyGroupRepo.save(new PropertyGroup(newGroup));
+        } catch (err) {
+            throw new BadRequestException(err?.detail);
+        }
     }
 
     async deleteGroup(groupId: number): Promise<DeleteResult> {

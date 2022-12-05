@@ -23,7 +23,7 @@ export class PropertyGroupEntity implements PropertyGroupI {
     comment: string;
 
     @OneToMany(() => PropertyEntity, ({ property_group }) => property_group)
-    @ApiProperty({ type: () => PropertyEntity, isArray: true })
+    @ApiProperty({ type: () => PropertyEntity, isArray: true, required: false })
     properties: PropertyEntity[];
 
     @Column({ default: false })

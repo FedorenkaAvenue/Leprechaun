@@ -1,5 +1,5 @@
 import { Body, Controller, Delete, Get, Param, Post, UseInterceptors, ValidationPipe } from '@nestjs/common';
-import { ApiNotFoundResponse, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
+import { ApiBadRequestResponse, ApiNotFoundResponse, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { DeleteResult } from 'typeorm';
 
 import { CreatePropertyGroupDTO } from '@dto/PropertyGroup';
@@ -15,6 +15,7 @@ export default class PropertyGroupPrivateController {
 
     @Post()
     @ApiOperation({ summary: 'add new property group' })
+    @ApiBadRequestResponse({ description: 'some of filed is already exists' })
     createGroup(
         @Body(new ValidationPipe({ transform: true })) group: CreatePropertyGroupDTO,
     ): Promise<PropertyGroupEntity> {

@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsBooleanString, IsNotEmpty, IsOptional, IsString } from 'class-validator';
+import { IsBoolean, IsNotEmpty, IsOptional, IsString } from 'class-validator';
 
 import { PropertyGroupI, PropertyGroupPublicI } from '@interfaces/PropertyGroup';
 import { PropertyEntity } from '@entities/Property';
@@ -16,7 +16,7 @@ export class CreatePropertyGroupDTO implements PropertyGroupI {
     alt_name: string;
 
     @IsOptional()
-    @IsBooleanString()
+    @IsBoolean()
     @ApiProperty({ required: false, description: 'visible property for ProductCard', default: false })
     is_primary: boolean;
 
