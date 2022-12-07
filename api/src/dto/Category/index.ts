@@ -38,7 +38,7 @@ export class CreateCategoryDTO implements CategoryI {
         isArray: true,
         default: [],
     })
-    property_groups: PropertyGroupI[];
+    propertygroups: PropertyGroupI[];
 
     @IsOptional()
     @IsString()

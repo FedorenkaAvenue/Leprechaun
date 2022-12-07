@@ -10,7 +10,7 @@ export class CreatePropertyDTO implements PropertyI {
     @IsNotEmpty()
     @IsNumber()
     @ApiProperty({ type: 'number', description: 'property group ID' })
-    property_group: PropertyGroupI;
+    propertygroup: PropertyGroupI;
 
     @IsNotEmpty()
     @IsString()
@@ -39,5 +39,5 @@ export class PropertyPublicDTO implements PropertyPublicI {
     alt_name: string;
 
     @ApiProperty()
-    property_group: PropertyGroupPublic;
+    propertygroup: PropertyGroupPublic;
 }

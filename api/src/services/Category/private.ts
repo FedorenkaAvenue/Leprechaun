@@ -12,7 +12,7 @@ import { CategoryEntity } from '@entities/Category';
 export default class CategoryPrivateService extends CategoryService {
     getAdminCategories(): Promise<CategoryEntity[]> {
         return this.categoryRepo.find({
-            relations: ['property_groups'],
+            relations: ['propertygroups'],
         });
     }
 
@@ -29,7 +29,7 @@ export default class CategoryPrivateService extends CategoryService {
     async getCategory(categoryUrl: CategoryI['url']): Promise<CategoryEntity> {
         return await this.categoryRepo.findOne({
             where: { url: categoryUrl },
-            relations: ['property_groups'],
+            relations: ['propertygroups'],
         });
     }
 

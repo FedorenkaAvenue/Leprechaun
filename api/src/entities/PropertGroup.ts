@@ -1,18 +1,47 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import {
+    Column,
+    Entity,
+    Generated,
+    JoinColumn,
+    OneToMany,
+    OneToOne,
+    PrimaryColumn,
+    PrimaryGeneratedColumn,
+} from 'typeorm';
 
 import { PropertyEntity } from './Property';
 import { PropertyGroupI } from '@interfaces/PropertyGroup';
+import { TransI } from '@interfaces/Trans';
 
-@Entity('property_group')
+@Entity('trans_propertygroup')
+export class PropertyGroupTransEntity implements TransI {
+    @PrimaryColumn('int8', { select: false })
+    @Generated('rowid')
+    id: number;
+
+    @OneToOne(() => PropertyGroupEntity, ({ title }) => title, { onDelete: 'CASCADE', onUpdate: 'CASCADE' })
+    column_id: string;
+
+    @Column({ unique: true })
+    @ApiProperty()
+    en: string;
+
+    @Column({ unique: true })
+    @ApiProperty()
+    ua: string;
+}
+
+@Entity('propertygroup')
 export class PropertyGroupEntity implements PropertyGroupI {
     @PrimaryGeneratedColumn('rowid')
     @ApiProperty()
     id: number;
 
-    @Column({ unique: true })
-    @ApiProperty()
-    title: string;
+    @OneToOne(() => PropertyGroupTransEntity, ({ column_id }) => column_id, { cascade: true, eager: true })
+    @JoinColumn({ name: 'title', referencedColumnName: 'id' })
+    @ApiProperty({ type: PropertyGroupTransEntity })
+    title: PropertyGroupTransEntity;
 
     @Column({ unique: true })
     @ApiProperty()
@@ -22,7 +51,7 @@ export class PropertyGroupEntity implements PropertyGroupI {
     @ApiProperty()
     comment: string;
 
-    @OneToMany(() => PropertyEntity, ({ property_group }) => property_group)
+    @OneToMany(() => PropertyEntity, ({ propertygroup }) => propertygroup)
     @ApiProperty({ type: () => PropertyEntity, isArray: true, required: false })
     properties: PropertyEntity[];
 

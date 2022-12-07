@@ -12,7 +12,7 @@ export type CategoryPublicI = BaseI;
 
 export interface CategoryI extends BaseI {
     products?: ProductI[] | null;
-    property_groups?: PropertyGroupI[] | null;
+    propertygroups?: PropertyGroupI[] | null;
     is_public: boolean;
     comment: string;
 }

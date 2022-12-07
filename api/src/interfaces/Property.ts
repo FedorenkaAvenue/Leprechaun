@@ -4,7 +4,7 @@ interface BaseI<P = PropertyGroupI> {
     id?: number;
     title: string;
     alt_name: string;
-    property_group?: P;
+    propertygroup?: P;
 }
 
 export type PropertyPublicI = BaseI<PropertyGroupPublicI>;

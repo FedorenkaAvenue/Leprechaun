@@ -23,7 +23,7 @@ export class PropertyEntity implements PropertyI {
     comment: string;
 
     @ManyToOne(() => PropertyGroupEntity, ({ properties }) => properties, { onDelete: 'CASCADE', nullable: false })
-    @JoinColumn({ name: 'property_group' })
+    @JoinColumn({ name: 'propertygroup' })
     @ApiProperty()
-    property_group: PropertyGroupEntity;
+    propertygroup: PropertyGroupEntity;
 }

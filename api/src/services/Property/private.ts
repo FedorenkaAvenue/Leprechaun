@@ -16,7 +16,7 @@ export default class PropertyPrivateService extends PropertyService {
     async getProperty(id: PropertyI['id']): Promise<PropertyEntity> {
         return await this.propertyRepo.findOne({
             where: { id },
-            relations: ['property_group'],
+            relations: ['propertygroup'],
         });
     }
 

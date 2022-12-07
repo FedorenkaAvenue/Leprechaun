@@ -85,7 +85,7 @@ export default class ProductService {
             .createQueryBuilder('product')
             .leftJoinAndSelect('product.properties', 'properties')
             .leftJoinAndSelect('product.images', 'images')
-            .leftJoinAndSelect('properties.property_group', 'property_group');
+            .leftJoinAndSelect('properties.propertygroup', 'propertygroup');
     }
 
     /**
@@ -113,7 +113,7 @@ export default class ProductService {
                     SELECT product_id as p_id
                     FROM _products_to_properties
                     INNER JOIN property AS prop ON prop.id = _products_to_properties.property_id
-                    INNER JOIN property_group AS prop_gr ON prop.property_group = prop_gr.id
+                    INNER JOIN propertygroup AS prop_gr ON prop.propertygroup = prop_gr.id
                     WHERE property_id IN (:...values)
                     AND prop_gr.alt_name IN(:...props)
                     GROUP BY p_id

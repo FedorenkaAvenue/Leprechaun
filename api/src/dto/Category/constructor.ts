@@ -2,14 +2,14 @@ import { CategoryI } from '@interfaces/Category';
 import { CategoryPublicDTO, CreateCategoryDTO } from '.';
 
 export class Category extends CreateCategoryDTO {
-    constructor({ url, title, is_public, property_groups, comment }: CreateCategoryDTO) {
+    constructor({ url, title, is_public, propertygroups, comment }: CreateCategoryDTO) {
         super();
         this.url = url;
         this.title = title;
         this.is_public = is_public;
         this.comment = comment || null;
         // @ts-ignore for table relations
-        this.property_groups = property_groups ? property_groups.map(groupId => ({ id: Number(groupId) })) : null;
+        this.propertygroups = propertygroups ? propertygroups.map(groupId => ({ id: Number(groupId) })) : null;
     }
 }
 

@@ -43,7 +43,7 @@ export class CategoryEntity implements CategoryI {
         type: PropertyGroupEntity,
         isArray: true,
     })
-    property_groups: PropertyGroupEntity[];
+    propertygroups: PropertyGroupEntity[];
 
     @Column({ nullable: true })
     @ApiProperty()

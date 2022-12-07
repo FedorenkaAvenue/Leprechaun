@@ -4,7 +4,6 @@ import { DeleteResult, UpdateResult } from 'typeorm';
 import PropertyGroupService from '.';
 import { PropertyGroupI } from '@interfaces/PropertyGroup';
 import { CreatePropertyGroupDTO } from '@dto/PropertyGroup';
-import { PropertyGroup } from '@dto/PropertyGroup/constructor';
 import { PropertyGroupEntity } from '@entities/PropertGroup';
 
 @Injectable()
@@ -15,7 +14,7 @@ export default class PropertyGroupPrivateService extends PropertyGroupService {
                 where: { id },
                 relations: ['properties'],
             });
-        } catch (_) {
+        } catch (err) {
             throw new NotFoundException('property group not found');
         }
     }
@@ -26,7 +25,7 @@ export default class PropertyGroupPrivateService extends PropertyGroupService {
 
     async createGroup(newGroup: CreatePropertyGroupDTO): Promise<PropertyGroupEntity> {
         try {
-            return await this.propertyGroupRepo.save(new PropertyGroup(newGroup));
+            return await this.propertyGroupRepo.save(newGroup);
         } catch (err) {
             throw new BadRequestException(err?.detail);
         }
