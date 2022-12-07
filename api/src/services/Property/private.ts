@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { DeleteResult } from 'typeorm';
+import { DeleteResult, UpdateResult } from 'typeorm';
 
 import { CreatePropertyDTO } from '@dto/Property';
 import { PropertyI } from '@interfaces/Property';
@@ -14,7 +14,14 @@ export default class PropertyPrivateService extends PropertyService {
     }
 
     async getProperty(id: PropertyI['id']): Promise<PropertyEntity> {
-        return await this.getPropertyByID(id);
+        return await this.propertyRepo.findOne({
+            where: { id },
+            relations: ['property_group'],
+        });
+    }
+
+    async updateProperty(id: PropertyI['id'], data: CreatePropertyDTO): Promise<UpdateResult> {
+        return await this.propertyRepo.update({ id }, { ...data });
     }
 
     async deleteProperty(propertyId: PropertyI['id']): Promise<DeleteResult> {

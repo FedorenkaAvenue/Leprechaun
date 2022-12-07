@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, Post, UseInterceptors, ValidationPipe } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Patch, Post, UseInterceptors, ValidationPipe } from '@nestjs/common';
 import { ApiNotFoundResponse, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { DeleteResult } from 'typeorm';
 
@@ -16,8 +16,8 @@ export default class PropertyPrivateController {
     @Post()
     @ApiOperation({ summary: 'add new property' })
     @ApiOkResponse({ description: 'success' })
-    createProperty(@Body(new ValidationPipe({ transform: true })) filter: CreatePropertyDTO): Promise<void> {
-        return this.propertyService.createProperty(filter);
+    createProperty(@Body(new ValidationPipe({ transform: true })) data: CreatePropertyDTO): Promise<void> {
+        return this.propertyService.createProperty(data);
     }
 
     @Get(':propertyId')
@@ -26,6 +26,17 @@ export default class PropertyPrivateController {
     @ApiOkResponse({ type: PropertyEntity })
     getProperty(@Param('propertyId') propertyId: number): Promise<PropertyEntity> {
         return this.propertyService.getProperty(propertyId);
+    }
+
+    @Patch(':propertyId')
+    @UseInterceptors(AffectedResultInterceptor('property not found'))
+    @ApiOperation({ summary: 'update property' })
+    @ApiNotFoundResponse({ description: 'property not found' })
+    updateProperty(
+        @Param('propertyId') propertyId: number,
+        @Body(new ValidationPipe({ transform: true })) data: CreatePropertyDTO,
+    ) {
+        return this.propertyService.updateProperty(propertyId, data);
     }
 
     @Delete(':propertyId')

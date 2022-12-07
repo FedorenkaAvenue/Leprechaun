@@ -1,5 +1,5 @@
 import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
-import { DeleteResult } from 'typeorm';
+import { DeleteResult, UpdateResult } from 'typeorm';
 
 import PropertyGroupService from '.';
 import { PropertyGroupI } from '@interfaces/PropertyGroup';
@@ -30,6 +30,10 @@ export default class PropertyGroupPrivateService extends PropertyGroupService {
         } catch (err) {
             throw new BadRequestException(err?.detail);
         }
+    }
+
+    async updateGroup(id: PropertyGroupI['id'], data: CreatePropertyGroupDTO): Promise<UpdateResult> {
+        return await this.propertyGroupRepo.update({ id }, { ...data });
     }
 
     async deleteGroup(groupId: number): Promise<DeleteResult> {

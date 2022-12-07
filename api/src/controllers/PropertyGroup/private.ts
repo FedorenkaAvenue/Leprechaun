@@ -1,6 +1,6 @@
-import { Body, Controller, Delete, Get, Param, Post, UseInterceptors, ValidationPipe } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Patch, Post, UseInterceptors, ValidationPipe } from '@nestjs/common';
 import { ApiBadRequestResponse, ApiNotFoundResponse, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
-import { DeleteResult } from 'typeorm';
+import { DeleteResult, UpdateResult } from 'typeorm';
 
 import { CreatePropertyGroupDTO } from '@dto/PropertyGroup';
 import { PropertyGroupEntity } from '@entities/PropertGroup';
@@ -35,6 +35,17 @@ export default class PropertyGroupPrivateController {
     @ApiOkResponse({ type: PropertyGroupEntity })
     getGroup(@Param('groupId') groupId: number): Promise<PropertyGroupEntity> {
         return this.propertyGroupService.getGroup(groupId);
+    }
+
+    @Patch(':groupId')
+    @UseInterceptors(AffectedResultInterceptor('property group not found'))
+    @ApiOperation({ summary: 'update property group' })
+    @ApiNotFoundResponse({ description: 'property group not found' })
+    updateGroup(
+        @Param('groupId') groupId: number,
+        @Body(new ValidationPipe({ transform: true })) group: CreatePropertyGroupDTO,
+    ): Promise<UpdateResult> {
+        return this.propertyGroupService.updateGroup(groupId, group);
     }
 
     @Delete(':groupId')
