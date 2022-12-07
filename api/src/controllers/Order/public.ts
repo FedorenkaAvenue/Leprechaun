@@ -53,15 +53,16 @@ export default class OrderPublicController {
         return this.orderService.addOrderItem(orderItem, id);
     }
 
-    @Patch('item')
+    @Patch('item/:itemId')
     @UseGuards(SessionGuard)
-    @ApiOperation({ summary: 'change order item amount (ПЕРЕДЕЛАТЬ order ID через path)' })
+    @ApiOperation({ summary: 'change order item amount' })
     @ApiOkResponse({ type: OrderPublic })
     changeOrderItemAmount(
-        @Body(new ValidationPipe({ transform: true })) orderItem: UpdateOrderItemDTO,
+        @Param('itemId', ParseUUIDPipe) itemId: string,
+        @Body(new ValidationPipe({ transform: true })) data: UpdateOrderItemDTO,
         @Session() { id },
     ): Promise<OrderPublic> {
-        return this.orderService.changeOrderItemAmount(orderItem, id);
+        return this.orderService.changeOrderItemAmount(itemId, data, id);
     }
 
     @Post()
@@ -69,8 +70,11 @@ export default class OrderPublicController {
     @UseInterceptors(AffectedResultInterceptor())
     @ApiOperation({ summary: 'send order' })
     @ApiOkResponse({ type: OrderPublic })
-    sendOrder(@Body(new ValidationPipe({ transform: true })) order: CreateOrderDTO): Promise<UpdateResult> {
-        return this.orderService.postOrder(order);
+    sendOrder(
+        @Body(new ValidationPipe({ transform: true })) order: CreateOrderDTO,
+        @Session() { id },
+    ): Promise<UpdateResult> {
+        return this.orderService.postOrder(order, id);
     }
 
     @Delete('item/:itemId')

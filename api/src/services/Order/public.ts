@@ -49,20 +49,21 @@ export default class OrderPublicService extends OrderService {
     }
 
     async changeOrderItemAmount(
-        { order_item, amount }: UpdateOrderItemDTO,
+        id: OrderItemI['id'],
+        { amount }: UpdateOrderItemDTO,
         sid: SessionI['sid'],
     ): Promise<OrderPublic> {
-        await this.orderItemRepo.update({ id: order_item }, { amount });
+        await this.orderItemRepo.update({ id }, { amount });
 
         return this.getCart(sid);
     }
 
-    async postOrder({ order: { id }, customer }: CreateOrderDTO): Promise<UpdateResult> {
+    async postOrder({ order: { id }, customer }: CreateOrderDTO, sid: SessionI['sid']): Promise<UpdateResult> {
         const { list } = await this.orderRepo.findOneBy({ id });
 
         list.forEach(({ product: { id } }) => this.productService.incrementProductOrderCount(id));
 
-        return this.orderRepo.update({ id }, { status: OrderStatus.POSTED, customer });
+        return this.orderRepo.update({ id, sid }, { status: OrderStatus.POSTED, customer });
     }
 
     async getOrderList(sid: SessionI['sid']): Promise<OrderPublic[]> {
