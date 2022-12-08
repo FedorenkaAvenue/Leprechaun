@@ -5,5 +5,4 @@ export interface LanguagesI {
 
 export interface TransI extends LanguagesI {
     id?: number;
-    column_id?: string;
 }
