@@ -8,10 +8,23 @@ export interface QueryPriceI {
 
 export type DinamicQueryFiltersT = object | null;
 
+// queries from url
+export interface QueriesReqI {
+    lang?: string;
+    sort?: SortProductE;
+    page?: string;
+    portion?: string;
+    price?: string;
+    status?: ProductStatusE;
+}
+
 // parsed queries
-export interface QueriesI<S> {
+export interface QueriesCommonI {
     lang: string;
-    sort: S;
+}
+
+export interface QueriesProductListI extends QueriesCommonI {
+    sort: SortProductE;
     page: number;
     portion: number;
     price: QueryPriceI;
@@ -19,15 +32,6 @@ export interface QueriesI<S> {
     dinamicFilters: DinamicQueryFiltersT;
 }
 
-// queries from url
-export interface QueriesReqI {
-    lang: string;
-    sort: SortProductE;
-    page?: string;
-    portion?: string;
-    price?: string;
-    status?: ProductStatusE;
+export interface QueriesWishlistI extends QueriesCommonI {
+    sort: SortWishlistE;
 }
-
-export type QueriesProductT = QueriesI<SortProductE>;
-export type QueriesWishlistT = QueriesI<SortWishlistE>;

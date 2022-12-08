@@ -7,16 +7,16 @@ import WishlistService from '.';
 import WishlistItemEntity from '@entities/WishlistItem';
 import { WishlistItemI } from '@interfaces/WishlistItem';
 import { WishlistItemPublic } from '@dto/WishlistItem/constructor';
-import { QueriesWishlistT } from '@interfaces/Queries';
 import { PRODUCT_DEEP_RELATIONS } from '@constants/relations';
 import { SortWishlistE } from '@enums/Query';
 import configService from '@services/Config';
+import { QueriesWishlist } from '@dto/Queries/constructor';
 
 const USER_WISHLIST_LENGTH = Number(configService.getVal('USER_WISHLIST_LENGTH'));
 
 @Injectable()
 export default class WishlistPublicService extends WishlistService {
-    async getWishlist(sid: SessionI['sid'], searchParams: QueriesWishlistT): Promise<WishlistItemPublic[]> {
+    async getWishlist(sid: SessionI['sid'], searchParams: QueriesWishlist): Promise<WishlistItemPublic[]> {
         let sorting: FindOptionsOrder<WishlistItemEntity>;
 
         switch (searchParams.sort) {
@@ -47,7 +47,7 @@ export default class WishlistPublicService extends WishlistService {
     async addItem(
         product: ProductI['id'],
         sid: SessionI['sid'],
-        searchParams: QueriesWishlistT,
+        searchParams: QueriesWishlist,
     ): Promise<WishlistItemPublic> {
         const res = await this.wishlistItemRepo.findOneBy({
             product: { id: product },

@@ -31,8 +31,8 @@ import InvalidPaginationPageInterceptor from '@interceptors/InvalidPaginationPag
 import UndefinedResultInterceptor from '@interceptors/UndefinedResult';
 import AffectedResultInterceptor from '@interceptors/AffectedResult';
 import { Pagination } from '@dto/Pagination/constructor';
-import { QueriesProductT } from '@interfaces/Queries';
 import Query from '@decorators/Query';
+import { QueriesProductList } from '@dto/Queries/constructor';
 
 @Controller('adm/product')
 @ApiTags('Product 🤵🏿‍♂️')
@@ -54,7 +54,7 @@ export default class ProductPrivateController {
     @UseInterceptors(InvalidPaginationPageInterceptor)
     @ApiOperation({ summary: 'get product list' })
     @ApiPaginatedResponse(ProductEntity)
-    getproducts(@Query() queries: QueriesProductT): Promise<PaginationResultDTO<ProductEntity>> {
+    getproducts(@Query(QueriesProductList) queries: QueriesProductList): Promise<PaginationResultDTO<ProductEntity>> {
         return this.productService.getProductList(queries);
     }
 
@@ -65,7 +65,7 @@ export default class ProductPrivateController {
     @ApiPaginatedResponse(ProductEntity)
     getCategoryProducts(
         @Param('categoryUrl') categoryUrl: string,
-        @Query() queries: QueriesProductT,
+        @Query(QueriesProductList) queries: QueriesProductList,
     ): Promise<PaginationResultDTO<ProductEntity>> {
         return this.productService.getCategoryProducts(categoryUrl, queries);
     }

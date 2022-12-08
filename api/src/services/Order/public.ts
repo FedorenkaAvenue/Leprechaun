@@ -9,7 +9,7 @@ import { CreateOrderItemDTO, UpdateOrderItemDTO } from '@dto/OrderItem';
 import { OrderItemI } from '@interfaces/OrderItem';
 import { ProductEntity } from '@entities/Product';
 import OrderService from '.';
-import { QueriesProductT } from '@interfaces/Queries';
+import { QueriesCommon } from '@dto/Queries/constructor';
 
 @Injectable()
 export default class OrderPublicService extends OrderService {
@@ -67,7 +67,7 @@ export default class OrderPublicService extends OrderService {
         return this.orderRepo.update({ id, sid }, { status: OrderStatus.POSTED, customer });
     }
 
-    async getOrderList(sid: SessionI['sid'], searchParams: QueriesProductT): Promise<OrderPublic[]> {
+    async getOrderList(sid: SessionI['sid'], searchParams: QueriesCommon): Promise<OrderPublic[]> {
         try {
             const res = await this.orderRepo.find({
                 where: { sid, status: Not(OrderStatus.INIT) },

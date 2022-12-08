@@ -10,7 +10,14 @@ import {
     UseGuards,
     UseInterceptors,
 } from '@nestjs/common';
-import { ApiBadRequestResponse, ApiNotFoundResponse, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
+import {
+    ApiBadRequestResponse,
+    ApiNotFoundResponse,
+    ApiOkResponse,
+    ApiOperation,
+    ApiQuery,
+    ApiTags,
+} from '@nestjs/swagger';
 import { DeleteResult } from 'typeorm';
 
 import WishlistPublicService from '@services/Wishlist/public';
@@ -18,8 +25,8 @@ import AffectedResultInterceptor from '@interceptors/AffectedResult';
 import { WishlistItemPublic } from '@dto/WishlistItem/constructor';
 import SessionGuard from '@guards/Session';
 import Queries from '@decorators/Query';
-import { QueriesWishlistT } from '@interfaces/Queries';
-import { ApiQueriesRequestDecorator as ApiQueriesRequest } from '@decorators/OpenAPI';
+import { QueriesWishlist } from '@dto/Queries/constructor';
+import { SortWishlistE } from '@enums/Query';
 
 @Controller('wishlist')
 @ApiTags('Wishlist 🧑‍💻')
@@ -29,8 +36,13 @@ export default class WishlistPublicController {
     @Get()
     @ApiOperation({ summary: 'get wishlist' })
     @ApiOkResponse({ type: WishlistItemPublic, isArray: true })
-    @ApiQueriesRequest()
-    getWishlist(@Session() { id }, @Queries() queries: QueriesWishlistT): Promise<WishlistItemPublic[]> {
+    @ApiQuery({
+        name: 'sort',
+        required: false,
+        description: 'sort number',
+        enum: SortWishlistE,
+    })
+    getWishlist(@Session() { id }, @Queries(QueriesWishlist) queries: QueriesWishlist): Promise<WishlistItemPublic[]> {
         return this.WishlistPublicService.getWishlist(id, queries);
     }
 
@@ -43,7 +55,7 @@ export default class WishlistPublicController {
     addItem(
         @Param('productId', ParseUUIDPipe) productId: string,
         @Session() { id },
-        @Queries() queries: QueriesWishlistT,
+        @Queries(QueriesWishlist) queries: QueriesWishlist,
     ): Promise<WishlistItemPublic> {
         return this.WishlistPublicService.addItem(productId, id, queries);
     }

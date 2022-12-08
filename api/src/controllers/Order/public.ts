@@ -21,8 +21,8 @@ import AffectedResultInterceptor from '@interceptors/AffectedResult';
 import { CreateOrderItemDTO, UpdateOrderItemDTO } from '@dto/OrderItem';
 import { OrderPublic } from '@dto/Order/constructor';
 import SessionGuard from '@guards/Session';
-import { QueriesProductT } from '@interfaces/Queries';
 import Queries from '@decorators/Query';
+import { QueriesCommon } from '@dto/Queries/constructor';
 
 @Controller('order')
 @ApiTags('Order 🧑‍💻')
@@ -39,7 +39,7 @@ export default class OrderPublicController {
     @Get('list')
     @ApiOperation({ summary: 'get order list (without current cart)' })
     @ApiOkResponse({ type: OrderPublic, isArray: true })
-    getOrderHistory(@Session() { id }, @Queries() queries: QueriesProductT): Promise<OrderPublic[]> {
+    getOrderHistory(@Session() { id }, @Queries() queries: QueriesCommon): Promise<OrderPublic[]> {
         return this.orderService.getOrderList(id, queries);
     }
 

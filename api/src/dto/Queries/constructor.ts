@@ -1,8 +1,14 @@
-import { QueriesReqI } from '@interfaces/Queries';
-import { SortProductE } from '@enums/Query';
+import {
+    DinamicQueryFiltersT,
+    QueriesCommonI,
+    QueriesProductListI,
+    QueriesReqI,
+    QueriesWishlistI,
+    QueryPriceI,
+} from '@interfaces/Queries';
+import { SortProductE, SortWishlistE } from '@enums/Query';
 import { availableEnum } from '@utils/enum';
 import { ProductStatusE } from '@enums/Product';
-import { QueryGETListDTO, RangeQueryDTO, QueriesDTO } from '.';
 import configService from '@services/Config';
 
 const [DEFAULT_LANG] = configService.getVal('LANGS');
@@ -12,29 +18,37 @@ const [DEFAULT_LANG] = configService.getVal('LANGS');
  * @param min
  * @param max (optional)
  */
-export class RangeQuery extends RangeQueryDTO {
+export class RangeQuery implements QueryPriceI {
+    min: number;
+    max: number;
+
     constructor(priceQuery: string) {
         const [min = 0, max] = priceQuery.split('-');
 
-        super();
         this.min = Number(max);
         this.max = min ? Number(max) : 1000000;
     }
 }
 
-/**
- * @description rebuild url queries to object
- * @param sort sort type
- * @param page page number
- * @param portion amount of items by one portion
- * @param price price range filter
- * @param sell item is selling
- * @param restQueries dinamic filters
- */
-export class Queries extends QueriesDTO {
-    constructor({ lang, sort, page, price, status, portion, ...restQueries }: QueriesReqI) {
-        super();
+export class QueriesCommon implements QueriesCommonI {
+    lang: string;
+
+    constructor({ lang }: QueriesReqI) {
         this.lang = lang || DEFAULT_LANG;
+    }
+}
+
+export class QueriesProductList extends QueriesCommon implements QueriesProductListI {
+    lang: string;
+    sort: SortProductE;
+    page: number;
+    portion: number;
+    price: QueryPriceI;
+    status: ProductStatusE;
+    dinamicFilters: DinamicQueryFiltersT;
+
+    constructor({ lang, sort, page, portion, price, status, ...restQueries }: QueriesReqI) {
+        super({ lang });
         this.sort = Number(sort) || SortProductE.POPULAR;
         this.page = Number(page) || 1;
         this.portion = Number(portion) || 10;
@@ -44,12 +58,12 @@ export class Queries extends QueriesDTO {
     }
 }
 
-/**
- * @description parse query array (string, separated by semi-colons)
- */
-export class QueryGETList extends QueryGETListDTO {
-    constructor(array: string | undefined) {
-        super();
-        this.queryList = array ? array.split(';') : null;
+export class QueriesWishlist extends QueriesCommon implements QueriesWishlistI {
+    lang: string;
+    sort: SortWishlistE;
+
+    constructor({ lang, sort }: QueriesReqI) {
+        super({ lang });
+        this.sort = Number(sort) || SortWishlistE.LASTEST;
     }
 }

@@ -1,9 +1,9 @@
 import { PropertyGroupPublicDTO } from '@dto/PropertyGroup';
+import { QueriesCommon } from '@dto/Queries/constructor';
 import { PropertyGroupEntity } from '@entities/PropertGroup';
-import { QueriesProductT } from '@interfaces/Queries';
 
 export class PropertyGroupPublic extends PropertyGroupPublicDTO {
-    constructor({ id, title, alt_name }: PropertyGroupEntity, { lang }: QueriesProductT) {
+    constructor({ id, title, alt_name }: PropertyGroupEntity, { lang }: QueriesCommon) {
         super();
         this.id = id;
         this.title = title[lang];

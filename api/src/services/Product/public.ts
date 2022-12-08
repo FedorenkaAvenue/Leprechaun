@@ -1,18 +1,18 @@
 import { Injectable } from '@nestjs/common';
 
-import { QueriesProductT } from '@interfaces/Queries';
 import { PaginationResultDTO } from '@dto/Pagination';
 import { ProductI } from '@interfaces/Product';
 import { ProductCard, ProductPublic } from '@dto/Product/constructor';
 import ProductService from '.';
+import { QueriesProductList } from '@dto/Queries/constructor';
 
 @Injectable()
 export default class ProductPublicService extends ProductService {
-    async getProduct(productId: ProductI['id'], searchParams: QueriesProductT): Promise<ProductPublic> {
+    async getProduct(productId: ProductI['id'], searchParams: QueriesProductList): Promise<ProductPublic> {
         return new ProductPublic(await this.getProductById(productId), searchParams);
     }
 
-    async getProductList(searchParams: QueriesProductT): Promise<PaginationResultDTO<ProductCard>> {
+    async getProductList(searchParams: QueriesProductList): Promise<PaginationResultDTO<ProductCard>> {
         const qb = this.getProductQueryBulder();
 
         qb.leftJoinAndSelect('product.category', 'category').where('product.is_public = true');
@@ -22,7 +22,7 @@ export default class ProductPublicService extends ProductService {
 
     async getCategoryProducts(
         categoryUrl: string,
-        queries: QueriesProductT,
+        queries: QueriesProductList,
     ): Promise<PaginationResultDTO<ProductCard>> {
         const qb = this.getProductQueryBulder();
 

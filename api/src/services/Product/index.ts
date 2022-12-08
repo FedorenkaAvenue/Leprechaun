@@ -1,12 +1,12 @@
 import { InjectRepository } from '@nestjs/typeorm';
-import { FindOptionsOrder, Repository, SelectQueryBuilder, UpdateResult } from 'typeorm';
+import { FindOptionsOrder, Repository, SelectQueryBuilder } from 'typeorm';
 import { Injectable, NotFoundException } from '@nestjs/common';
 
 import { FSService } from '@services/FS';
 import { ProductEntity } from '@entities/Product';
 import { ImageService } from '@services/Image';
 import { PaginationResultDTO } from '@dto/Pagination';
-import { Queries } from '@dto/Queries/constructor';
+import { QueriesProductList } from '@dto/Queries/constructor';
 import HistoryPublicService from '@services/History/public';
 import WishlistItemEntity from '@entities/WishlistItem';
 import { ProductI } from '@interfaces/Product';
@@ -99,7 +99,7 @@ export default class ProductService {
      */
     async renderResult<T>(
         qb: SelectQueryBuilder<ProductEntity>,
-        searchParams: Queries,
+        searchParams: QueriesProductList,
         resultMapConstructor?: any,
     ): Promise<PaginationResultDTO<T>> {
         const { status, dinamicFilters, sort, price, portion, page } = searchParams;
