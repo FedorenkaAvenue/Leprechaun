@@ -38,7 +38,7 @@ export default class ProductService {
 
         try {
             return await qb.getOneOrFail();
-        } catch (err) {
+        } catch (_) {
             throw new NotFoundException('product not found');
         }
     }
@@ -84,8 +84,10 @@ export default class ProductService {
         return this.productRepo
             .createQueryBuilder('product')
             .leftJoinAndSelect('product.properties', 'properties')
+            .leftJoinAndSelect('properties.title', 'prop_title')
             .leftJoinAndSelect('product.images', 'images')
-            .leftJoinAndSelect('properties.propertygroup', 'propertygroup');
+            .leftJoinAndSelect('properties.propertygroup', 'propertygroup')
+            .leftJoinAndSelect('propertygroup.title', 'propgr_title');
     }
 
     /**
@@ -160,7 +162,7 @@ export default class ProductService {
             .getManyAndCount();
 
         return new PaginationResult<T>(
-            resultMapConstructor ? result.map(prod => new resultMapConstructor(prod)) : result,
+            resultMapConstructor ? result.map(prod => new resultMapConstructor(prod, searchParams)) : result,
             {
                 currentPage: page,
                 totalCount: resCount,

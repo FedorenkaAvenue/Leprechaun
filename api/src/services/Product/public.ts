@@ -8,16 +8,16 @@ import ProductService from '.';
 
 @Injectable()
 export default class ProductPublicService extends ProductService {
-    async getProduct(productId: ProductI['id']): Promise<ProductPublic> {
-        return new ProductPublic(await this.getProductById(productId));
+    async getProduct(productId: ProductI['id'], searchParams: QueriesProductT): Promise<ProductPublic> {
+        return new ProductPublic(await this.getProductById(productId), searchParams);
     }
 
-    async getProductList(queries: QueriesProductT): Promise<PaginationResultDTO<ProductCard>> {
+    async getProductList(searchParams: QueriesProductT): Promise<PaginationResultDTO<ProductCard>> {
         const qb = this.getProductQueryBulder();
 
         qb.leftJoinAndSelect('product.category', 'category').where('product.is_public = true');
 
-        return this.renderResult<ProductCard>(qb, queries, ProductCard);
+        return this.renderResult<ProductCard>(qb, searchParams, ProductCard);
     }
 
     async getCategoryProducts(

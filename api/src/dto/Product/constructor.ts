@@ -9,6 +9,7 @@ import configService from '@services/Config';
 import { PropertyPublic } from '@dto/Property/constructor';
 import { ProductEntity } from '@entities/Product';
 import { CategoryPublic } from '@dto/Category/constructor';
+import { QueriesProductT } from '@interfaces/Queries';
 
 const PRODUCT_PUBLIC_IMAGE_AMOUNT = configService.getVal('PRODUCT_PUBLIC_IMAGE_AMOUNT');
 
@@ -44,7 +45,7 @@ export class Product extends CreateProductDTO {
 
 @WithLabels(LabelType.DISCOUNT)
 export class ProductPreview extends ProductPreviewDTO {
-    constructor({ id, title, price, status, images }: ProductEntity) {
+    constructor({ id, title, price, status, images }: ProductEntity, searchParams: QueriesProductT) {
         super();
         this.id = id;
         this.title = title;
@@ -56,30 +57,33 @@ export class ProductPreview extends ProductPreviewDTO {
 
 @WithLabels(LabelType.NEW, LabelType.POPULAR, LabelType.DISCOUNT)
 export class ProductCard extends ProductCardDTO {
-    constructor({ id, title, price, status, images, properties }: ProductEntity) {
+    constructor({ id, title, price, status, images, properties }: ProductEntity, searchParams: QueriesProductT) {
         super();
         this.id = id;
         this.title = title;
         this.price = price;
         this.status = status;
         this.images = images.slice(0, Number(PRODUCT_PUBLIC_IMAGE_AMOUNT)) as ImageEntity[];
-        this.properties = properties.map(prop => new PropertyPublic(prop));
+        this.properties = properties.map(prop => new PropertyPublic(prop, searchParams));
         this.properties = properties
             .filter(({ propertygroup: { is_primary } }) => is_primary)
-            .map(prop => new PropertyPublic(prop));
+            .map(prop => new PropertyPublic(prop, searchParams));
     }
 }
 
 @WithLabels(LabelType.NEW, LabelType.POPULAR, LabelType.DISCOUNT)
 export class ProductPublic extends ProductPublicDTO {
-    constructor({ id, title, price, status, images, properties, category, wishlistCount, orderCount }: ProductEntity) {
+    constructor(
+        { id, title, price, status, images, properties, category, wishlistCount, orderCount }: ProductEntity,
+        searchParams: QueriesProductT,
+    ) {
         super();
         this.id = id;
         this.title = title;
         this.price = price;
         this.status = status;
         this.images = images.slice(0, Number(PRODUCT_PUBLIC_IMAGE_AMOUNT)) as ImageEntity[];
-        this.properties = properties.map(prop => new PropertyPublic(prop));
+        this.properties = properties.map(prop => new PropertyPublic(prop, searchParams));
         this.category = new CategoryPublic(category);
         this.orderCount = orderCount;
         this.wishlistCount = wishlistCount.length;

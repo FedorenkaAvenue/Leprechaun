@@ -7,6 +7,7 @@ export class RangeQueryDTO implements QueryPriceI {
 }
 
 export class QueriesDTO implements QueriesI<unknown> {
+    lang: string;
     sort: unknown;
     page: number;
     portion: number;

@@ -3,21 +3,22 @@ import { Injectable } from '@nestjs/common';
 import { CommonDashboards, UserDashboards } from '@dto/Dashboard/constructor';
 import { SessionI } from '@interfaces/Session';
 import DashboardService from '.';
+import { QueriesProductT } from '@interfaces/Queries';
 
 @Injectable()
 export default class DashboardPublicService extends DashboardService {
-    async getCommonDashboards(): Promise<CommonDashboards> {
+    async getCommonDashboards(searchParams: QueriesProductT): Promise<CommonDashboards> {
         const [popular, newest] = await Promise.all([
             this.productService.getProductListByCriteria({ rating: 'DESC' }, this.dashboardPortion),
             this.productService.getProductListByCriteria({ created_at: 'DESC' }, this.dashboardPortion),
         ]);
 
-        return new CommonDashboards({ popular, newest });
+        return new CommonDashboards({ popular, newest }, searchParams);
     }
 
-    async getUserDashboards(sid: SessionI['sid']): Promise<UserDashboards> {
+    async getUserDashboards(sid: SessionI['sid'], searchParams: QueriesProductT): Promise<UserDashboards> {
         const [history] = await Promise.all([this.historyService.getHistoryListBySID(sid)]);
 
-        return new UserDashboards({ history });
+        return new UserDashboards({ history }, searchParams);
     }
 }

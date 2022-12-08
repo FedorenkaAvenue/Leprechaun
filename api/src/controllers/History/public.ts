@@ -7,6 +7,8 @@ import HistoryPublicService from '@services/History/public';
 import AffectedResultInterceptor from '@interceptors/AffectedResult';
 import SessionGuard from '@guards/Session';
 import configService from '@services/Config';
+import { QueriesProductT } from '@interfaces/Queries';
+import Queries from '@decorators/Query';
 
 const USER_HISTORY_LENGTH = configService.getVal('USER_HISTORY_LENGTH');
 
@@ -18,8 +20,8 @@ export default class HistoryPublicController {
     @Get('product')
     @ApiOperation({ summary: `get user product history (${USER_HISTORY_LENGTH} items max length)` })
     @ApiOkResponse({ type: ProductCard, isArray: true })
-    getUserHistory(@Session() { id }): Promise<ProductCard[]> {
-        return this.historyService.getHistoryList(id);
+    getUserHistory(@Session() { id }, @Queries() queries: QueriesProductT): Promise<ProductCard[]> {
+        return this.historyService.getHistoryList(id, queries);
     }
 
     @Delete('product')

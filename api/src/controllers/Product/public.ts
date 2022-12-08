@@ -48,7 +48,10 @@ export default class ProductPublicController {
     @ApiOkResponse({ type: ProductPublic })
     @ApiBadRequestResponse({ description: 'invalid product ID' })
     @ApiNotFoundResponse({ description: 'product not found' })
-    getProduct(@Param('productId', ParseUUIDPipe) productId: string): Promise<ProductPublic> {
-        return this.productService.getProduct(productId);
+    getProduct(
+        @Param('productId', ParseUUIDPipe) productId: string,
+        @Queries() queries: QueriesProductT,
+    ): Promise<ProductPublic> {
+        return this.productService.getProduct(productId, queries);
     }
 }

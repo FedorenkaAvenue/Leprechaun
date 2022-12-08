@@ -13,23 +13,16 @@ import {
 import { PropertyEntity } from './Property';
 import { PropertyGroupI } from '@interfaces/PropertyGroup';
 import { TransI } from '@interfaces/Trans';
+import { _LangsTransEntity } from './_Trans';
 
 @Entity('trans_propertygroup')
-export class PropertyGroupTransEntity implements TransI {
+export class PropertyGroupTransEntity extends _LangsTransEntity implements TransI {
     @PrimaryColumn('int8', { select: false })
     @Generated('rowid')
     id: number;
 
     @OneToOne(() => PropertyGroupEntity, ({ title }) => title, { onDelete: 'CASCADE', onUpdate: 'CASCADE' })
     column_id: string;
-
-    @Column({ unique: true })
-    @ApiProperty()
-    en: string;
-
-    @Column({ unique: true })
-    @ApiProperty()
-    ua: string;
 }
 
 @Entity('propertygroup')
@@ -41,7 +34,7 @@ export class PropertyGroupEntity implements PropertyGroupI {
     @OneToOne(() => PropertyGroupTransEntity, ({ column_id }) => column_id, { cascade: true, eager: true })
     @JoinColumn({ name: 'title', referencedColumnName: 'id' })
     @ApiProperty({ type: PropertyGroupTransEntity })
-    title: PropertyGroupTransEntity;
+    title: TransI;
 
     @Column({ unique: true })
     @ApiProperty()

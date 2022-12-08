@@ -8,6 +8,7 @@ export class Category extends CreateCategoryDTO {
         this.title = title;
         this.is_public = is_public;
         this.comment = comment || null;
+        // TODO
         // @ts-ignore for table relations
         this.propertygroups = propertygroups ? propertygroups.map(groupId => ({ id: Number(groupId) })) : null;
     }

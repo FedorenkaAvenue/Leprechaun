@@ -3,6 +3,9 @@ import { SortProductE } from '@enums/Query';
 import { availableEnum } from '@utils/enum';
 import { ProductStatusE } from '@enums/Product';
 import { QueryGETListDTO, RangeQueryDTO, QueriesDTO } from '.';
+import configService from '@services/Config';
+
+const [DEFAULT_LANG] = configService.getVal('LANGS');
 
 /**
  * @description create range object for filters
@@ -29,8 +32,9 @@ export class RangeQuery extends RangeQueryDTO {
  * @param restQueries dinamic filters
  */
 export class Queries extends QueriesDTO {
-    constructor({ sort, page, price, status, portion, ...restQueries }: QueriesReqI) {
+    constructor({ lang, sort, page, price, status, portion, ...restQueries }: QueriesReqI) {
         super();
+        this.lang = lang || DEFAULT_LANG;
         this.sort = Number(sort) || SortProductE.POPULAR;
         this.page = Number(page) || 1;
         this.portion = Number(portion) || 10;

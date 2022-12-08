@@ -15,8 +15,8 @@ export default class PropertyPrivateController {
 
     @Post()
     @ApiOperation({ summary: 'add new property' })
-    @ApiOkResponse({ description: 'success' })
-    createProperty(@Body(new ValidationPipe({ transform: true })) data: CreatePropertyDTO): Promise<void> {
+    @ApiOkResponse({ type: PropertyEntity })
+    createProperty(@Body(new ValidationPipe({ transform: true })) data: CreatePropertyDTO): Promise<PropertyEntity> {
         return this.propertyService.createProperty(data);
     }
 

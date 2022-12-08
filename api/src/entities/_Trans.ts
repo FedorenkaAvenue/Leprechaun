@@ -1,16 +1,14 @@
-import { IsNotEmpty, IsString } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
+import { Column } from 'typeorm';
 
 import { LanguagesI } from '@interfaces/Trans';
 
-export class TransDTO implements LanguagesI {
-    @IsString()
-    @IsNotEmpty()
+export class _LangsTransEntity implements LanguagesI {
+    @Column({ nullable: true })
     @ApiProperty({ required: false })
     en: string;
 
-    @IsString()
-    @IsNotEmpty()
+    @Column({ nullable: true })
     @ApiProperty({ required: false })
     ua: string;
 }

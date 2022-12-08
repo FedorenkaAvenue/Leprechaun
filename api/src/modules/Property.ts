@@ -2,11 +2,11 @@ import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
 import PropertyPrivateController from '@controllers/Property/private';
-import { PropertyEntity } from '@entities/Property';
+import { PropertyEntity, PropertyTransEntity } from '@entities/Property';
 import PropertyPrivateService from '@services/Property/private';
 
 @Module({
-    imports: [TypeOrmModule.forFeature([PropertyEntity])],
+    imports: [TypeOrmModule.forFeature([PropertyEntity, PropertyTransEntity])],
     controllers: [PropertyPrivateController],
     providers: [PropertyPrivateService],
 })

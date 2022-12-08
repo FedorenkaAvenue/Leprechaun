@@ -40,8 +40,12 @@ export default class WishlistPublicController {
     @ApiOkResponse({ type: WishlistItemPublic })
     @ApiBadRequestResponse({ description: 'product is already added to wishlist' })
     @ApiNotFoundResponse({ description: 'product not found' })
-    addItem(@Param('productId', ParseUUIDPipe) productId: string, @Session() { id }): Promise<WishlistItemPublic> {
-        return this.WishlistPublicService.addItem(productId, id);
+    addItem(
+        @Param('productId', ParseUUIDPipe) productId: string,
+        @Session() { id },
+        @Queries() queries: QueriesWishlistT,
+    ): Promise<WishlistItemPublic> {
+        return this.WishlistPublicService.addItem(productId, id, queries);
     }
 
     @Delete(':wishlistItemId')

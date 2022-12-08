@@ -10,6 +10,7 @@ export type DinamicQueryFiltersT = object | null;
 
 // parsed queries
 export interface QueriesI<S> {
+    lang: string;
     sort: S;
     page: number;
     portion: number;
@@ -20,6 +21,7 @@ export interface QueriesI<S> {
 
 // queries from url
 export interface QueriesReqI {
+    lang: string;
     sort: SortProductE;
     page?: string;
     portion?: string;
