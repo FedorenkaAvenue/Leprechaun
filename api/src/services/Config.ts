@@ -6,6 +6,7 @@ import SMTPTransport from 'nodemailer/lib/smtp-transport';
 import * as session from 'express-session';
 import * as redisCacheStore from 'cache-manager-redis-store';
 import { Pool as PGPool } from 'pg';
+import { ApiClient, IndexApi } from 'manticoresearch';
 const pgConnect = require('connect-pg-simple');
 
 const ENV_ARRAY_SPLIT_SYMBOL = ',';
@@ -176,6 +177,16 @@ export class ConfigService {
             max: 1000,
             db: +this.getVal('CACHE_DB_NUMBER'),
         };
+    }
+
+    /**
+     * @description get search engine client
+     */
+    getSEConfig(): any {
+        const client = new ApiClient();
+        client.basePath = 'http://leprechaun_se:9308';
+
+        return new IndexApi(client);
     }
 
     /**

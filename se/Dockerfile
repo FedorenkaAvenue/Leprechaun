@@ -1,4 +1,4 @@
-### Sphinx
+### Manticore
 
 # FROM alpine:3.14
 

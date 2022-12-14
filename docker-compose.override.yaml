@@ -79,6 +79,10 @@ services:
     depends_on:
       - api
 
+  se:
+    container_name: leprechaun_se
+    image: manticoresearch/manticore
+
 volumes:
   image_hosting:
 

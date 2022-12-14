@@ -2,7 +2,7 @@ import { createTransport, SentMessageInfo, Transporter } from 'nodemailer';
 import Mail from 'nodemailer/lib/mailer';
 import { Injectable } from '@nestjs/common';
 
-import configService from '../Config';
+import configService from './Config';
 import renderTemplate from '@utils/renderTemplate';
 import { DevLogMailI } from '@interfaces/Mail';
 

@@ -30,6 +30,7 @@ services:
     extends:
       file: docker-compose.shared.yaml
       service: node
+    restart: unless-stopped
     command: yarn dev
     volumes:
       - ./api:/app
@@ -40,6 +41,7 @@ services:
     extends:
       file: docker-compose.shared.yaml
       service: node
+    restart: unless-stopped
     command: npm run serve:docker
     volumes:
       - ./clients/user:/app
@@ -48,6 +50,7 @@ services:
 
   client_user_ssr:
     container_name: leprechaun_client_user_ssr
+    restart: unless-stopped
     extends:
       file: docker-compose.shared.yaml
       service: node
@@ -67,6 +70,7 @@ services:
 
   client_admin:
     container_name: leprechaun_client_admin
+    restart: unless-stopped
     extends:
       file: docker-compose.shared.yaml
       service: node
@@ -81,3 +85,19 @@ services:
       - DOMAIN_MEDIA
     depends_on:
       - api
+
+  se:
+    restart: unless-stopped
+    ulimits:
+      nproc: 65535
+      nofile:
+        soft: 65535
+        hard: 65535
+      memlock:
+        soft: -1
+        hard: -1
+    environment:
+      - MCL=1
+    volumes:
+      - ./se/data:/var/lib/manticore
+      - ./se/manticore.conf:/etc/manticoresearch/manticore.conf
