@@ -39,6 +39,7 @@ import DashboardPublicController from '@controllers/Dashboard/public';
         }),
         CategoryModule,
         ProductModule,
+        SearchModule,
         DashboardModule,
         OrderModule,
         WishlistModule,
@@ -53,7 +54,6 @@ import DashboardPublicController from '@controllers/Dashboard/public';
         CacheModule,
         FSModule,
         TransModule,
-        SearchModule,
     ],
 })
 export default class AppModule implements NestModule {

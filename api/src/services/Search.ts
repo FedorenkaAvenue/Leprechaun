@@ -1,6 +1,8 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 
 import configService from './Config';
+import { SearchItem } from '@dto/Search/constructor';
+// import { SearchItemE } from '@enums/Search';
 
 @Injectable()
 export default class SearchService {
@@ -10,18 +12,26 @@ export default class SearchService {
         this.api = configService.getSEConfig();
     }
 
-    test() {
-        var body = [
-            '\'{"insert": {"index": "test", "id": 1, "doc": {"title": "Title 1"}}},\\n{"insert": {"index": "test", "id": 2, "doc": {"title": "Title 2"}}}\'',
-        ];
+    async autocomplete(substring: string): Promise<SearchItem[]> {
+        const body = {
+            index: 'products',
+            query: {
+                query_string: `@* ${substring}`,
+            },
+            // highlight: {
+            //     fields: []
+            // },
+            limit: 10,
+            maxMatches: 10,
+        };
 
-        this.api.bulk(body).then(
-            function (data) {
-                console.log('API called successfully. Returned data: ' + data);
-            },
-            function (error) {
-                console.error(error);
-            },
-        );
+        try {
+            return await this.api.search(JSON.stringify(body));
+
+            // return res.hits.hits.map(item => new SearchItem({ type: SearchItemE.PRODUCT , item }));
+        } catch (err) {
+            console.log(err.response.text);
+            throw new BadRequestException(err.response.text);
+        }
     }
 }

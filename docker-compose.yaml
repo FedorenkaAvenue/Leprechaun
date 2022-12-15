@@ -99,5 +99,6 @@ services:
     environment:
       - MCL=1
     volumes:
-      - ./se/data:/var/lib/manticore
       - ./se/manticore.conf:/etc/manticoresearch/manticore.conf
+      - ./se/data:/var/lib/manticore
+      - ./se/logs:/var/log/manticore:rw
