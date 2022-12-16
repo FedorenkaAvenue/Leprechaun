@@ -1,10 +1,10 @@
-import SearchPublicController from '@controllers/Search/public';
 import { Module } from '@nestjs/common';
 
-import SearchService from '@services/Search';
+import SearchPublicController from '@controllers/Search/public';
+import SearchPublicService from '@services/Search/public';
 
 @Module({
     controllers: [SearchPublicController],
-    providers: [SearchService],
+    providers: [SearchPublicService],
 })
 export default class SEModule {}

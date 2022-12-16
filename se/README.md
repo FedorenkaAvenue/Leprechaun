@@ -1,12 +1,9 @@
 # Manticore
 
-## Params
-
-- **http client port**: `9308`
-
 ## Tools
 
 - `make index_products`
+- `make index_categories`
 - `make index_all`
 
 ## Docs

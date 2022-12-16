@@ -1,18 +1,19 @@
-import { SearchItem } from '@dto/Search/constructor';
-import { Controller, Get, Param } from '@nestjs/common';
+import { Body, Controller, Get, ValidationPipe } from '@nestjs/common';
 import { ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 
-import SearchService from '@services/Search';
+import SearchPublicService from '@services/Search/public';
+import { SearchAutocomplete } from '@dto/Search/constructor';
+import { SearchBodyDTO } from '@dto/Search';
 
 @Controller('search')
 @ApiTags('Search 🧑‍💻')
 export default class SearchPublicController {
-    constructor(private readonly searchService: SearchService) {}
+    constructor(private readonly searchService: SearchPublicService) {}
 
-    @Get('/autocomplete/:substring')
-    @ApiOperation({ summary: 'search by string for autocomplete' })
-    @ApiOkResponse({ type: SearchItem, isArray: true })
-    search(@Param('substring') substring: string): Promise<SearchItem[]> {
-        return this.searchService.autocomplete(substring);
+    @Get('/autocomplete')
+    @ApiOperation({ summary: 'search by substring for autocomplete' })
+    @ApiOkResponse({ type: SearchAutocomplete })
+    search(@Body(new ValidationPipe({ transform: true })) body: SearchBodyDTO): Promise<SearchAutocomplete> {
+        return this.searchService.autocomplete(body);
     }
 }

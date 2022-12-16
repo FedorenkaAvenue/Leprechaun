@@ -81,7 +81,9 @@ services:
 
   se:
     container_name: leprechaun_se
-    image: manticoresearch/manticore
+    build:
+      context: ./se
+      dockerfile: Dockerfile
 
 volumes:
   image_hosting:

@@ -1,6 +1,11 @@
-import { SearchItemE } from '@enums/Search';
+import { CategoryI } from './Category';
+import { ProductI } from './Product';
 
-export interface SearchItemI {
-    type: SearchItemE;
-    item: any;
+export type SearchProductItemT = Pick<ProductI, 'id' | 'title'>;
+export type SearchCategoryItemT = Pick<CategoryI, 'url' | 'title'>;
+
+export interface SearchAutocompleteI {
+    total: number;
+    products: SearchProductItemT[];
+    categories: SearchCategoryItemT[];
 }

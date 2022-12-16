@@ -48,3 +48,6 @@ services:
         - CURRENCY_SYMBOL
     environment:
       - IS_DEV=false
+
+  se:
+    restart: on-failure:5
