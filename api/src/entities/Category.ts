@@ -1,9 +1,20 @@
-import { Column, Entity, JoinTable, ManyToMany, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import {
+    Column,
+    Entity,
+    JoinColumn,
+    JoinTable,
+    ManyToMany,
+    OneToMany,
+    OneToOne,
+    PrimaryGeneratedColumn,
+} from 'typeorm';
 import { ApiProperty } from '@nestjs/swagger';
 
 import { ProductEntity } from '@entities/Product';
 import { CategoryI } from '@interfaces/Category';
 import { PropertyGroupEntity } from '@entities/PropertGroup';
+import { TransI } from '@interfaces/Trans';
+import { TransEntity } from './Trans';
 
 @Entity('category')
 export class CategoryEntity implements CategoryI {
@@ -15,9 +26,10 @@ export class CategoryEntity implements CategoryI {
     @ApiProperty()
     url: string;
 
-    @Column({ unique: true })
-    @ApiProperty()
-    title: string;
+    @OneToOne(() => TransEntity, ({ id }) => id, { cascade: true, eager: true })
+    @JoinColumn({ name: 'title', referencedColumnName: 'id' })
+    @ApiProperty({ type: TransEntity })
+    title: TransI;
 
     @Column({ nullable: true })
     @ApiProperty()

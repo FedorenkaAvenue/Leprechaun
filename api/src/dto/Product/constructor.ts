@@ -84,7 +84,7 @@ export class ProductPublic extends ProductPublicDTO {
         this.status = status;
         this.images = images.slice(0, Number(PRODUCT_PUBLIC_IMAGE_AMOUNT)) as ImageEntity[];
         this.properties = properties.map(prop => new PropertyPublic(prop, searchParams));
-        this.category = new CategoryPublic(category);
+        this.category = new CategoryPublic(category, searchParams);
         this.orderCount = orderCount;
         this.wishlistCount = wishlistCount.length;
     }

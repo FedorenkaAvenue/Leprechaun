@@ -1,11 +1,12 @@
 import { ProductI } from '@interfaces/Product';
 import { PropertyGroupI } from '@interfaces/PropertyGroup';
+import { TransI } from './Trans';
 
-interface BaseI<T = string> {
+interface BaseI<I = string, T = TransI> {
     id?: number;
     url: string;
-    title: string;
-    icon: T | null;
+    title: T;
+    icon: I | null;
 }
 
 export type CategoryPublicI = BaseI;
