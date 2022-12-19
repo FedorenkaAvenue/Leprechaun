@@ -46,10 +46,10 @@ export class Product extends CreateProductDTO {
 
 @WithLabels(LabelType.DISCOUNT)
 export class ProductPreview extends ProductPreviewDTO {
-    constructor({ id, title, price, status, images }: ProductEntity, searchParams: QueriesCommon) {
+    constructor({ id, title, price, status, images }: ProductEntity, { lang }: QueriesCommon) {
         super();
         this.id = id;
-        this.title = title;
+        this.title = title[lang];
         this.price = price;
         this.status = status;
         this.image = (images[0] as ImageEntity).src;
@@ -61,7 +61,7 @@ export class ProductCard extends ProductCardDTO {
     constructor({ id, title, price, status, images, properties }: ProductEntity, searchParams: QueriesCommon) {
         super();
         this.id = id;
-        this.title = title;
+        this.title = title[searchParams.lang];
         this.price = price;
         this.status = status;
         this.images = images.slice(0, Number(PRODUCT_PUBLIC_IMAGE_AMOUNT)) as ImageEntity[];
@@ -79,7 +79,7 @@ export class ProductPublic extends ProductPublicDTO {
     ) {
         super();
         this.id = id;
-        this.title = title;
+        this.title = title[searchParams.lang];
         this.price = price;
         this.status = status;
         this.images = images.slice(0, Number(PRODUCT_PUBLIC_IMAGE_AMOUNT)) as ImageEntity[];

@@ -68,7 +68,7 @@ export class CategoryPublicDTO implements CategoryPublicI {
     url: string;
 
     @ApiProperty()
-    title: TransI;
+    title: string;
 
     @ApiProperty()
     icon: string;

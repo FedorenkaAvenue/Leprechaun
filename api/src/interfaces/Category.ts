@@ -9,7 +9,7 @@ interface BaseI<I = string, T = TransI> {
     icon: I | null;
 }
 
-export type CategoryPublicI = BaseI;
+export type CategoryPublicI = BaseI<string, string>;
 
 export interface CategoryI extends BaseI {
     products?: ProductI[] | null;
