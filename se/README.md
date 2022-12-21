@@ -1,4 +1,4 @@
-# Manticore
+# Search engine (Manticore)
 
 ## Tools
 
