@@ -50,6 +50,8 @@ services:
 
   client_user_ssr:
     container_name: leprechaun_client_user_ssr
+    networks:
+      - client
     restart: unless-stopped
     extends:
       file: docker-compose.shared.yaml
@@ -70,6 +72,8 @@ services:
 
   client_admin:
     container_name: leprechaun_client_admin
+    networks:
+      - client
     restart: unless-stopped
     extends:
       file: docker-compose.shared.yaml
