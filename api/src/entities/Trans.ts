@@ -16,4 +16,8 @@ export class TransEntity implements TransI {
     @Column({ nullable: true })
     @ApiProperty({ required: false })
     ua: string;
+
+    @Column({ nullable: true })
+    @ApiProperty({ required: false })
+    ru: string;
 }

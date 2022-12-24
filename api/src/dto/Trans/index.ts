@@ -13,4 +13,9 @@ export class TransDTO implements LanguagesI {
     @IsNotEmpty()
     @ApiProperty({ required: false })
     ua: string;
+
+    @IsString()
+    @IsNotEmpty()
+    @ApiProperty({ required: false })
+    ru: string;
 }
