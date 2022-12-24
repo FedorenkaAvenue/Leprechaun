@@ -27,6 +27,7 @@ export class FSService implements MulterOptionsFactory {
     /**
      * @description method to filter file's extensions for MulterOptions
      * @param extentions spreaded extensions ('svg', 'png' etc)
+     * @throws {BadRequestException} file extension doesn't exists
      */
     public static fileFilterOption(...extentions: string[]): MulterOptions['fileFilter'] {
         return function (_, { originalname }, cb) {
@@ -55,6 +56,7 @@ export class FSService implements MulterOptionsFactory {
      * @param folderId folder name
      * @param files array of binary files
      * @returns array of downloaded file paths
+     * @throws {BadRequestException} unknown
      */
     async saveFiles(
         itemType: FOLDER_TYPES,
@@ -84,6 +86,7 @@ export class FSService implements MulterOptionsFactory {
     /**
      * @description remove one file
      * @param fileHref file path
+     * @throws {InternalServerErrorException} unknown
      */
     async removeFiles(files: string[]): Promise<void> {
         try {
@@ -97,6 +100,7 @@ export class FSService implements MulterOptionsFactory {
      * @description force folder removing
      * @param folderType folder type (with existing path)
      * @param folderName folder name
+     * @throws {InternalServerErrorException} unknown
      */
     async removeFolder(folderType: FOLDER_TYPES, folderName: string | number): Promise<void> {
         try {

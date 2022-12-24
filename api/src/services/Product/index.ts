@@ -27,6 +27,7 @@ export default class ProductService {
      * @description get product by ID
      * @param {String} id product ID
      * @returns product entity
+     * @throws {NotFoundException} product not found
      */
     async getProductById(id: ProductI['id']): Promise<ProductEntity> {
         const qb = this.getProductQueryBulder();

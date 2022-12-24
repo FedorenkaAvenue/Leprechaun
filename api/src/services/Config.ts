@@ -33,7 +33,7 @@ export class ConfigService {
      * @description get environment variable value by key
      * @param key environment variable key
      * @returns variable value
-     * @exception variable hasn't been set
+     * @exception {Error} variable hasn't been set
      */
     getVal(key: string): string | string[] {
         const envVariable = process.env[key];
