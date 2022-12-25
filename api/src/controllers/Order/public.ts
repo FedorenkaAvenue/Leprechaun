@@ -55,16 +55,16 @@ export default class OrderPublicController {
         return this.orderService.addOrderItem(orderItem, id);
     }
 
-    @Patch('item/:itemId')
+    @Patch('item/:itemID')
     @UseGuards(SessionGuard)
     @ApiOperation({ summary: 'change order item amount' })
     @ApiOkResponse({ type: OrderPublic })
     changeOrderItemAmount(
-        @Param('itemId', ParseUUIDPipe) itemId: string,
+        @Param('itemID', ParseUUIDPipe) itemID: string,
         @Body(new ValidationPipe({ transform: true })) data: UpdateOrderItemDTO,
         @Session() { id },
     ): Promise<OrderPublic> {
-        return this.orderService.changeOrderItemAmount(itemId, data, id);
+        return this.orderService.changeOrderItemAmount(itemID, data, id);
     }
 
     @Post()
@@ -79,12 +79,12 @@ export default class OrderPublicController {
         return this.orderService.postOrder(order, id);
     }
 
-    @Delete('item/:itemId')
+    @Delete('item/:itemID')
     @UseGuards(SessionGuard)
     @ApiOperation({ summary: 'delete order item' })
     @ApiOkResponse({ type: OrderPublic })
     @ApiNotFoundResponse({ description: 'order item not found' })
-    removeItem(@Param('itemId', ParseUUIDPipe) orderItemId: string, @Session() { id }): Promise<OrderPublic> {
-        return this.orderService.removeOrderItem(orderItemId, id);
+    removeItem(@Param('itemID', ParseUUIDPipe) orderItemID: string, @Session() { id }): Promise<OrderPublic> {
+        return this.orderService.removeOrderItem(orderItemID, id);
     }
 }

@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { DeleteResult, UpdateResult } from 'typeorm';
 
 import { CreatePropertyDTO } from '@dto/Property';
@@ -17,10 +17,14 @@ export default class PropertyPrivateService extends PropertyService {
     }
 
     async getProperty(id: PropertyI['id']): Promise<PropertyEntity> {
-        return await this.propertyRepo.findOne({
-            where: { id },
-            relations: ['propertygroup'],
-        });
+        try {
+            return await this.propertyRepo.findOneOrFail({
+                where: { id },
+                relations: ['propertygroup'],
+            });
+        } catch (_) {
+            throw new NotFoundException('property not found');
+        }
     }
 
     async updateProperty(id: PropertyI['id'], data: CreatePropertyDTO): Promise<UpdateResult> {

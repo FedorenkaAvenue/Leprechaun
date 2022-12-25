@@ -19,11 +19,11 @@ export default class CategoryPublicController {
         return this.categoryService.getCategoryList(queries);
     }
 
-    @Get(':category')
+    @Get(':categoryURL')
     @ApiOperation({ summary: 'get category info by URL 💾' })
     @ApiOkResponse({ type: CategoryPublic })
     @ApiNotFoundResponse({ description: 'category not found' })
-    getCategory(@Param('category') category: string, @Queries() queries: QueriesCommon): Promise<CategoryPublic> {
-        return this.categoryService.getCategory(category, queries);
+    getCategory(@Param('categoryURL') categoryURL: string, @Queries() queries: QueriesCommon): Promise<CategoryPublic> {
+        return this.categoryService.getCategory(categoryURL, queries);
     }
 }

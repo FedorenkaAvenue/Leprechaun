@@ -9,12 +9,11 @@ import {
     IsString,
     ValidateNested,
 } from 'class-validator';
+import { Type } from 'class-transformer';
 
 import { PropertyGroupI } from '@interfaces/PropertyGroup';
 import { CategoryI, CategoryPublicI } from '@interfaces/Category';
-import { Type } from 'class-transformer';
 import { TransDTO } from '@dto/Trans';
-import { TransI } from '@interfaces/Trans';
 
 export class CreateCategoryDTO implements CategoryI {
     @IsNotEmpty()

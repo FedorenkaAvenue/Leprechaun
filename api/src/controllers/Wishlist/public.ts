@@ -46,30 +46,30 @@ export default class WishlistPublicController {
         return this.WishlistPublicService.getWishlist(id, queries);
     }
 
-    @Post(':productId')
+    @Post(':productID')
     @UseGuards(SessionGuard)
     @ApiOperation({ summary: 'add product to wishlist' })
     @ApiOkResponse({ type: WishlistItemPublic })
     @ApiBadRequestResponse({ description: 'product is already added to wishlist' })
     @ApiNotFoundResponse({ description: 'product not found' })
     addItem(
-        @Param('productId', ParseUUIDPipe) productId: string,
+        @Param('productID', ParseUUIDPipe) productID: string,
         @Session() { id },
         @Queries(QueriesWishlist) queries: QueriesWishlist,
     ): Promise<WishlistItemPublic> {
-        return this.WishlistPublicService.addItem(productId, id, queries);
+        return this.WishlistPublicService.addItem(productID, id, queries);
     }
 
-    @Delete(':wishlistItemId')
+    @Delete(':wishlistItemID')
     @UseGuards(SessionGuard)
     @UseInterceptors(AffectedResultInterceptor('wishlist item was not found'))
     @ApiOperation({ summary: 'remove wishlist item from wishlist' })
     @ApiNotFoundResponse({ description: 'wishlist item not found' })
     deleteItem(
-        @Param('wishlistItemId', ParseUUIDPipe) wishlistItemId: string,
+        @Param('wishlistItemID', ParseUUIDPipe) wishlistItemID: string,
         @Session() { id },
     ): Promise<DeleteResult> {
-        return this.WishlistPublicService.removeItem(id, wishlistItemId);
+        return this.WishlistPublicService.removeItem(id, wishlistItemID);
     }
 
     @Delete()

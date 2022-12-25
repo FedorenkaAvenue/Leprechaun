@@ -8,10 +8,11 @@ import {
     Post,
     UploadedFile,
     ValidationPipe,
+    Patch,
 } from '@nestjs/common';
-import { ApiCreatedResponse, ApiNotFoundResponse, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
+import { ApiBadRequestResponse, ApiNotFoundResponse, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { DeleteResult } from 'typeorm';
+import { DeleteResult, UpdateResult } from 'typeorm';
 
 import { CategoryEntity } from '@entities/Category';
 import { CreateCategoryDTO } from '@dto/Category';
@@ -28,7 +29,7 @@ export default class CategoryPrivateController {
     @Post()
     @UseInterceptors(FileInterceptor('icon', { fileFilter: FSService.fileFilterOption('svg') }))
     @ApiOperation({ summary: 'add new category' })
-    @ApiCreatedResponse({ description: 'success added' })
+    @ApiBadRequestResponse({ description: 'some of fields are unique' })
     addCategory(
         @Body(new ValidationPipe({ transform: true })) body: CreateCategoryDTO,
         @UploadedFile() icon: Express.Multer.File,
@@ -36,28 +37,41 @@ export default class CategoryPrivateController {
         return this.categoryService.createCategory(body, icon);
     }
 
+    // @Patch(':categoryID')
+    // @UseInterceptors(FileInterceptor('icon', { fileFilter: FSService.fileFilterOption('svg') }))
+    // @UseInterceptors(AffectedResultInterceptor('category not found'))
+    // @ApiOperation({ summary: 'update category' })
+    // @ApiBadRequestResponse({ description: 'some of fields are unique' })
+    // updateCategory(
+    //     @Param('categoryID') categoryID: number,
+    //     @Body(new ValidationPipe({ transform: true })) body: CreateCategoryDTO,
+    //     @UploadedFile() icon: Express.Multer.File,
+    // ): Promise<UpdateResult> {
+    //     return this.categoryService.updateCategory(categoryID, body, icon);
+    // }
+
     @Get('list')
     @ApiOperation({ summary: 'get all categories' })
     @ApiOkResponse({ type: CategoryEntity, isArray: true })
     getAllCategories(): Promise<CategoryEntity[]> {
-        return this.categoryService.getAdminCategories();
+        return this.categoryService.getCategoryList();
     }
 
-    @Get(':category')
+    @Get(':categoryURL')
     @UseInterceptors(UndefinedResultInterceptor)
     @ApiOperation({ summary: 'get category info by URL' })
     @ApiOkResponse({ type: CategoryEntity, isArray: true })
     @ApiNotFoundResponse({ description: 'category not found' })
-    getCategory(@Param('category') category: string): Promise<CategoryEntity> {
-        return this.categoryService.getCategory(category);
+    getCategory(@Param('categoryURL') categoryURL: string): Promise<CategoryEntity> {
+        return this.categoryService.getCategory(categoryURL);
     }
 
-    @Delete(':category')
+    @Delete(':categoryID')
     @UseInterceptors(AffectedResultInterceptor('category not found'))
     @ApiOperation({ summary: 'delete category by ID' })
     @ApiOkResponse({ description: 'success' })
     @ApiNotFoundResponse({ description: 'category not found' })
-    deleteCategory(@Param('category') categoryId: number): Promise<DeleteResult> {
-        return this.categoryService.deleteCategory(categoryId);
+    deleteCategory(@Param('categoryID') categoryID: number): Promise<DeleteResult> {
+        return this.categoryService.deleteCategory(categoryID);
     }
 }

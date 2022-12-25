@@ -8,11 +8,11 @@ import { TransEntity } from './Trans';
 
 @Entity('propertygroup')
 export class PropertyGroupEntity implements PropertyGroupI {
-    @PrimaryGeneratedColumn('rowid')
+    @PrimaryGeneratedColumn('increment')
     @ApiProperty()
     id: number;
 
-    @OneToOne(() => TransEntity, ({ id }) => id, { cascade: true, eager: true })
+    @OneToOne(() => TransEntity, { cascade: true, eager: true })
     @JoinColumn({ name: 'title', referencedColumnName: 'id' })
     @ApiProperty({ type: TransEntity })
     title: TransI;

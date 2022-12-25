@@ -58,26 +58,26 @@ export default class ProductPrivateController {
         return this.productService.getProductList(queries);
     }
 
-    @Get('category/:categoryUrl')
+    @Get('category/:categoryURL')
     @UseInterceptors(InvalidPaginationPageInterceptor)
     @ApiOperation({ summary: 'get products by category URL' })
     @ApiNotFoundResponse({ description: 'category not found' })
     @ApiPaginatedResponse(ProductEntity)
     getCategoryProducts(
-        @Param('categoryUrl') categoryUrl: string,
+        @Param('categoryURL') categoryURL: string,
         @Query(QueriesProductList) queries: QueriesProductList,
     ): Promise<PaginationResultDTO<ProductEntity>> {
-        return this.productService.getCategoryProducts(categoryUrl, queries);
+        return this.productService.getCategoryProducts(categoryURL, queries);
     }
 
-    @Get(':productId')
+    @Get(':productID')
     @UseInterceptors(UndefinedResultInterceptor)
     @ApiOperation({ summary: 'get product by ID' })
     @ApiOkResponse({ type: ProductEntity })
     @ApiBadRequestResponse({ description: 'invalid product ID' })
     @ApiNotFoundResponse({ description: 'product not found' })
-    getProduct(@Param('productId', ParseUUIDPipe) productId: string): Promise<ProductEntity> {
-        return this.productService.getProduct(productId);
+    getProduct(@Param('productID', ParseUUIDPipe) productID: string): Promise<ProductEntity> {
+        return this.productService.getProduct(productID);
     }
 
     // ! DONT TOUCH
@@ -85,13 +85,13 @@ export default class ProductPrivateController {
     @ApiUnsupportedMediaTypeResponse({ type: Pagination, description: "never mind. it's a bug for feature" })
     @ApiServiceUnavailableResponse({ type: ProductEntity, description: "never mind. it's a bug for feature" })
     // !
-    @Delete(':productId')
+    @Delete(':productID')
     @UseInterceptors(AffectedResultInterceptor('product not found'))
     @ApiOperation({ summary: 'delete product by ID' })
     @ApiOkResponse({ description: 'success' })
     @ApiBadRequestResponse({ description: 'invalid product ID' })
     @ApiNotFoundResponse({ description: 'product not found' })
-    deleteProduct(@Param('productId', ParseUUIDPipe) productId: string): Promise<DeleteResult> {
-        return this.productService.deleteProduct(productId);
+    deleteProduct(@Param('productID', ParseUUIDPipe) productID: string): Promise<DeleteResult> {
+        return this.productService.deleteProduct(productID);
     }
 }

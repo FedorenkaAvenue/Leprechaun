@@ -6,7 +6,7 @@ import { TransI } from '@interfaces/Trans';
 @Entity('trans')
 export class TransEntity implements TransI {
     @PrimaryColumn('int8', { select: false })
-    @Generated('rowid')
+    @Generated('increment')
     id: number;
 
     @Column({ nullable: true })
