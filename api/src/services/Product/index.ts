@@ -84,6 +84,7 @@ export default class ProductService {
     getProductQueryBulder(): SelectQueryBuilder<ProductEntity> {
         return this.productRepo
             .createQueryBuilder('product')
+            .leftJoinAndSelect('product.title', 'title')
             .leftJoinAndSelect('product.properties', 'properties')
             .leftJoinAndSelect('properties.title', 'prop_title')
             .leftJoinAndSelect('product.images', 'images')
