@@ -23,7 +23,7 @@ export default class PropertyGroupPrivateController {
     }
 
     // @Patch(':groupID')
-    // @UseInterceptors(AffectedResultInterceptor('property group not found'))
+    // // @UseInterceptors(AffectedResultInterceptor('property group not found'))
     // @ApiOperation({ summary: 'update property group' })
     // @ApiNotFoundResponse({ description: 'property group not found' })
     // updateGroup(

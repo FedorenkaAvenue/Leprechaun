@@ -20,7 +20,9 @@ export default class PropertyGroupPrivateService extends PropertyGroupService {
     }
 
     async getGroupList(): Promise<PropertyGroupEntity[]> {
-        return await this.propertyGroupRepo.find();
+        return await this.propertyGroupRepo.find({
+            relations: ['properties'],
+        });
     }
 
     async createGroup(newGroup: CreatePropertyGroupDTO): Promise<PropertyGroupEntity> {
@@ -32,7 +34,7 @@ export default class PropertyGroupPrivateService extends PropertyGroupService {
     }
 
     // async updateGroup(id: PropertyGroupI['id'], data: CreatePropertyGroupDTO): Promise<PropertyGroupEntity> {
-    //     const res = await this.propertyGroupRepo.preload({ id: Number(id), ...data });
+    //     const res = await this.propertyGroupRepo.preload({ id: Number(id) });
 
     //     console.log(res);
 
