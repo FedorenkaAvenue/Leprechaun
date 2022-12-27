@@ -1,5 +1,5 @@
 import { DeleteResult } from 'typeorm';
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 
 import { CreateProductDTO } from '@dto/Product';
 import { FOLDER_TYPES } from '@services/FS';
@@ -24,10 +24,16 @@ export default class ProductPrivateService extends ProductService {
     }
 
     async getProduct(productId: ProductI['id']): Promise<ProductEntity> {
-        return this.productRepo.findOne({
-            where: { id: productId },
-            relations: PRODUCT_RELATIONS,
-        });
+        try {
+            const res = await this.productRepo.findOneOrFail({
+                where: { id: productId },
+                relations: PRODUCT_RELATIONS,
+            });
+
+            return res;
+        } catch (_) {
+            throw new NotFoundException('product not found');
+        }
     }
 
     async getProductList(searchParams: QueriesProductList): Promise<PaginationResultDTO<ProductEntity>> {

@@ -8,7 +8,7 @@ import { TransEntity } from './Trans';
 
 @Entity('propertygroup')
 export class PropertyGroupEntity implements PropertyGroupI {
-    @PrimaryGeneratedColumn('increment')
+    @PrimaryGeneratedColumn('rowid')
     @ApiProperty()
     id: number;
 

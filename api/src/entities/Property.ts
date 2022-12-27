@@ -8,7 +8,7 @@ import { TransEntity } from './Trans';
 
 @Entity('property')
 export class PropertyEntity implements PropertyI {
-    @PrimaryGeneratedColumn('increment')
+    @PrimaryGeneratedColumn('rowid')
     @ApiProperty()
     id: number;
 
@@ -27,6 +27,6 @@ export class PropertyEntity implements PropertyI {
 
     @ManyToOne(() => PropertyGroupEntity, ({ properties }) => properties, { onDelete: 'CASCADE', nullable: false })
     @JoinColumn({ name: 'propertygroup' })
-    @ApiProperty()
+    @ApiProperty({ required: false })
     propertygroup: PropertyGroupEntity;
 }

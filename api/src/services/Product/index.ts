@@ -33,10 +33,10 @@ export default class ProductService {
         const qb = this.getProductQueryBulder();
 
         qb.leftJoinAndSelect('product.category', 'category')
+            .leftJoinAndSelect('category.title', 'category_title')
             .where('product.is_public = true')
             .andWhere('product.id = :id', { id })
             .leftJoinAndMapMany('product.wishlistCount', WishlistItemEntity, 'w', 'w.product.id = product.id');
-
         try {
             return await qb.getOneOrFail();
         } catch (_) {
@@ -86,10 +86,10 @@ export default class ProductService {
             .createQueryBuilder('product')
             .leftJoinAndSelect('product.title', 'title')
             .leftJoinAndSelect('product.properties', 'properties')
-            .leftJoinAndSelect('properties.title', 'prop_title')
-            .leftJoinAndSelect('product.images', 'images')
             .leftJoinAndSelect('properties.propertygroup', 'propertygroup')
-            .leftJoinAndSelect('propertygroup.title', 'propgr_title');
+            .leftJoinAndSelect('propertygroup.title', 'propgr_title')
+            .leftJoinAndSelect('properties.title', 'prop_title')
+            .leftJoinAndSelect('product.images', 'images');
     }
 
     /**

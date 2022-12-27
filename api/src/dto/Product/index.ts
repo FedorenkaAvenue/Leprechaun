@@ -25,7 +25,6 @@ import { ImageEntity } from '@entities/Image';
 import { PropertyPublic } from '@dto/Property/constructor';
 import { CategoryPublic } from '@dto/Category/constructor';
 import { TransDTO } from '@dto/Trans';
-import { TransI } from '@interfaces/Trans';
 
 export class CreateProductDTO implements ProductI {
     @IsNotEmptyObject()
