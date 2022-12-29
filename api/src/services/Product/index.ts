@@ -1,6 +1,6 @@
 import { InjectRepository } from '@nestjs/typeorm';
 import { FindOptionsOrder, Repository, SelectQueryBuilder } from 'typeorm';
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 
 import { FSService } from '@services/FS';
 import { ProductEntity } from '@entities/Product';
@@ -8,7 +8,6 @@ import { ImageService } from '@services/Image';
 import { PaginationResultDTO } from '@dto/Pagination';
 import { QueriesProductList } from '@dto/Queries/constructor';
 import HistoryPublicService from '@services/History/public';
-import WishlistItemEntity from '@entities/WishlistItem';
 import { ProductI } from '@interfaces/Product';
 import { SortProductE } from '@enums/Query';
 import { PaginationResult } from '@dto/Pagination/constructor';
@@ -24,24 +23,18 @@ export default class ProductService {
     ) {}
 
     /**
-     * @description get product by ID
-     * @param {String} id product ID
-     * @returns product entity
-     * @throws {NotFoundException} product not found
+     * @description get common product query builder
+     * @returns query builder
      */
-    async getProductById(id: ProductI['id']): Promise<ProductEntity> {
-        const qb = this.getProductQueryBulder();
-
-        qb.leftJoinAndSelect('product.category', 'category')
-            .leftJoinAndSelect('category.title', 'category_title')
-            .where('product.is_public = true')
-            .andWhere('product.id = :id', { id })
-            .leftJoinAndMapMany('product.wishlistCount', WishlistItemEntity, 'w', 'w.product.id = product.id');
-        try {
-            return await qb.getOneOrFail();
-        } catch (_) {
-            throw new NotFoundException('product not found');
-        }
+    getProductQueryBulder(): SelectQueryBuilder<ProductEntity> {
+        return this.productRepo
+            .createQueryBuilder('product')
+            .leftJoinAndSelect('product.title', 'title')
+            .leftJoinAndSelect('product.properties', 'properties')
+            .leftJoinAndSelect('properties.propertygroup', 'propertygroup')
+            .leftJoinAndSelect('propertygroup.title', 'propgr_title')
+            .leftJoinAndSelect('properties.title', 'prop_title')
+            .leftJoinAndSelect('product.images', 'images');
     }
 
     /**
@@ -75,21 +68,6 @@ export default class ProductService {
         const { orderCount } = await this.productRepo.findOneBy({ id });
 
         await this.productRepo.update({ id }, { orderCount: orderCount + 1 });
-    }
-
-    /**
-     * @description get common product query builder
-     * @returns query builder
-     */
-    getProductQueryBulder(): SelectQueryBuilder<ProductEntity> {
-        return this.productRepo
-            .createQueryBuilder('product')
-            .leftJoinAndSelect('product.title', 'title')
-            .leftJoinAndSelect('product.properties', 'properties')
-            .leftJoinAndSelect('properties.propertygroup', 'propertygroup')
-            .leftJoinAndSelect('propertygroup.title', 'propgr_title')
-            .leftJoinAndSelect('properties.title', 'prop_title')
-            .leftJoinAndSelect('product.images', 'images');
     }
 
     /**
