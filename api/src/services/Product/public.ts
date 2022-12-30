@@ -6,6 +6,7 @@ import { ProductCard, ProductPublic } from '@dto/Product/constructor';
 import ProductService from '.';
 import { QueriesProductList } from '@dto/Queries/constructor';
 import WishlistItemEntity from '@entities/WishlistItem';
+import { CategoryI } from '@interfaces/Category';
 
 @Injectable()
 export default class ProductPublicService extends ProductService {
@@ -27,13 +28,15 @@ export default class ProductPublicService extends ProductService {
     async getProductList(searchParams: QueriesProductList): Promise<PaginationResultDTO<ProductCard>> {
         const qb = this.getProductQueryBulder();
 
-        qb.leftJoinAndSelect('product.category', 'category').where('product.is_public = true');
+        qb.leftJoinAndSelect('product.category', 'category')
+            .where('product.is_public = true')
+            .andWhere('propertygroup.is_primary = true');
 
         return this.renderResult<ProductCard>(qb, searchParams, ProductCard);
     }
 
     async getCategoryProducts(
-        categoryUrl: string,
+        categoryUrl: CategoryI['url'],
         queries: QueriesProductList,
     ): Promise<PaginationResultDTO<ProductCard>> {
         const qb = this.getProductQueryBulder();

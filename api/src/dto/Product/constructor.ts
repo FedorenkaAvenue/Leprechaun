@@ -11,6 +11,8 @@ import { ProductEntity } from '@entities/Product';
 import { CategoryPublic } from '@dto/Category/constructor';
 import { QueriesProductListI } from '@interfaces/Queries';
 import { QueriesCommon } from '@dto/Queries/constructor';
+import { PropertyGroupPublic } from '@dto/PropertyGroup/constructor';
+import { PropertyEntity } from '@entities/Property';
 
 const PRODUCT_PUBLIC_IMAGE_AMOUNT = configService.getVal('PRODUCT_PUBLIC_IMAGE_AMOUNT');
 
@@ -65,14 +67,14 @@ export class ProductCard extends ProductCardDTO {
         this.price = price;
         this.status = status;
         this.images = images.slice(0, Number(PRODUCT_PUBLIC_IMAGE_AMOUNT)) as ImageEntity[];
-        this.properties = properties
-            .filter(({ propertygroup: { is_primary } }) => is_primary)
-            .map(prop => new PropertyPublic(prop, searchParams));
+        this.properties = properties.map(prop => new PropertyPublic(prop, searchParams));
     }
 }
 
 @WithLabels(LabelType.NEW, LabelType.POPULAR, LabelType.DISCOUNT)
 export class ProductPublic extends ProductPublicDTO {
+    options: any;
+
     constructor(
         { id, title, price, status, images, properties, category, wishlistCount, orderCount }: ProductEntity,
         searchParams: QueriesProductListI,
@@ -87,5 +89,31 @@ export class ProductPublic extends ProductPublicDTO {
         this.category = new CategoryPublic(category, searchParams);
         this.orderCount = orderCount;
         this.wishlistCount = wishlistCount.length;
+        // this.options = mapOptions(properties, searchParams);
     }
+}
+
+function mapOptions(properties: PropertyEntity[], searchParams: QueriesProductListI) {
+    return properties.reduce((acc, curr) => {
+        const { propertygroup, ...prop } = curr;
+
+        const existedGroupIndex = acc.findIndex((opt, i) => opt.propertyGroup.id === propertygroup.id);
+
+        if (existedGroupIndex !== -1) {
+            acc[existedGroupIndex].properties = [
+                ...acc[existedGroupIndex].properties,
+                //@ts-ignore
+                new PropertyGroupPublic(prop, searchParams),
+            ];
+            return acc;
+        }
+        return [
+            ...acc,
+            {
+                propertyGroup: new PropertyGroupPublic(propertygroup, searchParams),
+                //@ts-ignore
+                properties: [new PropertyPublic(prop, searchParams)],
+            },
+        ];
+    }, []);
 }
