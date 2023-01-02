@@ -13,14 +13,18 @@ export default class ProductPublicService extends ProductService {
     async getProduct(id: ProductI['id'], searchParams: QueriesProductList): Promise<ProductPublic> {
         const qb = this.getProductQueryBulder();
 
-        qb.leftJoinAndSelect('product.category', 'category')
-            .leftJoinAndSelect('category.title', 'category_title')
-            .where('product.is_public = true')
-            .andWhere('product.id = :id', { id })
-            .leftJoinAndMapMany('product.wishlistCount', WishlistItemEntity, 'w', 'w.product.id = product.id');
+        qb.leftJoinAndSelect('p.category', 'cat')
+            .leftJoinAndSelect('cat.title', 'cat_title')
+            .where('p.is_public = true')
+            .andWhere('p.id = :id', { id })
+            .leftJoinAndMapMany('p.wishlistCount', WishlistItemEntity, 'w', 'w.product.id = p.id');
         try {
+            const res = await qb.getOneOrFail();
+            const row = await qb.getRawOne();
+            console.log(row);
             return new ProductPublic(await qb.getOneOrFail(), searchParams);
         } catch (_) {
+            console.log(_);
             throw new NotFoundException('product not found');
         }
     }
@@ -28,9 +32,7 @@ export default class ProductPublicService extends ProductService {
     async getProductList(searchParams: QueriesProductList): Promise<PaginationResultDTO<ProductCard>> {
         const qb = this.getProductQueryBulder();
 
-        qb.leftJoinAndSelect('product.category', 'category')
-            .where('product.is_public = true')
-            .andWhere('propertygroup.is_primary = true');
+        qb.leftJoinAndSelect('p.cat', 'cat').where('p.is_public = true').andWhere('pg.is_primary = true');
 
         return this.renderResult<ProductCard>(qb, searchParams, ProductCard);
     }
@@ -41,9 +43,9 @@ export default class ProductPublicService extends ProductService {
     ): Promise<PaginationResultDTO<ProductCard>> {
         const qb = this.getProductQueryBulder();
 
-        qb.innerJoin('product.category', 'category')
-            .where('category.url = :categoryUrl', { categoryUrl })
-            .andWhere('product.is_public = true');
+        qb.innerJoin('p.category', 'cat')
+            .where('cat.url = :categoryUrl', { categoryUrl })
+            .andWhere('p.is_public = true');
 
         return this.renderResult<ProductCard>(qb, queries, ProductCard);
     }

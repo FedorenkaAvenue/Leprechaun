@@ -12,6 +12,7 @@ import { ProductI } from '@interfaces/Product';
 import { SortProductE } from '@enums/Query';
 import { PaginationResult } from '@dto/Pagination/constructor';
 import logger from '@services/Logger';
+import { PropertyGroupEntity } from '@entities/PropertGroup';
 
 @Injectable()
 export default class ProductService {
@@ -28,13 +29,27 @@ export default class ProductService {
      */
     getProductQueryBulder(): SelectQueryBuilder<ProductEntity> {
         return this.productRepo
-            .createQueryBuilder('product')
-            .leftJoinAndSelect('product.title', 'title')
-            .leftJoinAndSelect('product.properties', 'properties')
-            .leftJoinAndSelect('properties.propertygroup', 'propertygroup')
-            .leftJoinAndSelect('propertygroup.title', 'propgr_title')
-            .leftJoinAndSelect('properties.title', 'prop_title')
-            .leftJoinAndSelect('product.images', 'images');
+            .createQueryBuilder('p')
+            .leftJoinAndSelect('p.title', 'title')
+            .leftJoinAndSelect('p.images', 'images')
+
+            .leftJoinAndSelect('p.properties', 'props')
+            .leftJoinAndSelect('props.title', 'props_title')
+            .leftJoinAndSelect('props.propertygroup', 'pg')
+            .leftJoinAndSelect('pg.title', 'pg_title');
+
+        // .leftJoinAndSelect(PropertyGroupEntity, 'pg', 'pg.id = 43')
+        // .leftJoinAndSelect('pg.title', 'pg_title')
+        // .leftJoinAndSelect('pg.properties', 'props')
+        // .leftJoinAndSelect('props.title', 'props_title')
+
+        // .leftJoinAndMapMany('p.options', (qb: SelectQueryBuilder<PropertyGroupEntity>) => {
+        //     return qb
+        //         .select()
+        //         .from(PropertyGroupEntity, 'pg')
+        //         // .leftJoinAndSelect('pg.properties', 'props')
+        //         // .where('pg.id = 43')
+        // }, 'pgg', 'pgg.id = 43')
     }
 
     /**
@@ -91,7 +106,7 @@ export default class ProductService {
 
             // ? на будущее переделать в subQuery
             qb.andWhere(
-                `product.id = ANY(
+                `p.id = ANY(
                     SELECT product_id as p_id
                     FROM _products_to_properties
                     INNER JOIN property AS prop ON prop.id = _products_to_properties.property_id
