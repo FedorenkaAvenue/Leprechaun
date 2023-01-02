@@ -11,28 +11,19 @@ import { CategoryI } from '@interfaces/Category';
 @Injectable()
 export default class ProductPublicService extends ProductService {
     async getProduct(id: ProductI['id'], searchParams: QueriesProductList): Promise<ProductPublic> {
-        const qb = this.getProductQueryBulder();
-
-        qb.leftJoinAndSelect('p.category', 'cat')
-            .leftJoinAndSelect('cat.title', 'cat_title')
+        const qb = this.getProductQueryBulder()
             .where('p.is_public = true')
             .andWhere('p.id = :id', { id })
             .leftJoinAndMapMany('p.wishlistCount', WishlistItemEntity, 'w', 'w.product.id = p.id');
         try {
-            const res = await qb.getOneOrFail();
-            const row = await qb.getRawOne();
-            console.log(row);
             return new ProductPublic(await qb.getOneOrFail(), searchParams);
         } catch (_) {
-            console.log(_);
             throw new NotFoundException('product not found');
         }
     }
 
     async getProductList(searchParams: QueriesProductList): Promise<PaginationResultDTO<ProductCard>> {
-        const qb = this.getProductQueryBulder();
-
-        qb.leftJoinAndSelect('p.cat', 'cat').where('p.is_public = true').andWhere('pg.is_primary = true');
+        const qb = this.getProductQueryBulder().where('p.is_public = true').andWhere('pg.is_primary = true');
 
         return this.renderResult<ProductCard>(qb, searchParams, ProductCard);
     }
@@ -41,9 +32,7 @@ export default class ProductPublicService extends ProductService {
         categoryUrl: CategoryI['url'],
         queries: QueriesProductList,
     ): Promise<PaginationResultDTO<ProductCard>> {
-        const qb = this.getProductQueryBulder();
-
-        qb.innerJoin('p.category', 'cat')
+        const qb = this.getProductQueryBulder()
             .where('cat.url = :categoryUrl', { categoryUrl })
             .andWhere('p.is_public = true');
 

@@ -7,7 +7,6 @@ import { PaginationResultDTO } from '@dto/Pagination';
 import { ProductI } from '@interfaces/Product';
 import { Product } from '@dto/Product/constructor';
 import ProductService from '.';
-import { PRODUCT_RELATIONS } from '@constants/relations';
 import { QueriesProductList } from '@dto/Queries/constructor';
 import { ProductEntity } from '@entities/Product';
 
@@ -23,14 +22,11 @@ export default class ProductPrivateService extends ProductService {
         }
     }
 
-    async getProduct(productId: ProductI['id']): Promise<ProductEntity> {
-        try {
-            const res = await this.productRepo.findOneOrFail({
-                where: { id: productId },
-                relations: PRODUCT_RELATIONS,
-            });
+    async getProduct(id: ProductI['id']): Promise<ProductEntity> {
+        const qb = this.getProductQueryBulder().andWhere('p.id = :id', { id });
 
-            return res;
+        try {
+            return await qb.getOneOrFail();
         } catch (_) {
             throw new NotFoundException('product not found');
         }
@@ -39,8 +35,6 @@ export default class ProductPrivateService extends ProductService {
     async getProductList(searchParams: QueriesProductList): Promise<PaginationResultDTO<ProductEntity>> {
         const qb = this.getProductQueryBulder();
 
-        qb.leftJoinAndSelect('product.category', 'category');
-
         return this.renderResult<ProductEntity>(qb, searchParams);
     }
 
@@ -48,9 +42,9 @@ export default class ProductPrivateService extends ProductService {
         categoryUrl: string,
         searchParams: QueriesProductList,
     ): Promise<PaginationResultDTO<ProductEntity>> {
-        const qb = this.getProductQueryBulder();
-
-        qb.innerJoin('product.category', 'category').where('category.url = :categoryUrl', { categoryUrl });
+        const qb = this.getProductQueryBulder()
+            .innerJoin('product.category', 'category')
+            .where('category.url = :categoryUrl', { categoryUrl });
 
         return this.renderResult<ProductEntity>(qb, searchParams);
     }

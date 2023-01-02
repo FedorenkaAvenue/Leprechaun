@@ -12,7 +12,6 @@ import { ProductI } from '@interfaces/Product';
 import { SortProductE } from '@enums/Query';
 import { PaginationResult } from '@dto/Pagination/constructor';
 import logger from '@services/Logger';
-import { PropertyGroupEntity } from '@entities/PropertGroup';
 
 @Injectable()
 export default class ProductService {
@@ -32,6 +31,8 @@ export default class ProductService {
             .createQueryBuilder('p')
             .leftJoinAndSelect('p.title', 'title')
             .leftJoinAndSelect('p.images', 'images')
+            .leftJoinAndSelect('p.category', 'cat')
+            .leftJoinAndSelect('cat.title', 'cat_title')
 
             .leftJoinAndSelect('p.properties', 'props')
             .leftJoinAndSelect('props.title', 'props_title')
@@ -47,8 +48,8 @@ export default class ProductService {
         //     return qb
         //         .select()
         //         .from(PropertyGroupEntity, 'pg')
-        //         // .leftJoinAndSelect('pg.properties', 'props')
-        //         // .where('pg.id = 43')
+        //         .leftJoinAndSelect('pg.properties', 'props')
+        //         .where('pg.id = 43')
         // }, 'pgg', 'pgg.id = 43')
     }
 
@@ -125,30 +126,30 @@ export default class ProductService {
         }
 
         // price
-        if (price) qb.andWhere('product.price BETWEEN :from AND :to', { ...price });
+        if (price) qb.andWhere('p.price BETWEEN :from AND :to', { ...price });
 
         // product status
-        qb.andWhere('product.status = :status', { status });
+        qb.andWhere('p.status = :status', { status });
 
         // sorting
         switch (sort) {
             case SortProductE.PRICE_UP: {
-                qb.orderBy('product.price.current', 'ASC');
+                qb.orderBy('p.price.current', 'ASC');
                 break;
             }
 
             case SortProductE.PRICE_DOWN: {
-                qb.orderBy('product.price.current', 'DESC');
+                qb.orderBy('p.price.current', 'DESC');
                 break;
             }
 
             case SortProductE.NEW: {
-                qb.orderBy('product.created_at', 'DESC');
+                qb.orderBy('p.created_at', 'DESC');
                 break;
             }
 
             default: // CookieSortType.POPULAR
-                qb.orderBy('product.rating', 'DESC');
+                qb.orderBy('p.rating', 'DESC');
         }
 
         const [result, resCount] = await qb

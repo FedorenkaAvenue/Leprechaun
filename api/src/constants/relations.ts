@@ -1,5 +1,4 @@
 export const PRODUCT_HISTORY_RELATIONS = ['product.properties', 'product.properties.propertygroup'];
-export const PRODUCT_RELATIONS = ['category', 'properties', 'properties.propertygroup'];
 export const PRODUCT_DEEP_RELATIONS = [
     'product',
     'product.category',
