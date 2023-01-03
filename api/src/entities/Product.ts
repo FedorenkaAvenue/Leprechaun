@@ -80,7 +80,7 @@ export class ProductEntity implements ProductI {
     @ApiProperty()
     comment: string;
 
-    @Column({ nullable: true })
+    @Column({ default: 0 })
     @ApiProperty({ description: 'how many users ordered this product' })
     orderCount: number;
 
