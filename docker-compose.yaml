@@ -106,3 +106,25 @@ services:
       - ./se/manticore.conf:/etc/manticoresearch/manticore.conf
       - ./se/data:/var/lib/manticore
       - ./se/logs:/var/log/manticore:rw
+
+  client_v2:
+    container_name: leprechaun_client_v2
+    extends:
+      file: docker-compose.shared.yaml
+      service: node
+    restart: unless-stopped
+    command: npm run dev:docker
+    networks:
+      - client
+    volumes:
+      - ./clients/v2:/app:rw
+    environment:
+      - IS_DEV=true
+      - APP_NAME
+      - LANGS
+      - DOMAIN
+      - DOMAIN_MEDIA
+      - DOMAIN_API
+      - CURRENCY_SYMBOL
+    depends_on:
+      - api
