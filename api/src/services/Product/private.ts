@@ -43,7 +43,7 @@ export default class ProductPrivateService extends ProductService {
         searchParams: QueriesProductList,
     ): Promise<PaginationResultDTO<ProductEntity>> {
         const qb = this.getProductQueryBulder()
-            .innerJoin('product.category', 'category')
+            .innerJoin('p.category', 'category')
             .where('category.url = :categoryUrl', { categoryUrl });
 
         return this.renderResult<ProductEntity>(qb, searchParams);
