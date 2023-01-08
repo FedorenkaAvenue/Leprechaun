@@ -7,6 +7,7 @@ import { PropertyGroupEntity } from '@entities/PropertGroup';
 import PropertyGroupService from '@services/PropertyGroup/private';
 import AffectedResultInterceptor from '@interceptors/AffectedResult';
 import UndefinedResultInterceptor from '@interceptors/UndefinedResult';
+import { CategoryI } from '@interfaces/Category';
 
 @Controller('adm/propertygroup')
 @ApiTags('Property group 🤵🏿‍♂️')
@@ -23,7 +24,7 @@ export default class PropertyGroupPrivateController {
     }
 
     // @Patch(':groupID')
-    // // @UseInterceptors(AffectedResultInterceptor('property group not found'))
+    // @UseInterceptors(AffectedResultInterceptor('property group not found'))
     // @ApiOperation({ summary: 'update property group' })
     // @ApiNotFoundResponse({ description: 'property group not found' })
     // updateGroup(
@@ -33,10 +34,17 @@ export default class PropertyGroupPrivateController {
     //     return this.propertyGroupService.updateGroup(groupID, group);
     // }
 
+    @Get('list/:categoryID')
+    @ApiOperation({ summary: 'get property groups by category ID' })
+    @ApiOkResponse({ type: PropertyGroupEntity, isArray: true })
+    getGroupListByCategoryID(@Param('categoryID') categoryID: CategoryI['id']): Promise<PropertyGroupEntity[]> {
+        return this.propertyGroupService.getGroupListByCategoryID(categoryID);
+    }
+
     @Get('list')
     @ApiOperation({ summary: 'get all property groups' })
     @ApiOkResponse({ type: PropertyGroupEntity, isArray: true })
-    getAllGroups(): Promise<PropertyGroupEntity[]> {
+    getGroupList(): Promise<PropertyGroupEntity[]> {
         return this.propertyGroupService.getGroupList();
     }
 

@@ -20,7 +20,6 @@ export default class PropertyPrivateService extends PropertyService {
         try {
             return await this.propertyRepo.findOneOrFail({
                 where: { id },
-                relations: ['propertygroup'],
             });
         } catch (_) {
             throw new NotFoundException('property not found');

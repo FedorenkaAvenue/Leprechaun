@@ -1,4 +1,4 @@
-import { DeleteResult, UpdateResult } from 'typeorm';
+import { DeleteResult } from 'typeorm';
 import { BadRequestException, Injectable } from '@nestjs/common';
 
 import { CreateCategoryDTO } from '@dto/Category';
@@ -11,18 +11,22 @@ import { CategoryEntity } from '@entities/Category';
 @Injectable()
 export default class CategoryPrivateService extends CategoryService {
     getCategoryList(): Promise<CategoryEntity[]> {
-        return this.categoryRepo.find({ relations: ['propertygroups'] });
+        return this.categoryRepo.find();
     }
 
-    async createCategory(newCategory: CreateCategoryDTO, icon: Express.Multer.File): Promise<void> {
+    async createCategory(newCategory: CreateCategoryDTO, icon: Express.Multer.File): Promise<CategoryEntity> {
         try {
-            const { id } = await this.categoryRepo.save(new Category(newCategory));
+            const createdCategory = await this.categoryRepo.save(new Category(newCategory));
 
             if (icon) {
-                const [uploadedIcon] = await this.FSService.saveFiles(FOLDER_TYPES.CATEGORY, id, [icon]);
+                const [uploadedIcon] = await this.FSService.saveFiles(FOLDER_TYPES.CATEGORY, createdCategory.id, [
+                    icon,
+                ]);
 
-                await this.categoryRepo.update({ id }, { icon: uploadedIcon });
+                await this.categoryRepo.update({ id: createdCategory.id }, { icon: uploadedIcon });
             }
+
+            return createdCategory;
         } catch (err) {
             throw new BadRequestException(err?.detail);
         }
@@ -47,7 +51,6 @@ export default class CategoryPrivateService extends CategoryService {
     async getCategory(categoryUrl: CategoryI['url']): Promise<CategoryEntity> {
         return await this.categoryRepo.findOne({
             where: { url: categoryUrl },
-            relations: ['propertygroups'],
         });
     }
 

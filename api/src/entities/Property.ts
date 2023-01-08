@@ -27,6 +27,5 @@ export class PropertyEntity implements PropertyI {
 
     @ManyToOne(() => PropertyGroupEntity, ({ properties }) => properties, { onDelete: 'CASCADE', nullable: false })
     @JoinColumn({ name: 'propertygroup' })
-    @ApiProperty({ required: false })
     propertygroup: PropertyGroupEntity;
 }

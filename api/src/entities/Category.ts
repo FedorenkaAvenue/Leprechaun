@@ -1,13 +1,4 @@
-import {
-    Column,
-    Entity,
-    JoinColumn,
-    JoinTable,
-    ManyToMany,
-    OneToMany,
-    OneToOne,
-    PrimaryGeneratedColumn,
-} from 'typeorm';
+import { Column, Entity, JoinColumn, ManyToMany, OneToMany, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { ApiProperty } from '@nestjs/swagger';
 
 import { ProductEntity } from '@entities/Product';
@@ -35,28 +26,6 @@ export class CategoryEntity implements CategoryI {
     @ApiProperty()
     icon: string;
 
-    @OneToMany(() => ProductEntity, ({ category }) => category)
-    @ApiProperty({ type: ProductEntity, isArray: true })
-    products: ProductEntity[];
-
-    @ManyToMany(() => PropertyGroupEntity, ({ id }) => id, { cascade: true })
-    @JoinTable({
-        name: '_categories_to_propertygroups',
-        joinColumn: {
-            name: 'category_id',
-            referencedColumnName: 'id',
-        },
-        inverseJoinColumn: {
-            name: 'propertygroup_id',
-            referencedColumnName: 'id',
-        },
-    })
-    @ApiProperty({
-        type: PropertyGroupEntity,
-        isArray: true,
-    })
-    propertygroups: PropertyGroupEntity[];
-
     @Column({ nullable: true })
     @ApiProperty()
     comment: string;
@@ -64,4 +33,10 @@ export class CategoryEntity implements CategoryI {
     @Column({ default: false })
     @ApiProperty()
     is_public: boolean;
+
+    @OneToMany(() => ProductEntity, ({ category }) => category)
+    products: ProductEntity[];
+
+    @ManyToMany(() => PropertyGroupEntity, ({ id }) => id)
+    propertygroups: PropertyGroupEntity[];
 }

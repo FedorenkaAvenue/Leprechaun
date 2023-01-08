@@ -5,6 +5,7 @@ import PropertyGroupService from '.';
 import { PropertyGroupI } from '@interfaces/PropertyGroup';
 import { CreatePropertyGroupDTO } from '@dto/PropertyGroup';
 import { PropertyGroupEntity } from '@entities/PropertGroup';
+import { CategoryI } from '@interfaces/Category';
 
 @Injectable()
 export default class PropertyGroupPrivateService extends PropertyGroupService {
@@ -12,16 +13,19 @@ export default class PropertyGroupPrivateService extends PropertyGroupService {
         try {
             return await this.propertyGroupRepo.findOneOrFail({
                 where: { id },
-                relations: ['properties'],
             });
-        } catch (err) {
+        } catch (_) {
             throw new NotFoundException('property group not found');
         }
     }
 
     async getGroupList(): Promise<PropertyGroupEntity[]> {
+        return await this.propertyGroupRepo.find();
+    }
+
+    async getGroupListByCategoryID(id: CategoryI['id']): Promise<PropertyGroupEntity[]> {
         return await this.propertyGroupRepo.find({
-            relations: ['properties'],
+            where: { categories: { id } },
         });
     }
 

@@ -8,11 +8,10 @@ import {
     Post,
     UploadedFile,
     ValidationPipe,
-    Patch,
 } from '@nestjs/common';
 import { ApiBadRequestResponse, ApiNotFoundResponse, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { DeleteResult, UpdateResult } from 'typeorm';
+import { DeleteResult } from 'typeorm';
 
 import { CategoryEntity } from '@entities/Category';
 import { CreateCategoryDTO } from '@dto/Category';
@@ -33,7 +32,7 @@ export default class CategoryPrivateController {
     addCategory(
         @Body(new ValidationPipe({ transform: true })) body: CreateCategoryDTO,
         @UploadedFile() icon: Express.Multer.File,
-    ): Promise<void> {
+    ): Promise<CategoryEntity> {
         return this.categoryService.createCategory(body, icon);
     }
 

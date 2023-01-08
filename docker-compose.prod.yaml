@@ -14,8 +14,6 @@ services:
         - DOMAIN
         - DOMAIN_MEDIA
         - DOMAIN_API
-    depends_on:
-      - client_user
 
   db:
     restart: on-failure:5

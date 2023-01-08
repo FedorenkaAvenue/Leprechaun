@@ -14,6 +14,8 @@ services:
     volumes:
       - image_hosting:/var/www/img:rw
       - ./server/.http_auth:/etc/nginx/.http_auth
+    depends_on:
+      - api
 
   db:
     container_name: leprechaun_db
@@ -78,6 +80,7 @@ services:
     depends_on:
       - cache
       - db
+      - se
 
   client_user:
     container_name: leprechaun_client_user
@@ -91,7 +94,7 @@ services:
       - DOMAIN_API
       - CURRENCY_SYMBOL
     depends_on:
-      - api
+      - server
 
   se:
     container_name: leprechaun_se
@@ -100,6 +103,8 @@ services:
     build:
       context: ./se
       dockerfile: Dockerfile
+    depends_on:
+      - db
 
 volumes:
   image_hosting:
