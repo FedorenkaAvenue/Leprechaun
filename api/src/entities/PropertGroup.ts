@@ -46,11 +46,11 @@ export class PropertyGroupEntity implements PropertyGroupI {
     @ManyToMany(() => CategoryEntity, ({ id }) => id)
     @JoinTable({
         name: '_categories_to_propertygroups',
-        joinColumn: {
+        inverseJoinColumn: {
             name: 'propertygroup_id',
             referencedColumnName: 'id',
         },
-        inverseJoinColumn: {
+        joinColumn: {
             name: 'category_id',
             referencedColumnName: 'id',
         },
