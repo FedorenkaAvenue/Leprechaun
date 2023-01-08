@@ -116,8 +116,9 @@ services:
     command: npm run dev:docker
     networks:
       - client
+      - api
     volumes:
-      - ./clients/v2:/app:rw
+      - ./v2:/app:rw
     environment:
       - IS_DEV=true
       - APP_NAME
