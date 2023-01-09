@@ -23,7 +23,7 @@ export default class ProductPublicService extends ProductService {
     }
 
     async getProductList(searchParams: QueriesProductList): Promise<PaginationResultDTO<ProductCard>> {
-        const qb = this.getProductQueryBulder().where('p.is_public = true').andWhere('pg.is_primary = true');
+        const qb = this.getProductQueryBulder().where('p.is_public = true');
 
         return this.renderResult<ProductCard>(qb, searchParams, ProductCard);
     }
