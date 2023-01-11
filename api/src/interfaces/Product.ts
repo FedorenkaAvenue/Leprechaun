@@ -36,7 +36,7 @@ export interface ProductI extends ProductBaseI {
     properties: PropertyI[];
     images: ImageI[];
     category: CategoryI;
-    rating?: number;
+    rating: number;
     created_at?: Date;
     is_public?: boolean;
     comment: string;

@@ -63,6 +63,11 @@ export class CreateProductDTO implements ProductI {
     @ApiProperty({ required: false, default: null })
     description: string;
 
+    @IsOptional()
+    @IsNumberString()
+    @ApiProperty({ required: false, default: 0 })
+    rating: number;
+
     @IsNotEmpty()
     @IsNumberString()
     @ApiProperty({

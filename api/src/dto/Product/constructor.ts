@@ -28,12 +28,14 @@ export class Product extends CreateProductDTO {
         description,
         comment,
         is_new,
+        rating,
     }: CreateProductDTO) {
         super();
         this.title = title;
         this.price = new Price({ current: price_current, old: price_old });
         this.is_public = ((<unknown>is_public) as string) === 'true';
         this.status = status || ProductStatusE.AVAILABLE;
+        this.rating = rating || 0;
         this.is_new = typeof is_new === 'boolean' ? is_new : true;
         this.category = category;
         this.description = description || null;
