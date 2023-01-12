@@ -8,6 +8,7 @@ import { OrderItemEntity } from '@entities/OrderItem';
 import { SessionI } from '@interfaces/Session';
 import { genID } from '@utils/genIds';
 import ProductService from '@services/Product';
+import { QueriesCommon } from '@dto/Queries/constructor';
 
 @Injectable()
 export default class OrderService {
@@ -19,7 +20,7 @@ export default class OrderService {
 
     /**
      * @description create new order with session ID
-     * @param sid
+     * @param sid session ID
      * @returns created order with 1 status
      */
     async createOrder(sid: SessionI['sid']): Promise<OrderEntity> {
@@ -29,9 +30,15 @@ export default class OrderService {
     /**
      * @description split relative tables for order by query builder
      * @param qb current query builder to continue building query
+     * @param searchParams search parameters from URL query
+     * @param resConstructor constructor for result maping
      * @returns completed OrderPublicDTO or null
      */
-    async getOrder(qb: SelectQueryBuilder<OrderEntity>, resConstructor?: any, searchParams?: any) {
+    async getOrder<C>(
+        qb: SelectQueryBuilder<OrderEntity>,
+        searchParams?: QueriesCommon,
+        resConstructor?: any,
+    ): Promise<C> {
         const res = await qb
             .leftJoinAndSelect('order.list', 'list')
             .leftJoinAndSelect('list.product', 'p')

@@ -19,7 +19,7 @@ export default class OrderPublicService extends OrderService {
             .where('order.sid = :sid', { sid })
             .andWhere('order.status = :status', { status: OrderStatus.INIT });
 
-        return await this.getOrder(qb, OrderPublic, searchParams);
+        return await this.getOrder<OrderPublic>(qb, searchParams, OrderPublic);
     }
 
     async addOrderItem(
