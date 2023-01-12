@@ -8,6 +8,7 @@ import {
   ProductPayloadDto,
   Products,
 } from '../../models/product.model';
+import { objectToFormData } from '../../utils/object-to-form-data';
 
 @Injectable()
 export class ProductsApiService {
@@ -25,22 +26,25 @@ export class ProductsApiService {
   
 
   public createProduct(data: ProductPayloadDto): Observable<any> {
-    const formData = new FormData();
+    let formData = objectToFormData(data)
+    // const formData = new FormData();
 
-    if (data.price_old) {
-      formData.append('price_old', data.price_old?.toString());
-    }
+    // if (data.price_old) {
+    //   formData.append('price_old', data.price_old?.toString());
+    // }
 
-    formData.append('category', data.category?.toString()),
-      formData.append('is_public', data.is_public?.toString()),
-      formData.append('price_current', data.price_current?.toString()),
-      formData.append('title', data.title),
-      formData.append('rating', data.rating),
-      formData.append('is_new', data.is_new?.toString());
+    // formData.append('category', data.category?.toString()),
+    //   formData.append('is_public', data.is_public?.toString()),
+    //   formData.append('price_current', data.price_current?.toString()),
+    //   formData.append('title[ua]', data.title.ua),
+    //   formData.append('title[ru]', data.title.ru),
+    //   formData.append('title[en]', data.title.en),
+    //   formData.append('rating', data.rating),
+    //   formData.append('is_new', data.is_new?.toString());
 
-    Object.keys(data.images).forEach((key: any) => {
-      formData.append('images', data.images[key]);
-    });
+    // Object.keys(data.images).forEach((key: any) => {
+    //   formData.append('images', data.images[key]);
+    // });
     return this.http.post<any>(`${this.apiUrl}/adm/product`, formData);
   }
 

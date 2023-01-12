@@ -7,21 +7,16 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
 import { ToastrModule } from 'ngx-toastr';
 import { NavigationService } from './shared/services/navigations/navigations.service';
-
 @NgModule({
-  declarations: [
-    AppComponent
-  ],
+  declarations: [AppComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
     HttpClientModule,
-    ToastrModule.forRoot()
+    ToastrModule.forRoot(),
   ],
-  providers: [
-    NavigationService
-  ],
-  bootstrap: [AppComponent]
+  providers: [NavigationService],
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

@@ -11,6 +11,7 @@ import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { Observable } from 'rxjs';
 import { CategoryDto } from 'src/app/shared/models/categories.model';
+import { PropertiesGroupDto } from 'src/app/shared/models/properties.model';
 import { NavigationService } from 'src/app/shared/services/navigations/navigations.service';
 import { ProductsService } from '../../sevices/products.service';
 
@@ -21,7 +22,7 @@ import { ProductsService } from '../../sevices/products.service';
 })
 export class CreateProductComponent implements OnInit {
   public categories$: Observable<CategoryDto[]>;
-
+  public propertiesGroups$: Observable<Array<PropertiesGroupDto>>
   constructor(
     private readonly productsService: ProductsService,
     private readonly router: Router,
@@ -40,6 +41,14 @@ export class CreateProductComponent implements OnInit {
       this.navigationService.back();
 
     });
+  }
+
+  public changeCategory(id: string) {
+    this.getPropertyGroupByCatageryId(id);
+  }
+
+  private getPropertyGroupByCatageryId(id: string): void {
+    this.propertiesGroups$ = this.productsService.getPropertiesGroupsByCategoryId(id)
   }
 
   private getCategories(): Observable<CategoryDto[]> {

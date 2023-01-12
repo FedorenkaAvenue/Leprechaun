@@ -2,7 +2,9 @@ import { Injectable } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 import { startWith, switchMap } from 'rxjs/operators';
 import { CategoryDto } from 'src/app/shared/models/categories.model';
+import { PropertiesGroupDto } from 'src/app/shared/models/properties.model';
 import { CategoriesApiService } from 'src/app/shared/services/categories/categories-api.service';
+import { PropertiesApiService } from 'src/app/shared/services/properties/properties-api.service';
 
 @Injectable()
 export class CategoriesService {
@@ -10,7 +12,8 @@ export class CategoriesService {
   private updateCategories$: Subject<void>;
 
   constructor(
-    private readonly categoriesApiService: CategoriesApiService
+    private readonly categoriesApiService: CategoriesApiService,
+    private readonly propertiesApiService: PropertiesApiService
   ) { }
 
   public getCategories(): Observable<CategoryDto[]> {
@@ -22,6 +25,10 @@ export class CategoriesService {
 
   public getCategoryByUrl(url: string): Observable<CategoryDto> {
     return this.categoriesApiService.getCategoryByUrl(url);
+  }
+
+  public getPropertiesGroups(): Observable<Array<PropertiesGroupDto>> {
+    return this.propertiesApiService.getPropertiesGroups()
   }
 
 

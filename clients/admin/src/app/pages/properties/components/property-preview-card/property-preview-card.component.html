@@ -1,0 +1,28 @@
+<div class="header fl-j-sb p-h-3">
+  <div class="header-block fl-c">
+    <span class="header-title m-b-1">Id</span>
+    <span>{{ propetyData.id }}</span>
+  </div>
+  <div class="header-block fl-c">
+    <span class="header-title m-b-1">title</span>
+    <span>{{ propetyData.title | valueDefaultTranslation }}</span>
+  </div>
+  <div class="header-block fl-c">
+    <span class="header-title m-b-1">Alt Name</span>
+    <span>{{ propetyData.alt_name }}</span>
+  </div>
+  <div class="header-block buttons">
+    <span class="m-r-3">
+      <a
+        [routerLink]="'/admin/properties/properties-group/edit'"
+        mat-mini-fab
+        color="primary"
+      >
+        <mat-icon>mode_edit</mat-icon>
+      </a>
+    </span>
+    <button (click)="removeProperty($event)" mat-mini-fab color="warn">
+      <mat-icon>delete</mat-icon>
+    </button>
+  </div>
+</div>

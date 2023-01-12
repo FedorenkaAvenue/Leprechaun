@@ -1,0 +1,4 @@
+@use '../variables/colors';
+
+$box-shadow-1: 1px 2px 2px colors.$shadow-1;
+$box-shadow-2: 2px 2px 6px 4px colors.$shadow-1;

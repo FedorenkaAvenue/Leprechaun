@@ -11,8 +11,7 @@ import { ProductsApiService } from 'src/app/shared/services/products/products-ap
 export class ProductsService {
   private updateProducts$: Subject<void>;
   private changeParams$: BehaviorSubject<Params | null>;
-  // productsList$: Observable<ProductCardDto[]>;
-
+  
   constructor(
     private readonly productsApiService: ProductsApiService,
     private readonly categoriesApiService: CategoriesApiService
@@ -34,7 +33,6 @@ export class ProductsService {
   }
 
   public createProduct(data: any): Observable<any> {
-    console.log(data);
     return this.productsApiService.createProduct(data);
   }
 

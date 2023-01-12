@@ -2,7 +2,7 @@
 (click)="goToProdView()"
 class="product-card">
 
-<span class="product-title">{{ product?.title  }}</span>
+<span class="product-title">{{ product?.title | valueDefaultTranslation }}</span>
   <lpch-image [src]="product.images[0]?.src"></lpch-image>
 <span class="product-status">published</span>
 <div class="product-actions card__actions">

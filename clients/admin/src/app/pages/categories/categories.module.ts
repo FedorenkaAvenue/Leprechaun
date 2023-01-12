@@ -26,6 +26,10 @@ import { PaginatorModule } from 'src/app/shared/modules/paginator';
 import { ProductsService } from '../product/sevices/products.service';
 import { ProductsApiService } from 'src/app/shared/services/products/products-api.service';
 import { LpchImageModule } from 'src/app/shared/components/lpch-image/lpch-image.module';
+import { TranslationFormModule } from 'src/app/shared/controls/translation-form/translation-form.module';
+import { ValueDefaultTranslationModule } from 'src/app/shared/pipes/value-default-translation/value-default-translation.module';
+import { PropertiesApiService } from 'src/app/shared/services/properties/properties-api.service';
+import { MatSelectModule } from '@angular/material/select';
 
 @NgModule({
   declarations: [
@@ -52,13 +56,17 @@ import { LpchImageModule } from 'src/app/shared/components/lpch-image/lpch-image
     FileUploaderModule,
     ProductsListModule,
     PaginatorModule,
-    LpchImageModule
+    LpchImageModule,
+    TranslationFormModule,
+    ValueDefaultTranslationModule,
+    MatSelectModule
   ],
   providers: [
     CategoriesApiService,
     CategoriesService,
     ProductsService,
     ProductsApiService,
+    PropertiesApiService
   ],
 })
 export class CategoriesModule {}

@@ -25,6 +25,10 @@ import { FileUploaderModule } from 'src/app/shared/fields/file-uploader/file-upl
 import { ProductsListModule } from 'src/app/shared/components/products-list/products-list.module';
 import {MatSliderModule} from '@angular/material/slider';
 import { SliderFieldModule } from 'src/app/shared/fields/slider-field/slider-field.module';
+import { TranslationFormModule } from 'src/app/shared/controls/translation-form/translation-form.module';
+import { ValueDefaultTranslationModule } from 'src/app/shared/pipes/value-default-translation/value-default-translation.module';
+import { PropertiesApiService } from 'src/app/shared/services/properties/properties-api.service';
+import {MatStepperModule} from '@angular/material/stepper';
 
 @NgModule({
   declarations: [
@@ -51,8 +55,11 @@ import { SliderFieldModule } from 'src/app/shared/fields/slider-field/slider-fie
     FileUploaderModule,
     ProductsListModule,
     MatSliderModule,
-    SliderFieldModule
+    SliderFieldModule,
+    TranslationFormModule,
+    ValueDefaultTranslationModule,
+    MatStepperModule
   ],
-  providers: [ProductsService, ProductsApiService, CategoriesApiService],
+  providers: [ProductsService, ProductsApiService, CategoriesApiService, PropertiesApiService],
 })
 export class ProductModule {}

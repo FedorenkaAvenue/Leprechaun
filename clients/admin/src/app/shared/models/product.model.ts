@@ -1,4 +1,5 @@
 import { PaginationDto } from './pagination.model';
+import { TranslationFields } from './translation.model';
 
 export enum AvailabilityStatus
 {
@@ -52,7 +53,7 @@ export class ProductCardDto implements ProductCardI {
 }
 
 export class ProductPayloadDto {
-  public title: string;
+  public title: TranslationFields;
   public price_current: number;
   public price_old?: number;
   public is_public: boolean;

@@ -1,0 +1,39 @@
+.header {
+    width: 100%;
+  }
+  
+  .header-title {
+    font-size: 12px;
+  }
+  
+  .header-block {
+    flex-basis: 20%;
+  }
+  
+  ::ng-deep .mat-expansion-panel-content {
+      border-top: 1px solid #858585;
+  }
+  
+  .properties-list {
+    display: flex;
+    flex-direction: column;
+    border-top: 1px solid #eee;
+  }
+  
+  .panel {
+    margin-bottom: 12px !important;
+  }
+
+  ::ng-deep {
+    .mat-accordion .mat-expansion-panel {
+      border-radius: 10px;
+      // &:last-of-type {
+      //   border-radius: 10px;
+      // }
+    }
+
+    .mat-expansion-panel-body {
+      background-color: #f0f8ff;
+    }
+  }
+  

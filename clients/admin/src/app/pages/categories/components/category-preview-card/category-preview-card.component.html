@@ -1,6 +1,6 @@
 
 <section (click)="goToCategProds(category?.url)" class="category-card">
-  <span class="category-title">{{ category?.title }}</span>
+  <span class="category-title">{{ category?.title | valueDefaultTranslation }}</span>
   <lpch-image [src]="category?.icon || ''"></lpch-image>
  
   <span class="category-status">published</span>
