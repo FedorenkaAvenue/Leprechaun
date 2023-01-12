@@ -7,19 +7,19 @@ import WishlistService from '.';
 import WishlistItemEntity from '@entities/WishlistItem';
 import { WishlistItemI } from '@interfaces/WishlistItem';
 import { WishlistItemPublic } from '@dto/WishlistItem/constructor';
-import { QueriesWishlistT } from '@interfaces/Queries';
 import { PRODUCT_DEEP_RELATIONS } from '@constants/relations';
 import { SortWishlistE } from '@enums/Query';
 import configService from '@services/Config';
+import { QueriesWishlist } from '@dto/Queries/constructor';
 
 const USER_WISHLIST_LENGTH = Number(configService.getVal('USER_WISHLIST_LENGTH'));
 
 @Injectable()
 export default class WishlistPublicService extends WishlistService {
-    async getWishlist(sid: SessionI['sid'], { sort }: QueriesWishlistT): Promise<WishlistItemPublic[]> {
+    async getWishlist(sid: SessionI['sid'], searchParams: QueriesWishlist): Promise<WishlistItemPublic[]> {
         let sorting: FindOptionsOrder<WishlistItemEntity>;
 
-        switch (sort) {
+        switch (searchParams.sort) {
             case SortWishlistE.PRICE_UP: {
                 sorting = { product: { price: { current: 'ASC' } } };
                 break;
@@ -41,10 +41,14 @@ export default class WishlistPublicService extends WishlistService {
             take: USER_WISHLIST_LENGTH,
         });
 
-        return result.map(item => new WishlistItemPublic(item));
+        return result.map(item => new WishlistItemPublic(item, searchParams));
     }
 
-    async addItem(product: ProductI['id'], sid: SessionI['sid']): Promise<WishlistItemPublic> {
+    async addItem(
+        product: ProductI['id'],
+        sid: SessionI['sid'],
+        searchParams: QueriesWishlist,
+    ): Promise<WishlistItemPublic> {
         const res = await this.wishlistItemRepo.findOneBy({
             product: { id: product },
             sid,
@@ -59,7 +63,7 @@ export default class WishlistPublicService extends WishlistService {
                 relations: PRODUCT_DEEP_RELATIONS,
             });
 
-            return new WishlistItemPublic(addedItem);
+            return new WishlistItemPublic(addedItem, searchParams);
         } catch (_) {
             throw new NotFoundException('product not found');
         }

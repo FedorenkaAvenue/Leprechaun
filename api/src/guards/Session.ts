@@ -2,6 +2,7 @@ import { Injectable, CanActivate, ExecutionContext, UnauthorizedException } from
 
 /**
  * @description check if session cookie is provided
+ * @throws {UnauthorizedException} session cookie is not provided
  */
 @Injectable()
 export default class SessionGuard implements CanActivate {

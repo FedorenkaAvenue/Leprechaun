@@ -1,5 +1,5 @@
 import { DeleteResult } from 'typeorm';
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 
 import { CreateProductDTO } from '@dto/Product';
 import { FOLDER_TYPES } from '@services/FS';
@@ -7,8 +7,7 @@ import { PaginationResultDTO } from '@dto/Pagination';
 import { ProductI } from '@interfaces/Product';
 import { Product } from '@dto/Product/constructor';
 import ProductService from '.';
-import { PRODUCT_RELATIONS } from '@constants/relations';
-import { Queries } from '@dto/Queries/constructor';
+import { QueriesProductList } from '@dto/Queries/constructor';
 import { ProductEntity } from '@entities/Product';
 
 @Injectable()
@@ -23,27 +22,31 @@ export default class ProductPrivateService extends ProductService {
         }
     }
 
-    async getProduct(productId: ProductI['id']): Promise<ProductEntity> {
-        return this.productRepo.findOne({
-            where: { id: productId },
-            relations: PRODUCT_RELATIONS,
-        });
+    async getProduct(id: ProductI['id']): Promise<ProductEntity> {
+        const qb = this.getProductQueryBulder().andWhere('p.id = :id', { id });
+
+        try {
+            return await qb.getOneOrFail();
+        } catch (_) {
+            throw new NotFoundException('product not found');
+        }
     }
 
-    async getProductList(queries: Queries): Promise<PaginationResultDTO<ProductEntity>> {
+    async getProductList(searchParams: QueriesProductList): Promise<PaginationResultDTO<ProductEntity>> {
         const qb = this.getProductQueryBulder();
 
-        qb.leftJoinAndSelect('product.category', 'category');
-
-        return this.renderResult<ProductEntity>(qb, queries);
+        return this.renderResult<ProductEntity>(qb, searchParams);
     }
 
-    async getCategoryProducts(categoryUrl: string, queries: Queries): Promise<PaginationResultDTO<ProductEntity>> {
-        const qb = this.getProductQueryBulder();
+    async getCategoryProducts(
+        categoryUrl: string,
+        searchParams: QueriesProductList,
+    ): Promise<PaginationResultDTO<ProductEntity>> {
+        const qb = this.getProductQueryBulder()
+            .innerJoin('p.category', 'category')
+            .where('category.url = :categoryUrl', { categoryUrl });
 
-        qb.innerJoin('product.category', 'category').where('category.url = :categoryUrl', { categoryUrl });
-
-        return this.renderResult<ProductEntity>(qb, queries);
+        return this.renderResult<ProductEntity>(qb, searchParams);
     }
 
     async deleteProduct(productId: string): Promise<DeleteResult> {

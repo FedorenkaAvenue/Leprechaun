@@ -3,6 +3,8 @@ import { ApiNotFoundResponse, ApiOkResponse, ApiOperation, ApiTags } from '@nest
 
 import CategoryPublicService from '@services/Category/public';
 import { CategoryPublic } from '@dto/Category/constructor';
+import Queries from '@decorators/Query';
+import { QueriesCommon } from '@dto/Queries/constructor';
 
 @Controller('category')
 @ApiTags('Category 🧑‍💻')
@@ -13,15 +15,15 @@ export default class CategoryPublicController {
     @Get('list')
     @ApiOperation({ summary: 'get all public categories 💾' })
     @ApiOkResponse({ type: CategoryPublic, isArray: true })
-    getAllCategories(): Promise<CategoryPublic[]> {
-        return this.categoryService.getCategoryList();
+    getAllCategories(@Queries() queries: QueriesCommon): Promise<CategoryPublic[]> {
+        return this.categoryService.getCategoryList(queries);
     }
 
-    @Get(':category')
+    @Get(':categoryURL')
     @ApiOperation({ summary: 'get category info by URL 💾' })
     @ApiOkResponse({ type: CategoryPublic })
     @ApiNotFoundResponse({ description: 'category not found' })
-    getCategory(@Param('category') category: string): Promise<CategoryPublic> {
-        return this.categoryService.getCategory(category);
+    getCategory(@Param('categoryURL') categoryURL: string, @Queries() queries: QueriesCommon): Promise<CategoryPublic> {
+        return this.categoryService.getCategory(categoryURL, queries);
     }
 }

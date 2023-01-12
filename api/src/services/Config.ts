@@ -6,6 +6,7 @@ import SMTPTransport from 'nodemailer/lib/smtp-transport';
 import * as session from 'express-session';
 import * as redisCacheStore from 'cache-manager-redis-store';
 import { Pool as PGPool } from 'pg';
+import { ApiClient, SearchApi } from 'manticoresearch';
 const pgConnect = require('connect-pg-simple');
 
 const ENV_ARRAY_SPLIT_SYMBOL = ',';
@@ -32,7 +33,7 @@ export class ConfigService {
      * @description get environment variable value by key
      * @param key environment variable key
      * @returns variable value
-     * @exception variable hasn't been set
+     * @exception {Error} variable hasn't been set
      */
     getVal(key: string): string | string[] {
         const envVariable = process.env[key];
@@ -176,6 +177,16 @@ export class ConfigService {
             max: 1000,
             db: +this.getVal('CACHE_DB_NUMBER'),
         };
+    }
+
+    /**
+     * @description get search engine client
+     */
+    getSEConfig(): any {
+        const client = new ApiClient();
+        client.basePath = 'http://leprechaun_se:9308';
+
+        return new SearchApi(client);
     }
 
     /**

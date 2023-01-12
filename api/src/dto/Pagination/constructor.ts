@@ -3,16 +3,16 @@ import { PaginationDTO, PaginationResultDTO } from '.';
 
 /**
  * @description pagination data result
- * @param pageCount page's length amount
+ * @param pageCount page's length amount (0 if totalCount in 0)
  * @param currentPage current active page
  * @param totalCount all items count
  */
 export class Pagination extends PaginationDTO {
     constructor({ totalCount, currentPage, itemPortion }: CreatePagintaionI) {
         super();
-        this.currentPage = Number(currentPage);
+        this.currentPage = currentPage;
         this.totalCount = totalCount;
-        this.pageCount = Math.ceil(totalCount / itemPortion);
+        this.pageCount = Math.ceil((totalCount || 1) / itemPortion);
     }
 }
 

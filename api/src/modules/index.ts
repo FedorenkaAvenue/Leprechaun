@@ -18,6 +18,8 @@ import SessionModule from './Session';
 import HistoryModule from './History';
 import CacheModule from './Cache';
 import FSModule from './FS';
+import TransModule from './Trans';
+import SearchModule from './Search';
 import CacheResetMiddleware from '@middlewares/CacheReset';
 import ProductPrivateController from '@controllers/Product/private';
 import CategoryPrivateController from '@controllers/Category/private';
@@ -37,6 +39,7 @@ import DashboardPublicController from '@controllers/Dashboard/public';
         }),
         CategoryModule,
         ProductModule,
+        SearchModule,
         DashboardModule,
         OrderModule,
         WishlistModule,
@@ -50,6 +53,7 @@ import DashboardPublicController from '@controllers/Dashboard/public';
         SessionModule,
         CacheModule,
         FSModule,
+        TransModule,
     ],
 })
 export default class AppModule implements NestModule {

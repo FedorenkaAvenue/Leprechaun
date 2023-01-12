@@ -12,9 +12,6 @@ services:
       - ./server/conf/nginx.conf:/etc/nginx/nginx.conf
       - ./server/conf/leprechaun.conf:/etc/nginx/conf.d/leprechaun.conf
       - ./server/conf/leprechaun.dev.conf:/etc/nginx/conf.d/leprechaun.dev.conf
-    depends_on:
-      - client_admin
-      - client_user
 
   db:
     restart: unless-stopped
@@ -30,6 +27,7 @@ services:
     extends:
       file: docker-compose.shared.yaml
       service: node
+    restart: unless-stopped
     command: yarn dev
     volumes:
       - ./api:/app
@@ -40,14 +38,35 @@ services:
     extends:
       file: docker-compose.shared.yaml
       service: node
+    restart: unless-stopped
     command: npm run serve:docker
     volumes:
       - ./clients/user:/app
     environment:
       - IS_DEV=true
 
+  se:
+    restart: unless-stopped
+    ulimits:
+      nproc: 65535
+      nofile:
+        soft: 65535
+        hard: 65535
+      memlock:
+        soft: -1
+        hard: -1
+    environment:
+      - MCL=1
+    volumes:
+      - ./se/manticore.conf:/etc/manticoresearch/manticore.conf
+      - ./se/data:/var/lib/manticore
+      - ./se/logs:/var/log/manticore:rw
+
   client_user_ssr:
     container_name: leprechaun_client_user_ssr
+    networks:
+      - client
+    restart: unless-stopped
     extends:
       file: docker-compose.shared.yaml
       service: node
@@ -63,10 +82,13 @@ services:
       - DOMAIN_API
       - CURRENCY_SYMBOL
     depends_on:
-      - api
+      - server
 
   client_admin:
     container_name: leprechaun_client_admin
+    networks:
+      - client
+    restart: unless-stopped
     extends:
       file: docker-compose.shared.yaml
       service: node
@@ -80,4 +102,26 @@ services:
       - DOMAIN_API
       - DOMAIN_MEDIA
     depends_on:
-      - api
+      - server
+
+  # client_v2:
+  #   container_name: leprechaun_client_v2
+  #   extends:
+  #     file: docker-compose.shared.yaml
+  #     service: node
+  #   restart: unless-stopped
+  #   command: npm run dev:docker
+  #   networks:
+  #     - client
+  #   volumes:
+  #     - ./v2:/app:rw
+  #   environment:
+  #     - IS_DEV=true
+  #     - APP_NAME
+  #     - LANGS
+  #     - DOMAIN
+  #     - DOMAIN_MEDIA
+  #     - DOMAIN_API
+  #     - CURRENCY_SYMBOL
+  #   depends_on:
+  #     - server

@@ -1,13 +1,14 @@
 import { PropertyGroupI, PropertyGroupPublicI } from './PropertyGroup';
+import { TransI } from './Trans';
 
-interface BaseI<P = PropertyGroupI> {
+interface BaseI<P = PropertyGroupI, T = TransI> {
     id?: number;
-    title: string;
+    title: T;
     alt_name: string;
-    property_group?: P;
+    propertygroup?: P;
 }
 
-export type PropertyPublicI = BaseI<PropertyGroupPublicI>;
+export type PropertyPublicI = BaseI<PropertyGroupPublicI, string>;
 
 export interface PropertyI extends BaseI {
     comment?: string;

@@ -9,6 +9,7 @@ import { CreateOrderItemDTO, UpdateOrderItemDTO } from '@dto/OrderItem';
 import { OrderItemI } from '@interfaces/OrderItem';
 import { ProductEntity } from '@entities/Product';
 import OrderService from '.';
+import { QueriesCommon } from '@dto/Queries/constructor';
 
 @Injectable()
 export default class OrderPublicService extends OrderService {
@@ -49,23 +50,24 @@ export default class OrderPublicService extends OrderService {
     }
 
     async changeOrderItemAmount(
-        { order_item, amount }: UpdateOrderItemDTO,
+        id: OrderItemI['id'],
+        { amount }: UpdateOrderItemDTO,
         sid: SessionI['sid'],
     ): Promise<OrderPublic> {
-        await this.orderItemRepo.update({ id: order_item }, { amount });
+        await this.orderItemRepo.update({ id }, { amount });
 
         return this.getCart(sid);
     }
 
-    async postOrder({ order: { id }, customer }: CreateOrderDTO): Promise<UpdateResult> {
+    async postOrder({ order: { id }, customer }: CreateOrderDTO, sid: SessionI['sid']): Promise<UpdateResult> {
         const { list } = await this.orderRepo.findOneBy({ id });
 
         list.forEach(({ product: { id } }) => this.productService.incrementProductOrderCount(id));
 
-        return this.orderRepo.update({ id }, { status: OrderStatus.POSTED, customer });
+        return this.orderRepo.update({ id, sid }, { status: OrderStatus.POSTED, customer });
     }
 
-    async getOrderList(sid: SessionI['sid']): Promise<OrderPublic[]> {
+    async getOrderList(sid: SessionI['sid'], searchParams: QueriesCommon): Promise<OrderPublic[]> {
         try {
             const res = await this.orderRepo.find({
                 where: { sid, status: Not(OrderStatus.INIT) },
@@ -74,7 +76,7 @@ export default class OrderPublicService extends OrderService {
 
             if (!res.length) return [];
 
-            return res.map(order => new OrderPublic(order));
+            return res.map(order => new OrderPublic(order, searchParams));
         } catch (err) {
             throw new NotFoundException('no any active order');
         }

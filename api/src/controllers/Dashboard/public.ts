@@ -3,6 +3,8 @@ import { ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 
 import { CommonDashboards, UserDashboards } from '@dto/Dashboard/constructor';
 import DashboardPublicService from '@services/Dashboard/public';
+import Queries from '@decorators/Query';
+import { QueriesCommon } from '@dto/Queries/constructor';
 
 @Controller('dashboard')
 @ApiTags('Dashboard 🧑‍💻')
@@ -13,14 +15,14 @@ export default class DashboardPublicController {
     @UseInterceptors(CacheInterceptor)
     @ApiOperation({ summary: 'get common dashboards 💾' })
     @ApiOkResponse({ type: CommonDashboards })
-    getCommonDashboards(): Promise<CommonDashboards> {
-        return this.dashboardService.getCommonDashboards();
+    getCommonDashboards(@Queries() queries: QueriesCommon): Promise<CommonDashboards> {
+        return this.dashboardService.getCommonDashboards(queries);
     }
 
     @Get('user')
     @ApiOperation({ summary: 'get individual user dashboards' })
     @ApiOkResponse({ type: UserDashboards })
-    getMostPopularProducts(@Session() { id }): Promise<UserDashboards> {
-        return this.dashboardService.getUserDashboards(id);
+    getMostPopularProducts(@Session() { id }, @Queries() queries: QueriesCommon): Promise<UserDashboards> {
+        return this.dashboardService.getUserDashboards(id, queries);
     }
 }

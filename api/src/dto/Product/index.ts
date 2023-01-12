@@ -1,5 +1,16 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsBooleanString, IsEnum, IsNotEmpty, IsNumberString, IsOptional, IsString } from 'class-validator';
+import {
+    IsBooleanString,
+    IsEnum,
+    IsNotEmpty,
+    IsNotEmptyObject,
+    IsNumberString,
+    IsObject,
+    IsOptional,
+    IsString,
+    ValidateNested,
+} from 'class-validator';
+import { Type } from 'class-transformer';
 
 import { CategoryI } from '@interfaces/Category';
 import { ProductI, ProductPreviewI, ProductCardI, ProductPublicI } from '@interfaces/Product';
@@ -13,12 +24,15 @@ import { PriceEntity } from '@entities/_Price';
 import { ImageEntity } from '@entities/Image';
 import { PropertyPublic } from '@dto/Property/constructor';
 import { CategoryPublic } from '@dto/Category/constructor';
+import { TransDTO } from '@dto/Trans';
 
 export class CreateProductDTO implements ProductI {
-    @IsNotEmpty()
-    @IsString()
-    @ApiProperty({ required: true })
-    title: string;
+    @IsNotEmptyObject()
+    @IsObject()
+    @ValidateNested()
+    @Type(() => TransDTO)
+    @ApiProperty()
+    title: TransDTO;
 
     @IsNotEmpty()
     @IsNumberString()
@@ -48,6 +62,11 @@ export class CreateProductDTO implements ProductI {
     @IsString()
     @ApiProperty({ required: false, default: null })
     description: string;
+
+    @IsOptional()
+    @IsNumberString()
+    @ApiProperty({ required: false, default: 0 })
+    rating: number;
 
     @IsNotEmpty()
     @IsNumberString()

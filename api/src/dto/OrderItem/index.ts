@@ -38,11 +38,6 @@ export class CreateOrderItemDTO implements OrderItemI<string> {
 
 export class UpdateOrderItemDTO {
     @IsNotEmpty()
-    @IsUUID()
-    @ApiProperty({ description: 'order item ID', required: true })
-    order_item: OrderItemI['id'];
-
-    @IsNotEmpty()
     @IsNumber()
     @ApiProperty({ required: true, description: 'product items amount' })
     amount: OrderItemI['amount'];
