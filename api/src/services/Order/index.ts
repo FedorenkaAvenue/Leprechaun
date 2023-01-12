@@ -31,14 +31,15 @@ export default class OrderService {
      * @param qb current query builder to continue building query
      * @returns completed OrderPublicDTO or null
      */
-    async getOrder(qb: SelectQueryBuilder<OrderEntity>, resConstructor?: any) {
+    async getOrder(qb: SelectQueryBuilder<OrderEntity>, resConstructor?: any, searchParams?: any) {
         const res = await qb
             .leftJoinAndSelect('order.list', 'list')
-            .leftJoinAndSelect('list.product', 'product')
-            .leftJoinAndSelect('product.images', 'images')
+            .leftJoinAndSelect('list.product', 'p')
+            .leftJoinAndSelect('p.title', 'title')
+            .leftJoinAndSelect('p.images', 'images')
             .orderBy('list.created_at', 'ASC')
             .getOne();
 
-        return res ? (resConstructor ? new resConstructor(res) : res) : null;
+        return res ? (resConstructor ? new resConstructor(res, searchParams) : res) : null;
     }
 }

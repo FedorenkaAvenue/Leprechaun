@@ -32,8 +32,8 @@ export default class OrderPublicController {
     @Get()
     @ApiOperation({ summary: 'get cart' })
     @ApiOkResponse({ type: OrderPublic })
-    getCart(@Session() { id }): Promise<OrderPublic> {
-        return this.orderService.getCart(id);
+    getCart(@Session() { id }, @Queries() queries: QueriesCommon): Promise<OrderPublic> {
+        return this.orderService.getCart(id, queries);
     }
 
     @Get('list')
@@ -51,8 +51,9 @@ export default class OrderPublicController {
     addOrderItem(
         @Session() { id },
         @Body(new ValidationPipe({ transform: true })) orderItem: CreateOrderItemDTO,
+        @Queries() queries: QueriesCommon,
     ): Promise<OrderPublic> {
-        return this.orderService.addOrderItem(orderItem, id);
+        return this.orderService.addOrderItem(orderItem, id, queries);
     }
 
     @Patch('item/:itemID')
@@ -63,8 +64,9 @@ export default class OrderPublicController {
         @Param('itemID', ParseUUIDPipe) itemID: string,
         @Body(new ValidationPipe({ transform: true })) data: UpdateOrderItemDTO,
         @Session() { id },
+        @Queries() queries: QueriesCommon,
     ): Promise<OrderPublic> {
-        return this.orderService.changeOrderItemAmount(itemID, data, id);
+        return this.orderService.changeOrderItemAmount(itemID, data, id, queries);
     }
 
     @Post()
@@ -84,7 +86,11 @@ export default class OrderPublicController {
     @ApiOperation({ summary: 'delete order item' })
     @ApiOkResponse({ type: OrderPublic })
     @ApiNotFoundResponse({ description: 'order item not found' })
-    removeItem(@Param('itemID', ParseUUIDPipe) orderItemID: string, @Session() { id }): Promise<OrderPublic> {
-        return this.orderService.removeOrderItem(orderItemID, id);
+    removeItem(
+        @Param('itemID', ParseUUIDPipe) orderItemID: string,
+        @Session() { id },
+        @Queries() queries: QueriesCommon,
+    ): Promise<OrderPublic> {
+        return this.orderService.removeOrderItem(orderItemID, id, queries);
     }
 }

@@ -13,16 +13,20 @@ import { QueriesCommon } from '@dto/Queries/constructor';
 
 @Injectable()
 export default class OrderPublicService extends OrderService {
-    async getCart(sid: SessionI['sid']): Promise<OrderPublic> {
+    async getCart(sid: SessionI['sid'], searchParams: QueriesCommon): Promise<OrderPublic> {
         const qb = this.orderRepo
             .createQueryBuilder('order')
             .where('order.sid = :sid', { sid })
             .andWhere('order.status = :status', { status: OrderStatus.INIT });
 
-        return await this.getOrder(qb, OrderPublic);
+        return await this.getOrder(qb, OrderPublic, searchParams);
     }
 
-    async addOrderItem(orderItem: CreateOrderItemDTO, sid: SessionI['sid']): Promise<OrderPublic> {
+    async addOrderItem(
+        orderItem: CreateOrderItemDTO,
+        sid: SessionI['sid'],
+        searchParams: QueriesCommon,
+    ): Promise<OrderPublic> {
         const res = await this.orderRepo.findOneBy({
             sid,
             status: OrderStatus.INIT,
@@ -46,17 +50,18 @@ export default class OrderPublicService extends OrderService {
             await this.orderItemRepo.save({ order_id, ...orderItem } as DeepPartial<ProductEntity>);
         }
 
-        return await this.getCart(sid);
+        return await this.getCart(sid, searchParams);
     }
 
     async changeOrderItemAmount(
         id: OrderItemI['id'],
         { amount }: UpdateOrderItemDTO,
         sid: SessionI['sid'],
+        searchParams: QueriesCommon,
     ): Promise<OrderPublic> {
         await this.orderItemRepo.update({ id }, { amount });
 
-        return this.getCart(sid);
+        return this.getCart(sid, searchParams);
     }
 
     async postOrder({ order: { id }, customer }: CreateOrderDTO, sid: SessionI['sid']): Promise<UpdateResult> {
@@ -82,9 +87,13 @@ export default class OrderPublicService extends OrderService {
         }
     }
 
-    async removeOrderItem(id: OrderItemI['id'], sid: SessionI['sid']): Promise<OrderPublic> {
+    async removeOrderItem(
+        id: OrderItemI['id'],
+        sid: SessionI['sid'],
+        searchParams: QueriesCommon,
+    ): Promise<OrderPublic> {
         await this.orderItemRepo.delete({ id });
 
-        return this.getCart(sid);
+        return this.getCart(sid, searchParams);
     }
 }
