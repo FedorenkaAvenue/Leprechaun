@@ -3,7 +3,13 @@ export function objectToFormData(data: any) {
   Object.keys(data).forEach(key => {
     const value = data[key];
     if (Array.isArray(value)) {
-      value.forEach((item: string | File, index: number) => formData.append(`${key}`, item));
+      value.forEach((item: string | File, index: number) => {
+        if(item instanceof File) {
+          formData.append(key, item)
+        } else {
+          formData.append(`${key}[${index}]`, item)
+        }
+      });
     }
     
     else if(typeof value === 'object' && value !== null) {

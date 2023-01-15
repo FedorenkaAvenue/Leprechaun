@@ -1,5 +1,4 @@
 import {
-  AfterViewInit,
   Component,
   ElementRef,
   EventEmitter,
@@ -11,6 +10,7 @@ import {
   ViewChild,
 } from '@angular/core';
 import {
+  AbstractControl,
   FormArray,
   FormBuilder,
   FormControl,
@@ -35,6 +35,7 @@ export class ProductFormComponent implements OnInit, OnChanges {
   @Input() categories: CategoryDto[] | null;
   @Input() propertiesGroups: PropertiesGroupDto[] | null;
   @Input() mode: CategoryDto[] | null;
+  @Input() categoryId: number;
   @ViewChild('fileInput') fileInput: ElementRef;
   public mainForm: FormGroup;
   public propertiesForm: FormGroup;
@@ -47,20 +48,26 @@ export class ProductFormComponent implements OnInit, OnChanges {
     return this.propertiesForm.controls['properties'] as FormArray;
   }
 
-  constructor(private readonly fb: FormBuilder) {}
-
-  ngOnInit(): void {
-    this.initForm();
+  constructor(private readonly fb: FormBuilder) {
+    this.initMainForm();
     this.initPropertiesGroupsForm();
     this.initImagesForm();
-    this.changeImagesValue();
     this.changeCategoryValue();
   }
 
+  ngOnInit(): void {
+    this.changeImagesValue();
+  }
+
   ngOnChanges(changes: SimpleChanges) {
-    const propertiesGroups = this.propertiesGroups;
+    const propertiesGroups = changes.propertiesGroups?.currentValue;
+    const categoryId = changes.categoryId?.currentValue;
     if (propertiesGroups) {
       this.updatePropertiesForm(propertiesGroups);
+    }
+
+    if (categoryId) {
+      this.mainForm.get('category')?.setValue(+categoryId);
     }
   }
   public removeProductImage(index: number): void {
@@ -70,7 +77,7 @@ export class ProductFormComponent implements OnInit, OnChanges {
     control?.updateValueAndValidity();
   }
 
-  private initForm() {
+  private initMainForm() {
     this.mainForm = this.fb.group({
       price_current: this.fb.control(null, Validators.required),
       price_old: this.fb.control(null),
@@ -79,7 +86,6 @@ export class ProductFormComponent implements OnInit, OnChanges {
       is_public: this.fb.control(true),
       rating: this.fb.control(null),
       is_new: this.fb.control(true),
-      // images: this.fb.control([], Validators.required)
     });
   }
 
@@ -105,20 +111,17 @@ export class ProductFormComponent implements OnInit, OnChanges {
     const properties = this.propertiesForm.value?.properties.reduce(
       (total: number[], property: any) => {
         const prop = property.property;
-        if (Array.isArray(prop)) {
-          total.push(...prop.filter((el) => el));
-        }
+        total.push(...prop.filter((el: any) => el));
         return total;
       },
       []
     );
 
-    this.saveFormEvent.emit({ ...data, properties, images});
+    this.saveFormEvent.emit({ ...data, properties, images });
   }
 
   private changeCategoryValue(): void {
     this.mainForm.get('category')?.valueChanges.subscribe((res) => {
-      console.log(res);
       this.changeCategoryEvent.emit(res);
     });
   }
@@ -147,9 +150,32 @@ export class ProductFormComponent implements OnInit, OnChanges {
       propertiesGroupsControl.push(
         this.fb.group({
           propertyGroup: this.fb.control(propertygroup.alt_name),
-          property: this.fb.control(0),
+          property: this.fb.control([]),
         })
       );
+    });
+  }
+
+  private changePropertiesForm(): void {
+    this.propertiesForm.valueChanges.subscribe((res) => {
+      (this.propertiesForm.get('properties') as FormArray)?.controls.forEach(
+        (formGroup: AbstractControl) => {
+          const prop = formGroup.value;
+          const value = {
+            ...prop,
+            property:
+              prop.property.length > 1
+                ? prop.property.filter((res: any) => res)
+                : prop.property,
+          };
+
+          formGroup.patchValue(value, { emitEvent: false });
+          // console.log(this.propertiesForm);
+          // debugger
+        }
+      );
+
+      this.propertiesForm.updateValueAndValidity({ emitEvent: false });
     });
   }
 

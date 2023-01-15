@@ -83,7 +83,7 @@
       </div>
     </form>
   </mat-step>
-  <mat-step [stepControl]="propertiesForm" [editable]="true">
+  <mat-step [stepControl]="propertiesForm" [editable]="true" >
     <ng-container *ngIf="propertiesForm">
       <form [formGroup]="propertiesForm">
         <ng-container formArrayName="properties">
@@ -97,7 +97,7 @@
               <div>{{ propertyGroup.get("propertyGroup").value }}</div>
 
               <mat-form-field
-                [class.empty-field]="!select.value"
+                [class.empty-field]="!select.value?.length"
                 appearance="fill"
               >
                 <mat-label>Choose an property</mat-label>
@@ -106,9 +106,9 @@
                   formControlName="property"
                   [multiple]="true"
                 >
-                  <mat-option class="empty_property" [value]="0"
-                    >null</mat-option
-                  >
+                  <!-- <mat-option class="empty_property" [value]="0"
+                    >null</mat-option -->
+                  <!-- > -->
                   <ng-container
                     *ngFor="
                       let property of getProperties(

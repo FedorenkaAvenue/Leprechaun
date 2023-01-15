@@ -1,6 +1,6 @@
 <div class="section-wrapper category">
+  <ng-container *ngIf="category$ | async as category">
   <div class="section-container">
-    <ng-container *ngIf="category$ | async as category">
       <div class="category-info">
         <div class="category-header">
           <lpch-image [src]="category?.icon || ''"></lpch-image>
@@ -22,13 +22,13 @@
           </p>
         </div>
       </div>
-    </ng-container>
   </div>
 
   <div class="section-container">
 
     <a
     routerLink="/admin/product/add"
+    [queryParams]="{category: category.id}"
     class="products-add"
     mat-raised-button
     color="accent"
@@ -51,4 +51,5 @@
         </ng-container>
       </ng-container>
   </div>
+</ng-container>
 </div>

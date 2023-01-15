@@ -27,7 +27,7 @@ export class CartApiService {
   }
 
   public setProductAmount(data: ProductAmountPayload): Observable<OrderI> {
-    return this.http.patch<OrderI>(`${this.apiUrl}/item`, data)
+    return this.http.patch<OrderI>(`${this.apiUrl}/item/${data.order_item}`, {amount: data.amount})
   }
 
   public sendOrder(order: OrderDto, customer: CustomerData): Observable<any> {

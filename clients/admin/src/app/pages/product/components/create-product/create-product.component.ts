@@ -7,7 +7,7 @@ import {
   moveItemInArray,
 } from '@angular/cdk/drag-drop';
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { Observable } from 'rxjs';
 import { CategoryDto } from 'src/app/shared/models/categories.model';
@@ -23,15 +23,18 @@ import { ProductsService } from '../../sevices/products.service';
 export class CreateProductComponent implements OnInit {
   public categories$: Observable<CategoryDto[]>;
   public propertiesGroups$: Observable<Array<PropertiesGroupDto>>
+  public categoryId: number;
   constructor(
     private readonly productsService: ProductsService,
     private readonly router: Router,
+    private readonly route: ActivatedRoute,
     private readonly toastr: ToastrService,
     private readonly navigationService: NavigationService
   ) {}
 
   ngOnInit(): void {
     this.categories$ = this.getCategories();
+    this.categoryId = this.route.snapshot.queryParams.category
   }
 
   public saveForm(formData: any) {
