@@ -1,5 +1,5 @@
 import { CategoryI } from '@interfaces/Category';
-import { CategoryPublicDTO, CreateCategoryDTO } from '.';
+import { CategoryPublicDTO, CategorySearchDTO, CreateCategoryDTO } from '.';
 import { QueriesCommon } from '@dto/Queries/constructor';
 
 export class Category extends CreateCategoryDTO {
@@ -21,6 +21,15 @@ export class CategoryPublic extends CategoryPublicDTO {
         this.id = id;
         this.title = title[lang];
         this.url = url;
+        this.icon = icon;
+    }
+}
+
+export class CategorySearch extends CategorySearchDTO {
+    constructor({ url, title_en, icon }) {
+        super();
+        this.url = url;
+        this.title = title_en;
         this.icon = icon;
     }
 }

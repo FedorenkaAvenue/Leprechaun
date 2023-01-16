@@ -17,3 +17,7 @@ export interface CategoryI extends BaseI {
     is_public: boolean;
     comment: string;
 }
+
+export interface CategorySearchI extends Pick<CategoryI, 'url' | 'title'> {
+    icon: string;
+}

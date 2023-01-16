@@ -13,6 +13,9 @@ export default class SearchPublicService extends SearchService {
                 this.searchCategory(substring),
             ]);
 
+            // console.log(products.hits.hits);
+            // console.log(categories.hits.hits);
+
             return new SearchAutocomplete({ products, categories });
         } catch (err) {
             throw new InternalServerErrorException(err.response.text);

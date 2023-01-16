@@ -3,7 +3,7 @@ import { ProductStatusE } from '@enums/Product';
 import WithLabels from '@decorators/Label';
 import { LabelType } from '@enums/Label';
 import { ImageEntity } from '@entities/Image';
-import { CreateProductDTO, ProductPreviewDTO, ProductCardDTO, ProductPublicDTO } from '.';
+import { CreateProductDTO, ProductPreviewDTO, ProductCardDTO, ProductPublicDTO, ProductSearchDTO } from '.';
 import { Price } from '@dto/Price/constructor';
 import configService from '@services/Config';
 import { PropertyPublic } from '@dto/Property/constructor';
@@ -92,6 +92,15 @@ export class ProductPublic extends ProductPublicDTO {
         this.orderCount = orderCount;
         this.wishlistCount = wishlistCount.length;
         // this.options = mapOptions(properties, searchParams);
+    }
+}
+
+export class ProductSearch extends ProductSearchDTO {
+    constructor({ p_id, title_en, img }) {
+        super();
+        this.id = p_id;
+        this.title = title_en;
+        this.image = img;
     }
 }
 

@@ -13,7 +13,7 @@ import {
 import { Type } from 'class-transformer';
 
 import { CategoryI } from '@interfaces/Category';
-import { ProductI, ProductPreviewI, ProductCardI, ProductPublicI } from '@interfaces/Product';
+import { ProductI, ProductPreviewI, ProductCardI, ProductPublicI, ProductSearchI } from '@interfaces/Product';
 import { PriceI } from '@interfaces/Price';
 import { ProductStatusE } from '@enums/Product';
 import { PropertyI, PropertyPublicI } from '@interfaces/Property';
@@ -185,4 +185,15 @@ export class ProductPublicDTO implements ProductPublicI {
 
     @ApiProperty({ description: 'how many users added this product to wishlist' })
     wishlistCount: number;
+}
+
+export class ProductSearchDTO implements ProductSearchI {
+    @ApiProperty({ type: 'string' })
+    id: ProductI['id'];
+
+    @ApiProperty({ type: 'string' })
+    title: ProductI['title'];
+
+    @ApiProperty({ type: 'string' })
+    image: string;
 }
