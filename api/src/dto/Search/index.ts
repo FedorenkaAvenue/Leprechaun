@@ -1,16 +1,8 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsNotEmpty, IsString } from 'class-validator';
 
 import { SearchAutocompleteI, SearchCategoryItemT, SearchProductItemT } from '@interfaces/Search';
 import { ProductI } from '@interfaces/Product';
 import { CategoryI } from '@interfaces/Category';
-
-export class SearchBodyDTO {
-    @IsNotEmpty()
-    @IsString()
-    @ApiProperty({ required: true })
-    substring: string;
-}
 
 export class SearchProductItemDTO implements SearchProductItemT {
     @ApiProperty({ type: 'string' })

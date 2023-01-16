@@ -34,11 +34,11 @@ export default class ProductPublicController {
         required: false,
         enum: SortProductE,
     })
-    @ApiQuery({
-        name: 'price',
-        required: false,
-        enum: 'LOL',
-    })
+    // @ApiQuery({
+    //     name: 'price',
+    //     required: false,
+    //     enum: 'LOL',
+    // })
     @ApiQuery({
         name: 'status',
         required: false,

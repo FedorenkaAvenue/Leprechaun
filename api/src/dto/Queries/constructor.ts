@@ -3,6 +3,7 @@ import {
     QueriesCommonI,
     QueriesProductListI,
     QueriesReqI,
+    QueriesSearchI,
     QueriesWishlistI,
     QueryPriceI,
 } from '@interfaces/Queries';
@@ -39,7 +40,6 @@ export class QueriesCommon implements QueriesCommonI {
 }
 
 export class QueriesProductList extends QueriesCommon implements QueriesProductListI {
-    lang: string;
     sort: SortProductE;
     page: number;
     portion: number;
@@ -59,11 +59,19 @@ export class QueriesProductList extends QueriesCommon implements QueriesProductL
 }
 
 export class QueriesWishlist extends QueriesCommon implements QueriesWishlistI {
-    lang: string;
     sort: SortWishlistE;
 
     constructor({ lang, sort }: QueriesReqI) {
         super({ lang });
         this.sort = Number(sort) || SortWishlistE.LASTEST;
+    }
+}
+
+export class QueriesSearch extends QueriesCommon implements QueriesSearchI {
+    substring: string;
+
+    constructor({ lang, substring }: QueriesReqI) {
+        super({ lang });
+        this.substring = substring;
     }
 }
