@@ -1,5 +1,5 @@
 import { Controller, Get } from '@nestjs/common';
-import { ApiOkResponse, ApiOperation, ApiQuery, ApiTags } from '@nestjs/swagger';
+import { ApiBadRequestResponse, ApiOkResponse, ApiOperation, ApiQuery, ApiTags } from '@nestjs/swagger';
 
 import SearchPublicService from '@services/Search/public';
 import { SearchAutocomplete } from '@dto/Search/constructor';
@@ -14,6 +14,7 @@ export default class SearchPublicController {
     @Get('/autocomplete')
     @ApiOperation({ summary: 'search by substring for autocomplete' })
     @ApiOkResponse({ type: SearchAutocomplete })
+    @ApiBadRequestResponse({ description: 'substring is empty' })
     @ApiQuery({
         name: 'substring',
         required: true,

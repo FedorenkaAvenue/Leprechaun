@@ -1,3 +1,5 @@
+import { BadRequestException } from '@nestjs/common';
+
 import {
     DinamicQueryFiltersT,
     QueriesCommonI,
@@ -71,6 +73,8 @@ export class QueriesSearch extends QueriesCommon implements QueriesSearchI {
     substring: string;
 
     constructor({ lang, substring }: QueriesReqI) {
+        if (!substring) throw new BadRequestException('substring is empty');
+
         super({ lang });
         this.substring = substring;
     }
