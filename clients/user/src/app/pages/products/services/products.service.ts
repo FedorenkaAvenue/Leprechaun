@@ -15,7 +15,7 @@ export class ProductsService {
     private readonly productsApiService: ProductsApiService
     ) { }
 
-    public getProducts(): Observable<Products> {
+    public getProducts(categoryId?: string): Observable<Products> {
       return this.changeParams$.pipe(
         switchMap( (param: Params) => {
           const params: Params = {
@@ -23,10 +23,14 @@ export class ProductsService {
             sort: ProductsSort.POPULAR,
             ...param
           }
-          return this.productsApiService.getProducts(params);
+          return this.productsApiService.getProducts(params, categoryId);
         })
       )
       // return this.productsApiService.getProducts({});
+    }
+
+    public getCategoryInfo(categoryUrl): Observable<any> {
+      return this.productsApiService.getCategoryInfo(categoryUrl);
     }
 
     public changeParams(params: Params) {

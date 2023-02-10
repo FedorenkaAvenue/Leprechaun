@@ -1,5 +1,12 @@
 <section class="home">
-  <div class="home__banner"></div>
+  <div class="m-v-5">
+    <h2>Категорії</h2>
+    <div class="home__banner gr-3 g-1">
+      <a [routerLink]="['products', category.url] | localize" class="category-item" *ngFor="let category of categories$ | async">
+      <p>{{category.title}}</p>
+      </a>
+    </div>
+  </div>
   <ng-container  *ngIf="dasboardUserProducts$ | async as userProducts">
     <ng-container *ngIf="userProducts?.history.length">
       <app-dashboard

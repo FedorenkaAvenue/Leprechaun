@@ -33,10 +33,10 @@ export class ProductsManagerService {
     this.productsService.destroy();
   }
 
-  public getProducts(): Observable<Products> {
+  public getProducts(categoryId?: string): Observable<Products> {
     const cartState$ = this.cartService.getCartStateValue();
     const favoriteState$ = this.favoritesService.getFavoritesValue();
-    const products$ = this.productsService.getProducts();
+    const products$ = this.productsService.getProducts(categoryId);
     return combineLatest([cartState$, favoriteState$, products$]).pipe(
       map(([cartValue, favoriteValue, products]) => {
         products.data.map(el => {

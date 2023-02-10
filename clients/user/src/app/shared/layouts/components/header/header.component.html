@@ -1,5 +1,51 @@
 <header class="header p-v-3 container">
   <a [routerLink]="'/' | localize" class="header_logo">Leprechaun</a>
+  <div  class="header__search">
+    <form #chartContainer class="search-form" [formGroup]="searchForm" action="">
+      <input placeholder="search" class="search-control" formControlName="searchControl" type="text">
+      <button class="search-btn" (keyup.enter)="getSearchResult()" (click)="getSearchResult()">Пошук</button>
+    </form>
+    <div *ngIf="searchResult" class="search__result">
+      <div class="search__wrap">
+        <ng-container *ngIf="searchResult.categories?.length || searchResult.products.length else emptyComponent"></ng-container>
+        <ul *ngIf="searchResult.categories?.length">
+          <p class="search-header"> Пошук в категорії</p>
+          <li class="search-list" *ngFor="let item of searchResult.categories">
+            <a class="search-link" [routerLink]="['products', item.url] | localize" >
+              <lpch-image
+              class="search-img"
+              [src]="item.icon"
+              [alt]="item?.title"
+            ></lpch-image>
+         <!-- <img class="search-img" [src]="item.image" alt=""> -->
+            <p class="search-title" >{{item.title}}</p>
+          </a>
+          </li>
+        </ul> 
+        <ul *ngIf="searchResult.products.length">
+          <p class="search-header"> Пошук в продуктах </p>
+           <!-- <p> Пошук в категорії</p> -->
+          <li class="search-list" *ngFor="let item of searchResult.products">
+           
+            <a class="search-link" [routerLink]="">
+              <lpch-image
+              class="search-img"
+              [src]="item.image"
+              [alt]="item?.title"
+            ></lpch-image>
+         <!-- <img class="search-img" [src]="item.image" alt=""> -->
+            <p class="search-title" >{{item.title}}</p>
+          </a>
+          
+          </li>
+        </ul>
+        <ng-template #emptyComponent>
+          <p>За вашим запитом нічого не знайдено</p>
+        </ng-template>
+      </div>
+    
+    </div>
+  </div>
   <nav class="header_nav fs-2 fw-2">
     <ul class="g-4">
       <li>

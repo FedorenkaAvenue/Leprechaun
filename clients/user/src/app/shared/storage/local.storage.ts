@@ -7,10 +7,10 @@ export class LocalStorageService {
 
   constructor() { }
 
-  public getItem<T>(key: string): T | null | undefined {
+  public getItem<T>(key: string): string | null | undefined {
     try {
-      const item = this.localStorage.getItem(key);
-      return item ? JSON.parse(item) as T : null;
+      return this.localStorage.getItem(key);
+     
     } catch (error) {
       this.logError(error);
       return null;

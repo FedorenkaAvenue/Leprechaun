@@ -27,11 +27,12 @@ import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { environment } from 'environments/environment.global';
 import { AppRoutingModule } from './app-routing.module';
+import { LangInterceptor } from '@shared/interceptors/lang.interceptor';
 // interceptors
 
 
 export function createTranslateLoader(http: HttpClient) {
-  return new TranslateHttpLoader(http, `${environment.domain}/assets/locales/`, '.json');
+  return new TranslateHttpLoader(http, `/assets/locales/`, '.json');
 }
 @NgModule({
   imports: [
@@ -76,7 +77,13 @@ export function createTranslateLoader(http: HttpClient) {
       provide: HTTP_INTERCEPTORS,
       useClass: withCredentialsInterceptor,
       multi: true
-    }
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: LangInterceptor,
+      multi: true
+    },
+    
   ],
 })
 export class AppModule {}

@@ -18,7 +18,7 @@ export class LanguageSwitchComponent implements OnInit {
   }
   
 public selectLang(lang: string): void {
-console.log(lang)
+  console.log(lang)
   this.changeLang.emit(lang)
 } 
 }

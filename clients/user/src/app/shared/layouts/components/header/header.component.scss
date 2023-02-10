@@ -13,4 +13,59 @@
       align-items: center;
     }
   }
+
+  .header__search {
+    position: relative;
+    max-width: 500px;
+    margin: 0 50px;
+    flex-grow: 1;
+  }
+  .search__result {
+    width: 100%;
+    min-height: 200px;
+    background-color: #eee;
+    position: absolute;
+    z-index: 1;
+  }
+
+  .search-form {
+    display: flex;
+    height: 38px;
+  }
+
+  .search-control {
+    flex-grow: 1;
+    border: 1px solid rgb(240, 10, 79);
+    padding: 0 10px;
+    // margin-right: 20px;
+  }
+
+  .search-btn {
+    padding: 0 20px;
+    background-color: green; 
+  }
+
+  .search-img {
+    display: block;
+    width: 50px;
+    height: 50px;
+    margin-right: 20px;
+  }
+
+  .search-link {
+    display: flex;
+    cursor: pointer;
+  }
+
+  .search__wrap {
+    padding: 20px;
+  }
+
+  .search-header {
+    margin-bottom: 10px;
+  }
+  
+  .search-list {
+    margin-bottom: 10px;
+  }
 }
