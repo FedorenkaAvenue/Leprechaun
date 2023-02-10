@@ -3,8 +3,7 @@
   <mat-drawer class="mat-drawer" #drawer [mode]="'over'">
     <ng-container *ngFor="let link of sidenavLinks">
       <a class="sidenav_link" routerLinkActive="active" [routerLink]="link?.url">
-        <mat-icon class="sidenav_icon">{{ link?.icon }}</mat-icon>
-        <!-- <span>{{ link?.label }}</span> -->
+        <img class="sidenav_icon" [src]="link?.icon" alt="">
       </a>
     </ng-container>
   </mat-drawer>

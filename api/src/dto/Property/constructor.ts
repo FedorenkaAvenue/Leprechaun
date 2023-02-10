@@ -1,22 +1,14 @@
+import { PropertyGroupPublic } from '@dto/PropertyGroup/constructor';
+import { QueriesCommon } from '@dto/Queries/constructor';
 import { PropertyEntity } from '@entities/Property';
-import { CreatePropertyDTO, PropertyPublicDTO } from '.';
-
-export class Property extends CreatePropertyDTO {
-    constructor({ title, alt_name, comment, property_group }: CreatePropertyDTO) {
-        super();
-        this.property_group = property_group;
-        this.title = title;
-        this.alt_name = alt_name;
-        this.comment = comment || null;
-    }
-}
+import { PropertyPublicDTO } from '.';
 
 export class PropertyPublic extends PropertyPublicDTO {
-    constructor({ id, title, alt_name, property_group }: PropertyEntity) {
+    constructor({ id, title, alt_name, propertygroup }: PropertyEntity, searchParams: QueriesCommon) {
         super();
         this.id = id;
-        this.title = title;
+        this.title = title[searchParams.lang];
         this.alt_name = alt_name;
-        this.property_group = property_group;
+        this.propertygroup = new PropertyGroupPublic(propertygroup, searchParams);
     }
 }

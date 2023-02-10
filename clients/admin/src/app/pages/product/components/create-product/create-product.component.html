@@ -1,6 +1,10 @@
+
 <app-product-form
 (saveFormEvent)="saveForm($event)"
+(changeCategoryEvent)="changeCategory($event)"
 [categories]="categories$ | async"
+[propertiesGroups]="propertiesGroups$ | async"
+[categoryId]="categoryId"
 >
 </app-product-form>
 

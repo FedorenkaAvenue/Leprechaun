@@ -1,9 +1,20 @@
-import { Column, Entity, JoinTable, ManyToMany, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import {
+    Column,
+    Entity,
+    JoinColumn,
+    JoinTable,
+    ManyToMany,
+    OneToMany,
+    OneToOne,
+    PrimaryGeneratedColumn,
+} from 'typeorm';
 import { ApiProperty } from '@nestjs/swagger';
 
 import { ProductEntity } from '@entities/Product';
 import { CategoryI } from '@interfaces/Category';
 import { PropertyGroupEntity } from '@entities/PropertGroup';
+import { TransI } from '@interfaces/Trans';
+import { TransEntity } from './Trans';
 
 @Entity('category')
 export class CategoryEntity implements CategoryI {
@@ -15,35 +26,14 @@ export class CategoryEntity implements CategoryI {
     @ApiProperty()
     url: string;
 
-    @Column({ unique: true })
-    @ApiProperty()
-    title: string;
+    @OneToOne(() => TransEntity, { cascade: true, eager: true })
+    @JoinColumn({ name: 'title', referencedColumnName: 'id' })
+    @ApiProperty({ type: TransEntity })
+    title: TransI;
 
     @Column({ nullable: true })
     @ApiProperty()
     icon: string;
-
-    @OneToMany(() => ProductEntity, ({ category }) => category)
-    @ApiProperty({ type: ProductEntity, isArray: true })
-    products: ProductEntity[];
-
-    @ManyToMany(() => PropertyGroupEntity, ({ id }) => id, { cascade: true })
-    @JoinTable({
-        name: '_categories_to_propertygroups',
-        joinColumn: {
-            name: 'category_id',
-            referencedColumnName: 'id',
-        },
-        inverseJoinColumn: {
-            name: 'propertygroup_id',
-            referencedColumnName: 'id',
-        },
-    })
-    @ApiProperty({
-        type: PropertyGroupEntity,
-        isArray: true,
-    })
-    property_groups: PropertyGroupEntity[];
 
     @Column({ nullable: true })
     @ApiProperty()
@@ -52,4 +42,21 @@ export class CategoryEntity implements CategoryI {
     @Column({ default: false })
     @ApiProperty()
     is_public: boolean;
+
+    @OneToMany(() => ProductEntity, ({ category }) => category)
+    products: ProductEntity[];
+
+    @ManyToMany(() => PropertyGroupEntity, ({ id }) => id)
+    @JoinTable({
+        name: '_categories_to_propertygroups',
+        inverseJoinColumn: {
+            name: 'category_id',
+            referencedColumnName: 'id',
+        },
+        joinColumn: {
+            name: 'propertygroup_id',
+            referencedColumnName: 'id',
+        },
+    })
+    propertygroups: PropertyGroupEntity[];
 }

@@ -1,6 +1,8 @@
+import { TranslationFields } from "./translation.model";
+
 export interface CategoryI {
   id: number;
-  title: string;
+  title: TranslationFields;
   url: string;
   is_public: boolean;
   children: Array<CategoryI> | null;
@@ -10,7 +12,7 @@ export interface CategoryI {
 
 export class CategoryDto implements CategoryI{
     public id: number;
-    public title: string;
+    public title: TranslationFields;
     public url: string;
     public is_public: boolean;
     public children: Array<CategoryDto> | null;

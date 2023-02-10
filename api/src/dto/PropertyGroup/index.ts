@@ -1,13 +1,27 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsNotEmpty, IsOptional, IsString } from 'class-validator';
+import {
+    IsBoolean,
+    IsNotEmpty,
+    IsNotEmptyObject,
+    IsObject,
+    IsOptional,
+    IsString,
+    ValidateNested,
+} from 'class-validator';
 
-import { PropertyGroupI } from '@interfaces/PropertyGroup';
+import { PropertyGroupI, PropertyGroupPublicI } from '@interfaces/PropertyGroup';
+import { PropertyEntity } from '@entities/Property';
+import { Type } from 'class-transformer';
+import { TransDTO } from '@dto/Trans';
+import { PropertyPublic } from '@dto/Property/constructor';
 
 export class CreatePropertyGroupDTO implements PropertyGroupI {
-    @IsNotEmpty()
-    @IsString()
+    @IsNotEmptyObject()
+    @IsObject()
+    @ValidateNested()
+    @Type(() => TransDTO)
     @ApiProperty()
-    title: string;
+    title: TransDTO;
 
     @IsNotEmpty()
     @IsString()
@@ -15,21 +29,26 @@ export class CreatePropertyGroupDTO implements PropertyGroupI {
     alt_name: string;
 
     @IsOptional()
+    @IsBoolean()
+    @ApiProperty({ required: false, description: 'visible property for ProductCard', default: false })
+    is_primary: boolean;
+
+    @IsOptional()
     @IsString()
     @ApiProperty({ required: false, default: null })
     comment: string;
 }
 
-// export class PropertyGroupPublicDTO implements PropertyGroupPublicI {
-//     @ApiProperty()
-//     id: number;
+export class PropertyGroupPublicDTO implements PropertyGroupPublicI {
+    @ApiProperty()
+    id: number;
 
-//     @ApiProperty()
-//     title: string;
+    @ApiProperty()
+    title: string;
 
-//     @ApiProperty()
-//     alt_name: string;
+    @ApiProperty()
+    alt_name: string;
 
-//     @ApiProperty({ type: () => PropertyEntity, isArray: true })
-//     properties: PropertyEntity[];
-// }
+    @ApiProperty({ type: () => PropertyPublic, isArray: true })
+    properties: PropertyEntity[];
+}

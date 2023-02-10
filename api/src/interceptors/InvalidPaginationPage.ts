@@ -1,21 +1,19 @@
 import { CallHandler, ExecutionContext, Injectable, NestInterceptor, NotAcceptableException } from '@nestjs/common';
 import { Observable, tap } from 'rxjs';
 
-import { PaginationResultDTO } from '@dto/Pagination';
-import { QueriesReqI } from '@interfaces/Queries';
+import { PaginationResult } from '@dto/Pagination/constructor';
 
 /**
  * @description check incorrect pagination requested page
- * @returns result or 406
+ * @returns result
+ * @throws {NotAcceptableException} invalid pagination page
  */
 @Injectable()
 export default class InvalidPaginationPageInterceptor implements NestInterceptor {
-    intercept(context: ExecutionContext, next: CallHandler): Observable<PaginationResultDTO<any>> {
-        const { page } = context.getArgs()[0].query as QueriesReqI;
-
+    intercept(_: ExecutionContext, next: CallHandler): Observable<PaginationResult<any>> {
         return next.handle().pipe(
-            tap(({ pagination: { currentPage, pageCount } }: PaginationResultDTO<any>) => {
-                if (page && currentPage > pageCount) throw new NotAcceptableException('invalid pagination page');
+            tap(({ pagination: { currentPage, pageCount } }: PaginationResult<any>) => {
+                if (currentPage > pageCount) throw new NotAcceptableException('invalid pagination page');
             }),
         );
     }

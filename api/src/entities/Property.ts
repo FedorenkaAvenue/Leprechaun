@@ -1,8 +1,10 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, JoinColumn, ManyToOne, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
 
 import { PropertyI } from '@interfaces/Property';
 import { PropertyGroupEntity } from './PropertGroup';
+import { TransI } from '@interfaces/Trans';
+import { TransEntity } from './Trans';
 
 @Entity('property')
 export class PropertyEntity implements PropertyI {
@@ -10,9 +12,10 @@ export class PropertyEntity implements PropertyI {
     @ApiProperty()
     id: number;
 
-    @Column({ unique: true })
-    @ApiProperty()
-    title: string;
+    @OneToOne(() => TransEntity, { cascade: true, eager: true })
+    @JoinColumn({ name: 'title', referencedColumnName: 'id' })
+    @ApiProperty({ type: TransEntity })
+    title: TransI;
 
     @Column({ unique: true })
     @ApiProperty()
@@ -22,12 +25,7 @@ export class PropertyEntity implements PropertyI {
     @ApiProperty()
     comment: string;
 
-    @Column({ default: false })
-    @ApiProperty({ description: 'visible property for ProductCard' })
-    is_primary: boolean;
-
     @ManyToOne(() => PropertyGroupEntity, ({ properties }) => properties, { onDelete: 'CASCADE', nullable: false })
-    @JoinColumn({ name: 'property_group' })
-    @ApiProperty()
-    property_group: PropertyGroupEntity;
+    @JoinColumn({ name: 'propertygroup' })
+    propertygroup: PropertyGroupEntity;
 }

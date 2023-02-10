@@ -85,6 +85,7 @@ Boilerplate for web store
 
 - other
 
+  - `make index_se` indexing SE
   - `make translation` build translations
   - `make open_image_hosting` open image hosting GUI folder (_linux_)
   - `make migrations` run DB migrations

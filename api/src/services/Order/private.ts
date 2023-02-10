@@ -9,11 +9,9 @@ import { OrderEntity } from '@entities/Order';
 
 @Injectable()
 export default class OrderPrivateService extends OrderService {
-    // TODO
     async getOrderById(id: OrderI['id']): Promise<OrderEntity> {
         const qb = this.orderRepo.createQueryBuilder('order').where({ id });
-
-        const res = await this.getOrder(qb);
+        const res = await this.getOrder<OrderEntity>(qb);
 
         if (res) return res;
 

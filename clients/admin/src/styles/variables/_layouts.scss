@@ -1,0 +1,37 @@
+// CORE
+
+$box-size-core: 180;
+$space-core: 4;
+
+// DERIVATIVES
+
+$space-0: 0;
+$space-1: 1  * $space-core;
+$space-2: 2  * $space-core;
+$space-3: 4  * $space-core;
+$space-4: 8  * $space-core;
+$space-5: 16 * $space-core;
+
+$box-size-1: 0.5  * $box-size-core;
+$box-size-2: 0.75 * $box-size-core;
+$box-size-3: 1    * $box-size-core;
+$box-size-4: 1.25 * $box-size-core;
+$box-size-5: 1.5  * $box-size-core;
+
+$z-index-0: 0;
+$z-index-1: 1;
+$z-index-2: 2;
+$z-index-3: 3;
+$z-index-4: 4;
+$z-index-5: 5;
+
+$container-width: 1300px;
+
+$media-breakpoints: (
+	xs: 0,
+	sm: 576px,
+	md: 768px,
+	lg: 992px,
+	xl: 1200px,
+	xxl: 1400px
+);

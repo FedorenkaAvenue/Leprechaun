@@ -1,18 +1,31 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import {
+    Column,
+    Entity,
+    JoinColumn,
+    JoinTable,
+    ManyToMany,
+    OneToMany,
+    OneToOne,
+    PrimaryGeneratedColumn,
+} from 'typeorm';
 
 import { PropertyEntity } from './Property';
 import { PropertyGroupI } from '@interfaces/PropertyGroup';
+import { TransI } from '@interfaces/Trans';
+import { TransEntity } from './Trans';
+import { CategoryEntity } from './Category';
 
-@Entity('property_group')
+@Entity('propertygroup')
 export class PropertyGroupEntity implements PropertyGroupI {
     @PrimaryGeneratedColumn('rowid')
     @ApiProperty()
     id: number;
 
-    @Column({ unique: true })
-    @ApiProperty()
-    title: string;
+    @OneToOne(() => TransEntity, { cascade: true, eager: true })
+    @JoinColumn({ name: 'title', referencedColumnName: 'id' })
+    @ApiProperty({ type: TransEntity })
+    title: TransI;
 
     @Column({ unique: true })
     @ApiProperty()
@@ -22,7 +35,25 @@ export class PropertyGroupEntity implements PropertyGroupI {
     @ApiProperty()
     comment: string;
 
-    @OneToMany(() => PropertyEntity, ({ property_group }) => property_group)
-    @ApiProperty({ type: () => PropertyEntity, isArray: true })
+    @OneToMany(() => PropertyEntity, ({ propertygroup }) => propertygroup, { eager: true })
+    @ApiProperty({ type: () => PropertyEntity, isArray: true, required: false })
     properties: PropertyEntity[];
+
+    @Column({ default: false })
+    @ApiProperty({ description: 'visible property for ProductCard' })
+    is_primary: boolean;
+
+    @ManyToMany(() => CategoryEntity, ({ id }) => id)
+    @JoinTable({
+        name: '_categories_to_propertygroups',
+        inverseJoinColumn: {
+            name: 'propertygroup_id',
+            referencedColumnName: 'id',
+        },
+        joinColumn: {
+            name: 'category_id',
+            referencedColumnName: 'id',
+        },
+    })
+    categories: CategoryEntity[];
 }

@@ -3,7 +3,9 @@ import { CategoryDto } from "../shared/models/categories.model";
 export const CATEGORY_SHORT_LIST: CategoryDto[] = [
     {
         id: 1,
-        title: 'Ковдри',
+        title: {
+            ua: 'Ковдри',
+        },
         url: 'kovdry',
         is_public: true,
         children: [],
@@ -12,7 +14,9 @@ export const CATEGORY_SHORT_LIST: CategoryDto[] = [
     },
     {
         id: 2,
-        title: 'Комлект білизни',
+        title: {
+            ua: 'Комлект білизни',
+        },
         url: 'komplekty-bilizny',
         is_public: true,
         children: [],
@@ -21,7 +25,9 @@ export const CATEGORY_SHORT_LIST: CategoryDto[] = [
     },
     {
         id: 3,
-        title: 'Пледи',
+        title: {
+            ua: 'Пледи',
+        },
         url: 'pledu',
         is_public: true,
         children: [],
@@ -30,7 +36,9 @@ export const CATEGORY_SHORT_LIST: CategoryDto[] = [
     },
     {
         id: 4,
-        title: 'Подушки',
+        title: {
+            ua: 'Подушки',
+        },
         url: 'podushku',
         is_public: true,
         children: [],
@@ -39,7 +47,9 @@ export const CATEGORY_SHORT_LIST: CategoryDto[] = [
     },
     {
         id: 5,
-        title: 'Матраци',
+        title: {
+            ua: 'Матраци',
+        },
         url: 'matrazy',
         is_public: true,
         children: [],

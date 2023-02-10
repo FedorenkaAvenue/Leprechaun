@@ -7,6 +7,10 @@ import HistoryPublicService from '@services/History/public';
 import AffectedResultInterceptor from '@interceptors/AffectedResult';
 import SessionGuard from '@guards/Session';
 import configService from '@services/Config';
+import Queries from '@decorators/Query';
+import { QueriesCommon } from '@dto/Queries/constructor';
+
+const USER_HISTORY_LENGTH = configService.getVal('USER_HISTORY_LENGTH');
 
 @Controller('history')
 @ApiTags('History 🧑‍💻')
@@ -14,12 +18,10 @@ export default class HistoryPublicController {
     constructor(private readonly historyService: HistoryPublicService) {}
 
     @Get('product')
-    @ApiOperation({
-        summary: `get user product history (${Number(configService.getVal('USER_HISTORY_LENGTH'))} items max length)`,
-    })
+    @ApiOperation({ summary: `get user product history (${USER_HISTORY_LENGTH} items max length)` })
     @ApiOkResponse({ type: ProductCard, isArray: true })
-    getUserHistory(@Session() { id }): Promise<ProductCard[]> {
-        return this.historyService.getHistoryList(id);
+    getUserHistory(@Session() { id }, @Queries() queries: QueriesCommon): Promise<ProductCard[]> {
+        return this.historyService.getHistoryList(id, queries);
     }
 
     @Delete('product')

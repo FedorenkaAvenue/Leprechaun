@@ -5,25 +5,26 @@ import { LabelI } from '@interfaces/Label';
 import { ProductStatusE } from '@enums/Product';
 import { PriceI } from './Price';
 import WishlistItemEntity from '@entities/WishlistItem';
+import { TransI } from './Trans';
 
-export interface ProductBaseI {
+export interface ProductBaseI<T = TransI> {
     id?: string;
-    title: string;
+    title: T;
     status: ProductStatusE;
     price?: PriceI;
     labels?: LabelI[];
 }
 
-export interface ProductPreviewI extends ProductBaseI {
+export interface ProductPreviewI extends ProductBaseI<string> {
     image: string;
 }
 
-export interface ProductCardI extends ProductBaseI {
+export interface ProductCardI extends ProductBaseI<string> {
     images: ImageI[];
     properties: PropertyPublicI[];
 }
 
-export interface ProductPublicI extends ProductBaseI {
+export interface ProductPublicI extends ProductBaseI<string> {
     category: CategoryPublicI;
     images: ImageI[];
     properties: PropertyPublicI[];
@@ -35,7 +36,7 @@ export interface ProductI extends ProductBaseI {
     properties: PropertyI[];
     images: ImageI[];
     category: CategoryI;
-    rating?: number;
+    rating: number;
     created_at?: Date;
     is_public?: boolean;
     comment: string;

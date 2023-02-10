@@ -1,0 +1,32 @@
+<form class="properties-group-form" [formGroup]="form">
+  <app-translation-form [title]="'Title'" [langs]="languages" formControlName="title"></app-translation-form>
+
+  <mat-form-field appearance="fill">
+    <mat-label>Alt name</mat-label>
+    <input matInput formControlName="alt_name" />
+  </mat-form-field>
+
+  <mat-slide-toggle
+    class="properties-group_toogle"
+    formControlName="is_primary"
+    [checked]="true"
+    [disabled]="false"
+  >
+    Is primary
+  </mat-slide-toggle>
+
+  <mat-form-field appearance="fill">
+    <mat-label>Comment</mat-label>
+    <input matInput formControlName="comment" />
+  </mat-form-field>
+
+  <button
+    [disabled]="!form?.valid"
+    (click)="saveForm()"
+    type="button"
+    mat-raised-button
+    color="primary"
+  >
+    Save
+  </button>
+</form>

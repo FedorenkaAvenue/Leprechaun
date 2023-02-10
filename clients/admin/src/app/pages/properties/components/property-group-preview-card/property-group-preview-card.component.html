@@ -1,0 +1,54 @@
+<mat-accordion class="example-headers-align" multi>
+    <mat-expansion-panel class="panel">
+      <mat-expansion-panel-header collapsedHeight="60px" expandedHeight="60px">
+        <div class="header fl-j-sb p-h-3">
+          <div class="header-block fl-c">
+            <span class="header-title m-b-1">Id</span>
+            <span>{{ propetiesGroupData.id }}</span>
+          </div>
+          <div class="header-block fl-c">
+            <span class="header-title m-b-1">title</span>
+            <span>{{ propetiesGroupData.title | valueDefaultTranslation }}</span>
+          </div>
+          <div class="header-block fl-c">
+            <span class="header-title m-b-1">Alt Name</span>
+            <span>{{ propetiesGroupData.alt_name }}</span>
+          </div>
+          <div class="header-block fl-c">
+            <span class="header-title m-b-1">Is Primary</span>
+            <span>{{ propetiesGroupData.is_primary }}</span>
+          </div>
+          <div class="header-block buttons">
+              <span class="m-r-3">
+              <a
+              [routerLink]="'/admin/properties/property'"
+              class="btn-preview_min"
+              mat-mini-fab
+              color="preview_btn"
+            >
+              <mat-icon>add_task</mat-icon>
+            </a>
+          </span>
+            <span class="m-r-3">
+              <a
+                [routerLink]="'/admin/properties/properties-group/edit'"
+                mat-mini-fab
+                color="primary"
+              >
+                <mat-icon>mode_edit</mat-icon>
+              </a>
+            </span>
+            <button (click)="removePropertiesGroup()" mat-mini-fab color="warn">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </div>
+        </div>
+      </mat-expansion-panel-header>
+      <div class="properties-list fl-j-sb p-3">
+        <ng-container *ngFor="let property of propetiesGroupData.properties">
+            <app-property-preview-card (removeProp)="removeProperty($event)" [propetyData]="property"> </app-property-preview-card>
+        </ng-container>
+      </div>
+    </mat-expansion-panel>
+  </mat-accordion>
+  

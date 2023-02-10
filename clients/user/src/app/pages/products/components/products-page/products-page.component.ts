@@ -4,7 +4,7 @@ import { ActivatedRoute, Params, Router } from '@angular/router';
 import { OrderDto } from '@shared/models/products/order.model';
 import { Products } from '@shared/models/products/products.model';
 import { CartService } from '@shared/services/cart/cart/cart.service';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { ProductsManagerService } from '../../services/products-manager/products-manager.service';
 import { FavoritesService } from '@shared/services/favorite/favotite/favorites.service';
 import { LpchRouterService } from '@shared/services/router/lpch-router.service';
@@ -12,6 +12,7 @@ import { FavoriteDto, FavoriteProductDto } from '@shared/models';
 import { take } from 'rxjs/operators';
 import { SORTING } from '@shared/constants/sorting';
 import { ProductsSort } from '@shared/enums/sort.enum';
+import { ProductsService } from '../../services/products.service';
 
 @Component({
   selector: 'app-products-page',
@@ -22,6 +23,7 @@ import { ProductsSort } from '@shared/enums/sort.enum';
 export class ProductsPageComponent implements OnInit {
   public productsCount = 1019;
   public productsList$: Observable<Products>;
+  public categoryData$: Observable<any>;
   public myCustomControl = new FormControl();
   public sortData = SORTING;
   public currentSortItem: number;
@@ -32,12 +34,15 @@ export class ProductsPageComponent implements OnInit {
     private readonly route: ActivatedRoute,
     private readonly favoritesService: FavoritesService,
     private readonly lpchRouterService: LpchRouterService,
+    private readonly productsService: ProductsService,
   ) {
     this.productsManagerService.init();
   }
 
   ngOnInit(): void {
-    this.productsList$ = this.productsManagerService.getProducts();
+    const categoryId = this.route.snapshot.params.id;
+    this.categoryData$ = categoryId ? this.productsService.getCategoryInfo(categoryId) : of(null)
+    this.productsList$ = this.productsManagerService.getProducts(categoryId);
     this.changeParams();
    const params = this.route.snapshot.queryParams;
    const sort = params ? params?.sort : null

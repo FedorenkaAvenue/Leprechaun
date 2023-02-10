@@ -1,8 +1,19 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsBooleanString, IsNotEmpty, IsNumberString, IsOptional, IsString } from 'class-validator';
+import {
+    IsBooleanString,
+    IsNotEmpty,
+    IsNotEmptyObject,
+    IsNumberString,
+    IsObject,
+    IsOptional,
+    IsString,
+    ValidateNested,
+} from 'class-validator';
+import { Type } from 'class-transformer';
 
 import { PropertyGroupI } from '@interfaces/PropertyGroup';
 import { CategoryI, CategoryPublicI } from '@interfaces/Category';
+import { TransDTO } from '@dto/Trans';
 
 export class CreateCategoryDTO implements CategoryI {
     @IsNotEmpty()
@@ -10,10 +21,12 @@ export class CreateCategoryDTO implements CategoryI {
     @ApiProperty()
     url: string;
 
-    @IsNotEmpty()
-    @IsString()
+    @IsNotEmptyObject()
+    @IsObject()
+    @ValidateNested()
+    @Type(() => TransDTO)
     @ApiProperty()
-    title: string;
+    title: TransDTO;
 
     @IsOptional()
     @IsBooleanString()
@@ -38,7 +51,7 @@ export class CreateCategoryDTO implements CategoryI {
         isArray: true,
         default: [],
     })
-    property_groups: PropertyGroupI[];
+    propertygroups: PropertyGroupI[];
 
     @IsOptional()
     @IsString()

@@ -1,10 +1,10 @@
 <div class="section-wrapper category">
+  <ng-container *ngIf="category$ | async as category">
   <div class="section-container">
-    <ng-container *ngIf="category$ | async as category">
       <div class="category-info">
         <div class="category-header">
           <lpch-image [src]="category?.icon || ''"></lpch-image>
-          <h1 class="category-title">{{ category?.title }}</h1>
+          <h1 class="category-title">{{ category?.title | valueDefaultTranslation }}</h1>
         </div>
 
         <div class="category-data">
@@ -12,7 +12,7 @@
             <span>id</span>: <span>{{ category.id }}</span>
           </p>
           <p>
-            <span>title</span>: <span>{{ category.title }}</span>
+            <span>title</span>: <span>{{ category.title | valueDefaultTranslation }}</span>
           </p>
           <p>
             <span>url</span>: <span>{{ category.url }}</span>
@@ -22,13 +22,13 @@
           </p>
         </div>
       </div>
-    </ng-container>
   </div>
 
   <div class="section-container">
 
     <a
     routerLink="/admin/product/add"
+    [queryParams]="{category: category.id}"
     class="products-add"
     mat-raised-button
     color="accent"
@@ -51,4 +51,5 @@
         </ng-container>
       </ng-container>
   </div>
+</ng-container>
 </div>

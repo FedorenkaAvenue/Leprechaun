@@ -1,13 +1,26 @@
 <form class="category-form" [formGroup]="form">
+
   <mat-form-field appearance="fill">
     <mat-label>Url</mat-label>
     <input matInput formControlName="url" />
   </mat-form-field>
 
-  <mat-form-field appearance="fill">
+  <!-- <mat-form-field appearance="fill">
     <mat-label>Title</mat-label>
     <input matInput formControlName="title" />
+  </mat-form-field> -->
+
+  <app-translation-form [title]="'Title'" [langs]="languages" formControlName="title"></app-translation-form>
+
+  <mat-form-field appearance="fill">
+    <mat-label>Properties groups</mat-label>
+    <mat-select formControlName="propertygroups" multiple>
+      <ng-container *ngFor="let propertiesGroup of propertiesGroups">
+        <mat-option [value]="propertiesGroup?.id">{{ propertiesGroup?.title | valueDefaultTranslation }}</mat-option>
+      </ng-container>
+    </mat-select>
   </mat-form-field>
+
 
   <mat-slide-toggle
     class="category-form_toogle"

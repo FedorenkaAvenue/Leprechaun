@@ -14,6 +14,8 @@ import { HomeService } from '../../services/home.service';
 export class HomeComponent implements OnInit {
   public dasboardCommonProducts$: Observable<DasboardCommonProductsI>;
   public dasboardUserProducts$: Observable<DasboardUserProductsI>;
+  public categories$: Observable<any>;
+  
   constructor(
     private readonly homeService: HomeService,
     private readonly favoritesService: FavoritesService,
@@ -22,6 +24,7 @@ export class HomeComponent implements OnInit {
   ngOnInit(): void {
     this.dasboardCommonProducts$ = this.getDasboardCommonProducts();
     this.dasboardUserProducts$ = this.getDashboardUserProducts();
+    this.categories$ = this.homeService.getCategoryList();
   }
 
   private getDasboardCommonProducts(): Observable<DasboardCommonProductsI> {

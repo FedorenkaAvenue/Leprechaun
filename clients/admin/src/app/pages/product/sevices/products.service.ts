@@ -4,8 +4,10 @@ import { BehaviorSubject, combineLatest, Observable, Subject } from 'rxjs';
 import { startWith, switchMap } from 'rxjs/operators';
 import { CategoryDto } from 'src/app/shared/models/categories.model';
 import { ProductCardDto, Products } from 'src/app/shared/models/product.model';
+import { PropertiesGroupDto } from 'src/app/shared/models/properties.model';
 import { CategoriesApiService } from 'src/app/shared/services/categories/categories-api.service';
 import { ProductsApiService } from 'src/app/shared/services/products/products-api.service';
+import { PropertiesApiService } from 'src/app/shared/services/properties/properties-api.service';
 
 @Injectable()
 export class ProductsService {
@@ -15,7 +17,8 @@ export class ProductsService {
 
   constructor(
     private readonly productsApiService: ProductsApiService,
-    private readonly categoriesApiService: CategoriesApiService
+    private readonly categoriesApiService: CategoriesApiService,
+    private readonly propertiesApiService: PropertiesApiService
   ) {}
 
   public getProductsList(url: string): Observable<Products> {
@@ -43,6 +46,10 @@ export class ProductsService {
 
   public deleteProduct(id: number): Observable<any> {
     return this.productsApiService.deleteProduct(id);
+  }
+
+  public getPropertiesGroupsByCategoryId(id: string): Observable<Array<PropertiesGroupDto>> {
+    return this.propertiesApiService.getPropertiesGroupsByCategoryId(id)
   }
 
   public updateProducts(): void {

@@ -3,6 +3,7 @@ import { CommonDashboardsDTO, UserDashboardsDTO } from '.';
 import { ProductPreview } from '@dto/Product/constructor';
 import { ProductEntity } from '@entities/Product';
 import { HistoryEntity } from '@entities/History';
+import { QueriesCommon } from '@dto/Queries/constructor';
 
 interface CommonDashboardsIConstructorI {
     popular: ProductEntity[];
@@ -14,16 +15,16 @@ interface UserDashboardsIConstructorI {
 }
 
 export class CommonDashboards extends CommonDashboardsDTO implements CommonDashboardsI {
-    constructor({ popular, newest }: CommonDashboardsIConstructorI) {
+    constructor({ popular, newest }: CommonDashboardsIConstructorI, searchParams: QueriesCommon) {
         super();
-        this.popular = popular.map(prod => new ProductPreview(prod));
-        this.newest = newest.map(prod => new ProductPreview(prod));
+        this.popular = popular.map(prod => new ProductPreview(prod, searchParams));
+        this.newest = newest.map(prod => new ProductPreview(prod, searchParams));
     }
 }
 
 export class UserDashboards extends UserDashboardsDTO implements UserDashboardsI {
-    constructor({ history }: UserDashboardsIConstructorI) {
+    constructor({ history }: UserDashboardsIConstructorI, searchParams: QueriesCommon) {
         super();
-        this.history = history.map(({ product }) => new ProductPreview(product));
+        this.history = history.map(({ product }) => new ProductPreview(product, searchParams));
     }
 }

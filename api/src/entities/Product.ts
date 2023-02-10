@@ -8,8 +8,10 @@ import {
     ManyToMany,
     ManyToOne,
     OneToMany,
+    OneToOne,
     PrimaryGeneratedColumn,
 } from 'typeorm';
+
 import { CategoryEntity } from '@entities/Category';
 import { ProductI } from '@interfaces/Product';
 import { ProductStatusE } from '@enums/Product';
@@ -18,6 +20,8 @@ import { CategoryI } from '@interfaces/Category';
 import { PropertyEntity } from '@entities/Property';
 import { PriceEntity } from './_Price';
 import WishlistItemEntity from './WishlistItem';
+import { TransI } from '@interfaces/Trans';
+import { TransEntity } from './Trans';
 
 @Entity('product')
 export class ProductEntity implements ProductI {
@@ -25,9 +29,10 @@ export class ProductEntity implements ProductI {
     @ApiProperty()
     id: string;
 
-    @Column()
-    @ApiProperty()
-    title: string;
+    @OneToOne(() => TransEntity, { cascade: true, eager: true })
+    @JoinColumn({ name: 'title', referencedColumnName: 'id' })
+    @ApiProperty({ type: TransEntity })
+    title: TransI;
 
     @Column({ default: ProductStatusE.AVAILABLE })
     @ApiProperty({ enum: ProductStatusE })
@@ -75,7 +80,7 @@ export class ProductEntity implements ProductI {
     @ApiProperty()
     comment: string;
 
-    @Column({ nullable: true })
+    @Column({ default: 0 })
     @ApiProperty({ description: 'how many users ordered this product' })
     orderCount: number;
 

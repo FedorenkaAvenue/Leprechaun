@@ -7,6 +7,8 @@ import { LpchInputModule } from '@shared/controls/lpch-input/lpch-input.module';
 import { RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { LocalizeRouterModule } from '@gilsdav/ngx-translate-router';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { LpchImageModule } from '@shared/components/lpch-image/lpch-image.module';
 
 
 
@@ -21,7 +23,10 @@ import { LocalizeRouterModule } from '@gilsdav/ngx-translate-router';
     LpchInputModule,
     RouterModule,
     TranslateModule.forChild(),
-    LocalizeRouterModule
+    LocalizeRouterModule,
+    FormsModule,
+    ReactiveFormsModule,
+    LpchImageModule
   ],
   exports: [
     HeaderComponent

@@ -1,14 +1,13 @@
 import { InjectRepository } from '@nestjs/typeorm';
-import { FindOptionsOrder, Repository, SelectQueryBuilder, UpdateResult } from 'typeorm';
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { FindOptionsOrder, Repository, SelectQueryBuilder } from 'typeorm';
+import { Injectable } from '@nestjs/common';
 
 import { FSService } from '@services/FS';
 import { ProductEntity } from '@entities/Product';
 import { ImageService } from '@services/Image';
 import { PaginationResultDTO } from '@dto/Pagination';
-import { Queries } from '@dto/Queries/constructor';
+import { QueriesProductList } from '@dto/Queries/constructor';
 import HistoryPublicService from '@services/History/public';
-import WishlistItemEntity from '@entities/WishlistItem';
 import { ProductI } from '@interfaces/Product';
 import { SortProductE } from '@enums/Query';
 import { PaginationResult } from '@dto/Pagination/constructor';
@@ -24,23 +23,34 @@ export default class ProductService {
     ) {}
 
     /**
-     * @description get product by ID
-     * @param {String} id product ID
-     * @returns product entity
+     * @description get common product query builder
+     * @returns query builder
      */
-    async getProductById(id: ProductI['id']): Promise<ProductEntity> {
-        const qb = this.getProductQueryBulder();
+    getProductQueryBulder(): SelectQueryBuilder<ProductEntity> {
+        return this.productRepo
+            .createQueryBuilder('p')
+            .leftJoinAndSelect('p.title', 'title')
+            .leftJoinAndSelect('p.images', 'images')
+            .leftJoinAndSelect('p.category', 'cat')
+            .leftJoinAndSelect('cat.title', 'cat_title')
 
-        qb.leftJoinAndSelect('product.category', 'category')
-            .where('product.is_public = true')
-            .andWhere('product.id = :id', { id })
-            .leftJoinAndMapMany('product.wishlistCount', WishlistItemEntity, 'w', 'w.product.id = product.id');
+            .leftJoinAndSelect('p.properties', 'props')
+            .leftJoinAndSelect('props.title', 'props_title')
+            .leftJoinAndSelect('props.propertygroup', 'pg')
+            .leftJoinAndSelect('pg.title', 'pg_title');
 
-        try {
-            return await qb.getOneOrFail();
-        } catch (err) {
-            throw new NotFoundException('product not found');
-        }
+        // .leftJoinAndSelect(PropertyGroupEntity, 'pg', 'pg.id = 43')
+        // .leftJoinAndSelect('pg.title', 'pg_title')
+        // .leftJoinAndSelect('pg.properties', 'props')
+        // .leftJoinAndSelect('props.title', 'props_title')
+
+        // .leftJoinAndMapMany('p.options', (qb: SelectQueryBuilder<PropertyGroupEntity>) => {
+        //     return qb
+        //         .select()
+        //         .from(PropertyGroupEntity, 'pg')
+        //         .leftJoinAndSelect('pg.properties', 'props')
+        //         .where('pg.id = 43')
+        // }, 'pgg', 'pgg.id = 43')
     }
 
     /**
@@ -77,18 +87,6 @@ export default class ProductService {
     }
 
     /**
-     * @description get common product query builder
-     * @returns query builder
-     */
-    getProductQueryBulder(): SelectQueryBuilder<ProductEntity> {
-        return this.productRepo
-            .createQueryBuilder('product')
-            .leftJoinAndSelect('product.properties', 'properties')
-            .leftJoinAndSelect('product.images', 'images')
-            .leftJoinAndSelect('properties.property_group', 'property_group');
-    }
-
-    /**
      * @description render product search result with filters, sorting and pagination
      * @param qb query builder to continue building query
      * @param searchParams
@@ -97,7 +95,7 @@ export default class ProductService {
      */
     async renderResult<T>(
         qb: SelectQueryBuilder<ProductEntity>,
-        searchParams: Queries,
+        searchParams: QueriesProductList,
         resultMapConstructor?: any,
     ): Promise<PaginationResultDTO<T>> {
         const { status, dinamicFilters, sort, price, portion, page } = searchParams;
@@ -109,11 +107,11 @@ export default class ProductService {
 
             // ? на будущее переделать в subQuery
             qb.andWhere(
-                `product.id = ANY(
+                `p.id = ANY(
                     SELECT product_id as p_id
                     FROM _products_to_properties
                     INNER JOIN property AS prop ON prop.id = _products_to_properties.property_id
-                    INNER JOIN property_group AS prop_gr ON prop.property_group = prop_gr.id
+                    INNER JOIN propertygroup AS prop_gr ON prop.propertygroup = prop_gr.id
                     WHERE property_id IN (:...values)
                     AND prop_gr.alt_name IN(:...props)
                     GROUP BY p_id
@@ -128,30 +126,30 @@ export default class ProductService {
         }
 
         // price
-        if (price) qb.andWhere('product.price BETWEEN :from AND :to', { ...price });
+        if (price) qb.andWhere('p.price BETWEEN :from AND :to', { ...price });
 
         // product status
-        qb.andWhere('product.status = :status', { status });
+        qb.andWhere('p.status = :status', { status });
 
         // sorting
         switch (sort) {
             case SortProductE.PRICE_UP: {
-                qb.orderBy('product.price.current', 'ASC');
+                qb.orderBy('p.price.current', 'ASC');
                 break;
             }
 
             case SortProductE.PRICE_DOWN: {
-                qb.orderBy('product.price.current', 'DESC');
+                qb.orderBy('p.price.current', 'DESC');
                 break;
             }
 
             case SortProductE.NEW: {
-                qb.orderBy('product.created_at', 'DESC');
+                qb.orderBy('p.created_at', 'DESC');
                 break;
             }
 
             default: // CookieSortType.POPULAR
-                qb.orderBy('product.rating', 'DESC');
+                qb.orderBy('p.rating', 'DESC');
         }
 
         const [result, resCount] = await qb
@@ -160,7 +158,7 @@ export default class ProductService {
             .getManyAndCount();
 
         return new PaginationResult<T>(
-            resultMapConstructor ? result.map(prod => new resultMapConstructor(prod)) : result,
+            resultMapConstructor ? result.map(prod => new resultMapConstructor(prod, searchParams)) : result,
             {
                 currentPage: page,
                 totalCount: resCount,

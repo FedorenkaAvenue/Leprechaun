@@ -11,3 +11,18 @@
         margin-bottom: 18px;
     }
 }
+
+.empty-field {
+    ::ng-deep {
+        .mat-form-field-flex {
+            background-color: rgb(248, 165, 165);
+        }
+      
+        // }
+    }
+    // ::ng-deep {
+    //     .mat-option {
+    //       font-family: cursive;
+    //     }
+    //   }
+}

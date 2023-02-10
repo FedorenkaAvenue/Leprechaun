@@ -9,15 +9,24 @@ import { Observable } from 'rxjs';
 })
 export class ProductsApiService {
   private readonly apiUrl = `${environment?.apiEndpoint}/product`;
+  private readonly categoryApiUrl = `${environment?.apiEndpoint}/category`;
   constructor(
     private readonly http: HttpClient
   ) { }
 
-  public getProducts(param: Params): Observable<Products> { 
+  public getProducts(param: Params, categoryId?: string): Observable<Products> { 
     const params = new HttpParams()
     .set('page', param.page)
     .set('sort', param.sort);
-    
-    return this.http.get<Products>(`${this.apiUrl}/list`, {params})
+    const url = categoryId ? `category/${categoryId}` : `list`;
+    return this.http.get<Products>(`${this.apiUrl}/${url}`, {params})
   }
+
+public getCategoryList(): Observable<any> {
+  return this.http.get<any>(`${this.categoryApiUrl}/list`)
+}
+
+public getCategoryInfo(categoryUrl): Observable<any> {
+  return this.http.get<any>(`${this.categoryApiUrl}/${categoryUrl}`)
+}
 }

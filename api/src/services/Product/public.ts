@@ -1,34 +1,40 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 
-import { QueriesProductT } from '@interfaces/Queries';
 import { PaginationResultDTO } from '@dto/Pagination';
 import { ProductI } from '@interfaces/Product';
 import { ProductCard, ProductPublic } from '@dto/Product/constructor';
 import ProductService from '.';
+import { QueriesProductList } from '@dto/Queries/constructor';
+import WishlistItemEntity from '@entities/WishlistItem';
+import { CategoryI } from '@interfaces/Category';
 
 @Injectable()
 export default class ProductPublicService extends ProductService {
-    async getProduct(productId: ProductI['id']): Promise<ProductPublic> {
-        return new ProductPublic(await this.getProductById(productId));
+    async getProduct(id: ProductI['id'], searchParams: QueriesProductList): Promise<ProductPublic> {
+        const qb = this.getProductQueryBulder()
+            .where('p.is_public = true')
+            .andWhere('p.id = :id', { id })
+            .leftJoinAndMapMany('p.wishlistCount', WishlistItemEntity, 'w', 'w.product.id = p.id');
+        try {
+            return new ProductPublic(await qb.getOneOrFail(), searchParams);
+        } catch (_) {
+            throw new NotFoundException('product not found');
+        }
     }
 
-    async getProductList(queries: QueriesProductT): Promise<PaginationResultDTO<ProductCard>> {
-        const qb = this.getProductQueryBulder();
+    async getProductList(searchParams: QueriesProductList): Promise<PaginationResultDTO<ProductCard>> {
+        const qb = this.getProductQueryBulder().where('p.is_public = true');
 
-        qb.leftJoinAndSelect('product.category', 'category').where('product.is_public = true');
-
-        return this.renderResult<ProductCard>(qb, queries, ProductCard);
+        return this.renderResult<ProductCard>(qb, searchParams, ProductCard);
     }
 
     async getCategoryProducts(
-        categoryUrl: string,
-        queries: QueriesProductT,
+        categoryUrl: CategoryI['url'],
+        queries: QueriesProductList,
     ): Promise<PaginationResultDTO<ProductCard>> {
-        const qb = this.getProductQueryBulder();
-
-        qb.innerJoin('product.category', 'category')
-            .where('category.url = :categoryUrl', { categoryUrl })
-            .andWhere('product.is_public = true');
+        const qb = this.getProductQueryBulder()
+            .where('cat.url = :categoryUrl', { categoryUrl })
+            .andWhere('p.is_public = true');
 
         return this.renderResult<ProductCard>(qb, queries, ProductCard);
     }

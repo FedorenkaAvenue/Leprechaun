@@ -1,0 +1,24 @@
+<!-- <ng-container *ngIf="form"> -->
+  <form  class="fl-c" [formGroup]="form">
+    <ng-container *ngFor="let lang of langs">
+      <mat-form-field appearance="fill">
+        <mat-label>{{title}} ({{lang}})</mat-label>
+        <input matInput [formControlName]="lang" />
+      </mat-form-field>
+    </ng-container>
+   
+<!-- 
+      <mat-form-field appearance="fill">
+        <mat-label>ru</mat-label>
+        <input matInput [formControlName]="'ru'" />
+      </mat-form-field>
+    
+      <mat-form-field appearance="fill">
+        <mat-label>en</mat-label>
+        <input matInput [formControlName]="'en'" />
+      </mat-form-field> -->
+
+    <!-- <input formControlName="ua" name="" id="" />
+    <input formControlName="ru" name="" id="" /> -->
+  </form>
+<!-- </ng-container> -->

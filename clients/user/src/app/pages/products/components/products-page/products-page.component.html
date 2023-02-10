@@ -2,7 +2,7 @@
   <div class="products-page">
     <header>
       <div>
-        <h1>Постельное белье</h1>
+        <h1>{{(categoryData$ | async)?.title || "Продукти"}}</h1>
         <span>{{ productsCount }} товаров</span>
       </div>
       <div>

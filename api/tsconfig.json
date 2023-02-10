@@ -27,6 +27,7 @@
             "@pipes/*": ["pipes/*"],
             "@guards/*": ["guards/*"],
             "@utils/*": ["utils/*"],
+            "@type/*": ["type/*"],
             "@filters/*": ["filters/*"],
             "@enums/*": ["enums/*"]
         }

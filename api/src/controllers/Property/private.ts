@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, Post, UseInterceptors, ValidationPipe } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Patch, Post, UseInterceptors, ValidationPipe } from '@nestjs/common';
 import { ApiNotFoundResponse, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { DeleteResult } from 'typeorm';
 
@@ -15,24 +15,35 @@ export default class PropertyPrivateController {
 
     @Post()
     @ApiOperation({ summary: 'add new property' })
-    @ApiOkResponse({ description: 'success' })
-    createProperty(@Body(new ValidationPipe({ transform: true })) filter: CreatePropertyDTO): Promise<void> {
-        return this.propertyService.createProperty(filter);
+    @ApiOkResponse({ type: PropertyEntity })
+    createProperty(@Body(new ValidationPipe({ transform: true })) data: CreatePropertyDTO): Promise<PropertyEntity> {
+        return this.propertyService.createProperty(data);
     }
 
-    @Get(':propertyId')
+    // @Patch(':propertyID')
+    // @UseInterceptors(AffectedResultInterceptor('property not found'))
+    // @ApiOperation({ summary: 'update property' })
+    // @ApiNotFoundResponse({ description: 'property not found' })
+    // updateProperty(
+    //     @Param('propertyID') propertyID: number,
+    //     @Body(new ValidationPipe({ transform: true })) data: CreatePropertyDTO,
+    // ) {
+    //     return this.propertyService.updateProperty(propertyID, data);
+    // }
+
+    @Get(':propertyID')
     @UseInterceptors(UndefinedResultInterceptor)
     @ApiOperation({ summary: 'get property by ID' })
     @ApiOkResponse({ type: PropertyEntity })
-    getProperty(@Param('propertyId') propertyId: number): Promise<PropertyEntity> {
-        return this.propertyService.getProperty(propertyId);
+    getProperty(@Param('propertyID') propertyID: number): Promise<PropertyEntity> {
+        return this.propertyService.getProperty(propertyID);
     }
 
-    @Delete(':propertyId')
+    @Delete(':propertyID')
     @UseInterceptors(AffectedResultInterceptor('property not found'))
     @ApiOperation({ summary: 'delete property by ID' })
     @ApiNotFoundResponse({ description: 'property not found' })
-    deleteProperty(@Param('propertyId') propertyId: number): Promise<DeleteResult> {
-        return this.propertyService.deleteProperty(propertyId);
+    deleteProperty(@Param('propertyID') propertyID: number): Promise<DeleteResult> {
+        return this.propertyService.deleteProperty(propertyID);
     }
 }
