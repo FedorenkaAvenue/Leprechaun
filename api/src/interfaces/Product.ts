@@ -7,12 +7,15 @@ import { PriceI } from './Price';
 import WishlistItemEntity from '@entities/WishlistItem';
 import { TransI } from './Trans';
 
+//TODO refactoring interfaces by generics and extending
+
 export interface ProductBaseI<T = TransI> {
     id?: string;
     title: T;
     status: ProductStatusE;
     price?: PriceI;
     labels?: LabelI[];
+    description?: T;
 }
 
 export interface ProductPreviewI extends ProductBaseI<string> {
@@ -33,6 +36,7 @@ export interface ProductPublicI extends ProductBaseI<string> {
 }
 
 export interface ProductI extends ProductBaseI {
+    description?: TransI;
     properties: PropertyI[];
     images: ImageI[];
     category: CategoryI;

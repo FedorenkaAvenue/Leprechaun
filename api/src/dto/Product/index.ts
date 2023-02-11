@@ -34,6 +34,13 @@ export class CreateProductDTO implements ProductI {
     @ApiProperty()
     title: TransDTO;
 
+    @IsOptional()
+    @IsObject()
+    @ValidateNested()
+    @Type(() => TransDTO)
+    @ApiProperty({ required: false })
+    description: TransDTO;
+
     @IsNotEmpty()
     @IsNumberString()
     @ApiProperty({ required: true })
@@ -57,11 +64,6 @@ export class CreateProductDTO implements ProductI {
         default: ProductStatusE.AVAILABLE,
     })
     status: ProductStatusE;
-
-    @IsOptional()
-    @IsString()
-    @ApiProperty({ required: false, default: null })
-    description: string;
 
     @IsOptional()
     @IsNumberString()
@@ -139,6 +141,9 @@ export class ProductCardDTO implements ProductCardI {
     @ApiProperty()
     title: string;
 
+    @ApiProperty()
+    description: string;
+
     @ApiProperty({ enum: ProductStatusE })
     status: ProductStatusE;
 
@@ -161,6 +166,9 @@ export class ProductPublicDTO implements ProductPublicI {
 
     @ApiProperty()
     title: string;
+
+    @ApiProperty()
+    description: string;
 
     @ApiProperty({ enum: ProductStatusE })
     status: ProductStatusE;

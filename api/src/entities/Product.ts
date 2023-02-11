@@ -34,6 +34,11 @@ export class ProductEntity implements ProductI {
     @ApiProperty({ type: TransEntity })
     title: TransI;
 
+    @OneToOne(() => TransEntity, { cascade: true, eager: true })
+    @JoinColumn({ name: 'description', referencedColumnName: 'id' })
+    @ApiProperty({ type: TransEntity, nullable: true })
+    description: TransI;
+
     @Column({ default: ProductStatusE.AVAILABLE })
     @ApiProperty({ enum: ProductStatusE })
     status: ProductStatusE;

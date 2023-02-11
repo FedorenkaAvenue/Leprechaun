@@ -60,10 +60,14 @@ export class ProductPreview extends ProductPreviewDTO {
 
 @WithLabels(LabelType.NEW, LabelType.POPULAR, LabelType.DISCOUNT)
 export class ProductCard extends ProductCardDTO {
-    constructor({ id, title, price, status, images, properties }: ProductEntity, searchParams: QueriesCommon) {
+    constructor(
+        { id, title, price, status, images, properties, description }: ProductEntity,
+        searchParams: QueriesCommon,
+    ) {
         super();
         this.id = id;
         this.title = title[searchParams.lang];
+        this.description = description ? description[searchParams.lang] : null;
         this.price = price;
         this.status = status;
         this.images = images.slice(0, Number(PRODUCT_PUBLIC_IMAGE_AMOUNT)) as ImageEntity[];
@@ -78,12 +82,24 @@ export class ProductPublic extends ProductPublicDTO {
     options: any;
 
     constructor(
-        { id, title, price, status, images, properties, category, wishlistCount, orderCount }: ProductEntity,
+        {
+            id,
+            title,
+            price,
+            status,
+            images,
+            properties,
+            category,
+            wishlistCount,
+            orderCount,
+            description,
+        }: ProductEntity,
         searchParams: QueriesProductListI,
     ) {
         super();
         this.id = id;
         this.title = title[searchParams.lang];
+        this.description = description ? description[searchParams.lang] : null;
         this.price = price;
         this.status = status;
         this.images = images.slice(0, Number(PRODUCT_PUBLIC_IMAGE_AMOUNT)) as ImageEntity[];
