@@ -20,6 +20,7 @@ import CacheModule from './Cache';
 import FSModule from './FS';
 import TransModule from './Trans';
 import SearchModule from './Search';
+import FilterModule from './Filter';
 import CacheResetMiddleware from '@middlewares/CacheReset';
 import ProductPrivateController from '@controllers/Product/private';
 import CategoryPrivateController from '@controllers/Category/private';
@@ -40,6 +41,7 @@ import DashboardPublicController from '@controllers/Dashboard/public';
         CategoryModule,
         ProductModule,
         SearchModule,
+        // FilterModule,
         DashboardModule,
         OrderModule,
         WishlistModule,

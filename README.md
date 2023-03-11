@@ -71,6 +71,11 @@ Boilerplate for web store
     - `NEW`: **new** (новинка)
     - `POPULAR`: **popular** (популярные)
 
+  - filter types
+
+    - `RANGE`: **range**
+    - `LIST`: **list**
+
 ## Tools
 
 - container managing
