@@ -13,7 +13,7 @@ import {
 import { Type } from 'class-transformer';
 
 import { CategoryI } from '@interfaces/Category';
-import { ProductI, ProductPreviewI, ProductCardI, ProductPublicI } from '@interfaces/Product';
+import { ProductI, ProductPreviewI, ProductCardI, ProductPublicI, ProductSearchI } from '@interfaces/Product';
 import { PriceI } from '@interfaces/Price';
 import { ProductStatusE } from '@enums/Product';
 import { PropertyI, PropertyPublicI } from '@interfaces/Property';
@@ -33,6 +33,13 @@ export class CreateProductDTO implements ProductI {
     @Type(() => TransDTO)
     @ApiProperty()
     title: TransDTO;
+
+    @IsOptional()
+    @IsObject()
+    @ValidateNested()
+    @Type(() => TransDTO)
+    @ApiProperty({ required: false })
+    description: TransDTO;
 
     @IsNotEmpty()
     @IsNumberString()
@@ -57,11 +64,6 @@ export class CreateProductDTO implements ProductI {
         default: ProductStatusE.AVAILABLE,
     })
     status: ProductStatusE;
-
-    @IsOptional()
-    @IsString()
-    @ApiProperty({ required: false, default: null })
-    description: string;
 
     @IsOptional()
     @IsNumberString()
@@ -139,6 +141,9 @@ export class ProductCardDTO implements ProductCardI {
     @ApiProperty()
     title: string;
 
+    @ApiProperty()
+    description: string;
+
     @ApiProperty({ enum: ProductStatusE })
     status: ProductStatusE;
 
@@ -161,6 +166,9 @@ export class ProductPublicDTO implements ProductPublicI {
 
     @ApiProperty()
     title: string;
+
+    @ApiProperty()
+    description: string;
 
     @ApiProperty({ enum: ProductStatusE })
     status: ProductStatusE;
@@ -185,4 +193,15 @@ export class ProductPublicDTO implements ProductPublicI {
 
     @ApiProperty({ description: 'how many users added this product to wishlist' })
     wishlistCount: number;
+}
+
+export class ProductSearchDTO implements ProductSearchI {
+    @ApiProperty({ type: 'string' })
+    id: ProductI['id'];
+
+    @ApiProperty({ type: 'string' })
+    title: ProductI['title'];
+
+    @ApiProperty({ type: 'string' })
+    image: string;
 }

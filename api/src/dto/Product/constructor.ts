@@ -3,7 +3,7 @@ import { ProductStatusE } from '@enums/Product';
 import WithLabels from '@decorators/Label';
 import { LabelType } from '@enums/Label';
 import { ImageEntity } from '@entities/Image';
-import { CreateProductDTO, ProductPreviewDTO, ProductCardDTO, ProductPublicDTO } from '.';
+import { CreateProductDTO, ProductPreviewDTO, ProductCardDTO, ProductPublicDTO, ProductSearchDTO } from '.';
 import { Price } from '@dto/Price/constructor';
 import configService from '@services/Config';
 import { PropertyPublic } from '@dto/Property/constructor';
@@ -60,10 +60,16 @@ export class ProductPreview extends ProductPreviewDTO {
 
 @WithLabels(LabelType.NEW, LabelType.POPULAR, LabelType.DISCOUNT)
 export class ProductCard extends ProductCardDTO {
-    constructor({ id, title, price, status, images, properties }: ProductEntity, searchParams: QueriesCommon) {
+    constructor(
+        { id, title, price, status, images, properties, description }: ProductEntity,
+        searchParams: QueriesCommon,
+    ) {
         super();
         this.id = id;
         this.title = title[searchParams.lang];
+        this.description = description
+            ? description[searchParams.lang]
+            : properties.map(({ title }) => title[searchParams.lang]).join('/');
         this.price = price;
         this.status = status;
         this.images = images.slice(0, Number(PRODUCT_PUBLIC_IMAGE_AMOUNT)) as ImageEntity[];
@@ -78,12 +84,26 @@ export class ProductPublic extends ProductPublicDTO {
     options: any;
 
     constructor(
-        { id, title, price, status, images, properties, category, wishlistCount, orderCount }: ProductEntity,
+        {
+            id,
+            title,
+            price,
+            status,
+            images,
+            properties,
+            category,
+            wishlistCount,
+            orderCount,
+            description,
+        }: ProductEntity,
         searchParams: QueriesProductListI,
     ) {
         super();
         this.id = id;
         this.title = title[searchParams.lang];
+        this.description = description
+            ? description[searchParams.lang]
+            : properties.map(({ title }) => title[searchParams.lang]).join('/');
         this.price = price;
         this.status = status;
         this.images = images.slice(0, Number(PRODUCT_PUBLIC_IMAGE_AMOUNT)) as ImageEntity[];
@@ -92,6 +112,15 @@ export class ProductPublic extends ProductPublicDTO {
         this.orderCount = orderCount;
         this.wishlistCount = wishlistCount.length;
         // this.options = mapOptions(properties, searchParams);
+    }
+}
+
+export class ProductSearch extends ProductSearchDTO {
+    constructor({ p_id, title_en, img }) {
+        super();
+        this.id = p_id;
+        this.title = title_en;
+        this.image = img;
     }
 }
 

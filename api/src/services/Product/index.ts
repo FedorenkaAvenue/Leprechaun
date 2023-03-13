@@ -31,6 +31,7 @@ export default class ProductService {
             .createQueryBuilder('p')
             .leftJoinAndSelect('p.title', 'title')
             .leftJoinAndSelect('p.images', 'images')
+            .leftJoinAndSelect('p.description', 'desc')
             .leftJoinAndSelect('p.category', 'cat')
             .leftJoinAndSelect('cat.title', 'cat_title')
 

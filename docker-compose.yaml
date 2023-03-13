@@ -62,27 +62,27 @@ services:
       - ./se/data:/var/lib/manticore
       - ./se/logs:/var/log/manticore:rw
 
-  client_user_ssr:
-    container_name: leprechaun_client_user_ssr
-    networks:
-      - client
-    restart: unless-stopped
-    extends:
-      file: docker-compose.shared.yaml
-      service: node
-    command: npm run serve:ssr:docker
-    volumes:
-      - ./clients/user:/app
-    environment:
-      - IS_DEV=true
-      - APP_NAME
-      - LANGS
-      - DOMAIN
-      - DOMAIN_MEDIA
-      - DOMAIN_API
-      - CURRENCY_SYMBOL
-    depends_on:
-      - server
+  # client_user_ssr:
+  #   container_name: leprechaun_client_user_ssr
+  #   networks:
+  #     - client
+  #   restart: unless-stopped
+  #   extends:
+  #     file: docker-compose.shared.yaml
+  #     service: node
+  #   command: npm run serve:ssr:docker
+  #   volumes:
+  #     - ./clients/user:/app
+  #   environment:
+  #     - IS_DEV=true
+  #     - APP_NAME
+  #     - LANGS
+  #     - DOMAIN
+  #     - DOMAIN_MEDIA
+  #     - DOMAIN_API
+  #     - CURRENCY_SYMBOL
+  #   depends_on:
+  #     - server
 
   client_admin:
     container_name: leprechaun_client_admin

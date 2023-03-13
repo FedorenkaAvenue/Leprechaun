@@ -1,9 +1,10 @@
-import { Body, Controller, Get, ValidationPipe } from '@nestjs/common';
-import { ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
+import { Controller, Get } from '@nestjs/common';
+import { ApiBadRequestResponse, ApiOkResponse, ApiOperation, ApiQuery, ApiTags } from '@nestjs/swagger';
 
 import SearchPublicService from '@services/Search/public';
 import { SearchAutocomplete } from '@dto/Search/constructor';
-import { SearchBodyDTO } from '@dto/Search';
+import Query from '@decorators/Query';
+import { QueriesSearch } from '@dto/Queries/constructor';
 
 @Controller('search')
 @ApiTags('Search 🧑‍💻')
@@ -13,7 +14,14 @@ export default class SearchPublicController {
     @Get('/autocomplete')
     @ApiOperation({ summary: 'search by substring for autocomplete' })
     @ApiOkResponse({ type: SearchAutocomplete })
-    search(@Body(new ValidationPipe({ transform: true })) body: SearchBodyDTO): Promise<SearchAutocomplete> {
-        return this.searchService.autocomplete(body);
+    @ApiBadRequestResponse({ description: 'substring is empty' })
+    @ApiQuery({
+        name: 'substring',
+        required: true,
+        type: 'string',
+        description: 'typed string',
+    })
+    search(@Query(QueriesSearch) queries: QueriesSearch): Promise<SearchAutocomplete> {
+        return this.searchService.autocomplete(queries);
     }
 }
