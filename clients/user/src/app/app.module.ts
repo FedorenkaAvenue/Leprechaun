@@ -32,7 +32,7 @@ import { LangInterceptor } from '@shared/interceptors/lang.interceptor';
 
 
 export function createTranslateLoader(http: HttpClient) {
-  return new TranslateHttpLoader(http, `/assets/locales/`, '.json');
+  return new TranslateHttpLoader(http, `${environment.domain}/assets/locales/`, '.json');
 }
 @NgModule({
   imports: [

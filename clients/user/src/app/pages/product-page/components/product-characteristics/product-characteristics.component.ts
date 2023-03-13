@@ -1,4 +1,7 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { ProductDetailsI } from '@shared/models';
+import { Observable } from 'rxjs';
+import { ProductPageService } from '../../services/product-page.service';
 
 @Component({
   selector: 'app-product-characteristics',
@@ -8,9 +11,15 @@ import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 })
 export class ProductCharacteristicsComponent implements OnInit {
 
-  constructor() { }
+  public productDetails$: Observable<ProductDetailsI>;
+
+  
+  constructor(
+      private readonly productPageService: ProductPageService,
+  ) { }
 
   ngOnInit(): void {
+    this.productDetails$ = this.productPageService.product$;
   }
 
 }

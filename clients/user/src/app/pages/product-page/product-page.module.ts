@@ -9,6 +9,8 @@ import { ProductAboutComponent } from './components/product-about/product-about.
 import { ProductPhotosComponent } from './components/product-photos/product-photos.component';
 import { LpchImagesSliderModule } from '@shared/components/lpch-images-slider/lpch-images-slider.module';
 import { LpchTabsModule } from '@shared/components/lpch-tabs/lpch-tabs.module';
+import { ProductPriceModule } from '@shared/components/product-price/product-price.module';
+import { ProductAvailabilityModule } from '@shared/components/product-availability/product-availability.module';
 // import { SwiperModule } from 'ngx-swiper-wrapper';
 // import { SWIPER_CONFIG } from 'ngx-swiper-wrapper';
 // import { SwiperConfigInterface } from 'ngx-swiper-wrapper';
@@ -29,7 +31,9 @@ import { LpchTabsModule } from '@shared/components/lpch-tabs/lpch-tabs.module';
     CommonModule,
     ProductPageRoutingModule,
     LpchImagesSliderModule,
-    LpchTabsModule
+    LpchTabsModule,
+    ProductPriceModule,
+    ProductAvailabilityModule
     // SwiperModule,
   ],
   providers: [

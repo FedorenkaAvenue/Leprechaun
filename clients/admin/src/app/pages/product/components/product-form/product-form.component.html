@@ -7,6 +7,12 @@
         formControlName="title"
       ></app-translation-form>
 
+      <app-translation-form
+      [title]="'Description'"
+      [langs]="languages"
+      formControlName="description"
+    ></app-translation-form>
+
       <mat-form-field appearance="fill" floatLabel="always">
         <mat-label>Price</mat-label>
         <input

@@ -82,6 +82,7 @@ export class ProductFormComponent implements OnInit, OnChanges {
       price_current: this.fb.control(null, Validators.required),
       price_old: this.fb.control(null),
       title: this.fb.control(null, Validators.required),
+      description: this.fb.control(null),
       category: this.categoryControl,
       is_public: this.fb.control(true),
       rating: this.fb.control(null),
