@@ -1,18 +1,18 @@
-<div class="product-price fl-c fs-3">
+<div class="product-price fl-c" [class]="priceCurrentStyle">
   <ng-container *ngIf="price?.old; else simplePrice">
-    <span class="product-price_old fs-2 fc-2">
+    <span class="product-price_old fc-2" [class]="priceOldStyle">
       {{ price?.old | numberBySpace}}
-      <span class="fs-2">&#8372;</span>
+      <span [class]="priceOldStyle">&#8372;</span>
     </span>
     <span class="product-price_current">
       {{ price?.current | numberBySpace }}
-      <span class="fs-2">&#8372;</span>
+      <span [class]="priceOldStyle">&#8372;</span>
     </span>
   </ng-container>
   <ng-template #simplePrice>
     <span class="price-simple">
       {{ price?.current | numberBySpace }}
-      <span class="fs-2">&#8372;</span>
+      <span [class]="priceOldStyle">&#8372;</span>
     </span>
   </ng-template>
 </div>

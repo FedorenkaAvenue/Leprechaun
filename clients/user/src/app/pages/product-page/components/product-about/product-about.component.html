@@ -1,0 +1,52 @@
+<section *ngIf="productDetails$ | async as productDetails" class="about">
+  <div class="about__main fl">
+    <div class="about__gallery">
+      <lpch-images-slider [images]="productDetails?.images"></lpch-images-slider>
+    </div>
+    <!-- <div></div> -->
+    <div class="about__info">
+        <div class="about__info-wrap">
+            <div class="about__info-price fl">
+            <app-product-price
+            [price]="productDetails?.price"
+            [priceCurrentStyle]="'fs-4'"
+            [priceOldStyle]="'fs-3'"
+          ></app-product-price>
+          <button class="about__pay-btn">купити</button>
+        </div>
+        <lpch-product-availability></lpch-product-availability>
+        </div>
+     
+    </div>
+  </div>
+  <div class="about__decription">
+    <p>sdaskdjaklsjdlkjslkdj</p>
+    <p>sdaskdjaklsjdlkjslkdj</p>
+    <p>sdaskdjaklsjdlkjslkdj</p>
+    <p>sdaskdjaklsjdlkjslkdj</p>
+    <p>sdaskdjaklsjdlkjslkdj</p>
+    <p>sdaskdjaklsjdlkjslkdj</p>
+    <p>sdaskdjaklsjdlkjslkdj</p>
+    <p>sdaskdjaklsjdlkjslkdj</p>
+    <p>sdaskdjaklsjdlkjslkdj</p>
+    <p>sdaskdjaklsjdlkjslkdj</p>
+    <p>sdaskdjaklsjdlkjslkdj</p>
+    <p>sdaskdjaklsjdlkjslkdj</p>
+    <p>sdaskdjaklsjdlkjslkdj</p>
+    <p>sdaskdjaklsjdlkjslkdj</p>
+    <p>sdaskdjaklsjdlkjslkdj</p>
+    <p>sdaskdjaklsjdlkjslkdj</p>
+    <p>sdaskdjaklsjdlkjslkdj</p>
+    <p>sdaskdjaklsjdlkjslkdj</p>
+    <p>sdaskdjaklsjdlkjslkdj</p>
+    <p>sdaskdjaklsjdlkjslkdj</p>
+    <p>sdaskdjaklsjdlkjslkdj</p>
+    <p>sdaskdjaklsjdlkjslkdj</p>
+    <p>sdaskdjaklsjdlkjslkdj</p>
+    <p>sdaskdjaklsjdlkjslkdj</p>
+    <p>sdaskdjaklsjdlkjslkdj</p>
+    <p>sdaskdjaklsjdlkjslkdj</p>
+    <p>sdaskdjaklsjdlkjslkdj</p>
+    <p>sdaskdjaklsjdlkjslkdj</p>
+  </div>
+</section>

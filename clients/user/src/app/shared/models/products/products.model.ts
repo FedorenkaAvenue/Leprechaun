@@ -19,9 +19,14 @@ export interface ProductPropertiesI {
   title: string;
   alt_name: string;
   comment: string;
-  property_group: any;
+  property_group: ProductPropertiesGroupI;
 }
 
+export interface ProductPropertiesGroupI {
+  id: number;
+  title: string;
+  alt_name: string;
+}
 export interface ProductsPreviewI extends ProductPreviewBaseI {
   image: string;
 }
@@ -38,6 +43,9 @@ export interface ProductsBaseI {
   labels: Array<ProductLabelI>;
   rating: number;
   description: string;
+  status: number;
+  orderCount: number;
+  wishlistCount: number;
   comment?: string;
 }
 

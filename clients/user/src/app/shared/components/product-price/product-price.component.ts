@@ -9,6 +9,8 @@ import { PriceI } from '@shared/models/products/product-price.model';
 })
 export class ProductPriceComponent implements OnInit {
   @Input() price: PriceI;
+  @Input() priceCurrentStyle = 'fs-3' ;
+  @Input() priceOldStyle = 'fs-2' ;
   
   constructor() { }
 
