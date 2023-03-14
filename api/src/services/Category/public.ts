@@ -22,7 +22,7 @@ export default class CategoryPublicService extends CategoryService {
             });
 
             return new CategoryPublic(res, lang);
-        } catch (err) {
+        } catch (_) {
             throw new NotFoundException('category not found');
         }
     }

@@ -36,6 +36,7 @@ export default class ProductPublicService extends ProductService {
         queries: QueriesProductList,
     ): Promise<PaginationResult<ProductCard>> {
         const qb = this.getProductQueryBulder()
+            .leftJoin('p.category', 'cat')
             .where('cat.url = :categoryUrl', { categoryUrl })
             .andWhere('p.is_public = true');
 
