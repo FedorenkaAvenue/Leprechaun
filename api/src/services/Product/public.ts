@@ -14,7 +14,10 @@ export default class ProductPublicService extends ProductService {
         const qb = this.getProductQueryBulder()
             .where('p.is_public = true')
             .andWhere('p.id = :id', { id })
-            .leftJoinAndMapMany('p.wishlistCount', WishlistItemEntity, 'w', 'w.product.id = p.id');
+            .leftJoinAndMapMany('p.wishlistCount', WishlistItemEntity, 'w', 'w.product.id = p.id')
+            .leftJoinAndSelect('p.description', 'desc')
+            .leftJoinAndSelect('p.category', 'cat')
+            .leftJoinAndSelect('cat.title', 'cat_title');
         try {
             return new ProductPublic(await qb.getOneOrFail(), searchParams);
         } catch (_) {

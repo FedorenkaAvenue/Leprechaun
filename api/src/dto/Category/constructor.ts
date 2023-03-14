@@ -16,7 +16,7 @@ export class Category extends CreateCategoryDTO {
 }
 
 export class CategoryPublic extends CategoryPublicDTO {
-    constructor({ id, title, url, icon }: CategoryI, { lang }: QueriesCommon) {
+    constructor({ id, title, url, icon }: CategoryI, lang: QueriesCommon['lang']) {
         super();
         this.id = id;
         this.title = title[lang];

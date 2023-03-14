@@ -3,14 +3,21 @@ import { ProductStatusE } from '@enums/Product';
 import WithLabels from '@decorators/Label';
 import { LabelType } from '@enums/Label';
 import { ImageEntity } from '@entities/Image';
-import { CreateProductDTO, ProductPreviewDTO, ProductCardDTO, ProductPublicDTO, ProductSearchDTO } from '.';
+import {
+    CreateProductDTO,
+    ProductPreviewDTO,
+    ProductCardDTO,
+    ProductPublicDTO,
+    ProductSearchDTO,
+    ProductLightCardDTO,
+} from '.';
 import { Price } from '@dto/Price/constructor';
 import configService from '@services/Config';
-import { PropertyPublic } from '@dto/Property/constructor';
 import { ProductEntity } from '@entities/Product';
 import { CategoryPublic } from '@dto/Category/constructor';
 import { QueriesProductListI } from '@interfaces/Queries';
 import { QueriesCommon } from '@dto/Queries/constructor';
+import { OptionPublic } from '@dto/PropertyGroup/constructor';
 
 const PRODUCT_PUBLIC_IMAGE_AMOUNT = configService.getVal('PRODUCT_PUBLIC_IMAGE_AMOUNT');
 
@@ -59,59 +66,48 @@ export class ProductPreview extends ProductPreviewDTO {
 }
 
 @WithLabels(LabelType.NEW, LabelType.POPULAR, LabelType.DISCOUNT)
-export class ProductCard extends ProductCardDTO {
-    constructor(
-        { id, title, price, status, images, properties, description }: ProductEntity,
-        searchParams: QueriesCommon,
-    ) {
+export class ProductLightCard extends ProductLightCardDTO {
+    constructor({ id, title, price, status, images }: ProductEntity, { lang }: QueriesCommon) {
         super();
         this.id = id;
-        this.title = title[searchParams.lang];
-        this.description = description
-            ? description[searchParams.lang]
-            : properties.map(({ title }) => title[searchParams.lang]).join('/');
+        this.title = title[lang];
         this.price = price;
         this.status = status;
         this.images = images.slice(0, Number(PRODUCT_PUBLIC_IMAGE_AMOUNT)) as ImageEntity[];
-        this.properties = properties
-            .filter(({ propertygroup: { is_primary } }) => is_primary)
-            .map(prop => new PropertyPublic(prop, searchParams));
+    }
+}
+
+@WithLabels(LabelType.NEW, LabelType.POPULAR, LabelType.DISCOUNT)
+export class ProductCard extends ProductCardDTO {
+    constructor({ id, title, price, status, images, options, description }: ProductEntity, { lang }: QueriesCommon) {
+        super();
+        this.id = id;
+        this.title = title[lang];
+        this.description = description?.[lang];
+        this.price = price;
+        this.status = status;
+        this.images = images.slice(0, Number(PRODUCT_PUBLIC_IMAGE_AMOUNT)) as ImageEntity[];
+        this.options = options.filter(({ is_primary }) => is_primary).map(opt => new OptionPublic(opt, lang));
     }
 }
 
 @WithLabels(LabelType.NEW, LabelType.POPULAR, LabelType.DISCOUNT)
 export class ProductPublic extends ProductPublicDTO {
-    options: any;
-
     constructor(
-        {
-            id,
-            title,
-            price,
-            status,
-            images,
-            properties,
-            category,
-            wishlistCount,
-            orderCount,
-            description,
-        }: ProductEntity,
-        searchParams: QueriesProductListI,
+        { id, title, price, status, images, category, wishlistCount, orderCount, description, options }: ProductEntity,
+        { lang }: QueriesProductListI,
     ) {
         super();
         this.id = id;
-        this.title = title[searchParams.lang];
-        this.description = description
-            ? description[searchParams.lang]
-            : properties.map(({ title }) => title[searchParams.lang]).join('/');
+        this.title = title[lang];
+        this.description = description?.[lang];
         this.price = price;
         this.status = status;
         this.images = images.slice(0, Number(PRODUCT_PUBLIC_IMAGE_AMOUNT)) as ImageEntity[];
-        this.properties = properties.map(prop => new PropertyPublic(prop, searchParams));
-        this.category = new CategoryPublic(category, searchParams);
+        this.category = new CategoryPublic(category, lang);
         this.orderCount = orderCount;
         this.wishlistCount = wishlistCount.length;
-        // this.options = mapOptions(properties, searchParams);
+        this.options = options.map(opt => new OptionPublic(opt, lang));
     }
 }
 
@@ -123,28 +119,3 @@ export class ProductSearch extends ProductSearchDTO {
         this.image = img;
     }
 }
-
-// function mapOptions(properties: PropertyEntity[], searchParams: QueriesProductListI) {
-//     return properties.reduce((acc, curr) => {
-//         const { propertygroup, ...prop } = curr;
-
-//         const existedGroupIndex = acc.findIndex((opt, i) => opt.propertyGroup.id === propertygroup.id);
-
-//         if (existedGroupIndex !== -1) {
-//             acc[existedGroupIndex].properties = [
-//                 ...acc[existedGroupIndex].properties,
-//                 //@ts-ignore
-//                 new PropertyGroupPublic(prop, searchParams),
-//             ];
-//             return acc;
-//         }
-//         return [
-//             ...acc,
-//             {
-//                 propertyGroup: new PropertyGroupPublic(propertygroup, searchParams),
-//                 //@ts-ignore
-//                 properties: [new PropertyPublic(prop, searchParams)],
-//             },
-//         ];
-//     }, []);
-// }

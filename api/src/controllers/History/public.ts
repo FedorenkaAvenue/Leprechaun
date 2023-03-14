@@ -2,7 +2,7 @@ import { BadRequestException, Controller, Delete, Get, Session, UseGuards, UseIn
 import { ApiBadRequestResponse, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { DeleteResult } from 'typeorm';
 
-import { ProductCard } from '@dto/Product/constructor';
+import { ProductLightCard } from '@dto/Product/constructor';
 import HistoryPublicService from '@services/History/public';
 import AffectedResultInterceptor from '@interceptors/AffectedResult';
 import SessionGuard from '@guards/Session';
@@ -19,8 +19,8 @@ export default class HistoryPublicController {
 
     @Get('product')
     @ApiOperation({ summary: `get user product history (${USER_HISTORY_LENGTH} items max length)` })
-    @ApiOkResponse({ type: ProductCard, isArray: true })
-    getUserHistory(@Session() { id }, @Queries() queries: QueriesCommon): Promise<ProductCard[]> {
+    @ApiOkResponse({ type: ProductLightCard, isArray: true })
+    getUserHistory(@Session() { id }, @Queries() queries: QueriesCommon): Promise<ProductLightCard[]> {
         return this.historyService.getHistoryList(id, queries);
     }
 

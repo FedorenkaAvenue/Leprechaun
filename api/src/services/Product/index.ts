@@ -12,6 +12,7 @@ import { ProductI } from '@interfaces/Product';
 import { SortProductE } from '@enums/Query';
 import { PaginationResult } from '@dto/Pagination/constructor';
 import logger from '@services/Logger';
+import { PropertyGroupEntity } from '@entities/PropertGroup';
 
 @Injectable()
 export default class ProductService {
@@ -31,27 +32,15 @@ export default class ProductService {
             .createQueryBuilder('p')
             .leftJoinAndSelect('p.title', 'title')
             .leftJoinAndSelect('p.images', 'images')
-            .leftJoinAndSelect('p.description', 'desc')
-            .leftJoinAndSelect('p.category', 'cat')
-            .leftJoinAndSelect('cat.title', 'cat_title')
 
-            .leftJoinAndSelect('p.properties', 'props')
-            .leftJoinAndSelect('props.title', 'props_title')
-            .leftJoinAndSelect('props.propertygroup', 'pg')
-            .leftJoinAndSelect('pg.title', 'pg_title');
+            .leftJoin('p.properties', 't_props')
+            .leftJoin('t_props.propertygroup', 't_pg')
 
-        // .leftJoinAndSelect(PropertyGroupEntity, 'pg', 'pg.id = 43')
-        // .leftJoinAndSelect('pg.title', 'pg_title')
-        // .leftJoinAndSelect('pg.properties', 'props')
-        // .leftJoinAndSelect('props.title', 'props_title')
+            .leftJoinAndMapMany('p.options', PropertyGroupEntity, 'pg', 't_pg.id = pg.id')
+            .leftJoinAndSelect('pg.title', 'pg_title')
 
-        // .leftJoinAndMapMany('p.options', (qb: SelectQueryBuilder<PropertyGroupEntity>) => {
-        //     return qb
-        //         .select()
-        //         .from(PropertyGroupEntity, 'pg')
-        //         .leftJoinAndSelect('pg.properties', 'props')
-        //         .where('pg.id = 43')
-        // }, 'pgg', 'pgg.id = 43')
+            .leftJoinAndSelect('pg.properties', 'props', 't_props.id = props.id')
+            .leftJoinAndSelect('props.title', 'props_title');
     }
 
     /**

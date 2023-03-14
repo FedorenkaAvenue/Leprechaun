@@ -11,7 +11,6 @@ import {
 
 import { PropertyI, PropertyPublicI } from '@interfaces/Property';
 import { PropertyGroupI } from '@interfaces/PropertyGroup';
-import { PropertyGroupPublic } from '@dto/PropertyGroup/constructor';
 import { Type } from 'class-transformer';
 import { TransDTO } from '@dto/Trans';
 
@@ -48,7 +47,4 @@ export class PropertyPublicDTO implements PropertyPublicI {
 
     @ApiProperty()
     alt_name: string;
-
-    @ApiProperty()
-    propertygroup: PropertyGroupPublic;
 }

@@ -6,7 +6,6 @@ import { HistoryEntity } from '@entities/History';
 import { SessionI } from '@interfaces/Session';
 import { ProductI } from '@interfaces/Product';
 import configService from '@services/Config';
-import { PRODUCT_HISTORY_RELATIONS } from '@constants/relations';
 
 const USER_HISTORY_LENGTH = Number(configService.getVal('USER_HISTORY_LENGTH'));
 
@@ -43,7 +42,7 @@ export default class HistoryService {
         return await this.historyRepo.find({
             where: { sid },
             order: { created_at: 'DESC' },
-            relations: PRODUCT_HISTORY_RELATIONS,
+            relations: ['product'],
             take: USER_HISTORY_LENGTH,
         });
     }

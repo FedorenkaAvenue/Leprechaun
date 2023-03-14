@@ -7,7 +7,6 @@ import WishlistService from '.';
 import WishlistItemEntity from '@entities/WishlistItem';
 import { WishlistItemI } from '@interfaces/WishlistItem';
 import { WishlistItemPublic } from '@dto/WishlistItem/constructor';
-import { PRODUCT_DEEP_RELATIONS } from '@constants/relations';
 import { SortWishlistE } from '@enums/Query';
 import configService from '@services/Config';
 import { QueriesWishlist } from '@dto/Queries/constructor';
@@ -36,7 +35,7 @@ export default class WishlistPublicService extends WishlistService {
 
         const result = await this.wishlistItemRepo.find({
             where: { sid },
-            relations: PRODUCT_DEEP_RELATIONS,
+            relations: ['product'],
             order: sorting,
             take: USER_WISHLIST_LENGTH,
         });
@@ -60,7 +59,7 @@ export default class WishlistPublicService extends WishlistService {
             const { id } = await this.wishlistItemRepo.save({ product, sid } as DeepPartial<WishlistItemEntity>);
             const addedItem = await this.wishlistItemRepo.findOne({
                 where: { id },
-                relations: PRODUCT_DEEP_RELATIONS,
+                relations: ['product'],
             });
 
             return new WishlistItemPublic(addedItem, searchParams);

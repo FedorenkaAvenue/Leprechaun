@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 
 import { WishlistItemPublicI } from '@interfaces/WishlistItem';
-import { ProductCard } from '../Product/constructor';
+import { ProductLightCard } from '../Product/constructor';
 
 export class WishlistItemPublicDTO implements WishlistItemPublicI {
     @ApiProperty()
@@ -11,5 +11,5 @@ export class WishlistItemPublicDTO implements WishlistItemPublicI {
     created_at: Date;
 
     @ApiProperty({ required: true })
-    product: ProductCard;
+    product: ProductLightCard;
 }
