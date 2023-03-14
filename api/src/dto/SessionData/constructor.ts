@@ -1,9 +1,12 @@
-import { SessionDataI } from '@interfaces/Session';
-import SessionDataDTO from '.';
+import { ApiProperty } from '@nestjs/swagger';
 
-export default class SessionData extends SessionDataDTO {
+import { SessionDataI } from '@interfaces/Session';
+
+export default class SessionData implements SessionDataI {
+    @ApiProperty()
+    ip: string;
+
     constructor({ ip }: SessionDataI) {
-        super();
         this.ip = ip;
     }
 }

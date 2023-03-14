@@ -3,7 +3,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 
 import { CreateProductDTO } from '@dto/Product';
 import { FOLDER_TYPES } from '@services/FS';
-import { PaginationResultDTO } from '@dto/Pagination';
+import { PaginationResult } from '@dto/Pagination/constructor';
 import { ProductI } from '@interfaces/Product';
 import { Product } from '@dto/Product/constructor';
 import ProductService from '.';
@@ -32,7 +32,7 @@ export default class ProductPrivateService extends ProductService {
         }
     }
 
-    async getProductList(searchParams: QueriesProductList): Promise<PaginationResultDTO<ProductEntity>> {
+    async getProductList(searchParams: QueriesProductList): Promise<PaginationResult<ProductEntity>> {
         const qb = this.getProductQueryBulder();
 
         return this.renderResult<ProductEntity>(qb, searchParams);
@@ -41,7 +41,7 @@ export default class ProductPrivateService extends ProductService {
     async getCategoryProducts(
         categoryUrl: string,
         searchParams: QueriesProductList,
-    ): Promise<PaginationResultDTO<ProductEntity>> {
+    ): Promise<PaginationResult<ProductEntity>> {
         const qb = this.getProductQueryBulder()
             .innerJoin('p.category', 'category')
             .where('category.url = :categoryUrl', { categoryUrl });

@@ -9,10 +9,9 @@ import {
     ValidateNested,
 } from 'class-validator';
 
-import { OptionPublicI, PropertyGroupI, PropertyGroupPublicI } from '@interfaces/PropertyGroup';
+import { PropertyGroupI } from '@interfaces/PropertyGroup';
 import { Type } from 'class-transformer';
 import { TransDTO } from '@dto/Trans';
-import { PropertyPublicDTO } from '@dto/Property';
 
 export class CreatePropertyGroupDTO implements PropertyGroupI {
     @IsNotEmptyObject()
@@ -36,20 +35,4 @@ export class CreatePropertyGroupDTO implements PropertyGroupI {
     @IsString()
     @ApiProperty({ required: false, default: null })
     comment: string;
-}
-
-export class PropertyGroupPublicDTO implements PropertyGroupPublicI {
-    @ApiProperty()
-    id: number;
-
-    @ApiProperty()
-    title: string;
-
-    @ApiProperty()
-    alt_name: string;
-}
-
-export class OptionPublicDTO extends PropertyGroupPublicDTO implements OptionPublicI {
-    @ApiProperty({ isArray: true })
-    properties: PropertyPublicDTO[];
 }

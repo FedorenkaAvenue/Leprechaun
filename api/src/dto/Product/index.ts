@@ -13,26 +13,12 @@ import {
 import { Type } from 'class-transformer';
 
 import { CategoryI } from '@interfaces/Category';
-import {
-    ProductI,
-    ProductPreviewI,
-    ProductCardI,
-    ProductPublicI,
-    ProductSearchI,
-    ProductBaseI,
-    ProductLightCardI,
-} from '@interfaces/Product';
+import { ProductI } from '@interfaces/Product';
 import { PriceI } from '@interfaces/Price';
 import { ProductStatusE } from '@enums/Product';
-import { PropertyI, PropertyPublicI } from '@interfaces/Property';
+import { PropertyI } from '@interfaces/Property';
 import { ImageI } from '@interfaces/Image';
-import { LabelI } from '@interfaces/Label';
-import { LabelDTO } from '@dto/Label';
-import { PriceEntity } from '@entities/_Price';
-import { ImageEntity } from '@entities/Image';
-import { CategoryPublic } from '@dto/Category/constructor';
 import { TransDTO } from '@dto/Trans';
-import { OptionPublic } from '@dto/PropertyGroup/constructor';
 
 export class CreateProductDTO implements ProductI {
     @IsNotEmptyObject()
@@ -120,73 +106,4 @@ export class CreateProductDTO implements ProductI {
     @IsString()
     @ApiProperty({ required: false, default: null })
     comment: string;
-}
-
-class ProductBaseDTO implements ProductBaseI<string> {
-    @ApiProperty()
-    id: string;
-
-    @ApiProperty()
-    title: string;
-
-    @ApiProperty({ enum: ProductStatusE })
-    status: ProductStatusE;
-
-    @ApiProperty({ type: PriceEntity })
-    price: PriceEntity;
-
-    @ApiProperty({ type: LabelDTO, isArray: true })
-    labels: LabelI[];
-}
-
-export class ProductPreviewDTO extends ProductBaseDTO implements ProductPreviewI {
-    @ApiProperty({ required: false })
-    image: string;
-}
-
-export class ProductLightCardDTO extends ProductBaseDTO implements ProductLightCardI {
-    @ApiProperty({ type: ImageEntity, isArray: true })
-    images: ImageEntity[];
-}
-
-export class ProductCardDTO extends ProductBaseDTO implements ProductCardI {
-    @ApiProperty()
-    description: string;
-
-    @ApiProperty({ type: ImageEntity, isArray: true })
-    images: ImageEntity[];
-
-    @ApiProperty({ description: 'mapped properties (into property groups)', isArray: true })
-    options: OptionPublic[];
-}
-
-export class ProductPublicDTO extends ProductBaseDTO implements ProductPublicI {
-    @ApiProperty()
-    description: string;
-
-    @ApiProperty({ type: ImageEntity, isArray: true })
-    images: ImageEntity[];
-
-    @ApiProperty({ type: CategoryPublic })
-    category: CategoryPublic;
-
-    @ApiProperty({ description: 'how many users ordered this product' })
-    orderCount: number;
-
-    @ApiProperty({ description: 'how many users added this product to wishlist' })
-    wishlistCount: number;
-
-    @ApiProperty({ description: 'mapped properties (into property groups)', isArray: true })
-    options: OptionPublic[];
-}
-
-export class ProductSearchDTO implements ProductSearchI {
-    @ApiProperty({ type: 'string' })
-    id: ProductI['id'];
-
-    @ApiProperty({ type: 'string' })
-    title: ProductI['title'];
-
-    @ApiProperty({ type: 'string' })
-    image: string;
 }

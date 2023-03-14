@@ -9,7 +9,7 @@ import {
 } from '@nestjs/swagger';
 
 import ProductPublicService from '@services/Product/public';
-import { PaginationResultDTO } from '@dto/Pagination';
+import { PaginationResult } from '@dto/Pagination/constructor';
 import { ApiPaginatedResponseDecorator as ApiPaginatedResponse } from '@decorators/OpenAPI';
 import InvalidPaginationPageInterceptor from '@interceptors/InvalidPaginationPage';
 import { ProductCard, ProductPublic } from '@dto/Product/constructor';
@@ -44,7 +44,7 @@ export default class ProductPublicController {
         required: false,
         enum: ProductStatusE,
     })
-    getProducts(@Queries(QueriesProductList) queries: QueriesProductList): Promise<PaginationResultDTO<ProductCard>> {
+    getProducts(@Queries(QueriesProductList) queries: QueriesProductList): Promise<PaginationResult<ProductCard>> {
         return this.productService.getProductList(queries);
     }
 
@@ -57,7 +57,7 @@ export default class ProductPublicController {
     getCategoryProducts(
         @Param('categoryUrl') categoryUrl: string,
         @Queries(QueriesProductList) queries: QueriesProductList,
-    ): Promise<PaginationResultDTO<ProductCard>> {
+    ): Promise<PaginationResult<ProductCard>> {
         return this.productService.getCategoryProducts(categoryUrl, queries);
     }
 

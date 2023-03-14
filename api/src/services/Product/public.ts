@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 
-import { PaginationResultDTO } from '@dto/Pagination';
+import { PaginationResult } from '@dto/Pagination/constructor';
 import { ProductI } from '@interfaces/Product';
 import { ProductCard, ProductPublic } from '@dto/Product/constructor';
 import ProductService from '.';
@@ -25,7 +25,7 @@ export default class ProductPublicService extends ProductService {
         }
     }
 
-    async getProductList(searchParams: QueriesProductList): Promise<PaginationResultDTO<ProductCard>> {
+    async getProductList(searchParams: QueriesProductList): Promise<PaginationResult<ProductCard>> {
         const qb = this.getProductQueryBulder().where('p.is_public = true');
 
         return this.renderResult<ProductCard>(qb, searchParams, ProductCard);
@@ -34,7 +34,7 @@ export default class ProductPublicService extends ProductService {
     async getCategoryProducts(
         categoryUrl: CategoryI['url'],
         queries: QueriesProductList,
-    ): Promise<PaginationResultDTO<ProductCard>> {
+    ): Promise<PaginationResult<ProductCard>> {
         const qb = this.getProductQueryBulder()
             .where('cat.url = :categoryUrl', { categoryUrl })
             .andWhere('p.is_public = true');

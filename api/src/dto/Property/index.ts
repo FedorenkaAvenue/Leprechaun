@@ -9,7 +9,7 @@ import {
     ValidateNested,
 } from 'class-validator';
 
-import { PropertyI, PropertyPublicI } from '@interfaces/Property';
+import { PropertyI } from '@interfaces/Property';
 import { PropertyGroupI } from '@interfaces/PropertyGroup';
 import { Type } from 'class-transformer';
 import { TransDTO } from '@dto/Trans';
@@ -36,15 +36,4 @@ export class CreatePropertyDTO implements PropertyI {
     @IsString()
     @ApiProperty({ required: false, default: null })
     comment: string;
-}
-
-export class PropertyPublicDTO implements PropertyPublicI {
-    @ApiProperty()
-    id: number;
-
-    @ApiProperty()
-    title: string;
-
-    @ApiProperty()
-    alt_name: string;
 }

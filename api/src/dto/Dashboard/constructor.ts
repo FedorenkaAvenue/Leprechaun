@@ -1,5 +1,6 @@
+import { ApiProperty } from '@nestjs/swagger';
+
 import { CommonDashboardsI, UserDashboardsI } from '@interfaces/Dashboard';
-import { CommonDashboardsDTO, UserDashboardsDTO } from '.';
 import { ProductPreview } from '@dto/Product/constructor';
 import { ProductEntity } from '@entities/Product';
 import { HistoryEntity } from '@entities/History';
@@ -14,17 +15,39 @@ interface UserDashboardsIConstructorI {
     history: HistoryEntity[];
 }
 
-export class CommonDashboards extends CommonDashboardsDTO implements CommonDashboardsI {
+export class CommonDashboards implements CommonDashboardsI {
+    @ApiProperty({
+        description: 'popular products',
+        type: ProductPreview,
+        isArray: true,
+        required: false,
+    })
+    popular: ProductPreview[];
+
+    @ApiProperty({
+        description: 'new products',
+        type: ProductPreview,
+        isArray: true,
+        required: false,
+    })
+    newest: ProductPreview[];
+
     constructor({ popular, newest }: CommonDashboardsIConstructorI, searchParams: QueriesCommon) {
-        super();
         this.popular = popular.map(prod => new ProductPreview(prod, searchParams));
         this.newest = newest.map(prod => new ProductPreview(prod, searchParams));
     }
 }
 
-export class UserDashboards extends UserDashboardsDTO implements UserDashboardsI {
+export class UserDashboards implements UserDashboardsI {
+    @ApiProperty({
+        description: 'recently visited products',
+        type: ProductPreview,
+        isArray: true,
+        required: false,
+    })
+    history: ProductPreview[];
+
     constructor({ history }: UserDashboardsIConstructorI, searchParams: QueriesCommon) {
-        super();
         this.history = history.map(({ product }) => new ProductPreview(product, searchParams));
     }
 }

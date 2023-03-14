@@ -14,10 +14,6 @@ export interface PropertyGroupI extends BaseI {
 
 export type PropertyGroupPublicI = BaseI<string>;
 
-// TODO сука блять ёбаный TS
-// TODO refactoring interfaces by generics and extending
-
-// mapped property group
 export interface OptionI extends PropertyGroupI {
     properties: PropertyI[];
 }

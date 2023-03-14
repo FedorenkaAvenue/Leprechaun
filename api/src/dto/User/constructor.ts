@@ -1,8 +1,13 @@
-import { UserPublicDTO } from '.';
+import { ApiProperty } from '@nestjs/swagger';
 
-export class UserPublic extends UserPublicDTO {
-    constructor({ session }: UserPublicDTO) {
-        super();
+import { SessionI } from '@interfaces/Session';
+import { UserPublicI } from '@interfaces/User';
+
+export class UserPublic implements UserPublicI {
+    @ApiProperty({ description: 'session id', type: 'string' })
+    session: SessionI['sid'];
+
+    constructor({ session }: UserPublicI) {
         this.session = session;
     }
 }

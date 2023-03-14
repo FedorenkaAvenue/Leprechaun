@@ -1,7 +1,7 @@
-import { FilterI, FilterListI } from '@interfaces/Filter';
-import { FIlterListDTO, FilterDTO } from '.';
-import { PropertyGroupI } from '@interfaces/PropertyGroup';
-import { PropertyGroupPublic } from '@dto/PropertyGroup/constructor';
+import { ApiProperty } from '@nestjs/swagger';
+
+import { FilterI } from '@interfaces/Filter';
+import FilterE from '@enums/Filter';
 
 // class FilterList extends FIlterListDTO {
 //     constructor({ properties, ...propGroup }: PropertyGroupI) {
@@ -11,9 +11,18 @@ import { PropertyGroupPublic } from '@dto/PropertyGroup/constructor';
 //     }
 // }
 
-export class FilterPublic extends FilterDTO {
+export class FilterPublic implements FilterI {
+    @ApiProperty({
+        description: 'filter type',
+        required: true,
+        enum: FilterE,
+    })
+    type: FilterE;
+
+    @ApiProperty({ required: true })
+    data: unknown;
+
     constructor({ type, data }: FilterI) {
-        super();
         this.type = type;
         this.data = data;
     }
