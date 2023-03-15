@@ -36,7 +36,8 @@ import DashboardPublicController from '@controllers/Dashboard/public';
 @Module({
     imports: [
         TypeOrmModule.forRootAsync({
-            useFactory: async () => configService.getTypeOrmConfig(),
+            name: 'default',
+            useFactory: async () => configService.getDBConnectionData(),
         }),
         CategoryModule,
         ProductModule,

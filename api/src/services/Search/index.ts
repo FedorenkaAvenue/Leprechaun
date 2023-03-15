@@ -8,7 +8,7 @@ export default class SearchService {
     protected readonly api: any;
 
     constructor() {
-        this.api = configService.getSEConfig();
+        this.api = configService.getSEConnectionData();
     }
 
     /**

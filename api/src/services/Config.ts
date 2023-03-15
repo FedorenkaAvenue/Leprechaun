@@ -7,6 +7,7 @@ import * as session from 'express-session';
 import * as redisCacheStore from 'cache-manager-redis-store';
 import { Pool as PGPool } from 'pg';
 import { ApiClient, SearchApi } from 'manticoresearch';
+import { PostgresConnectionCredentialsOptions } from 'typeorm/driver/postgres/PostgresConnectionCredentialsOptions';
 const pgConnect = require('connect-pg-simple');
 
 const ENV_ARRAY_SPLIT_SYMBOL = ',';
@@ -55,31 +56,70 @@ export class ConfigService {
     /**
      * @description get main DB connection data
      */
-    getDBConnectionData() {
+    getDBConnectionData(): TypeOrmModuleOptions & PostgresConnectionCredentialsOptions {
         return {
             username: this.getVal('POSTGRES_USER') as string,
             password: this.getVal('POSTGRES_PASSWORD') as string,
             host: this.getVal('POSTGRES_HOST') as string,
             port: Number(this.getVal('POSTGRES_PORT')),
             database: this.getVal('POSTGRES_DATABASE') as string,
+            type: 'postgres',
+            synchronize: true,
+            autoLoadEntities: true,
         };
     }
 
     /**
-     * @description get TypeORM config object
+     * @description get search engine connection data
      */
-    getTypeOrmConfig(): TypeOrmModuleOptions {
+    getSEConnectionData(): any {
+        const client = new ApiClient();
+        client.basePath = 'http://leprechaun_se:9308';
+
+        return new SearchApi(client);
+    }
+
+    /**
+     * @description get config for `express-session` package
+     */
+    getSessionConfig(): SessionOptions {
+        const pgSession = pgConnect(session);
         const { username, password, host, port, database } = this.getDBConnectionData();
 
         return {
-            type: 'postgres',
-            synchronize: true,
-            autoLoadEntities: true,
-            host,
-            port,
-            username,
-            password,
-            database,
+            store: new pgSession({
+                pool: new PGPool({ user: username, database, password, host, port }),
+                tableName: 'session',
+            }),
+            genid: this.isLepr || this.isDev ? this.genSessionId() : undefined,
+            proxy: true,
+            name: 'session',
+            secret: this.getVal('SESSION_COOKIE_SECRET'),
+            resave: false,
+            unset: 'destroy',
+            saveUninitialized: false,
+            cookie: {
+                httpOnly: true,
+                maxAge: +this.getVal('SESSION_AGE'),
+                sameSite: this.isLepr ? 'none' : 'strict',
+                domain: `.${this.getVal('HOST_NAME')}`,
+                secure: !this.isDev,
+            },
+        };
+    }
+
+    /**
+     * @description get cache manager config
+     */
+    getCacheStoreConfig(): CacheModuleOptions {
+        return {
+            store: redisCacheStore as any,
+            host: this.getVal('CACHE_HOST'),
+            port: this.getVal('CACHE_CONTAINER_PORT'),
+            auth_pass: this.getVal('CACHE_PASSWORD'),
+            ttl: +this.getVal('DEFAULT_CACHE_TTL'),
+            max: 1000,
+            db: +this.getVal('CACHE_DB_NUMBER'),
         };
     }
 
@@ -133,60 +173,6 @@ export class ConfigService {
         return function (req: Express.Request): string {
             return String(++count);
         };
-    }
-
-    /**
-     * @description get config for `express-session` package
-     */
-    getSessionConfig(): SessionOptions {
-        const pgSession = pgConnect(session);
-        const { username, password, host, port, database } = this.getDBConnectionData();
-
-        return {
-            store: new pgSession({
-                pool: new PGPool({ user: username, database, password, host, port }),
-                tableName: 'session',
-            }),
-            genid: this.isLepr || this.isDev ? this.genSessionId() : undefined,
-            proxy: true,
-            name: 'session',
-            secret: this.getVal('SESSION_COOKIE_SECRET'),
-            resave: false,
-            unset: 'destroy',
-            saveUninitialized: false,
-            cookie: {
-                httpOnly: true,
-                maxAge: +this.getVal('SESSION_AGE'),
-                sameSite: this.isLepr ? 'none' : 'strict',
-                domain: `.${this.getVal('HOST_NAME')}`,
-                secure: !this.isDev,
-            },
-        };
-    }
-
-    /**
-     * @description get cache manager config
-     */
-    getCacheStoreConfig(): CacheModuleOptions {
-        return {
-            store: redisCacheStore as any,
-            host: this.getVal('CACHE_HOST'),
-            port: this.getVal('CACHE_CONTAINER_PORT'),
-            auth_pass: this.getVal('CACHE_PASSWORD'),
-            ttl: +this.getVal('DEFAULT_CACHE_TTL'),
-            max: 1000,
-            db: +this.getVal('CACHE_DB_NUMBER'),
-        };
-    }
-
-    /**
-     * @description get search engine client
-     */
-    getSEConfig(): any {
-        const client = new ApiClient();
-        client.basePath = 'http://leprechaun_se:9308';
-
-        return new SearchApi(client);
     }
 
     /**
