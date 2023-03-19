@@ -35,7 +35,7 @@ export default class ProductPrivateService extends ProductService {
     async getProductList(searchParams: QueriesProductList): Promise<PaginationResult<ProductEntity>> {
         const qb = this.getProductQueryBulder();
 
-        return this.renderResult<ProductEntity>(qb, searchParams);
+        return this.renderProductList<ProductEntity>(qb, searchParams);
     }
 
     async getCategoryProducts(
@@ -46,7 +46,7 @@ export default class ProductPrivateService extends ProductService {
             .innerJoin('p.category', 'category')
             .where('category.url = :categoryUrl', { categoryUrl });
 
-        return this.renderResult<ProductEntity>(qb, searchParams);
+        return this.renderProductList<ProductEntity>(qb, searchParams);
     }
 
     async deleteProduct(productId: string): Promise<DeleteResult> {

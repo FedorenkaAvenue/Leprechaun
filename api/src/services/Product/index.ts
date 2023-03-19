@@ -82,40 +82,27 @@ export default class ProductService {
      * @param resultMapConstructor constructor for maping result. by default will return ProductEntity
      * @returns completed search result with pagination
      */
-    async renderResult<T>(
+    async renderProductList<T>(
         qb: SelectQueryBuilder<ProductEntity>,
         searchParams: QueriesProductList,
         resultMapConstructor?: any,
     ): Promise<PaginationResult<T>> {
-        const { status, dinamicFilters, sort, price, portion, page } = searchParams;
+        const {
+            sort, portion, page, dynamicFilters,
+            commonFilters: { status, price },
+        } = searchParams;
 
         // filtering by dinamical filters
-        if (dinamicFilters) {
-            const props = Object.keys(dinamicFilters);
-            const values = Object.values(dinamicFilters);
-
-            // ? на будущее переделать в subQuery
-            qb.andWhere(
-                `p.id = ANY(
-                    SELECT product_id as p_id
-                    FROM _products_to_properties
-                    INNER JOIN property AS prop ON prop.id = _products_to_properties.property_id
-                    INNER JOIN propertygroup AS prop_gr ON prop.propertygroup = prop_gr.id
-                    WHERE property_id IN (:...values)
-                    AND prop_gr.alt_name IN(:...props)
-                    GROUP BY p_id
-                    HAVING COUNT(*) = :filterLen
-                )`,
-                {
-                    props,
-                    values,
-                    filterLen: props.length,
-                },
-            );
+        if (dynamicFilters) {
+            console.log(Object.values(dynamicFilters));
+            
+                qb
+                    .andWhere('p.properties.alt_name = bavovna', { propGroup: Object.values(dynamicFilters) })
+                    // .andWhere('props.alt_name IN(:...props)', { props: dynamicFilters[propGroup] });
         }
 
         // price
-        if (price) qb.andWhere('p.price BETWEEN :from AND :to', { ...price });
+        if (price) qb.andWhere('p.price.current BETWEEN :min AND :max', { ...price });
 
         // product status
         qb.andWhere('p.status = :status', { status });

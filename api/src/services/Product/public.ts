@@ -28,18 +28,18 @@ export default class ProductPublicService extends ProductService {
     async getProductList(searchParams: QueriesProductList): Promise<PaginationResult<ProductCard>> {
         const qb = this.getProductQueryBulder().where('p.is_public = true');
 
-        return this.renderResult<ProductCard>(qb, searchParams, ProductCard);
+        return this.renderProductList<ProductCard>(qb, searchParams, ProductCard);
     }
 
     async getCategoryProducts(
         categoryUrl: CategoryI['url'],
-        queries: QueriesProductList,
+        searchParams: QueriesProductList,
     ): Promise<PaginationResult<ProductCard>> {
         const qb = this.getProductQueryBulder()
             .leftJoin('p.category', 'cat')
             .where('cat.url = :categoryUrl', { categoryUrl })
             .andWhere('p.is_public = true');
 
-        return this.renderResult<ProductCard>(qb, queries, ProductCard);
+        return this.renderProductList<ProductCard>(qb, searchParams, ProductCard);
     }
 }

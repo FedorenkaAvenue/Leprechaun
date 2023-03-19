@@ -1,18 +1,20 @@
 import { BadRequestException } from '@nestjs/common';
 
 import {
-    DinamicQueryFiltersT,
+    QueryDynamicFiltersT,
     QueriesCommonI,
     QueriesProductListI,
     QueriesReqI,
     QueriesSearchI,
     QueriesWishlistI,
     QueryPriceI,
+    QueryCommonFiltersI,
 } from '@interfaces/Queries';
 import { SortProductE, SortWishlistE } from '@enums/Query';
 import { availableEnum } from '@utils/enum';
 import { ProductStatusE } from '@enums/Product';
 import configService from '@services/Config';
+import { PropertyGroupI } from '@interfaces/PropertyGroup';
 
 const [DEFAULT_LANG] = configService.getVal('LANGS');
 
@@ -28,8 +30,8 @@ export class RangeQuery implements QueryPriceI {
     constructor(priceQuery: string) {
         const [min = 0, max] = priceQuery.split('-');
 
-        this.min = Number(max);
-        this.max = min ? Number(max) : 1000000;
+        this.min = Number(min);
+        this.max = max ? Number(max) : 1000000;
     }
 }
 
@@ -45,18 +47,23 @@ export class QueriesProductList extends QueriesCommon implements QueriesProductL
     sort: SortProductE;
     page: number;
     portion: number;
-    price: QueryPriceI;
-    status: ProductStatusE;
-    dinamicFilters: DinamicQueryFiltersT;
+    commonFilters: QueryCommonFiltersI;
+    dynamicFilters: QueryDynamicFiltersT;
 
-    constructor({ lang, sort, page, portion, price, status, ...restQueries }: QueriesReqI) {
+    constructor({ lang, sort, page, portion, price, status, substring, ...restQueries }: QueriesReqI) {
         super({ lang });
         this.sort = Number(sort) || SortProductE.POPULAR;
         this.page = Number(page) || 1;
         this.portion = Number(portion) || 10;
-        this.price = price ? new RangeQuery(price) : null;
-        this.status = availableEnum(status, ProductStatusE) ? status : ProductStatusE.AVAILABLE;
-        this.dinamicFilters = Object.keys(restQueries).length ? restQueries : null;
+        this.commonFilters = {
+            price: price ? new RangeQuery(price) : null,
+            status: status = availableEnum(status, ProductStatusE) ? status : ProductStatusE.AVAILABLE,
+        };
+        this.dynamicFilters = Object.keys(restQueries).length
+            ? Object
+                .entries<string>(restQueries)
+                .reduce((acc, [k, v]) => ({ ...acc, [k]: v.split(',') }), {})
+            : null;
     }
 }
 
