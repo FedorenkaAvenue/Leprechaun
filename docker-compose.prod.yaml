@@ -49,3 +49,5 @@ services:
 
   se:
     restart: on-failure:5
+    environment:
+      - ELASTIC_PASSWORD=lol

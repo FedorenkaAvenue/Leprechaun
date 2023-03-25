@@ -98,11 +98,12 @@ services:
 
   se:
     container_name: leprechaun_se
+    image: docker.elastic.co/elasticsearch/elasticsearch:${SE_VERSION}
     networks:
       - api
-    build:
-      context: ./se
-      dockerfile: Dockerfile
+    environment:
+      - ES_PORT=${SE_PORT}
+      - STACK_VERSION=${SE_VERSION}
     depends_on:
       - db
 
