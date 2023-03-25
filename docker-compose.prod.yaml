@@ -49,5 +49,10 @@ services:
 
   se:
     restart: on-failure:5
+
+  se_client:
+    restart: on-failure:5
     environment:
-      - ELASTIC_PASSWORD=lol
+      - ELASTICSEARCH_USERNAME=${SE_CLIENT_USERNAME}
+      - ELASTICSEARCH_PASSWORD=${SE_CLIENT_PASSWORD}
+      # - ELASTICSEARCH_SSL_CERTIFICATEAUTHORITIES=config/certs/ca/ca.crt

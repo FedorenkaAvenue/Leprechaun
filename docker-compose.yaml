@@ -48,13 +48,16 @@ services:
   se:
     restart: unless-stopped
     environment:
-      - discovery.type=single-node
-      - ES_JAVA_OPTS=-Xms1g -Xmx1g
       - xpack.security.enabled=false
     volumes:
       - ./se/conf/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml
     ports:
       - ${SE_PORT}:${SE_PORT}
+
+  se_client:
+    restart: unless-stopped
+    volumes:
+      - ./se/client/kibana.yml:/usr/share/kibana/config/kibana.yml
 
   client_admin:
     container_name: leprechaun_client_admin

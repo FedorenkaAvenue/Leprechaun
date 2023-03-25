@@ -101,11 +101,26 @@ services:
     image: docker.elastic.co/elasticsearch/elasticsearch:${SE_VERSION}
     networks:
       - api
+      - se
     environment:
       - ES_PORT=${SE_PORT}
       - STACK_VERSION=${SE_VERSION}
+      - discovery.type=single-node
+      - ES_JAVA_OPTS=-Xms1g -Xmx1g
     depends_on:
       - db
+
+  se_client:
+    container_name: leprechaun_se_client
+    image: docker.elastic.co/kibana/kibana:${SE_VERSION}
+    networks:
+      - api
+      - se
+    environment:
+      - SERVERNAME=kibana
+      - ELASTICSEARCH_HOSTS=http://${SE_HOST}:${SE_PORT}
+    depends_on:
+      - se
 
 volumes:
   image_hosting:
@@ -117,3 +132,6 @@ networks:
   client:
     driver: bridge
     name: leprechaun_client
+  se:
+    driver: bridge
+    name: leprechaun_se
