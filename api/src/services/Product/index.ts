@@ -1,5 +1,5 @@
 import { InjectRepository } from '@nestjs/typeorm';
-import { FindOptionsOrder, Repository, SelectQueryBuilder } from 'typeorm';
+import { FindManyOptions, FindOptionsOrder, In, Repository, SelectQueryBuilder } from 'typeorm';
 import { Injectable } from '@nestjs/common';
 
 import { FSService } from '@services/FS';
@@ -12,6 +12,7 @@ import { ProductI } from '@interfaces/Product';
 import { SortProductE } from '@enums/Query';
 import logger from '@services/Logger';
 import { PropertyGroupEntity } from '@entities/PropertGroup';
+import { SEService } from '@services/SE';
 
 @Injectable()
 export default class ProductService {
@@ -20,6 +21,7 @@ export default class ProductService {
         protected readonly imageService: ImageService,
         protected readonly historyService: HistoryPublicService,
         protected readonly FSService: FSService,
+        protected readonly SEService: SEService,
     ) {}
 
     /**
@@ -44,16 +46,11 @@ export default class ProductService {
 
     /**
      * @description get product list by criteria
-     * @param {FindOptionsOrder<ProductEntity>} order order criteria
-     * @param {Number} take amount of item
+     * @param {FindManyOptions<ProductEntity>} options search criteria option
      * @returns array of ProductEntity
      */
-    public async getProductListByCriteria(order: FindOptionsOrder<ProductEntity>, take?: number): Promise<ProductEntity[]> {
-        return await this.productRepo.find({
-            where: { is_public: true },
-            take,
-            order,
-        });
+    public async getProductListByCriteria(options: FindManyOptions<ProductEntity>): Promise<ProductEntity[]> {
+        return await this.productRepo.find(options);
     }
 
     /**

@@ -1,32 +1,32 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { AggregationsAggregate, SearchResponse, SearchTotalHits } from '@elastic/elasticsearch/lib/api/types';
 
-import { ProductSearch } from '@dto/Product/constructor';
-import { CategorySearch } from '@dto/Category/constructor';
-import { SearchAutocompleteI } from '@interfaces/Search';
-import { SECategoryI, SEProductI } from '@interfaces/SE';
+import { ProductPreview } from '@dto/Product/constructor';
+import { SearchAutocompleteI, SearchResI } from '@interfaces/Search';
 import { QueriesSearch } from '@dto/Queries/constructor';
+import { ProductEntity } from '@entities/Product';
+import { CategoryEntity } from '@entities/Category';
+import { ProductPreviewI } from '@interfaces/Product';
+import { CategoryPublicI } from '@interfaces/Category';
+import { CategoryPublic } from '@dto/Category/constructor';
 
 interface SearchAutocompleteDTO {
-    products: SearchResponse<SEProductI, Record<string, AggregationsAggregate>>
-    categories: SearchResponse<SECategoryI, Record<string, AggregationsAggregate>>
+    products: SearchResI<ProductEntity>
+    categories: SearchResI<CategoryEntity>
 }
 
 export class SearchAutocomplete implements SearchAutocompleteI {
     @ApiProperty({ description: 'total finded results' })
     total: number;
 
-    @ApiProperty({ type: ProductSearch, isArray: true })
-    products: ProductSearch[];
+    @ApiProperty({ type: CategoryPublic, isArray: true })
+    categories: CategoryPublicI[];
 
-    @ApiProperty({ type: CategorySearch, isArray: true })
-    categories: CategorySearch[];
+    @ApiProperty({ type: ProductPreview, isArray: true })
+    products: ProductPreviewI[];
 
     constructor({ products, categories }: SearchAutocompleteDTO, lang: QueriesSearch['lang']) {
-        this.total = (products.hits.total as SearchTotalHits).value + (categories.hits.total as SearchTotalHits).value;
-        //@ts-ignore
-        this.products = products.hits.hits.map(({ _source }) => new ProductSearch(_source, lang));
-        //@ts-ignore
-        this.categories = categories.hits.hits.map(({ _source }) => new CategorySearch(_source, lang));
+        this.total = products.total + categories.total;
+        this.categories = categories.hits?.map(cat => new CategoryPublic(cat, lang));
+        this.products = products.hits?.map(prod => new ProductPreview(prod, lang));
     }
 }

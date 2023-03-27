@@ -21,10 +21,10 @@ export class OrderItemPublic implements OrderItemI<ProductPreviewI> {
     @ApiProperty({ required: true })
     amount: number;
 
-    constructor({ id, amount, product }: OrderItemEntity, searchParams: QueriesCommon) {
+    constructor({ id, amount, product }: OrderItemEntity, lang: QueriesCommon['lang']) {
         this.id = id;
         this.amount = amount;
-        this.product = new ProductPreview(product, searchParams);
+        this.product = new ProductPreview(product, lang);
         this.summaryPrice = new Price({
             current: product.price.current * amount,
             old: product.price.old * amount,

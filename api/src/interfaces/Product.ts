@@ -53,7 +53,3 @@ export interface ProductI extends ProductBaseI {
     orderCount?: number;
     wishlistCount?: WishlistItemEntity[];
 }
-
-export interface ProductSearchI extends Pick<ProductI, 'id' | 'title'> {
-    image: string;
-}

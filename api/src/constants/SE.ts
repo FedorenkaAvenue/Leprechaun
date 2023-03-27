@@ -1,7 +1,29 @@
-import { MappingProperty, MappingTypeMapping } from "@elastic/elasticsearch/lib/api/types";
-import { SECategoryI } from "@interfaces/SE";
+import { MappingProperty } from "@elastic/elasticsearch/lib/api/types";
+import { SECategoryI, SEProductI } from "@interfaces/SE";
+import { TransI } from "@interfaces/Trans";
 
-export const SE_PRODUCT_PROPERTIES: MappingTypeMapping['properties'] = {
+const TRANS: Record<keyof Omit<TransI, 'id' >, MappingProperty> = {
+    en: {
+        type: 'text',
+    },
+    ru: {
+        type: 'text',
+    },
+    ua: {
+        type: 'text',
+    }
+};
+
+export const SE_PRODUCT_PROPERTIES: Record<keyof SEProductI, MappingProperty> = {
+    id: {
+        type: 'keyword',
+    },
+    title: {
+        properties: TRANS,
+    },
+    description: {
+        properties: TRANS,
+    }
     // text: {
     //     type: 'text',
     //     analyzer: 'english',
@@ -32,18 +54,11 @@ export const SE_PRODUCT_PROPERTIES: MappingTypeMapping['properties'] = {
 }
 
 export const SE_CATEGORY_PROPERTIES: Record<keyof SECategoryI, MappingProperty> = {
+    id: {
+        type: 'keyword',
+    },
     title: {
-        properties: {
-            en: {
-                type: 'text',
-            },
-            ru: {
-                type: 'text',
-            },
-            ua: {
-                type: 'text',
-            }
-        }
+        properties: TRANS,
     },
     // text: {
     //     type: 'text',

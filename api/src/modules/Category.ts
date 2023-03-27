@@ -10,6 +10,7 @@ import { FSService } from '@services/FS';
 import CategoryPrivateService from '@services/Category/private';
 import FSModule from './FS';
 import SEModule from './SE';
+import CategoryService from '@services/Category';
 
 @Module({
     imports: [
@@ -19,6 +20,7 @@ import SEModule from './SE';
         SEModule,
     ],
     controllers: [CategoryPublicController, CategoryPrivateController],
-    providers: [CategoryPublicService, CategoryPrivateService],
+    providers: [CategoryService, CategoryPublicService, CategoryPrivateService],
+    exports: [CategoryService],
 })
 export default class CategoryModule {}

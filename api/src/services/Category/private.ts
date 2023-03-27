@@ -19,18 +19,24 @@ export default class CategoryPrivateService extends CategoryService {
     public async createCategory(newCategory: CreateCategoryDTO, icon: Express.Multer.File): Promise<CategoryEntity> {
         try {
             const createdCategory = await this.categoryRepo.save(new Category(newCategory));
+            const {
+                id,
+                title: { id: _, ...titles },
+            } = createdCategory;
 
             if (icon) {
-                const [uploadedIcon] = await this.FSService.saveFiles(FOLDER_TYPES.CATEGORY, createdCategory.id, [
-                    icon,
-                ]);
+                const [uploadedIcon] = await this.FSService.saveFiles(
+                    FOLDER_TYPES.CATEGORY,
+                    id, [ icon ]
+                );
 
-                await this.categoryRepo.update({ id: createdCategory.id }, { icon: uploadedIcon });
+                await this.categoryRepo.update({ id }, { icon: uploadedIcon });
             }
 
-            const { id, ...titles } = createdCategory.title;
-
-            this.SEService.createDoc<SECategoryI>(SEIndexesE.CATEGORY, { title: titles });
+            this.SEService.SE.index<SECategoryI>({
+                index: SEIndexesE.CATEGORY,
+                document: { id, title: titles }
+            });
 
             return createdCategory;
         } catch (err) {

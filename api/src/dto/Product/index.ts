@@ -28,7 +28,7 @@ export class CreateProductDTO implements ProductI {
     @ApiProperty()
     title: TransDTO;
 
-    @IsOptional()
+    @IsNotEmptyObject()
     @IsObject()
     @ValidateNested()
     @Type(() => TransDTO)

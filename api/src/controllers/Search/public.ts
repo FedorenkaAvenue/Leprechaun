@@ -21,7 +21,7 @@ export default class SearchPublicController {
         type: 'string',
         description: 'typed string',
     })
-    private search(@Query(QueriesSearch) queries: QueriesSearch) {
+    private search(@Query(QueriesSearch) queries: QueriesSearch): Promise<SearchAutocomplete> {
         return this.searchService.autocomplete(queries);
     }
 }

@@ -11,10 +11,10 @@ import configService from '@services/Config';
 import { ProductEntity } from '@entities/Product';
 import { CategoryPublic } from '@dto/Category/constructor';
 import { QueriesProductListI } from '@interfaces/Queries';
-import { QueriesCommon, QueriesSearch } from '@dto/Queries/constructor';
+import { QueriesCommon } from '@dto/Queries/constructor';
 import { OptionPublic } from '@dto/PropertyGroup/constructor';
 import {
-    ProductBaseI, ProductCardI, ProductI, ProductLightCardI, ProductPreviewI, ProductPublicI, ProductSearchI
+    ProductBaseI, ProductCardI, ProductLightCardI, ProductPreviewI, ProductPublicI
 } from '@interfaces/Product';
 import { PriceEntity } from '@entities/_Price';
 import { LabelI } from '@interfaces/Label';
@@ -83,7 +83,7 @@ export class ProductPreview extends ProductBase implements ProductPreviewI {
     @ApiProperty({ required: false })
     image: string;
 
-    constructor({ images, ...base }: ProductEntity, { lang }: QueriesCommon) {
+    constructor({ images, ...base }: ProductEntity, lang: QueriesCommon['lang']) {
         super(base, lang);
         this.image = (images[0] as ImageEntity).src;
     }
@@ -150,22 +150,5 @@ export class ProductPublic extends ProductBase implements ProductPublicI {
         this.orderCount = orderCount;
         this.wishlistCount = wishlistCount.length;
         this.options = options.map(opt => new OptionPublic(opt, lang));
-    }
-}
-
-export class ProductSearch implements ProductSearchI {
-    @ApiProperty({ type: 'string' })
-    id: ProductI['id'];
-
-    @ApiProperty({ type: 'string' })
-    title: ProductI['title'];
-
-    @ApiProperty({ type: 'string' })
-    image: string;
-
-    constructor({ p_id, title, img }, lang: QueriesSearch['lang']) {
-        this.id = p_id;
-        this.title = title[lang];
-        this.image = img;
     }
 }

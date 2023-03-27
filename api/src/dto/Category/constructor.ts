@@ -1,8 +1,8 @@
 import { ApiProperty } from '@nestjs/swagger';
 
-import { CategoryI, CategoryPublicI, CategorySearchI } from '@interfaces/Category';
+import { CategoryI, CategoryPublicI } from '@interfaces/Category';
 import { CreateCategoryDTO } from '.';
-import { QueriesCommon, QueriesSearch } from '@dto/Queries/constructor';
+import { QueriesCommon } from '@dto/Queries/constructor';
 
 export class Category extends CreateCategoryDTO {
     constructor({ url, title, is_public, propertygroups, comment }: CreateCategoryDTO) {
@@ -34,23 +34,6 @@ export class CategoryPublic implements CategoryPublicI {
         this.id = id;
         this.title = title[lang];
         this.url = url;
-        this.icon = icon;
-    }
-}
-
-export class CategorySearch implements CategorySearchI {
-    @ApiProperty({ type: 'string' })
-    url: CategoryI['url'];
-
-    @ApiProperty({ type: 'string' })
-    title: CategoryI['title'];
-
-    @ApiProperty({ type: 'string' })
-    icon: string;
-
-    constructor({ url, title, icon }, lang: QueriesSearch['lang']) {
-        this.url = url;
-        this.title = title[lang];
         this.icon = icon;
     }
 }

@@ -1,5 +1,5 @@
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { FindManyOptions, Repository } from 'typeorm';
 import { Injectable } from '@nestjs/common';
 
 import { CategoryEntity } from '@entities/Category';
@@ -13,4 +13,13 @@ export default class CategoryService {
         protected readonly FSService: FSService,
         protected readonly SEService: SEService,
     ) {}
+
+    /**
+     * @description get category list by criteria
+     * @param {FindManyOptions<CategoryEntity>} options search criteria option
+     * @returns array of CategoryEntity
+     */
+    public async getCategoryListByCriteria(options: FindManyOptions<CategoryEntity>): Promise<CategoryEntity[]> {
+        return await this.categoryRepo.find(options);
+    }
 }

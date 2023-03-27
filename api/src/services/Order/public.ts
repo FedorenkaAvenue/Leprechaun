@@ -72,7 +72,7 @@ export default class OrderPublicService extends OrderService {
         return this.orderRepo.update({ id, sid }, { status: OrderStatus.POSTED, customer });
     }
 
-    public async getOrderList(sid: SessionI['sid'], searchParams: QueriesCommon): Promise<OrderPublic[]> {
+    public async getOrderList(sid: SessionI['sid'], { lang }: QueriesCommon): Promise<OrderPublic[]> {
         try {
             const res = await this.orderRepo.find({
                 where: { sid, status: Not(OrderStatus.INIT) },
@@ -81,7 +81,7 @@ export default class OrderPublicService extends OrderService {
 
             if (!res.length) return [];
 
-            return res.map(order => new OrderPublic(order, searchParams));
+            return res.map(order => new OrderPublic(order, lang));
         } catch (err) {
             throw new NotFoundException('no any active order');
         }

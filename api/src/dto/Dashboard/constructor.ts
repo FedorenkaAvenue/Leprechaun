@@ -32,9 +32,9 @@ export class CommonDashboards implements CommonDashboardsI {
     })
     newest: ProductPreview[];
 
-    constructor({ popular, newest }: CommonDashboardsIConstructorI, searchParams: QueriesCommon) {
-        this.popular = popular.map(prod => new ProductPreview(prod, searchParams));
-        this.newest = newest.map(prod => new ProductPreview(prod, searchParams));
+    constructor({ popular, newest }: CommonDashboardsIConstructorI, lang: QueriesCommon['lang']) {
+        this.popular = popular.map(prod => new ProductPreview(prod, lang));
+        this.newest = newest.map(prod => new ProductPreview(prod, lang));
     }
 }
 
@@ -47,7 +47,7 @@ export class UserDashboards implements UserDashboardsI {
     })
     history: ProductPreview[];
 
-    constructor({ history }: UserDashboardsIConstructorI, searchParams: QueriesCommon) {
-        this.history = history.map(({ product }) => new ProductPreview(product, searchParams));
+    constructor({ history }: UserDashboardsIConstructorI, lang: QueriesCommon['lang']) {
+        this.history = history.map(({ product }) => new ProductPreview(product, lang));
     }
 }

@@ -9,17 +9,36 @@ import { Product } from '@dto/Product/constructor';
 import ProductService from '.';
 import { QueriesProductList } from '@dto/Queries/constructor';
 import { ProductEntity } from '@entities/Product';
+import { SEProductI } from '@interfaces/SE';
+import { SEIndexesE } from '@enums/SE';
 
 @Injectable()
 export default class ProductPrivateService extends ProductService {
-    public async createProduct(newProduct: CreateProductDTO, images: Express.Multer.File[]): Promise<void> {
-        const { id } = await this.productRepo.save(new Product(newProduct));
+    public async createProduct(newProduct: CreateProductDTO, images: Express.Multer.File[]): Promise<ProductEntity> {
+        const createdProduct = await this.productRepo.save(new Product(newProduct));
+        
+        const {
+            id,
+            title: { id: _titleID, ...titles },
+            description: { id: _descID, ...descriptions }
+        } = createdProduct;
 
         if (images) {
             const uploadedImgArr = await this.FSService.saveFiles(FOLDER_TYPES.PRODUCT, id, images);
 
             this.imageService.addImageArr(id, uploadedImgArr);
         }
+
+        this.SEService.SE.index<SEProductI>({
+            index: SEIndexesE.PRODUCT,
+            document: {
+                id,
+                title: titles,
+                description: descriptions,
+            }
+        });
+
+        return createdProduct;
     }
 
     public async getProduct(id: ProductI['id']): Promise<ProductEntity> {

@@ -46,7 +46,7 @@ export default class ProductPrivateController {
     private createProduct(
         @Body(new ValidationPipe({ transform: true })) product: CreateProductDTO,
         @UploadedFiles() images: Express.Multer.File[],
-    ): Promise<void> {
+    ): Promise<ProductEntity> {
         return this.productService.createProduct(product, images);
     }
 
