@@ -18,7 +18,7 @@ class MailService {
     /**
      * @description create connection
      */
-    createConnection(): Transporter<SentMessageInfo> {
+    private createConnection(): Transporter<SentMessageInfo> {
         return createTransport(configService.getMailConfig());
     }
 
@@ -26,7 +26,7 @@ class MailService {
      * @description send e-mail
      * @param $1 mail options
      */
-    async sendMail({ to, subject, html, text }: IMailOptions): Promise<void> {
+    private async sendMail({ to, subject, html, text }: IMailOptions): Promise<void> {
         if (Array.isArray(to)) to = to.join(', '); // mass recieving
 
         try {
@@ -45,14 +45,14 @@ class MailService {
     /**
      * @description create and mail body content and send to developer
      */
-    async sendErrorLogMail(logData: DevLogMailI): Promise<void> {
+    public async sendErrorLogMail(logData: DevLogMailI): Promise<void> {
         await this.sendDevMail(renderTemplate('devMailErrorLog', logData));
     }
 
     /**
      * @description send mail to dev account
      */
-    async sendDevMail(content: string): Promise<void> {
+    private async sendDevMail(content: string): Promise<void> {
         await this.sendMail({
             to: configService.getDevMailReciever(),
             subject: 'Development mail',

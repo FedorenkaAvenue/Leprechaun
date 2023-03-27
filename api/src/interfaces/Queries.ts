@@ -24,6 +24,7 @@ export interface QueryCommonFiltersI {
     price: QueryPriceI;
     status: ProductStatusE;
 }
+
 export type QueryDynamicFiltersT = {
     [key: PropertyGroupI['alt_name']]: Array<PropertyI['alt_name']>
 };

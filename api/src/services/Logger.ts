@@ -10,11 +10,11 @@ type LogT = LogLevel | 'info';
  *  specific info logs (only for writing to files)
  */
 class Logger extends ConsoleLogger {
-    info(message: string): void {
+    public info(message: string): void {
         this.writeLog(message, 'info');
     }
 
-    error(message: string, stack?: string, context?: string): void {
+    public error(message: string, stack?: string, context?: string): void {
         this.writeLog(message + stack, 'error');
         super.error(message, stack, context);
     }
@@ -24,7 +24,7 @@ class Logger extends ConsoleLogger {
      * @param message log message
      * @param type log level
      */
-    async writeLog(message: string, type: LogT): Promise<void> {
+    private async writeLog(message: string, type: LogT): Promise<void> {
         const currDate = new Date();
         const logFolder = `logs/${currDate.getMonth()}_${currDate.getFullYear()}`;
 

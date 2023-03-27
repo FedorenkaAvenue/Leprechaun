@@ -15,7 +15,7 @@ const USER_WISHLIST_LENGTH = Number(configService.getVal('USER_WISHLIST_LENGTH')
 
 @Injectable()
 export default class WishlistPublicService extends WishlistService {
-    async getWishlist(sid: SessionI['sid'], searchParams: QueriesWishlist): Promise<WishlistItemPublic[]> {
+    public async getWishlist(sid: SessionI['sid'], searchParams: QueriesWishlist): Promise<WishlistItemPublic[]> {
         let sorting: FindOptionsOrder<WishlistItemEntity>;
 
         switch (searchParams.sort) {
@@ -43,7 +43,7 @@ export default class WishlistPublicService extends WishlistService {
         return result.map(item => new WishlistItemPublic(item, searchParams));
     }
 
-    async addItem(
+    public async addItem(
         product: ProductI['id'],
         sid: SessionI['sid'],
         searchParams: QueriesWishlist,
@@ -68,11 +68,11 @@ export default class WishlistPublicService extends WishlistService {
         }
     }
 
-    async removeItem(sid: SessionI['sid'], id: WishlistItemI['id']): Promise<DeleteResult> {
+    public async removeItem(sid: SessionI['sid'], id: WishlistItemI['id']): Promise<DeleteResult> {
         return await this.wishlistItemRepo.delete({ sid, id });
     }
 
-    async clearWishlist(sid: SessionI['sid']): Promise<DeleteResult> {
+    public async clearWishlist(sid: SessionI['sid']): Promise<DeleteResult> {
         return this.wishlistItemRepo.delete({ sid });
     }
 }

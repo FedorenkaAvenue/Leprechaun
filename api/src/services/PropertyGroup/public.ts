@@ -6,7 +6,7 @@ export default class PropertyGroupPublicService extends PropertyGroupService {
     /**
      * @deprecated
      */
-    async getPropertyGroupsByCategory(categoryUrl: string, { lang }: QueriesCommon): Promise<PropertyGroupPublic[]> {
+    public async getPropertyGroupsByCategory(categoryUrl: string, { lang }: QueriesCommon): Promise<PropertyGroupPublic[]> {
         const res = await this.propertyGroupRepo.findBy({
             categories: { url: categoryUrl },
         });

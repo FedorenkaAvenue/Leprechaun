@@ -20,7 +20,7 @@ export default class HistoryPublicController {
     @Get('product')
     @ApiOperation({ summary: `get user product history (${USER_HISTORY_LENGTH} items max length)` })
     @ApiOkResponse({ type: ProductLightCard, isArray: true })
-    getUserHistory(@Session() { id }, @Queries() queries: QueriesCommon): Promise<ProductLightCard[]> {
+    private getUserHistory(@Session() { id }, @Queries() queries: QueriesCommon): Promise<ProductLightCard[]> {
         return this.historyService.getHistoryList(id, queries);
     }
 
@@ -29,7 +29,7 @@ export default class HistoryPublicController {
     @UseInterceptors(AffectedResultInterceptor('history is already empty', BadRequestException))
     @ApiOperation({ summary: 'clear product history' })
     @ApiBadRequestResponse({ description: 'history is already empty' })
-    clearHistory(@Session() { id }): Promise<DeleteResult> {
+    private clearHistory(@Session() { id }): Promise<DeleteResult> {
         return this.historyService.clearHistoryList(id);
     }
 }

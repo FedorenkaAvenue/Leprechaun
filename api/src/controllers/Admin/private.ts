@@ -11,7 +11,7 @@ export default class AdminPrivateController {
     @Get('/cache/reset')
     @ApiOperation({ summary: 'reset DB cache' })
     @ApiOkResponse({ description: 'successfull reset' })
-    async resetCache(): Promise<void> {
+    private async resetCache(): Promise<void> {
         await this.adminService.clearCache();
     }
 }

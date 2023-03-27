@@ -13,7 +13,7 @@ export class ImageService {
      * @description save one image to DB
      * @returns promise of saved result
      */
-    async addImage(img: Image): Promise<ImageEntity> {
+    private async addImage(img: Image): Promise<ImageEntity> {
         return this.imageRepo.save(img);
     }
 
@@ -22,7 +22,7 @@ export class ImageService {
      * @param productId product id
      * @param imgArr array of image ulrs
      */
-    async addImageArr(productId: string, imgArr: string[]): Promise<void> {
+    public async addImageArr(productId: string, imgArr: string[]): Promise<void> {
         try {
             await Promise.all(imgArr.map(imgUrl => this.addImage(new Image(productId, imgUrl))));
         } catch (err) {

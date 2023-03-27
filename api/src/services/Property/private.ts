@@ -8,7 +8,7 @@ import { PropertyEntity } from '@entities/Property';
 
 @Injectable()
 export default class PropertyPrivateService extends PropertyService {
-    async createProperty(property: CreatePropertyDTO): Promise<PropertyEntity> {
+    public async createProperty(property: CreatePropertyDTO): Promise<PropertyEntity> {
         try {
             return await this.propertyRepo.save(property);
         } catch (err) {
@@ -16,7 +16,7 @@ export default class PropertyPrivateService extends PropertyService {
         }
     }
 
-    async getProperty(id: PropertyI['id']): Promise<PropertyEntity> {
+    public async getProperty(id: PropertyI['id']): Promise<PropertyEntity> {
         try {
             return await this.propertyRepo.findOneOrFail({
                 where: { id },
@@ -26,11 +26,11 @@ export default class PropertyPrivateService extends PropertyService {
         }
     }
 
-    async updateProperty(id: PropertyI['id'], data: CreatePropertyDTO): Promise<UpdateResult> {
+    public async updateProperty(id: PropertyI['id'], data: CreatePropertyDTO): Promise<UpdateResult> {
         return await this.propertyRepo.update({ id }, { ...data });
     }
 
-    async deleteProperty(propertyId: PropertyI['id']): Promise<DeleteResult> {
+    public async deleteProperty(propertyId: PropertyI['id']): Promise<DeleteResult> {
         return await this.propertyRepo.delete({ id: propertyId });
     }
 }

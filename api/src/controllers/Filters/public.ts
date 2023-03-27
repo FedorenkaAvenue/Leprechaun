@@ -14,7 +14,7 @@ export default class FilterPublicController {
     @UseInterceptors(CacheInterceptor)
     @ApiOperation({ summary: `get filters for category (by category URL)` })
     @ApiOkResponse({})
-    getCategoryFilters(@Param('categoryUrl') categoryUrl: string, @Queries(QueriesCommon) queries: QueriesCommon) {
+    private getCategoryFilters(@Param('categoryUrl') categoryUrl: string, @Queries(QueriesCommon) queries: QueriesCommon) {
         return this.filterService.getCategoryFilters(categoryUrl, queries);
     }
 }

@@ -15,14 +15,14 @@ export default class DashboardPublicController {
     @UseInterceptors(CacheInterceptor)
     @ApiOperation({ summary: 'get common dashboards 💾' })
     @ApiOkResponse({ type: CommonDashboards })
-    getCommonDashboards(@Queries() queries: QueriesCommon): Promise<CommonDashboards> {
+    private getCommonDashboards(@Queries() queries: QueriesCommon): Promise<CommonDashboards> {
         return this.dashboardService.getCommonDashboards(queries);
     }
 
     @Get('user')
     @ApiOperation({ summary: 'get individual user dashboards' })
     @ApiOkResponse({ type: UserDashboards })
-    getMostPopularProducts(@Session() { id }, @Queries() queries: QueriesCommon): Promise<UserDashboards> {
+    private getMostPopularProducts(@Session() { id }, @Queries() queries: QueriesCommon): Promise<UserDashboards> {
         return this.dashboardService.getUserDashboards(id, queries);
     }
 }

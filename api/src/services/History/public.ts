@@ -8,13 +8,13 @@ import { QueriesCommon } from '@dto/Queries/constructor';
 
 @Injectable()
 export default class HistoryPublicService extends HistoryService {
-    async getHistoryList(sid: SessionI['sid'], searchParams: QueriesCommon): Promise<ProductLightCard[]> {
+    public async getHistoryList(sid: SessionI['sid'], searchParams: QueriesCommon): Promise<ProductLightCard[]> {
         const res = await this.getHistoryListBySID(sid);
 
         return res.map(({ product }) => new ProductLightCard(product, searchParams));
     }
 
-    async clearHistoryList(sid: SessionI['sid']): Promise<DeleteResult> {
+    public async clearHistoryList(sid: SessionI['sid']): Promise<DeleteResult> {
         return await this.historyRepo.delete({ sid });
     }
 }

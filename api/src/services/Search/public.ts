@@ -1,24 +1,23 @@
 import { Injectable, InternalServerErrorException } from '@nestjs/common';
 
 import SearchService from '.';
-import { SearchAutocomplete } from '@dto/Search/constructor';
 import { QueriesSearch } from '@dto/Queries/constructor';
+import { SEIndexesE } from '@enums/SE';
+import { SearchAutocomplete } from '@dto/Search/constructor';
+import { SECategoryI, SEProductI } from '@interfaces/SE';
 
 @Injectable()
 export default class SearchPublicService extends SearchService {
-    async autocomplete({ substring }: QueriesSearch): Promise<SearchAutocomplete> {
+    public async autocomplete({ substring, lang }: QueriesSearch) {
         try {
-            const [products, categories] = await Promise.all([
-                this.searchProduct(substring),
-                this.searchCategory(substring),
+            const [ products, categories ] = await Promise.all([
+                await this.SEService.textSearch<SEProductI>(substring, SEIndexesE.PRODUCT),
+                await this.SEService.textSearch<SECategoryI>(substring, SEIndexesE.CATEGORY),
             ]);
 
-            // console.log(products.hits.hits);
-            // console.log(categories.hits.hits);
-
-            return new SearchAutocomplete({ products, categories });
+            return new SearchAutocomplete({ products, categories }, lang);
         } catch (err) {
-            throw new InternalServerErrorException(err.response.text);
+            throw new InternalServerErrorException(err);
         }
     }
 }

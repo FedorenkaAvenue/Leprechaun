@@ -13,7 +13,7 @@ import { QueriesCommon } from '@dto/Queries/constructor';
 
 @Injectable()
 export default class OrderPublicService extends OrderService {
-    async getCart(sid: SessionI['sid'], searchParams: QueriesCommon): Promise<OrderPublic> {
+    public async getCart(sid: SessionI['sid'], searchParams: QueriesCommon): Promise<OrderPublic> {
         const qb = this.orderRepo
             .createQueryBuilder('order')
             .where('order.sid = :sid', { sid })
@@ -22,7 +22,7 @@ export default class OrderPublicService extends OrderService {
         return await this.getOrder<OrderPublic>(qb, searchParams, OrderPublic);
     }
 
-    async addOrderItem(
+    public async addOrderItem(
         orderItem: CreateOrderItemDTO,
         sid: SessionI['sid'],
         searchParams: QueriesCommon,
@@ -53,7 +53,7 @@ export default class OrderPublicService extends OrderService {
         return await this.getCart(sid, searchParams);
     }
 
-    async changeOrderItemAmount(
+    public async changeOrderItemAmount(
         id: OrderItemI['id'],
         { amount }: UpdateOrderItemDTO,
         sid: SessionI['sid'],
@@ -64,7 +64,7 @@ export default class OrderPublicService extends OrderService {
         return this.getCart(sid, searchParams);
     }
 
-    async postOrder({ order: { id }, customer }: CreateOrderDTO, sid: SessionI['sid']): Promise<UpdateResult> {
+    public async postOrder({ order: { id }, customer }: CreateOrderDTO, sid: SessionI['sid']): Promise<UpdateResult> {
         const { list } = await this.orderRepo.findOneBy({ id });
 
         list.forEach(({ product: { id } }) => this.productService.incrementProductOrderCount(id));
@@ -72,7 +72,7 @@ export default class OrderPublicService extends OrderService {
         return this.orderRepo.update({ id, sid }, { status: OrderStatus.POSTED, customer });
     }
 
-    async getOrderList(sid: SessionI['sid'], searchParams: QueriesCommon): Promise<OrderPublic[]> {
+    public async getOrderList(sid: SessionI['sid'], searchParams: QueriesCommon): Promise<OrderPublic[]> {
         try {
             const res = await this.orderRepo.find({
                 where: { sid, status: Not(OrderStatus.INIT) },
@@ -87,7 +87,7 @@ export default class OrderPublicService extends OrderService {
         }
     }
 
-    async removeOrderItem(
+    public async removeOrderItem(
         id: OrderItemI['id'],
         sid: SessionI['sid'],
         searchParams: QueriesCommon,

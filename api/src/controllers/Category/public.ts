@@ -15,7 +15,7 @@ export default class CategoryPublicController {
     @Get('list')
     @ApiOperation({ summary: 'get all public categories 💾' })
     @ApiOkResponse({ type: CategoryPublic, isArray: true })
-    getAllCategories(@Queries() queries: QueriesCommon): Promise<CategoryPublic[]> {
+    private getAllCategories(@Queries() queries: QueriesCommon): Promise<CategoryPublic[]> {
         return this.categoryService.getCategoryList(queries);
     }
 
@@ -23,7 +23,7 @@ export default class CategoryPublicController {
     @ApiOperation({ summary: 'get category info by URL 💾' })
     @ApiOkResponse({ type: CategoryPublic })
     @ApiNotFoundResponse({ description: 'category not found' })
-    getCategory(@Param('categoryURL') categoryURL: string, @Queries() queries: QueriesCommon): Promise<CategoryPublic> {
+    private getCategory(@Param('categoryURL') categoryURL: string, @Queries() queries: QueriesCommon): Promise<CategoryPublic> {
         return this.categoryService.getCategory(categoryURL, queries);
     }
 }

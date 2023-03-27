@@ -57,6 +57,10 @@ services:
       - POSTGRES_PASSWORD=${DB_PASSWORD}
       - POSTGRES_USER=${DB_USER}
       - POSTGRES_DATABASE=${DB_DATABASE}
+      - SE_HOST
+      - SE_PORT
+      - SE_USER
+      - SE_PASSWORD
       - CACHE_HOST
       - CACHE_PORT
       - CACHE_CONTAINER_PORT

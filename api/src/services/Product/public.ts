@@ -10,7 +10,7 @@ import { CategoryI } from '@interfaces/Category';
 
 @Injectable()
 export default class ProductPublicService extends ProductService {
-    async getProduct(id: ProductI['id'], searchParams: QueriesProductList): Promise<ProductPublic> {
+    public async getProduct(id: ProductI['id'], searchParams: QueriesProductList): Promise<ProductPublic> {
         const qb = this.getProductQueryBulder()
             .where('p.is_public = true')
             .andWhere('p.id = :id', { id })
@@ -25,13 +25,13 @@ export default class ProductPublicService extends ProductService {
         }
     }
 
-    async getProductList(searchParams: QueriesProductList): Promise<PaginationResult<ProductCard>> {
+    public async getProductList(searchParams: QueriesProductList): Promise<PaginationResult<ProductCard>> {
         const qb = this.getProductQueryBulder().where('p.is_public = true');
 
         return this.renderProductList<ProductCard>(qb, searchParams, ProductCard);
     }
 
-    async getCategoryProducts(
+    public async getCategoryProducts(
         categoryUrl: CategoryI['url'],
         searchParams: QueriesProductList,
     ): Promise<PaginationResult<ProductCard>> {

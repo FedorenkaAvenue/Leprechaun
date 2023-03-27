@@ -13,7 +13,7 @@ const USER_HISTORY_LENGTH = Number(configService.getVal('USER_HISTORY_LENGTH'));
 export default class HistoryService {
     constructor(@InjectRepository(HistoryEntity) public readonly historyRepo: Repository<HistoryEntity>) {}
 
-    async addHistoryItem(productId: ProductI['id'], sid: SessionI['sid']): Promise<void> {
+    public async addHistoryItem(productId: ProductI['id'], sid: SessionI['sid']): Promise<void> {
         // TODO refactoring
         const existedItem = await this.historyRepo.findOneBy({
             product: { id: productId },
@@ -38,7 +38,7 @@ export default class HistoryService {
         // check if history length is full
     }
 
-    async getHistoryListBySID(sid: SessionI['sid']): Promise<HistoryEntity[]> {
+    public async getHistoryListBySID(sid: SessionI['sid']): Promise<HistoryEntity[]> {
         return await this.historyRepo.find({
             where: { sid },
             order: { created_at: 'DESC' },

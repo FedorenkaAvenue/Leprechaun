@@ -19,8 +19,9 @@ import HistoryModule from './History';
 import CacheModule from './Cache';
 import FSModule from './FS';
 import TransModule from './Trans';
+import SEModule from './SE';
 import SearchModule from './Search';
-import FilterModule from './Filter';
+// import FilterModule from './Filter';
 import CacheResetMiddleware from '@middlewares/CacheReset';
 import ProductPrivateController from '@controllers/Product/private';
 import CategoryPrivateController from '@controllers/Category/private';
@@ -39,6 +40,7 @@ import DashboardPublicController from '@controllers/Dashboard/public';
             name: 'default',
             useFactory: async () => configService.getDBConnectionData(),
         }),
+        SEModule,
         CategoryModule,
         ProductModule,
         SearchModule,

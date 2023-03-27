@@ -11,7 +11,7 @@ import configService from '@services/Config';
 import { ProductEntity } from '@entities/Product';
 import { CategoryPublic } from '@dto/Category/constructor';
 import { QueriesProductListI } from '@interfaces/Queries';
-import { QueriesCommon } from '@dto/Queries/constructor';
+import { QueriesCommon, QueriesSearch } from '@dto/Queries/constructor';
 import { OptionPublic } from '@dto/PropertyGroup/constructor';
 import {
     ProductBaseI, ProductCardI, ProductI, ProductLightCardI, ProductPreviewI, ProductPublicI, ProductSearchI
@@ -163,9 +163,9 @@ export class ProductSearch implements ProductSearchI {
     @ApiProperty({ type: 'string' })
     image: string;
 
-    constructor({ p_id, title_en, img }) {
+    constructor({ p_id, title, img }, lang: QueriesSearch['lang']) {
         this.id = p_id;
-        this.title = title_en;
+        this.title = title[lang];
         this.image = img;
     }
 }

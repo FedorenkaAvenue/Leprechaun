@@ -7,7 +7,7 @@ import logger from '@services/Logger';
 export default class CacheService {
     constructor(@Inject(CACHE_MANAGER) private readonly cacheManager: Cache) {}
 
-    async resetCache() {
+    public async resetCache() {
         await this.cacheManager.reset();
         logger.info('cache has been reseted');
     }

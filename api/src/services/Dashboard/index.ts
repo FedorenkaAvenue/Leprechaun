@@ -6,7 +6,7 @@ import ProductService from '@services/Product';
 
 @Injectable()
 export default class DashboardService {
-    dashboardPortion: number;
+    protected dashboardPortion: number;
 
     constructor(protected readonly productService: ProductService, protected readonly historyService: HistoryService) {
         this.dashboardPortion = +configService.getVal('DASHBOARD_PORTION');

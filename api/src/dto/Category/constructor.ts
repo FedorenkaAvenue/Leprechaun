@@ -2,7 +2,7 @@ import { ApiProperty } from '@nestjs/swagger';
 
 import { CategoryI, CategoryPublicI, CategorySearchI } from '@interfaces/Category';
 import { CreateCategoryDTO } from '.';
-import { QueriesCommon } from '@dto/Queries/constructor';
+import { QueriesCommon, QueriesSearch } from '@dto/Queries/constructor';
 
 export class Category extends CreateCategoryDTO {
     constructor({ url, title, is_public, propertygroups, comment }: CreateCategoryDTO) {
@@ -48,9 +48,9 @@ export class CategorySearch implements CategorySearchI {
     @ApiProperty({ type: 'string' })
     icon: string;
 
-    constructor({ url, title_en, icon }) {
+    constructor({ url, title, icon }, lang: QueriesSearch['lang']) {
         this.url = url;
-        this.title = title_en;
+        this.title = title[lang];
         this.icon = icon;
     }
 }

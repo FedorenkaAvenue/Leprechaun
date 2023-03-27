@@ -12,7 +12,7 @@ import { ProductEntity } from '@entities/Product';
 
 @Injectable()
 export default class ProductPrivateService extends ProductService {
-    async createProduct(newProduct: CreateProductDTO, images: Express.Multer.File[]): Promise<void> {
+    public async createProduct(newProduct: CreateProductDTO, images: Express.Multer.File[]): Promise<void> {
         const { id } = await this.productRepo.save(new Product(newProduct));
 
         if (images) {
@@ -22,7 +22,7 @@ export default class ProductPrivateService extends ProductService {
         }
     }
 
-    async getProduct(id: ProductI['id']): Promise<ProductEntity> {
+    public async getProduct(id: ProductI['id']): Promise<ProductEntity> {
         const qb = this.getProductQueryBulder().andWhere('p.id = :id', { id });
 
         try {
@@ -32,13 +32,13 @@ export default class ProductPrivateService extends ProductService {
         }
     }
 
-    async getProductList(searchParams: QueriesProductList): Promise<PaginationResult<ProductEntity>> {
+    public async getProductList(searchParams: QueriesProductList): Promise<PaginationResult<ProductEntity>> {
         const qb = this.getProductQueryBulder();
 
         return this.renderProductList<ProductEntity>(qb, searchParams);
     }
 
-    async getCategoryProducts(
+    public async getCategoryProducts(
         categoryUrl: string,
         searchParams: QueriesProductList,
     ): Promise<PaginationResult<ProductEntity>> {
@@ -49,7 +49,7 @@ export default class ProductPrivateService extends ProductService {
         return this.renderProductList<ProductEntity>(qb, searchParams);
     }
 
-    async deleteProduct(productId: string): Promise<DeleteResult> {
+    public async deleteProduct(productId: string): Promise<DeleteResult> {
         const res = await this.productRepo.delete({ id: productId });
 
         this.FSService.removeFolder(FOLDER_TYPES.PRODUCT, productId);

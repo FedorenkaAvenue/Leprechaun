@@ -23,7 +23,7 @@ export default class OrderService {
      * @param sid session ID
      * @returns created order with 1 status
      */
-    async createOrder(sid: SessionI['sid']): Promise<OrderEntity> {
+    protected async createOrder(sid: SessionI['sid']): Promise<OrderEntity> {
         return await this.orderRepo.save({ sid, id: genID() });
     }
 
@@ -34,7 +34,7 @@ export default class OrderService {
      * @param resConstructor constructor for result maping
      * @returns completed OrderPublicDTO or null
      */
-    async getOrder<C>(
+    protected async getOrder<C>(
         qb: SelectQueryBuilder<OrderEntity>,
         searchParams?: QueriesCommon,
         resConstructor?: any,

@@ -44,7 +44,7 @@ export default class ProductPublicController {
         required: false,
         enum: ProductStatusE,
     })
-    getProducts(@Queries(QueriesProductList) queries: QueriesProductList): Promise<PaginationResult<ProductCard>> {
+    private getProducts(@Queries(QueriesProductList) queries: QueriesProductList): Promise<PaginationResult<ProductCard>> {
         return this.productService.getProductList(queries);
     }
 
@@ -54,7 +54,7 @@ export default class ProductPublicController {
     @ApiOperation({ summary: 'get public products by category URL 💾' })
     @ApiNotFoundResponse({ description: 'category not found' })
     @ApiPaginatedResponse(ProductCard)
-    getCategoryProducts(
+    private getCategoryProducts(
         @Param('categoryUrl') categoryUrl: string,
         @Queries(QueriesProductList) queries: QueriesProductList,
     ): Promise<PaginationResult<ProductCard>> {
@@ -68,7 +68,7 @@ export default class ProductPublicController {
     @ApiOkResponse({ type: ProductPublic })
     @ApiBadRequestResponse({ description: 'invalid product ID' })
     @ApiNotFoundResponse({ description: 'product not found' })
-    getProduct(
+    private getProduct(
         @Param('productId', ParseUUIDPipe) productId: string,
         @Queries(QueriesProductList) queries: QueriesProductList,
     ): Promise<ProductPublic> {

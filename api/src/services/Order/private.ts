@@ -9,7 +9,7 @@ import { OrderEntity } from '@entities/Order';
 
 @Injectable()
 export default class OrderPrivateService extends OrderService {
-    async getOrderById(id: OrderI['id']): Promise<OrderEntity> {
+    public async getOrderById(id: OrderI['id']): Promise<OrderEntity> {
         const qb = this.orderRepo.createQueryBuilder('order').where({ id });
         const res = await this.getOrder<OrderEntity>(qb);
 
@@ -18,15 +18,15 @@ export default class OrderPrivateService extends OrderService {
         throw new NotFoundException('order not found');
     }
 
-    changeOrderStatus(orderId: OrderI['id'], { status }: UpdateOrderStatusDTO): Promise<UpdateResult> {
+    public changeOrderStatus(orderId: OrderI['id'], { status }: UpdateOrderStatusDTO): Promise<UpdateResult> {
         return this.orderRepo.update({ id: orderId }, { status });
     }
 
-    getOrders(): Promise<OrderEntity[]> {
+    public getOrders(): Promise<OrderEntity[]> {
         return this.orderRepo.find();
     }
 
-    async getOrdersByProductId(productId: ProductI['id']): Promise<OrderEntity[]> {
+    public async getOrdersByProductId(productId: ProductI['id']): Promise<OrderEntity[]> {
         return await this.orderRepo
             .createQueryBuilder('order')
             .leftJoinAndSelect('order.list', 'list')
@@ -35,7 +35,7 @@ export default class OrderPrivateService extends OrderService {
             .getMany();
     }
 
-    removeOrder(id: OrderI['id']): Promise<DeleteResult> {
+    public removeOrder(id: OrderI['id']): Promise<DeleteResult> {
         return this.orderRepo.delete({ id });
     }
 }

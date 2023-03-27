@@ -26,7 +26,7 @@ export default class ProductService {
      * @description get common product query builder
      * @returns query builder
      */
-    getProductQueryBulder(): SelectQueryBuilder<ProductEntity> {
+    protected getProductQueryBulder(): SelectQueryBuilder<ProductEntity> {
         return this.productRepo
             .createQueryBuilder('p')
             .leftJoinAndSelect('p.title', 'title')
@@ -48,7 +48,7 @@ export default class ProductService {
      * @param {Number} take amount of item
      * @returns array of ProductEntity
      */
-    async getProductListByCriteria(order: FindOptionsOrder<ProductEntity>, take?: number): Promise<ProductEntity[]> {
+    public async getProductListByCriteria(order: FindOptionsOrder<ProductEntity>, take?: number): Promise<ProductEntity[]> {
         return await this.productRepo.find({
             where: { is_public: true },
             take,
@@ -59,7 +59,7 @@ export default class ProductService {
     /**
      * @description change "new" entity field
      */
-    async changeNewStatus(): Promise<void> {
+    public async changeNewStatus(): Promise<void> {
         const { affected } = await this.productRepo.update({ is_new: true }, { is_new: false });
 
         logger.info(`${affected} products was changed to is_new = false`);
@@ -69,7 +69,7 @@ export default class ProductService {
      * @description update (increment) product.orderCount field
      * @param id product ID
      */
-    async incrementProductOrderCount(id: ProductI['id']): Promise<void> {
+    public async incrementProductOrderCount(id: ProductI['id']): Promise<void> {
         const { orderCount } = await this.productRepo.findOneBy({ id });
 
         await this.productRepo.update({ id }, { orderCount: orderCount + 1 });
@@ -82,7 +82,7 @@ export default class ProductService {
      * @param resultMapConstructor constructor for maping result. by default will return ProductEntity
      * @returns completed search result with pagination
      */
-    async renderProductList<T>(
+    protected async renderProductList<T>(
         qb: SelectQueryBuilder<ProductEntity>,
         searchParams: QueriesProductList,
         resultMapConstructor?: any,
