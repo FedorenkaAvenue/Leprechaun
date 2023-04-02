@@ -18,7 +18,6 @@ import SessionModule from './Session';
 import HistoryModule from './History';
 import CacheModule from './Cache';
 import FSModule from './FS';
-import TransModule from './Trans';
 import SEModule from './SE';
 import SearchModule from './Search';
 // import FilterModule from './Filter';
@@ -33,6 +32,7 @@ import WishlistPublicController from '@controllers/Wishlist/public';
 import HistoryPublicController from '@controllers/History/public';
 import SesssionInitMiddleware from '@middlewares/SessionInit';
 import DashboardPublicController from '@controllers/Dashboard/public';
+import { TransEntity } from '@entities/Trans';
 
 @Module({
     imports: [
@@ -40,6 +40,7 @@ import DashboardPublicController from '@controllers/Dashboard/public';
             name: 'default',
             useFactory: async () => configService.getDBConnectionData(),
         }),
+        TypeOrmModule.forFeature([TransEntity]),
         SEModule,
         CategoryModule,
         ProductModule,
@@ -58,7 +59,6 @@ import DashboardPublicController from '@controllers/Dashboard/public';
         SessionModule,
         CacheModule,
         FSModule,
-        TransModule,
     ],
 })
 export default class AppModule implements NestModule {
