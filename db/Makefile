@@ -1,4 +1,4 @@
-CONTAINER_DB_0_NAME=leprechaun_db
+CONTAINER_DB_0_NAME=leprechaun_db_0
 
 # скачать актуальный дамп из DB
 dump_pull:

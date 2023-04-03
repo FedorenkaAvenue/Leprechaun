@@ -15,7 +15,10 @@ services:
         - DOMAIN_MEDIA
         - DOMAIN_API
 
-  db:
+  db_0:
+    restart: on-failure:5
+
+  db_1:
     restart: on-failure:5
 
   cache:

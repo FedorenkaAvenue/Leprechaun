@@ -13,10 +13,17 @@ services:
       - ./server/conf/leprechaun.conf:/etc/nginx/conf.d/leprechaun.conf
       - ./server/conf/leprechaun.dev.conf:/etc/nginx/conf.d/leprechaun.dev.conf
 
-  db:
+  db_0:
     restart: unless-stopped
     volumes:
-      - ./db/postgresql.conf:/app/postgresql.conf
+      - ./db/db_0/postgresql.conf:/app/postgresql.conf
+
+  db_1:
+    restart: unless-stopped
+    volumes:
+      - ./db/db_1/postgresql.conf:/app/postgresql.conf
+    ports:
+      - ${DB_1_PORT_EXPOSE}:${DB_1_PORT}
 
   cache:
     restart: unless-stopped

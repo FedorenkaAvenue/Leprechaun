@@ -128,7 +128,7 @@ export default class ConfigService {
         return {
             store: redisCacheStore as any,
             host: this.getVal('CACHE_HOST'),
-            port: this.getVal('CACHE_CONTAINER_PORT'),
+            port: this.getVal('CACHE_PORT'),
             auth_pass: this.getVal('CACHE_PASSWORD'),
             ttl: +this.getVal('DEFAULT_CACHE_TTL'),
             max: 1000,
