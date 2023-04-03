@@ -10,9 +10,9 @@ import { QueriesProductList } from '@dto/Queries/constructor';
 import HistoryPublicService from '@services/History/public';
 import { ProductI } from '@interfaces/Product';
 import { SortProductE } from '@enums/Query';
-import logger from '@services/Logger';
 import { PropertyGroupEntity } from '@entities/PropertGroup';
 import { SEService } from '@services/SE';
+import LoggerService from '@services/Logger';
 
 @Injectable()
 export default class ProductService {
@@ -22,6 +22,7 @@ export default class ProductService {
         protected readonly historyService: HistoryPublicService,
         protected readonly FSService: FSService,
         protected readonly SEService: SEService,
+        private readonly loggerService: LoggerService,
     ) {}
 
     /**
@@ -59,7 +60,7 @@ export default class ProductService {
     public async changeNewStatus(): Promise<void> {
         const { affected } = await this.productRepo.update({ is_new: true }, { is_new: false });
 
-        logger.info(`${affected} products was changed to is_new = false`);
+        this.loggerService.info(`${affected} products was changed to is_new = false`);
     }
 
     /**

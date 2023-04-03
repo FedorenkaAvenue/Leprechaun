@@ -1,4 +1,4 @@
-import { ConsoleLogger, LogLevel } from '@nestjs/common';
+import { ConsoleLogger, Injectable, LogLevel } from '@nestjs/common';
 import { mkdir, appendFile } from 'fs/promises';
 
 type LogT = LogLevel | 'info';
@@ -9,7 +9,8 @@ type LogT = LogLevel | 'info';
  *  all console.log only on app terminal
  *  specific info logs (only for writing to files)
  */
-class Logger extends ConsoleLogger {
+@Injectable()
+export default class LoggerService extends ConsoleLogger {
     public info(message: string): void {
         this.writeLog(message, 'info');
     }
@@ -41,7 +42,3 @@ class Logger extends ConsoleLogger {
         }
     }
 }
-
-const logger = new Logger();
-
-export default logger;

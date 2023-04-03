@@ -13,10 +13,9 @@ import {
 import { SortProductE, SortWishlistE } from '@enums/Query';
 import { availableEnum } from '@utils/enum';
 import { ProductStatusE } from '@enums/Product';
-import configService from '@services/Config';
-import { PropertyGroupI } from '@interfaces/PropertyGroup';
+import { singleConfigService } from '@services/Config';
 
-const [DEFAULT_LANG] = configService.getVal('LANGS');
+const [DEFAULT_LANG] = singleConfigService.getVal('LANGS');
 
 /**
  * @description create range object for filters

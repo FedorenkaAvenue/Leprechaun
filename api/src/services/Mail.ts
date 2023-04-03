@@ -2,9 +2,10 @@ import { createTransport, SentMessageInfo, Transporter } from 'nodemailer';
 import Mail from 'nodemailer/lib/mailer';
 import { Injectable } from '@nestjs/common';
 
-import configService from './Config';
 import renderTemplate from '@utils/renderTemplate';
 import { DevLogMailI } from '@interfaces/Mail';
+import ConfigService from './Config';
+import SMTPTransport from 'nodemailer/lib/smtp-transport';
 
 type IMailOptions = Mail.Options & {
     to: string | Array<string>;
@@ -14,12 +15,22 @@ type IMailOptions = Mail.Options & {
  * @description e-mail service
  */
 @Injectable()
-class MailService {
+export default class MailService {
+    private readonly mailCredentials: SMTPTransport.Options;
+    private readonly mailSenderCredential: string;
+    private readonly devMailCredentials: string;
+
+    constructor(private readonly configService: ConfigService) {
+        this.mailCredentials = this.configService.getMailConfig();
+        this.mailSenderCredential = this.configService.getMailCredentials();
+        this.devMailCredentials = this.configService.getDevMailReciever();
+    }
+
     /**
      * @description create connection
      */
     private createConnection(): Transporter<SentMessageInfo> {
-        return createTransport(configService.getMailConfig());
+        return createTransport(this.mailCredentials);
     }
 
     /**
@@ -31,7 +42,7 @@ class MailService {
 
         try {
             await this.createConnection().sendMail({
-                from: configService.getMailCredentials(),
+                from: this.mailSenderCredential,
                 to,
                 subject,
                 text,
@@ -54,13 +65,9 @@ class MailService {
      */
     private async sendDevMail(content: string): Promise<void> {
         await this.sendMail({
-            to: configService.getDevMailReciever(),
+            to: this.devMailCredentials,
             subject: 'Development mail',
             html: content,
         });
     }
 }
-
-const singleMailSerbice = new MailService();
-
-export default singleMailSerbice;

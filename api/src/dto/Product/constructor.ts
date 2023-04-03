@@ -7,7 +7,7 @@ import { LabelType } from '@enums/Label';
 import { ImageEntity } from '@entities/Image';
 import { CreateProductDTO } from '.';
 import { Price } from '@dto/Price/constructor';
-import configService from '@services/Config';
+import { singleConfigService } from '@services/Config';
 import { ProductEntity } from '@entities/Product';
 import { CategoryPublic } from '@dto/Category/constructor';
 import { QueriesProductListI } from '@interfaces/Queries';
@@ -20,7 +20,7 @@ import { PriceEntity } from '@entities/_Price';
 import { LabelI } from '@interfaces/Label';
 import { Label } from '@dto/Label/constructor';
 
-const PRODUCT_PUBLIC_IMAGE_AMOUNT = configService.getVal('PRODUCT_PUBLIC_IMAGE_AMOUNT');
+const PRODUCT_PUBLIC_IMAGE_AMOUNT = singleConfigService.getVal('PRODUCT_PUBLIC_IMAGE_AMOUNT');
 
 export class Product extends CreateProductDTO {
     price: PriceI;
@@ -85,7 +85,7 @@ export class ProductPreview extends ProductBase implements ProductPreviewI {
 
     constructor({ images, ...base }: ProductEntity, lang: QueriesCommon['lang']) {
         super(base, lang);
-        this.image = (images[0] as ImageEntity).src;
+        this.image = (images[0] as ImageEntity)?.src;
     }
 }
 
@@ -96,7 +96,7 @@ export class ProductLightCard extends ProductBase implements ProductLightCardI {
 
     constructor({ images, ...base }: ProductEntity, { lang }: QueriesCommon) {
         super(base, lang);
-        this.images = images.slice(0, Number(PRODUCT_PUBLIC_IMAGE_AMOUNT)) as ImageEntity[];
+        this.images = images?.slice(0, Number(PRODUCT_PUBLIC_IMAGE_AMOUNT)) as ImageEntity[];
     }
 }
 
@@ -114,7 +114,7 @@ export class ProductCard extends ProductBase implements ProductCardI {
     constructor({ images, options, description, ...base }: ProductEntity, { lang }: QueriesCommon) {
         super(base, lang);
         this.description = description?.[lang];
-        this.images = images.slice(0, Number(PRODUCT_PUBLIC_IMAGE_AMOUNT)) as ImageEntity[];
+        this.images = images?.slice(0, Number(PRODUCT_PUBLIC_IMAGE_AMOUNT)) as ImageEntity[];
         this.options = options.filter(({ is_primary }) => is_primary).map(opt => new OptionPublic(opt, lang));
     }
 }
@@ -145,7 +145,7 @@ export class ProductPublic extends ProductBase implements ProductPublicI {
     ) {
         super(base, lang);
         this.description = description?.[lang];
-        this.images = images.slice(0, Number(PRODUCT_PUBLIC_IMAGE_AMOUNT)) as ImageEntity[];
+        this.images = images?.slice(0, Number(PRODUCT_PUBLIC_IMAGE_AMOUNT)) as ImageEntity[];
         this.category = new CategoryPublic(category, lang);
         this.orderCount = orderCount;
         this.wishlistCount = wishlistCount.length;

@@ -28,7 +28,6 @@ services:
       dockerfile: Dockerfile.prod
     environment:
       - IS_DEV=false
-      - DEV_MAIL_RECIEVER
     volumes:
       - ./api/logs:/app/logs
 

@@ -5,13 +5,18 @@ import { DeepPartial, Repository } from 'typeorm';
 import { HistoryEntity } from '@entities/History';
 import { SessionI } from '@interfaces/Session';
 import { ProductI } from '@interfaces/Product';
-import configService from '@services/Config';
-
-const USER_HISTORY_LENGTH = Number(configService.getVal('USER_HISTORY_LENGTH'));
+import ConfigService from '@services/Config';
 
 @Injectable()
 export default class HistoryService {
-    constructor(@InjectRepository(HistoryEntity) public readonly historyRepo: Repository<HistoryEntity>) {}
+    private readonly historyLength: number;
+
+    constructor(
+        @InjectRepository(HistoryEntity) public readonly historyRepo: Repository<HistoryEntity>,
+        private readonly configService: ConfigService,
+    ) {
+        this.historyLength = Number(this.configService.getVal('USER_HISTORY_LENGTH'));
+    }
 
     public async addHistoryItem(productId: ProductI['id'], sid: SessionI['sid']): Promise<void> {
         // TODO refactoring
@@ -43,7 +48,7 @@ export default class HistoryService {
             where: { sid },
             order: { created_at: 'DESC' },
             relations: ['product'],
-            take: USER_HISTORY_LENGTH,
+            take: this.historyLength,
         });
     }
 }

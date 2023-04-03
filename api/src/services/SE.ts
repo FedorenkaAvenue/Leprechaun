@@ -4,7 +4,6 @@ import { IndicesCreateRequest } from "@elastic/elasticsearch/lib/api/types";
 
 import { SEIndexesE } from "@enums/SE";
 import { SE_CATEGORY_PROPERTIES, SE_PRODUCT_PROPERTIES } from "@constants/SE";
-import configService from "./Config";
 
 @Injectable()
 export class SEService {
@@ -22,13 +21,6 @@ export class SEService {
                 this.SE.indices.create({ ...data });
 
                 return;
-            }
-
-            if (configService.isDev) {
-                // this.SE.reindex({
-                //     source: { index: data.index },
-                //     dest: { index: data.index, version_type: 'force' }
-                // });
             }
         } catch (err) {
             throw new InternalServerErrorException(err);

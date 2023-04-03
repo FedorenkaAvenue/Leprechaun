@@ -1,13 +1,14 @@
 import { Module, CacheModule as CacheNestModule, Global } from '@nestjs/common';
 
 import CacheService from '@services/Cache';
-import configService from '@services/Config';
+import ConfigService from '@services/Config';
 
 @Global()
 @Module({
     imports: [
         CacheNestModule.registerAsync({
-            useFactory: async () => !configService.isDev && configService.getCacheStoreConfig(),
+            useFactory: async (conf: ConfigService) => !conf.isDev && conf.getCacheStoreConfig(),
+            inject: [ConfigService]
         }),
     ],
     providers: [CacheService],

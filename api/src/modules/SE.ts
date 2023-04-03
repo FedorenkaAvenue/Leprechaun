@@ -1,12 +1,13 @@
 import { Module, OnModuleInit } from "@nestjs/common";
 import { ElasticsearchModule } from "@nestjs/elasticsearch";
+import ConfigService from "@services/Config";
 
-import configService from "@services/Config";
 import { SEService } from "@services/SE";
 
 @Module({
     imports: [ElasticsearchModule.registerAsync({
-        useFactory: () => configService.getSEConnectionData()
+        inject: [ConfigService],
+        useFactory: (conf: ConfigService) => conf.getSEConnectionData(),
     })],
     providers: [SEService],
     exports: [SEService, ElasticsearchModule],

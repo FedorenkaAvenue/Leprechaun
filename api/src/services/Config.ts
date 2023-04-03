@@ -1,5 +1,5 @@
 import { TypeOrmModuleOptions } from '@nestjs/typeorm';
-import { CacheModuleOptions } from '@nestjs/common';
+import { CacheModuleOptions, Injectable } from '@nestjs/common';
 import { CorsOptions } from '@nestjs/common/interfaces/external/cors-options.interface';
 import { SessionOptions } from 'express-session';
 import SMTPTransport from 'nodemailer/lib/smtp-transport';
@@ -8,6 +8,8 @@ import * as redisCacheStore from 'cache-manager-redis-store';
 import { Pool as PGPool } from 'pg';
 import { PostgresConnectionCredentialsOptions } from 'typeorm/driver/postgres/PostgresConnectionCredentialsOptions';
 import { ElasticsearchModuleOptions } from '@nestjs/elasticsearch';
+import { memoryStorage } from 'multer';
+import { MulterModuleOptions } from '@nestjs/platform-express';
 const pgConnect = require('connect-pg-simple');
 
 const ENV_ARRAY_SPLIT_SYMBOL = ',';
@@ -21,9 +23,10 @@ interface IHostingParams {
  * @property {Boolean} isDev is development environment
  * @property {Boolean} isLepr is "Leprechaun" test project
  */
-export class ConfigService {
-    public isDev: boolean;
-    private isLepr: boolean;
+@Injectable()
+export default class ConfigService {
+    public readonly isDev: boolean;
+    private readonly isLepr: boolean;
 
     constructor() {
         this.isDev = this.getVal('IS_DEV') === 'true';
@@ -112,6 +115,13 @@ export class ConfigService {
     }
 
     /**
+     * @returns Multer settings object
+     */
+    public createMulterOptions(): MulterModuleOptions {
+        return { storage: memoryStorage() };
+    }
+
+    /**
      * @description get cache manager config
      */
     public getCacheStoreConfig(): CacheModuleOptions {
@@ -194,6 +204,4 @@ export class ConfigService {
     }
 }
 
-const configService = new ConfigService();
-
-export default configService;
+export const singleConfigService = new ConfigService();
