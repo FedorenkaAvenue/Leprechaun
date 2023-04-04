@@ -15,7 +15,10 @@ services:
         - DOMAIN_MEDIA
         - DOMAIN_API
 
-  db:
+  db_0:
+    restart: on-failure:5
+
+  db_1:
     restart: on-failure:5
 
   cache:
@@ -28,7 +31,6 @@ services:
       dockerfile: Dockerfile.prod
     environment:
       - IS_DEV=false
-      - DEV_MAIL_RECIEVER
     volumes:
       - ./api/logs:/app/logs
 
@@ -49,3 +51,10 @@ services:
 
   se:
     restart: on-failure:5
+
+  se_client:
+    restart: on-failure:5
+    environment:
+      - ELASTICSEARCH_USERNAME=${SE_CLIENT_USERNAME}
+      - ELASTICSEARCH_PASSWORD=${SE_CLIENT_PASSWORD}
+      # - ELASTICSEARCH_SSL_CERTIFICATEAUTHORITIES=config/certs/ca/ca.crt

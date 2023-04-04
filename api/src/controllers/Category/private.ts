@@ -29,7 +29,7 @@ export default class CategoryPrivateController {
     @UseInterceptors(FileInterceptor('icon', { fileFilter: FSService.fileFilterOption('svg') }))
     @ApiOperation({ summary: 'add new category' })
     @ApiBadRequestResponse({ description: 'some of fields are unique' })
-    addCategory(
+    private addCategory(
         @Body(new ValidationPipe({ transform: true })) body: CreateCategoryDTO,
         @UploadedFile() icon: Express.Multer.File,
     ): Promise<CategoryEntity> {
@@ -52,7 +52,7 @@ export default class CategoryPrivateController {
     @Get('list')
     @ApiOperation({ summary: 'get all categories' })
     @ApiOkResponse({ type: CategoryEntity, isArray: true })
-    getAllCategories(): Promise<CategoryEntity[]> {
+    private getAllCategories(): Promise<CategoryEntity[]> {
         return this.categoryService.getCategoryList();
     }
 
@@ -61,7 +61,7 @@ export default class CategoryPrivateController {
     @ApiOperation({ summary: 'get category info by URL' })
     @ApiOkResponse({ type: CategoryEntity, isArray: true })
     @ApiNotFoundResponse({ description: 'category not found' })
-    getCategory(@Param('categoryURL') categoryURL: string): Promise<CategoryEntity> {
+    private getCategory(@Param('categoryURL') categoryURL: string): Promise<CategoryEntity> {
         return this.categoryService.getCategory(categoryURL);
     }
 
@@ -70,7 +70,7 @@ export default class CategoryPrivateController {
     @ApiOperation({ summary: 'delete category by ID' })
     @ApiOkResponse({ description: 'success' })
     @ApiNotFoundResponse({ description: 'category not found' })
-    deleteCategory(@Param('categoryID') categoryID: number): Promise<DeleteResult> {
+    private deleteCategory(@Param('categoryID') categoryID: number): Promise<DeleteResult> {
         return this.categoryService.deleteCategory(categoryID);
     }
 }

@@ -13,10 +13,17 @@ services:
       - ./server/conf/leprechaun.conf:/etc/nginx/conf.d/leprechaun.conf
       - ./server/conf/leprechaun.dev.conf:/etc/nginx/conf.d/leprechaun.dev.conf
 
-  db:
+  db_0:
     restart: unless-stopped
     volumes:
-      - ./db/postgresql.conf:/app/postgresql.conf
+      - ./db/db_0/postgresql.conf:/app/postgresql.conf
+
+  db_1:
+    restart: unless-stopped
+    volumes:
+      - ./db/db_1/postgresql.conf:/app/postgresql.conf
+    ports:
+      - ${DB_1_PORT_EXPOSE}:${DB_1_PORT}
 
   cache:
     restart: unless-stopped
@@ -47,20 +54,37 @@ services:
 
   se:
     restart: unless-stopped
-    ulimits:
-      nproc: 65535
-      nofile:
-        soft: 65535
-        hard: 65535
-      memlock:
-        soft: -1
-        hard: -1
     environment:
-      - MCL=1
+      - xpack.security.enabled=false
     volumes:
-      - ./se/manticore.conf:/etc/manticoresearch/manticore.conf
-      - ./se/data:/var/lib/manticore
-      - ./se/logs:/var/log/manticore:rw
+      - ./se/conf/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml
+    ports:
+      - ${SE_PORT}:${SE_PORT}
+
+  se_client:
+    restart: unless-stopped
+    volumes:
+      - ./se/client/kibana.yml:/usr/share/kibana/config/kibana.yml
+
+  client_admin:
+    container_name: leprechaun_client_admin
+    networks:
+      - client
+    restart: unless-stopped
+    extends:
+      file: docker-compose.shared.yaml
+      service: node
+    volumes:
+      - ./clients/admin:/app
+    command: npm run serve:docker
+    environment:
+      - LANGS
+      - APP_NAME
+      - DOMAIN
+      - DOMAIN_API
+      - DOMAIN_MEDIA
+    depends_on:
+      - server
 
   # client_user_ssr:
   #   container_name: leprechaun_client_user_ssr
@@ -83,26 +107,6 @@ services:
   #     - CURRENCY_SYMBOL
   #   depends_on:
   #     - server
-
-  client_admin:
-    container_name: leprechaun_client_admin
-    networks:
-      - client
-    restart: unless-stopped
-    extends:
-      file: docker-compose.shared.yaml
-      service: node
-    volumes:
-      - ./clients/admin:/app
-    command: npm run serve:docker
-    environment:
-      - LANGS
-      - APP_NAME
-      - DOMAIN
-      - DOMAIN_API
-      - DOMAIN_MEDIA
-    depends_on:
-      - server
 
   # client_v2:
   #   container_name: leprechaun_client_v2

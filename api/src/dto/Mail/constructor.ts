@@ -1,10 +1,16 @@
 import { DevLogMailI } from '@interfaces/Mail';
-import { DevLogMailDTO } from '.';
 
-export class DevLogMail extends DevLogMailDTO {
+export class DevLogMail implements DevLogMailI {
+    method: string;
+    message: string;
+    url: string;
+    body?: string | null;
+    cookies?: string | null;
+    stack: string;
+    ip: string;
+    timestamp: string;
+
     constructor({ method, message, url, body, cookies, stack, ip, timestamp }: DevLogMailI) {
-        super();
-
         if (Object.keys(body).length) this.body = JSON.stringify(body);
         if (Object.keys(cookies).length) this.cookies = JSON.stringify(cookies);
 

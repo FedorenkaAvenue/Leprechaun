@@ -1,14 +1,18 @@
 import { Injectable } from '@nestjs/common';
+import ConfigService from '@services/Config';
 
-import configService from '@services/Config';
 import HistoryService from '@services/History';
 import ProductService from '@services/Product';
 
 @Injectable()
 export default class DashboardService {
-    dashboardPortion: number;
+    protected dashboardPortion: number;
 
-    constructor(protected readonly productService: ProductService, protected readonly historyService: HistoryService) {
-        this.dashboardPortion = +configService.getVal('DASHBOARD_PORTION');
+    constructor(
+        protected readonly productService: ProductService,
+        protected readonly historyService: HistoryService,
+        private readonly configService: ConfigService,
+    ) {
+        this.dashboardPortion = +this.configService.getVal('DASHBOARD_PORTION');
     }
 }

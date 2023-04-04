@@ -1,24 +1,50 @@
-import { Injectable, InternalServerErrorException } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
+import { In } from 'typeorm';
 
 import SearchService from '.';
-import { SearchAutocomplete } from '@dto/Search/constructor';
 import { QueriesSearch } from '@dto/Queries/constructor';
+import { SearchAutocomplete } from '@dto/Search/constructor';
+import { SECategoryI, SEProductI } from '@interfaces/SE';
+import { ProductEntity } from '@entities/Product';
+import { SEIndexesE } from '@enums/SE';
+import { CategoryEntity } from '@entities/Category';
+import { ProductI } from '@interfaces/Product';
+import { CategoryI } from '@interfaces/Category';
 
 @Injectable()
 export default class SearchPublicService extends SearchService {
-    async autocomplete({ substring }: QueriesSearch): Promise<SearchAutocomplete> {
-        try {
-            const [products, categories] = await Promise.all([
-                this.searchProduct(substring),
-                this.searchCategory(substring),
-            ]);
+    public async autocomplete({ substring, lang }: QueriesSearch): Promise<SearchAutocomplete> {
+        const [products, categories] = await Promise.all([
+            this.getSearchData<SEProductI, ProductEntity>(
+                {
+                    index: SEIndexesE.PRODUCT,
+                    query: {
+                        query_string: {
+                            query: `*${substring}*`,
+                        },
+                    },
+                },
+                (ids: Array<ProductI['id']>) => this.productService.getProductListByCriteria({
+                    where: { is_public: true, id: In(ids) },
+                    take: 5,
+                })
+            ),
+            this.getSearchData<SECategoryI, CategoryEntity>(
+                {
+                    index: SEIndexesE.CATEGORY,
+                    query: {
+                        query_string: {
+                            query: `*${substring}*`,
+                        },
+                    },
+                },
+                (ids: Array<CategoryI['id']>) => this.categoryService.getCategoryListByCriteria({
+                    where: { is_public: true, id: In(ids) },
+                    take: 3,
+                })
+            ),
+        ]);
 
-            // console.log(products.hits.hits);
-            // console.log(categories.hits.hits);
-
-            return new SearchAutocomplete({ products, categories });
-        } catch (err) {
-            throw new InternalServerErrorException(err.response.text);
-        }
+        return new SearchAutocomplete({ products, categories }, lang);
     }
 }

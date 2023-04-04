@@ -1,12 +1,15 @@
 import { TypeOrmModuleOptions } from '@nestjs/typeorm';
-import { CacheModuleOptions } from '@nestjs/common';
+import { CacheModuleOptions, Injectable } from '@nestjs/common';
 import { CorsOptions } from '@nestjs/common/interfaces/external/cors-options.interface';
 import { SessionOptions } from 'express-session';
 import SMTPTransport from 'nodemailer/lib/smtp-transport';
 import * as session from 'express-session';
 import * as redisCacheStore from 'cache-manager-redis-store';
 import { Pool as PGPool } from 'pg';
-import { ApiClient, SearchApi } from 'manticoresearch';
+import { PostgresConnectionCredentialsOptions } from 'typeorm/driver/postgres/PostgresConnectionCredentialsOptions';
+import { ElasticsearchModuleOptions } from '@nestjs/elasticsearch';
+import { memoryStorage } from 'multer';
+import { MulterModuleOptions } from '@nestjs/platform-express';
 const pgConnect = require('connect-pg-simple');
 
 const ENV_ARRAY_SPLIT_SYMBOL = ',';
@@ -20,9 +23,10 @@ interface IHostingParams {
  * @property {Boolean} isDev is development environment
  * @property {Boolean} isLepr is "Leprechaun" test project
  */
-export class ConfigService {
-    isDev: boolean;
-    isLepr: boolean;
+@Injectable()
+export default class ConfigService {
+    public readonly isDev: boolean;
+    private readonly isLepr: boolean;
 
     constructor() {
         this.isDev = this.getVal('IS_DEV') === 'true';
@@ -35,7 +39,7 @@ export class ConfigService {
      * @returns variable value
      * @exception {Error} variable hasn't been set
      */
-    getVal(key: string): string | string[] {
+    public getVal(key: string): string | string[] {
         const envVariable = process.env[key];
 
         if (typeof envVariable === 'undefined') throw new Error(`config error: missing env ${key}`);
@@ -48,97 +52,43 @@ export class ConfigService {
     /**
      * @description get application name
      */
-    getAppName(): string {
+    public getAppName(): string {
         return this.getVal('APP_NAME') as string;
     }
 
     /**
      * @description get main DB connection data
      */
-    getDBConnectionData() {
+    public getDBConnectionData(): TypeOrmModuleOptions & PostgresConnectionCredentialsOptions {
         return {
             username: this.getVal('POSTGRES_USER') as string,
             password: this.getVal('POSTGRES_PASSWORD') as string,
             host: this.getVal('POSTGRES_HOST') as string,
             port: Number(this.getVal('POSTGRES_PORT')),
             database: this.getVal('POSTGRES_DATABASE') as string,
-        };
-    }
-
-    /**
-     * @description get TypeORM config object
-     */
-    getTypeOrmConfig(): TypeOrmModuleOptions {
-        const { username, password, host, port, database } = this.getDBConnectionData();
-
-        return {
             type: 'postgres',
             synchronize: true,
             autoLoadEntities: true,
-            host,
-            port,
-            username,
-            password,
-            database,
         };
     }
 
     /**
-     * @description get hosting folder's paths
+     * @description get search engine connection data
      */
-    getHostingParams(): IHostingParams {
+    public getSEConnectionData(): ElasticsearchModuleOptions {
         return {
-            HOSTING_PATH: this.getVal('HOSTING_PATH') as string,
-        };
-    }
-
-    /**
-     * @description get Nodemailer config
-     */
-    getMailConfig(): SMTPTransport.Options {
-        return {
-            host: this.getVal('MAIL_SMTP_HOST') as string,
-            secure: false,
-            port: Number(this.getVal('MAIL_SMTP_PORT')),
+            node: `http://${this.getVal('SE_HOST')}:${this.getVal('SE_PORT')}`,
             auth: {
-                user: this.getVal('MAIL_SENDER_ACCOUNT') as string,
-                pass: this.getVal('MAIL_SENDER_PASSWORD') as string,
-            },
-            tls: { ciphers: 'SSLv3' },
-        };
-    }
-
-    /**
-     * @description mail sender credentials
-     * @returns 'APP_NAME <SENDER_NAME>' string
-     */
-    getMailCredentials(): string {
-        return `${this.getVal('APP_NAME')} <${this.getVal('MAIL_SENDER_ACCOUNT')}>`;
-    }
-
-    /**
-     * @description get development mail account
-     */
-    getDevMailReciever(): string {
-        return this.getVal('DEV_MAIL_RECIEVER') as string;
-    }
-
-    /**
-     * @description create simple session ID (incrementing +1)
-     * @returns {Function} callback which returns session ID
-     */
-    genSessionId(): (req: Express.Request) => string {
-        let count = 0;
-
-        return function (req: Express.Request): string {
-            return String(++count);
-        };
+                username: this.getVal('SE_USER') as string,
+                password: this.getVal('SE_PASSWORD') as string,
+            }
+        }
     }
 
     /**
      * @description get config for `express-session` package
      */
-    getSessionConfig(): SessionOptions {
+    public getSessionConfig(): SessionOptions {
         const pgSession = pgConnect(session);
         const { username, password, host, port, database } = this.getDBConnectionData();
 
@@ -165,13 +115,20 @@ export class ConfigService {
     }
 
     /**
+     * @returns Multer settings object
+     */
+    public createMulterOptions(): MulterModuleOptions {
+        return { storage: memoryStorage() };
+    }
+
+    /**
      * @description get cache manager config
      */
-    getCacheStoreConfig(): CacheModuleOptions {
+    public getCacheStoreConfig(): CacheModuleOptions {
         return {
             store: redisCacheStore as any,
             host: this.getVal('CACHE_HOST'),
-            port: this.getVal('CACHE_CONTAINER_PORT'),
+            port: this.getVal('CACHE_PORT'),
             auth_pass: this.getVal('CACHE_PASSWORD'),
             ttl: +this.getVal('DEFAULT_CACHE_TTL'),
             max: 1000,
@@ -180,19 +137,61 @@ export class ConfigService {
     }
 
     /**
-     * @description get search engine client
+     * @description get hosting folder's paths
      */
-    getSEConfig(): any {
-        const client = new ApiClient();
-        client.basePath = 'http://leprechaun_se:9308';
+    public getHostingParams(): IHostingParams {
+        return {
+            HOSTING_PATH: this.getVal('HOSTING_PATH') as string,
+        };
+    }
 
-        return new SearchApi(client);
+    /**
+     * @description get Nodemailer config
+     */
+    public getMailConfig(): SMTPTransport.Options {
+        return {
+            host: this.getVal('MAIL_SMTP_HOST') as string,
+            secure: false,
+            port: Number(this.getVal('MAIL_SMTP_PORT')),
+            auth: {
+                user: this.getVal('MAIL_SENDER_ACCOUNT') as string,
+                pass: this.getVal('MAIL_SENDER_PASSWORD') as string,
+            },
+            tls: { ciphers: 'SSLv3' },
+        };
+    }
+
+    /**
+     * @description mail sender credentials
+     * @returns 'APP_NAME <SENDER_NAME>' string
+     */
+    public getMailCredentials(): string {
+        return `${this.getVal('APP_NAME')} <${this.getVal('MAIL_SENDER_ACCOUNT')}>`;
+    }
+
+    /**
+     * @description get development mail account
+     */
+    public getDevMailReciever(): string {
+        return this.getVal('DEV_MAIL_RECIEVER') as string;
+    }
+
+    /**
+     * @description create simple session ID (incrementing +1)
+     * @returns {Function} callback which returns session ID
+     */
+    public genSessionId(): (req: Express.Request) => string {
+        let count = 0;
+
+        return function (req: Express.Request): string {
+            return String(++count);
+        };
     }
 
     /**
      * @description get CORS config
      */
-    getCORSConfig(): CorsOptions {
+    public getCORSConfig(): CorsOptions {
         return {
             origin: [
                 this.getVal('DOMAIN') as string,
@@ -205,6 +204,4 @@ export class ConfigService {
     }
 }
 
-const configService = new ConfigService();
-
-export default configService;
+export const singleConfigService = new ConfigService();

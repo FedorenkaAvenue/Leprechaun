@@ -26,14 +26,14 @@ export default class OrderPrivateController {
     @ApiOperation({ summary: 'get order by ID' })
     @ApiOkResponse({ type: OrderEntity })
     @ApiNotFoundResponse({ description: 'order not found' })
-    getOrderById(@Param('orderID', ParseUUIDPipe) orderID: string): Promise<OrderEntity> {
+    private getOrderById(@Param('orderID', ParseUUIDPipe) orderID: string): Promise<OrderEntity> {
         return this.orderService.getOrderById(Number(orderID));
     }
 
     @Get('product/:productID')
     @ApiOperation({ summary: 'get orders which contain product' })
     @ApiOkResponse({ type: OrderEntity, isArray: true })
-    getOrdersByProductId(@Param('productID', ParseUUIDPipe) productID: string): Promise<OrderEntity[]> {
+    private getOrdersByProductId(@Param('productID', ParseUUIDPipe) productID: string): Promise<OrderEntity[]> {
         return this.orderService.getOrdersByProductId(productID);
     }
 
@@ -41,7 +41,7 @@ export default class OrderPrivateController {
     @UseInterceptors(AffectedResultInterceptor('order not found'))
     @ApiOperation({ summary: 'change order status' })
     @ApiNotFoundResponse({ description: 'order not found' })
-    changeOrderStatus(
+    private changeOrderStatus(
         @Param('orderID', ParseUUIDPipe) orderID: string,
         @Body(new ValidationPipe({ transform: true })) body: UpdateOrderStatusDTO,
     ): Promise<UpdateResult> {
@@ -51,7 +51,7 @@ export default class OrderPrivateController {
     @Get('list')
     @ApiOperation({ summary: 'get order list' })
     @ApiOkResponse({ type: OrderEntity, isArray: true })
-    getOrders(): Promise<OrderEntity[]> {
+    private getOrders(): Promise<OrderEntity[]> {
         return this.orderService.getOrders();
     }
 
@@ -59,7 +59,7 @@ export default class OrderPrivateController {
     @UseInterceptors(AffectedResultInterceptor('order not found'))
     @ApiOperation({ summary: 'remove order' })
     @ApiNotFoundResponse({ description: 'order not found' })
-    removeOrder(@Param('orderID', ParseUUIDPipe) orderID: string): Promise<DeleteResult> {
+    private removeOrder(@Param('orderID', ParseUUIDPipe) orderID: string): Promise<DeleteResult> {
         return this.orderService.removeOrder(Number(orderID));
     }
 }

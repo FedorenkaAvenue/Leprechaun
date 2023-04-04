@@ -1,11 +1,12 @@
 import { CategoryI, CategoryPublicI } from '@interfaces/Category';
 import { ImageI } from '@interfaces/Image';
-import { PropertyI, PropertyPublicI } from '@interfaces/Property';
+import { PropertyI } from '@interfaces/Property';
 import { LabelI } from '@interfaces/Label';
 import { ProductStatusE } from '@enums/Product';
 import { PriceI } from './Price';
 import WishlistItemEntity from '@entities/WishlistItem';
 import { TransI } from './Trans';
+import { OptionPublicI } from './PropertyGroup';
 
 //TODO refactoring interfaces by generics and extending
 
@@ -22,17 +23,21 @@ export interface ProductPreviewI extends ProductBaseI<string> {
     image: string;
 }
 
+export interface ProductLightCardI extends ProductBaseI<string> {
+    images: ImageI[];
+}
+
 export interface ProductCardI extends ProductBaseI<string> {
     images: ImageI[];
-    properties: PropertyPublicI[];
+    options: OptionPublicI[];
 }
 
 export interface ProductPublicI extends ProductBaseI<string> {
     category: CategoryPublicI;
     images: ImageI[];
-    properties: PropertyPublicI[];
     wishlistCount: number;
     orderCount: number;
+    options: OptionPublicI[];
 }
 
 export interface ProductI extends ProductBaseI {
@@ -47,8 +52,4 @@ export interface ProductI extends ProductBaseI {
     is_new: boolean;
     orderCount?: number;
     wishlistCount?: WishlistItemEntity[];
-}
-
-export interface ProductSearchI extends Pick<ProductI, 'id' | 'title'> {
-    image: string;
 }

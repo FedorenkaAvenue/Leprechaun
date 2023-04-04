@@ -17,17 +17,35 @@ services:
     depends_on:
       - api
 
-  db:
-    container_name: leprechaun_db
+  db_0:
+    container_name: leprechaun_db_0
     networks:
       - api
-    build: ./db
+    build:
+      context: ./db
+      dockerfile: Dockerfile
+      args:
+        - DB_FOLDER=db_0
     ports:
-      - ${DB_PORT}:${DB_PORT}
+      - ${DB_0_PORT_EXPOSE}:${DB_0_PORT}
     environment:
-      - POSTGRES_PASSWORD=${DB_PASSWORD}
-      - POSTGRES_USER=${DB_USER}
-      - POSTGRES_DATABASE=${DB_DATABASE}
+      - POSTGRES_PASSWORD=${DB_0_PASSWORD}
+      - POSTGRES_USER=${DB_0_USER}
+      - POSTGRES_DATABASE=${DB_0_DATABASE}
+
+  db_1:
+    container_name: leprechaun_db_1
+    build:
+      context: ./db
+      dockerfile: Dockerfile
+      args:
+        - DB_FOLDER=db_1
+    environment:
+      - POSTGRES_PASSWORD=${DB_1_PASSWORD}
+      - POSTGRES_USER=${DB_1_USER}
+      - POSTGRES_DATABASE=${DB_1_DATABASE}
+    depends_on:
+      - db_0
 
   cache:
     container_name: leprechaun_cache
@@ -39,7 +57,7 @@ services:
       args:
         - REDIS_PASSWORD:${CACHE_PASSWORD}
     ports:
-      - ${CACHE_PORT}:${CACHE_CONTAINER_PORT}
+      - ${CACHE_PORT_EXPOSE}:${CACHE_PORT}
 
   api:
     container_name: leprechaun_api
@@ -52,14 +70,18 @@ services:
       - DOMAIN_ADM
       - APP_NAME
       - LANGS
-      - POSTGRES_HOST=${DB_HOST}
-      - POSTGRES_PORT=${DB_PORT}
-      - POSTGRES_PASSWORD=${DB_PASSWORD}
-      - POSTGRES_USER=${DB_USER}
-      - POSTGRES_DATABASE=${DB_DATABASE}
+      - POSTGRES_HOST=${DB_0_HOST}
+      - POSTGRES_PORT=${DB_0_PORT}
+      - POSTGRES_PASSWORD=${DB_0_PASSWORD}
+      - POSTGRES_USER=${DB_0_USER}
+      - POSTGRES_DATABASE=${DB_0_DATABASE}
+      - SE_HOST
+      - SE_PORT
+      - SE_USER
+      - SE_PASSWORD
       - CACHE_HOST
+      - CACHE_PORT_EXPOSE
       - CACHE_PORT
-      - CACHE_CONTAINER_PORT
       - CACHE_USER
       - CACHE_PASSWORD
       - CACHE_DB_NUMBER
@@ -68,6 +90,7 @@ services:
       - MAIL_SMTP_PORT
       - MAIL_SENDER_ACCOUNT
       - MAIL_SENDER_PASSWORD
+      - DEV_MAIL_RECIEVER
       - SESSION_COOKIE_SECRET
       - SESSION_AGE
       - DASHBOARD_PORTION
@@ -79,7 +102,7 @@ services:
       - image_hosting:/var/www/img:rw
     depends_on:
       - cache
-      - db
+      - db_0
       - se
 
   client_user:
@@ -98,13 +121,29 @@ services:
 
   se:
     container_name: leprechaun_se
+    image: docker.elastic.co/elasticsearch/elasticsearch:${SE_VERSION}
     networks:
       - api
-    build:
-      context: ./se
-      dockerfile: Dockerfile
+      - se
+    environment:
+      - ES_PORT=${SE_PORT}
+      - STACK_VERSION=${SE_VERSION}
+      - discovery.type=single-node
+      - ES_JAVA_OPTS=-Xms1g -Xmx1g
     depends_on:
-      - db
+      - db_0
+
+  se_client:
+    container_name: leprechaun_se_client
+    image: docker.elastic.co/kibana/kibana:${SE_VERSION}
+    networks:
+      - api
+      - se
+    environment:
+      - SERVERNAME=kibana
+      - ELASTICSEARCH_HOSTS=http://${SE_HOST}:${SE_PORT}
+    depends_on:
+      - se
 
 volumes:
   image_hosting:
@@ -116,3 +155,6 @@ networks:
   client:
     driver: bridge
     name: leprechaun_client
+  se:
+    driver: bridge
+    name: leprechaun_se

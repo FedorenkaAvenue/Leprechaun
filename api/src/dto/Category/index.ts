@@ -12,7 +12,7 @@ import {
 import { Type } from 'class-transformer';
 
 import { PropertyGroupI } from '@interfaces/PropertyGroup';
-import { CategoryI, CategoryPublicI, CategorySearchI } from '@interfaces/Category';
+import { CategoryI } from '@interfaces/Category';
 import { TransDTO } from '@dto/Trans';
 
 export class CreateCategoryDTO implements CategoryI {
@@ -57,29 +57,4 @@ export class CreateCategoryDTO implements CategoryI {
     @IsString()
     @ApiProperty({ required: false, default: null })
     comment: string;
-}
-
-export class CategoryPublicDTO implements CategoryPublicI {
-    @ApiProperty()
-    id: number;
-
-    @ApiProperty()
-    url: string;
-
-    @ApiProperty()
-    title: string;
-
-    @ApiProperty()
-    icon: string;
-}
-
-export class CategorySearchDTO implements CategorySearchI {
-    @ApiProperty({ type: 'string' })
-    url: CategoryI['url'];
-
-    @ApiProperty({ type: 'string' })
-    title: CategoryI['title'];
-
-    @ApiProperty({ type: 'string' })
-    icon: string;
 }

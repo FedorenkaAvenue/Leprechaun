@@ -7,18 +7,26 @@ import { QueriesCommon } from '@dto/Queries/constructor';
 
 @Injectable()
 export default class DashboardPublicService extends DashboardService {
-    async getCommonDashboards(searchParams: QueriesCommon): Promise<CommonDashboards> {
+    public async getCommonDashboards({ lang }: QueriesCommon): Promise<CommonDashboards> {
         const [popular, newest] = await Promise.all([
-            this.productService.getProductListByCriteria({ rating: 'DESC' }, this.dashboardPortion),
-            this.productService.getProductListByCriteria({ created_at: 'DESC' }, this.dashboardPortion),
+            this.productService.getProductListByCriteria({
+                where: { is_public: true },
+                take: this.dashboardPortion,
+                order: { rating: 'DESC' },
+            }),
+            this.productService.getProductListByCriteria({
+                where: { is_public: true },
+                take: this.dashboardPortion,
+                order: { created_at: 'DESC' },
+            })
         ]);
 
-        return new CommonDashboards({ popular, newest }, searchParams);
+        return new CommonDashboards({ popular, newest }, lang);
     }
 
-    async getUserDashboards(sid: SessionI['sid'], searchParams: QueriesCommon): Promise<UserDashboards> {
+    public async getUserDashboards(sid: SessionI['sid'], { lang }: QueriesCommon): Promise<UserDashboards> {
         const [history] = await Promise.all([this.historyService.getHistoryListBySID(sid)]);
 
-        return new UserDashboards({ history }, searchParams);
+        return new UserDashboards({ history }, lang);
     }
 }

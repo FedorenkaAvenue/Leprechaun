@@ -1,11 +1,10 @@
-import { PropertyI } from './Property';
+import { PropertyI, PropertyPublicI } from './Property';
 import { TransI } from './Trans';
 
 interface BaseI<T = TransI> {
     id?: number;
     title: T;
     alt_name: string;
-    properties?: PropertyI[] | null;
 }
 
 export interface PropertyGroupI extends BaseI {
@@ -14,3 +13,11 @@ export interface PropertyGroupI extends BaseI {
 }
 
 export type PropertyGroupPublicI = BaseI<string>;
+
+export interface OptionI extends PropertyGroupI {
+    properties: PropertyI[];
+}
+
+export interface OptionPublicI extends PropertyGroupPublicI {
+    properties: PropertyPublicI[];
+}

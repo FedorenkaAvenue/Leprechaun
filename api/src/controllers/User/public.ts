@@ -12,7 +12,7 @@ export default class UserPublicController {
     @Get()
     @ApiOperation({ summary: 'get user initial data' })
     @ApiOkResponse({ type: UserPublic })
-    getUserData(@Session() { id }): Promise<UserPublic> {
+    private getUserData(@Session() { id }): Promise<UserPublic> {
         return this.UserPublicService.getUserData(id);
     }
 }

@@ -1,17 +1,18 @@
 import { InjectRepository } from '@nestjs/typeorm';
-import { FindOptionsOrder, Repository, SelectQueryBuilder } from 'typeorm';
+import { FindManyOptions, FindOptionsOrder, In, Repository, SelectQueryBuilder } from 'typeorm';
 import { Injectable } from '@nestjs/common';
 
 import { FSService } from '@services/FS';
 import { ProductEntity } from '@entities/Product';
 import { ImageService } from '@services/Image';
-import { PaginationResultDTO } from '@dto/Pagination';
+import { PaginationResult } from '@dto/Pagination/constructor';
 import { QueriesProductList } from '@dto/Queries/constructor';
 import HistoryPublicService from '@services/History/public';
 import { ProductI } from '@interfaces/Product';
 import { SortProductE } from '@enums/Query';
-import { PaginationResult } from '@dto/Pagination/constructor';
-import logger from '@services/Logger';
+import { PropertyGroupEntity } from '@entities/PropertGroup';
+import { SEService } from '@services/SE';
+import LoggerService from '@services/Logger';
 
 @Injectable()
 export default class ProductService {
@@ -20,68 +21,53 @@ export default class ProductService {
         protected readonly imageService: ImageService,
         protected readonly historyService: HistoryPublicService,
         protected readonly FSService: FSService,
+        protected readonly SEService: SEService,
+        private readonly loggerService: LoggerService,
     ) {}
 
     /**
      * @description get common product query builder
      * @returns query builder
      */
-    getProductQueryBulder(): SelectQueryBuilder<ProductEntity> {
+    protected getProductQueryBulder(): SelectQueryBuilder<ProductEntity> {
         return this.productRepo
             .createQueryBuilder('p')
             .leftJoinAndSelect('p.title', 'title')
             .leftJoinAndSelect('p.images', 'images')
-            .leftJoinAndSelect('p.description', 'desc')
-            .leftJoinAndSelect('p.category', 'cat')
-            .leftJoinAndSelect('cat.title', 'cat_title')
 
-            .leftJoinAndSelect('p.properties', 'props')
-            .leftJoinAndSelect('props.title', 'props_title')
-            .leftJoinAndSelect('props.propertygroup', 'pg')
-            .leftJoinAndSelect('pg.title', 'pg_title');
+            .leftJoin('p.properties', 't_props')
+            .leftJoin('t_props.propertygroup', 't_pg')
 
-        // .leftJoinAndSelect(PropertyGroupEntity, 'pg', 'pg.id = 43')
-        // .leftJoinAndSelect('pg.title', 'pg_title')
-        // .leftJoinAndSelect('pg.properties', 'props')
-        // .leftJoinAndSelect('props.title', 'props_title')
+            .leftJoinAndMapMany('p.options', PropertyGroupEntity, 'pg', 't_pg.id = pg.id')
+            .leftJoinAndSelect('pg.title', 'pg_title')
 
-        // .leftJoinAndMapMany('p.options', (qb: SelectQueryBuilder<PropertyGroupEntity>) => {
-        //     return qb
-        //         .select()
-        //         .from(PropertyGroupEntity, 'pg')
-        //         .leftJoinAndSelect('pg.properties', 'props')
-        //         .where('pg.id = 43')
-        // }, 'pgg', 'pgg.id = 43')
+            .leftJoinAndSelect('pg.properties', 'props', 't_props.id = props.id')
+            .leftJoinAndSelect('props.title', 'props_title');
     }
 
     /**
      * @description get product list by criteria
-     * @param {FindOptionsOrder<ProductEntity>} order order criteria
-     * @param {Number} take amount of item
+     * @param {FindManyOptions<ProductEntity>} options search criteria option
      * @returns array of ProductEntity
      */
-    async getProductListByCriteria(order: FindOptionsOrder<ProductEntity>, take?: number): Promise<ProductEntity[]> {
-        return await this.productRepo.find({
-            where: { is_public: true },
-            take,
-            order,
-        });
+    public async getProductListByCriteria(options: FindManyOptions<ProductEntity>): Promise<ProductEntity[]> {
+        return await this.productRepo.find(options);
     }
 
     /**
      * @description change "new" entity field
      */
-    async changeNewStatus(): Promise<void> {
+    public async changeNewStatus(): Promise<void> {
         const { affected } = await this.productRepo.update({ is_new: true }, { is_new: false });
 
-        logger.info(`${affected} products was changed to is_new = false`);
+        this.loggerService.info(`${affected} products was changed to is_new = false`);
     }
 
     /**
      * @description update (increment) product.orderCount field
      * @param id product ID
      */
-    async incrementProductOrderCount(id: ProductI['id']): Promise<void> {
+    public async incrementProductOrderCount(id: ProductI['id']): Promise<void> {
         const { orderCount } = await this.productRepo.findOneBy({ id });
 
         await this.productRepo.update({ id }, { orderCount: orderCount + 1 });
@@ -94,40 +80,27 @@ export default class ProductService {
      * @param resultMapConstructor constructor for maping result. by default will return ProductEntity
      * @returns completed search result with pagination
      */
-    async renderResult<T>(
+    protected async renderProductList<T>(
         qb: SelectQueryBuilder<ProductEntity>,
         searchParams: QueriesProductList,
         resultMapConstructor?: any,
-    ): Promise<PaginationResultDTO<T>> {
-        const { status, dinamicFilters, sort, price, portion, page } = searchParams;
+    ): Promise<PaginationResult<T>> {
+        const {
+            sort, portion, page, dynamicFilters,
+            commonFilters: { status, price },
+        } = searchParams;
 
         // filtering by dinamical filters
-        if (dinamicFilters) {
-            const props = Object.keys(dinamicFilters);
-            const values = Object.values(dinamicFilters);
-
-            // ? на будущее переделать в subQuery
-            qb.andWhere(
-                `p.id = ANY(
-                    SELECT product_id as p_id
-                    FROM _products_to_properties
-                    INNER JOIN property AS prop ON prop.id = _products_to_properties.property_id
-                    INNER JOIN propertygroup AS prop_gr ON prop.propertygroup = prop_gr.id
-                    WHERE property_id IN (:...values)
-                    AND prop_gr.alt_name IN(:...props)
-                    GROUP BY p_id
-                    HAVING COUNT(*) = :filterLen
-                )`,
-                {
-                    props,
-                    values,
-                    filterLen: props.length,
-                },
-            );
+        if (dynamicFilters) {
+            console.log(Object.values(dynamicFilters));
+            
+                qb
+                    .andWhere('p.properties.alt_name = bavovna', { propGroup: Object.values(dynamicFilters) })
+                    // .andWhere('props.alt_name IN(:...props)', { props: dynamicFilters[propGroup] });
         }
 
         // price
-        if (price) qb.andWhere('p.price BETWEEN :from AND :to', { ...price });
+        if (price) qb.andWhere('p.price.current BETWEEN :min AND :max', { ...price });
 
         // product status
         qb.andWhere('p.status = :status', { status });

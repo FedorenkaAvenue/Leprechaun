@@ -7,16 +7,12 @@ import WishlistService from '.';
 import WishlistItemEntity from '@entities/WishlistItem';
 import { WishlistItemI } from '@interfaces/WishlistItem';
 import { WishlistItemPublic } from '@dto/WishlistItem/constructor';
-import { PRODUCT_DEEP_RELATIONS } from '@constants/relations';
 import { SortWishlistE } from '@enums/Query';
-import configService from '@services/Config';
 import { QueriesWishlist } from '@dto/Queries/constructor';
-
-const USER_WISHLIST_LENGTH = Number(configService.getVal('USER_WISHLIST_LENGTH'));
 
 @Injectable()
 export default class WishlistPublicService extends WishlistService {
-    async getWishlist(sid: SessionI['sid'], searchParams: QueriesWishlist): Promise<WishlistItemPublic[]> {
+    public async getWishlist(sid: SessionI['sid'], searchParams: QueriesWishlist): Promise<WishlistItemPublic[]> {
         let sorting: FindOptionsOrder<WishlistItemEntity>;
 
         switch (searchParams.sort) {
@@ -36,15 +32,15 @@ export default class WishlistPublicService extends WishlistService {
 
         const result = await this.wishlistItemRepo.find({
             where: { sid },
-            relations: PRODUCT_DEEP_RELATIONS,
+            relations: ['product'],
             order: sorting,
-            take: USER_WISHLIST_LENGTH,
+            take: this.wishlistLength,
         });
 
         return result.map(item => new WishlistItemPublic(item, searchParams));
     }
 
-    async addItem(
+    public async addItem(
         product: ProductI['id'],
         sid: SessionI['sid'],
         searchParams: QueriesWishlist,
@@ -60,7 +56,7 @@ export default class WishlistPublicService extends WishlistService {
             const { id } = await this.wishlistItemRepo.save({ product, sid } as DeepPartial<WishlistItemEntity>);
             const addedItem = await this.wishlistItemRepo.findOne({
                 where: { id },
-                relations: PRODUCT_DEEP_RELATIONS,
+                relations: ['product'],
             });
 
             return new WishlistItemPublic(addedItem, searchParams);
@@ -69,11 +65,11 @@ export default class WishlistPublicService extends WishlistService {
         }
     }
 
-    async removeItem(sid: SessionI['sid'], id: WishlistItemI['id']): Promise<DeleteResult> {
+    public async removeItem(sid: SessionI['sid'], id: WishlistItemI['id']): Promise<DeleteResult> {
         return await this.wishlistItemRepo.delete({ sid, id });
     }
 
-    async clearWishlist(sid: SessionI['sid']): Promise<DeleteResult> {
+    public async clearWishlist(sid: SessionI['sid']): Promise<DeleteResult> {
         return this.wishlistItemRepo.delete({ sid });
     }
 }

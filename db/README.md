@@ -1,11 +1,10 @@
-# Database (PostgreSQL)
+# Databases (PostgreSQL)
 
 ## Params
 
-- local
+- `db_0` - master DB
+- `db_1` - slave DB
 
-  - **host**: `leprechaun_db`
-  - **port**: `5432`
-  - **user**: `postgres`
-  - **password**: `barabaka35`
-  - **database**: `postgres`
+## Tools
+
+- `dump_pull` - create dump (from `db_1`)

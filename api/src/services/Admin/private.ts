@@ -4,7 +4,7 @@ import AdminService from '.';
 
 @Injectable()
 export default class AdminPrivateService extends AdminService {
-    async clearCache(): Promise<void> {
+    public async clearCache(): Promise<void> {
         await this.cacheService.resetCache();
     }
 }

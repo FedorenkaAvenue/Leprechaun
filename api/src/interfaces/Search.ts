@@ -1,8 +1,13 @@
-import { CategoryI, CategorySearchI } from './Category';
-import { ProductSearchI } from './Product';
+import { CategoryPublicI } from './Category';
+import { ProductPreviewI } from './Product';
+
+export interface SearchResI<T> {
+    total: number
+    hits: T[]
+};
 
 export interface SearchAutocompleteI {
     total: number;
-    products: ProductSearchI[];
-    categories: CategorySearchI[];
+    products: ProductPreviewI[];
+    categories: CategoryPublicI[];
 }

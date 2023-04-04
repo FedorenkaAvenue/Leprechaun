@@ -13,17 +13,11 @@ import {
 import { Type } from 'class-transformer';
 
 import { CategoryI } from '@interfaces/Category';
-import { ProductI, ProductPreviewI, ProductCardI, ProductPublicI, ProductSearchI } from '@interfaces/Product';
+import { ProductI } from '@interfaces/Product';
 import { PriceI } from '@interfaces/Price';
 import { ProductStatusE } from '@enums/Product';
-import { PropertyI, PropertyPublicI } from '@interfaces/Property';
+import { PropertyI } from '@interfaces/Property';
 import { ImageI } from '@interfaces/Image';
-import { LabelI } from '@interfaces/Label';
-import { LabelDTO } from '@dto/Label';
-import { PriceEntity } from '@entities/_Price';
-import { ImageEntity } from '@entities/Image';
-import { PropertyPublic } from '@dto/Property/constructor';
-import { CategoryPublic } from '@dto/Category/constructor';
 import { TransDTO } from '@dto/Trans';
 
 export class CreateProductDTO implements ProductI {
@@ -34,7 +28,7 @@ export class CreateProductDTO implements ProductI {
     @ApiProperty()
     title: TransDTO;
 
-    @IsOptional()
+    @IsNotEmptyObject()
     @IsObject()
     @ValidateNested()
     @Type(() => TransDTO)
@@ -112,96 +106,4 @@ export class CreateProductDTO implements ProductI {
     @IsString()
     @ApiProperty({ required: false, default: null })
     comment: string;
-}
-
-export class ProductPreviewDTO implements ProductPreviewI {
-    @ApiProperty()
-    id: string;
-
-    @ApiProperty()
-    title: string;
-
-    @ApiProperty({ enum: ProductStatusE })
-    status: ProductStatusE;
-
-    @ApiProperty({ type: PriceEntity })
-    price: PriceEntity;
-
-    @ApiProperty({ required: false })
-    image: string;
-
-    @ApiProperty({ type: LabelDTO, isArray: true })
-    labels: LabelI[];
-}
-
-export class ProductCardDTO implements ProductCardI {
-    @ApiProperty()
-    id: string;
-
-    @ApiProperty()
-    title: string;
-
-    @ApiProperty()
-    description: string;
-
-    @ApiProperty({ enum: ProductStatusE })
-    status: ProductStatusE;
-
-    @ApiProperty({ type: PriceEntity })
-    price: PriceEntity;
-
-    @ApiProperty({ type: ImageEntity, isArray: true })
-    images: ImageEntity[];
-
-    @ApiProperty({ type: PropertyPublic, isArray: true })
-    properties: PropertyPublicI[];
-
-    @ApiProperty({ type: LabelDTO, isArray: true })
-    labels: LabelI[];
-}
-
-export class ProductPublicDTO implements ProductPublicI {
-    @ApiProperty()
-    id: string;
-
-    @ApiProperty()
-    title: string;
-
-    @ApiProperty()
-    description: string;
-
-    @ApiProperty({ enum: ProductStatusE })
-    status: ProductStatusE;
-
-    @ApiProperty({ type: PriceEntity })
-    price: PriceEntity;
-
-    @ApiProperty({ type: ImageEntity, isArray: true })
-    images: ImageEntity[];
-
-    @ApiProperty({ type: PropertyPublic, isArray: true })
-    properties: PropertyPublicI[];
-
-    @ApiProperty({ type: LabelDTO, isArray: true })
-    labels: LabelI[];
-
-    @ApiProperty({ type: CategoryPublic })
-    category: CategoryPublic;
-
-    @ApiProperty({ description: 'how many users ordered this product' })
-    orderCount: number;
-
-    @ApiProperty({ description: 'how many users added this product to wishlist' })
-    wishlistCount: number;
-}
-
-export class ProductSearchDTO implements ProductSearchI {
-    @ApiProperty({ type: 'string' })
-    id: ProductI['id'];
-
-    @ApiProperty({ type: 'string' })
-    title: ProductI['title'];
-
-    @ApiProperty({ type: 'string' })
-    image: string;
 }

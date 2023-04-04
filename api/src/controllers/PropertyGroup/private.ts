@@ -17,7 +17,7 @@ export default class PropertyGroupPrivateController {
     @Post()
     @ApiOperation({ summary: 'add new property group' })
     @ApiBadRequestResponse({ description: 'some of filed is already exists' })
-    createGroup(
+    private createGroup(
         @Body(new ValidationPipe({ transform: true })) group: CreatePropertyGroupDTO,
     ): Promise<PropertyGroupEntity> {
         return this.propertyGroupService.createGroup(group);
@@ -37,14 +37,14 @@ export default class PropertyGroupPrivateController {
     @Get('list/:categoryID')
     @ApiOperation({ summary: 'get property groups by category ID' })
     @ApiOkResponse({ type: PropertyGroupEntity, isArray: true })
-    getGroupListByCategoryID(@Param('categoryID') categoryID: CategoryI['id']): Promise<PropertyGroupEntity[]> {
+    private getGroupListByCategoryID(@Param('categoryID') categoryID: CategoryI['id']): Promise<PropertyGroupEntity[]> {
         return this.propertyGroupService.getGroupListByCategoryID(categoryID);
     }
 
     @Get('list')
     @ApiOperation({ summary: 'get all property groups' })
     @ApiOkResponse({ type: PropertyGroupEntity, isArray: true })
-    getGroupList(): Promise<PropertyGroupEntity[]> {
+    private getGroupList(): Promise<PropertyGroupEntity[]> {
         return this.propertyGroupService.getGroupList();
     }
 
@@ -52,7 +52,7 @@ export default class PropertyGroupPrivateController {
     @UseInterceptors(UndefinedResultInterceptor)
     @ApiOperation({ summary: 'get property group by ID' })
     @ApiOkResponse({ type: PropertyGroupEntity })
-    getGroup(@Param('groupID') groupID: number): Promise<PropertyGroupEntity> {
+    private getGroup(@Param('groupID') groupID: number): Promise<PropertyGroupEntity> {
         return this.propertyGroupService.getGroup(groupID);
     }
 
@@ -60,7 +60,7 @@ export default class PropertyGroupPrivateController {
     @UseInterceptors(AffectedResultInterceptor('property group not found'))
     @ApiOperation({ summary: 'delete property group by ID' })
     @ApiNotFoundResponse({ description: 'property group not found' })
-    deleteGroup(@Param('groupID') groupID: number): Promise<DeleteResult> {
+    private deleteGroup(@Param('groupID') groupID: number): Promise<DeleteResult> {
         return this.propertyGroupService.deleteGroup(groupID);
     }
 }

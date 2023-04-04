@@ -1,9 +1,16 @@
-import { LabelI } from '@interfaces/Label';
-import { LabelDTO } from '.';
+import { ApiProperty } from '@nestjs/swagger';
 
-export class Label extends LabelDTO {
+import { LabelI } from '@interfaces/Label';
+import { LabelType } from '@enums/Label';
+
+export class Label implements LabelI {
+    @ApiProperty({ enum: LabelType, required: false })
+    type: LabelType;
+
+    @ApiProperty({ required: false, nullable: true })
+    value: string;
+
     constructor(type: LabelI['type'], value?: LabelI['value']) {
-        super();
         this.type = type;
         this.value = value || null;
     }

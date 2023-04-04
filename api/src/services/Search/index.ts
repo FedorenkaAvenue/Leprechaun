@@ -1,49 +1,38 @@
 import { Injectable } from '@nestjs/common';
+import { SearchRequest, SearchTotalHits } from '@elastic/elasticsearch/lib/api/types';
 
-import configService from '@services/Config';
-import { SearchIndexT } from '@type/Search';
+import ProductService from '@services/Product';
+import { SEService } from '@services/SE';
+import { SearchResI } from '@interfaces/Search';
+import CategoryService from '@services/Category';
 
 @Injectable()
 export default class SearchService {
-    protected readonly api: any;
-
-    constructor() {
-        this.api = configService.getSEConfig();
-    }
+    constructor(
+        protected readonly SEService: SEService,
+        protected readonly productService: ProductService,
+        protected readonly categoryService: CategoryService,
+    ) {}
 
     /**
-     * @description create body request for SE API
-     * @param index index table
-     * @param searchSubstring search string
-     * @returns body
+     * @description get data from SE | get documents IDs | get data from DB by IDs
+     * @param substring searchible string
+     * @param index SE index
+     * @param fetchDBFunc method to get data from DB
+     * @returns {SearchResI} result
      */
-    getReqBody(index: SearchIndexT, searchSubstring: string) {
+    protected async getSearchData<D extends { id: number | string }, E>(
+        SESearchReq: SearchRequest, fetchDBFunc: (ids: unknown[]) => Promise<E[]>
+    ): Promise<SearchResI<E>> {
+        const { hits: { total, hits } } = await this.SEService.SE.search<D>(SESearchReq);
+
+        if (!(total as SearchTotalHits).value) return { hits: null, total: 0 };
+
+        const res = await fetchDBFunc(hits.map(({ _source }) => _source.id));
+
         return {
-            index,
-            query: {
-                query_string: `@* ${searchSubstring}`,
-            },
-            // highlight: {
-            //     fields: [ "title" ]
-            // },
-            limit: 5,
-            maxMatches: 5,
+            hits: res,
+            total: (total as SearchTotalHits).value,
         };
-    }
-
-    /**
-     * @description search products by substring
-     * @param substring search
-     */
-    async searchProduct(substring: string) {
-        return await this.api.search(JSON.stringify(this.getReqBody('products', substring)));
-    }
-
-    /**
-     * @description search categories by substring
-     * @param substring search
-     */
-    async searchCategory(substring: string) {
-        return await this.api.search(JSON.stringify(this.getReqBody('categories', substring)));
     }
 }

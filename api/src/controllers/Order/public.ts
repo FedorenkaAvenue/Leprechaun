@@ -32,14 +32,14 @@ export default class OrderPublicController {
     @Get()
     @ApiOperation({ summary: 'get cart' })
     @ApiOkResponse({ type: OrderPublic })
-    getCart(@Session() { id }, @Queries() queries: QueriesCommon): Promise<OrderPublic> {
+    private getCart(@Session() { id }, @Queries() queries: QueriesCommon): Promise<OrderPublic> {
         return this.orderService.getCart(id, queries);
     }
 
     @Get('list')
     @ApiOperation({ summary: 'get order list (without current cart)' })
     @ApiOkResponse({ type: OrderPublic, isArray: true })
-    getOrderHistory(@Session() { id }, @Queries() queries: QueriesCommon): Promise<OrderPublic[]> {
+    private getOrderHistory(@Session() { id }, @Queries() queries: QueriesCommon): Promise<OrderPublic[]> {
         return this.orderService.getOrderList(id, queries);
     }
 
@@ -48,7 +48,7 @@ export default class OrderPublicController {
     @ApiOperation({ summary: 'add new order item' })
     @ApiOkResponse({ type: OrderPublic })
     @ApiBadRequestResponse({ description: 'product already exists' })
-    addOrderItem(
+    private addOrderItem(
         @Session() { id },
         @Body(new ValidationPipe({ transform: true })) orderItem: CreateOrderItemDTO,
         @Queries() queries: QueriesCommon,
@@ -60,7 +60,7 @@ export default class OrderPublicController {
     @UseGuards(SessionGuard)
     @ApiOperation({ summary: 'change order item amount' })
     @ApiOkResponse({ type: OrderPublic })
-    changeOrderItemAmount(
+    private changeOrderItemAmount(
         @Param('itemID', ParseUUIDPipe) itemID: string,
         @Body(new ValidationPipe({ transform: true })) data: UpdateOrderItemDTO,
         @Session() { id },
@@ -74,7 +74,7 @@ export default class OrderPublicController {
     @UseInterceptors(AffectedResultInterceptor())
     @ApiOperation({ summary: 'send order' })
     @ApiOkResponse({ type: OrderPublic })
-    sendOrder(
+    private sendOrder(
         @Body(new ValidationPipe({ transform: true })) order: CreateOrderDTO,
         @Session() { id },
     ): Promise<UpdateResult> {
@@ -86,7 +86,7 @@ export default class OrderPublicController {
     @ApiOperation({ summary: 'delete order item' })
     @ApiOkResponse({ type: OrderPublic })
     @ApiNotFoundResponse({ description: 'order item not found' })
-    removeItem(
+    private removeItem(
         @Param('itemID', ParseUUIDPipe) orderItemID: string,
         @Session() { id },
         @Queries() queries: QueriesCommon,

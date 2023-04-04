@@ -22,6 +22,7 @@ import { PriceEntity } from './_Price';
 import WishlistItemEntity from './WishlistItem';
 import { TransI } from '@interfaces/Trans';
 import { TransEntity } from './Trans';
+import { OptionI } from '@interfaces/PropertyGroup';
 
 @Entity('product')
 export class ProductEntity implements ProductI {
@@ -89,7 +90,11 @@ export class ProductEntity implements ProductI {
     @ApiProperty({ description: 'how many users ordered this product' })
     orderCount: number;
 
-    // virtual property
+    // virtual properties
+
     @ApiProperty({ description: 'how many users added this product to wishlist' })
     wishlistCount: WishlistItemEntity[];
+
+    @ApiProperty({ description: 'mapped properties (into property groups)' })
+    options: OptionI[];
 }

@@ -16,7 +16,7 @@ export default class PropertyPrivateController {
     @Post()
     @ApiOperation({ summary: 'add new property' })
     @ApiOkResponse({ type: PropertyEntity })
-    createProperty(@Body(new ValidationPipe({ transform: true })) data: CreatePropertyDTO): Promise<PropertyEntity> {
+    private createProperty(@Body(new ValidationPipe({ transform: true })) data: CreatePropertyDTO): Promise<PropertyEntity> {
         return this.propertyService.createProperty(data);
     }
 
@@ -35,7 +35,7 @@ export default class PropertyPrivateController {
     @UseInterceptors(UndefinedResultInterceptor)
     @ApiOperation({ summary: 'get property by ID' })
     @ApiOkResponse({ type: PropertyEntity })
-    getProperty(@Param('propertyID') propertyID: number): Promise<PropertyEntity> {
+    private getProperty(@Param('propertyID') propertyID: number): Promise<PropertyEntity> {
         return this.propertyService.getProperty(propertyID);
     }
 
@@ -43,7 +43,7 @@ export default class PropertyPrivateController {
     @UseInterceptors(AffectedResultInterceptor('property not found'))
     @ApiOperation({ summary: 'delete property by ID' })
     @ApiNotFoundResponse({ description: 'property not found' })
-    deleteProperty(@Param('propertyID') propertyID: number): Promise<DeleteResult> {
+    private deleteProperty(@Param('propertyID') propertyID: number): Promise<DeleteResult> {
         return this.propertyService.deleteProperty(propertyID);
     }
 }

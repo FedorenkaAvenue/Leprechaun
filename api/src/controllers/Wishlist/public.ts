@@ -42,7 +42,7 @@ export default class WishlistPublicController {
         description: 'sort number',
         enum: SortWishlistE,
     })
-    getWishlist(@Session() { id }, @Queries(QueriesWishlist) queries: QueriesWishlist): Promise<WishlistItemPublic[]> {
+    private getWishlist(@Session() { id }, @Queries(QueriesWishlist) queries: QueriesWishlist): Promise<WishlistItemPublic[]> {
         return this.WishlistPublicService.getWishlist(id, queries);
     }
 
@@ -52,7 +52,7 @@ export default class WishlistPublicController {
     @ApiOkResponse({ type: WishlistItemPublic })
     @ApiBadRequestResponse({ description: 'product is already added to wishlist' })
     @ApiNotFoundResponse({ description: 'product not found' })
-    addItem(
+    private addItem(
         @Param('productID', ParseUUIDPipe) productID: string,
         @Session() { id },
         @Queries(QueriesWishlist) queries: QueriesWishlist,
@@ -65,7 +65,7 @@ export default class WishlistPublicController {
     @UseInterceptors(AffectedResultInterceptor('wishlist item was not found'))
     @ApiOperation({ summary: 'remove wishlist item from wishlist' })
     @ApiNotFoundResponse({ description: 'wishlist item not found' })
-    deleteItem(
+    private deleteItem(
         @Param('wishlistItemID', ParseUUIDPipe) wishlistItemID: string,
         @Session() { id },
     ): Promise<DeleteResult> {
@@ -77,7 +77,7 @@ export default class WishlistPublicController {
     @UseInterceptors(AffectedResultInterceptor('wishlist is already empty', BadRequestException))
     @ApiOperation({ summary: 'clear wishlist' })
     @ApiBadRequestResponse({ description: 'wishlist is already empty' })
-    clearWishlist(@Session() { id }): Promise<DeleteResult> {
+    private clearWishlist(@Session() { id }): Promise<DeleteResult> {
         return this.WishlistPublicService.clearWishlist(id);
     }
 }

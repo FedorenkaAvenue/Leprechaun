@@ -1,6 +1,7 @@
 import { MiddlewareConsumer, Module, NestModule, RequestMethod } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import * as session from 'express-session';
+import { APP_FILTER } from '@nestjs/core';
 
 import CategoryModule from './Category';
 import ProductModule from './Product';
@@ -8,7 +9,6 @@ import DashboardModule from './Dashboard';
 import PropertyGroupModule from './PropertyGroup';
 import PropertyModule from './Property';
 import ImageModule from './Image';
-import configService from '@services/Config';
 import AdminModule from './Admin';
 import UserModule from './User';
 import OrderModule from './Order';
@@ -17,9 +17,10 @@ import ScheduleModule from './Sheduler';
 import SessionModule from './Session';
 import HistoryModule from './History';
 import CacheModule from './Cache';
-import FSModule from './FS';
-import TransModule from './Trans';
+import SEModule from './SE';
 import SearchModule from './Search';
+// import FilterModule from './Filter';
+import ToolModule from './Tool';
 import CacheResetMiddleware from '@middlewares/CacheReset';
 import ProductPrivateController from '@controllers/Product/private';
 import CategoryPrivateController from '@controllers/Category/private';
@@ -31,15 +32,24 @@ import WishlistPublicController from '@controllers/Wishlist/public';
 import HistoryPublicController from '@controllers/History/public';
 import SesssionInitMiddleware from '@middlewares/SessionInit';
 import DashboardPublicController from '@controllers/Dashboard/public';
+import { TransEntity } from '@entities/Trans';
+import ConfigService from '@services/Config';
+import UncaughtExceptionFilter from '@filters/UncaughtException';
 
 @Module({
     imports: [
+        ToolModule,
         TypeOrmModule.forRootAsync({
-            useFactory: async () => configService.getTypeOrmConfig(),
+            inject: [ConfigService],
+            useFactory: async (conf: ConfigService) => conf.getDBConnectionData(),
+            name: 'default',
         }),
+        TypeOrmModule.forFeature([TransEntity]),
+        SEModule,
         CategoryModule,
         ProductModule,
         SearchModule,
+        // FilterModule,
         DashboardModule,
         OrderModule,
         WishlistModule,
@@ -52,18 +62,24 @@ import DashboardPublicController from '@controllers/Dashboard/public';
         AdminModule,
         SessionModule,
         CacheModule,
-        FSModule,
-        TransModule,
     ],
+    providers: [
+        {
+            provide: APP_FILTER,
+            useClass: UncaughtExceptionFilter,
+        },
+      ],
 })
 export default class AppModule implements NestModule {
+    constructor(private readonly configService: ConfigService) {}
+
     configure(consumer: MiddlewareConsumer) {
         consumer
             .apply(CacheResetMiddleware)
             .exclude({ path: '(.*)', method: RequestMethod.GET })
             .forRoutes(ProductPrivateController, CategoryPrivateController, PropertyPrivateController);
         consumer
-            .apply(session(configService.getSessionConfig()))
+            .apply(session(this.configService.getSessionConfig()))
             .forRoutes(
                 ProductPublicController,
                 UserPublicController,

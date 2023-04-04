@@ -1,5 +1,7 @@
 import { ProductStatusE } from '@enums/Product';
 import { SortProductE, SortWishlistE } from '@enums/Query';
+import { PropertyI } from './Property';
+import { PropertyGroupI } from './PropertyGroup';
 
 // all possible queries from url
 export interface QueriesReqI {
@@ -10,6 +12,7 @@ export interface QueriesReqI {
     price?: string;
     status?: ProductStatusE;
     substring?: string;
+    [dynamicFilter: string]: any;
 }
 
 export interface QueryPriceI {
@@ -17,9 +20,15 @@ export interface QueryPriceI {
     max: number;
 }
 
-export type DinamicQueryFiltersT = object | null;
+export interface QueryCommonFiltersI {
+    price: QueryPriceI;
+    status: ProductStatusE;
+}
 
-// parsed queries
+export type QueryDynamicFiltersT = {
+    [key: PropertyGroupI['alt_name']]: Array<PropertyI['alt_name']>
+};
+
 export interface QueriesCommonI {
     lang: string;
 }
@@ -28,9 +37,8 @@ export interface QueriesProductListI extends QueriesCommonI {
     sort: SortProductE;
     page: number;
     portion: number;
-    price: QueryPriceI;
-    status: ProductStatusE;
-    dinamicFilters: DinamicQueryFiltersT;
+    commonFilters: QueryCommonFiltersI;
+    dynamicFilters: QueryDynamicFiltersT;
 }
 
 export interface QueriesWishlistI extends QueriesCommonI {

@@ -5,8 +5,8 @@ import { memoryStorage } from 'multer';
 import { promises } from 'fs';
 import { extname } from 'path';
 
-import configService from '@services/Config';
 import { genUUID } from '@utils/genIds';
+import { singleConfigService } from '@services/Config';
 
 export enum FOLDER_TYPES {
     CATEGORY = 'img/category/',
@@ -18,10 +18,10 @@ export enum FOLDER_TYPES {
  */
 @Injectable()
 export class FSService implements MulterOptionsFactory {
-    hostingPath: string;
+    private hostingPath: string;
 
     constructor() {
-        this.hostingPath = configService.getHostingParams().HOSTING_PATH;
+        this.hostingPath = singleConfigService.getHostingParams().HOSTING_PATH;
     }
 
     /**
@@ -46,7 +46,7 @@ export class FSService implements MulterOptionsFactory {
     /**
      * @returns Multer settings object
      */
-    createMulterOptions(): MulterModuleOptions {
+    public createMulterOptions(): MulterModuleOptions {
         return { storage: memoryStorage() };
     }
 
@@ -58,7 +58,7 @@ export class FSService implements MulterOptionsFactory {
      * @returns array of downloaded file paths
      * @throws {BadRequestException} unknown
      */
-    async saveFiles(
+    public async saveFiles(
         itemType: FOLDER_TYPES,
         folderId: string | number,
         files: Express.Multer.File[],
@@ -88,7 +88,7 @@ export class FSService implements MulterOptionsFactory {
      * @param fileHref file path
      * @throws {InternalServerErrorException} unknown
      */
-    async removeFiles(files: string[]): Promise<void> {
+    public async removeFiles(files: string[]): Promise<void> {
         try {
             await Promise.all(files.map(file => promises.rm(this.hostingPath + file)));
         } catch (err) {
@@ -102,7 +102,7 @@ export class FSService implements MulterOptionsFactory {
      * @param folderName folder name
      * @throws {InternalServerErrorException} unknown
      */
-    async removeFolder(folderType: FOLDER_TYPES, folderName: string | number): Promise<void> {
+    public async removeFolder(folderType: FOLDER_TYPES, folderName: string | number): Promise<void> {
         try {
             await promises.rm(`${this.hostingPath}${folderType}/${folderName}`, { recursive: true });
         } catch (err) {

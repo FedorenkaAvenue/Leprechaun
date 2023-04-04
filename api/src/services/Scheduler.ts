@@ -9,12 +9,12 @@ export default class SchedulerService {
     constructor(private readonly sessionService: SessionService, private readonly productService: ProductService) {}
 
     @Cron(CronExpression.EVERY_DAY_AT_3AM)
-    dayly(): void {
+    private dayly(): void {
         this.sessionService.clearUselessSession();
     }
 
     @Cron('0 0 3 * 1')
-    weekly(): void {
+    private weekly(): void {
         this.productService.changeNewStatus();
     }
 }

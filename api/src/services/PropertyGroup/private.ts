@@ -9,7 +9,7 @@ import { CategoryI } from '@interfaces/Category';
 
 @Injectable()
 export default class PropertyGroupPrivateService extends PropertyGroupService {
-    async getGroup(id: PropertyGroupI['id']): Promise<PropertyGroupEntity> {
+    public async getGroup(id: PropertyGroupI['id']): Promise<PropertyGroupEntity> {
         try {
             return await this.propertyGroupRepo.findOneOrFail({
                 where: { id },
@@ -19,17 +19,17 @@ export default class PropertyGroupPrivateService extends PropertyGroupService {
         }
     }
 
-    async getGroupList(): Promise<PropertyGroupEntity[]> {
+    public async getGroupList(): Promise<PropertyGroupEntity[]> {
         return await this.propertyGroupRepo.find();
     }
 
-    async getGroupListByCategoryID(id: CategoryI['id']): Promise<PropertyGroupEntity[]> {
+    public async getGroupListByCategoryID(id: CategoryI['id']): Promise<PropertyGroupEntity[]> {
         return await this.propertyGroupRepo.find({
             where: { categories: { id } },
         });
     }
 
-    async createGroup(newGroup: CreatePropertyGroupDTO): Promise<PropertyGroupEntity> {
+    public async createGroup(newGroup: CreatePropertyGroupDTO): Promise<PropertyGroupEntity> {
         try {
             return await this.propertyGroupRepo.save(newGroup);
         } catch (err) {
@@ -45,7 +45,7 @@ export default class PropertyGroupPrivateService extends PropertyGroupService {
     //     return await this.propertyGroupRepo.save(res);
     // }
 
-    async deleteGroup(groupId: number): Promise<DeleteResult> {
+    public async deleteGroup(groupId: number): Promise<DeleteResult> {
         return await this.propertyGroupRepo.delete({ id: groupId });
     }
 }

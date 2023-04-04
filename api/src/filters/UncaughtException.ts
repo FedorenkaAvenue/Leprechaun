@@ -2,15 +2,20 @@ import { ExceptionFilter, Catch, ArgumentsHost, InternalServerErrorException } f
 import { Request, Response } from 'express';
 import { QueryFailedError } from 'typeorm';
 
-import singleMailSerbice from '@services/Mail';
 import { DevLogMail } from '@dto/Mail/constructor';
+import MailService from '@services/Mail';
+import ConfigService from '@services/Config';
 
 /**
  * @description catch uncaughted error and send mail log
  */
 @Catch(InternalServerErrorException, QueryFailedError)
 export default class UncaughtExceptionFilter implements ExceptionFilter {
+    constructor(private readonly mailService: MailService, private readonly configService: ConfigService) {}
+
     catch(exception: InternalServerErrorException | QueryFailedError, host: ArgumentsHost) {
+        if (this.configService.isDev) return;
+
         const timestamp = new Date().toISOString();
         const ctx = host.switchToHttp();
         const response = ctx.getResponse<Response>();
@@ -28,7 +33,7 @@ export default class UncaughtExceptionFilter implements ExceptionFilter {
             timestamp,
         });
 
-        singleMailSerbice.sendErrorLogMail(log);
+        this.mailService.sendErrorLogMail(log);
 
         console.error(log);
 

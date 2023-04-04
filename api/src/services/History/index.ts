@@ -5,16 +5,20 @@ import { DeepPartial, Repository } from 'typeorm';
 import { HistoryEntity } from '@entities/History';
 import { SessionI } from '@interfaces/Session';
 import { ProductI } from '@interfaces/Product';
-import configService from '@services/Config';
-import { PRODUCT_HISTORY_RELATIONS } from '@constants/relations';
-
-const USER_HISTORY_LENGTH = Number(configService.getVal('USER_HISTORY_LENGTH'));
+import ConfigService from '@services/Config';
 
 @Injectable()
 export default class HistoryService {
-    constructor(@InjectRepository(HistoryEntity) public readonly historyRepo: Repository<HistoryEntity>) {}
+    private readonly historyLength: number;
 
-    async addHistoryItem(productId: ProductI['id'], sid: SessionI['sid']): Promise<void> {
+    constructor(
+        @InjectRepository(HistoryEntity) public readonly historyRepo: Repository<HistoryEntity>,
+        private readonly configService: ConfigService,
+    ) {
+        this.historyLength = Number(this.configService.getVal('USER_HISTORY_LENGTH'));
+    }
+
+    public async addHistoryItem(productId: ProductI['id'], sid: SessionI['sid']): Promise<void> {
         // TODO refactoring
         const existedItem = await this.historyRepo.findOneBy({
             product: { id: productId },
@@ -39,12 +43,12 @@ export default class HistoryService {
         // check if history length is full
     }
 
-    async getHistoryListBySID(sid: SessionI['sid']): Promise<HistoryEntity[]> {
+    public async getHistoryListBySID(sid: SessionI['sid']): Promise<HistoryEntity[]> {
         return await this.historyRepo.find({
             where: { sid },
             order: { created_at: 'DESC' },
-            relations: PRODUCT_HISTORY_RELATIONS,
-            take: USER_HISTORY_LENGTH,
+            relations: ['product'],
+            take: this.historyLength,
         });
     }
 }
