@@ -1,6 +1,6 @@
-import { Component, ElementRef, HostListener, Inject, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, HostListener, Inject, Injector, OnInit, ViewChild } from '@angular/core';
 import { OrderCartItemDto, OrderDto } from '@shared/models/products/order.model';
-import { Observable, of } from 'rxjs';
+import { firstValueFrom, Observable, of, first } from 'rxjs';
 import { debounceTime, filter, map, switchMap, tap } from 'rxjs/operators';
 import { CartStateService } from '@shared/services/cart/cart-state/cart-state.service';
 import { FavoritesStateService } from '@shared/services/favorite/favorite-state/favorites-state.service';
@@ -8,7 +8,8 @@ import { LocalizeRouterService } from '@gilsdav/ngx-translate-router';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { AutocompleteService } from '@shared/services/autocomplete/autocomplete.service';
 import { DOCUMENT } from '@angular/common';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
+
 
 // TO  DO
 const LANGUAGES = [
@@ -74,8 +75,15 @@ export class HeaderComponent implements OnInit {
   }
 
   public changeLang(lang: string): void {
-    this.localizeService.changeLanguage(lang);
+  this.localizeService.changeLanguage(lang);
+   this.router.events.pipe(
+    filter(url => url instanceof NavigationEnd),
+    first()
+   ).subscribe(res => {
     this.document.location.reload();
+   })
+    // debugger
+   
     // const path = this.router.url;
     // console.log(path);
     

@@ -30,6 +30,10 @@ const fs = require('fs');
 const path = require('path');
 // index from browser build!
 const template = fs.readFileSync(path.join('.', 'dist', 'index.html')).toString();
+
+// translates 
+const data: any = JSON.parse(fs.readFileSync(`src/assets/locales/locales.json`, 'utf8'));
+
 // for mock global window by domino
 const win = domino.createWindow(template);
 // mock
@@ -117,6 +121,25 @@ export function app() {
     // cokies
     server.use(cookieparser()); 
 
+
+    server.get('/', (req, res) => {
+        const defaultLang = 'ua';
+        const lang = req.acceptsLanguages('ua', 'en');
+        const cookieLang = req.cookies.LOCALIZE_DEFAULT_LANGUAGE; // This is the default name of cookie
+      
+        const definedLang = cookieLang || lang || defaultLang;
+
+        res.redirect(301, `/${definedLang}/`);
+    });
+
+data.locales.forEach(route => {
+    server.get(`/${route}`, (req, res) => {
+        res.redirect(301, `/${route}/`);
+    });
+    server.get(`/${route}/*`, (req, res) => {
+        res.redirect(301, `/${route}/`);
+    });
+});
 
     // Serve static files from /browser
     server.get(

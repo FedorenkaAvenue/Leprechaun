@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { LocalizeParser, LocalizeRouterModule, LocalizeRouterSettings, ManualParserLoader } from '@gilsdav/ngx-translate-router';
+import { CacheMechanism, LocalizeParser, LocalizeRouterModule, LocalizeRouterSettings, ManualParserLoader } from '@gilsdav/ngx-translate-router';
 import { TranslateService } from '@ngx-translate/core';
 import { Location } from '@angular/common';
 
@@ -20,13 +20,14 @@ export function createTranslateLoader(translate: TranslateService, location: Loc
 // must use {initialNavigation: 'enabled'}) - for one load page, without reload
 @NgModule({
     imports: [
-        RouterModule.forRoot(routes, { initialNavigation: 'disabled', relativeLinkResolution: 'legacy' }),
+        RouterModule.forRoot(routes, { initialNavigation: 'disabled', relativeLinkResolution: 'legacy'}),
         LocalizeRouterModule.forRoot(routes, {
             parser: {
                 provide: LocalizeParser,
                 useFactory: (createTranslateLoader),
                 deps: [TranslateService, Location, LocalizeRouterSettings/*, HttpClient*/]
             },
+            cacheMechanism: CacheMechanism.Cookie,
             initialNavigation: true
         })
     ],

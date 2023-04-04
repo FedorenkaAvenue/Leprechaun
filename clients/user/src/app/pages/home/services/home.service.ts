@@ -5,7 +5,7 @@ import { ProductsApiService } from '@shared/services/api_es/products-api/product
 import { FavoritesService } from '@shared/services/favorite/favotite/favorites.service';
 import { HistoryService } from '@shared/services/history/history.service';
 import { combineLatest, Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, shareReplay } from 'rxjs/operators';
 
 @Injectable()
 export class HomeService {
@@ -19,12 +19,13 @@ export class HomeService {
   public getSelectionProducts(): Observable<DasboardCommonProductsI> {
     const favoriteState$ = this.favoritesService.getFavoritesValue();
     const products$ = this.homeApiService.getSelectionProducts();
-    return combineLatest([favoriteState$, products$]).pipe(
+    return combineLatest([favoriteState$, products$.pipe(shareReplay(1))]).pipe(
       map(([favoriteValue, products]) => {
         products.newest.map((el) => this.updateFavorites(el, favoriteValue));
         products.popular.map((el) => this.updateFavorites(el, favoriteValue));
         return products;
       }),
+      shareReplay(1)
     );
   }
 

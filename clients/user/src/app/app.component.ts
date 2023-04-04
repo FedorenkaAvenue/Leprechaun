@@ -6,6 +6,7 @@ import { UserI } from '@shared/models/user/user.model';
 import { CartService } from '@shared/services/cart/cart/cart.service';
 import { FavoritesService } from '@shared/services/favorite/favotite/favorites.service';
 import { UserService } from '@shared/services/user/user.service';
+import { UniversalStorage } from '@shared/storage/universal.storage';
 import { Observable } from 'rxjs';
 // import { UserService } from '@shared/services/user/user/user.service';
 import { take } from 'rxjs/operators';
@@ -21,6 +22,7 @@ export class AppComponent implements OnInit {
     private readonly favoritesService: FavoritesService,
     private readonly userService: UserService,
     @Inject(PLATFORM_ID) private platformId: string,
+    private readonly universalStorage: UniversalStorage
 
     ) {
     // this.meta.setTag('og:title', 'home ctor');
