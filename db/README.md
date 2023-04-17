@@ -8,3 +8,4 @@
 ## Tools
 
 - `dump_pull` - create dump (from `db_1`)
+- `replication_state` - check replica connection data
