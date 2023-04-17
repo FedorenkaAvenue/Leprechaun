@@ -65,4 +65,4 @@ private getUserState(): void {
     // this.favoritesService.updateFavorites(user.wishlist);
   })
 }
-}
+} 

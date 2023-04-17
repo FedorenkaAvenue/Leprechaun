@@ -1,6 +1,4 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { Languages } from '@shared/models';
-
 
 @Component({
   selector: 'app-language-switch',
@@ -10,7 +8,8 @@ import { Languages } from '@shared/models';
 export class LanguageSwitchComponent implements OnInit {
 
 
-  @Input() languages: Array<Languages>
+  @Input() languages: Array<string>
+  @Input() currentLang: string;
   @Output() changeLang = new EventEmitter<any>()
   constructor() { }
 

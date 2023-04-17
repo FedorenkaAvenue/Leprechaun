@@ -9,19 +9,21 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { AutocompleteService } from '@shared/services/autocomplete/autocomplete.service';
 import { DOCUMENT } from '@angular/common';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
+import { environment } from 'environments/environment.global';
+import { UniversalStorage } from '@shared/storage/universal.storage';
 
 
 // TO  DO
-const LANGUAGES = [
-  {
-    label: 'ua',
-    code: 'ua',
-  },
-  {
-    label: 'ru',
-    code: 'ru',
-  },
-];
+// const LANGUAGES = [
+//   {
+//     label: 'ua',
+//     code: 'ua',
+//   },
+//   {
+//     label: 'ru',
+//     code: 'ru',
+//   },
+// ];
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
@@ -30,9 +32,10 @@ const LANGUAGES = [
 export class HeaderComponent implements OnInit {
   public cartValue$: Observable<string[]>;
   public favoriteValue$: Observable<Array<string>>;
-  public languages = LANGUAGES;
+  public languages: Array<string>;
   public searchForm: FormGroup;
   public searchResult: any;
+  public currentLang: string;
   @ViewChild('chartContainer', { read: ElementRef }) myChartContainer:ElementRef;
   constructor(
     private readonly cartStateService: CartStateService,
@@ -43,6 +46,7 @@ export class HeaderComponent implements OnInit {
     private eRef: ElementRef,
     private route: ActivatedRoute,
     private router: Router,
+    private readonly universalStorage: UniversalStorage,
     @Inject(DOCUMENT) private document: Document
     
   ) {}
@@ -57,6 +61,9 @@ export class HeaderComponent implements OnInit {
   }
   
   ngOnInit(): void {
+    this.languages = environment.langs.split(',');
+    this.currentLang = this.universalStorage.getItem('LOCALIZE_DEFAULT_LANGUAGE');
+
     this.initSearchForm();
     this.searchForm.get('searchControl').valueChanges
       .pipe(
@@ -82,8 +89,6 @@ export class HeaderComponent implements OnInit {
    ).subscribe(res => {
     this.document.location.reload();
    })
-    // debugger
-   
     // const path = this.router.url;
     // console.log(path);
     

@@ -14,13 +14,13 @@ export class RelativePathInterceptor implements HttpInterceptor {
     }
 
     intercept(request: HttpRequest<any>, next: HttpHandler) {
-        if (request.url.startsWith('assets') && isPlatformServer(this.platformId)) {
-          const req = this.injector.get(REQUEST);
-          const url = req.protocol + '://' + req.get('host') + '/' + request.url;
-          request = request.clone({
-            url: url
-          });
-        }
-        return next.handle(request);
+      if (request.url.startsWith('assets') && isPlatformServer(this.platformId)) {
+        const req = this.injector.get(REQUEST);
+        const url = req.protocol + '://' + req.get('host') + '/' + request.url;
+        request = request.clone({
+          url: url
+        });
       }
+      return next.handle(request);
+    }
 }

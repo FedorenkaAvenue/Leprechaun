@@ -1,5 +1,10 @@
 <div class="languages">
-  <li (click)="selectLang(item?.code)" *ngFor="let item of languages" class="languages-item">
-    <span>{{ item?.label }}</span>
+  <li
+    (click)="selectLang(item)"
+    *ngFor="let item of languages"
+    class="languages-item"
+    [class.active]="currentLang === item"
+  >
+    <span>{{ item }}</span>
   </li>
 </div>

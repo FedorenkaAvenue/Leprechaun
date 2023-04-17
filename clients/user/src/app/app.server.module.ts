@@ -9,9 +9,10 @@ import { AppModule } from './app.module';
 // TODO
 // import { InlineStyleComponent } from './inline-style/inline-style.component';
 // import { InlineStyleModule } from './inline-style/inline-style.module';
-import { CookieService, CookieBackendService, CookieModule } from '@gorniv/ngx-universal';
+import { CookieService, CookieBackendService, CookieModule, NgxRequest, NgxResponse } from '@gorniv/ngx-universal';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { RelativePathInterceptor } from '@shared/interceptors/relative.interceptor';
+import { UniversalStorage } from '@shared/storage/universal.storage';
 
 @NgModule({
   imports: [
@@ -27,6 +28,14 @@ import { RelativePathInterceptor } from '@shared/interceptors/relative.intercept
     ],
   providers: [
     { provide: CookieService, useClass: CookieBackendService },
+    { 
+      provide: NgxRequest, 
+      useValue: { cookie: '', headers: {} }, 
+    }, 
+    { 
+      provide: NgxResponse, 
+      useValue: {}, 
+    },
     {
       provide: HTTP_INTERCEPTORS,
       useClass: RelativePathInterceptor,

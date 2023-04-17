@@ -5,7 +5,7 @@ import { HttpClient, HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 // libs
-import { CookieService, CookieModule } from '@gorniv/ngx-universal';
+import { CookieService, CookieModule, NgxRequest, NgxResponse } from '@gorniv/ngx-universal';
 import { TransferHttpCacheModule } from '@nguniversal/common';
 // shared
 import { SharedModule } from '@shared/shared.module';
@@ -32,7 +32,9 @@ import { LangInterceptor } from '@shared/interceptors/lang.interceptor';
 
 
 export function createTranslateLoader(http: HttpClient) {
-  return new TranslateHttpLoader(http, `${environment.apiEndpoint}/assets/locales/`, '.json');
+  console.log('createTranslateLoader');
+  
+  return new TranslateHttpLoader(http, `assets/locales/`, '.json');
 }
 @NgModule({
   imports: [
@@ -49,13 +51,16 @@ export function createTranslateLoader(http: HttpClient) {
     // CustomMetaModule,
     NgSelectModule,
     LeprachaunIconsModule.forRoot(),
-    TranslateModule.forRoot({
+    TranslateModule.forRoot(
+      {
       loader: {
         provide: TranslateLoader,
         useFactory: (createTranslateLoader),
         deps: [/* PLATFORM_ID, */HttpClient]
       }
-    })
+    }
+    ) 
+    
   ],
   declarations: [AppComponent],
   providers: [
@@ -69,6 +74,12 @@ export function createTranslateLoader(http: HttpClient) {
     FavoritesStateService,
     {
       provide: HTTP_INTERCEPTORS,
+      useClass: LangInterceptor,
+      // deps: [UniversalStorage],
+      multi: true
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
       useClass: WithCredentialsInterceptor,
       multi: true
     },
@@ -78,12 +89,6 @@ export function createTranslateLoader(http: HttpClient) {
       useClass: withCredentialsInterceptor,
       multi: true
     },
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: LangInterceptor,
-      multi: true
-    },
-    
   ],
 })
 export class AppModule {}

@@ -7,13 +7,12 @@ import { join } from 'path';
 import { AppServerModule } from './src/main.server';
 import { APP_BASE_HREF } from '@angular/common';
 import { existsSync } from 'fs';
-import { REQUEST, RESPONSE } from '@nguniversal/express-engine/tokens';
-import { NgxRequest, NgxResponse } from '@gorniv/ngx-universal';
 import * as compression from 'compression';
 import * as cookieparser from 'cookie-parser';
-import { exit } from 'process';
+import { exit, nextTick } from 'process';
 
 import * as xhr2 from 'xhr2';
+import { environment } from 'environments/environment.global';
 
 //HACK - enables setting cookie header
 xhr2.prototype._restrictedHeaders.cookie = false;
@@ -32,7 +31,7 @@ const path = require('path');
 const template = fs.readFileSync(path.join('.', 'dist', 'index.html')).toString();
 
 // translates 
-const data: any = JSON.parse(fs.readFileSync(`src/assets/locales/locales.json`, 'utf8'));
+const locales: Array<string> = environment.langs.split(',');
 
 // for mock global window by domino
 const win = domino.createWindow(template);
@@ -121,26 +120,6 @@ export function app() {
     // cokies
     server.use(cookieparser()); 
 
-
-    server.get('/', (req, res) => {
-        const defaultLang = 'ua';
-        const lang = req.acceptsLanguages('ua', 'en');
-        const cookieLang = req.cookies.LOCALIZE_DEFAULT_LANGUAGE; // This is the default name of cookie
-      
-        const definedLang = cookieLang || lang || defaultLang;
-
-        res.redirect(301, `/${definedLang}/`);
-    });
-
-data.locales.forEach(route => {
-    server.get(`/${route}`, (req, res) => {
-        res.redirect(301, `/${route}/`);
-    });
-    server.get(`/${route}/*`, (req, res) => {
-        res.redirect(301, `/${route}/`);
-    });
-});
-
     // Serve static files from /browser
     server.get(
         '*.*',
@@ -157,6 +136,20 @@ data.locales.forEach(route => {
 
     // All regular routes use the Universal engine
     server.get('*', (req, res) => {
+
+        const lang = req.path.split('/')[1];
+        const isValid = locales.includes(lang);
+
+        const defaultLang = locales[0];
+        const browserLang = req.acceptsLanguages(...locales);
+        const cookieLang = req.cookies.LOCALIZE_DEFAULT_LANGUAGE; // This is the default name of cookie
+      
+        const definedLang = cookieLang || browserLang || defaultLang;
+
+        if(!isValid) {
+            res.redirect(301, `/${definedLang}${req.path}`);
+       } else {
+
         res.render(indexHtml, {
             req,
             providers: [
@@ -165,6 +158,8 @@ data.locales.forEach(route => {
                 { provide: 'RESPONSE', useValue: res },
             ],
         });
+
+       }
     });
 
     return server;

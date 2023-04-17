@@ -11,7 +11,7 @@ import { ServiceWorkerModule } from '@angular/service-worker';
 import { StateTransferInitializerModule } from '@nguniversal/common';
 
 // the Request object only lives on the server
-export function getRequest(): any {
+export function getRequest(): any {  
   return { headers: { cookie: document.cookie } };
 }
 
@@ -29,7 +29,7 @@ export function getRequest(): any {
       provide: REQUEST,
       useFactory: getRequest,
     },
-    { provide: 'ORIGIN_URL', useValue: location.origin },
+    { provide: 'ORIGIN_URL', useValue: location.origin }
   ],
 })
 export class AppBrowserModule {}

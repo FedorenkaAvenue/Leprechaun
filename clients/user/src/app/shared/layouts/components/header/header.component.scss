@@ -13,6 +13,9 @@
       align-items: center;
     }
   }
+  &_favorites-wrap {
+    min-width: 40px;
+  }
 
   .header__search {
     position: relative;

@@ -4,9 +4,12 @@
     &-item {
         padding: 2px 6px;
         text-transform: uppercase;
-
-        &:last-child {
+        
+        &:not(:first-child) {
             border-left: 2px solid rgb(48, 48, 48);
         }
+    }
+    .active {
+        color: red;
     }
 }

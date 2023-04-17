@@ -3,17 +3,21 @@ import { Routes, RouterModule } from '@angular/router';
 import { CacheMechanism, LocalizeParser, LocalizeRouterModule, LocalizeRouterSettings, ManualParserLoader } from '@gilsdav/ngx-translate-router';
 import { TranslateService } from '@ngx-translate/core';
 import { Location } from '@angular/common';
+import { environment } from 'environments/environment.global';
 
+export function getLangs(): Array<string> {
+    return environment.langs.split(',')
+}
 const routes: Routes = [
 
     { path: '', loadChildren: () => import('./shared/layouts/components/wrapper/wrapper.module').then(module => module.WrapperModule) },
     { path: 'not-found', loadChildren: () => import('./not-found/not-found.module').then((module) => module.NotFoundModule) },
-    { path: '**', redirectTo: 'mot-found' }
+    { path: '**', redirectTo: 'not-found' }
 ];
 
 
 export function createTranslateLoader(translate: TranslateService, location: Location, settings: LocalizeRouterSettings) {
-    return new ManualParserLoader(translate, location, settings, ['ua', 'en', 'ru'], 'ROUTES.');
+    return new ManualParserLoader(translate, location, settings, getLangs(), 'ROUTES.');
 }
 
 
@@ -28,6 +32,7 @@ export function createTranslateLoader(translate: TranslateService, location: Loc
                 deps: [TranslateService, Location, LocalizeRouterSettings/*, HttpClient*/]
             },
             cacheMechanism: CacheMechanism.Cookie,
+            cookieFormat: '{{value}};{{expires}};path=/',
             initialNavigation: true
         })
     ],
