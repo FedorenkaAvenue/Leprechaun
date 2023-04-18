@@ -20,7 +20,13 @@ dump_pull:
 # 	@echo "Success completed!"
 
 replication_state:
-	@echo "Publication's stats:"
+	@echo "Publisher's stats:"
 	@docker exec ${CONTAINER_DB_0_NAME} psql -U postgres -d postgres -c '\dRp' -c 'SELECT client_addr, state, application_name FROM pg_stat_replication';
 	@echo "Subscriber's stats:"
 	@docker exec ${CONTAINER_DB_1_NAME} psql -U postgres -d postgres -c '\dRs' -c 'SELECT * FROM pg_stat_subscription;';
+
+replication_sync:
+	@echo "Trying to create deploy dump from publisher..."
+	@docker exec ${CONTAINER_DB_0_NAME} bash -c "export PGPASSWORD='barabaka35' && pg_dump -U postgres -d postgres | psql -U postgres -d postgres -h leprechaun_db_1";
+	@echo "Trying to refresh publications..."
+	@docker exec ${CONTAINER_DB_1_NAME} psql -U postgres -d postgres -c 'ALTER SUBSCRIPTION allsub REFRESH PUBLICATION;';
