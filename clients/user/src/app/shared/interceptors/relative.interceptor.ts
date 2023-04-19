@@ -17,6 +17,9 @@ export class RelativePathInterceptor implements HttpInterceptor {
       if (request.url.startsWith('assets') && isPlatformServer(this.platformId)) {
         const req = this.injector.get(REQUEST);
         const url = req.protocol + '://' + req.get('host') + '/' + request.url;
+        console.log(`host ${req.get('host')}`);
+        
+        console.log(url);
         request = request.clone({
           url: url
         });
