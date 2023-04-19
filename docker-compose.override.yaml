@@ -21,6 +21,7 @@ services:
     container_name: leprechaun_db_0
     networks:
       - api
+      - db
     build:
       context: ./db
       dockerfile: Dockerfile
@@ -35,6 +36,8 @@ services:
 
   db_1:
     container_name: leprechaun_db_1
+    networks:
+      - db
     build:
       context: ./db
       dockerfile: Dockerfile
@@ -44,6 +47,10 @@ services:
       - POSTGRES_PASSWORD=${DB_1_PASSWORD}
       - POSTGRES_USER=${DB_1_USER}
       - POSTGRES_DATABASE=${DB_1_DATABASE}
+      - MASTER_DB_HOST=${DB_0_HOST}
+      - MASTER_DB_USER=${DB_0_USER}
+      - MASTER_DB_PASS=${DB_0_PASSWORD}
+      - MASTER_DB_NAME=${DB_0_DATABASE}
     depends_on:
       - db_0
 
@@ -152,6 +159,9 @@ networks:
   api:
     driver: bridge
     name: leprechaun_api
+  db:
+    driver: bridge
+    name: leprechaun_db
   client:
     driver: bridge
     name: leprechaun_client

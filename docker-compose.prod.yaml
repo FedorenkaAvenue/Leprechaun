@@ -51,10 +51,11 @@ services:
 
   se:
     restart: on-failure:5
+    environment:
+      - xpack.security.enabled=false # TEMP
 
   se_client:
     restart: on-failure:5
     environment:
       - ELASTICSEARCH_USERNAME=${SE_CLIENT_USERNAME}
       - ELASTICSEARCH_PASSWORD=${SE_CLIENT_PASSWORD}
-      # - ELASTICSEARCH_SSL_CERTIFICATEAUTHORITIES=config/certs/ca/ca.crt
