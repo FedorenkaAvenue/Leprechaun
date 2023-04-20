@@ -2,10 +2,11 @@
 
 set -e
 export PGPASSWORD=$MASTER_DB_PASS
-TRY_COUNT=0
-DONE=false
 
-while ! $DONE && [ $TRY_COUNT -lt 30 ]
+tryCount=0
+isDone=false
+
+while ! $isDone && [ $tryCount -lt 30 ]
 do
     echo "Trying to make connection with ready publisher DB..."
 
@@ -18,12 +19,12 @@ do
             -U "$POSTGRES_USER" \
             -d "$POSTGRES_DB" \
             -c "CREATE SUBSCRIPTION allsub CONNECTION 'host=$MASTER_DB_HOST user=$MASTER_DB_USER password=$MASTER_DB_PASS dbname=$MASTER_DB_NAME' PUBLICATION allpub";
-        DONE=true
+        isDone=true
         echo "Done."
 
         break
     fi
 
     sleep 2
-    TRY_COUNT=`expr $TRY_COUNT + 1`
+    tryCount=`expr $tryCount + 1`
 done

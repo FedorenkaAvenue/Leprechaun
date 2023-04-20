@@ -84,13 +84,8 @@ Boilerplate for web store
   - `make build_single args="$SERVICE_NAME"` build and run `$SERVICE_NAME` container (dev)
   - `make build_prod` build and run containers (prod)
   - `make build_prod_single args="$SERVICE_NAME"` build and run `$SERVICE_NAME` container (prod)
-  - `make start` to start all containers (without build)
-  - `make stop` to stop all containers
-  - `make logs` watch all logs
 
 - other
 
-  - `make index_se` indexing SE
   - `make translation` build translations
-  - `make open_image_hosting` open image hosting GUI folder (_linux_)
-  - `make migrations` run DB migrations
+  - `make image_hosting` open image hosting GUI folder (_linux_)
