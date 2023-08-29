@@ -1,17 +1,5 @@
 DOCKER_PROD_CONF_PATH = -f docker-compose.override.yaml -f docker-compose.prod.yaml
 
-build:
-	@docker compose up --build -d
-
-start:
-	@docker compose start
-
-stop:
-	@docker compose stop
-
-logs:
-	@docker compose logs -f
-
 build_single:
 	@docker compose up -d --build --no-deps --force-recreate $(args)
 
@@ -22,14 +10,8 @@ build_prod:
 build_prod_single:
 	@docker compose ${DOCKER_PROD_CONF_PATH} up --build -d --no-deps --force-recreate $(args)
 
-open_image_hosting:
+image_hosting:
 	@sudo xdg-open /var/lib/docker/volumes/leprechaun_image_hosting/_data
-
-migrations:
-	@yarn --cwd ./api migrations:run
-
-index_se:
-	@make -C ./se index_all
 
 translation:
 	@echo 'Building translations⏳...'

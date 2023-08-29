@@ -23,7 +23,6 @@ services:
     restart: unless-stopped
     volumes:
       - ./db/db_1/postgresql.conf:/app/postgresql.conf
-      - ./db/db_1/pg_hba.conf:/app/pg_hba.conf
     ports:
       - ${DB_1_PORT_EXPOSE}:${DB_1_PORT}
 
