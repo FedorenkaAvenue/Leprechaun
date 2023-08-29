@@ -11,6 +11,7 @@ import { LpchImagesSliderModule } from '@shared/components/lpch-images-slider/lp
 import { LpchTabsModule } from '@shared/components/lpch-tabs/lpch-tabs.module';
 import { ProductPriceModule } from '@shared/components/product-price/product-price.module';
 import { ProductAvailabilityModule } from '@shared/components/product-availability/product-availability.module';
+import { LocalizeRouterModule } from '@gilsdav/ngx-translate-router';
 // import { SwiperModule } from 'ngx-swiper-wrapper';
 // import { SWIPER_CONFIG } from 'ngx-swiper-wrapper';
 // import { SwiperConfigInterface } from 'ngx-swiper-wrapper';
@@ -33,7 +34,8 @@ import { ProductAvailabilityModule } from '@shared/components/product-availabili
     LpchImagesSliderModule,
     LpchTabsModule,
     ProductPriceModule,
-    ProductAvailabilityModule
+    ProductAvailabilityModule,
+    LocalizeRouterModule
     // SwiperModule,
   ],
   providers: [

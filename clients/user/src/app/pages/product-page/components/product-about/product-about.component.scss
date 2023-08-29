@@ -19,7 +19,7 @@
       border-radius: 5px; 
     }
     &-price {
-      
+      margin-bottom: 10px;
     }
   }
 }
@@ -86,8 +86,41 @@ swiper>.swiper.s-wrapper .swiper-wrapper .swiper-slide {
 }
 
 .about__pay-btn {
+  margin-left: 20px;
   padding: 10px 15px;
   color: #f1f1f1;
   background-color: green;
  border-radius: 5px;
+}
+.about__properties {
+  margin-top: 50px;
+  &__list {
+  }
+  &-item {
+    display: flex;
+  }
+  &-name {
+    position: relative;
+    width: 40%;
+    & span {
+        position: relative;
+        padding-right: 20px;
+        background-color: #f7f8f9;
+    }
+  }
+  &-name:before {
+    display: block;
+    position: absolute;
+    left: 0;
+    bottom: 4px;
+    // display: none;
+    width: 100%;
+    border-bottom: 1px dotted #d2d2d2;
+    content: '';
+  }
+
+  &-value {
+    padding-left: 10px;
+    width: 50%;
+  }
 } 

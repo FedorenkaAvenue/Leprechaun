@@ -1,3 +1,14 @@
 :host {
-    box-shadow: 2px 7px 8px 0px rgba(34, 60, 80, 0.2);
+    z-index: 2;
+    box-shadow: 1px -5px 16px 1px #303030;
 }
+
+// @include ng-deep {
+    .header__main {
+        // background-color: #002147;
+    }
+
+    .header__title {
+        color: #A38A00;
+    }
+//   }

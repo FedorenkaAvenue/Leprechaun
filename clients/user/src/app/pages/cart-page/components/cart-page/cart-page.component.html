@@ -1,12 +1,12 @@
 <div class="cart-page__wrapper">
-  <div class="cart-page" *ngIf="cartData$ | async as cartData; else emptyContent">
+  <div class="cart-page" *ngIf="cartData && cartData.list.length; else emptyContent">
       <header>
         <h1>Корзина</h1>
       </header>
       <section class="cart-page__wrapper g-4">
         <div class="cart-list">
           <app-cart-items-list
-            [cartList]="(cartData$ | async)?.list"
+            [cartList]="cartData.list"
             (delete)="deleteFromCart($event)"
             (setAmount)="setProductAmount($event)"
             class="fl-c g-2"

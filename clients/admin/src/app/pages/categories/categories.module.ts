@@ -30,6 +30,7 @@ import { TranslationFormModule } from 'src/app/shared/controls/translation-form/
 import { ValueDefaultTranslationModule } from 'src/app/shared/pipes/value-default-translation/value-default-translation.module';
 import { PropertiesApiService } from 'src/app/shared/services/properties/properties-api.service';
 import { MatSelectModule } from '@angular/material/select';
+import {MatRippleModule} from '@angular/material/core';
 
 @NgModule({
   declarations: [
@@ -59,7 +60,8 @@ import { MatSelectModule } from '@angular/material/select';
     LpchImageModule,
     TranslationFormModule,
     ValueDefaultTranslationModule,
-    MatSelectModule
+    MatSelectModule,
+    MatRippleModule
   ],
   providers: [
     CategoriesApiService,

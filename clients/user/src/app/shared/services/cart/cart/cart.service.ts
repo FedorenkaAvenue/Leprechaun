@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { CustomerData, OrderDto, OrderI, ProductAmountPayload } from '@shared/models/products/order.model';
 import { CartApiService } from '@shared/services/api_es/cart-api/cart-api.service';
-import { BehaviorSubject, merge, Observable } from 'rxjs';
-import { filter } from 'rxjs/operators';
+import { BehaviorSubject, merge, Observable, of } from 'rxjs';
+import { filter, map } from 'rxjs/operators';
 import { CartStateService } from '../cart-state/cart-state.service';
 
 @Injectable()
@@ -50,5 +50,13 @@ export class CartService {
     const cartIds = this.cartValue$.value?.list.map(orderProduct => orderProduct?.product?.id);
     const productInCart = (cartIds || []).includes(id);
     return productInCart;
+  }
+
+  public checkAvailabilityInCart$(id: string) {
+    return this.cartValue$.pipe(map((res: OrderDto) => {
+      const cartIds = res.list.map(orderProduct => orderProduct?.product?.id);
+      const productInCart = (cartIds || []).includes(id);
+      return of(productInCart)
+    }))
   }
 }

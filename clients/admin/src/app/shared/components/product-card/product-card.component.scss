@@ -3,13 +3,16 @@
 :host {
     width: 100%;
     padding: 10px 0;
-    border-bottom: 2px solid #eee;
+    // border-bottom: 2px solid #eee;
     
 }
 .product {
   &-card {
       display: flex;
     width: 100%;
+    background: #e3e3e3;
+    // background: linear-gradient(90deg, rgba(189,212,223,1) 0%, rgb(203 163 184) 100%);
+    box-shadow: 0px 0px 20px 4px rgba(0, 0, 0, 0.2), 0px 1px 1px 0px rgba(0, 0, 0, 0.14), 0px 1px 3px 0px rgba(0, 0, 0, 0.12);
   }
   &-title {
     width: 20%;

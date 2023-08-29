@@ -1,0 +1,9 @@
+.product__image-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.product_image {
+    max-width: 500px;
+    margin-bottom: 20px;
+}

@@ -1,3 +1,4 @@
+@import "/src/styles/helpers/mixins.scss"; 
 .category {
     &-info {
         
@@ -5,10 +6,8 @@
     &-header {
         display: flex; 
     }
-    &-image {
-         width: 150px;
-        height : 150px;
-    }
+ 
+
     &-title {
         margin-left: 50px;
     }
@@ -22,3 +21,12 @@
         margin-left: auto;
     }
 }
+
+@include ng-deep {
+    lpch-image {
+      .image {
+        width: 150px;
+        height : 150px;
+      }
+    }
+  }

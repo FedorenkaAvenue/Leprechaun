@@ -3,8 +3,8 @@
   <div class="section-container">
       <div class="category-info">
         <div class="category-header">
-          <lpch-image [src]="category?.icon || ''"></lpch-image>
           <h1 class="category-title">{{ category?.title | valueDefaultTranslation }}</h1>
+          <lpch-image class="category-image" [src]="category?.icon || ''"></lpch-image>
         </div>
 
         <div class="category-data">

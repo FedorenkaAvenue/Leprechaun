@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CustomerData, OrderDto, ProductAmountPayload } from '@shared/models/products/order.model';
 import { CartService } from '@shared/services/cart/cart/cart.service';
@@ -12,17 +12,24 @@ import { take } from 'rxjs/operators';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CartPageComponent implements OnInit {
-  public cartData$: Observable<OrderDto>;
+  public cartData: OrderDto;
  
   constructor(
     private readonly cartService: CartService,
-    private readonly lpchRouterService: LpchRouterService
+    private readonly lpchRouterService: LpchRouterService,
+    private readonly cd: ChangeDetectorRef,
+
     ) {
    
   }
 
   ngOnInit(): void {
-    this.cartData$ = this.cartService.getCartValue();
+    this.cartService.getCartValue().subscribe(res => {
+    this.cartData = res;
+    this.cd.detectChanges()
+    console.log(this.cartData);
+    
+    })
   }
 
   public deleteFromCart(id: string): void {

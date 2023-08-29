@@ -1,1 +1,9 @@
-<p>product-photos works!</p>
+<div class="product__image-container">
+    <ng-container *ngFor="let photo of (productDetails$ | async)?.images; let i = index">
+        <img class="product_image" [src]="mediaEndpoint + '/' + photo.src" alt="">
+        <!-- <div
+          [style.background-image]="'url(' + mediaEndpoint + '/' + photo.src + ')'"
+          class="keen-slider__slide"
+        ></div> -->
+      </ng-container>
+</div>

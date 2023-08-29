@@ -14,7 +14,7 @@
     </button>
   </div>
   <div class="product_third fl-c">
-    <app-product-price [price]="product?.product?.price"></app-product-price>
+    <app-product-price [price]="product?.summaryPrice"></app-product-price>
     <app-lpch-counter-input
       (changeCount)="setProductAmount($event)"
       [value]="product?.amount"

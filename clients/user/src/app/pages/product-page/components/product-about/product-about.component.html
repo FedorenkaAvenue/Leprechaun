@@ -1,4 +1,4 @@
-<section *ngIf="productDetails$ | async as productDetails" class="about">
+<section *ngIf="productDetails" class="about">
   <div class="about__main fl">
     <div class="about__gallery">
       <lpch-images-slider [images]="productDetails?.images"></lpch-images-slider>
@@ -12,41 +12,29 @@
             [priceCurrentStyle]="'fs-4'"
             [priceOldStyle]="'fs-3'"
           ></app-product-price>
-          <button class="about__pay-btn">купити</button>
+          <button (click)="addToCart(productDetails.id)" class="about__pay-btn">{{productinCart ? 'товар в кошику': 'купити'}}</button>
         </div>
         <lpch-product-availability></lpch-product-availability>
         </div>
      
     </div>
   </div>
+  <div class="about__properties">
+    <h2>Характеристики</h2>
+    <div *ngFor="let option of productDetails.options" class="about__properties-item">
+      <dt class="about__properties-name">
+          <span> {{option.title}}</span>
+
+      </dt>
+      <dd *ngFor="let property of option.properties" class="about__properties-value">
+          <span>
+            {{property.title}}
+          </span>
+      </dd>
+  </div>
+  </div>
   <div class="about__decription">
-    <p>sdaskdjaklsjdlkjslkdj</p>
-    <p>sdaskdjaklsjdlkjslkdj</p>
-    <p>sdaskdjaklsjdlkjslkdj</p>
-    <p>sdaskdjaklsjdlkjslkdj</p>
-    <p>sdaskdjaklsjdlkjslkdj</p>
-    <p>sdaskdjaklsjdlkjslkdj</p>
-    <p>sdaskdjaklsjdlkjslkdj</p>
-    <p>sdaskdjaklsjdlkjslkdj</p>
-    <p>sdaskdjaklsjdlkjslkdj</p>
-    <p>sdaskdjaklsjdlkjslkdj</p>
-    <p>sdaskdjaklsjdlkjslkdj</p>
-    <p>sdaskdjaklsjdlkjslkdj</p>
-    <p>sdaskdjaklsjdlkjslkdj</p>
-    <p>sdaskdjaklsjdlkjslkdj</p>
-    <p>sdaskdjaklsjdlkjslkdj</p>
-    <p>sdaskdjaklsjdlkjslkdj</p>
-    <p>sdaskdjaklsjdlkjslkdj</p>
-    <p>sdaskdjaklsjdlkjslkdj</p>
-    <p>sdaskdjaklsjdlkjslkdj</p>
-    <p>sdaskdjaklsjdlkjslkdj</p>
-    <p>sdaskdjaklsjdlkjslkdj</p>
-    <p>sdaskdjaklsjdlkjslkdj</p>
-    <p>sdaskdjaklsjdlkjslkdj</p>
-    <p>sdaskdjaklsjdlkjslkdj</p>
-    <p>sdaskdjaklsjdlkjslkdj</p>
-    <p>sdaskdjaklsjdlkjslkdj</p>
-    <p>sdaskdjaklsjdlkjslkdj</p>
-    <p>sdaskdjaklsjdlkjslkdj</p>
+    <h2>Опис</h2>
+    <p>{{productDetails?.description}}</p>
   </div>
 </section>

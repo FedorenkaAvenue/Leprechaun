@@ -1,12 +1,12 @@
 <section class="characteristics" *ngIf="productDetails$ | async as product">
     <dl class="characteristics__list">
-        <div *ngFor="let property of product.properties" class="characteristics__item">
+        <div *ngFor="let option of product.options" class="characteristics__item">
             <dt class="characteristics__name">
-                <span> {{property.propertygroup.title}}</span>
+                <span> {{option.title}}</span>
 
             </dt>
-            <dd class="characteristics__value">
-                <a [routerLink]="['/', 'products', product.category.url]" routerLinkActive="router-link-active" > {{property.title}}</a> 
+            <dd *ngFor="let property of option.properties" class="characteristics__value">
+                <a [routerLink]="['/', 'products', product.category.url] | localize" routerLinkActive="router-link-active" > {{property.title}}</a> 
             </dd>
         </div>
         <!-- <div class="characteristics__item">
