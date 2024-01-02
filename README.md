@@ -29,11 +29,11 @@ Boilerplate for web store
 
 - remote test server
 
-  - https://leprechaun.store user client
-  - https://adm.leprechaun.store admin client
-  - https://docs.leprechaun.store _Swagger_ docs
-  - https://api.leprechaun.store RestFull API server
-  - https://media.leprechaun.store media files server
+  - https://leprechaun.space user client
+  - https://adm.leprechaun.space admin client
+  - https://docs.leprechaun.space _Swagger_ docs
+  - https://api.leprechaun.space RestFull API server
+  - https://media.leprechaun.space media files server
 
 ## Docs
 
