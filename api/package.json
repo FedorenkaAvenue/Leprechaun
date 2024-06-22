@@ -46,7 +46,7 @@
         "express-session": "^1.17.3",
         "nodemailer": "^6.9.9",
         "pg": "^8.7.3",
-        "pug": "^3.0.2",
+        "pug": "^3.0.3",
         "reflect-metadata": "^0.1.13",
         "rimraf": "^3.0.2",
         "rxjs": "^7.5.6",
