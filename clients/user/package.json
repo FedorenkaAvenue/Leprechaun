@@ -47,7 +47,7 @@
     "angular-ui-carousel": "^0.1.10",
     "cookie-parser": "1.4.5",
     "core-js": "3.11.0",
-    "express": "4.19.2",
+    "express": "4.21.0",
     "keen-slider": "^6.8.5",
     "ngx-cookie-service-ssr": "^14.0.1",
     "node-cache": "5.1.2",
