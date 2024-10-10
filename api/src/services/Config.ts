@@ -73,19 +73,6 @@ export default class ConfigService {
     }
 
     /**
-     * @description get search engine connection data
-     */
-    public getSEConnectionData(): ElasticsearchModuleOptions {
-        return {
-            node: `http://${this.getVal('SE_HOST')}:${this.getVal('SE_PORT')}`,
-            auth: {
-                username: this.getVal('SE_USER') as string,
-                password: this.getVal('SE_PASSWORD') as string,
-            }
-        }
-    }
-
-    /**
      * @description get config for `express-session` package
      */
     public getSessionConfig(): SessionOptions {

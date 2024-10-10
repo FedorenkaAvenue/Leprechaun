@@ -7,8 +7,6 @@ import { CategoryI } from '@interfaces/Category';
 import { Category } from '@dto/Category/constructor';
 import CategoryService from '.';
 import { CategoryEntity } from '@entities/Category';
-import { SEIndexesE } from '@enums/SE';
-import { SECategoryI } from '@interfaces/SE';
 
 @Injectable()
 export default class CategoryPrivateService extends CategoryService {
@@ -32,11 +30,6 @@ export default class CategoryPrivateService extends CategoryService {
 
                 await this.categoryRepo.update({ id }, { icon: uploadedIcon });
             }
-
-            this.SEService.SE.index<SECategoryI>({
-                index: SEIndexesE.CATEGORY,
-                document: { id, title: titles }
-            });
 
             return createdCategory;
         } catch (err) {

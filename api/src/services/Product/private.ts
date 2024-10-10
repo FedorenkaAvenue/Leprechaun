@@ -9,8 +9,6 @@ import { Product } from '@dto/Product/constructor';
 import ProductService from '.';
 import { QueriesProductList } from '@dto/Queries/constructor';
 import { ProductEntity } from '@entities/Product';
-import { SEProductI } from '@interfaces/SE';
-import { SEIndexesE } from '@enums/SE';
 
 @Injectable()
 export default class ProductPrivateService extends ProductService {
@@ -28,15 +26,6 @@ export default class ProductPrivateService extends ProductService {
 
             this.imageService.addImageArr(id, uploadedImgArr);
         }
-
-        this.SEService.SE.index<SEProductI>({
-            index: SEIndexesE.PRODUCT,
-            document: {
-                id,
-                title: titles,
-                description: descriptions,
-            }
-        });
 
         return createdProduct;
     }

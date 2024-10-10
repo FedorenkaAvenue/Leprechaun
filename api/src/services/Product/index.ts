@@ -11,7 +11,6 @@ import HistoryPublicService from '@services/History/public';
 import { ProductI } from '@interfaces/Product';
 import { SortProductE } from '@enums/Query';
 import { PropertyGroupEntity } from '@entities/PropertGroup';
-import { SEService } from '@services/SE';
 import LoggerService from '@services/Logger';
 
 @Injectable()
@@ -21,7 +20,6 @@ export default class ProductService {
         protected readonly imageService: ImageService,
         protected readonly historyService: HistoryPublicService,
         protected readonly FSService: FSService,
-        protected readonly SEService: SEService,
         private readonly loggerService: LoggerService,
     ) {}
 

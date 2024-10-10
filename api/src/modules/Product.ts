@@ -9,10 +9,9 @@ import ProductPrivateService from '@services/Product/private';
 import ImageModule from '@modules/Image';
 import HistoryModule from './History';
 import ProductService from '@services/Product';
-import SEModule from './SE';
 
 @Module({
-    imports: [TypeOrmModule.forFeature([ProductEntity]), ImageModule, HistoryModule, SEModule],
+    imports: [TypeOrmModule.forFeature([ProductEntity]), ImageModule, HistoryModule],
     controllers: [ProductPublicController, ProductPrivateController],
     providers: [ProductPublicService, ProductPrivateService, ProductService],
     exports: [ProductPublicService, ProductPrivateService, ProductService],

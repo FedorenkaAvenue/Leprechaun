@@ -17,8 +17,6 @@ import ScheduleModule from './Sheduler';
 import SessionModule from './Session';
 import HistoryModule from './History';
 import CacheModule from './Cache';
-import SEModule from './SE';
-import SearchModule from './Search';
 // import FilterModule from './Filter';
 import ToolModule from './Tool';
 import CacheResetMiddleware from '@middlewares/CacheReset';
@@ -45,10 +43,8 @@ import UncaughtExceptionFilter from '@filters/UncaughtException';
             name: 'default',
         }),
         TypeOrmModule.forFeature([TransEntity]),
-        SEModule,
         CategoryModule,
         ProductModule,
-        SearchModule,
         // FilterModule,
         DashboardModule,
         OrderModule,

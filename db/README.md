@@ -1,9 +1,14 @@
-# Databases (PostgreSQL)
+# Master database
 
 ## Params
 
-- `db_0` - master DB (publisher)
-- `db_1` - slave DB (subscriber)
+- local
+
+  - **host**: `leprechaun_db`
+  - **port**: `5432`
+  - **user**: `postgres`
+  - **password**: `barabaka35`
+  - **database**: `postgres`
 
 ## Tools
 

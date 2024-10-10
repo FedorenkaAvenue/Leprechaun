@@ -1,5 +1,3 @@
-version: "3.8"
-
 services:
   server:
     restart: unless-stopped
@@ -13,18 +11,11 @@ services:
       - ./server/conf/leprechaun.conf:/etc/nginx/conf.d/leprechaun.conf
       - ./server/conf/leprechaun.dev.conf:/etc/nginx/conf.d/leprechaun.dev.conf
 
-  db_0:
+  db:
     restart: unless-stopped
     volumes:
-      - ./db/db_0/postgresql.conf:/app/postgresql.conf
-      - ./db/db_0/pg_hba.conf:/app/pg_hba.conf
-
-  db_1:
-    restart: unless-stopped
-    volumes:
-      - ./db/db_1/postgresql.conf:/app/postgresql.conf
-    ports:
-      - ${DB_1_PORT_EXPOSE}:${DB_1_PORT}
+      - ./db/postgresql.conf:/app/postgresql.conf
+      - ./db/pg_hba.conf:/app/pg_hba.conf
 
   cache:
     restart: unless-stopped
@@ -52,20 +43,6 @@ services:
       - ./clients/user:/app
     environment:
       - IS_DEV=true
-
-  se:
-    restart: unless-stopped
-    environment:
-      - xpack.security.enabled=false
-    volumes:
-      - ./se/conf/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml
-    ports:
-      - ${SE_PORT}:${SE_PORT}
-
-  se_client:
-    restart: unless-stopped
-    volumes:
-      - ./se/client/kibana.yml:/usr/share/kibana/config/kibana.yml
 
   client_admin:
     container_name: leprechaun_client_admin

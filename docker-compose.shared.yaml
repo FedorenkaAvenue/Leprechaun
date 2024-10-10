@@ -1,6 +1,4 @@
-version: "3.8"
-
 services:
   node:
-    image: node:16.17.1-alpine3.15
+    image: node:20.18.0-alpine
     working_dir: /app

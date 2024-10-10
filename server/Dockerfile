@@ -1,4 +1,4 @@
-FROM nginx:1.14
+FROM nginx:1.27.2
 
 ARG HOSTING_PATH
 
