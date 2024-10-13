@@ -1,17 +1,13 @@
-import '../styles/globals.css';
+import { inter } from "@/fonts";
 
-import QueryProvider from '@providers/query';
-import MainLayout from '@layouts/MainLayout';
-
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
     return (
-        <html>
-            <head />
-            <body className='container'>
-                <QueryProvider>
-                    <MainLayout />
-                    {children}
-                </QueryProvider>
+        <html lang="en">
+            <body className={inter.className}>
+                <header>
+                    <div>Leprechaun</div>
+                </header>
+                {children}
             </body>
         </html>
     );

@@ -87,19 +87,19 @@ services:
       - cache
       - db
 
-  client_user:
-    container_name: leprechaun_client_user
-    networks:
-      - client
-    environment:
-      - APP_NAME
-      - LANGS
-      - DOMAIN
-      - DOMAIN_MEDIA
-      - DOMAIN_API
-      - CURRENCY_SYMBOL
-    depends_on:
-      - server
+  # client_user:
+  #   container_name: leprechaun_client_user
+  #   networks:
+  #     - client
+  #   environment:
+  #     - APP_NAME
+  #     - LANGS
+  #     - DOMAIN
+  #     - DOMAIN_MEDIA
+  #     - DOMAIN_API
+  #     - CURRENCY_SYMBOL
+  #   depends_on:
+  #     - server
 
 volumes:
   image_hosting:

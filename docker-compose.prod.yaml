@@ -29,23 +29,17 @@ services:
     volumes:
       - ./api/logs:/app/logs
 
-  client_user:
-    restart: on-failure:5
-    build:
-      context: ./clients/user
-      dockerfile: Dockerfile.prod
-      args:
-        - APP_NAME
-        - LANGS
-        - DOMAIN
-        - DOMAIN_MEDIA
-        - DOMAIN_API
-        - CURRENCY_SYMBOL
-    environment:
-      - IS_DEV=false
-
-  se_client:
-    restart: on-failure:5
-    environment:
-      - ELASTICSEARCH_USERNAME=${SE_CLIENT_USERNAME}
-      - ELASTICSEARCH_PASSWORD=${SE_CLIENT_PASSWORD}
+  # client_user:
+  #   restart: on-failure:5
+  #   build:
+  #     context: ./clients/user
+  #     dockerfile: Dockerfile.prod
+  #     args:
+  #       - APP_NAME
+  #       - LANGS
+  #       - DOMAIN
+  #       - DOMAIN_MEDIA
+  #       - DOMAIN_API
+  #       - CURRENCY_SYMBOL
+  #   environment:
+  #     - IS_DEV=false
