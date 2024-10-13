@@ -57,10 +57,12 @@ services:
       - ./clients/admin_v2:/app
     environment:
       - LANGS
-      - APP_NAME
+      - VITE_APP_NAME=${APP_NAME}
       - DOMAIN
       - DOMAIN_API
       - DOMAIN_MEDIA
+    ports:
+      - "5173:80"
     networks:
       - client
     depends_on:
