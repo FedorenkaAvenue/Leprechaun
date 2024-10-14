@@ -1,11 +1,15 @@
 import { createBrowserRouter } from "react-router-dom";
+
 import Layout from "./layout";
-import Home from "../pages/Home";
-import NotFound from "../pages/NotFound";
+import Home from "@pages/home/Home";
+import NotFound from "@pages/notFound/NotFound";
+import PropertyGroup from "@pages/propertyGroup/ui/PropertyGroup";
+import PropertyGroupCreate from "@pages/propertyGroup/ui/PropertyGroupCreate";
+import { PROPERTY_GROUP_PATH_SEGMENT, PROPERTY_GROUP_CREATE_PATH_SEGMENT } from "@shared/constants/routes";
 
 const router = createBrowserRouter([
     {
-        path: "/",
+        path: "",
         element: <Layout />,
         children: [
             {
@@ -13,8 +17,17 @@ const router = createBrowserRouter([
                 element: <Home />,
             },
             {
-                path: "/users",
-                element: <div>euser</div>
+                path: PROPERTY_GROUP_PATH_SEGMENT,
+                children: [
+                    {
+                        index: true,
+                        element: <PropertyGroup />,
+                    },
+                    {
+                        path: PROPERTY_GROUP_CREATE_PATH_SEGMENT,
+                        element: <PropertyGroupCreate />,
+                    },
+                ],
             },
             {
                 path: "*",

@@ -59,7 +59,7 @@ services:
       - LANGS
       - VITE_APP_NAME=${APP_NAME}
       - DOMAIN
-      - DOMAIN_API
+      - VITE_DOMAIN_API=${DOMAIN_API}
       - DOMAIN_MEDIA
     ports:
       - "5173:80"

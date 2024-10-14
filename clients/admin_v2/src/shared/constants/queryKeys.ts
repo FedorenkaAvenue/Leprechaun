@@ -1,0 +1,1 @@
+export const PROPERTY_GROUPS = 'PROPERTY_GROUPS';

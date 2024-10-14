@@ -12,6 +12,8 @@ import CategoryIcon from '@mui/icons-material/Category';
 import CycloneIcon from '@mui/icons-material/Cyclone';
 import CheckroomIcon from '@mui/icons-material/Checkroom';
 import { Outlet, useLocation, useNavigate } from 'react-router-dom';
+import Divider from '@mui/material/Divider';
+import BreadCrumbs from '@widgets/navigation/ui/BreadCrumbs';
 
 const NAVIGATION = [
     {
@@ -53,7 +55,7 @@ const NAVIGATION = [
         kind: 'divider',
     },
     {
-        segment: 'prop_group',
+        segment: 'propertygroup',
         title: 'Property group',
         icon: <CycloneIcon />,
     },
@@ -117,7 +119,11 @@ function DashboardLayoutBasic() {
             }}
         >
             <DashboardLayout>
-                <Outlet />
+                <div className='flex flex-col gap-5 p-5'>
+                    <BreadCrumbs />
+                    <Divider />
+                    <Outlet />
+                </div>
             </DashboardLayout>
         </AppProvider>
         // preview-end
