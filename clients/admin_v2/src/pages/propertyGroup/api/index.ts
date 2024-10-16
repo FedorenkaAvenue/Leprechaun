@@ -10,3 +10,7 @@ export function createPropertyGroup(payload: PropertyGroupDTO) {
 export function getPropertyGroups() {
     return apiClient.get<PropertyGroup[]>('propertygroup/list');
 }
+
+export function removePropertyGroup(id: PropertyGroup['id']) {
+    return apiClient.delete(`propertygroup/${id}`);
+}

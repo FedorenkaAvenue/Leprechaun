@@ -7,13 +7,15 @@ import LayersIcon from '@mui/icons-material/Layers';
 import { AppProvider } from '@toolpad/core/AppProvider';
 import { DashboardLayout } from '@toolpad/core/DashboardLayout';
 import GroupIcon from '@mui/icons-material/Group';
-import NatIcon from '@mui/icons-material/Nat';
+// import NatIcon from '@mui/icons-material/Nat';
 import CategoryIcon from '@mui/icons-material/Category';
 import CycloneIcon from '@mui/icons-material/Cyclone';
 import CheckroomIcon from '@mui/icons-material/Checkroom';
 import { Outlet, useLocation, useNavigate } from 'react-router-dom';
 import Divider from '@mui/material/Divider';
 import BreadCrumbs from '@widgets/navigation/ui/BreadCrumbs';
+
+import { PROPERTY_GROUP_PATH_SEGMENT } from '@shared/constants/routes';
 
 const NAVIGATION = [
     {
@@ -55,15 +57,15 @@ const NAVIGATION = [
         kind: 'divider',
     },
     {
-        segment: 'propertygroup',
+        segment: PROPERTY_GROUP_PATH_SEGMENT,
         title: 'Property group',
         icon: <CycloneIcon />,
     },
-    {
-        segment: 'properties',
-        title: 'Properties',
-        icon: <NatIcon />,
-    },
+    // {
+    //     segment: 'properties',
+    //     title: 'Properties',
+    //     icon: <NatIcon />,
+    // },
     {
         kind: 'divider',
     },
@@ -114,7 +116,7 @@ function DashboardLayoutBasic() {
             //@ts-ignore
             router={router}
             branding={{
-                logo: <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTwzFCNZBrxYW-yfhaythKch7J3B4OGrDEQ3g&s" />,
+                // logo: <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTwzFCNZBrxYW-yfhaythKch7J3B4OGrDEQ3g&s" />,
                 title: import.meta.env.VITE_APP_NAME + ' admin',
             }}
         >
@@ -126,7 +128,6 @@ function DashboardLayoutBasic() {
                 </div>
             </DashboardLayout>
         </AppProvider>
-        // preview-end
     );
 }
 

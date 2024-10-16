@@ -1,49 +1,53 @@
-import ContentManager from "@shared/ui/ContentManager";
-import TableContainer from "@mui/material/TableContainer";
-import Table from "@mui/material/Table";
-import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import TableCell from "@mui/material/TableCell";
-import TableBody from "@mui/material/TableBody";
-import Paper from "@mui/material/Paper";
+import DeleteIcon from '@mui/icons-material/Delete';
 
-import { usePropertyGroups } from "../api/hooks";
-import { PROPERTY_GROUP_CREATE_PATH_SEGMENT } from "@shared/constants/routes";
+import { PropertyGroup as PropertyGroupI } from "@shared/models/PropertyGroup";
+import { Drawer, Typography } from "@mui/material";
+import ConfirmButton from "@shared/ui/ConfirmButton";
+import Properties from "./Properties";
+import { useState } from "react";
+import { useDeletePropertyGroup } from "../api/hooks";
 
-const PropertyGroup = () => {
-    const { data, isFetching } = usePropertyGroups();
+const PropertyGroup = ({ id, alt_name, title, is_primary, properties, comment }: PropertyGroupI) => {
+    const [showProperties, setShowProperties] = useState<boolean>(false);
+    const deletePropertyGroup = useDeletePropertyGroup();
 
     return (
-        <div>
-            <ContentManager isLoading={isFetching} addLink={PROPERTY_GROUP_CREATE_PATH_SEGMENT}>
-                <TableContainer component={Paper}>
-                    <Table sx={{ minWidth: 650 }} aria-label="simple table">
-                        <TableHead>
-                            <TableRow>
-                                <TableCell align="left">Alt name</TableCell>
-                                <TableCell align="left">Title en</TableCell>
-                                <TableCell align="left">Title ua</TableCell>
-                                <TableCell align="left">Title ru</TableCell>
-                                <TableCell align="left">Is primary</TableCell>
-                                <TableCell align="left">Comment</TableCell>
-                            </TableRow>
-                        </TableHead>
-                        <TableBody>
-                            {data?.data.map((row) => (
-                                <TableRow key={row.alt_name}>
-                                    <TableCell align="left">{row.alt_name}</TableCell>
-                                    <TableCell align="left">{row.title.en}</TableCell>
-                                    <TableCell align="left">{row.title.ua}</TableCell>
-                                    <TableCell align="left">{row.title.ru}</TableCell>
-                                    <TableCell align="left">{row.is_primary ? '+' : '-'}</TableCell>
-                                    <TableCell align="left">{row.comment}</TableCell>
-                                </TableRow>
-                            ))}
-                        </TableBody>
-                    </Table>
-                </TableContainer>
-            </ContentManager>
-        </div>
+        <>
+            <TableRow className="hover:bg-slate-100">
+                <TableCell align="left">{id}</TableCell>
+                <TableCell align="left">
+                    <ConfirmButton
+                        title="Confirm deleting"
+                        icon={<DeleteIcon />}
+                        onAgree={() => deletePropertyGroup.mutate(id)}
+                        iconProps={{ color: 'error' }}
+                    />
+                </TableCell>
+                <TableCell align="right">{alt_name}</TableCell>
+                <TableCell align="right">title</TableCell>
+                <TableCell align="right">
+                    <Typography
+                        onClick={() => setShowProperties(true)}
+                        component='span'
+                        className="cursor-pointer"
+                        color="info"
+                    >
+                        show
+                    </Typography>
+                </TableCell>
+                <TableCell align="right">{is_primary ? 'yes' : 'no'}</TableCell>
+                <TableCell align="right">{comment}</TableCell>
+            </TableRow >
+            <Drawer
+                anchor="right"
+                open={showProperties}
+                onClose={() => setShowProperties(false)}
+            >
+                <Properties properties={properties} />
+            </Drawer>
+        </>
     );
 };
 

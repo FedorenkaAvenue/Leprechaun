@@ -2,8 +2,7 @@ import { MutationCache, QueryCache, QueryClient } from "@tanstack/react-query";
 import { toast } from "react-toastify";
 
 const cacheClient = new QueryClient({
-    queryCache: new QueryCache({
-    }),
+    queryCache: new QueryCache({}),
     mutationCache: new MutationCache({
         onSuccess: () => {
             toast.success("Success");
@@ -13,7 +12,12 @@ const cacheClient = new QueryClient({
             const message = data?.response?.data?.message;
             toast.error(message || "Something wrong..")
         },
-    })
+    }),
+    defaultOptions: {
+        queries: {
+            refetchOnWindowFocus: false,
+        }
+    }
 });
 
 export default cacheClient;
