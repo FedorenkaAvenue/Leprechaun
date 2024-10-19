@@ -8,11 +8,11 @@
 
 		"baseUrl": "./",
 		"paths": {
-			"@/*": ["./*"],
-			"@src/*": ["./src/*"],
 			"@shared/*": ["./src/shared/*"],
 			"@pages/*": ["./src/pages/*"],
-			"@widgets/*": ["./src/widgets/*"]
+			"@widgets/*": ["./src/widgets/*"],
+			"@entities/*": ["./src/entities/*"],
+			"@features/*": ["./src/features/*"]
 		},
 
 		/* Bundler mode */

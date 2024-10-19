@@ -15,7 +15,7 @@ import { Outlet, useLocation, useNavigate } from 'react-router-dom';
 import Divider from '@mui/material/Divider';
 import BreadCrumbs from '@widgets/navigation/ui/BreadCrumbs';
 
-import { PROPERTY_GROUP_PATH_SEGMENT } from '@shared/constants/routes';
+import { PROPERTY_GROUP_PATH_SEGMENT } from '@shared/constants/router';
 
 const NAVIGATION = [
     {
@@ -58,7 +58,7 @@ const NAVIGATION = [
     },
     {
         segment: PROPERTY_GROUP_PATH_SEGMENT,
-        title: 'Property group',
+        title: "Prop group)",
         icon: <CycloneIcon />,
     },
     // {

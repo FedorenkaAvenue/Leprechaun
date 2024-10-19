@@ -2,6 +2,14 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer components {
+    .hover-item {}
+
+    .hover-item:hover {
+        background-color: rgba(238, 238, 238, 0.664);
+    }
+}
+
 :root {
     font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
     line-height: 1.5;

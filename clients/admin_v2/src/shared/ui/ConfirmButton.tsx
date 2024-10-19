@@ -1,20 +1,19 @@
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
-import DialogContent from "@mui/material/DialogContent";
-import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import IconButton, { IconButtonProps } from "@mui/material/IconButton";
-import { useState } from "react";
+import { FC, useState } from "react";
 
 interface Props {
-    icon: any
+    icon: FC
     onAgree: () => void
-    title?: string
+    buttonTitle: string
+    modalTitle: JSX.Element
     iconProps: IconButtonProps
 }
 
-const ConfirmButton = ({ icon, onAgree, title, iconProps }: Props) => {
+const ConfirmButton = ({ icon: Icon, onAgree, buttonTitle, iconProps, modalTitle }: Props) => {
     const [isModalOpen, setModalOpen] = useState(false);
 
     function close() {
@@ -28,8 +27,13 @@ const ConfirmButton = ({ icon, onAgree, title, iconProps }: Props) => {
 
     return (
         <>
-            <IconButton aria-label="delete" onClick={() => setModalOpen(true)} {...iconProps} >
-                {icon}
+            <IconButton
+                title={buttonTitle}
+                aria-label="delete"
+                onClick={() => setModalOpen(true)}
+                {...iconProps}
+            >
+                <Icon />
             </IconButton>
             <Dialog
                 open={isModalOpen}
@@ -37,13 +41,10 @@ const ConfirmButton = ({ icon, onAgree, title, iconProps }: Props) => {
                 aria-labelledby="alert-dialog-title"
                 aria-describedby="alert-dialog-description"
             >
-                <DialogTitle id="alert-dialog-title">Confirm action</DialogTitle>
-                <DialogContent>
-                    <DialogContentText id="alert-dialog-description">{title}</DialogContentText>
-                </DialogContent>
+                <DialogTitle id="alert-dialog-description">{modalTitle}</DialogTitle>
                 <DialogActions>
-                    <Button onClick={close}>Disagree</Button>
-                    <Button onClick={agree} autoFocus>Agree</Button>
+                    <Button onClick={close}>Cancel</Button>
+                    <Button onClick={agree} autoFocus>Ok</Button>
                 </DialogActions>
             </Dialog>
         </>
