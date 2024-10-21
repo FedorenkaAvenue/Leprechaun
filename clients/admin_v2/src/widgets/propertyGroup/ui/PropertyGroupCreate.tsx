@@ -4,15 +4,15 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import LoadingButton from '@mui/lab/LoadingButton';
 import { useNavigate } from "react-router-dom";
 
-import { PROPERTY_GROUP_PATH } from "@shared/constants/router";
 import { useCreatePropertyGroup } from "@features/propertyGroup/api/hooks";
 import { PropertyGroupCreateDTO } from "@features/propertyGroup/models/dto";
+import routerSubConfig from "@shared/config/router";
 
 const PropertyGroupCreate = () => {
     const nav = useNavigate();
     const { register, handleSubmit } = useForm<PropertyGroupCreateDTO>();
     const { mutate, isPending } = useCreatePropertyGroup(() => {
-        nav(PROPERTY_GROUP_PATH);
+        nav(routerSubConfig.propertyGroupList.path);
     });
     const sendForm: SubmitHandler<PropertyGroupCreateDTO> = data => {
         mutate(data);

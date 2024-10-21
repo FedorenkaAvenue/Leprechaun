@@ -3,6 +3,8 @@ import Typography from "@mui/material/Typography";
 import { Link, useLocation } from "react-router-dom";
 import NavigateNextIcon from '@mui/icons-material/NavigateNext';
 
+import routerSubConfig from "@shared/config/router";
+
 const BreadCrumbs = () => {
     const { pathname } = useLocation();
     const slicedPath = pathname.split('/').slice(1);
@@ -12,15 +14,17 @@ const BreadCrumbs = () => {
             <Link color="inherit" to="/">
                 <Typography color='primary'>Home</Typography>
             </Link>
-            {slicedPath.map((p, i) => (
-                i === slicedPath.length - 1 ? (
-                    <Typography key={i}>{p}</Typography>
+            {slicedPath.map((p, i) => {
+                const segment = Object.values(routerSubConfig).find(i => i.segment === p);
+
+                return i === slicedPath.length - 1 ? (
+                    <Typography key={i}>{segment?.title || p}</Typography>
                 ) : (
                     <Link key={i} color="inherit" to={slicedPath.slice(0, i + 1).join('/')}>
-                        <Typography color='primary'>{p}</Typography>
+                        <Typography color='primary'>{segment?.title}</Typography>
                     </Link>
                 )
-            ))}
+            })}
         </Breadcrumbs>
     );
 };

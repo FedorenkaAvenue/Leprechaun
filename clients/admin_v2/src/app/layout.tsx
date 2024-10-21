@@ -13,9 +13,9 @@ import CycloneIcon from '@mui/icons-material/Cyclone';
 import CheckroomIcon from '@mui/icons-material/Checkroom';
 import { Outlet, useLocation, useNavigate } from 'react-router-dom';
 import Divider from '@mui/material/Divider';
-import BreadCrumbs from '@widgets/navigation/ui/BreadCrumbs';
 
-import { PROPERTY_GROUP_PATH_SEGMENT } from '@shared/constants/router';
+import BreadCrumbs from '@widgets/navigation/ui/BreadCrumbs';
+import routerSubConfig from '@shared/config/router';
 
 const NAVIGATION = [
     {
@@ -35,30 +35,30 @@ const NAVIGATION = [
         title: 'Categories',
         icon: <CategoryIcon />,
     },
-    {
-        segment: 'products',
-        title: 'Products',
-        icon: <CheckroomIcon />,
-    },
-    {
-        kind: 'divider',
-    },
-    {
-        segment: 'users',
-        title: 'Users',
-        icon: <GroupIcon />,
-    },
-    {
-        segment: 'orders',
-        title: 'Orders',
-        icon: <ShoppingCartIcon />,
-    },
+    // {
+    //     segment: 'products',
+    //     title: 'Products',
+    //     icon: <CheckroomIcon />,
+    // },
     {
         kind: 'divider',
     },
+    // {
+    //     segment: 'users',
+    //     title: 'Users',
+    //     icon: <GroupIcon />,
+    // },
+    // {
+    //     segment: 'orders',
+    //     title: 'Orders',
+    //     icon: <ShoppingCartIcon />,
+    // },
+    // {
+    //     kind: 'divider',
+    // },
     {
-        segment: PROPERTY_GROUP_PATH_SEGMENT,
-        title: "Prop group)",
+        segment: routerSubConfig.propertyGroupList.segment,
+        title: routerSubConfig.propertyGroupList.title,
         icon: <CycloneIcon />,
     },
     // {
@@ -66,35 +66,35 @@ const NAVIGATION = [
     //     title: 'Properties',
     //     icon: <NatIcon />,
     // },
-    {
-        kind: 'divider',
-    },
-    {
-        kind: 'header',
-        title: 'Analytics',
-    },
-    {
-        segment: 'reports',
-        title: 'Reports',
-        icon: <BarChartIcon />,
-        children: [
-            {
-                segment: 'sales',
-                title: 'Sales',
-                icon: <DescriptionIcon />,
-            },
-            {
-                segment: 'traffic',
-                title: 'Traffic',
-                icon: <DescriptionIcon />,
-            },
-        ],
-    },
-    {
-        segment: 'integrations',
-        title: 'Integrations',
-        icon: <LayersIcon />,
-    },
+    // {
+    //     kind: 'divider',
+    // },
+    // {
+    //     kind: 'header',
+    //     title: 'Analytics',
+    // },
+    // {
+    //     segment: 'reports',
+    //     title: 'Reports',
+    //     icon: <BarChartIcon />,
+    //     children: [
+    //         {
+    //             segment: 'sales',
+    //             title: 'Sales',
+    //             icon: <DescriptionIcon />,
+    //         },
+    //         {
+    //             segment: 'traffic',
+    //             title: 'Traffic',
+    //             icon: <DescriptionIcon />,
+    //         },
+    //     ],
+    // },
+    // {
+    //     segment: 'integrations',
+    //     title: 'Integrations',
+    //     icon: <LayersIcon />,
+    // },
 ];
 
 

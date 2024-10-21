@@ -5,9 +5,13 @@ import Home from "@pages/home/Home";
 import NotFound from "@pages/notFound/NotFound";
 import PropertyGroupList from "@pages/propertyGroup/ui/PropertyGroupList";
 import PropertyGroupCreate from "@pages/propertyGroup/ui/PropertyGroupCreate";
-import { PROPERTY_GROUP_PATH_SEGMENT, CREATE_SEGMENT } from "@shared/constants/router";
+import { CREATE_SEGMENT } from "@shared/constants/routerSegments";
+import routerSubConfig from "@shared/config/router";
+import CategoryCreate from "@pages/category/CategoryCreate";
+import CategoryList from "@pages/category/CategoryList";
+import Category from "@pages/category/Category";
 
-const router = createBrowserRouter([
+const routerConfig = createBrowserRouter([
     {
         path: "",
         element: <Layout />,
@@ -17,7 +21,7 @@ const router = createBrowserRouter([
                 element: <Home />,
             },
             {
-                path: PROPERTY_GROUP_PATH_SEGMENT,
+                path: routerSubConfig.propertyGroupList.segment,
                 children: [
                     {
                         index: true,
@@ -30,11 +34,28 @@ const router = createBrowserRouter([
                 ],
             },
             {
-                path: "*",
+                path: routerSubConfig.categoryList.segment,
+                children: [
+                    {
+                        index: true,
+                        element: <CategoryList />,
+                    },
+                    {
+                        path: CREATE_SEGMENT,
+                        element: <CategoryCreate />,
+                    },
+                    {
+                        path: ":url",
+                        element: <Category />,
+                    }
+                ],
+            },
+            {
+                path: "",
                 element: <NotFound />
             }
         ],
     },
 ]);
 
-export default router;
+export default routerConfig;

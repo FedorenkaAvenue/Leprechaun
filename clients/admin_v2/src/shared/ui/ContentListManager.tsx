@@ -1,20 +1,28 @@
 import Button from "@mui/material/Button";
 import LinearProgress from "@mui/material/LinearProgress";
 import TextField from "@mui/material/TextField";
-import { ChangeEventHandler, PropsWithChildren } from "react";
+import { useDebounce } from "@uidotdev/usehooks";
+import { PropsWithChildren, useEffect, useState } from "react";
 
 interface Props {
     addItemHandle: () => void
     isLoading: boolean
-    searchhandle: ChangeEventHandler<HTMLInputElement>
+    searchhandle: (val: string) => void
 }
 
-const ContentManager = ({ addItemHandle, searchhandle, isLoading, children }: PropsWithChildren<Props>) => {
+const ContentListManager = ({ addItemHandle, searchhandle, isLoading, children }: PropsWithChildren<Props>) => {
+    const [searchVal, setSearchVal] = useState<string>("");
+    const debounceVal = useDebounce(searchVal, 1000);
+
+    useEffect(() => {
+        debounceVal && searchhandle(debounceVal);
+    }, [debounceVal]);
+
     return (
         <div className="flex flex-col gap-2">
             <div className="flex justify-end gap-2 items-center sticky top-16 bg-primary-color">
                 <TextField
-                    onChange={searchhandle}
+                    onChange={({ target: { value } }) => setSearchVal(value)}
                     size="small"
                     id="outlined-basic"
                     label="Search"
@@ -28,4 +36,4 @@ const ContentManager = ({ addItemHandle, searchhandle, isLoading, children }: Pr
     );
 };
 
-export default ContentManager;
+export default ContentListManager;
