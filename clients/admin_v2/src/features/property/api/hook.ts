@@ -25,7 +25,6 @@ export function useCreateProperty(groupId: PropertyGroupModel['id'], successCall
         mutationFn: (property: PropertyCreateDTO) => createProperty({ ...property, propertygroup: groupId }),
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: [PROPERTY_GROUP_QUERY, groupId] });
-            queryClient.invalidateQueries({ queryKey: [PROPERTY_GROUP_LIST_QUERY] });
             successCallback?.call(null);
         },
     })

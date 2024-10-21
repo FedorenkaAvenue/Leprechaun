@@ -1,4 +1,6 @@
-import { CATEGORY_LIST_SEGMENT, CREATE_SEGMENT, PROPERTY_GROUP_LIST_SEGMENT } from "../constants/routerSegments";
+import {
+    CATEGORY_LIST_SEGMENT, CREATE_SEGMENT, PROPERTY_GROUP_LIST_SEGMENT,
+} from "../constants/routerSegments";
 
 const routerSubConfig = {
     propertyGroupList: {

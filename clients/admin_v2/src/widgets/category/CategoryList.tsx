@@ -4,14 +4,15 @@ import TableCell from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
+import { useNavigate } from "react-router";
+import Paper from "@mui/material/Paper";
 
 import CategoryPreview from "@entities/category/ui/CategoryPreview";
 import ContentListManager from "@shared/ui/ContentListManager";
 import { useCategoryList } from "@entities/category/api/hooks";
-import { useNavigate } from "react-router";
-import Paper from "@mui/material/Paper";
 import routerSubConfig from "@shared/config/router";
 import CategoryDeleteButton from "@features/category/ui/CategoryDeleteButton";
+import EditButton from "@shared/ui/EditButton";
 
 const CategoryList = () => {
     const { data, isFetching } = useCategoryList();
@@ -42,7 +43,10 @@ const CategoryList = () => {
                                 <CategoryPreview
                                     key={i.id}
                                     renderTools={() => (
-                                        <CategoryDeleteButton category={i} />
+                                        <>
+                                            <CategoryDeleteButton categoryId={i.id} categoryUrl={i.url} />
+                                            <EditButton handleClick={() => alert("Хуя")} title="Edit category" />
+                                        </>
                                     )}
                                     category={i}
                                 />

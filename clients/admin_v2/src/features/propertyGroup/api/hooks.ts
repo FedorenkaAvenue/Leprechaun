@@ -24,12 +24,13 @@ export function useCreatePropertyGroup(successCallback?: () => void) {
     })
 }
 
-export function useDeletePropertyGroup(id: PropertyGroupModel['id']) {
+export function useDeletePropertyGroup(id: PropertyGroupModel['id'] | undefined, removeCallback?: () => void) {
     const queryClient = useQueryClient();
 
     return useMutation({
         mutationFn: () => removePropertyGroup(id),
         onSuccess: () => {
+            removeCallback?.call(null);
             const groups = queryClient.getQueryData<PropertyGroupModel[]>([PROPERTY_GROUP_LIST_QUERY]);
 
             queryClient.setQueryData(

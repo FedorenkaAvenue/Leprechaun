@@ -8,7 +8,7 @@ export async function createPropertyGroup(payload: PropertyGroupCreateDTO) {
     return res.data;
 }
 
-export async function removePropertyGroup(id: PropertyGroupModel['id']) {
+export async function removePropertyGroup(id: PropertyGroupModel['id'] | undefined) {
     const res = await apiClient.delete(`propertygroup/${id}`);
     return res.data;;
 }

@@ -1,48 +1,24 @@
-import TableRow from "@mui/material/TableRow";
-import TableCell from "@mui/material/TableCell";
-import { Typography } from "@mui/material";
-import { ReactNode } from "react";
-
 import PropertyGroupModel from "../model/PropertyGroup";
 
 interface Props {
-    group: PropertyGroupModel
-    openProperties: () => void
-    renderTools?: () => ReactNode
+    group: PropertyGroupModel | undefined
 }
 
-const PropertyGroup = ({
-    group: { id, alt_name, title, is_primary, properties, comment },
-    openProperties,
-    renderTools,
-}: Props) => {
+const PropertyGroup = ({ group }: Props) => {
     return (
-        <TableRow className="hover-item">
-            <TableCell align="left">{id}</TableCell>
-            <TableCell align="left">
-                {renderTools?.call(null)}
-            </TableCell>
-            <TableCell align="right">{alt_name}</TableCell>
-            <TableCell align="right">
+        <div>
+            <div>id: <b>{group?.id}</b></div>
+            <div>alt name: <b>{group?.alt_name}</b></div>
+            <div>
+                title
                 <ul>
-                    <li>{title.en}</li>
-                    <li>{title.ru}</li>
-                    <li>{title.ua}</li>
+                    <li>en: <b>{group?.title.en}</b></li>
+                    <li>ru: <b>{group?.title.ru}</b></li>
+                    <li>ua: <b>{group?.title.ua}</b></li>
                 </ul>
-            </TableCell>
-            <TableCell align="right">
-                <Typography
-                    onClick={openProperties}
-                    component='span'
-                    className="cursor-pointer"
-                    color="info"
-                >
-                    {properties.length ? `${properties.length} items` : 'none'}
-                </Typography>
-            </TableCell>
-            <TableCell align="right">{is_primary ? 'yes' : 'no'}</TableCell>
-            <TableCell align="right">{comment}</TableCell>
-        </TableRow >
+            </div>
+            <div>is primary: <b>{group?.is_primary ? 'yes' : 'no'}</b></div>
+        </div>
     );
 };
 

@@ -5,7 +5,6 @@ export function getPropertyGroupList() {
     return apiClient.get<PropertyGroupModel[]>('propertygroup/list').then(res => res.data);
 }
 
-
 export function getPropertyGroup(id: PropertyGroupModel['id']) {
     return apiClient.get<PropertyGroupModel>(`propertygroup/${id}`).then(res => res.data);
 }

@@ -1,10 +1,7 @@
-import TransModel from "@shared/models/Trans";
+import PropertyModel from "@entities/property/model/Property";
+import { CategoryPreviewModel } from "./CategoryPreview";
 
-export interface CategoryModel {
-    id: number,
-    url: string,
-    title: TransModel,
-    icon: string,
-    comment: string,
-    is_public: boolean,
+export interface CategoryModel extends CategoryPreviewModel {
+    propertygroups: PropertyModel[]
+    products: any[]
 }

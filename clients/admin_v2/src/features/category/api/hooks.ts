@@ -2,7 +2,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 import { createCategory, removeCategory } from ".";
 import { CategoryCreateDTO } from "../model/dto";
-import { CategoryModel } from "@entities/category/model/Category";
+import { CategoryPreviewModel } from "@entities/category/model/CategoryPreview";
 import { CATEGORY_LIST_QUERY } from "@entities/category/constants/queryKeys";
 
 export function useCreateCategory(successCallback?: () => void) {
@@ -14,13 +14,14 @@ export function useCreateCategory(successCallback?: () => void) {
     });
 }
 
-export function useRemoveCategory(id: CategoryModel['id']) {
+export function useRemoveCategory(id: CategoryPreviewModel['id'] | undefined, removeCallback?: () => void) {
     const client = useQueryClient();
 
     return useMutation({
         mutationFn: () => removeCategory(id),
         onSuccess: () => {
-            const query = client.getQueryData<CategoryModel[]>([CATEGORY_LIST_QUERY]);
+            removeCallback?.call(null);
+            const query = client.getQueryData<CategoryPreviewModel[]>([CATEGORY_LIST_QUERY]);
             client.setQueryData([CATEGORY_LIST_QUERY], query?.filter(i => i.id !== id));
         }
     });

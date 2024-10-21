@@ -25,7 +25,7 @@ export default class CategoryPrivateService extends CategoryService {
             if (icon) {
                 const [uploadedIcon] = await this.FSService.saveFiles(
                     FOLDER_TYPES.CATEGORY,
-                    id, [ icon ]
+                    id, [icon]
                 );
 
                 await this.categoryRepo.update({ id }, { icon: uploadedIcon });
@@ -56,6 +56,7 @@ export default class CategoryPrivateService extends CategoryService {
     public async getCategory(categoryUrl: CategoryI['url']): Promise<CategoryEntity> {
         return await this.categoryRepo.findOne({
             where: { url: categoryUrl },
+            relations: ['propertygroups', 'products'],
         });
     }
 

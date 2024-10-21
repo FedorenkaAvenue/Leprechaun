@@ -1,4 +1,4 @@
-import Button from "@mui/material/Button";
+import Button, { ButtonProps } from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogTitle from "@mui/material/DialogTitle";
@@ -6,11 +6,11 @@ import IconButton, { IconButtonProps } from "@mui/material/IconButton";
 import { FC, useState } from "react";
 
 interface Props {
-    icon: FC
+    icon: FC | undefined
     onAgree: () => void
     buttonTitle: string
     modalTitle: JSX.Element
-    iconProps: IconButtonProps
+    iconProps: IconButtonProps | ButtonProps
 }
 
 const ConfirmButton = ({ icon: Icon, onAgree, buttonTitle, iconProps, modalTitle }: Props) => {
@@ -27,14 +27,20 @@ const ConfirmButton = ({ icon: Icon, onAgree, buttonTitle, iconProps, modalTitle
 
     return (
         <>
-            <IconButton
-                title={buttonTitle}
-                aria-label="delete"
-                onClick={() => setModalOpen(true)}
-                {...iconProps}
-            >
-                <Icon />
-            </IconButton>
+            {Icon ? (
+                <IconButton
+                    title={buttonTitle}
+                    aria-label="delete"
+                    onClick={() => setModalOpen(true)}
+                    {...iconProps as IconButtonProps}
+                >
+                    <Icon />
+                </IconButton>
+            ) : (
+                <Button onClick={() => setModalOpen(true)} {...iconProps as ButtonProps}>
+                    {buttonTitle}
+                </Button>
+            )}
             <Dialog
                 open={isModalOpen}
                 onClose={close}

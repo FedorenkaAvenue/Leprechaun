@@ -1,8 +1,9 @@
 import apiClient from "@shared/api/client"
-import { CategoryModel } from "../model/Category"
+import { CategoryPreviewModel } from "../model/CategoryPreview"
+import { CategoryModel } from "../model/Category";
 
 export const getCategoryList = () => {
-    return apiClient.get<CategoryModel[]>('/category/list').then(res => res.data);
+    return apiClient.get<CategoryPreviewModel[]>('/category/list').then(res => res.data);
 }
 
 export const getCategory = (url: CategoryModel['url']) => {

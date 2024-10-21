@@ -13,10 +13,9 @@ export function usePropertyGroupList() {
     })
 }
 
-export function usePropertyGroup(id: propertyGroupId | null, enabled: boolean) {
+export function usePropertyGroup(id: propertyGroupId | undefined) {
     return useQuery({
         queryKey: [PROPERTY_GROUP_QUERY, id],
         queryFn: () => getPropertyGroup(id as propertyGroupId),
-        enabled
     })
 }

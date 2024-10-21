@@ -4,12 +4,12 @@ import { ReactNode } from "react";
 import { Link } from "react-router-dom";
 import { Typography } from "@mui/material";
 
-import { CategoryModel } from "../model/Category";
+import { CategoryPreviewModel } from "../model/CategoryPreview";
 import CategoryTogglePublic from "@features/category/ui/CategoryTogglePublic";
 import routerSubConfig from "@shared/config/router";
 
 interface Props {
-    category: CategoryModel
+    category: CategoryPreviewModel
     renderTools?: () => ReactNode
 }
 

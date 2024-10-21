@@ -5,7 +5,7 @@ interface Props {
 }
 
 const CategoryTogglePublic = ({ selected }: Props) => {
-    return <Switch checked={selected} />;
+    return <Switch onChange={() => alert('Хуя')} checked={selected} />;
 };
 
 export default CategoryTogglePublic;

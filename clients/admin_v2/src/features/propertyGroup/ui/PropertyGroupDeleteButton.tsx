@@ -1,28 +1,16 @@
-import DeleteIcon from '@mui/icons-material/Delete';
-import { FC } from 'react';
-
 import PropertyGroupModel from "@entities/propertyGroup/model/PropertyGroup";
-import ConfirmButton from "@shared/ui/ConfirmButton";
 import { useDeletePropertyGroup } from '../api/hooks';
+import DeleteButton, { SharedProps as DeleteButtonProps } from '@shared/ui/DeleteButton';
 
-interface Props {
-    group: PropertyGroupModel
-    icon?: FC
+interface Props extends DeleteButtonProps {
+    group: PropertyGroupModel | undefined
 }
 
-const PropertyGroupDeleteButton = ({ group, icon = DeleteIcon }: Props) => {
-    const { mutate } = useDeletePropertyGroup(group.id);
-    const modalTitle = (<>Confirm deleting <b>{group.alt_name}</b> property group?</>);
+const PropertyGroupDeleteButton = (props: Props) => {
+    const { mutate } = useDeletePropertyGroup(props.group?.id, props.removeCallback);
+    const modalTitle = (<>Confirm deleting <b>{props.group?.alt_name}</b> property group?</>);
 
-    return (
-        <ConfirmButton
-            buttonTitle="Delete group"
-            modalTitle={modalTitle}
-            icon={icon}
-            onAgree={mutate}
-            iconProps={{ color: 'error' }}
-        />
-    );
+    return <DeleteButton handleAgree={mutate} modalTitle={modalTitle} {...props} />;
 };
 
 export default PropertyGroupDeleteButton;

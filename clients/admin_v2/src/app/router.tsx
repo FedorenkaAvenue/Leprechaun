@@ -10,6 +10,7 @@ import routerSubConfig from "@shared/config/router";
 import CategoryCreate from "@pages/category/CategoryCreate";
 import CategoryList from "@pages/category/CategoryList";
 import Category from "@pages/category/Category";
+import PropertyGroup from '@pages/propertyGroup/ui/PropertyGroup';
 
 const routerConfig = createBrowserRouter([
     {
@@ -30,6 +31,10 @@ const routerConfig = createBrowserRouter([
                     {
                         path: CREATE_SEGMENT,
                         element: <PropertyGroupCreate />,
+                    },
+                    {
+                        path: ":id",
+                        element: <PropertyGroup />
                     },
                 ],
             },
