@@ -5,7 +5,7 @@ import ContentManager from "@shared/ui/ContentManager";
 import PropertyGroupDeleteButton from "@features/propertyGroup/ui/PropertyGroupDeleteButton";
 import Button from "@mui/material/Button";
 import {
-    Dialog, DialogContent, DialogTitle, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow,
+    Dialog, DialogContent, DialogTitle, Divider, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow,
     Typography,
 } from "@mui/material";
 import { useState } from "react";
@@ -14,18 +14,18 @@ import PropertyGroupModel from "@entities/propertyGroup/model/PropertyGroup";
 import Property from "@entities/property/ui/Property";
 import PropertyDeleteButton from "@features/property/ui/PropertyDeleteButton";
 
-const PropertyGroup = () => {
+const PropertyGroupWidget = () => {
     const { id } = useParams();
     const { data, isFetching } = usePropertyGroup(Number(id));
     const [isNewPropertyOpen, setIsNewPropertyOpen] = useState<boolean>(false);
 
     return (
         <>
-
             <ContentManager
                 isLoading={isFetching}
                 tools={
                     <>
+                        <Button variant="contained" onClick={() => setIsNewPropertyOpen(true)}>Add Property</Button>
                         <Button onClick={() => alert("Хуя")} color='primary' variant='contained'>
                             Edit group
                         </Button>
@@ -33,16 +33,11 @@ const PropertyGroup = () => {
                     </>
                 }
             >
-                <div className="flex gap-4">
-                    <Paper className="p-2">
-                        <Typography>Main</Typography>
-                        <PropertyGroupEntity group={data} />
-                    </Paper>
-                    <div className="flex flex-col gap-2">
-                        <div className="flex gap-2">
-                            <Typography>Properties</Typography>
-                            <Button variant="contained" onClick={() => setIsNewPropertyOpen(true)}>Add</Button>
-                        </div>
+                <div className="flex flex-col gap-4">
+                    <PropertyGroupEntity group={data} />
+                    <Divider />
+                    <div className="flex flex-col gap-4">
+                        <Typography variant="h5">Properties</Typography>
                         {data?.properties.length ? (
                             <TableContainer component={Paper}>
                                 <Table size="small">
@@ -89,4 +84,4 @@ const PropertyGroup = () => {
     );
 };
 
-export default PropertyGroup;
+export default PropertyGroupWidget;

@@ -1,9 +1,6 @@
 import PropertyGroupModel from "@entities/propertyGroup/model/PropertyGroup";
-import TransModel from "@shared/models/Trans";
+import { PropertySchemaT } from "./schema";
 
-export interface PropertyCreateDTO {
+export interface PropertyCreateDTO extends PropertySchemaT {
     propertygroup: PropertyGroupModel['id']
-    title: TransModel
-    alt_name: string
-    comment?: string
 }

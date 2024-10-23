@@ -14,7 +14,7 @@ import routerSubConfig from "@shared/config/router";
 import CategoryDeleteButton from "@features/category/ui/CategoryDeleteButton";
 import EditButton from "@shared/ui/EditButton";
 
-const CategoryList = () => {
+const CategoryTableWidget = () => {
     const { data, isFetching } = useCategoryList();
     const nav = useNavigate();
 
@@ -59,4 +59,4 @@ const CategoryList = () => {
     );
 };
 
-export default CategoryList;
+export default CategoryTableWidget;

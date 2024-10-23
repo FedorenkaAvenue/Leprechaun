@@ -1,8 +1,8 @@
 import Button from "@mui/material/Button";
-import LinearProgress from "@mui/material/LinearProgress";
 import TextField from "@mui/material/TextField";
 import { useDebounce } from "@uidotdev/usehooks";
 import { PropsWithChildren, useEffect, useState } from "react";
+import LinearLoader from "./LinearLoader";
 
 interface Props {
     addItemHandle: () => void
@@ -30,7 +30,7 @@ const ContentListManager = ({ addItemHandle, searchhandle, isLoading, children }
                 />
                 <Button onClick={addItemHandle} variant="contained">Add</Button>
             </div>
-            <div className="h-1">{isLoading && <LinearProgress />}</div>
+            <LinearLoader isLoading={isLoading} />
             {children}
         </div>
     );

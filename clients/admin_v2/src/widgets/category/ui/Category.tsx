@@ -1,13 +1,13 @@
 import { useNavigate, useParams } from 'react-router-dom';
+import { Button } from '@mui/material';
 
 import { useCategory } from '@entities/category/api/hooks';
-import CategoryEntity from '@entities/category/ui/Category';
+import Category from '@entities/category/ui/Category';
 import ContentManager from '@shared/ui/ContentManager';
 import CategoryDeleteButton from '@features/category/ui/CategoryDeleteButton';
 import routerSubConfig from '@shared/config/router';
-import { Button } from '@mui/material';
 
-const Category = () => {
+const CategoryWidget = () => {
     const nav = useNavigate();
     const { url } = useParams();
 
@@ -30,9 +30,9 @@ const Category = () => {
                 </>
             }
         >
-            <CategoryEntity category={data} />
+            <Category category={data} />
         </ContentManager>
     );
 };
 
-export default Category;
+export default CategoryWidget;

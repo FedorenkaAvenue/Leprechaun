@@ -1,7 +1,7 @@
 import PropertyGroupWidget from "@widgets/propertyGroup/ui/PropertyGroup";
 
-const PropertyGroup = () => {
+const PropertyGroupPage = () => {
     return <PropertyGroupWidget />
 };
 
-export default PropertyGroup;
+export default PropertyGroupPage;

@@ -1,18 +1,9 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 import { createCategory, removeCategory } from ".";
-import { CategoryCreateDTO } from "../model/dto";
 import { CategoryPreviewModel } from "@entities/category/model/CategoryPreview";
 import { CATEGORY_LIST_QUERY } from "@entities/category/constants/queryKeys";
-
-export function useCreateCategory(successCallback?: () => void) {
-    return useMutation({
-        mutationFn: (data: CategoryCreateDTO) => createCategory(data),
-        onSuccess: () => {
-            successCallback?.call(null);
-        }
-    });
-}
+import { CategorySchemaY } from "../model/schema";
 
 export function useRemoveCategory(id: CategoryPreviewModel['id'] | undefined, removeCallback?: () => void) {
     const client = useQueryClient();
@@ -23,6 +14,15 @@ export function useRemoveCategory(id: CategoryPreviewModel['id'] | undefined, re
             removeCallback?.call(null);
             const query = client.getQueryData<CategoryPreviewModel[]>([CATEGORY_LIST_QUERY]);
             client.setQueryData([CATEGORY_LIST_QUERY], query?.filter(i => i.id !== id));
+        }
+    });
+}
+
+export function useCreateCategory(successCallback?: () => void) {
+    return useMutation({
+        mutationFn: (data: CategorySchemaY) => createCategory(data),
+        onSuccess: () => {
+            successCallback?.call(null);
         }
     });
 }

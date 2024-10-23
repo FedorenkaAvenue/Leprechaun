@@ -3,62 +3,61 @@ import OutlinedInput from '@mui/material/OutlinedInput';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
-import SelectMui, { SelectChangeEvent } from '@mui/material/Select';
+import SelectMui, { SelectProps } from '@mui/material/Select';
 import Chip from '@mui/material/Chip';
-import OptionModel from '@shared/models/Option';
 import { forwardRef } from 'react';
+import CircularProgress from '@mui/material/CircularProgress';
+import FormHelperText from '@mui/material/FormHelperText';
 
-interface Props {
-    value: OptionModel['id'][]
-    title: string
+import OptionModel from '@shared/models/Option';
+
+export type CustomSelectProps = {
     options: OptionModel[] | undefined
-    onChange: (e: SelectChangeEvent<OptionModel['id'][]>) => void
-    name: string
-}
+    isLoading?: boolean
+    error?: string
+} & Omit<SelectProps<any>, 'error'>;
 
-// const ITEM_HEIGHT = 48;
-// const ITEM_PADDING_TOP = 8;
-// const MenuProps = {
-//     PaperProps: {
-//         style: {
-//             maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
-//             width: 250,
-//         },
-//     },
-// };
+const Select = forwardRef(({
+    options, isLoading, error, disabled, ...props
+}: CustomSelectProps, ref) => {
+    const isEmptyList = !options?.length;
 
-const Select = forwardRef(({ title, options, onChange, value, name }: Props, ref) => {
     return (
-        <FormControl sx={{ m: 1, width: 300 }}>
-            <InputLabel id={title}>{title}</InputLabel>
+        <FormControl sx={{ m: 1, width: 300 }} error={Boolean(error)} disabled={isEmptyList || disabled}>
+            {props.label && <InputLabel id={props.name}>{props.label}</InputLabel>}
             <SelectMui
-                labelId={name}
-                id={name}
-                name={name}
+                disabled={isEmptyList || disabled}
                 ref={ref}
-                multiple
-                value={value}
-                onChange={onChange}
-                input={<OutlinedInput id="select-multiple-chip" label="Chip" />}
+                input={props.label ? <OutlinedInput label="Chip" /> : undefined}
                 renderValue={(selected) => {
-                    const mapedSelected = selected.map(i => options?.find(o => i === o.id));
-
-                    return (
-                        <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
-                            {mapedSelected.map((i) => (
-                                <Chip key={i?.id} label={i?.title} />
-                            ))}
-                        </Box>
-                    )
+                    switch (true) {
+                        case isLoading:
+                            return <CircularProgress size="20px" />;
+                        case !props.multiple:
+                            return <div>{options?.find(i => i.id === props.value)?.title}</div>;
+                        default:
+                            const mapedSelected = (selected as number[]).map(i => options?.find(o => i === o.id));
+                            return (
+                                <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
+                                    {mapedSelected.map((i) => (
+                                        <Chip key={i?.id} label={i?.title} />
+                                    ))}
+                                </Box>
+                            );
+                    }
                 }}
-            // MenuProps={MenuProps}
+                {...props}
             >
                 {options?.map(i => (
                     <MenuItem key={i.id} value={i.id}>{i.title}</MenuItem>
                 ))}
             </SelectMui>
+            {error && <FormHelperText>{error}</FormHelperText>}
+            {isEmptyList && <FormHelperText>List is empty</FormHelperText>}
         </FormControl>
     );
 });
+
+Select.displayName = 'CustomSelect';
 
 export default Select;

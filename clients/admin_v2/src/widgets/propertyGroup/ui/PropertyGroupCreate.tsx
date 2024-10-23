@@ -1,43 +1,44 @@
-import { FormControl, FormControlLabel, FormGroup, FormLabel, Switch } from "@mui/material";
-import TextField from "@mui/material/TextField";
+import { FormControl, FormControlLabel, FormLabel, Switch } from "@mui/material";
 import { SubmitHandler, useForm } from "react-hook-form";
 import LoadingButton from '@mui/lab/LoadingButton';
 import { useNavigate } from "react-router-dom";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 import { useCreatePropertyGroup } from "@features/propertyGroup/api/hooks";
-import { PropertyGroupCreateDTO } from "@features/propertyGroup/models/dto";
 import routerSubConfig from "@shared/config/router";
+import PropertyGroupSchema, { PropertyGroupSchemaT } from "@features/propertyGroup/models/schema";
+import TextInput from "@shared/ui/TextInput";
 
-const PropertyGroupCreate = () => {
+const PropertyGroupCreateWidget = () => {
     const nav = useNavigate();
-    const { register, handleSubmit } = useForm<PropertyGroupCreateDTO>();
+    const { register, handleSubmit, formState: { errors } } = useForm<PropertyGroupSchemaT>({
+        resolver: zodResolver(PropertyGroupSchema),
+    });
     const { mutate, isPending } = useCreatePropertyGroup(() => {
         nav(routerSubConfig.propertyGroupList.path);
     });
-    const sendForm: SubmitHandler<PropertyGroupCreateDTO> = data => {
+    const sendForm: SubmitHandler<PropertyGroupSchemaT> = data => {
         mutate(data);
     };
 
     return (
         <form onSubmit={handleSubmit(sendForm)} className="flex gap-4 flex-col items-baseline">
-            <FormControl>
-                <FormGroup>
-                    <FormControlLabel control={
-                        <Switch {...register('is_primary')} />
-                    }
-                        label="primary" />
-                </FormGroup>
-            </FormControl>
             <div>
                 <FormLabel component="legend">Title</FormLabel>
                 <div className="flex gap-1">
-                    <TextField {...register('title.en')} required id="outlined-basic" label="eng" variant="outlined" />
-                    <TextField {...register('title.ru')} required id="outlined-basic" label="ru" variant="outlined" />
-                    <TextField {...register('title.ua')} required id="outlined-basic" label="ua" variant="outlined" />
+                    <TextInput {...register('title.en')} r label="eng" error={errors.title?.en?.message} />
+                    <TextInput {...register('title.ru')} r label="ru" error={errors.title?.ru?.message} />
+                    <TextInput {...register('title.ua')} r label="ua" error={errors.title?.ua?.message} />
                 </div>
             </div>
-            <TextField {...register('alt_name')} required id="outlined-basic" label="alt name" variant="outlined" />
-            <TextField {...register('comment')} id="outlined-basic" label="comment" variant="outlined" />
+            <TextInput {...register('alt_name')} r label="alt name" error={errors.alt_name?.message} />
+            <FormControl>
+                <FormControlLabel control={
+                    <Switch {...register('is_primary')} />
+                }
+                    label="primary" />
+            </FormControl>
+            <TextInput {...register('comment')} label="comment" multiline className="w-full" />
             <div className="w-full flex justify-center">
                 <LoadingButton
                     type='submit'
@@ -52,4 +53,4 @@ const PropertyGroupCreate = () => {
     );
 };
 
-export default PropertyGroupCreate;
+export default PropertyGroupCreateWidget;

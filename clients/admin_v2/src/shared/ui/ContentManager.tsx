@@ -1,5 +1,5 @@
-import LinearProgress from "@mui/material/LinearProgress";
 import { PropsWithChildren, ReactNode } from "react";
+import LinearLoader from "./LinearLoader";
 
 interface Props {
     isLoading: boolean
@@ -12,7 +12,7 @@ const ContentManager = ({ isLoading, children, tools }: PropsWithChildren<Props>
             <div className="flex justify-end gap-2 items-center sticky top-16 bg-primary-color">
                 {tools}
             </div>
-            <div className="h-1">{isLoading && <LinearProgress />}</div>
+            <LinearLoader isLoading={isLoading} />
             {children}
         </div>
     );

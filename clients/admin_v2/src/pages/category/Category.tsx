@@ -1,9 +1,9 @@
-import CategoryWidget from '@widgets/category/Category';
+import CategoryWidget from '@widgets/category/ui/Category';
 
-const Category = () => {
+const CategoryPage = () => {
     return (
         <CategoryWidget />
     );
 };
 
-export default Category;
+export default CategoryPage;

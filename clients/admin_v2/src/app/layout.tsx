@@ -28,20 +28,14 @@ const NAVIGATION = [
         icon: <DashboardIcon />,
     },
     {
-        kind: 'divider',
-    },
-    {
         segment: 'categories',
         title: 'Categories',
         icon: <CategoryIcon />,
     },
-    // {
-    //     segment: 'products',
-    //     title: 'Products',
-    //     icon: <CheckroomIcon />,
-    // },
     {
-        kind: 'divider',
+        segment: 'products',
+        title: 'Products',
+        icon: <CheckroomIcon />,
     },
     // {
     //     segment: 'users',

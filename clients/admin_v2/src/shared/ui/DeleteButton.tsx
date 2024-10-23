@@ -12,12 +12,13 @@ export interface SharedProps {
 interface Props extends SharedProps {
     handleAgree: () => void
     modalTitle: JSX.Element
+    buttonTitle: string
 }
 
-const DeleteButton = ({ modalTitle, icon = DeleteIcon, withoutIcon, handleAgree }: Props) => {
+const DeleteButton = ({ modalTitle, icon = DeleteIcon, withoutIcon, handleAgree, buttonTitle }: Props) => {
     return (
         <ConfirmButton
-            buttonTitle="Delete category"
+            buttonTitle={buttonTitle}
             modalTitle={modalTitle}
             icon={withoutIcon ? undefined : icon}
             onAgree={handleAgree}

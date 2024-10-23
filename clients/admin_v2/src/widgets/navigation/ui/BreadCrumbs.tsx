@@ -5,7 +5,7 @@ import NavigateNextIcon from '@mui/icons-material/NavigateNext';
 
 import routerSubConfig from "@shared/config/router";
 
-const BreadCrumbs = () => {
+const BreadCrumbsWidget = () => {
     const { pathname } = useLocation();
     const slicedPath = pathname.split('/').slice(1);
 
@@ -29,4 +29,4 @@ const BreadCrumbs = () => {
     );
 };
 
-export default BreadCrumbs;
+export default BreadCrumbsWidget;

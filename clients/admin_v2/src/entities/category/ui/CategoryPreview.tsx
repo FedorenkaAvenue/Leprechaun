@@ -7,6 +7,8 @@ import { Typography } from "@mui/material";
 import { CategoryPreviewModel } from "../model/CategoryPreview";
 import CategoryTogglePublic from "@features/category/ui/CategoryTogglePublic";
 import routerSubConfig from "@shared/config/router";
+import TooltipContent from "@shared/ui/TooltipContent";
+import TransList from "@shared/ui/TransList";
 
 interface Props {
     category: CategoryPreviewModel
@@ -25,15 +27,11 @@ const CategoryPreview = ({
             </TableCell>
             <TableCell align="right">
                 <Link to={`${routerSubConfig.categoryList.path}/${url}`}>
-                    <Typography color='primary'>{url}</Typography>
+                    <Typography component='span' color='primary'>{url}</Typography>
                 </Link>
             </TableCell>
             <TableCell align="right">
-                <ul>
-                    <li>{title.en}</li>
-                    <li>{title.ru}</li>
-                    <li>{title.ua}</li>
-                </ul>
+                <TooltipContent content={<TransList data={title} />} />
             </TableCell>
             <TableCell align="right">
                 <CategoryTogglePublic selected={is_public} />

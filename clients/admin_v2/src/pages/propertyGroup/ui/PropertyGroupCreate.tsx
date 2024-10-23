@@ -1,9 +1,9 @@
 import PropertyGroupCreateWidget from '@widgets/propertyGroup/ui/PropertyGroupCreate';
 
-const PropertyGroupCreate = () => {
+const PropertyGroupCreatePage = () => {
     return (
         <PropertyGroupCreateWidget />
     );
 };
 
-export default PropertyGroupCreate;
+export default PropertyGroupCreatePage;

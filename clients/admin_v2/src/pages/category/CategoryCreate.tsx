@@ -1,7 +1,7 @@
-import CategoryCreateWidget from '@widgets/category/CategoryCreate';
+import CategoryCreateWidget from '@widgets/category/ui/CategoryCreate';
 
-const CategoryCreate = () => {
+const CategoryCreatePage = () => {
     return <CategoryCreateWidget />;
 };
 
-export default CategoryCreate;
+export default CategoryCreatePage;

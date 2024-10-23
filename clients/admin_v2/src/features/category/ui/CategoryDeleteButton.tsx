@@ -11,7 +11,14 @@ const CategoryDeleteButton = (props: Props) => {
     const { mutate } = useRemoveCategory(props.categoryId, props.removeCallback);
     const modalTitle = (<>Confirm deleting <b>{props.categoryUrl}</b> category?</>);
 
-    return <DeleteButton handleAgree={mutate} modalTitle={modalTitle} {...props} />;
+    return (
+        <DeleteButton
+            handleAgree={mutate}
+            modalTitle={modalTitle}
+            buttonTitle='Delete category'
+            {...props}
+        />
+    );
 };
 
 export default CategoryDeleteButton;

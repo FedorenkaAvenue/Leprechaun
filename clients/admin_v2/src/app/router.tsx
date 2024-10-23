@@ -3,14 +3,16 @@ import { createBrowserRouter } from "react-router-dom";
 import Layout from "./layout";
 import Home from "@pages/home/Home";
 import NotFound from "@pages/notFound/NotFound";
-import PropertyGroupList from "@pages/propertyGroup/ui/PropertyGroupList";
+import PropertyGroupTablePage from "@pages/propertyGroup/ui/PropertyGroupTable";
 import PropertyGroupCreate from "@pages/propertyGroup/ui/PropertyGroupCreate";
 import { CREATE_SEGMENT } from "@shared/constants/routerSegments";
 import routerSubConfig from "@shared/config/router";
-import CategoryCreate from "@pages/category/CategoryCreate";
-import CategoryList from "@pages/category/CategoryList";
+import CategoryCreatePage from "@pages/category/CategoryCreate";
+import CategoryTablePage from "@pages/category/CategoryTable";
 import Category from "@pages/category/Category";
-import PropertyGroup from '@pages/propertyGroup/ui/PropertyGroup';
+import PropertyGroupPage from '@pages/propertyGroup/ui/PropertyGroup';
+import ProductCreatePage from "@pages/product/ui/ProductCreate";
+import ProductListPage from '@pages/product/ui/ProductTable';
 
 const routerConfig = createBrowserRouter([
     {
@@ -26,7 +28,7 @@ const routerConfig = createBrowserRouter([
                 children: [
                     {
                         index: true,
-                        element: <PropertyGroupList />,
+                        element: <PropertyGroupTablePage />,
                     },
                     {
                         path: CREATE_SEGMENT,
@@ -34,7 +36,7 @@ const routerConfig = createBrowserRouter([
                     },
                     {
                         path: ":id",
-                        element: <PropertyGroup />
+                        element: <PropertyGroupPage />
                     },
                 ],
             },
@@ -43,15 +45,32 @@ const routerConfig = createBrowserRouter([
                 children: [
                     {
                         index: true,
-                        element: <CategoryList />,
+                        element: <CategoryTablePage />,
                     },
                     {
                         path: CREATE_SEGMENT,
-                        element: <CategoryCreate />,
+                        element: <CategoryCreatePage />,
                     },
                     {
                         path: ":url",
                         element: <Category />,
+                    }
+                ],
+            },
+            {
+                path: routerSubConfig.productList.segment,
+                children: [
+                    {
+                        index: true,
+                        element: <ProductListPage />,
+                    },
+                    {
+                        path: CREATE_SEGMENT,
+                        element: <ProductCreatePage />,
+                    },
+                    {
+                        path: ":url",
+                        element: <div>one product</div>,
                     }
                 ],
             },

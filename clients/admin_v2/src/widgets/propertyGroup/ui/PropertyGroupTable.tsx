@@ -14,7 +14,7 @@ import PropertyGroupPreview from "@entities/propertyGroup/ui/PropertyGroupPrevie
 import PropertyGroupDeleteButton from "@features/propertyGroup/ui/PropertyGroupDeleteButton";
 import EditButton from "@shared/ui/EditButton";
 
-const PropertyGroupList = () => {
+const PropertyGroupTableWidget = () => {
     const nav = useNavigate();
     const { data, isFetching } = usePropertyGroupList();
 
@@ -56,4 +56,4 @@ const PropertyGroupList = () => {
     );
 };
 
-export default PropertyGroupList;
+export default PropertyGroupTableWidget;

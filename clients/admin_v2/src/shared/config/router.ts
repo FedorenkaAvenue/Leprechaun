@@ -1,5 +1,5 @@
 import {
-    CATEGORY_LIST_SEGMENT, CREATE_SEGMENT, PROPERTY_GROUP_LIST_SEGMENT,
+    CATEGORY_LIST_SEGMENT, CREATE_SEGMENT, PRODUCT_LIST_SEGMENT, PROPERTY_GROUP_LIST_SEGMENT,
 } from "../constants/routerSegments";
 
 const routerSubConfig = {
@@ -23,6 +23,16 @@ const routerSubConfig = {
         segment: CREATE_SEGMENT,
         path: `/${CATEGORY_LIST_SEGMENT}/${CREATE_SEGMENT}`,
     },
+    productList: {
+        title: "Product list",
+        segment: PRODUCT_LIST_SEGMENT,
+        path: `/${PRODUCT_LIST_SEGMENT}`,
+    },
+    productCreate: {
+        title: "Create product",
+        segment: CREATE_SEGMENT,
+        path: `/${PRODUCT_LIST_SEGMENT}/${CREATE_SEGMENT}`,
+    }
 } as const;
 
 export default routerSubConfig;

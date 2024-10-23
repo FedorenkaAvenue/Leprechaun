@@ -1,10 +1,12 @@
 import TableRow from "@mui/material/TableRow";
 import TableCell from "@mui/material/TableCell";
-import { Tooltip, Typography } from "@mui/material";
+import { Typography } from "@mui/material";
 import { ReactNode } from "react";
 import { Link } from "react-router-dom";
 
 import PropertyGroupModel from "../model/PropertyGroup";
+import TooltipContent from "@shared/ui/TooltipContent";
+import TransList from "@shared/ui/TransList";
 
 interface Props {
     group: PropertyGroupModel
@@ -23,28 +25,22 @@ const PropertyGroupPreview = ({
             </TableCell>
             <TableCell align="right">
                 <Link to={String(id)}>
-                    <Typography color='primary'>{alt_name}</Typography>
+                    <Typography color='primary' component='span'>{alt_name}</Typography>
                 </Link>
             </TableCell>
             <TableCell align="right">
-                <Tooltip placement='right' title={
-                    <ul>
-                        <li>en: {title.en}</li>
-                        <li>ru: {title.ru}</li>
-                        <li>ua: {title.ua}</li>
-                    </ul>
-                }>
-                    <Typography>show</Typography>
-                </Tooltip>
+                <TooltipContent content={<TransList data={title} />} />
             </TableCell>
             <TableCell align="right">
-                <Tooltip placement='right' title={
-                    <ul>
-                        {properties.map(i => (<li>{i.alt_name}</li>))}
-                    </ul>
-                }>
-                    <Typography>{properties.length || 'none'}</Typography>
-                </Tooltip>
+                <TooltipContent
+                    title={properties.length || 'none'}
+                    active={Boolean(properties.length)}
+                    content={
+                        <ul>
+                            {properties.map(i => (<li key={i.id}>{i.alt_name}</li>))}
+                        </ul>
+                    }
+                />
             </TableCell>
             <TableCell align="right">{is_primary ? 'yes' : 'no'}</TableCell>
             <TableCell align="right">{comment}</TableCell>

@@ -1,15 +1,17 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
-import { createPropertyGroup, removePropertyGroup } from "./index";
+import { createPropertyGroup, getPropertyGroupListByCategoryId, removePropertyGroup } from "./index";
 import PropertyGroupModel from "@entities/propertyGroup/model/PropertyGroup";
 import { PROPERTY_GROUP_LIST_QUERY } from "@entities/propertyGroup/constants/queryKeys";
-import { PropertyGroupCreateDTO } from "../models/dto";
+import { CategoryModel } from "@entities/category/model/Category";
+import { CATEGORY_LIST_QUERY } from "@entities/category/constants/queryKeys";
+import { PropertyGroupSchemaT } from "../models/schema";
 
 export function useCreatePropertyGroup(successCallback?: () => void) {
     const queryClient = useQueryClient();
 
     return useMutation({
-        mutationFn: (body: PropertyGroupCreateDTO) => createPropertyGroup(body),
+        mutationFn: (body: PropertyGroupSchemaT) => createPropertyGroup(body),
         onSuccess: (data) => {
             successCallback?.call(null);
 
@@ -39,4 +41,11 @@ export function useDeletePropertyGroup(id: PropertyGroupModel['id'] | undefined,
             );
         },
     })
+}
+
+export function usePropertyGroupListByCategoryId(id: CategoryModel['id'] | undefined) {
+    return useQuery({
+        queryFn: () => getPropertyGroupListByCategoryId(id),
+        queryKey: [CATEGORY_LIST_QUERY, id],
+    });
 }
