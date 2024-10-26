@@ -1,11 +1,10 @@
 import { FormProvider, useForm, useFormContext } from "react-hook-form";
 import { useEffect, useState } from "react";
 import {
-    Button, FormControl, FormControlLabel, Slider, Step, StepConnector, StepLabel, Stepper, Switch, Typography,
+    Button, FormControl, FormControlLabel, Paper, Slider, Step, StepConnector, StepLabel, Stepper, Switch, Typography,
 } from "@mui/material";
 import { zodResolver } from "@hookform/resolvers/zod";
 
-import ProductStatusSelect from "@features/product/ui/ProductStatusSelect";
 import CategorySelectList from "@features/category/ui/CategorySelectList";
 import { useCategoryList } from "@entities/category/api/hooks";
 import { usePropertyGroupListByCategoryId } from "@features/propertyGroup/api/hooks";
@@ -16,8 +15,11 @@ import ProductStatus from "@entities/product/model/ProductStatus";
 import FileUploader, { FileUploaderFile } from "@shared/ui/FileUploader";
 import { ProductSchemaBySteps, ProductSchemaT } from "@features/product/model/schema";
 import TextInput from "@shared/ui/TextInput";
+import { useCreateProduct } from "@features/product/api/hook";
+import Select from "@shared/ui/Select";
+import productStatusOptions from "@entities/product/constants/productStatusOptions";
 
-const STEPS = ["Main info", "Properties", "Images"];
+const STEPS = ["Main info", "Properties", "Images", "Preview"];
 
 function Step1() {
     const { register, getValues, formState: { errors }, watch } = useFormContext<ProductSchemaT>();
@@ -58,7 +60,7 @@ function Step1() {
                     <Switch {...register('is_new')} defaultChecked={true} />
                 }
                     label="new" />
-                <ProductStatusSelect {...register('status')} value={getValues('status')} />
+                <Select {...register('status')} value={getValues('status')} options={productStatusOptions} />
             </FormControl>
             <div>
                 <Typography>Rating</Typography>
@@ -129,8 +131,8 @@ function Step2() {
 function Step3() {
     const { getValues, formState: { errors }, setValue } = useFormContext<ProductSchemaT>();
 
-    function change(images: FileUploaderFile[]) {
-        setValue('images', images);
+    function change(images: FileUploaderFile[] | FileUploaderFile) {
+        setValue('images', images as FileUploaderFile[]);
     }
 
     return (
@@ -138,22 +140,33 @@ function Step3() {
             value={getValues('images')}
             onChange={change}
             error={errors.images?.message as string}
+            allowMultiple
+            name="images"
             labelIdle={`Drag & Drop product images or <span class="filepond--label-action">Browse</span>`}
         />
     );
 }
 
+function Step4() {
+    const { } = useFormContext<ProductSchemaT>();
+
+    return (
+        <Paper className="p-2">here should be ProductEntity component</Paper>
+    )
+}
+
 const ProductCreateWidget = () => {
+    const { mutate, isPending } = useCreateProduct();
     const [activeStep, setActiveStep] = useState<number>(0);
     const formMethods = useForm<ProductSchemaT>({
-        resolver: zodResolver(ProductSchemaBySteps[activeStep]),
+        resolver: zodResolver(ProductSchemaBySteps[(activeStep > ProductSchemaBySteps.length - 1) ? 0 : activeStep]),
         defaultValues: {
             status: ProductStatus.enum.AVAILABLE,
         }
     });
 
     console.log(formMethods.getValues());
-    console.log(formMethods.formState.errors);
+
 
     async function handleNext() {
         const isStepValid = await formMethods.trigger();
@@ -165,10 +178,8 @@ const ProductCreateWidget = () => {
         setActiveStep((prevActiveStep) => prevActiveStep - 1);
     };
 
-    function onSubmit(data: ProductSchemaT) {
-        console.log(JSON.stringify(data));
-        alert(JSON.stringify(data));
-        handleNext();
+    function onSubmit() {
+        mutate(formMethods.getValues());
     };
 
     return (
@@ -185,19 +196,28 @@ const ProductCreateWidget = () => {
                     {activeStep === 0 && <Step1 />}
                     {activeStep === 1 && <Step2 />}
                     {activeStep === 2 && <Step3 />}
+                    {activeStep === 3 && (
+                        <div>
+                            <LinearLoader isLoading={isPending} />
+                            <Step4 />
+                        </div>
+                    )}
                     <div className="flex justify-center fixed bottom-4 left-2/4">
                         <Button disabled={activeStep === 0} onClick={handleBack}>
                             Back
                         </Button>
-                        {activeStep === STEPS.length - 1 ? (
-                            <Button variant="contained" color="primary" onClick={formMethods.handleSubmit(onSubmit)}>
-                                Submit
-                            </Button>
-                        ) : (
-                            <Button variant="contained" color="primary" onClick={handleNext}>
-                                Next
-                            </Button>
-                        )}
+                        {activeStep === STEPS.length - 1
+                            ? (
+                                <Button variant="contained" color="primary" onClick={formMethods.handleSubmit(onSubmit)}>
+                                    Submit
+                                </Button>
+                            )
+                            : (
+                                <Button variant="contained" color="primary" onClick={handleNext}>
+                                    Next
+                                </Button>
+                            )
+                        }
                     </div>
                 </form>
             </FormProvider>

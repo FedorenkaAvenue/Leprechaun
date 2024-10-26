@@ -60,7 +60,7 @@ services:
       - VITE_APP_NAME=${APP_NAME}
       - DOMAIN
       - VITE_DOMAIN_API=${DOMAIN_API}
-      - DOMAIN_MEDIA
+      - VITE_DOMAIN_MEDIA=${DOMAIN_MEDIA}
     ports:
       - "5173:80"
     networks:

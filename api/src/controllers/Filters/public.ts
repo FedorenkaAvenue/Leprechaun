@@ -1,5 +1,6 @@
-import { CacheInterceptor, Controller, Get, Param, UseInterceptors } from '@nestjs/common';
+import { Controller, Get, Param, UseInterceptors } from '@nestjs/common';
 import { ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
+import { CacheInterceptor } from '@nestjs/cache-manager';
 
 import FilterPublicService from '@services/Filter/public';
 import Queries from '@decorators/Query';
@@ -8,7 +9,7 @@ import { QueriesCommon } from '@dto/Queries/constructor';
 @Controller('filters')
 @ApiTags('Filters 🧑‍💻')
 export default class FilterPublicController {
-    constructor(private readonly filterService: FilterPublicService) {}
+    constructor(private readonly filterService: FilterPublicService) { }
 
     @Get('category/:categoryUrl')
     @UseInterceptors(CacheInterceptor)

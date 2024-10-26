@@ -37,10 +37,10 @@ import { QueriesProductList } from '@dto/Queries/constructor';
 @Controller('adm/product')
 @ApiTags('Product 🤵🏿‍♂️')
 export default class ProductPrivateController {
-    constructor(private readonly productService: ProductPrivateService) {}
+    constructor(private readonly productService: ProductPrivateService) { }
 
     @Post()
-    @UseInterceptors(FilesInterceptor('images'))
+    @UseInterceptors(FilesInterceptor('images[]'))
     @ApiOperation({ summary: 'create new product' })
     @ApiOkResponse({ description: 'success' })
     private createProduct(

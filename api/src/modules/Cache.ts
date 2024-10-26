@@ -1,4 +1,5 @@
-import { Module, CacheModule as CacheNestModule, Global } from '@nestjs/common';
+import { CacheModule as CacheNestModule } from '@nestjs/cache-manager';
+import { Module, Global } from '@nestjs/common';
 
 import CacheService from '@services/Cache';
 import ConfigService from '@services/Config';
@@ -14,4 +15,4 @@ import ConfigService from '@services/Config';
     providers: [CacheService],
     exports: [CacheService, CacheNestModule],
 })
-export default class CacheModule {}
+export default class Cachemodule { }

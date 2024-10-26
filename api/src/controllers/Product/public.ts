@@ -1,4 +1,4 @@
-import { Controller, Get, Param, ParseUUIDPipe, UseInterceptors, CacheInterceptor } from '@nestjs/common';
+import { Controller, Get, Param, ParseUUIDPipe, UseInterceptors } from '@nestjs/common';
 import {
     ApiBadRequestResponse,
     ApiNotFoundResponse,
@@ -7,6 +7,7 @@ import {
     ApiQuery,
     ApiTags,
 } from '@nestjs/swagger';
+import { CacheInterceptor } from '@nestjs/cache-manager';
 
 import ProductPublicService from '@services/Product/public';
 import { PaginationResult } from '@dto/Pagination/constructor';
@@ -22,7 +23,7 @@ import { ProductStatusE } from '@enums/Product';
 @Controller('product')
 @ApiTags('Product 🧑‍💻')
 export default class ProductPublicController {
-    constructor(private readonly productService: ProductPublicService) {}
+    constructor(private readonly productService: ProductPublicService) { }
 
     @Get('list')
     @UseInterceptors(CacheInterceptor)

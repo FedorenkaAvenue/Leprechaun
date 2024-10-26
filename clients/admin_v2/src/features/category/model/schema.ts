@@ -19,5 +19,5 @@ const CategorySchema = z.object({
     comment: z.string().optional(),
 });
 
-export type CategorySchemaY = z.infer<typeof CategorySchema>;
+export type CategorySchemaT = z.infer<typeof CategorySchema>;
 export default CategorySchema;

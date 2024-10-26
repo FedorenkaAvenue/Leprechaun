@@ -1,5 +1,4 @@
-import Breadcrumbs from "@mui/material/Breadcrumbs";
-import Typography from "@mui/material/Typography";
+import { Breadcrumbs, Typography } from "@mui/material";
 import { Link, useLocation } from "react-router-dom";
 import NavigateNextIcon from '@mui/icons-material/NavigateNext';
 
@@ -17,13 +16,13 @@ const BreadCrumbsWidget = () => {
             {slicedPath.map((p, i) => {
                 const segment = Object.values(routerSubConfig).find(i => i.segment === p);
 
-                return i === slicedPath.length - 1 ? (
-                    <Typography key={i}>{segment?.title || p}</Typography>
-                ) : (
-                    <Link key={i} color="inherit" to={slicedPath.slice(0, i + 1).join('/')}>
-                        <Typography color='primary'>{segment?.title}</Typography>
-                    </Link>
-                )
+                return i === slicedPath.length - 1
+                    ? <Typography key={i}>{segment?.title || p}</Typography>
+                    : (
+                        <Link key={i} color="inherit" to={slicedPath.slice(0, i + 1).join('/')}>
+                            <Typography color='primary'>{segment?.title}</Typography>
+                        </Link>
+                    )
             })}
         </Breadcrumbs>
     );

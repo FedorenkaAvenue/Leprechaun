@@ -1,6 +1,7 @@
 import { Chip, Divider, Typography } from "@mui/material";
-import { CategoryModel } from "../model/Category";
 import { Link } from "react-router-dom";
+
+import { CategoryModel } from "../model/Category";
 import routerSubConfig from "@shared/config/router";
 
 interface Props {

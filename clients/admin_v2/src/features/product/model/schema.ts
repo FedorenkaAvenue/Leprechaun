@@ -39,7 +39,7 @@ const step2 = z.object({
 const step3 = z.object({
     images: z
         .any()
-        .refine(files => files?.[0]?.size <= MAX_FILE_SIZE, `Max image size is 5MB.`)
+    // .refine(files => files?.[0]?.size <= MAX_FILE_SIZE, `Max image size is 5MB.`)
 });
 
 const ProductSchema = z.object({ ...step1.shape, ...step2.shape, ...step3.shape });

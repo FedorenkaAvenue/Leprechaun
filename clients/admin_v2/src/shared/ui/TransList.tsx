@@ -7,7 +7,7 @@ interface Props {
 const TransList = ({ data }: Props) => (
     <ul>
         {Object.entries(data).map<JSX.Element>(([k, v]) => (
-            <li>{k}: {v}</li>
+            <li key={k}>{k}: {v}</li>
         ))}
     </ul>
 );

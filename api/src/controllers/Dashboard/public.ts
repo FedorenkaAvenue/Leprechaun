@@ -1,5 +1,6 @@
-import { CacheInterceptor, Controller, Get, Session, UseInterceptors } from '@nestjs/common';
+import { Controller, Get, Session, UseInterceptors } from '@nestjs/common';
 import { ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
+import { CacheInterceptor } from '@nestjs/cache-manager';
 
 import { CommonDashboards, UserDashboards } from '@dto/Dashboard/constructor';
 import DashboardPublicService from '@services/Dashboard/public';
@@ -9,7 +10,7 @@ import { QueriesCommon } from '@dto/Queries/constructor';
 @Controller('dashboard')
 @ApiTags('Dashboard 🧑‍💻')
 export default class DashboardPublicController {
-    constructor(private readonly dashboardService: DashboardPublicService) {}
+    constructor(private readonly dashboardService: DashboardPublicService) { }
 
     @Get('common')
     @UseInterceptors(CacheInterceptor)

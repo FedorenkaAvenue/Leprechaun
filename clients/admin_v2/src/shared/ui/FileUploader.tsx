@@ -25,17 +25,17 @@ registerPlugin(
 export type FileUploaderFile = FilePondFile["file"];
 interface Props extends FilePondProps {
     value: Blob[] | undefined,
-    onChange: (images: FileUploaderFile[]) => void
+    onChange: (images: FileUploaderFile | FileUploaderFile[]) => void
     error?: string
 }
 
-const FileUploader = forwardRef<FilePond, Props>(({ value = [], onChange, error, ...props }, ref) => {
+const FileUploader = forwardRef<FilePond, Props>(({ value = [], onChange, error, allowMultiple, ...props }, ref) => {
     const [files, setFiles] = useState<(FilePondInitialFile | ActualFileObject | Blob | string)[]>(value);
 
     function onUpdate(files: FilePondFile[]) {
         //@ts-ignore
-        setFiles(files);
-        onChange(files.map(i => i.file));
+        setFiles(allowMultiple ? files : files[0]);
+        onChange(allowMultiple ? files.map(i => i.file) : files[0].file);
     }
 
     return (
@@ -44,13 +44,12 @@ const FileUploader = forwardRef<FilePond, Props>(({ value = [], onChange, error,
             <FilePond
                 ref={ref}
                 files={files}
-                allowMultiple
                 onreorderfiles={onUpdate}
                 allowReorder
-                maxFiles={props.maxFiles || 10}
                 styleButtonRemoveItemPosition='right'
                 credits={false}
                 onupdatefiles={onUpdate}
+                allowMultiple={allowMultiple}
                 {...props}
             />
         </div>

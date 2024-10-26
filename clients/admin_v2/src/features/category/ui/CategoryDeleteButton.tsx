@@ -7,9 +7,9 @@ interface Props extends DeleteButtonProps {
     categoryUrl: CategoryModel['url'] | undefined
 }
 
-const CategoryDeleteButton = (props: Props) => {
-    const { mutate } = useRemoveCategory(props.categoryId, props.removeCallback);
-    const modalTitle = (<>Confirm deleting <b>{props.categoryUrl}</b> category?</>);
+const CategoryDeleteButton = ({ categoryId, categoryUrl, ...props }: Props) => {
+    const { mutate } = useRemoveCategory(categoryId, props.removeCallback);
+    const modalTitle = (<>Confirm deleting <b>{categoryUrl}</b> category?</>);
 
     return (
         <DeleteButton

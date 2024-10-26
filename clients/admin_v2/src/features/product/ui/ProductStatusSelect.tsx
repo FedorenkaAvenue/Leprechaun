@@ -1,30 +1,32 @@
 import { forwardRef } from "react";
-import { UseFormRegisterReturn } from "react-hook-form";
+import { SelectChangeEvent } from "@mui/material";
 
-import Select from "@shared/ui/Select";
-import OptionModel from "@shared/models/Option";
-import ProductStatus, { ProductStatusT } from "@entities/product/model/ProductStatus";
+import Select, { CustomSelectProps } from "@shared/ui/Select";
+import { ProductStatusT } from "@entities/product/model/ProductStatus";
+import productStatusOptions from "@entities/product/constants/productStatusOptions";
 
-interface Props extends UseFormRegisterReturn {
+type Props = {
     value: ProductStatusT
-}
-
-const options: OptionModel[] = [
-    { title: 'Available', id: ProductStatus.enum.AVAILABLE },
-    { title: 'Out of stock', id: ProductStatus.enum.OUT_OF_STOCK },
-];
+} & Omit<CustomSelectProps, 'options' | 'multiple'>;
 
 const ProductStatusSelect = forwardRef<React.JSX.Element, Props>((
     { value, ...props }, ref
-) => (
-    <Select
-        options={options}
-        title="Status"
-        value={value}
-        ref={ref}
-        {...props}
-    />
-));
+) => {
+    function select(event: SelectChangeEvent<any>): void {
+        alert('Хуя')
+    }
+
+    return (
+        <Select
+            options={productStatusOptions}
+            title="Status"
+            onChange={select}
+            value={value}
+            ref={ref}
+            {...props}
+        />
+    )
+});
 
 ProductStatusSelect.displayName = 'ProductStatusSelect';
 

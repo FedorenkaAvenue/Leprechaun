@@ -1,5 +1,5 @@
 import { TypeOrmModuleOptions } from '@nestjs/typeorm';
-import { CacheModuleOptions, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { CorsOptions } from '@nestjs/common/interfaces/external/cors-options.interface';
 import { SessionOptions } from 'express-session';
 import SMTPTransport from 'nodemailer/lib/smtp-transport';
@@ -7,9 +7,9 @@ import * as session from 'express-session';
 import * as redisCacheStore from 'cache-manager-redis-store';
 import { Pool as PGPool } from 'pg';
 import { PostgresConnectionCredentialsOptions } from 'typeorm/driver/postgres/PostgresConnectionCredentialsOptions';
-import { ElasticsearchModuleOptions } from '@nestjs/elasticsearch';
 import { memoryStorage } from 'multer';
 import { MulterModuleOptions } from '@nestjs/platform-express';
+import { CacheModuleOptions } from '@nestjs/cache-manager';
 const pgConnect = require('connect-pg-simple');
 
 const ENV_ARRAY_SPLIT_SYMBOL = ',';

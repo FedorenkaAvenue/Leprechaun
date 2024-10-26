@@ -1,37 +1,58 @@
-import Button from "@mui/material/Button";
-import TextField from "@mui/material/TextField";
+import { Button, Pagination } from "@mui/material";
 import { useDebounce } from "@uidotdev/usehooks";
 import { PropsWithChildren, useEffect, useState } from "react";
+
 import LinearLoader from "./LinearLoader";
+import TextInput from "./TextInput";
+import PaginationModel from "@shared/models/Pagination";
 
 interface Props {
     addItemHandle: () => void
     isLoading: boolean
-    searchhandle: (val: string) => void
+    searchHandle: (val: string) => void
+    pagination?: {
+        data: PaginationModel<any> | undefined
+        setPage: (event: React.ChangeEvent<unknown>, page: number) => void
+    }
 }
 
-const ContentListManager = ({ addItemHandle, searchhandle, isLoading, children }: PropsWithChildren<Props>) => {
+const ContentListManager = ({
+    addItemHandle, searchHandle, isLoading, children, pagination,
+}: PropsWithChildren<Props>) => {
+    const [prevPagination, setPrevPagination] = useState(pagination?.data);
     const [searchVal, setSearchVal] = useState<string>("");
     const debounceVal = useDebounce(searchVal, 1000);
 
     useEffect(() => {
-        debounceVal && searchhandle(debounceVal);
+        if (pagination?.data) setPrevPagination(pagination.data);
+    }, [pagination?.data]);
+
+    useEffect(() => {
+        debounceVal && searchHandle(debounceVal);
     }, [debounceVal]);
 
     return (
         <div className="flex flex-col gap-2">
             <div className="flex justify-end gap-2 items-center sticky top-16 bg-primary-color">
-                <TextField
+                <TextInput
                     onChange={({ target: { value } }) => setSearchVal(value)}
                     size="small"
-                    id="outlined-basic"
                     label="Search"
-                    variant="outlined"
                 />
                 <Button onClick={addItemHandle} variant="contained">Add</Button>
             </div>
             <LinearLoader isLoading={isLoading} />
             {children}
+            {
+                prevPagination
+                && <Pagination
+                    sx={{ display: 'flex', justifyContent: 'center', position: 'fixed', bottom: '10px', left: '50%' }}
+                    count={prevPagination?.pagination.pageCount}
+                    page={prevPagination?.pagination.currentPage || 1}
+                    onChange={pagination?.setPage}
+                    color="primary"
+                />
+            }
         </div>
     );
 };

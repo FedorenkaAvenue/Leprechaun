@@ -1,27 +1,24 @@
-import FormControl from "@mui/material/FormControl";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import FormLabel from "@mui/material/FormLabel";
+import { FormControl, FormControlLabel, FormLabel, Switch } from '@mui/material';
 import LoadingButton from '@mui/lab/LoadingButton';
 import { SubmitHandler, useForm } from "react-hook-form";
-import Switch from "@mui/material/Switch";
 import { useNavigate } from "react-router-dom";
 
 import routerSubConfig from "@shared/config/router";
 import PropertyGroupSelectList from "@features/propertyGroup/ui/PropertyGroupSelectList";
-import { CategorySchemaY } from "@features/category/model/schema";
+import { CategorySchemaT } from "@features/category/model/schema";
 import { useCreateCategory } from "@features/category/api/hooks";
 import FileUploader from "@shared/ui/FileUploader";
 import TextInput from "@shared/ui/TextInput";
 
 const CategoryCreateWidget = () => {
     const nav = useNavigate();
-    const { register, handleSubmit, getValues, watch, setValue, formState: { errors } } = useForm<CategorySchemaY>({
+    const { register, handleSubmit, getValues, watch, setValue, formState: { errors } } = useForm<CategorySchemaT>({
         defaultValues: {
             propertygroups: [],
         }
     });
     const { mutate, isPending } = useCreateCategory(() => nav(routerSubConfig.categoryList.path));
-    const sendForm: SubmitHandler<CategorySchemaY> = data => {
+    const sendForm: SubmitHandler<CategorySchemaT> = data => {
         mutate(data);
     };
 

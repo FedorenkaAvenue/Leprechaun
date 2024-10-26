@@ -32,7 +32,7 @@ export class CreateProductDTO implements ProductI {
     @IsObject()
     @ValidateNested()
     @Type(() => TransDTO)
-    @ApiProperty({ required: false })
+    @ApiProperty()
     description: TransDTO;
 
     @IsNotEmpty()
@@ -41,7 +41,7 @@ export class CreateProductDTO implements ProductI {
     price_current: PriceI['current'];
 
     @IsOptional()
-    @IsNumberString()
+    // @IsNumberString()
     @ApiProperty({ required: false, default: null })
     price_old: PriceI['old'];
 
@@ -50,8 +50,8 @@ export class CreateProductDTO implements ProductI {
     @ApiProperty({ required: false, default: false })
     is_public: boolean;
 
-    @IsOptional()
-    @IsEnum(ProductStatusE)
+    // @IsOptional()
+    // @IsEnum(ProductStatusE)
     @ApiProperty({
         enum: ProductStatusE,
         required: false,

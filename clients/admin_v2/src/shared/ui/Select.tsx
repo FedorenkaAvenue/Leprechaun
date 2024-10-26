@@ -1,15 +1,12 @@
-import Box from '@mui/material/Box';
-import OutlinedInput from '@mui/material/OutlinedInput';
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
-import SelectMui, { SelectProps } from '@mui/material/Select';
-import Chip from '@mui/material/Chip';
+
+import {
+    Box, Chip, Select as SelectMui, CircularProgress, FormControl, FormHelperText, InputLabel, MenuItem, OutlinedInput,
+    SelectProps,
+} from '@mui/material';
 import { forwardRef } from 'react';
-import CircularProgress from '@mui/material/CircularProgress';
-import FormHelperText from '@mui/material/FormHelperText';
 
 import OptionModel from '@shared/models/Option';
+
 
 export type CustomSelectProps = {
     options: OptionModel[] | undefined
@@ -23,7 +20,7 @@ const Select = forwardRef(({
     const isEmptyList = !options?.length;
 
     return (
-        <FormControl sx={{ m: 1, width: 300 }} error={Boolean(error)} disabled={isEmptyList || disabled}>
+        <FormControl sx={{ m: 1, width: 300, margin: 0 }} error={Boolean(error)} disabled={isEmptyList || disabled}>
             {props.label && <InputLabel id={props.name}>{props.label}</InputLabel>}
             <SelectMui
                 disabled={isEmptyList || disabled}

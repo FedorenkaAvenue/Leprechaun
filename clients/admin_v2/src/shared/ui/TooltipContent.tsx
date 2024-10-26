@@ -1,5 +1,4 @@
-import Tooltip from "@mui/material/Tooltip";
-import Typography from "@mui/material/Typography";
+import { Tooltip, Typography } from "@mui/material";
 
 interface Props {
     content: JSX.Element
@@ -9,15 +8,15 @@ interface Props {
 
 const TooltipContent = ({ content, title = 'show', active = true }: Props) => {
     return (
-        active ? (
-            <Tooltip placement='right' title={content} arrow>
-                <Typography component='span' color='warning' className="cursor-context-menu">
-                    {title}
-                </Typography>
-            </Tooltip>)
-            : (
-                <Typography component='span' color='textDisabled'>{title}</Typography>
+        active
+            ? (
+                <Tooltip placement='right' title={content} arrow>
+                    <Typography component='span' color='warning' className="cursor-context-menu">
+                        {title}
+                    </Typography>
+                </Tooltip>
             )
+            : <Typography component='span' color='textDisabled'>{title}</Typography>
     );
 };
 
