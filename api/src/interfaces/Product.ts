@@ -19,7 +19,7 @@ export interface ProductBaseI<T = TransI> {
     description?: T;
 }
 
-export interface ProductPreviewI extends ProductBaseI<string> {
+export interface ProductPreviewPublicI extends ProductBaseI<string> {
     image: string;
 }
 
@@ -40,16 +40,18 @@ export interface ProductPublicI extends ProductBaseI<string> {
     options: OptionPublicI[];
 }
 
-export interface ProductI extends ProductBaseI {
-    description?: TransI;
-    properties: PropertyI[];
-    images: ImageI[];
+export interface ProductPreviewI extends ProductBaseI {
     category: CategoryI;
     rating: number;
-    created_at?: Date;
-    is_public?: boolean;
+    created_at: Date;
+    is_public: boolean;
     comment: string;
     is_new: boolean;
-    orderCount?: number;
+}
+
+export interface ProductI extends ProductPreviewI {
+    images: ImageI[];
+    properties: PropertyI[];
+    orderCount: number;
     wishlistCount?: WishlistItemEntity[];
 }

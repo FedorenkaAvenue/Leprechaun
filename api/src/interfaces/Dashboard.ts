@@ -1,6 +1,6 @@
-import { ProductPreviewI } from './Product';
+import { ProductPreviewPublicI } from './Product';
 
-type DashboardT = ProductPreviewI[];
+type DashboardT = ProductPreviewPublicI[];
 
 export interface CommonDashboardsI {
     newest: DashboardT;

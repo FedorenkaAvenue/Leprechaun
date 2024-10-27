@@ -1,16 +1,18 @@
-import { Chip, Divider, Typography } from "@mui/material";
-import { Link } from "react-router-dom";
+import { ReactNode } from "react";
 
 import { CategoryModel } from "../model/Category";
-import routerSubConfig from "@shared/config/router";
+import PropertyGroupPreviewModel from "@entities/propertyGroup/model/PropertyGroup";
+import ProductPreviewModel from "@entities/product/model/ProductPreview";
 
 interface Props {
     category: CategoryModel | undefined
+    renderPropertyGroups?: (p: PropertyGroupPreviewModel[] | undefined) => ReactNode
+    renderProducts?: (p: ProductPreviewModel[] | undefined) => ReactNode
 }
 
-const Category = ({ category }: Props) => {
+const Category = ({ category, renderPropertyGroups, renderProducts }: Props) => {
     return (
-        <div className="flex flex-col flex-wrap gap-4">
+        <div className="flex flex-col gap-4">
             <div className="flex">
                 <div className="flex-1">
                     <div className="p-2">id: <b>{category?.id}</b></div>
@@ -28,26 +30,8 @@ const Category = ({ category }: Props) => {
                     </ul>
                 </div>
             </div>
-            <Divider />
-            <div className="flex flex-col gap-4">
-                <Typography variant='h5'>Property groups</Typography>
-                <ul className="flex gap-4">
-                    {category?.propertygroups.map(i => (
-                        <li key={i.id}>
-                            <Link to={`${routerSubConfig.propertyGroupList.path}/${i.id}`}>
-                                <Chip color='primary' label={i.alt_name} />
-                            </Link>
-                        </li>
-                    ))}
-                </ul>
-            </div>
-            <Divider />
-            <div className="flex flex-col gap-4">
-                <Typography variant='h5'>Products</Typography>
-                <div className="p-2">
-                    products..
-                </div>
-            </div>
+            {renderPropertyGroups?.call(null, category?.propertygroups)}
+            {renderProducts?.call(null, category?.products)}
         </div>
     );
 };

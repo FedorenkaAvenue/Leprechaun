@@ -13,7 +13,7 @@ import {
 } from 'typeorm';
 
 import { CategoryEntity } from '@entities/Category';
-import { ProductI } from '@interfaces/Product';
+import { ProductI, ProductPreviewI } from '@interfaces/Product';
 import { ProductStatusE } from '@enums/Product';
 import { ImageEntity } from '@entities/Image';
 import { CategoryI } from '@interfaces/Category';
@@ -24,8 +24,7 @@ import { TransI } from '@interfaces/Trans';
 import { TransEntity } from './Trans';
 import { OptionI } from '@interfaces/PropertyGroup';
 
-@Entity('product')
-export class ProductEntity implements ProductI {
+export class ProductPreviewEntity implements ProductPreviewI {
     @PrimaryGeneratedColumn('uuid')
     @ApiProperty()
     id: string;
@@ -47,19 +46,6 @@ export class ProductEntity implements ProductI {
     @Column(() => PriceEntity, { prefix: false })
     @ApiProperty({ type: PriceEntity })
     price: PriceEntity;
-
-    @OneToMany(() => ImageEntity, ({ product_id }) => product_id, { eager: true })
-    @ApiProperty({ type: ImageEntity, isArray: true })
-    images: ImageEntity[];
-
-    @ManyToMany(() => PropertyEntity, ({ id }) => id, { cascade: true })
-    @JoinTable({
-        name: '_products_to_properties',
-        joinColumn: { name: 'product_id' },
-        inverseJoinColumn: { name: 'property_id' },
-    })
-    @ApiProperty({ type: PropertyEntity, isArray: true })
-    properties: PropertyEntity[];
 
     @ManyToOne(() => CategoryEntity, ({ products }) => products, { onDelete: 'NO ACTION' })
     @JoinColumn({ name: 'category', referencedColumnName: 'id' })
@@ -85,8 +71,24 @@ export class ProductEntity implements ProductI {
     @Column({ nullable: true })
     @ApiProperty()
     comment: string;
+}
 
-    @Column({ default: 0 })
+@Entity('product')
+export class ProductEntity extends ProductPreviewEntity implements ProductI {
+    @OneToMany(() => ImageEntity, ({ product_id }) => product_id)
+    @ApiProperty({ type: ImageEntity, isArray: true })
+    images: ImageEntity[];
+
+    @ManyToMany(() => PropertyEntity, ({ id }) => id, { cascade: true })
+    @JoinTable({
+        name: '_products_to_properties',
+        joinColumn: { name: 'product_id' },
+        inverseJoinColumn: { name: 'property_id' },
+    })
+    @ApiProperty({ type: PropertyEntity, isArray: true })
+    properties: PropertyEntity[];
+
+    @Column({ default: 0, select: false })
     @ApiProperty({ description: 'how many users ordered this product' })
     orderCount: number;
 

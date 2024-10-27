@@ -3,38 +3,35 @@ import { Link } from "react-router-dom";
 import { ReactNode } from "react";
 
 import TooltipContent from "@shared/ui/TooltipContent";
-import { ProductModel } from "../model/Product";
 import TransList from "@shared/ui/TransList";
 import ProductTogglePublic from "@features/product/ui/ProductTogglePublic";
 import ProductStatusSelect from "@features/product/ui/ProductStatusSelect";
+import ProductPreviewModel from "../model/ProductPreview";
 
 interface Props {
-    product: ProductModel
-    renderTools: () => ReactNode
+    product: ProductPreviewModel
+    renderTools?: (product: ProductPreviewModel) => ReactNode
 }
 
-const ProductPreview = ({
-    product: { id, title, is_public, status },
-    renderTools,
-}: Props) => {
+const ProductPreview = ({ product, renderTools }: Props) => {
     return (
         <TableRow className="hover-item">
             <TableCell align="left">
-                <Link to={String(id)}>
-                    <Typography color='primary' component='span'>{id}</Typography>
+                <Link to={String(product.id)}>
+                    <Typography color='primary' component='span'>{product.id}</Typography>
                 </Link>
             </TableCell>
             <TableCell align="left">
-                {renderTools?.call(null)}
+                {renderTools?.call(null, product)}
             </TableCell>
             <TableCell align="right">
-                <TooltipContent content={<TransList data={title} />} />
+                <TooltipContent content={<TransList data={product.title} />} />
             </TableCell>
             <TableCell align="right">
-                <ProductTogglePublic selected={is_public} />
+                <ProductTogglePublic selected={product.is_public} />
             </TableCell>
             <TableCell align="right">
-                <ProductStatusSelect value={status} size='small' />
+                <ProductStatusSelect value={product.status} size='small' />
             </TableCell>
         </TableRow >
     );

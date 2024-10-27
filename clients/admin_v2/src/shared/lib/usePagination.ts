@@ -9,7 +9,7 @@ export default function usePagination(): [number, (event: React.ChangeEvent<unkn
 
     const changePage = useCallback((_: React.ChangeEvent<unknown>, page: number): void => {
         setPage(page);
-        setSearchParams({ [QUERY_SEARCH_PARAM]: String(page) });
+        setSearchParams({ [QUERY_SEARCH_PARAM]: String(page) }, { flushSync: true });
     }, []);
 
     return [page, changePage];

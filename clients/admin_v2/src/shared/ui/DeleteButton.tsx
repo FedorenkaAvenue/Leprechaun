@@ -1,28 +1,22 @@
-import { FC } from "react";
 import DeleteIcon from '@mui/icons-material/Delete';
 
-import ConfirmButton from "./ConfirmButton";
+import ConfirmButton, { ConfirmButtonProps } from "./ConfirmButton";
 
-export interface SharedProps {
-    icon?: FC
+export interface DeleteButtonProps extends ConfirmButtonProps {
     withoutIcon?: boolean
-    removeCallback?: () => void
 }
 
-interface Props extends SharedProps {
-    handleAgree: () => void
-    modalTitle: JSX.Element
-    buttonTitle: string
-}
-
-const DeleteButton = ({ modalTitle, icon = DeleteIcon, withoutIcon, handleAgree, buttonTitle }: Props) => {
+const DeleteButton = ({
+    modalTitle, withoutIcon, buttonTitle, modalContent, icon = DeleteIcon, ...props
+}: DeleteButtonProps) => {
     return (
         <ConfirmButton
             buttonTitle={buttonTitle}
             modalTitle={modalTitle}
+            modalContent={modalContent}
             icon={withoutIcon ? undefined : icon}
-            onAgree={handleAgree}
-            iconProps={{ color: 'error', variant: 'contained' }}
+            {...props}
+            iconProps={{ ...props.iconProps, color: 'error', variant: 'contained' }}
         />
     );
 };

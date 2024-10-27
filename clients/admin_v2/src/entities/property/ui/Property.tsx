@@ -5,29 +5,26 @@ import PropertyModel from "../model/Property";
 
 interface Props {
     property: PropertyModel
-    renderTools: () => ReactNode
+    renderTools?: (property: PropertyModel) => ReactNode
 }
 
-const Property = ({
-    property: { alt_name, title, id, comment },
-    renderTools,
-}: Props) => {
+const Property = ({ property, renderTools }: Props) => {
     return (
         <>
             <TableRow className="hover-item">
-                <TableCell>{id}</TableCell>
+                <TableCell>{property.id}</TableCell>
                 <TableCell>
-                    {renderTools?.call(null)}
+                    {renderTools?.call(null, property)}
                 </TableCell>
-                <TableCell>{alt_name}</TableCell>
+                <TableCell>{property.alt_name}</TableCell>
                 <TableCell>
                     <ul>
-                        <li>{title?.en}</li>
-                        <li>{title?.ru}</li>
-                        <li>{title?.ua}</li>
+                        <li>{property.title?.en}</li>
+                        <li>{property.title?.ru}</li>
+                        <li>{property.title?.ua}</li>
                     </ul>
                 </TableCell>
-                <TableCell>{comment}</TableCell>
+                <TableCell>{property.comment}</TableCell>
             </TableRow>
         </>
     );

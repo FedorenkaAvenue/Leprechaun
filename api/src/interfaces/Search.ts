@@ -1,5 +1,5 @@
 import { CategoryPublicI } from './Category';
-import { ProductPreviewI } from './Product';
+import { ProductPreviewPublicI } from './Product';
 
 export interface SearchResI<T> {
     total: number
@@ -8,6 +8,6 @@ export interface SearchResI<T> {
 
 export interface SearchAutocompleteI {
     total: number;
-    products: ProductPreviewI[];
+    products: ProductPreviewPublicI[];
     categories: CategoryPublicI[];
 }

@@ -13,6 +13,7 @@ import Category from "@pages/category/Category";
 import PropertyGroupPage from '@pages/propertyGroup/ui/PropertyGroup';
 import ProductCreatePage from "@pages/product/ui/ProductCreate";
 import ProductListPage from '@pages/product/ui/ProductTable';
+import ProductPage from "@pages/product/ui/Product";
 
 const routerConfig = createBrowserRouter([
     {
@@ -70,7 +71,7 @@ const routerConfig = createBrowserRouter([
                     },
                     {
                         path: ":url",
-                        element: <div>one product</div>,
+                        element: <ProductPage />,
                     }
                 ],
             },

@@ -6,6 +6,6 @@ export const getCategoryList = () => {
     return apiClient.get<CategoryPreviewModel[]>('/category/list').then(res => res.data);
 }
 
-export const getCategory = (url: CategoryModel['url']) => {
+export const getCategory = (url: CategoryModel['url'] | undefined) => {
     return apiClient.get<CategoryModel>(`/category/${url}`).then(data => data.data);
 }

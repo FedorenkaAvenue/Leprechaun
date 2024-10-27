@@ -5,7 +5,7 @@ import { SearchAutocompleteI, SearchResI } from '@interfaces/Search';
 import { QueriesSearch } from '@dto/Queries/constructor';
 import { ProductEntity } from '@entities/Product';
 import { CategoryEntity } from '@entities/Category';
-import { ProductPreviewI } from '@interfaces/Product';
+import { ProductPreviewPublicI } from '@interfaces/Product';
 import { CategoryPublicI } from '@interfaces/Category';
 import { CategoryPublic } from '@dto/Category/constructor';
 
@@ -22,7 +22,7 @@ export class SearchAutocomplete implements SearchAutocompleteI {
     categories: CategoryPublicI[];
 
     @ApiProperty({ type: ProductPreview, isArray: true })
-    products: ProductPreviewI[];
+    products: ProductPreviewPublicI[];
 
     constructor({ products, categories }: SearchAutocompleteDTO, lang: QueriesSearch['lang']) {
         this.total = products.total + categories.total;

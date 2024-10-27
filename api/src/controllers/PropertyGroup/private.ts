@@ -3,7 +3,7 @@ import { ApiBadRequestResponse, ApiNotFoundResponse, ApiOkResponse, ApiOperation
 import { DeleteResult } from 'typeorm';
 
 import { CreatePropertyGroupDTO } from '@dto/PropertyGroup';
-import { PropertyGroupEntity } from '@entities/PropertGroup';
+import { PropertyGroupEntity, PropertyGroupPreviewEntity } from '@entities/PropertGroup';
 import PropertyGroupService from '@services/PropertyGroup/private';
 import AffectedResultInterceptor from '@interceptors/AffectedResult';
 import UndefinedResultInterceptor from '@interceptors/UndefinedResult';
@@ -12,7 +12,7 @@ import { CategoryI } from '@interfaces/Category';
 @Controller('adm/propertygroup')
 @ApiTags('Property group 🤵🏿‍♂️')
 export default class PropertyGroupPrivateController {
-    constructor(private readonly propertyGroupService: PropertyGroupService) {}
+    constructor(private readonly propertyGroupService: PropertyGroupService) { }
 
     @Post()
     @ApiOperation({ summary: 'add new property group' })
@@ -36,15 +36,15 @@ export default class PropertyGroupPrivateController {
 
     @Get('list/:categoryID')
     @ApiOperation({ summary: 'get property groups by category ID' })
-    @ApiOkResponse({ type: PropertyGroupEntity, isArray: true })
-    private getGroupListByCategoryID(@Param('categoryID') categoryID: CategoryI['id']): Promise<PropertyGroupEntity[]> {
+    @ApiOkResponse({ type: PropertyGroupPreviewEntity, isArray: true })
+    private getGroupListByCategoryID(@Param('categoryID') categoryID: CategoryI['id']): Promise<PropertyGroupPreviewEntity[]> {
         return this.propertyGroupService.getGroupListByCategoryID(categoryID);
     }
 
     @Get('list')
     @ApiOperation({ summary: 'get all property groups' })
-    @ApiOkResponse({ type: PropertyGroupEntity, isArray: true })
-    private getGroupList(): Promise<PropertyGroupEntity[]> {
+    @ApiOkResponse({ type: PropertyGroupPreviewEntity, isArray: true })
+    private getGroupList(): Promise<PropertyGroupPreviewEntity[]> {
         return this.propertyGroupService.getGroupList();
     }
 

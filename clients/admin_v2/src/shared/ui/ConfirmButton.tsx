@@ -1,15 +1,20 @@
-import { Button, ButtonProps, Dialog, DialogActions, DialogTitle, IconButton, IconButtonProps } from "@mui/material";
+import {
+    Button, ButtonProps, Dialog, DialogActions, DialogContent, DialogTitle, IconButton, IconButtonProps,
+} from "@mui/material";
 import { FC, useState } from "react";
 
-interface Props {
-    icon: FC | undefined
+export interface ConfirmButtonProps {
     onAgree: () => void
     buttonTitle: string
     modalTitle: JSX.Element
-    iconProps: IconButtonProps | ButtonProps
+    icon?: FC
+    iconProps?: IconButtonProps | ButtonProps
+    modalContent?: React.ReactNode
 }
 
-const ConfirmButton = ({ icon: Icon, onAgree, buttonTitle, iconProps, modalTitle }: Props) => {
+const ConfirmButton = ({
+    icon: Icon, onAgree, buttonTitle, iconProps, modalTitle, modalContent,
+}: ConfirmButtonProps) => {
     const [isModalOpen, setModalOpen] = useState(false);
 
     function close() {
@@ -46,8 +51,14 @@ const ConfirmButton = ({ icon: Icon, onAgree, buttonTitle, iconProps, modalTitle
                 aria-labelledby="alert-dialog-title"
                 aria-describedby="alert-dialog-description"
             >
-                <DialogTitle id="alert-dialog-description">{modalTitle}</DialogTitle>
-                <DialogActions>
+                <DialogTitle id="alert-dialog-description" align="center">{modalTitle}</DialogTitle>
+                {
+                    modalContent
+                    && (
+                        <DialogContent sx={{ textAlign: 'center' }}>{modalContent}</DialogContent>
+                    )
+                }
+                <DialogActions sx={{ justifyContent: 'center' }}>
                     <Button onClick={close}>Cancel</Button>
                     <Button onClick={agree} autoFocus>Ok</Button>
                 </DialogActions>

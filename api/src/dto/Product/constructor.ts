@@ -14,7 +14,7 @@ import { QueriesProductListI } from '@interfaces/Queries';
 import { QueriesCommon } from '@dto/Queries/constructor';
 import { OptionPublic } from '@dto/PropertyGroup/constructor';
 import {
-    ProductBaseI, ProductCardI, ProductLightCardI, ProductPreviewI, ProductPublicI
+    ProductBaseI, ProductCardI, ProductLightCardI, ProductPreviewPublicI, ProductPublicI
 } from '@interfaces/Product';
 import { PriceEntity } from '@entities/_Price';
 import { LabelI } from '@interfaces/Label';
@@ -79,7 +79,7 @@ class ProductBase implements ProductBaseI<string> {
 }
 
 @WithLabels(LabelType.DISCOUNT)
-export class ProductPreview extends ProductBase implements ProductPreviewI {
+export class ProductPreview extends ProductBase implements ProductPreviewPublicI {
     @ApiProperty({ required: false })
     image: string;
 

@@ -1,19 +1,9 @@
-import PriceModel from "@shared/models/Price"
-import { ProductStatusT } from "./ProductStatus"
-import TransModel from "@shared/models/Trans"
 import ImageModel from "@shared/models/Image"
+import ProductPreviewModel from "./ProductPreview"
+import PropertyGroupPreviewModel from "@entities/propertyGroup/model/PropertyGroup"
 
-export interface ProductModel {
-    comment?: string
-    created_at: string
-    id: string
-    images: ImageModel[]
-    is_new: boolean
-    is_public: boolean
-    // options: []
+export interface ProductModel extends ProductPreviewModel {
     orderCount: number
-    price: PriceModel
-    rating: number
-    status: ProductStatusT
-    title: TransModel
+    options: PropertyGroupPreviewModel[]
+    images: ImageModel[]
 }

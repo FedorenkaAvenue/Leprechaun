@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 
 import { PROPERTY_GROUP_LIST_QUERY, PROPERTY_GROUP_QUERY } from "../constants/queryKeys";
 import { getPropertyGroup, getPropertyGroupList } from ".";
-import PropertyGroupModel from "../model/PropertyGroup";
+import PropertyGroupModel from "../model/PropertyGroupPreview";
 
 type propertyGroupId = PropertyGroupModel['id']
 

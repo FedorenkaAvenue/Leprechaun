@@ -11,7 +11,7 @@ export function useCategoryList() {
     });
 }
 
-export function useCategory(url: CategoryModel['url']) {
+export function useCategory(url: CategoryModel['url'] | undefined) {
     return useQuery({
         queryFn: () => getCategory(url),
         queryKey: [CATEGORY_QUERY, url],

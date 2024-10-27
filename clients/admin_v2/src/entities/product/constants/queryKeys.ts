@@ -1,1 +1,2 @@
 export const PRODUCT_LIST_QUERY = 'PRODUCT_LIST_QUERY';
+export const PRODUCT_QUERY = 'PRODUCT_QUERY';

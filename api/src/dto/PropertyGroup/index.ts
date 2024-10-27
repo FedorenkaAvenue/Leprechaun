@@ -9,11 +9,10 @@ import {
     ValidateNested,
 } from 'class-validator';
 
-import { PropertyGroupI } from '@interfaces/PropertyGroup';
 import { Type } from 'class-transformer';
 import { TransDTO } from '@dto/Trans';
 
-export class CreatePropertyGroupDTO implements PropertyGroupI {
+export class CreatePropertyGroupDTO {
     @IsNotEmptyObject()
     @IsObject()
     @ValidateNested()

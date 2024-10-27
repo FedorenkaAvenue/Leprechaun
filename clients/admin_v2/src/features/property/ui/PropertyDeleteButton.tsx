@@ -4,10 +4,10 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import PropertyModel from "@entities/property/model/Property";
 import ConfirmButton from "@shared/ui/ConfirmButton";
 import { useDeleteProperty } from "../api/hook";
-import PropertyGroupModel from "@entities/propertyGroup/model/PropertyGroup";
+import PropertyGroupPreviewModel from "@entities/propertyGroup/model/PropertyGroup";
 
 interface Props {
-    groupId: PropertyGroupModel['id']
+    groupId: PropertyGroupPreviewModel['id'] | undefined
     property: PropertyModel
     icon?: FC
 }

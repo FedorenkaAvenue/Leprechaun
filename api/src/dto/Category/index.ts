@@ -15,7 +15,7 @@ import { PropertyGroupI } from '@interfaces/PropertyGroup';
 import { CategoryI } from '@interfaces/Category';
 import { TransDTO } from '@dto/Trans';
 
-export class CreateCategoryDTO implements CategoryI {
+export class CreateCategoryDTO {
     @IsNotEmpty()
     @IsString()
     @ApiProperty()

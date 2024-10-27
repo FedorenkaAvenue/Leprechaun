@@ -1,3 +1,4 @@
+import { CategoryI, CategoryPreviewI } from './Category';
 import { PropertyI, PropertyPublicI } from './Property';
 import { TransI } from './Trans';
 
@@ -7,9 +8,13 @@ interface BaseI<T = TransI> {
     alt_name: string;
 }
 
-export interface PropertyGroupI extends BaseI {
-    is_primary?: boolean;
-    comment?: string;
+export interface PropertyGroupPreviewI extends BaseI {
+    is_primary: boolean;
+    comment: string;
+}
+
+export interface PropertyGroupI extends PropertyGroupPreviewI {
+    categories: CategoryPreviewI[]
 }
 
 export type PropertyGroupPublicI = BaseI<string>;

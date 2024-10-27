@@ -21,7 +21,7 @@ export default class ProductService {
         protected readonly historyService: HistoryPublicService,
         protected readonly FSService: FSService,
         private readonly loggerService: LoggerService,
-    ) {}
+    ) { }
 
     /**
      * @description get common product query builder
@@ -32,6 +32,7 @@ export default class ProductService {
             .createQueryBuilder('p')
             .leftJoinAndSelect('p.title', 'title')
             .leftJoinAndSelect('p.images', 'images')
+            .leftJoinAndSelect('p.description', 'description')
 
             .leftJoin('p.properties', 't_props')
             .leftJoin('t_props.propertygroup', 't_pg')
@@ -91,10 +92,10 @@ export default class ProductService {
         // filtering by dinamical filters
         if (dynamicFilters) {
             console.log(Object.values(dynamicFilters));
-            
-                qb
-                    .andWhere('p.properties.alt_name = bavovna', { propGroup: Object.values(dynamicFilters) })
-                    // .andWhere('props.alt_name IN(:...props)', { props: dynamicFilters[propGroup] });
+
+            qb
+                .andWhere('p.properties.alt_name = bavovna', { propGroup: Object.values(dynamicFilters) })
+            // .andWhere('props.alt_name IN(:...props)', { props: dynamicFilters[propGroup] });
         }
 
         // price

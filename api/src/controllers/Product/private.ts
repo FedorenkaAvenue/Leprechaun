@@ -23,7 +23,7 @@ import { DeleteResult } from 'typeorm';
 import { FilesInterceptor } from '@nestjs/platform-express';
 
 import { CreateProductDTO } from '@dto/Product';
-import { ProductEntity } from '@entities/Product';
+import { ProductEntity, ProductPreviewEntity } from '@entities/Product';
 import ProductPrivateService from '@services/Product/private';
 import { PaginationResult } from '@dto/Pagination/constructor';
 import { ApiPaginatedResponseDecorator as ApiPaginatedResponse } from '@decorators/OpenAPI';
@@ -53,8 +53,8 @@ export default class ProductPrivateController {
     @Get('list')
     @UseInterceptors(InvalidPaginationPageInterceptor)
     @ApiOperation({ summary: 'get product list' })
-    @ApiPaginatedResponse(ProductEntity)
-    private getproducts(@Query(QueriesProductList) queries: QueriesProductList): Promise<PaginationResult<ProductEntity>> {
+    @ApiPaginatedResponse(ProductPreviewEntity)
+    private getproducts(@Query(QueriesProductList) queries: QueriesProductList): Promise<PaginationResult<ProductPreviewEntity>> {
         return this.productService.getProductList(queries);
     }
 

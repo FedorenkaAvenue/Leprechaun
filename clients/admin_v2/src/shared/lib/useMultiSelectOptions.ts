@@ -1,6 +1,6 @@
 import { useMemo, useState } from "react";
 
-// type lol = { [key: PropertyGroupModel['id']]: PropertyModel['id'][] };
+// type lol = { [key: PropertyGroupPreviewModel['id']]: PropertyModel['id'][] };
 
 export default function useMultiSelectOptions(initState = {}) {
     const [selectedValues, setSelectedValues] = useState(initState);

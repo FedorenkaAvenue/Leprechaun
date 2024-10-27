@@ -4,7 +4,7 @@ import { DeleteResult } from 'typeorm';
 import PropertyGroupService from '.';
 import { PropertyGroupI } from '@interfaces/PropertyGroup';
 import { CreatePropertyGroupDTO } from '@dto/PropertyGroup';
-import { PropertyGroupEntity } from '@entities/PropertGroup';
+import { PropertyGroupEntity, PropertyGroupPreviewEntity } from '@entities/PropertGroup';
 import { CategoryI } from '@interfaces/Category';
 
 @Injectable()
@@ -13,17 +13,18 @@ export default class PropertyGroupPrivateService extends PropertyGroupService {
         try {
             return await this.propertyGroupRepo.findOneOrFail({
                 where: { id },
+                relations: { categories: true },
             });
         } catch (_) {
             throw new NotFoundException('property group not found');
         }
     }
 
-    public async getGroupList(): Promise<PropertyGroupEntity[]> {
+    public async getGroupList(): Promise<PropertyGroupPreviewEntity[]> {
         return await this.propertyGroupRepo.find();
     }
 
-    public async getGroupListByCategoryID(id: CategoryI['id']): Promise<PropertyGroupEntity[]> {
+    public async getGroupListByCategoryID(id: CategoryI['id']): Promise<PropertyGroupPreviewEntity[]> {
         return await this.propertyGroupRepo.find({
             where: { categories: { id } },
         });

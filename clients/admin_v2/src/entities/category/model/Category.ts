@@ -1,7 +1,7 @@
-import PropertyModel from "@entities/property/model/Property";
 import { CategoryPreviewModel } from "./CategoryPreview";
+import PropertyGroupPreviewModel from "@entities/propertyGroup/model/PropertyGroup";
 
 export interface CategoryModel extends CategoryPreviewModel {
-    propertygroups: PropertyModel[]
+    propertygroups: PropertyGroupPreviewModel[]
     products: any[]
 }

@@ -1,4 +1,4 @@
-import { ProductI, ProductPreviewI } from './Product';
+import { ProductI, ProductPreviewPublicI } from './Product';
 import { OrderI } from './Order';
 import { PriceI } from './Price';
 
@@ -9,7 +9,7 @@ interface BaseI {
 }
 
 export interface OrderItemPublicI extends BaseI {
-    product: ProductPreviewI;
+    product: ProductPreviewPublicI;
 }
 
 export interface OrderItemI<T = ProductI> extends BaseI {

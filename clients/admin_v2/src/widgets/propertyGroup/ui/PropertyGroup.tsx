@@ -1,8 +1,5 @@
 import { useParams } from "react-router-dom";
-import {
-    Button, Dialog, DialogContent, DialogTitle, Divider, Paper, Table, TableBody, TableCell, TableContainer, TableHead,
-    TableRow, Typography,
-} from "@mui/material";
+import { Button, Dialog, DialogContent, DialogTitle, Divider, Paper, Typography } from "@mui/material";
 import { useState } from "react";
 
 import { usePropertyGroup } from "@entities/propertyGroup/api/hooks";
@@ -10,9 +7,12 @@ import PropertyGroupEntity from "@entities/propertyGroup/ui/PropertyGroup";
 import ContentManager from "@shared/ui/ContentManager";
 import PropertyGroupDeleteButton from "@features/propertyGroup/ui/PropertyGroupDeleteButton";
 import PropertyCreate from "@features/property/ui/PropertyCreate";
-import PropertyGroupModel from "@entities/propertyGroup/model/PropertyGroup";
-import Property from "@entities/property/ui/Property";
+import PropertyGroupPreviewModel from "@entities/propertyGroup/model/PropertyGroup";
 import PropertyDeleteButton from "@features/property/ui/PropertyDeleteButton";
+import Chip from "@shared/ui/Chip";
+import TransList from "@shared/ui/TransList";
+import routerSubConfig from "@shared/config/router";
+import PropertyTableFuture from "@features/property/ui/PropertyTable";
 
 const PropertyGroupWidget = () => {
     const { id } = useParams();
@@ -34,37 +34,43 @@ const PropertyGroupWidget = () => {
                 }
             >
                 <div className="flex flex-col gap-4">
-                    <PropertyGroupEntity group={data} />
-                    <Divider />
-                    <div className="flex flex-col gap-4">
-                        <Typography variant="h5">Properties</Typography>
-                        {data?.properties.length
-                            ? (
-                                <TableContainer component={Paper}>
-                                    <Table size="small">
-                                        <TableHead>
-                                            <TableRow>
-                                                <TableCell sx={{ fontWeight: 700 }} align="left">Id</TableCell>
-                                                <TableCell sx={{ fontWeight: 700 }} align="left">Tools</TableCell>
-                                                <TableCell sx={{ fontWeight: 700 }} align="left">Alt name</TableCell>
-                                                <TableCell sx={{ fontWeight: 700 }} align="left">Titles</TableCell>
-                                                <TableCell sx={{ fontWeight: 700 }} align="left">Comment</TableCell>
-                                            </TableRow>
-                                        </TableHead>
-                                        <TableBody>
-                                            {data?.properties.map(i => (
-                                                <Property
-                                                    property={i}
-                                                    renderTools={() => <PropertyDeleteButton groupId={data.id} property={i} />}
-                                                    key={i.id}
+                    <PropertyGroupEntity
+                        group={data}
+                        renderCategories={categories => (
+                            <>
+                                <Divider />
+                                <div className="flex flex-col gap-2">
+                                    <Typography variant="h5">Used by categories</Typography>
+                                    <ul className="flex gap-2">
+                                        {categories?.map(i => (
+                                            <li key={i.id}>
+                                                <Chip
+                                                    tooltip={<TransList data={i.title} />}
+                                                    link={`${routerSubConfig.categoryList.path}/${i.url}`}
+                                                    label={i.url}
+                                                    tooltipProps={{ placement: 'bottom' }}
                                                 />
-                                            ))}
-                                        </TableBody>
-                                    </Table>
-                                </TableContainer>
-                            )
-                            : <Typography align="center">List is empty</Typography>}
-                    </div>
+                                            </li>
+                                        ))}
+                                    </ul>
+                                </div>
+                            </>
+                        )}
+                        renderProperties={properties => (
+                            <>
+                                <Divider />
+                                <div className="flex flex-col gap-4">
+                                    <Typography variant="h5">Properties</Typography>
+                                    <PropertyTableFuture
+                                        properties={properties}
+                                        renderPropertyTools={property => (
+                                            <PropertyDeleteButton groupId={data?.id} property={property} />
+                                        )}
+                                    />
+                                </div>
+                            </>
+                        )}
+                    />
                 </div>
             </ContentManager>
             <Dialog
@@ -77,7 +83,7 @@ const PropertyGroupWidget = () => {
                 </DialogTitle>
                 <DialogContent>
                     <PropertyCreate
-                        groupId={data?.id as PropertyGroupModel['id']}
+                        groupId={data?.id as PropertyGroupPreviewModel['id']}
                         handleClose={() => setIsNewPropertyOpen(false)}
                     />
                 </DialogContent>

@@ -1,4 +1,4 @@
-import { Button, Pagination } from "@mui/material";
+import { Button, Pagination, Typography } from "@mui/material";
 import { useDebounce } from "@uidotdev/usehooks";
 import { PropsWithChildren, useEffect, useState } from "react";
 

@@ -13,7 +13,7 @@ import { ApiBadRequestResponse, ApiNotFoundResponse, ApiOkResponse, ApiOperation
 import { FileInterceptor } from '@nestjs/platform-express';
 import { DeleteResult } from 'typeorm';
 
-import { CategoryEntity } from '@entities/Category';
+import { CategoryEntity, CategoryPreviewEntity } from '@entities/Category';
 import { CreateCategoryDTO } from '@dto/Category';
 import { FSService } from '@services/FS';
 import UndefinedResultInterceptor from '@interceptors/UndefinedResult';
@@ -23,7 +23,7 @@ import CategoryPrivateService from '@services/Category/private';
 @Controller('adm/category')
 @ApiTags('Category 🤵🏿‍♂️')
 export default class CategoryPrivateController {
-    constructor(private readonly categoryService: CategoryPrivateService) {}
+    constructor(private readonly categoryService: CategoryPrivateService) { }
 
     @Post()
     @UseInterceptors(FileInterceptor('icon', { fileFilter: FSService.fileFilterOption('svg') }))
@@ -51,8 +51,8 @@ export default class CategoryPrivateController {
 
     @Get('list')
     @ApiOperation({ summary: 'get all categories' })
-    @ApiOkResponse({ type: CategoryEntity, isArray: true })
-    private getAllCategories(): Promise<CategoryEntity[]> {
+    @ApiOkResponse({ type: CategoryPreviewEntity, isArray: true })
+    private getAllCategories(): Promise<CategoryPreviewEntity[]> {
         return this.categoryService.getCategoryList();
     }
 

@@ -8,13 +8,13 @@ import { ProductI } from '@interfaces/Product';
 import { Product } from '@dto/Product/constructor';
 import ProductService from '.';
 import { QueriesProductList } from '@dto/Queries/constructor';
-import { ProductEntity } from '@entities/Product';
+import { ProductEntity, ProductPreviewEntity } from '@entities/Product';
 
 @Injectable()
 export default class ProductPrivateService extends ProductService {
     public async createProduct(newProduct: CreateProductDTO, images: Express.Multer.File[]): Promise<ProductEntity> {
         const createdProduct = await this.productRepo.save(new Product(newProduct));
-        
+
         const {
             id,
             title: { id: _titleID, ...titles },
@@ -31,7 +31,7 @@ export default class ProductPrivateService extends ProductService {
     }
 
     public async getProduct(id: ProductI['id']): Promise<ProductEntity> {
-        const qb = this.getProductQueryBulder().andWhere('p.id = :id', { id });
+        const qb = this.getProductQueryBulder().andWhere('p.id = :id', { id }).addSelect('p.orderCount');
 
         try {
             return await qb.getOneOrFail();
@@ -40,10 +40,20 @@ export default class ProductPrivateService extends ProductService {
         }
     }
 
-    public async getProductList(searchParams: QueriesProductList): Promise<PaginationResult<ProductEntity>> {
-        const qb = this.getProductQueryBulder();
+    public async getProductList({ portion, page }: QueriesProductList): Promise<PaginationResult<ProductPreviewEntity>> {
+        const [res, count] = await this.productRepo.findAndCount({
+            take: portion,
+            skip: portion * (page - 1),
+        });
 
-        return this.renderProductList<ProductEntity>(qb, searchParams);
+        return new PaginationResult<ProductPreviewEntity>(
+            res,
+            {
+                currentPage: page,
+                totalCount: count,
+                itemPortion: portion,
+            },
+        );
     }
 
     public async getCategoryProducts(

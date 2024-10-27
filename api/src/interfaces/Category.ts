@@ -1,5 +1,5 @@
-import { ProductI } from '@interfaces/Product';
-import { PropertyGroupI } from '@interfaces/PropertyGroup';
+import { ProductI, ProductPreviewI } from '@interfaces/Product';
+import { PropertyGroupI, PropertyGroupPreviewI } from '@interfaces/PropertyGroup';
 import { TransI } from './Trans';
 
 interface BaseI<I = string, T = TransI> {
@@ -11,9 +11,12 @@ interface BaseI<I = string, T = TransI> {
 
 export type CategoryPublicI = BaseI<string, string>;
 
-export interface CategoryI extends BaseI {
-    products?: ProductI[] | null;
-    propertygroups?: PropertyGroupI[] | null;
+export interface CategoryPreviewI extends BaseI {
     is_public: boolean;
     comment: string;
+}
+
+export interface CategoryI extends CategoryPreviewI {
+    products: ProductPreviewI[] | null;
+    propertygroups: PropertyGroupPreviewI[] | null;
 }

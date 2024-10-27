@@ -4,12 +4,12 @@ import { useForm } from "react-hook-form";
 import LoadingButton from '@mui/lab/LoadingButton';
 
 import { useCreateProperty } from "@features/property/api/hook";
-import PropertyGroupModel from "@entities/propertyGroup/model/PropertyGroup";
+import PropertyGroupPreviewModel from "@entities/propertyGroup/model/PropertyGroup";
 import PropertyCreateSchema, { PropertySchemaT } from "../models/schema";
 import TextInput from "@shared/ui/TextInput";
 
 interface Props {
-    groupId: PropertyGroupModel['id']
+    groupId: PropertyGroupPreviewModel['id']
     handleClose: () => void
 }
 

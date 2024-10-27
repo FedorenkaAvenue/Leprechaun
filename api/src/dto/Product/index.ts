@@ -13,14 +13,13 @@ import {
 import { Type } from 'class-transformer';
 
 import { CategoryI } from '@interfaces/Category';
-import { ProductI } from '@interfaces/Product';
 import { PriceI } from '@interfaces/Price';
 import { ProductStatusE } from '@enums/Product';
 import { PropertyI } from '@interfaces/Property';
 import { ImageI } from '@interfaces/Image';
 import { TransDTO } from '@dto/Trans';
 
-export class CreateProductDTO implements ProductI {
+export class CreateProductDTO {
     @IsNotEmptyObject()
     @IsObject()
     @ValidateNested()

@@ -10,14 +10,15 @@ import {
 } from 'typeorm';
 import { ApiProperty } from '@nestjs/swagger';
 
-import { ProductEntity } from '@entities/Product';
-import { CategoryI } from '@interfaces/Category';
-import { PropertyGroupEntity } from '@entities/PropertGroup';
+import { ProductEntity, ProductPreviewEntity } from '@entities/Product';
+import { CategoryI, CategoryPreviewI } from '@interfaces/Category';
+import { PropertyGroupEntity, PropertyGroupPreviewEntity } from '@entities/PropertGroup';
 import { TransI } from '@interfaces/Trans';
 import { TransEntity } from './Trans';
+import { PropertyGroupPreviewI } from '@interfaces/PropertyGroup';
+import { ProductPreviewI } from '@interfaces/Product';
 
-@Entity('category')
-export class CategoryEntity implements CategoryI {
+export class CategoryPreviewEntity implements CategoryPreviewI {
     @PrimaryGeneratedColumn('rowid')
     @ApiProperty()
     id: number;
@@ -42,9 +43,13 @@ export class CategoryEntity implements CategoryI {
     @Column({ default: false })
     @ApiProperty()
     is_public: boolean;
+}
 
+@Entity('category')
+export class CategoryEntity extends CategoryPreviewEntity implements CategoryI {
     @OneToMany(() => ProductEntity, ({ category }) => category)
-    products: ProductEntity[];
+    @ApiProperty({ type: () => ProductPreviewEntity, isArray: true })
+    products: ProductPreviewI[];
 
     @ManyToMany(() => PropertyGroupEntity, ({ id }) => id)
     @JoinTable({
@@ -58,5 +63,6 @@ export class CategoryEntity implements CategoryI {
             referencedColumnName: 'id',
         },
     })
-    propertygroups: PropertyGroupEntity[];
+    @ApiProperty({ type: () => PropertyGroupPreviewEntity, isArray: true })
+    propertygroups: PropertyGroupPreviewI[];
 }

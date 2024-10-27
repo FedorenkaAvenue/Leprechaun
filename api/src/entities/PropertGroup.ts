@@ -11,13 +11,13 @@ import {
 } from 'typeorm';
 
 import { PropertyEntity } from './Property';
-import { PropertyGroupI } from '@interfaces/PropertyGroup';
+import { PropertyGroupI, PropertyGroupPreviewI } from '@interfaces/PropertyGroup';
 import { TransI } from '@interfaces/Trans';
 import { TransEntity } from './Trans';
-import { CategoryEntity } from './Category';
+import { CategoryEntity, CategoryPreviewEntity } from './Category';
+import { CategoryPreviewI } from '@interfaces/Category';
 
-@Entity('propertygroup')
-export class PropertyGroupEntity implements PropertyGroupI {
+export class PropertyGroupPreviewEntity implements PropertyGroupPreviewI {
     @PrimaryGeneratedColumn('rowid')
     @ApiProperty()
     id: number;
@@ -36,13 +36,16 @@ export class PropertyGroupEntity implements PropertyGroupI {
     comment: string;
 
     @OneToMany(() => PropertyEntity, ({ propertygroup }) => propertygroup, { eager: true })
-    @ApiProperty({ type: () => PropertyEntity, isArray: true, required: false })
+    @ApiProperty({ type: () => PropertyEntity, isArray: true })
     properties: PropertyEntity[];
 
     @Column({ default: false })
     @ApiProperty({ description: 'visible property for ProductCard' })
     is_primary: boolean;
+}
 
+@Entity('propertygroup')
+export class PropertyGroupEntity extends PropertyGroupPreviewEntity implements PropertyGroupI {
     @ManyToMany(() => CategoryEntity, ({ id }) => id)
     @JoinTable({
         name: '_categories_to_propertygroups',
@@ -55,5 +58,6 @@ export class PropertyGroupEntity implements PropertyGroupI {
             referencedColumnName: 'id',
         },
     })
-    categories: CategoryEntity[];
+    @ApiProperty({ type: () => CategoryPreviewEntity, isArray: true })
+    categories: CategoryPreviewI[];
 }

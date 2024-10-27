@@ -1,7 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 import { createPropertyGroup, getPropertyGroupListByCategoryId, removePropertyGroup } from "./index";
-import PropertyGroupModel from "@entities/propertyGroup/model/PropertyGroup";
+import PropertyGroupPreviewModel from "@entities/propertyGroup/model/PropertyGroup";
 import { PROPERTY_GROUP_LIST_QUERY } from "@entities/propertyGroup/constants/queryKeys";
 import { CategoryModel } from "@entities/category/model/Category";
 import { CATEGORY_LIST_QUERY } from "@entities/category/constants/queryKeys";
@@ -15,7 +15,7 @@ export function useCreatePropertyGroup(successCallback?: () => void) {
         onSuccess: (data) => {
             successCallback?.call(null);
 
-            const groups = queryClient.getQueryData<PropertyGroupModel[]>([PROPERTY_GROUP_LIST_QUERY]) as PropertyGroupModel[];
+            const groups = queryClient.getQueryData<PropertyGroupPreviewModel[]>([PROPERTY_GROUP_LIST_QUERY]) as PropertyGroupPreviewModel[];
             data.properties = [];
 
             queryClient.setQueryData(
@@ -26,14 +26,14 @@ export function useCreatePropertyGroup(successCallback?: () => void) {
     })
 }
 
-export function useDeletePropertyGroup(id: PropertyGroupModel['id'] | undefined, removeCallback?: () => void) {
+export function useDeletePropertyGroup(id: PropertyGroupPreviewModel['id'] | undefined, removeCallback?: () => void) {
     const queryClient = useQueryClient();
 
     return useMutation({
         mutationFn: () => removePropertyGroup(id),
         onSuccess: () => {
             removeCallback?.call(null);
-            const groups = queryClient.getQueryData<PropertyGroupModel[]>([PROPERTY_GROUP_LIST_QUERY]);
+            const groups = queryClient.getQueryData<PropertyGroupPreviewModel[]>([PROPERTY_GROUP_LIST_QUERY]);
 
             queryClient.setQueryData(
                 [PROPERTY_GROUP_LIST_QUERY],
