@@ -1,11 +1,20 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
-import { createPropertyGroup, getPropertyGroupListByCategoryId, removePropertyGroup } from "./index";
+import {
+    createPropertyGroup, getPropertyGroupList, getPropertyGroupListByCategoryId, removePropertyGroup,
+} from "./index";
 import PropertyGroupPreviewModel from "@entities/propertyGroup/model/PropertyGroup";
 import { PROPERTY_GROUP_LIST_QUERY } from "@entities/propertyGroup/constants/queryKeys";
 import { CategoryModel } from "@entities/category/model/Category";
 import { CATEGORY_LIST_QUERY } from "@entities/category/constants/queryKeys";
 import { PropertyGroupSchemaT } from "../models/schema";
+
+export function usePropertyGroupList() {
+    return useQuery({
+        queryKey: [PROPERTY_GROUP_LIST_QUERY],
+        queryFn: () => getPropertyGroupList(),
+    })
+}
 
 export function useCreatePropertyGroup(successCallback?: () => void) {
     const queryClient = useQueryClient();

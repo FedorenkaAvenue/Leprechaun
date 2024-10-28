@@ -4,6 +4,11 @@ import PropertyGroupPreviewModel from '@entities/propertyGroup/model/PropertyGro
 import { CategoryModel } from '@entities/category/model/Category';
 import { PropertyGroupSchemaT } from '../models/schema';
 
+export async function getPropertyGroupList() {
+    const res = await apiClient.get<PropertyGroupPreviewModel[]>('propertygroup/list');
+    return res.data;
+}
+
 export async function createPropertyGroup(payload: PropertyGroupSchemaT) {
     const res = await apiClient.post<PropertyGroupPreviewModel>('propertygroup', payload);
     return res.data;

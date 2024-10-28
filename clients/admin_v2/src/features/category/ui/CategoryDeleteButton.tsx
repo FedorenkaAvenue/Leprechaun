@@ -6,7 +6,7 @@ import { CategoryModel } from '@entities/category/model/Category';
 import DeleteButton, { DeleteButtonProps } from '@shared/ui/DeleteButton';
 import { Link } from 'react-router-dom';
 import routerSubConfig from '@shared/config/router';
-import URL_QUERY_PARAMS from '@shared/constants/urlQueryParams';
+import { PRODUCT_LIST_URL_QUERY_PARAMS } from '@features/product/constants/urlQueryParams';
 
 interface Props extends Omit<DeleteButtonProps, 'buttonTitle' | 'modalContent' | 'handleAgree' | 'modalTitle' | 'onAgree'> {
     categoryId: CategoryModel['id'] | undefined
@@ -25,7 +25,7 @@ function ModalContent({ url }: { url: CategoryModel['url'] | undefined }) {
         : (
             <>
                 ⚠️Category has&nbsp;
-                <Link to={`${routerSubConfig.productList.path}?${URL_QUERY_PARAMS.category}=${data?.id}`}>
+                <Link to={`${routerSubConfig.productList.path}?${PRODUCT_LIST_URL_QUERY_PARAMS.category}=${data?.id}`}>
                     <Typography color='primary' component='span'>{productsLen} products</Typography>
                 </Link>.
                 <br />

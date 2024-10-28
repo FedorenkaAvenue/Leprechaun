@@ -1,9 +1,17 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
-import { createProduct, removeProduct } from ".";
+import { createProduct, getProductList, removeProduct } from ".";
 import { ProductSchemaT } from "../model/schema";
 import { ProductModel } from "@entities/product/model/Product";
 import { PRODUCT_LIST_QUERY } from "@entities/product/constants/queryKeys";
+import { ProductListUrlQueryParams } from "../model/urlQueryParams";
+
+export function useProductList(queryParams: ProductListUrlQueryParams) {
+    return useQuery({
+        queryFn: () => getProductList(queryParams),
+        queryKey: [PRODUCT_LIST_QUERY, queryParams],
+    })
+}
 
 export function useCreateProduct(successCallback?: () => void) {
     return useMutation({

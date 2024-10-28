@@ -1,9 +1,16 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
-import { createCategory, removeCategory } from ".";
+import { createCategory, getCategoryList, removeCategory } from ".";
 import { CategoryPreviewModel } from "@entities/category/model/CategoryPreview";
 import { CATEGORY_LIST_QUERY } from "@entities/category/constants/queryKeys";
 import { CategorySchemaT } from "../model/schema";
+
+export function useCategoryList() {
+    return useQuery({
+        queryFn: () => getCategoryList(),
+        queryKey: [CATEGORY_LIST_QUERY],
+    });
+}
 
 export function useRemoveCategory(id: CategoryPreviewModel['id'] | undefined, removeCallback?: () => void) {
     const client = useQueryClient();

@@ -8,8 +8,8 @@ import CategoryDeleteButton from '@features/category/ui/CategoryDeleteButton';
 import routerSubConfig from '@shared/config/router';
 import Chip from '@shared/ui/Chip';
 import TransList from '@shared/ui/TransList';
-import URL_QUERY_PARAMS from '@shared/constants/urlQueryParams';
 import Empty from '@shared/ui/Empty';
+import { PRODUCT_LIST_URL_QUERY_PARAMS } from '@features/product/constants/urlQueryParams';
 
 const CategoryWidget = () => {
     const nav = useNavigate();
@@ -22,6 +22,12 @@ const CategoryWidget = () => {
             isLoading={isFetching}
             tools={
                 <>
+                    <Button
+                        onClick={() => nav(`${routerSubConfig.productCreate.path}?category=${data?.id}`)}
+                        variant='contained'
+                    >
+                        Add product
+                    </Button>
                     <Button onClick={() => alert("Хуя")} color='primary' variant='contained'>
                         Edit category
                     </Button>
@@ -65,7 +71,7 @@ const CategoryWidget = () => {
                             <Typography variant='h5'>Products</Typography>
                             <Empty data={products?.length}>
                                 <Link
-                                    to={`${routerSubConfig.productList.path}?${URL_QUERY_PARAMS.category}=${data?.id}`}
+                                    to={`${routerSubConfig.productList.path}?${PRODUCT_LIST_URL_QUERY_PARAMS.category}=${data?.id}`}
                                 >
                                     There are&nbsp;
                                     <Typography component='span' color='primary'>

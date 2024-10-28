@@ -2,10 +2,10 @@ import { useNavigate } from "react-router-dom";
 
 import { CREATE_SEGMENT } from "@shared/constants/routerSegments";
 import ContentListManager from "@shared/ui/ContentListManager";
-import { usePropertyGroupList } from "@entities/propertyGroup/api/hooks";
 import PropertyGroupDeleteButton from "@features/propertyGroup/ui/PropertyGroupDeleteButton";
 import EditButton from "@shared/ui/EditButton";
 import PropertyGroupTableFeature from "@features/propertyGroup/ui/PropertyGroupTable";
+import { usePropertyGroupList } from "@features/propertyGroup/api/hooks";
 
 const PropertyGroupTableWidget = () => {
     const nav = useNavigate();

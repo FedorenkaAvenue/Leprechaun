@@ -1,9 +1,9 @@
 import { forwardRef, ReactNode, useMemo } from "react";
 
-import { useCategoryList } from "@entities/category/api/hooks";
 import mapToOptions from "@entities/category/lib/mapToOptions";
 import { CategoryModel } from "@entities/category/model/Category";
 import Select, { CustomSelectProps } from "@shared/ui/Select";
+import { useCategoryList } from "../api/hooks";
 
 type Props = {
     value: CategoryModel['id'] | undefined

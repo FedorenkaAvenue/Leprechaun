@@ -1,11 +1,11 @@
 import { useNavigate } from "react-router";
 
 import ContentListManager from "@shared/ui/ContentListManager";
-import { useCategoryList } from "@entities/category/api/hooks";
 import routerSubConfig from "@shared/config/router";
 import CategoryDeleteButton from "@features/category/ui/CategoryDeleteButton";
 import EditButton from "@shared/ui/EditButton";
 import CategoryTableFeature from "@features/category/ui/CategoryTable";
+import { useCategoryList } from "@features/category/api/hooks";
 
 const CategoryTableWidget = () => {
     const { data, isFetching } = useCategoryList();

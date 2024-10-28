@@ -6,7 +6,6 @@ import {
 import { zodResolver } from "@hookform/resolvers/zod";
 
 import CategorySelectList from "@features/category/ui/CategorySelectList";
-import { useCategoryList } from "@entities/category/api/hooks";
 import { usePropertyGroupListByCategoryId } from "@features/propertyGroup/api/hooks";
 import PropertySelectList from "@features/property/ui/PropertySelectList";
 import useMultiSelectOptions from "@shared/lib/useMultiSelectOptions";
@@ -20,6 +19,9 @@ import Select from "@shared/ui/Select";
 import productStatusOptions from "@entities/product/constants/productStatusOptions";
 import Empty from "@shared/ui/Empty";
 import { useNavigate } from "react-router-dom";
+import useQueryParam from "@shared/lib/useQueryParam";
+import { PRODUCT_CREATE_URL_QUERY_PARAMS } from "@features/product/constants/urlQueryParams";
+import { useCategoryList } from "@features/category/api/hooks";
 
 const STEPS = ["Main info", "Properties", "Images"];
 
@@ -152,6 +154,7 @@ function Step3() {
 }
 
 const ProductCreateWidget = () => {
+    const [params] = useQueryParam<keyof typeof PRODUCT_CREATE_URL_QUERY_PARAMS>(['category']);
     const nav = useNavigate();
     const { mutate, isPending } = useCreateProduct(() => nav(-1));
     const [activeStep, setActiveStep] = useState<number>(0);
@@ -159,6 +162,7 @@ const ProductCreateWidget = () => {
         resolver: zodResolver(ProductSchemaBySteps[(activeStep > ProductSchemaBySteps.length - 1) ? 0 : activeStep]),
         defaultValues: {
             status: ProductStatus.enum.AVAILABLE,
+            category: params.category ? Number(params.category) : undefined,
         }
     });
 

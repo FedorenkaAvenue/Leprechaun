@@ -3,7 +3,7 @@ import { forwardRef, ReactNode, useMemo } from "react";
 import PropertyGroupPreviewModel from "@entities/propertyGroup/model/PropertyGroup";
 import Select, { CustomSelectProps } from "@shared/ui/Select";
 import mapToOptions from "@entities/propertyGroup/lib/mapToOptions";
-import { usePropertyGroupList } from "@entities/propertyGroup/api/hooks";
+import { usePropertyGroupList } from "../api/hooks";
 
 type Props = {
     value: PropertyGroupPreviewModel['id'][] | undefined

@@ -14,6 +14,7 @@ import PropertyGroupPage from '@pages/propertyGroup/ui/PropertyGroup';
 import ProductCreatePage from "@pages/product/ui/ProductCreate";
 import ProductListPage from '@pages/product/ui/ProductTable';
 import ProductPage from "@pages/product/ui/Product";
+import DashboardPage from "@pages/dashboard/ui/Dashboard";
 
 const routerConfig = createBrowserRouter([
     {
@@ -29,7 +30,7 @@ const routerConfig = createBrowserRouter([
                 children: [
                     {
                         index: true,
-                        element: <div>dashboard</div>
+                        element: <DashboardPage />,
                     },
                 ],
             },

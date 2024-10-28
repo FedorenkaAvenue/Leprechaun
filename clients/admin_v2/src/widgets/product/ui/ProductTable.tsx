@@ -2,16 +2,16 @@ import { useNavigate } from "react-router-dom";
 
 import routerSubConfig from "@shared/config/router";
 import ContentListManager from "@shared/ui/ContentListManager"
-import { useProductList } from "@entities/product/api/hooks";
 import ProductDeleteButton from "@features/product/ui/ProductDeleteButton";
 import EditButton from "@shared/ui/EditButton";
 import ProductTableFeature from "@features/product/ui/ProductTable";
 import CategorySelectList from "@features/category/ui/CategorySelectList";
 import useQueryParam from "@shared/lib/useQueryParam";
-import URL_QUERY_PARAMS from "@shared/constants/urlQueryParams";
+import { PRODUCT_LIST_URL_QUERY_PARAMS } from "@features/product/constants/urlQueryParams";
+import { useProductList } from "@features/product/api/hook";
 
 const ProductTableWidget = () => {
-    const [params, setParams] = useQueryParam<keyof typeof URL_QUERY_PARAMS>(['page', 'category']);
+    const [params, setParams] = useQueryParam<keyof typeof PRODUCT_LIST_URL_QUERY_PARAMS>(['page', 'category']);
     const { isFetching, data } = useProductList({ page: params.page, category: params.category });
     const nav = useNavigate();
 

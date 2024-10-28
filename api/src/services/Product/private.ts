@@ -40,7 +40,6 @@ export default class ProductPrivateService extends ProductService {
         }
     }
 
-    // perhaps, this method is only for admin because of dynamic filter (like category)
     public async getProductList(q: QueriesProductList): Promise<PaginationResult<ProductPreviewEntity>> {
         const [res, count] = await this.productRepo.findAndCount({
             where: { category: { id: q.optionsFilter?.category[0] } },
