@@ -1,25 +1,40 @@
 import Avatar from "@mui/material/Avatar";
+import { forwardRef } from "react";
+import { PhotoView } from 'react-photo-view';
+import 'react-photo-view/dist/react-photo-view.css';
+import clsx from 'clsx';
 
-interface Props {
-    src: string
+interface Props extends React.DetailedHTMLProps<React.ImgHTMLAttributes<HTMLImageElement>, HTMLImageElement> {
+    src: string | undefined
+    thumbnail?: string
     avatar?: boolean
-    alt?: string
+    withBorder?: boolean
 }
 
 const IMAGE_DOMAIN = import.meta.env.VITE_DOMAIN_MEDIA;
 
-const Image = ({ src, avatar, alt }: Props) => {
+const Image = forwardRef<HTMLImageElement, Props>(({ src, avatar, thumbnail, withBorder, ...props }, ref) => {
     const ss = `${IMAGE_DOMAIN}/${src}`;
 
     return (
         avatar
-            ? <Avatar
-                alt={alt}
-                src={ss}
-                sx={{ width: 25, height: 25 }}
-            />
-            : <img src={ss} alt={alt} />
+            ? <Avatar src={ss} sx={{ width: 25, height: 25 }} />
+            : (
+                <PhotoView src={ss}>
+                    <img
+                        className={clsx(
+                            "cursor-pointer",
+                            { "border-2 border-gray-300": withBorder },
+                        )}
+                        src={thumbnail || ss}
+                        ref={ref}
+                        {...props}
+                    />
+                </PhotoView>
+            )
     );
-};
+});
+
+Image.displayName = 'Image';
 
 export default Image;

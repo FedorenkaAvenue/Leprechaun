@@ -1,6 +1,6 @@
-import { Button, Pagination, Typography } from "@mui/material";
+import { Button, Pagination } from "@mui/material";
 import { useDebounce } from "@uidotdev/usehooks";
-import { PropsWithChildren, useEffect, useState } from "react";
+import { PropsWithChildren, ReactNode, useEffect, useState } from "react";
 
 import LinearLoader from "./LinearLoader";
 import TextInput from "./TextInput";
@@ -12,12 +12,13 @@ interface Props {
     searchHandle: (val: string) => void
     pagination?: {
         data: PaginationModel<any> | undefined
-        setPage: (event: React.ChangeEvent<unknown>, page: number) => void
+        setPage: (page: number) => void
     }
+    additionalTools?: ReactNode
 }
 
 const ContentListManager = ({
-    addItemHandle, searchHandle, isLoading, children, pagination,
+    addItemHandle, searchHandle, isLoading, children, pagination, additionalTools,
 }: PropsWithChildren<Props>) => {
     const [prevPagination, setPrevPagination] = useState(pagination?.data);
     const [searchVal, setSearchVal] = useState<string>("");
@@ -34,6 +35,7 @@ const ContentListManager = ({
     return (
         <div className="flex flex-col gap-2">
             <div className="flex justify-end gap-2 items-center sticky top-16 bg-primary-color">
+                {additionalTools}
                 <TextInput
                     onChange={({ target: { value } }) => setSearchVal(value)}
                     size="small"
@@ -49,7 +51,7 @@ const ContentListManager = ({
                     sx={{ display: 'flex', justifyContent: 'center', position: 'fixed', bottom: '10px', left: '50%' }}
                     count={prevPagination?.pagination.pageCount}
                     page={prevPagination?.pagination.currentPage || 1}
-                    onChange={pagination?.setPage}
+                    onChange={(_, page) => pagination?.setPage(page)}
                     color="primary"
                 />
             }

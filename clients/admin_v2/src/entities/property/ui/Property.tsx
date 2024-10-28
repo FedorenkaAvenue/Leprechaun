@@ -2,6 +2,8 @@ import { TableCell, TableRow } from "@mui/material";
 import { ReactNode } from "react";
 
 import PropertyModel from "../model/Property";
+import TooltipContent from "@shared/ui/TooltipContent";
+import TransList from "@shared/ui/TransList";
 
 interface Props {
     property: PropertyModel
@@ -18,11 +20,7 @@ const Property = ({ property, renderTools }: Props) => {
                 </TableCell>
                 <TableCell>{property.alt_name}</TableCell>
                 <TableCell>
-                    <ul>
-                        <li>{property.title?.en}</li>
-                        <li>{property.title?.ru}</li>
-                        <li>{property.title?.ua}</li>
-                    </ul>
+                    <TooltipContent content={<TransList data={property.title} />} />
                 </TableCell>
                 <TableCell>{property.comment}</TableCell>
             </TableRow>

@@ -3,7 +3,6 @@ import LoadingButton from '@mui/lab/LoadingButton';
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 
-import routerSubConfig from "@shared/config/router";
 import PropertyGroupSelectList from "@features/propertyGroup/ui/PropertyGroupSelectList";
 import { CategorySchemaT } from "@features/category/model/schema";
 import { useCreateCategory } from "@features/category/api/hooks";
@@ -17,7 +16,7 @@ const CategoryCreateWidget = () => {
             propertygroups: [],
         }
     });
-    const { mutate, isPending } = useCreateCategory(() => nav(routerSubConfig.categoryList.path));
+    const { mutate, isPending } = useCreateCategory(() => nav(-1));
     const sendForm: SubmitHandler<CategorySchemaT> = data => {
         mutate(data);
     };

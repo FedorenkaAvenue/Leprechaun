@@ -1,8 +1,9 @@
-import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material";
+import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
 import { ReactNode } from "react";
 
 import PropertyModel from "@entities/property/model/Property";
 import Property from "@entities/property/ui/Property";
+import Empty from "@shared/ui/Empty";
 
 interface Props {
     properties: PropertyModel[] | undefined
@@ -10,8 +11,8 @@ interface Props {
 }
 
 const PropertyTableFuture = ({ properties, renderPropertyTools }: Props) => {
-    return properties?.length
-        ? (
+    return (
+        <Empty data={properties?.length}>
             <TableContainer component={Paper}>
                 <Table size="small">
                     <TableHead>
@@ -30,8 +31,8 @@ const PropertyTableFuture = ({ properties, renderPropertyTools }: Props) => {
                     </TableBody>
                 </Table>
             </TableContainer>
-        )
-        : <Typography align="center">There are no properties</Typography>
+        </Empty>
+    );
 };
 
 export default PropertyTableFuture;

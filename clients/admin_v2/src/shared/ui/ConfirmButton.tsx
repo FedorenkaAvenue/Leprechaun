@@ -1,5 +1,5 @@
 import {
-    Button, ButtonProps, Dialog, DialogActions, DialogContent, DialogTitle, IconButton, IconButtonProps,
+    Button, ButtonProps, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, IconButton, IconButtonProps,
 } from "@mui/material";
 import { FC, useState } from "react";
 
@@ -55,7 +55,9 @@ const ConfirmButton = ({
                 {
                     modalContent
                     && (
-                        <DialogContent sx={{ textAlign: 'center' }}>{modalContent}</DialogContent>
+                        <DialogContent sx={{ textAlign: 'center' }}>
+                            <DialogContentText>{modalContent}</DialogContentText>
+                        </DialogContent>
                     )
                 }
                 <DialogActions sx={{ justifyContent: 'center' }}>

@@ -25,6 +25,15 @@ const routerConfig = createBrowserRouter([
                 element: <Home />,
             },
             {
+                path: routerSubConfig.dashboard.segment,
+                children: [
+                    {
+                        index: true,
+                        element: <div>dashboard</div>
+                    },
+                ],
+            },
+            {
                 path: routerSubConfig.propertyGroupList.segment,
                 children: [
                     {

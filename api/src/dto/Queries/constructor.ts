@@ -1,14 +1,12 @@
 import { BadRequestException } from '@nestjs/common';
 
 import {
-    QueryDynamicFiltersT,
     QueriesCommonI,
     QueriesProductListI,
-    QueriesReqI,
     QueriesSearchI,
     QueriesWishlistI,
+    QueryOptionsFiltersT,
     QueryPriceI,
-    QueryCommonFiltersI,
 } from '@interfaces/Queries';
 import { SortProductE, SortWishlistE } from '@enums/Query';
 import { availableEnum } from '@utils/enum';
@@ -35,31 +33,31 @@ export class RangeQuery implements QueryPriceI {
 }
 
 export class QueriesCommon implements QueriesCommonI {
+    page: number;
     lang: string;
+    price: QueryPriceI;
+    portion: number;
 
-    constructor({ lang }: QueriesReqI) {
+    constructor({ lang, page, price, portion }: QueriesCommonI<string>) {
         this.lang = lang || DEFAULT_LANG;
+        this.page = Number(page) || 1;
+        this.price ? new RangeQuery(price) : null;
+        this.portion = Number(portion) || 10;
     }
 }
 
 export class QueriesProductList extends QueriesCommon implements QueriesProductListI {
     sort: SortProductE;
-    page: number;
-    portion: number;
-    commonFilters: QueryCommonFiltersI;
-    dynamicFilters: QueryDynamicFiltersT;
+    status: ProductStatusE;
+    optionsFilter: QueryOptionsFiltersT;
 
-    constructor({ lang, sort, page, portion, price, status, substring, ...restQueries }: QueriesReqI) {
-        super({ lang });
+    constructor({ lang, sort, page, portion, price, status, ...restQueries }: QueriesProductListI<string>) {
+        super({ lang, page, price, portion });
         this.sort = Number(sort) || SortProductE.POPULAR;
-        this.page = Number(page) || 1;
-        this.portion = Number(portion) || 10;
-        this.commonFilters = {
-            price: price ? new RangeQuery(price) : null,
-            status: status = availableEnum(status, ProductStatusE) ? status : ProductStatusE.AVAILABLE,
-        };
-        this.dynamicFilters = Object.keys(restQueries).length
+        this.status = availableEnum(status, ProductStatusE) ? status : ProductStatusE.AVAILABLE;
+        this.optionsFilter = Object.keys(restQueries).length
             ? Object
+                //@ts-ignore
                 .entries<string>(restQueries)
                 .reduce((acc, [k, v]) => ({ ...acc, [k]: v.split(',') }), {})
             : null;
@@ -69,19 +67,20 @@ export class QueriesProductList extends QueriesCommon implements QueriesProductL
 export class QueriesWishlist extends QueriesCommon implements QueriesWishlistI {
     sort: SortWishlistE;
 
-    constructor({ lang, sort }: QueriesReqI) {
-        super({ lang });
+    constructor({ sort, ...restQueries }: QueriesWishlistI<string>) {
+        super(restQueries);
         this.sort = Number(sort) || SortWishlistE.LASTEST;
     }
 }
 
 export class QueriesSearch extends QueriesCommon implements QueriesSearchI {
     substring: string;
+    price: QueryPriceI;
 
-    constructor({ lang, substring }: QueriesReqI) {
+    constructor({ substring, ...restQueries }: QueriesSearchI<string>) {
         if (!substring) throw new BadRequestException('substring is empty');
 
-        super({ lang });
+        super(restQueries);
         this.substring = substring;
     }
 }

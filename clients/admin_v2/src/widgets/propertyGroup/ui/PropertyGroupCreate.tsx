@@ -5,7 +5,6 @@ import { useNavigate } from "react-router-dom";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 import { useCreatePropertyGroup } from "@features/propertyGroup/api/hooks";
-import routerSubConfig from "@shared/config/router";
 import PropertyGroupSchema, { PropertyGroupSchemaT } from "@features/propertyGroup/models/schema";
 import TextInput from "@shared/ui/TextInput";
 
@@ -14,9 +13,7 @@ const PropertyGroupCreateWidget = () => {
     const { register, handleSubmit, formState: { errors } } = useForm<PropertyGroupSchemaT>({
         resolver: zodResolver(PropertyGroupSchema),
     });
-    const { mutate, isPending } = useCreatePropertyGroup(() => {
-        nav(routerSubConfig.propertyGroupList.path);
-    });
+    const { mutate, isPending } = useCreatePropertyGroup(() => nav(-1));
     const sendForm: SubmitHandler<PropertyGroupSchemaT> = data => {
         mutate(data);
     };

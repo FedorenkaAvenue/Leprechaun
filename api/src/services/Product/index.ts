@@ -1,5 +1,5 @@
 import { InjectRepository } from '@nestjs/typeorm';
-import { FindManyOptions, FindOptionsOrder, In, Repository, SelectQueryBuilder } from 'typeorm';
+import { FindManyOptions, Repository, SelectQueryBuilder } from 'typeorm';
 import { Injectable } from '@nestjs/common';
 
 import { FSService } from '@services/FS';
@@ -85,16 +85,15 @@ export default class ProductService {
         resultMapConstructor?: any,
     ): Promise<PaginationResult<T>> {
         const {
-            sort, portion, page, dynamicFilters,
-            commonFilters: { status, price },
+            sort, portion, page, status, price, optionsFilter,
         } = searchParams;
 
         // filtering by dinamical filters
-        if (dynamicFilters) {
-            console.log(Object.values(dynamicFilters));
+        if (optionsFilter) {
+            console.log(Object.values(optionsFilter));
 
             qb
-                .andWhere('p.properties.alt_name = bavovna', { propGroup: Object.values(dynamicFilters) })
+                .andWhere('p.properties.alt_name = bavovna', { propGroup: Object.values(optionsFilter) })
             // .andWhere('props.alt_name IN(:...props)', { props: dynamicFilters[propGroup] });
         }
 

@@ -54,21 +54,23 @@ export default class ProductPrivateController {
     @UseInterceptors(InvalidPaginationPageInterceptor)
     @ApiOperation({ summary: 'get product list' })
     @ApiPaginatedResponse(ProductPreviewEntity)
-    private getproducts(@Query(QueriesProductList) queries: QueriesProductList): Promise<PaginationResult<ProductPreviewEntity>> {
+    private getproducts(
+        @Query(QueriesProductList) queries: QueriesProductList,
+    ): Promise<PaginationResult<ProductPreviewEntity>> {
         return this.productService.getProductList(queries);
     }
 
-    @Get('category/:categoryURL')
-    @UseInterceptors(InvalidPaginationPageInterceptor)
-    @ApiOperation({ summary: 'get products by category URL' })
-    @ApiNotFoundResponse({ description: 'category not found' })
-    @ApiPaginatedResponse(ProductEntity)
-    private getCategoryProducts(
-        @Param('categoryURL') categoryURL: string,
-        @Query(QueriesProductList) queries: QueriesProductList,
-    ): Promise<PaginationResult<ProductEntity>> {
-        return this.productService.getCategoryProducts(categoryURL, queries);
-    }
+    // @Get('category/:categoryURL')
+    // @UseInterceptors(InvalidPaginationPageInterceptor)
+    // @ApiOperation({ summary: 'get products by category URL' })
+    // @ApiNotFoundResponse({ description: 'category not found' })
+    // @ApiPaginatedResponse(ProductEntity)
+    // private getCategoryProducts(
+    //     @Param('categoryURL') categoryURL: string,
+    //     @Query(QueriesProductList) queries: QueriesProductList,
+    // ): Promise<PaginationResult<ProductEntity>> {
+    //     return this.productService.getCategoryProducts(categoryURL, queries);
+    // }
 
     @Get(':productID')
     @UseInterceptors(UndefinedResultInterceptor)

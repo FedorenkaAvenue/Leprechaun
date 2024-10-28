@@ -13,6 +13,8 @@ import Chip from "@shared/ui/Chip";
 import TransList from "@shared/ui/TransList";
 import routerSubConfig from "@shared/config/router";
 import PropertyTableFuture from "@features/property/ui/PropertyTable";
+import EditButton from "@shared/ui/EditButton";
+import Empty from "@shared/ui/Empty";
 
 const PropertyGroupWidget = () => {
     const { id } = useParams();
@@ -41,18 +43,20 @@ const PropertyGroupWidget = () => {
                                 <Divider />
                                 <div className="flex flex-col gap-2">
                                     <Typography variant="h5">Used by categories</Typography>
-                                    <ul className="flex gap-2">
-                                        {categories?.map(i => (
-                                            <li key={i.id}>
-                                                <Chip
-                                                    tooltip={<TransList data={i.title} />}
-                                                    link={`${routerSubConfig.categoryList.path}/${i.url}`}
-                                                    label={i.url}
-                                                    tooltipProps={{ placement: 'bottom' }}
-                                                />
-                                            </li>
-                                        ))}
-                                    </ul>
+                                    <Empty data={categories?.length}>
+                                        <ul className="flex gap-2">
+                                            {categories?.map(i => (
+                                                <li key={i.id}>
+                                                    <Chip
+                                                        tooltip={<TransList data={i.title} />}
+                                                        link={`${routerSubConfig.categoryList.path}/${i.url}`}
+                                                        label={i.url}
+                                                        tooltipProps={{ placement: 'bottom' }}
+                                                    />
+                                                </li>
+                                            ))}
+                                        </ul>
+                                    </Empty>
                                 </div>
                             </>
                         )}
@@ -64,7 +68,10 @@ const PropertyGroupWidget = () => {
                                     <PropertyTableFuture
                                         properties={properties}
                                         renderPropertyTools={property => (
-                                            <PropertyDeleteButton groupId={data?.id} property={property} />
+                                            <>
+                                                <PropertyDeleteButton groupId={data?.id} property={property} />
+                                                <EditButton handleClick={() => alert("Хуя")} title="Edit property group" />
+                                            </>
                                         )}
                                     />
                                 </div>

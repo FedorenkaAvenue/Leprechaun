@@ -1,8 +1,13 @@
 import {
-    CATEGORY_LIST_SEGMENT, CREATE_SEGMENT, PRODUCT_LIST_SEGMENT, PROPERTY_GROUP_LIST_SEGMENT,
+    CATEGORY_LIST_SEGMENT, CREATE_SEGMENT, DASHBOARD_SEGMENT, PRODUCT_LIST_SEGMENT, PROPERTY_GROUP_LIST_SEGMENT,
 } from "../constants/routerSegments";
 
 const routerSubConfig = {
+    dashboard: {
+        title: 'Dashboard',
+        segment: DASHBOARD_SEGMENT,
+        path: `/${DASHBOARD_SEGMENT}`,
+    },
     propertyGroupList: {
         title: 'Property groups',
         segment: PROPERTY_GROUP_LIST_SEGMENT,

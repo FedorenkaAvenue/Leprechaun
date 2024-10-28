@@ -12,7 +12,7 @@ interface Props {
 const PropertyGroup = ({ group, renderCategories, renderProperties }: Props) => {
     return (
         <div className="flex flex-col gap-4">
-            <div className="flex">
+            <div className="flex flex-wrap">
                 <div className="flex-1">
                     <div>id: <b>{group?.id}</b></div>
                     <div>alt name: <b>{group?.alt_name}</b></div>

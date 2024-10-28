@@ -21,6 +21,7 @@
 		"@toolpad/core": "^0.7.0",
 		"@uidotdev/usehooks": "^2.4.1",
 		"axios": "^1.7.7",
+		"clsx": "^2.1.1",
 		"filepond": "^4.31.4",
 		"filepond-plugin-file-validate-type": "^1.2.9",
 		"filepond-plugin-image-crop": "^2.0.6",
@@ -33,6 +34,7 @@
 		"react-dom": "^18.3.1",
 		"react-filepond": "^7.1.2",
 		"react-hook-form": "^7.53.0",
+		"react-photo-view": "^1.2.6",
 		"react-router-dom": "^6.27.0",
 		"react-toastify": "^10.0.6",
 		"zod": "^3.23.8"

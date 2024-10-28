@@ -1,8 +1,9 @@
-import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material";
+import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
 import { ReactNode } from "react";
 
 import ProductPreview from "@entities/product/ui/ProductPreview";
 import ProductPreviewModel from "@entities/product/model/ProductPreview";
+import Empty from "@shared/ui/Empty";
 
 interface Props {
     products: ProductPreviewModel[] | undefined
@@ -10,8 +11,8 @@ interface Props {
 }
 
 const ProductTableFeature = ({ products, renderProductTools }: Props) => {
-    return products?.length
-        ? (
+    return (
+        <Empty data={products?.length} align="center">
             <TableContainer component={Paper}>
                 <Table aria-label="simple table" size="small">
                     <TableHead>
@@ -30,8 +31,8 @@ const ProductTableFeature = ({ products, renderProductTools }: Props) => {
                     </TableBody>
                 </Table>
             </TableContainer>
-        )
-        : <Typography align="center">There are no products</Typography>
+        </Empty>
+    )
 };
 
 export default ProductTableFeature;

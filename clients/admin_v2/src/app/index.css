@@ -6,7 +6,7 @@
     .hover-item {}
 
     .hover-item:hover {
-        background-color: rgba(238, 238, 238, 0.664);
+        background-color: var(--mui-palette-action-hover);
     }
 }
 
@@ -27,18 +27,6 @@
     margin: 0;
     padding: 0;
 }
-
-/* .filepond--drop-label {
-    color: #4c4e53;
-}
-
-.filepond--label-action {
-    text-decoration-color: #babdc0;
-}
-
-.filepond--panel-root {
-    background-color: #edf0f4;
-} */
 
 .filepond--root {
     min-width: 300px;

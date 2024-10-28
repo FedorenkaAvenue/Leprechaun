@@ -1,8 +1,9 @@
-import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material";
+import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
 import { ReactNode } from "react";
 
 import CategoryPreview from "@entities/category/ui/CategoryPreview";
 import { CategoryPreviewModel } from "@entities/category/model/CategoryPreview";
+import Empty from "@shared/ui/Empty";
 
 interface Props {
     categories: CategoryPreviewModel[] | undefined
@@ -10,8 +11,8 @@ interface Props {
 }
 
 const CategoryTableFeature = ({ categories, renderCategoryTools }: Props) => {
-    return categories?.length
-        ? (
+    return (
+        <Empty data={categories?.length} align="center">
             <TableContainer component={Paper}>
                 <Table aria-label="simple table" size="small">
                     <TableHead>
@@ -32,8 +33,8 @@ const CategoryTableFeature = ({ categories, renderCategoryTools }: Props) => {
                     </TableBody>
                 </Table>
             </TableContainer>
-        )
-        : <Typography align="center">There are no properties</Typography>
+        </Empty>
+    );
 };
 
 export default CategoryTableFeature;

@@ -47,5 +47,6 @@ export function usePropertyGroupListByCategoryId(id: CategoryModel['id'] | undef
     return useQuery({
         queryFn: () => getPropertyGroupListByCategoryId(id),
         queryKey: [CATEGORY_LIST_QUERY, id],
+        enabled: Boolean(id),
     });
 }

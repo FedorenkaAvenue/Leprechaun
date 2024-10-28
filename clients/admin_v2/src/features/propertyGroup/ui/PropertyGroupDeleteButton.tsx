@@ -1,7 +1,7 @@
 import PropertyGroupPreviewModel from "@entities/propertyGroup/model/PropertyGroup";
 import { useDeletePropertyGroup } from '../api/hooks';
 import DeleteButton, { DeleteButtonProps } from '@shared/ui/DeleteButton';
-import { CircularProgress, DialogContentText } from "@mui/material";
+import { CircularProgress } from "@mui/material";
 import { usePropertyGroup } from "@entities/propertyGroup/api/hooks";
 import PropertyGroupModel from "@entities/propertyGroup/model/PropertyGroupPreview";
 
@@ -19,9 +19,11 @@ function ModalContent({ id }: { id: PropertyGroupModel['id'] | undefined }) {
 
     return isFetching
         ? <CircularProgress />
-        : <DialogContentText>
-            ⚠️Property group has {categoriesLen} categories and {propertiesLen} properties. All properties will be removed
-        </DialogContentText>;
+        : <>
+            ⚠️Property group uses by {categoriesLen} categories and has {propertiesLen} properties.
+            <br />
+            All properties will be removed.
+        </>;
 }
 
 const PropertyGroupDeleteButton = (props: Props) => {

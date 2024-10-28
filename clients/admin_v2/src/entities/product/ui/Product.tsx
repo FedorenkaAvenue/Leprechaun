@@ -1,9 +1,12 @@
-import { Divider, Typography } from "@mui/material";
+import { Divider, ImageList, ImageListItem, Typography } from "@mui/material";
 import { ReactNode } from "react";
+import { PhotoProvider } from "react-photo-view";
 
 import { ProductModel } from "../model/Product";
 import Chip from "@shared/ui/Chip";
 import TransList from "@shared/ui/TransList";
+import Image from "@shared/ui/Image";
+import Empty from "@shared/ui/Empty";
 
 interface Props {
     product: ProductModel | undefined
@@ -13,7 +16,7 @@ interface Props {
 const Product = ({ product, aditionalContent }: Props) => {
     return (
         <div className="flex flex-col gap-4">
-            <div className="flex">
+            <div className="flex flex-wrap gap-4">
                 <div className="flex-1">
                     <div className="flex-1">
                         <div>id: <b>{product?.id}</b></div>
@@ -63,24 +66,41 @@ const Product = ({ product, aditionalContent }: Props) => {
             }
             <div className="flex flex-col gap-2">
                 <Typography variant='h5'>Properties</Typography>
-                <ul className="flex flex-col gap-2">
-                    {product?.options.map(o => (
-                        <li key={o.id} className="flex gap-4">
-                            <Typography>{o.alt_name}</Typography>
-                            <ul>
-                                {o.properties.map(p => (
-                                    <li key={p.id}>
-                                        <Chip label={p.alt_name} tooltip={<TransList data={p.title} />} />
-                                    </li>
-                                ))}
-                            </ul>
-                        </li>
-                    ))}
-                </ul>
+                <Empty data={product?.options.length}>
+                    <ul className="flex flex-col gap-2">
+                        {product?.options.map(o => (
+                            <li key={o.id} className="flex gap-4">
+                                <Typography>{o.alt_name}</Typography>
+                                <ul>
+                                    {o.properties.map(p => (
+                                        <li key={p.id}>
+                                            <Chip label={p.alt_name} tooltip={<TransList data={p.title} />} />
+                                        </li>
+                                    ))}
+                                </ul>
+                            </li>
+                        ))}
+                    </ul>
+                </Empty>
             </div>
             <Divider />
             <div>
                 <Typography variant='h5'>Images</Typography>
+                {
+                    product?.images
+                        ? (
+                            <PhotoProvider>
+                                <ImageList variant='masonry' cols={5} gap={16}>
+                                    {product.images.map(({ id, src }) => (
+                                        <ImageListItem key={id}>
+                                            <Image src={src} />
+                                        </ImageListItem>
+                                    ))}
+                                </ImageList>
+                            </PhotoProvider>
+                        )
+                        : <div>empty</div>
+                }
             </div>
         </div>
     );

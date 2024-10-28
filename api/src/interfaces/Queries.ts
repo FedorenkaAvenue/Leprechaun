@@ -3,48 +3,32 @@ import { SortProductE, SortWishlistE } from '@enums/Query';
 import { PropertyI } from './Property';
 import { PropertyGroupI } from './PropertyGroup';
 
-// all possible queries from url
-export interface QueriesReqI {
-    lang?: string;
-    sort?: SortProductE;
-    page?: string;
-    portion?: string;
-    price?: string;
-    status?: ProductStatusE;
-    substring?: string;
-    [dynamicFilter: string]: any;
-}
-
 export interface QueryPriceI {
     min: number;
     max: number;
 }
 
-export interface QueryCommonFiltersI {
-    price: QueryPriceI;
-    status: ProductStatusE;
-}
-
-export type QueryDynamicFiltersT = {
-    [key: PropertyGroupI['alt_name']]: Array<PropertyI['alt_name']>
+export type QueryOptionsFiltersT = {
+    [key: string]: string | number
 };
 
-export interface QueriesCommonI {
+export interface QueriesCommonI<P = QueryPriceI> {
     lang: string;
-}
-
-export interface QueriesProductListI extends QueriesCommonI {
-    sort: SortProductE;
+    price: P;
     page: number;
     portion: number;
-    commonFilters: QueryCommonFiltersI;
-    dynamicFilters: QueryDynamicFiltersT;
 }
 
-export interface QueriesWishlistI extends QueriesCommonI {
+export interface QueriesProductListI<P = QueryPriceI> extends QueriesCommonI<P> {
+    sort: SortProductE;
+    status: ProductStatusE;
+    optionsFilter: QueryOptionsFiltersT;
+}
+
+export interface QueriesWishlistI<P = QueryPriceI> extends QueriesCommonI<P> {
     sort: SortWishlistE;
 }
 
-export interface QueriesSearchI extends QueriesCommonI {
+export interface QueriesSearchI<P = QueryPriceI> extends QueriesCommonI<P> {
     substring: string;
 }

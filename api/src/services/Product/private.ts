@@ -40,32 +40,34 @@ export default class ProductPrivateService extends ProductService {
         }
     }
 
-    public async getProductList({ portion, page }: QueriesProductList): Promise<PaginationResult<ProductPreviewEntity>> {
+    // perhaps, this method is only for admin because of dynamic filter (like category)
+    public async getProductList(q: QueriesProductList): Promise<PaginationResult<ProductPreviewEntity>> {
         const [res, count] = await this.productRepo.findAndCount({
-            take: portion,
-            skip: portion * (page - 1),
+            where: { category: { id: q.optionsFilter?.category[0] } },
+            take: q.portion,
+            skip: q.portion * (q.page - 1),
         });
 
         return new PaginationResult<ProductPreviewEntity>(
             res,
             {
-                currentPage: page,
+                currentPage: q.page,
                 totalCount: count,
-                itemPortion: portion,
+                itemPortion: q.portion,
             },
         );
     }
 
-    public async getCategoryProducts(
-        categoryUrl: string,
-        searchParams: QueriesProductList,
-    ): Promise<PaginationResult<ProductEntity>> {
-        const qb = this.getProductQueryBulder()
-            .innerJoin('p.category', 'category')
-            .where('category.url = :categoryUrl', { categoryUrl });
+    // public async getCategoryProducts(
+    //     categoryUrl: string,
+    //     searchParams: QueriesProductList,
+    // ): Promise<PaginationResult<ProductEntity>> {
+    //     const qb = this.getProductQueryBulder()
+    //         .innerJoin('p.category', 'category')
+    //         .where('category.url = :categoryUrl', { categoryUrl });
 
-        return this.renderProductList<ProductEntity>(qb, searchParams);
-    }
+    //     return this.renderProductList<ProductEntity>(qb, searchParams);
+    // }
 
     public async deleteProduct(productId: string): Promise<DeleteResult> {
         const res = await this.productRepo.delete({ id: productId });

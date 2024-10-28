@@ -3,11 +3,12 @@ import { useQuery } from "@tanstack/react-query";
 import { getProduct, getProductList } from ".";
 import { PRODUCT_LIST_QUERY, PRODUCT_QUERY } from "../constants/queryKeys";
 import { ProductModel } from "../model/Product";
+import ProductUrlQueryParams from "../model/ProductUrlQueryParams";
 
-export function useProductList(pageNumber: number = 1) {
+export function useProductList(queryParams: ProductUrlQueryParams) {
     return useQuery({
-        queryFn: () => getProductList(pageNumber),
-        queryKey: [PRODUCT_LIST_QUERY, pageNumber],
+        queryFn: () => getProductList(queryParams),
+        queryKey: [PRODUCT_LIST_QUERY, queryParams],
     })
 }
 

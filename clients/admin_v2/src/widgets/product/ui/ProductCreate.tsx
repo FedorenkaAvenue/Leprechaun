@@ -1,7 +1,7 @@
 import { FormProvider, useForm, useFormContext } from "react-hook-form";
 import { useEffect, useState } from "react";
 import {
-    Button, FormControl, FormControlLabel, Paper, Slider, Step, StepConnector, StepLabel, Stepper, Switch, Typography,
+    Button, FormControl, FormControlLabel, Slider, Step, StepConnector, StepLabel, Stepper, Switch, Typography,
 } from "@mui/material";
 import { zodResolver } from "@hookform/resolvers/zod";
 
@@ -18,8 +18,10 @@ import TextInput from "@shared/ui/TextInput";
 import { useCreateProduct } from "@features/product/api/hook";
 import Select from "@shared/ui/Select";
 import productStatusOptions from "@entities/product/constants/productStatusOptions";
+import Empty from "@shared/ui/Empty";
+import { useNavigate } from "react-router-dom";
 
-const STEPS = ["Main info", "Properties", "Images", "Preview"];
+const STEPS = ["Main info", "Properties", "Images"];
 
 function Step1() {
     const { register, getValues, formState: { errors }, watch } = useFormContext<ProductSchemaT>();
@@ -108,20 +110,22 @@ function Step2() {
             <LinearLoader isLoading={categoryListIstFetching || propertyGroupListIsFetching} />
             {selectedCategoryValue && (
                 <div className="flex flex-col items-center">
-                    <Typography variant='h5'>Select properties (optional)</Typography>
-                    <ul className="flex flex-wrap">
-                        {propGroupList?.map(i => (
-                            <li key={i.id}>
-                                <Typography>{i.title.en}</Typography>
-                                <PropertySelectList
-                                    onChange={({ target: { value } }) => handleUpdataValues(i.id, value)}
-                                    propertyGroup={i}
-                                    //@ts-ignore
-                                    value={selectedValues[i.id] || []}
-                                />
-                            </li>
-                        ))}
-                    </ul>
+                    <Empty data={propGroupList?.length}>
+                        <Typography variant='h5'>Select properties (optional)</Typography>
+                        <ul className="flex flex-wrap gap-2">
+                            {propGroupList?.map(i => (
+                                <li key={i.id}>
+                                    <Typography>{i.title.en}</Typography>
+                                    <PropertySelectList
+                                        onChange={({ target: { value } }) => handleUpdataValues(i.id, value)}
+                                        propertyGroup={i}
+                                        //@ts-ignore
+                                        value={selectedValues[i.id] || []}
+                                    />
+                                </li>
+                            ))}
+                        </ul>
+                    </Empty>
                 </div>
             )}
         </div>
@@ -147,16 +151,9 @@ function Step3() {
     );
 }
 
-function Step4() {
-    const { } = useFormContext<ProductSchemaT>();
-
-    return (
-        <Paper className="p-2">here should be ProductEntity component</Paper>
-    )
-}
-
 const ProductCreateWidget = () => {
-    const { mutate, isPending } = useCreateProduct();
+    const nav = useNavigate();
+    const { mutate, isPending } = useCreateProduct(() => nav(-1));
     const [activeStep, setActiveStep] = useState<number>(0);
     const formMethods = useForm<ProductSchemaT>({
         resolver: zodResolver(ProductSchemaBySteps[(activeStep > ProductSchemaBySteps.length - 1) ? 0 : activeStep]),
@@ -164,9 +161,6 @@ const ProductCreateWidget = () => {
             status: ProductStatus.enum.AVAILABLE,
         }
     });
-
-    console.log(formMethods.getValues());
-
 
     async function handleNext() {
         const isStepValid = await formMethods.trigger();
@@ -183,7 +177,7 @@ const ProductCreateWidget = () => {
     };
 
     return (
-        <div className="flex flex-col gap-8">
+        <div className="flex flex-col gap-4">
             <Stepper activeStep={activeStep} connector={<StepConnector />}>
                 {STEPS.map(label => (
                     <Step key={label}>
@@ -191,17 +185,12 @@ const ProductCreateWidget = () => {
                     </Step>
                 ))}
             </Stepper>
+            <LinearLoader isLoading={isPending} />
             <FormProvider {...formMethods}>
                 <form className="flex flex-col gap-8">
                     {activeStep === 0 && <Step1 />}
                     {activeStep === 1 && <Step2 />}
                     {activeStep === 2 && <Step3 />}
-                    {activeStep === 3 && (
-                        <div>
-                            <LinearLoader isLoading={isPending} />
-                            <Step4 />
-                        </div>
-                    )}
                     <div className="flex justify-center fixed bottom-4 left-2/4">
                         <Button disabled={activeStep === 0} onClick={handleBack}>
                             Back

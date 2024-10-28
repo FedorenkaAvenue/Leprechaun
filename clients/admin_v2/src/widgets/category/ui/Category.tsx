@@ -1,4 +1,4 @@
-import { useNavigate, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { Button, Divider, Typography } from '@mui/material';
 
 import { useCategory } from '@entities/category/api/hooks';
@@ -8,6 +8,8 @@ import CategoryDeleteButton from '@features/category/ui/CategoryDeleteButton';
 import routerSubConfig from '@shared/config/router';
 import Chip from '@shared/ui/Chip';
 import TransList from '@shared/ui/TransList';
+import URL_QUERY_PARAMS from '@shared/constants/urlQueryParams';
+import Empty from '@shared/ui/Empty';
 
 const CategoryWidget = () => {
     const nav = useNavigate();
@@ -39,18 +41,38 @@ const CategoryWidget = () => {
                         <Divider />
                         <div className="flex flex-col gap-4">
                             <Typography variant='h5'>Property groups</Typography>
-                            <ul className="flex gap-2">
-                                {groups?.map(i => (
-                                    <li key={i.id}>
-                                        <Chip
-                                            link={`${routerSubConfig.propertyGroupList.path}/${i.id}`}
-                                            tooltip={<TransList data={i.title} />}
-                                            label={i.alt_name}
-                                            tooltipProps={{ placement: 'bottom' }}
-                                        />
-                                    </li>
-                                ))}
-                            </ul>
+                            <Empty data={groups?.length}>
+                                <ul className="flex flex-wrap gap-2">
+                                    {groups?.map(i => (
+                                        <li key={i.id}>
+                                            <Chip
+                                                link={`${routerSubConfig.propertyGroupList.path}/${i.id}`}
+                                                tooltip={<TransList data={i.title} />}
+                                                label={i.alt_name}
+                                                tooltipProps={{ placement: 'bottom' }}
+                                            />
+                                        </li>
+                                    ))}
+                                </ul>
+                            </Empty>
+                        </div>
+                    </>
+                )}
+                renderProducts={products => (
+                    <>
+                        <Divider />
+                        <div>
+                            <Typography variant='h5'>Products</Typography>
+                            <Empty data={products?.length}>
+                                <Link
+                                    to={`${routerSubConfig.productList.path}?${URL_QUERY_PARAMS.category}=${data?.id}`}
+                                >
+                                    There are&nbsp;
+                                    <Typography component='span' color='primary'>
+                                        {products?.length} products
+                                    </Typography>
+                                </Link>
+                            </Empty>
                         </div>
                     </>
                 )}
