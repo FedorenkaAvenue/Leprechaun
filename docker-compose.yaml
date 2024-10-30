@@ -23,30 +23,31 @@ services:
       - ./cache/redis.conf:/app/redis.conf
 
   api:
+    restart: unless-stopped
     extends:
       file: docker-compose.shared.yaml
       service: node
-    restart: unless-stopped
     command: yarn dev
     volumes:
       - ./api:/app
     environment:
       - IS_DEV=true
 
-  # client_user:
-  #   extends:
-  #     file: docker-compose.shared.yaml
-  #     service: node
-  #   restart: unless-stopped
-  #   volumes:
-  #     # - ./clients/user:/app
-  #     - ./clients/user_v2:/app
-  #   environment:
-  #     - IS_DEV=true
+  client_user:
+    restart: unless-stopped
+    extends:
+      file: docker-compose.shared.yaml
+      service: node
+    working_dir: /app
+    command: yarn dev
+    volumes:
+      - ./clients/user_v2:/app
+    environment:
+      - IS_DEV=true
 
   client_admin:
-    container_name: leprechaun_client_admin
     restart: unless-stopped
+    container_name: leprechaun_client_admin
     build:
       context: ./clients/admin_v2
       dockerfile: Dockerfile
