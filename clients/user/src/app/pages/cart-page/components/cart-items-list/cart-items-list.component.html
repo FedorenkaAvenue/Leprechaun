@@ -1,7 +1,0 @@
-<ng-container *ngFor="let catdItem of cartList">
-  <app-cart-item
-    (delete)="deleteFromCart(catdItem?.id)"
-    (setAmount)="setProductAmount($event, catdItem?.id)"
-    [product]="catdItem"
-  ></app-cart-item>
-</ng-container>

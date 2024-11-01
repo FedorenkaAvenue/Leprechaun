@@ -1,22 +1,36 @@
+This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
+## Getting Started
 
-# Plans:
-- [x] Angular 11
-- [x] `document is not defined` and `window is not defined` - [here](./defined.md)
-- [x] [Angular Material2](https://material.angular.io/) **UI components**
-- [x] [Primeng](https://www.primefaces.org/primeng/) **UI components**
-- [x] modules import depending on the platform (`MockServerBrowserModule`)
-- [x] execution of queries to api on the server `TransferHttp`
-- [x] work with cookies on the server `UniversalStorage`
-- [x] Uses **[ngx-meta](https://github.com/fulls1z3/ngx-meta)** for SEO (*title, meta tags, and Open Graph tags for social sharing*).
-- [x] uses ngx-translate to support internationalization (i18n)
-- [x] uses ORIGIN_URL - for absolute queries
+First, run the development server:
 
-## How to start
-- `yarn` or `npm install`
-- `yarn start` or `npm run start` - for client rendering
-- `yarn ssr` or `npm run ssr` - for server-side rendering
-- `yarn build:universal` or `npm run build:universal` - for assembly in release
-- `yarn server` or `npm run server` - to start the server
-- `yarn build:prerender` or `npm run build:prerender` - to generate static by `static.paths.ts`
-- for watch with ssr - `npm run ssr:watch`
+```bash
+npm run dev
+# or
+yarn dev
+# or
+pnpm dev
+# or
+bun dev
+```
+
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+
+You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+
+This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+
+## Learn More
+
+To learn more about Next.js, take a look at the following resources:
+
+- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
+- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+
+You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+
+## Deploy on Vercel
+
+The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+
+Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.

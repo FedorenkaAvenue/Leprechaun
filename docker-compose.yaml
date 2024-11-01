@@ -40,22 +40,27 @@ services:
       service: node
     working_dir: /app
     command: yarn dev
+    ports:
+      - 3000:80
     volumes:
-      - ./clients/user_v2:/app
+      - ./clients/user:/app
     environment:
       - IS_DEV=true
+      - NODE_ENV=development
+      - CHOKIDAR_USEPOLLING=true
+      - WATCHPACK_POLLING=true
 
   client_admin:
     restart: unless-stopped
     container_name: leprechaun_client_admin
     build:
-      context: ./clients/admin_v2
+      context: ./clients/admin
       dockerfile: Dockerfile
     # extends:
     #   file: docker-compose.shared.yaml
     #   service: node
     volumes:
-      - ./clients/admin_v2:/app
+      - ./clients/admin:/app
     environment:
       - LANGS
       - VITE_APP_NAME=${APP_NAME}
@@ -63,7 +68,7 @@ services:
       - VITE_DOMAIN_API=${DOMAIN_API}
       - VITE_DOMAIN_MEDIA=${DOMAIN_MEDIA}
     ports:
-      - "5173:80"
+      - 5173:80
     networks:
       - client
     depends_on:
