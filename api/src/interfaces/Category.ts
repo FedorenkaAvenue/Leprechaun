@@ -1,6 +1,6 @@
-import { ProductI, ProductPreviewI } from '@interfaces/Product';
-import { PropertyGroupI, PropertyGroupPreviewI } from '@interfaces/PropertyGroup';
+import { PropertyGroupPreviewI } from '@interfaces/PropertyGroup';
 import { TransI } from './Trans';
+import { ProductPreviewI } from './Product';
 
 interface BaseI<I = string, T = TransI> {
     id?: number;

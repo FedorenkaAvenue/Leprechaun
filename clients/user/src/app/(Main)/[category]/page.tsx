@@ -1,6 +1,6 @@
-import ProductCard from "@/components/entities/productCard";
-import { getCategory, getProductListByCategory } from "./lib/api";
-import { Pagination } from "@components/ui/pagination";
+import { getCategory, getProductListByCategory } from "@entities/category/api";
+import { Pagination } from "@shared/ui/pagination";
+import ProductCatalogueCard from "@widgets/product/ui/CatalogueCard";
 
 interface Props {
     params: Promise<{ category: string }>
@@ -22,7 +22,7 @@ export default async function Category({ params, searchParams }: Props) {
             <ul className="grid grid-cols-5 gap-2">
                 {products.data.map(i => (
                     <li key={i.id}>
-                        <ProductCard product={i} />
+                        <ProductCatalogueCard {...i} />
                     </li>
                 ))}
             </ul>

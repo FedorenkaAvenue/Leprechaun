@@ -1,39 +1,46 @@
-import { inter } from "@/fonts";
+import { inter } from "@shared/lib/fonts";
 import Link from "next/link";
 
-import '../../globals.css';
-import { getCategoryList } from "./lib/api";
-import { cn } from "@lib/utils";
+import '../globals.css';
+import cn from "@shared/lib/cn";
+import WishListBadge from "@widgets/wishlist/ui/Badge";
+import CartBadge from "@widgets/order/ui/Badge";
+import QueryClientProvider from "@shared/providers/QueryClient";
+import { getCategoryList } from "@entities/category/api";
 
 export default async function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
-    const categoryList = await getCategoryList();
+    const categories = await getCategoryList();
 
     return (
         <html lang="en">
-            <body className={cn('flex justify-center', inter.className)}>
-                <div className="w-[1200px] flex flex-col gap-4 my-4">
-                    <header className="flex flex-col gap-2">
-                        <div className="flex justify-between">
-                            <Link href="/">Leprechaun</Link>
-                            <input />
-                            <ul className="flex gap-2">
-                                <li>fav</li>
-                                <li>cart</li>
-                            </ul>
-                        </div>
-                        <div>
-                            <ul className="flex gap-4">
-                                {categoryList.map(i => (
-                                    <li key={i.id}>
-                                        <Link href={i.url}>{i.title}</Link>
+            <QueryClientProvider>
+                <body className={cn('flex justify-center', inter.className)}>
+                    <div className="w-[1200px] flex flex-col gap-4 my-4">
+                        <header className="flex flex-col gap-2">
+                            <div className="flex justify-between">
+                                <Link href="/">Leprechaun</Link>
+                                <input />
+                                <ul className="flex gap-4">
+                                    <li>
+                                        <WishListBadge />
                                     </li>
-                                ))}
-                            </ul>
-                        </div>
-                    </header>
-                    {children}
-                </div>
-            </body>
+                                    <li><CartBadge /></li>
+                                </ul>
+                            </div>
+                            <div>
+                                <ul className="flex gap-4">
+                                    {categories.map(i => (
+                                        <li key={i.id}>
+                                            <Link href={i.url}>{i.title}</Link>
+                                        </li>
+                                    ))}
+                                </ul>
+                            </div>
+                        </header>
+                        {children}
+                    </div>
+                </body>
+            </QueryClientProvider>
         </html>
     );
 }

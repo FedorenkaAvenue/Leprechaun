@@ -4,8 +4,8 @@ import { DeepPartial, Repository } from 'typeorm';
 
 import { HistoryEntity } from '@entities/History';
 import { SessionI } from '@interfaces/Session';
-import { ProductI } from '@interfaces/Product';
 import ConfigService from '@services/Config';
+import { ProductI } from '@interfaces/Product';
 
 @Injectable()
 export default class HistoryService {

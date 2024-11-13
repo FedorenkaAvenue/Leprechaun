@@ -1,12 +1,12 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 
 import { PaginationResult } from '@dto/Pagination/constructor';
-import { ProductI } from '@interfaces/Product';
 import { ProductCard, ProductPublic } from '@dto/Product/constructor';
 import ProductService from '.';
 import { QueriesProductList } from '@dto/Queries/constructor';
 import WishlistItemEntity from '@entities/WishlistItem';
 import { CategoryI } from '@interfaces/Category';
+import { ProductI } from '@interfaces/Product';
 
 @Injectable()
 export default class ProductPublicService extends ProductService {

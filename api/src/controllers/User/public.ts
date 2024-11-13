@@ -4,10 +4,11 @@ import { ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 import UserPublicService from '@services/User/public';
 import { UserPublic } from '@dto/User/constructor';
 
+// @desprecated
 @Controller('user')
 @ApiTags('User 🧑‍💻')
 export default class UserPublicController {
-    constructor(private readonly UserPublicService: UserPublicService) {}
+    constructor(private readonly UserPublicService: UserPublicService) { }
 
     @Get()
     @ApiOperation({ summary: 'get user initial data' })

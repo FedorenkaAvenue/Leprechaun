@@ -13,7 +13,6 @@ import {
 } from 'typeorm';
 
 import { CategoryEntity } from '@entities/Category';
-import { ProductI, ProductPreviewI } from '@interfaces/Product';
 import { ProductStatusE } from '@enums/Product';
 import { ImageEntity } from '@entities/Image';
 import { CategoryI } from '@interfaces/Category';
@@ -23,6 +22,7 @@ import WishlistItemEntity from './WishlistItem';
 import { TransI } from '@interfaces/Trans';
 import { TransEntity } from './Trans';
 import { OptionI } from '@interfaces/PropertyGroup';
+import { ProductI, ProductPreviewI } from '@interfaces/Product';
 
 export class ProductPreviewEntity implements ProductPreviewI {
     @PrimaryGeneratedColumn('uuid')

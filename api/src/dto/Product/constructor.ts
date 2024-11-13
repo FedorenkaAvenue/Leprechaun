@@ -13,12 +13,12 @@ import { CategoryPublic } from '@dto/Category/constructor';
 import { QueriesProductListI } from '@interfaces/Queries';
 import { QueriesCommon } from '@dto/Queries/constructor';
 import { OptionPublic } from '@dto/PropertyGroup/constructor';
-import {
-    ProductBaseI, ProductCardI, ProductLightCardI, ProductPreviewPublicI, ProductPublicI
-} from '@interfaces/Product';
 import { PriceEntity } from '@entities/_Price';
 import { LabelI } from '@interfaces/Label';
 import { Label } from '@dto/Label/constructor';
+import { ProductBaseI } from '@interfaces/Product';
+import { ProductPreviewPublicI, ProductPublicI } from '@interfaces/Product';
+import { ProductCardPublicI, ProductLightCardI } from '@interfaces/Product';
 
 const PRODUCT_PUBLIC_IMAGE_AMOUNT = singleConfigService.getVal('PRODUCT_PUBLIC_IMAGE_AMOUNT');
 
@@ -101,7 +101,7 @@ export class ProductLightCard extends ProductBase implements ProductLightCardI {
 }
 
 @WithLabels(LabelType.NEW, LabelType.POPULAR, LabelType.DISCOUNT)
-export class ProductCard extends ProductBase implements ProductCardI {
+export class ProductCard extends ProductBase implements ProductCardPublicI {
     @ApiProperty()
     description: string;
 

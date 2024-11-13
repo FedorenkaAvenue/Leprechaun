@@ -13,6 +13,7 @@ import CycloneIcon from '@mui/icons-material/Cyclone';
 import CheckroomIcon from '@mui/icons-material/Checkroom';
 import { Outlet, useLocation, useNavigate } from 'react-router-dom';
 import Divider from '@mui/material/Divider';
+import BuildIcon from '@mui/icons-material/Build';
 
 import BreadCrumbs from '@widgets/navigation/ui/BreadCrumbs';
 import routerSubConfig from '@shared/config/router';
@@ -60,9 +61,14 @@ const NAVIGATION = [
     //     title: 'Properties',
     //     icon: <NatIcon />,
     // },
-    // {
-    //     kind: 'divider',
-    // },
+    {
+        kind: 'divider',
+    },
+    {
+        segment: routerSubConfig.tools.segment,
+        title: routerSubConfig.tools.title,
+        icon: <BuildIcon />,
+    },
     // {
     //     kind: 'header',
     //     title: 'Analytics',

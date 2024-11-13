@@ -1,17 +1,18 @@
-import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material";
+import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
 import { ReactNode } from "react";
 
 import PropertyGroupPreview from "@entities/propertyGroup/ui/PropertyGroupPreview";
 import PropertyGroupPreviewModel from "@entities/propertyGroup/model/PropertyGroup";
+import Empty from "@shared/ui/Empty";
 
 interface Props {
     groups: PropertyGroupPreviewModel[] | undefined
     renderGroupTools?: (group: PropertyGroupPreviewModel) => ReactNode
 }
 
-const PropertyGroupTableFeature = ({ groups, renderGroupTools }: Props) => {
-    return groups?.length
-        ? (
+export default function PropertyGroupTableFeature({ groups, renderGroupTools }: Props) {
+    return (
+        <Empty data={groups?.length}>
             <TableContainer component={Paper}>
                 <Table aria-label="simple table" size="small">
                     <TableHead>
@@ -32,8 +33,6 @@ const PropertyGroupTableFeature = ({ groups, renderGroupTools }: Props) => {
                     </TableBody>
                 </Table>
             </TableContainer>
-        )
-        : <Typography align="center">There are no property groups</Typography>
+        </Empty>
+    );
 };
-
-export default PropertyGroupTableFeature;

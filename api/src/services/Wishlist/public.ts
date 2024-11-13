@@ -1,7 +1,6 @@
 import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { DeepPartial, DeleteResult, FindOptionsOrder } from 'typeorm';
 
-import { ProductI } from '@interfaces/Product';
 import { SessionI } from '@interfaces/Session';
 import WishlistService from '.';
 import WishlistItemEntity from '@entities/WishlistItem';
@@ -9,6 +8,7 @@ import { WishlistItemI } from '@interfaces/WishlistItem';
 import { WishlistItemPublic } from '@dto/WishlistItem/constructor';
 import { SortWishlistE } from '@enums/Query';
 import { QueriesWishlist } from '@dto/Queries/constructor';
+import { ProductI } from '@interfaces/Product';
 
 @Injectable()
 export default class WishlistPublicService extends WishlistService {
@@ -60,7 +60,7 @@ export default class WishlistPublicService extends WishlistService {
             });
 
             return new WishlistItemPublic(addedItem, searchParams);
-        } catch (_) {
+        } catch (err) {
             throw new NotFoundException('product not found');
         }
     }

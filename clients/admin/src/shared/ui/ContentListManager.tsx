@@ -11,7 +11,7 @@ interface Props {
     isLoading: boolean
     searchHandle: (val: string) => void
     pagination?: {
-        data: PaginationModel<any> | undefined
+        data: PaginationModel<unknown> | undefined
         setPage: (page: number) => void
     }
     additionalTools?: ReactNode
@@ -29,8 +29,8 @@ const ContentListManager = ({
     }, [pagination?.data]);
 
     useEffect(() => {
-        debounceVal && searchHandle(debounceVal);
-    }, [debounceVal]);
+        if (debounceVal) searchHandle(debounceVal);
+    }, [debounceVal, searchHandle]);
 
     return (
         <div className="flex flex-col gap-2">
@@ -53,6 +53,7 @@ const ContentListManager = ({
                     page={prevPagination?.pagination.currentPage || 1}
                     onChange={(_, page) => pagination?.setPage(page)}
                     color="primary"
+                    disabled={!pagination?.data?.pagination.totalCount}
                 />
             }
         </div>

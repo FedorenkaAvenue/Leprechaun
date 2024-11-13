@@ -1,5 +1,5 @@
 import { CategoryPublicI } from './Category';
-import { ProductPreviewPublicI } from './Product';
+import { ProductPreviewPublicI } from '@interfaces/Product';
 
 export interface SearchResI<T> {
     total: number

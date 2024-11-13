@@ -5,9 +5,9 @@ import { SearchAutocompleteI, SearchResI } from '@interfaces/Search';
 import { QueriesSearch } from '@dto/Queries/constructor';
 import { ProductEntity } from '@entities/Product';
 import { CategoryEntity } from '@entities/Category';
-import { ProductPreviewPublicI } from '@interfaces/Product';
 import { CategoryPublicI } from '@interfaces/Category';
 import { CategoryPublic } from '@dto/Category/constructor';
+import { ProductPreviewPublicI } from '@interfaces/Product';
 
 interface SearchAutocompleteDTO {
     products: SearchResI<ProductEntity>

@@ -1,4 +1,4 @@
-import { ProductI } from '@interfaces/Product';
+import { ProductI } from "./Product";
 
 export interface ImageI {
     id?: string;

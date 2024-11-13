@@ -1,4 +1,4 @@
-import { ProductPreviewPublicI } from './Product';
+import { ProductPreviewPublicI } from "@interfaces/Product";
 
 type DashboardT = ProductPreviewPublicI[];
 

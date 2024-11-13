@@ -15,6 +15,7 @@ import ProductCreatePage from "@pages/product/ui/ProductCreate";
 import ProductListPage from '@pages/product/ui/ProductTable';
 import ProductPage from "@pages/product/ui/Product";
 import DashboardPage from "@pages/dashboard/ui/Dashboard";
+import ToolsPage from "@pages/tools/ui/Tools";
 
 const routerConfig = createBrowserRouter([
     {
@@ -24,6 +25,15 @@ const routerConfig = createBrowserRouter([
             {
                 index: true,
                 element: <Home />,
+            },
+            {
+                path: routerSubConfig.tools.segment,
+                children: [
+                    {
+                        index: true,
+                        element: <ToolsPage />
+                    }
+                ],
             },
             {
                 path: routerSubConfig.dashboard.segment,

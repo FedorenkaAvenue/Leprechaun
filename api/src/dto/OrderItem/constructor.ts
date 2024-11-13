@@ -4,9 +4,9 @@ import { Price } from '@dto/Price/constructor';
 import { ProductPreview } from '@dto/Product/constructor';
 import { OrderItemEntity } from '@entities/OrderItem';
 import { QueriesCommon } from '@dto/Queries/constructor';
-import { ProductPreviewPublicI } from '@interfaces/Product';
 import { PriceI } from '@interfaces/Price';
 import { OrderItemI } from '@interfaces/OrderItem';
+import { ProductPreviewPublicI } from '@interfaces/Product';
 
 export class OrderItemPublic implements OrderItemI<ProductPreviewPublicI> {
     @ApiProperty({ description: 'order item ID', required: true })

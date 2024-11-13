@@ -1,14 +1,14 @@
 import { LabelType } from '@enums/Label';
-import { ProductI } from '@interfaces/Product';
 import { Label } from '@dto/Label/constructor';
 import getPercentDifference from '@utils/getPercentDifference';
+import { ProductI } from '@interfaces/Product';
 
 /**
  * @description set labels key for wrapped class. queue of label type is important
  * @param labels list of label types
  */
 export default function WithLabels(...labels: LabelType[]) {
-    return function <T extends { new (...args: any[]): {} }>(constr: T) {
+    return function <T extends { new(...args: any[]): {} }>(constr: T) {
         return class Kozyan extends constr {
             labels: ProductI['labels'];
 

@@ -97,6 +97,7 @@ services:
       - DOMAIN
       - DOMAIN_MEDIA
       - DOMAIN_API
+      - NEXT_PUBLIC_DOMAIN_API=${DOMAIN_API}
       - CURRENCY_SYMBOL
     depends_on:
       - server

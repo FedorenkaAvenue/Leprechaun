@@ -31,7 +31,7 @@ import { SortWishlistE } from '@enums/Query';
 @Controller('wishlist')
 @ApiTags('Wishlist 🧑‍💻')
 export default class WishlistPublicController {
-    constructor(private readonly WishlistPublicService: WishlistPublicService) {}
+    constructor(private readonly WishlistPublicService: WishlistPublicService) { }
 
     @Get()
     @ApiOperation({ summary: 'get wishlist' })
@@ -42,7 +42,10 @@ export default class WishlistPublicController {
         description: 'sort number',
         enum: SortWishlistE,
     })
-    private getWishlist(@Session() { id }, @Queries(QueriesWishlist) queries: QueriesWishlist): Promise<WishlistItemPublic[]> {
+    private getWishlist(
+        @Session() { id },
+        @Queries(QueriesWishlist) queries: QueriesWishlist,
+    ): Promise<WishlistItemPublic[]> {
         return this.WishlistPublicService.getWishlist(id, queries);
     }
 

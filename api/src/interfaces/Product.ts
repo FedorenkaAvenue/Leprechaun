@@ -1,14 +1,12 @@
-import { CategoryI, CategoryPublicI } from '@interfaces/Category';
-import { ImageI } from '@interfaces/Image';
-import { PropertyI } from '@interfaces/Property';
-import { LabelI } from '@interfaces/Label';
-import { ProductStatusE } from '@enums/Product';
-import { PriceI } from './Price';
-import WishlistItemEntity from '@entities/WishlistItem';
-import { TransI } from './Trans';
-import { OptionPublicI } from './PropertyGroup';
-
-//TODO refactoring interfaces by generics and extending
+import { ProductStatusE } from "@enums/Product";
+import { TransI } from "./Trans";
+import { PriceI } from "./Price";
+import { LabelI } from "./Label";
+import { ImageI } from "./Image";
+import { OptionPublicI } from "./PropertyGroup";
+import { CategoryI, CategoryPublicI } from "./Category";
+import { PropertyI } from "./Property";
+import WishlistItemEntity from "@entities/WishlistItem";
 
 export interface ProductBaseI<T = TransI> {
     id?: string;
@@ -19,26 +17,7 @@ export interface ProductBaseI<T = TransI> {
     description?: T;
 }
 
-export interface ProductPreviewPublicI extends ProductBaseI<string> {
-    image: string;
-}
-
-export interface ProductLightCardI extends ProductBaseI<string> {
-    images: ImageI[];
-}
-
-export interface ProductCardI extends ProductBaseI<string> {
-    images: ImageI[];
-    options: OptionPublicI[];
-}
-
-export interface ProductPublicI extends ProductBaseI<string> {
-    category: CategoryPublicI;
-    images: ImageI[];
-    wishlistCount: number;
-    orderCount: number;
-    options: OptionPublicI[];
-}
+// private
 
 export interface ProductPreviewI extends ProductBaseI {
     category: CategoryI;
@@ -54,4 +33,27 @@ export interface ProductI extends ProductPreviewI {
     properties: PropertyI[];
     orderCount: number;
     wishlistCount?: WishlistItemEntity[];
+}
+
+export interface ProductLightCardI extends ProductBaseI<string> {
+    images: ImageI[];
+}
+
+// public
+
+export interface ProductPreviewPublicI extends ProductBaseI<string> {
+    image: string;
+}
+
+export interface ProductCardPublicI extends ProductBaseI<string> {
+    images: ImageI[];
+    options: OptionPublicI[];
+}
+
+export interface ProductPublicI extends ProductCardPublicI {
+    category: CategoryPublicI;
+    images: ImageI[];
+    wishlistCount: number;
+    orderCount: number;
+    options: OptionPublicI[];
 }

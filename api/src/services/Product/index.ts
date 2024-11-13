@@ -8,10 +8,10 @@ import { ImageService } from '@services/Image';
 import { PaginationResult } from '@dto/Pagination/constructor';
 import { QueriesProductList } from '@dto/Queries/constructor';
 import HistoryPublicService from '@services/History/public';
-import { ProductI } from '@interfaces/Product';
 import { SortProductE } from '@enums/Query';
 import { PropertyGroupEntity } from '@entities/PropertGroup';
 import LoggerService from '@services/Logger';
+import { ProductI } from '@interfaces/Product';
 
 @Injectable()
 export default class ProductService {

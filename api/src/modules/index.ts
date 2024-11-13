@@ -64,10 +64,10 @@ import UncaughtExceptionFilter from '@filters/UncaughtException';
             provide: APP_FILTER,
             useClass: UncaughtExceptionFilter,
         },
-      ],
+    ],
 })
 export default class AppModule implements NestModule {
-    constructor(private readonly configService: ConfigService) {}
+    constructor(private readonly configService: ConfigService) { }
 
     configure(consumer: MiddlewareConsumer) {
         consumer
@@ -84,6 +84,8 @@ export default class AppModule implements NestModule {
                 HistoryPublicController,
                 DashboardPublicController,
             );
-        consumer.apply(SesssionInitMiddleware).forRoutes(UserPublicController);
+        consumer
+            .apply(SesssionInitMiddleware)
+            .forRoutes(WishlistPublicController, OrderPublicController, HistoryPublicController);
     }
 }

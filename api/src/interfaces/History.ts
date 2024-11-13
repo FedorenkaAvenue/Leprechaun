@@ -1,4 +1,4 @@
-import { ProductI, ProductLightCardI } from './Product';
+import { ProductI, ProductLightCardI } from '@interfaces/Product';
 import { SessionI } from './Session';
 
 interface HistoryBaseI<P = ProductI> {

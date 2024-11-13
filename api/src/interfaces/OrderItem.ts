@@ -1,6 +1,7 @@
-import { ProductI, ProductPreviewPublicI } from './Product';
 import { OrderI } from './Order';
 import { PriceI } from './Price';
+import { ProductI } from './Product';
+import { ProductPreviewPublicI } from './Product';
 
 interface BaseI {
     id?: string;

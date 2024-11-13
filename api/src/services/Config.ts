@@ -21,7 +21,6 @@ interface IHostingParams {
 /**
  * @description configuration service (esp working with a environment variables)
  * @property {Boolean} isDev is development environment
- * @property {Boolean} isLepr is "Leprechaun" test project
  */
 @Injectable()
 export default class ConfigService {
@@ -30,7 +29,6 @@ export default class ConfigService {
 
     constructor() {
         this.isDev = this.getVal('IS_DEV') === 'true';
-        this.isLepr = this.getAppName() === 'Leprechaun';
     }
 
     /**
@@ -84,7 +82,7 @@ export default class ConfigService {
                 pool: new PGPool({ user: username, database, password, host, port }),
                 tableName: 'session',
             }),
-            genid: this.isLepr || this.isDev ? this.genSessionId() : undefined,
+            genid: this.isDev ? this.genSessionId() : undefined,
             proxy: true,
             name: 'session',
             secret: this.getVal('SESSION_COOKIE_SECRET'),
@@ -94,7 +92,7 @@ export default class ConfigService {
             cookie: {
                 httpOnly: true,
                 maxAge: +this.getVal('SESSION_AGE'),
-                sameSite: this.isLepr ? 'none' : 'strict',
+                sameSite: this.isDev ? 'lax' : 'strict',
                 domain: `.${this.getVal('HOST_NAME')}`,
                 secure: !this.isDev,
             },

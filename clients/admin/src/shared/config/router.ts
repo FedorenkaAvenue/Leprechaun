@@ -1,8 +1,14 @@
 import {
     CATEGORY_LIST_SEGMENT, CREATE_SEGMENT, DASHBOARD_SEGMENT, PRODUCT_LIST_SEGMENT, PROPERTY_GROUP_LIST_SEGMENT,
+    TOOLS_SEGMENT,
 } from "../constants/routerSegments";
 
 const routerSubConfig = {
+    tools: {
+        title: 'Tools',
+        segment: TOOLS_SEGMENT,
+        path: `/${TOOLS_SEGMENT}`,
+    },
     dashboard: {
         title: 'Dashboard',
         segment: DASHBOARD_SEGMENT,

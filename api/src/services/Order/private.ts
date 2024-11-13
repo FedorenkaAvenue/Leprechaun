@@ -4,8 +4,8 @@ import { DeleteResult, UpdateResult } from 'typeorm';
 import { UpdateOrderStatusDTO } from '@dto/Order';
 import { OrderI } from '@interfaces/Order';
 import OrderService from '.';
-import { ProductI } from '@interfaces/Product';
 import { OrderEntity } from '@entities/Order';
+import { ProductI } from '@interfaces/Product';
 
 @Injectable()
 export default class OrderPrivateService extends OrderService {

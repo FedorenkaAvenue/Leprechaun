@@ -4,11 +4,11 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateProductDTO } from '@dto/Product';
 import { FOLDER_TYPES } from '@services/FS';
 import { PaginationResult } from '@dto/Pagination/constructor';
-import { ProductI } from '@interfaces/Product';
 import { Product } from '@dto/Product/constructor';
 import ProductService from '.';
 import { QueriesProductList } from '@dto/Queries/constructor';
 import { ProductEntity, ProductPreviewEntity } from '@entities/Product';
+import { ProductI } from '@interfaces/Product';
 
 @Injectable()
 export default class ProductPrivateService extends ProductService {

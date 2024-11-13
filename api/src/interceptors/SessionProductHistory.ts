@@ -2,15 +2,15 @@ import { CallHandler, ExecutionContext, Injectable, NestInterceptor } from '@nes
 import { Observable, tap } from 'rxjs';
 import { Request } from 'express';
 
-import { ProductI } from '@interfaces/Product';
 import HistoryPublicService from '@services/History/public';
+import { ProductI } from '@interfaces/Product';
 
 /**
  * @description set product to history
  */
 @Injectable()
 export default class SessionProductHistoryInterceptor implements NestInterceptor {
-    constructor(private readonly historyService: HistoryPublicService) {}
+    constructor(private readonly historyService: HistoryPublicService) { }
 
     intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
         return next.handle().pipe(

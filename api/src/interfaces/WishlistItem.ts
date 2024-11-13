@@ -1,13 +1,13 @@
-import { ProductI, ProductLightCardI } from './Product';
+import { ProductI, ProductLightCardI } from '@interfaces/Product';
 import { SessionI } from './Session';
 
-interface BaseI<P = ProductI> {
+interface BaseI<P> {
     id?: string;
     product: P;
     created_at?: Date;
 }
 
-export interface WishlistItemI extends BaseI {
+export interface WishlistItemI extends BaseI<ProductI> {
     sid: SessionI['sid'];
 }
 
