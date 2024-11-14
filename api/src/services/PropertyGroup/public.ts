@@ -1,6 +1,6 @@
 import { QueriesCommon } from '@dto/Queries/constructor';
 import PropertyGroupService from '.';
-import { PropertyGroupPublic } from '@dto/PropertyGroup/constructor';
+import { PropertyGroupPublic } from '@dto/PropertyGroup/private';
 
 export default class PropertyGroupPublicService extends PropertyGroupService {
     /**

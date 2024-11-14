@@ -1,12 +1,11 @@
 import { DeleteResult } from 'typeorm';
 import { BadRequestException, Injectable } from '@nestjs/common';
 
-import { CreateCategoryDTO } from '@dto/Category';
 import { FOLDER_TYPES } from '@services/FS';
 import { CategoryI } from '@interfaces/Category';
-import { Category } from '@dto/Category/constructor';
 import CategoryService from '.';
 import { CategoryEntity, CategoryPreviewEntity } from '@entities/Category';
+import { Category, CreateCategoryDTO } from '@dto/Category/private';
 
 @Injectable()
 export default class CategoryPrivateService extends CategoryService {

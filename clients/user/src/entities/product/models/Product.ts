@@ -32,6 +32,7 @@ export interface ProductCardModel {
 
 export interface ProductPreviewModel {
     id: ProductId
+    title: string
     image: string
     labels: LabelModel<ProductLabelModel>[]
     price: PriceModel

@@ -1,7 +1,7 @@
 import { applyDecorators, Type } from '@nestjs/common';
 import { ApiNotAcceptableResponse, ApiOkResponse, ApiQuery, getSchemaPath } from '@nestjs/swagger';
 
-import { Pagination } from '@dto/Pagination/constructor';
+import { Pagination } from '@dto/Pagination';
 
 /**
  * @description pagination schema

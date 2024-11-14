@@ -30,7 +30,7 @@ const ProductCard = ({ product, renderTools }: Props) => {
                     </NextLink>
                 </div>
                 <div>
-                    <div></div>
+                    <div>{product.title}</div>
                     <div>{product.description}</div>
                     <Price current={product.price.current} old={product.price.old} />
                     {renderTools?.call(null, product)}

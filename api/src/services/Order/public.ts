@@ -1,15 +1,14 @@
 import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { DeepPartial, Not, UpdateResult } from 'typeorm';
 
-import { CreateOrderDTO } from '@dto/Order';
-import { OrderPublic } from '@dto/Order/constructor';
 import { SessionI } from '@interfaces/Session';
 import { OrderStatus } from '@enums/Order';
-import { CreateOrderItemDTO, UpdateOrderItemDTO } from '@dto/OrderItem';
 import { OrderItemI } from '@interfaces/OrderItem';
 import { ProductEntity } from '@entities/Product';
 import OrderService from '.';
 import { QueriesCommon } from '@dto/Queries/constructor';
+import { CreateOrderDTO, OrderPublic } from '@dto/Order/public';
+import { CreateOrderItemDTO, UpdateOrderItemDTO } from '@dto/OrderItem/private';
 
 @Injectable()
 export default class OrderPublicService extends OrderService {

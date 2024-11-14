@@ -13,8 +13,8 @@ export default async function RootLayout({ children }: Readonly<{ children: Reac
 
     return (
         <html lang="en">
-            <QueryClientProvider>
-                <body className={cn('flex justify-center', inter.className)}>
+            <body className={cn('flex justify-center', inter.className)}>
+                <QueryClientProvider>
                     <div className="w-[1200px] flex flex-col gap-4 my-4">
                         <header className="flex flex-col gap-2">
                             <div className="flex justify-between">
@@ -39,8 +39,8 @@ export default async function RootLayout({ children }: Readonly<{ children: Reac
                         </header>
                         {children}
                     </div>
-                </body>
-            </QueryClientProvider>
+                </QueryClientProvider>
+            </body>
         </html>
     );
 }

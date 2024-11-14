@@ -2,12 +2,12 @@ import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
-import { Image } from '@dto/Image/constructor';
+import { Image } from '@dto/Image';
 import { ImageEntity } from '@entities/Image';
 
 @Injectable()
 export class ImageService {
-    constructor(@InjectRepository(ImageEntity) private readonly imageRepo: Repository<ImageEntity>) {}
+    constructor(@InjectRepository(ImageEntity) private readonly imageRepo: Repository<ImageEntity>) { }
 
     /**
      * @description save one image to DB

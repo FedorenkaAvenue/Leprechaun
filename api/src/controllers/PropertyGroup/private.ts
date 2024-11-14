@@ -1,13 +1,13 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post, UseInterceptors, ValidationPipe } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, UseInterceptors, ValidationPipe } from '@nestjs/common';
 import { ApiBadRequestResponse, ApiNotFoundResponse, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { DeleteResult } from 'typeorm';
 
-import { CreatePropertyGroupDTO } from '@dto/PropertyGroup';
 import { PropertyGroupEntity, PropertyGroupPreviewEntity } from '@entities/PropertGroup';
 import PropertyGroupService from '@services/PropertyGroup/private';
 import AffectedResultInterceptor from '@interceptors/AffectedResult';
 import UndefinedResultInterceptor from '@interceptors/UndefinedResult';
 import { CategoryI } from '@interfaces/Category';
+import { CreatePropertyGroupDTO } from '@dto/PropertyGroup/private';
 
 @Controller('adm/propertygroup')
 @ApiTags('Property group 🤵🏿‍♂️')

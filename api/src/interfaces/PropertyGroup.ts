@@ -1,14 +1,15 @@
-import { CategoryI, CategoryPreviewI } from './Category';
-import { PropertyI, PropertyPublicI } from './Property';
+import { CategoryPreviewI } from './Category';
 import { TransI } from './Trans';
 
-interface BaseI<T = TransI> {
+interface BaseI<T> {
     id?: number;
     title: T;
     alt_name: string;
 }
 
-export interface PropertyGroupPreviewI extends BaseI {
+// private
+
+export interface PropertyGroupPreviewI extends BaseI<TransI> {
     is_primary: boolean;
     comment: string;
 }
@@ -17,12 +18,6 @@ export interface PropertyGroupI extends PropertyGroupPreviewI {
     categories: CategoryPreviewI[]
 }
 
+// public
+
 export type PropertyGroupPublicI = BaseI<string>;
-
-export interface OptionI extends PropertyGroupI {
-    properties: PropertyI[];
-}
-
-export interface OptionPublicI extends PropertyGroupPublicI {
-    properties: PropertyPublicI[];
-}

@@ -1,9 +1,9 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 
 import { CategoryI } from '@interfaces/Category';
-import { CategoryPublic } from '@dto/Category/constructor';
 import CategoryService from '.';
 import { QueriesCommon } from '@dto/Queries/constructor';
+import { CategoryPublic } from '@dto/Category/public';
 
 @Injectable()
 export default class CategoryPublicService extends CategoryService {

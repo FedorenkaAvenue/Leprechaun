@@ -22,17 +22,17 @@ import {
 import { DeleteResult } from 'typeorm';
 import { FilesInterceptor } from '@nestjs/platform-express';
 
-import { CreateProductDTO } from '@dto/Product';
-import { ProductEntity, ProductPreviewEntity } from '@entities/Product';
+import { ProductEntity } from '@entities/Product';
 import ProductPrivateService from '@services/Product/private';
-import { PaginationResult } from '@dto/Pagination/constructor';
+import { PaginationResult } from '@dto/Pagination';
 import { ApiPaginatedResponseDecorator as ApiPaginatedResponse } from '@decorators/OpenAPI';
 import InvalidPaginationPageInterceptor from '@interceptors/InvalidPaginationPage';
 import UndefinedResultInterceptor from '@interceptors/UndefinedResult';
 import AffectedResultInterceptor from '@interceptors/AffectedResult';
-import { Pagination } from '@dto/Pagination/constructor';
+import { Pagination } from '@dto/Pagination';
 import Query from '@decorators/Query';
 import { QueriesProductList } from '@dto/Queries/constructor';
+import { CreateProductDTO, ProductPreview } from '@dto/Product/private';
 
 @Controller('adm/product')
 @ApiTags('Product 🤵🏿‍♂️')
@@ -53,10 +53,10 @@ export default class ProductPrivateController {
     @Get('list')
     @UseInterceptors(InvalidPaginationPageInterceptor)
     @ApiOperation({ summary: 'get product list' })
-    @ApiPaginatedResponse(ProductPreviewEntity)
+    @ApiPaginatedResponse(ProductPreview)
     private getproducts(
         @Query(QueriesProductList) queries: QueriesProductList,
-    ): Promise<PaginationResult<ProductPreviewEntity>> {
+    ): Promise<PaginationResult<ProductPreview>> {
         return this.productService.getProductList(queries);
     }
 

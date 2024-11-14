@@ -1,14 +1,13 @@
 import { DeleteResult } from 'typeorm';
 import { Injectable, NotFoundException } from '@nestjs/common';
 
-import { CreateProductDTO } from '@dto/Product';
 import { FOLDER_TYPES } from '@services/FS';
-import { PaginationResult } from '@dto/Pagination/constructor';
-import { Product } from '@dto/Product/constructor';
+import { PaginationResult } from '@dto/Pagination';
 import ProductService from '.';
 import { QueriesProductList } from '@dto/Queries/constructor';
-import { ProductEntity, ProductPreviewEntity } from '@entities/Product';
+import { ProductEntity } from '@entities/Product';
 import { ProductI } from '@interfaces/Product';
+import { CreateProductDTO, Product, ProductPreview } from '@dto/Product/private';
 
 @Injectable()
 export default class ProductPrivateService extends ProductService {
@@ -40,15 +39,16 @@ export default class ProductPrivateService extends ProductService {
         }
     }
 
-    public async getProductList(q: QueriesProductList): Promise<PaginationResult<ProductPreviewEntity>> {
+    public async getProductList(q: QueriesProductList): Promise<PaginationResult<ProductPreview>> {
         const [res, count] = await this.productRepo.findAndCount({
             where: { category: { id: q.optionsFilter?.category[0] } },
+            relations: { images: true },
             take: q.portion,
             skip: q.portion * (q.page - 1),
         });
 
-        return new PaginationResult<ProductPreviewEntity>(
-            res,
+        return new PaginationResult<ProductPreview>(
+            res.map(i => new ProductPreview(i)),
             {
                 currentPage: q.page,
                 totalCount: count,

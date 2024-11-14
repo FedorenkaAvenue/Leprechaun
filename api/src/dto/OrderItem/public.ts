@@ -1,18 +1,18 @@
 import { ApiProperty } from '@nestjs/swagger';
 
-import { Price } from '@dto/Price/constructor';
-import { ProductPreview } from '@dto/Product/constructor';
+import { Price } from '@dto/Price';
 import { OrderItemEntity } from '@entities/OrderItem';
 import { QueriesCommon } from '@dto/Queries/constructor';
 import { PriceI } from '@interfaces/Price';
 import { OrderItemI } from '@interfaces/OrderItem';
 import { ProductPreviewPublicI } from '@interfaces/Product';
+import { ProductPreviewPublic } from '@dto/Product/public';
 
 export class OrderItemPublic implements OrderItemI<ProductPreviewPublicI> {
     @ApiProperty({ description: 'order item ID', required: true })
     id: string;
 
-    @ApiProperty({ type: ProductPreview })
+    @ApiProperty({ type: ProductPreviewPublic })
     product: ProductPreviewPublicI;
 
     @ApiProperty({ description: 'summary product items price' })
@@ -24,7 +24,7 @@ export class OrderItemPublic implements OrderItemI<ProductPreviewPublicI> {
     constructor({ id, amount, product }: OrderItemEntity, lang: QueriesCommon['lang']) {
         this.id = id;
         this.amount = amount;
-        this.product = new ProductPreview(product, lang);
+        this.product = new ProductPreviewPublic(product, lang);
         this.summaryPrice = new Price({
             current: product.price.current * amount,
             old: product.price.old * amount,

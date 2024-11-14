@@ -1,11 +1,13 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { IsNotEmpty, IsNotEmptyObject, IsObject, IsOptional, IsString, ValidateNested } from 'class-validator';
+import { Type } from 'class-transformer';
 
 import { OrderItemI, OrderItemPublicI } from '@interfaces/OrderItem';
-import { OrderItemPublic } from '@dto/OrderItem/constructor';
 import { OrderEntity } from '@entities/Order';
 import { QueriesCommon } from '@dto/Queries/constructor';
-import { OrderPublicI, OrderSummaryI } from '@interfaces/Order';
+import { OrderCustomerDataI, OrderI, OrderPublicI, OrderSummaryI } from '@interfaces/Order';
 import { OrderStatus } from '@enums/Order';
+import { OrderItemPublic } from '@dto/OrderItem/public';
 
 export class OrderSummary implements OrderSummaryI {
     @ApiProperty({ description: 'summary order price' })
@@ -43,4 +45,34 @@ export class OrderPublic implements OrderPublicI {
         this.summary = new OrderSummary(list);
         this.updated_at = updated_at;
     }
+}
+
+export class CreateOrderCustomerDataDTO implements OrderCustomerDataI {
+    @IsOptional()
+    @IsString()
+    @ApiProperty({ description: 'customer name', required: false })
+    name: string;
+
+    @IsNotEmpty()
+    @IsString()
+    @ApiProperty({ description: 'customer phone number', required: true })
+    phone: string;
+}
+
+// post order (update status from 1 to 2)
+export class CreateOrderDTO {
+    @IsNotEmpty()
+    @ApiProperty({ description: 'order object', required: true })
+    order: OrderI;
+
+    @IsObject()
+    @IsNotEmptyObject()
+    @ValidateNested()
+    @Type(() => CreateOrderCustomerDataDTO)
+    @ApiProperty({
+        type: CreateOrderCustomerDataDTO,
+        required: true,
+        description: 'reciever/user data',
+    })
+    customer: OrderCustomerDataI;
 }

@@ -1,7 +1,7 @@
 import { CallHandler, ExecutionContext, Injectable, NestInterceptor, NotAcceptableException } from '@nestjs/common';
 import { Observable, tap } from 'rxjs';
 
-import { PaginationResult } from '@dto/Pagination/constructor';
+import { PaginationResult } from '@dto/Pagination';
 
 /**
  * @description check incorrect pagination requested page

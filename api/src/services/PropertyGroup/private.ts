@@ -3,9 +3,9 @@ import { DeleteResult } from 'typeorm';
 
 import PropertyGroupService from '.';
 import { PropertyGroupI } from '@interfaces/PropertyGroup';
-import { CreatePropertyGroupDTO } from '@dto/PropertyGroup';
 import { PropertyGroupEntity, PropertyGroupPreviewEntity } from '@entities/PropertGroup';
 import { CategoryI } from '@interfaces/Category';
+import { CreatePropertyGroupDTO } from '@dto/PropertyGroup/private';
 
 @Injectable()
 export default class PropertyGroupPrivateService extends PropertyGroupService {

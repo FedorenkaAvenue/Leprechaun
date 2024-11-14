@@ -7,6 +7,7 @@ import TransList from "@shared/ui/TransList";
 import ProductTogglePublic from "@features/product/ui/ProductTogglePublic";
 import ProductStatusSelect from "@features/product/ui/ProductStatusSelect";
 import ProductPreviewModel from "../model/ProductPreview";
+import Image from '@shared/ui/Image';
 
 interface Props {
     product: ProductPreviewModel
@@ -26,6 +27,9 @@ const ProductPreview = ({ product, renderTools }: Props) => {
             </TableCell>
             <TableCell align="right">
                 <TooltipContent content={<TransList data={product.title} />} />
+            </TableCell>
+            <TableCell align="right">
+                <TooltipContent content={<Image src={product.image} />} />
             </TableCell>
             <TableCell align="right">
                 <ProductTogglePublic selected={product.is_public} />

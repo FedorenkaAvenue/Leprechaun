@@ -12,7 +12,6 @@ import {
 import { Type } from 'class-transformer';
 
 import { PropertyGroupI } from '@interfaces/PropertyGroup';
-import { CategoryI } from '@interfaces/Category';
 import { TransDTO } from '@dto/Trans';
 
 export class CreateCategoryDTO {
@@ -57,4 +56,17 @@ export class CreateCategoryDTO {
     @IsString()
     @ApiProperty({ required: false, default: null })
     comment: string;
+}
+
+export class Category extends CreateCategoryDTO {
+    constructor({ url, title, is_public, propertygroups, comment }: CreateCategoryDTO) {
+        super();
+        this.url = url;
+        this.title = title;
+        this.is_public = is_public;
+        this.comment = comment || null;
+        // TODO
+        // @ts-ignore for table relations
+        this.propertygroups = propertygroups ? propertygroups.map(groupId => ({ id: Number(groupId) })) : null;
+    }
 }

@@ -1,18 +1,25 @@
 import { ApiProperty } from '@nestjs/swagger';
 import {
-    IsBoolean,
     IsNotEmpty,
     IsNotEmptyObject,
+    IsNumber,
     IsObject,
     IsOptional,
     IsString,
     ValidateNested,
 } from 'class-validator';
-
 import { Type } from 'class-transformer';
+
+import { PropertyI } from '@interfaces/Property';
+import { PropertyGroupI } from '@interfaces/PropertyGroup';
 import { TransDTO } from '@dto/Trans';
 
-export class CreatePropertyGroupDTO {
+export class CreatePropertyDTO implements PropertyI {
+    @IsNotEmpty()
+    @IsNumber()
+    @ApiProperty({ type: 'number', description: 'property group ID' })
+    propertygroup: PropertyGroupI;
+
     @IsNotEmptyObject()
     @IsObject()
     @ValidateNested()
@@ -24,11 +31,6 @@ export class CreatePropertyGroupDTO {
     @IsString()
     @ApiProperty()
     alt_name: string;
-
-    @IsOptional()
-    @IsBoolean()
-    @ApiProperty({ required: false, description: 'visible property for ProductCard', default: false })
-    is_primary: boolean;
 
     @IsOptional()
     @IsString()

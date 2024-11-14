@@ -10,7 +10,7 @@ import {
 } from 'typeorm';
 import { ApiProperty } from '@nestjs/swagger';
 
-import { ProductEntity, ProductPreviewEntity } from '@entities/Product';
+import { ProductEntity } from '@entities/Product';
 import { CategoryI, CategoryPreviewI } from '@interfaces/Category';
 import { PropertyGroupEntity, PropertyGroupPreviewEntity } from '@entities/PropertGroup';
 import { TransI } from '@interfaces/Trans';
@@ -48,7 +48,7 @@ export class CategoryPreviewEntity implements CategoryPreviewI {
 @Entity('category')
 export class CategoryEntity extends CategoryPreviewEntity implements CategoryI {
     @OneToMany(() => ProductEntity, ({ category }) => category)
-    @ApiProperty({ type: () => ProductPreviewEntity, isArray: true })
+    @ApiProperty({ type: () => ProductEntity, isArray: true })
     products: ProductPreviewI[];
 
     @ManyToMany(() => PropertyGroupEntity, ({ id }) => id)

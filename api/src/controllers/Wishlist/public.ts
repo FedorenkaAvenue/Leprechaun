@@ -22,7 +22,7 @@ import { DeleteResult } from 'typeorm';
 
 import WishlistPublicService from '@services/Wishlist/public';
 import AffectedResultInterceptor from '@interceptors/AffectedResult';
-import { WishlistItemPublic } from '@dto/WishlistItem/constructor';
+import { WishlistItemPublic } from '@dto/WishlistItem/public';
 import SessionGuard from '@guards/Session';
 import Queries from '@decorators/Query';
 import { QueriesWishlist } from '@dto/Queries/constructor';

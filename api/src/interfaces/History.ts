@@ -1,4 +1,4 @@
-import { ProductI, ProductLightCardI } from '@interfaces/Product';
+import { ProductI, ProductPreviewPublicI } from '@interfaces/Product';
 import { SessionI } from './Session';
 
 interface HistoryBaseI<P = ProductI> {
@@ -9,4 +9,4 @@ interface HistoryBaseI<P = ProductI> {
 }
 
 export type HistoryI = HistoryBaseI;
-export type HistoryPublicI = HistoryBaseI<ProductLightCardI>;
+export type HistoryPublicI = HistoryBaseI<ProductPreviewPublicI>;

@@ -13,14 +13,14 @@ import { ApiNotFoundResponse, ApiOkResponse, ApiOperation, ApiTags } from '@nest
 import { DeleteResult, UpdateResult } from 'typeorm';
 
 import OrderPrivateService from '@services/Order/private';
-import { UpdateOrderStatusDTO } from '@dto/Order';
 import AffectedResultInterceptor from '@interceptors/AffectedResult';
 import { OrderEntity } from '@entities/Order';
+import { UpdateOrderStatusDTO } from '@dto/Order/private';
 
 @Controller('adm/order')
 @ApiTags('Order 🤵🏿‍♂️')
 export default class OrderPrivateController {
-    constructor(private readonly orderService: OrderPrivateService) {}
+    constructor(private readonly orderService: OrderPrivateService) { }
 
     @Get(':orderID')
     @ApiOperation({ summary: 'get order by ID' })

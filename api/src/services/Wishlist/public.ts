@@ -5,7 +5,7 @@ import { SessionI } from '@interfaces/Session';
 import WishlistService from '.';
 import WishlistItemEntity from '@entities/WishlistItem';
 import { WishlistItemI } from '@interfaces/WishlistItem';
-import { WishlistItemPublic } from '@dto/WishlistItem/constructor';
+import { WishlistItemPublic } from '@dto/WishlistItem/public';
 import { SortWishlistE } from '@enums/Query';
 import { QueriesWishlist } from '@dto/Queries/constructor';
 import { ProductI } from '@interfaces/Product';
@@ -32,7 +32,7 @@ export default class WishlistPublicService extends WishlistService {
 
         const result = await this.wishlistItemRepo.find({
             where: { sid },
-            relations: ['product'],
+            relations: { product: { images: true } },
             order: sorting,
             take: this.wishlistLength,
         });
@@ -56,11 +56,12 @@ export default class WishlistPublicService extends WishlistService {
             const { id } = await this.wishlistItemRepo.save({ product, sid } as DeepPartial<WishlistItemEntity>);
             const addedItem = await this.wishlistItemRepo.findOne({
                 where: { id },
-                relations: ['product'],
+                relations: { product: { images: true } },
             });
 
             return new WishlistItemPublic(addedItem, searchParams);
         } catch (err) {
+            console.log(err);
             throw new NotFoundException('product not found');
         }
     }

@@ -6,6 +6,7 @@ import clsx from 'clsx';
 
 interface Props extends React.DetailedHTMLProps<React.ImgHTMLAttributes<HTMLImageElement>, HTMLImageElement> {
     src: string | undefined
+    withSlider?: boolean
     thumbnail?: string
     avatar?: boolean
     withBorder?: boolean
@@ -13,25 +14,29 @@ interface Props extends React.DetailedHTMLProps<React.ImgHTMLAttributes<HTMLImag
 
 const IMAGE_DOMAIN = import.meta.env.VITE_DOMAIN_MEDIA;
 
-const Image = forwardRef<HTMLImageElement, Props>(({ src, avatar, thumbnail, withBorder, ...props }, ref) => {
+const Image = forwardRef<HTMLImageElement, Props>((
+    { src, avatar, thumbnail, withBorder, withSlider, ...props },
+    ref,
+) => {
     const ss = `${IMAGE_DOMAIN}/${src}`;
+    const img = (
+        <img
+            className={clsx(
+                "cursor-pointer",
+                { "border-2 border-gray-300": withBorder },
+            )}
+            src={thumbnail || ss}
+            ref={ref}
+            {...props}
+        />
+    );
 
     return (
         avatar
             ? <Avatar src={ss} sx={{ width: 25, height: 25 }} />
-            : (
-                <PhotoView src={ss}>
-                    <img
-                        className={clsx(
-                            "cursor-pointer",
-                            { "border-2 border-gray-300": withBorder },
-                        )}
-                        src={thumbnail || ss}
-                        ref={ref}
-                        {...props}
-                    />
-                </PhotoView>
-            )
+            : withSlider
+                ? <PhotoView src={ss}>{img}</PhotoView>
+                : img
     );
 });
 

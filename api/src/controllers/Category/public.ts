@@ -2,10 +2,10 @@ import { Controller, Get, Param, UseInterceptors } from '@nestjs/common';
 import { ApiNotFoundResponse, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 
 import CategoryPublicService from '@services/Category/public';
-import { CategoryPublic } from '@dto/Category/constructor';
 import Queries from '@decorators/Query';
 import { QueriesCommon } from '@dto/Queries/constructor';
 import { CacheInterceptor } from '@nestjs/cache-manager';
+import { CategoryPublic } from '@dto/Category/public';
 
 @Controller('category')
 @ApiTags('Category 🧑‍💻')

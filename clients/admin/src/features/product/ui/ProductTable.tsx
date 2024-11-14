@@ -20,6 +20,7 @@ const ProductTableFeature = ({ products, renderProductTools }: Props) => {
                             <TableCell sx={{ fontWeight: 700 }} align="left">Id</TableCell>
                             <TableCell sx={{ fontWeight: 700 }} align="left">Tools</TableCell>
                             <TableCell sx={{ fontWeight: 700 }} align='right'>Titles</TableCell>
+                            <TableCell sx={{ fontWeight: 700 }} align='right'>Image</TableCell>
                             <TableCell sx={{ fontWeight: 700 }} align="right">Is public</TableCell>
                             <TableCell sx={{ fontWeight: 700 }} align="right">Status</TableCell>
                         </TableRow>

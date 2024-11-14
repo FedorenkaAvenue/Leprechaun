@@ -1,10 +1,10 @@
 import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { DeleteResult, UpdateResult } from 'typeorm';
 
-import { CreatePropertyDTO } from '@dto/Property';
 import { PropertyI } from '@interfaces/Property';
 import PropertyService from '.';
 import { PropertyEntity } from '@entities/Property';
+import { CreatePropertyDTO } from '@dto/Property/private';
 
 @Injectable()
 export default class PropertyPrivateService extends PropertyService {

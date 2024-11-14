@@ -3,57 +3,56 @@ import { TransI } from "./Trans";
 import { PriceI } from "./Price";
 import { LabelI } from "./Label";
 import { ImageI } from "./Image";
-import { OptionPublicI } from "./PropertyGroup";
 import { CategoryI, CategoryPublicI } from "./Category";
 import { PropertyI } from "./Property";
-import WishlistItemEntity from "@entities/WishlistItem";
+import { OptionPublicI } from "./Option";
 
-export interface ProductBaseI<T = TransI> {
-    id?: string;
+interface BaseI<T> {
+    id: string;
     title: T;
     status: ProductStatusE;
-    price?: PriceI;
-    labels?: LabelI[];
-    description?: T;
+    price: PriceI;
 }
 
 // private
 
-export interface ProductPreviewI extends ProductBaseI {
+export interface ProductBaseI extends BaseI<TransI> {
     category: CategoryI;
     rating: number;
     created_at: Date;
     is_public: boolean;
-    comment: string;
     is_new: boolean;
+    comment: string;
 }
 
-export interface ProductI extends ProductPreviewI {
+export interface ProductPreviewI extends ProductBaseI {
+    image: string;
+}
+
+export interface ProductI extends ProductBaseI {
     images: ImageI[];
     properties: PropertyI[];
     orderCount: number;
-    wishlistCount?: WishlistItemEntity[];
-}
-
-export interface ProductLightCardI extends ProductBaseI<string> {
-    images: ImageI[];
+    description: TransI;
 }
 
 // public
 
-export interface ProductPreviewPublicI extends ProductBaseI<string> {
+export interface ProductPublicBaseI extends BaseI<string> {
+    labels: LabelI[];
+}
+
+export interface ProductPreviewPublicI extends ProductPublicBaseI {
     image: string;
 }
 
-export interface ProductCardPublicI extends ProductBaseI<string> {
+export interface ProductCardPublicI extends ProductPublicBaseI {
     images: ImageI[];
     options: OptionPublicI[];
 }
 
 export interface ProductPublicI extends ProductCardPublicI {
+    description: string;
     category: CategoryPublicI;
-    images: ImageI[];
-    wishlistCount: number;
     orderCount: number;
-    options: OptionPublicI[];
 }

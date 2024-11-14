@@ -2,21 +2,23 @@ import { Body, Controller, Delete, Get, Param, Patch, Post, UseInterceptors, Val
 import { ApiNotFoundResponse, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { DeleteResult } from 'typeorm';
 
-import { CreatePropertyDTO } from '@dto/Property';
 import { PropertyEntity } from '@entities/Property';
 import PropertyService from '@services/Property/private';
 import AffectedResultInterceptor from '@interceptors/AffectedResult';
 import UndefinedResultInterceptor from '@interceptors/UndefinedResult';
+import { CreatePropertyDTO } from '@dto/Property/private';
 
 @Controller('adm/property')
 @ApiTags('Property 🤵🏿‍♂️')
 export default class PropertyPrivateController {
-    constructor(private readonly propertyService: PropertyService) {}
+    constructor(private readonly propertyService: PropertyService) { }
 
     @Post()
     @ApiOperation({ summary: 'add new property' })
     @ApiOkResponse({ type: PropertyEntity })
-    private createProperty(@Body(new ValidationPipe({ transform: true })) data: CreatePropertyDTO): Promise<PropertyEntity> {
+    private createProperty(
+        @Body(new ValidationPipe({ transform: true })) data: CreatePropertyDTO,
+    ): Promise<PropertyEntity> {
         return this.propertyService.createProperty(data);
     }
 

@@ -1,4 +1,4 @@
-import { ProductI, ProductLightCardI } from '@interfaces/Product';
+import { ProductI, ProductPreviewPublicI } from '@interfaces/Product';
 import { SessionI } from './Session';
 
 interface BaseI<P> {
@@ -11,4 +11,4 @@ export interface WishlistItemI extends BaseI<ProductI> {
     sid: SessionI['sid'];
 }
 
-export type WishlistItemPublicI = BaseI<ProductLightCardI>;
+export type WishlistItemPublicI = BaseI<ProductPreviewPublicI>;

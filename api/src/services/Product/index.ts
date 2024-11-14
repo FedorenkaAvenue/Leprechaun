@@ -5,7 +5,7 @@ import { Injectable } from '@nestjs/common';
 import { FSService } from '@services/FS';
 import { ProductEntity } from '@entities/Product';
 import { ImageService } from '@services/Image';
-import { PaginationResult } from '@dto/Pagination/constructor';
+import { PaginationResult } from '@dto/Pagination';
 import { QueriesProductList } from '@dto/Queries/constructor';
 import HistoryPublicService from '@services/History/public';
 import { SortProductE } from '@enums/Query';

@@ -18,13 +18,14 @@ import { ImageEntity } from '@entities/Image';
 import { CategoryI } from '@interfaces/Category';
 import { PropertyEntity } from '@entities/Property';
 import { PriceEntity } from './_Price';
-import WishlistItemEntity from './WishlistItem';
 import { TransI } from '@interfaces/Trans';
 import { TransEntity } from './Trans';
-import { OptionI } from '@interfaces/PropertyGroup';
-import { ProductI, ProductPreviewI } from '@interfaces/Product';
+import { ProductI } from '@interfaces/Product';
+import WishlistItemEntity from './WishlistItem';
+import { OptionI } from '@interfaces/Option';
 
-export class ProductPreviewEntity implements ProductPreviewI {
+@Entity('product')
+export class ProductEntity implements Omit<ProductI, 'labels' | 'wishlistCount'> {
     @PrimaryGeneratedColumn('uuid')
     @ApiProperty()
     id: string;
@@ -34,9 +35,9 @@ export class ProductPreviewEntity implements ProductPreviewI {
     @ApiProperty({ type: TransEntity })
     title: TransI;
 
-    @OneToOne(() => TransEntity, { cascade: true, eager: true })
+    @OneToOne(() => TransEntity, { cascade: true })
     @JoinColumn({ name: 'description', referencedColumnName: 'id' })
-    @ApiProperty({ type: TransEntity, nullable: true })
+    @ApiProperty({ type: TransEntity, nullable: true, default: null })
     description: TransI;
 
     @Column({ default: ProductStatusE.AVAILABLE })
@@ -68,13 +69,10 @@ export class ProductPreviewEntity implements ProductPreviewI {
     @ApiProperty({ description: 'novelty status' })
     is_new: boolean;
 
-    @Column({ nullable: true })
+    @Column({ nullable: true, default: null })
     @ApiProperty()
     comment: string;
-}
 
-@Entity('product')
-export class ProductEntity extends ProductPreviewEntity implements ProductI {
     @OneToMany(() => ImageEntity, ({ product_id }) => product_id)
     @ApiProperty({ type: ImageEntity, isArray: true })
     images: ImageEntity[];
@@ -92,7 +90,7 @@ export class ProductEntity extends ProductPreviewEntity implements ProductI {
     @ApiProperty({ description: 'how many users ordered this product' })
     orderCount: number;
 
-    // virtual properties
+    // virtual properties, maped from SQL
 
     @ApiProperty({ description: 'how many users added this product to wishlist' })
     wishlistCount: WishlistItemEntity[];

@@ -3,15 +3,16 @@ import { DeleteResult } from 'typeorm';
 
 import HistoryService from '.';
 import { SessionI } from '@interfaces/Session';
-import { ProductLightCard } from '@dto/Product/constructor';
 import { QueriesCommon } from '@dto/Queries/constructor';
+import { ProductPreviewPublicI } from '@interfaces/Product';
+import { ProductPreviewPublic } from '@dto/Product/public';
 
 @Injectable()
 export default class HistoryPublicService extends HistoryService {
-    public async getHistoryList(sid: SessionI['sid'], searchParams: QueriesCommon): Promise<ProductLightCard[]> {
+    public async getHistoryList(sid: SessionI['sid'], searchParams: QueriesCommon): Promise<ProductPreviewPublicI[]> {
         const res = await this.getHistoryListBySID(sid);
 
-        return res.map(({ product }) => new ProductLightCard(product, searchParams));
+        return res.map(({ product }) => new ProductPreviewPublic(product, searchParams.lang));
     }
 
     public async clearHistoryList(sid: SessionI['sid']): Promise<DeleteResult> {

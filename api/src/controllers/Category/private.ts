@@ -14,11 +14,11 @@ import { FileInterceptor } from '@nestjs/platform-express';
 import { DeleteResult } from 'typeorm';
 
 import { CategoryEntity, CategoryPreviewEntity } from '@entities/Category';
-import { CreateCategoryDTO } from '@dto/Category';
 import { FSService } from '@services/FS';
 import UndefinedResultInterceptor from '@interceptors/UndefinedResult';
 import AffectedResultInterceptor from '@interceptors/AffectedResult';
 import CategoryPrivateService from '@services/Category/private';
+import { CreateCategoryDTO } from '@dto/Category/private';
 
 @Controller('adm/category')
 @ApiTags('Category 🤵🏿‍♂️')

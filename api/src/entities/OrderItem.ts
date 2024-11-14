@@ -5,7 +5,6 @@ import { OrderI } from '@interfaces/Order';
 import { ProductEntity } from './Product';
 import { OrderItemI } from '@interfaces/OrderItem';
 import { OrderEntity } from './Order';
-import { ProductPreview } from '@dto/Product/constructor';
 
 @Entity('order_item')
 export class OrderItemEntity implements OrderItemI {
@@ -19,7 +18,7 @@ export class OrderItemEntity implements OrderItemI {
 
     @ManyToOne(() => ProductEntity, ({ id }) => id, { onDelete: 'CASCADE', eager: true })
     @JoinColumn({ name: 'product', referencedColumnName: 'id' })
-    @ApiProperty({ type: ProductPreview, required: true })
+    @ApiProperty({ type: ProductEntity, required: true })
     product: ProductEntity;
 
     @ManyToOne(() => OrderEntity, ({ id }) => id, { onDelete: 'CASCADE' })

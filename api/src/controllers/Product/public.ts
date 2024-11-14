@@ -10,15 +10,15 @@ import {
 import { CacheInterceptor } from '@nestjs/cache-manager';
 
 import ProductPublicService from '@services/Product/public';
-import { PaginationResult } from '@dto/Pagination/constructor';
+import { PaginationResult } from '@dto/Pagination';
 import { ApiPaginatedResponseDecorator as ApiPaginatedResponse } from '@decorators/OpenAPI';
 import InvalidPaginationPageInterceptor from '@interceptors/InvalidPaginationPage';
-import { ProductCard, ProductPublic } from '@dto/Product/constructor';
 import SessionProductHistoryInterceptor from '@interceptors/SessionProductHistory';
 import Queries from '@decorators/Query';
 import { QueriesProductList } from '@dto/Queries/constructor';
 import { SortProductE } from '@enums/Query';
 import { ProductStatusE } from '@enums/Product';
+import { ProductCardPublic, ProductPublic } from '@dto/Product/public';
 
 @Controller('product')
 @ApiTags('Product 🧑‍💻')
@@ -29,7 +29,7 @@ export default class ProductPublicController {
     @UseInterceptors(CacheInterceptor)
     @UseInterceptors(InvalidPaginationPageInterceptor)
     @ApiOperation({ summary: 'get all public products 💾' })
-    @ApiPaginatedResponse(ProductCard)
+    @ApiPaginatedResponse(ProductCardPublic)
     @ApiQuery({
         name: 'sort',
         required: false,
@@ -45,7 +45,9 @@ export default class ProductPublicController {
         required: false,
         enum: ProductStatusE,
     })
-    private getProducts(@Queries(QueriesProductList) queries: QueriesProductList): Promise<PaginationResult<ProductCard>> {
+    private getProducts(
+        @Queries(QueriesProductList) queries: QueriesProductList,
+    ): Promise<PaginationResult<ProductCardPublic>> {
         return this.productService.getProductList(queries);
     }
 
@@ -54,11 +56,11 @@ export default class ProductPublicController {
     @UseInterceptors(InvalidPaginationPageInterceptor)
     @ApiOperation({ summary: 'get public products by category URL 💾' })
     @ApiNotFoundResponse({ description: 'category not found' })
-    @ApiPaginatedResponse(ProductCard)
+    @ApiPaginatedResponse(ProductCardPublic)
     private getCategoryProducts(
         @Param('categoryUrl') categoryUrl: string,
         @Queries(QueriesProductList) queries: QueriesProductList,
-    ): Promise<PaginationResult<ProductCard>> {
+    ): Promise<PaginationResult<ProductCardPublic>> {
         return this.productService.getCategoryProducts(categoryUrl, queries);
     }
 

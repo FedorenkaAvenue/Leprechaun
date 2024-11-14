@@ -1,11 +1,11 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { DeleteResult, UpdateResult } from 'typeorm';
 
-import { UpdateOrderStatusDTO } from '@dto/Order';
 import { OrderI } from '@interfaces/Order';
 import OrderService from '.';
 import { OrderEntity } from '@entities/Order';
 import { ProductI } from '@interfaces/Product';
+import { UpdateOrderStatusDTO } from '@dto/Order/private';
 
 @Injectable()
 export default class OrderPrivateService extends OrderService {

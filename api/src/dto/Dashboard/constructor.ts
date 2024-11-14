@@ -1,10 +1,10 @@
 import { ApiProperty } from '@nestjs/swagger';
 
 import { CommonDashboardsI, UserDashboardsI } from '@interfaces/Dashboard';
-import { ProductPreview } from '@dto/Product/constructor';
 import { ProductEntity } from '@entities/Product';
 import { HistoryEntity } from '@entities/History';
 import { QueriesCommon } from '@dto/Queries/constructor';
+import { ProductPreviewPublic } from '@dto/Product/public';
 
 interface CommonDashboardsIConstructorI {
     popular: ProductEntity[];
@@ -18,36 +18,36 @@ interface UserDashboardsIConstructorI {
 export class CommonDashboards implements CommonDashboardsI {
     @ApiProperty({
         description: 'popular products',
-        type: ProductPreview,
+        type: ProductPreviewPublic,
         isArray: true,
         required: false,
     })
-    popular: ProductPreview[];
+    popular: ProductPreviewPublic[];
 
     @ApiProperty({
         description: 'new products',
-        type: ProductPreview,
+        type: ProductPreviewPublic,
         isArray: true,
         required: false,
     })
-    newest: ProductPreview[];
+    newest: ProductPreviewPublic[];
 
     constructor({ popular, newest }: CommonDashboardsIConstructorI, lang: QueriesCommon['lang']) {
-        this.popular = popular.map(prod => new ProductPreview(prod, lang));
-        this.newest = newest.map(prod => new ProductPreview(prod, lang));
+        this.popular = popular.map(prod => new ProductPreviewPublic(prod, lang));
+        this.newest = newest.map(prod => new ProductPreviewPublic(prod, lang));
     }
 }
 
 export class UserDashboards implements UserDashboardsI {
     @ApiProperty({
         description: 'recently visited products',
-        type: ProductPreview,
+        type: ProductPreviewPublic,
         isArray: true,
         required: false,
     })
-    history: ProductPreview[];
+    history: ProductPreviewPublic[];
 
     constructor({ history }: UserDashboardsIConstructorI, lang: QueriesCommon['lang']) {
-        this.history = history.map(({ product }) => new ProductPreview(product, lang));
+        this.history = history.map(({ product }) => new ProductPreviewPublic(product, lang));
     }
 }

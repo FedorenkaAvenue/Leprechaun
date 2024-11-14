@@ -93,7 +93,7 @@ const Product = ({ product, aditionalContent }: Props) => {
                                 <ImageList variant='masonry' cols={5} gap={16}>
                                     {product.images.map(({ id, src }) => (
                                         <ImageListItem key={id}>
-                                            <Image src={src} />
+                                            <Image src={src} withSlider />
                                         </ImageListItem>
                                     ))}
                                 </ImageList>
