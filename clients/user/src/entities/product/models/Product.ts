@@ -38,3 +38,7 @@ export interface ProductPreviewModel {
     price: PriceModel
     status: ProductStatusModel
 }
+
+export interface ProductOverviewModel extends ProductCardModel {
+
+}

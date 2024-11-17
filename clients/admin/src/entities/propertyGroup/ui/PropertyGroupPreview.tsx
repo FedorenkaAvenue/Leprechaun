@@ -9,9 +9,10 @@ import TransList from "@shared/ui/TransList";
 interface Props {
     group: PropertyGroupPreviewModel
     renderTools?: (group: PropertyGroupPreviewModel) => ReactNode
+    renderPublicStatus: (group: PropertyGroupPreviewModel) => ReactNode
 }
 
-const PropertyGroupPreview = ({ group, renderTools }: Props) => {
+const PropertyGroupPreview = ({ group, renderTools, renderPublicStatus }: Props) => {
     return (
         <TableRow className="hover-item">
             <TableCell align="left">{group.id}</TableCell>
@@ -37,8 +38,10 @@ const PropertyGroupPreview = ({ group, renderTools }: Props) => {
                     }
                 />
             </TableCell>
-            <TableCell align="right">{group.is_primary ? 'yes' : 'no'}</TableCell>
-            <TableCell align="right">{group.comment}</TableCell>
+            <TableCell align="right">{renderPublicStatus(group)}</TableCell>
+            <TableCell align="right">
+                {group.comment || <Typography component='span' color='textDisabled'>empty</Typography>}
+            </TableCell>
         </TableRow >
     );
 };

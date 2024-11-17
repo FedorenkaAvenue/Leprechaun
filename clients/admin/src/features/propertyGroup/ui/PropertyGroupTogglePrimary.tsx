@@ -5,8 +5,8 @@ interface Props {
     selected: boolean
 }
 
-const CategoryTogglePublic: FC<Props> = ({ selected }) => {
+const PropertyGroupTogglePrimary: FC<Props> = ({ selected }) => {
     return <Switch onChange={() => alert('Хуя')} checked={selected} />;
 };
 
-export default CategoryTogglePublic;
+export default PropertyGroupTogglePrimary;

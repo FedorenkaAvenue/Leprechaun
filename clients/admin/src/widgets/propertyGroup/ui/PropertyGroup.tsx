@@ -6,15 +6,13 @@ import { usePropertyGroup } from "@entities/propertyGroup/api/hooks";
 import PropertyGroupEntity from "@entities/propertyGroup/ui/PropertyGroup";
 import ContentManager from "@shared/ui/ContentManager";
 import PropertyGroupDeleteButton from "@features/propertyGroup/ui/PropertyGroupDeleteButton";
-import PropertyCreate from "@features/property/ui/PropertyCreate";
 import PropertyGroupPreviewModel from "@entities/propertyGroup/model/PropertyGroup";
-import PropertyDeleteButton from "@features/property/ui/PropertyDeleteButton";
 import Chip from "@shared/ui/Chip";
 import TransList from "@shared/ui/TransList";
 import routerSubConfig from "@shared/config/router";
-import PropertyTableFuture from "@features/property/ui/PropertyTable";
-import EditButton from "@shared/ui/EditButton";
 import Empty from "@shared/ui/Empty";
+import PropertyTableWidget from "@widgets/property/ui/PropertyTable";
+import PropertyCreateWidget from "@widgets/property/ui/PropertyCreate";
 
 const PropertyGroupWidget = () => {
     const { id } = useParams();
@@ -65,14 +63,9 @@ const PropertyGroupWidget = () => {
                                 <Divider />
                                 <div className="flex flex-col gap-4">
                                     <Typography variant="h5">Properties</Typography>
-                                    <PropertyTableFuture
+                                    <PropertyTableWidget
                                         properties={properties}
-                                        renderPropertyTools={property => (
-                                            <>
-                                                <PropertyDeleteButton groupId={data?.id} property={property} />
-                                                <EditButton handleClick={() => alert("Хуя")} title="Edit property group" />
-                                            </>
-                                        )}
+                                        group={data}
                                     />
                                 </div>
                             </>
@@ -89,7 +82,7 @@ const PropertyGroupWidget = () => {
                     Create new property for<b>&nbsp;{data?.alt_name}&nbsp;</b>group
                 </DialogTitle>
                 <DialogContent>
-                    <PropertyCreate
+                    <PropertyCreateWidget
                         groupId={data?.id as PropertyGroupPreviewModel['id']}
                         handleClose={() => setIsNewPropertyOpen(false)}
                     />

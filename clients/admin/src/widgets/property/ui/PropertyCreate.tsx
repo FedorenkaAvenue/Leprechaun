@@ -5,7 +5,7 @@ import LoadingButton from '@mui/lab/LoadingButton';
 
 import { useCreateProperty } from "@features/property/api/hook";
 import PropertyGroupPreviewModel from "@entities/propertyGroup/model/PropertyGroup";
-import PropertyCreateSchema, { PropertySchemaT } from "../models/schema";
+import PropertyCreateSchema, { PropertySchemaT } from "@features/property/models/schema";
 import TextInput from "@shared/ui/TextInput";
 
 interface Props {
@@ -13,7 +13,7 @@ interface Props {
     handleClose: () => void
 }
 
-const PropertyCreate = ({ groupId, handleClose }: Props) => {
+const PropertyCreateWidget = ({ groupId, handleClose }: Props) => {
     const { mutate, isPending } = useCreateProperty(groupId, handleClose);
     const { handleSubmit, register, formState: { errors } } = useForm<PropertySchemaT>({
         resolver: zodResolver(PropertyCreateSchema),
@@ -52,4 +52,4 @@ const PropertyCreate = ({ groupId, handleClose }: Props) => {
     );
 };
 
-export default PropertyCreate;
+export default PropertyCreateWidget;

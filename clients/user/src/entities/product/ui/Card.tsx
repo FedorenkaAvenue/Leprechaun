@@ -25,7 +25,7 @@ const ProductCard = ({ product, renderTools }: Props) => {
                     </ul>
                 </div>
                 <div>
-                    <NextLink href=''>
+                    <NextLink href={`product/${product.id}`}>
                         <Image src={"/" + product.images[0]?.src} alt="loh" width="300" height="500" />
                     </NextLink>
                 </div>

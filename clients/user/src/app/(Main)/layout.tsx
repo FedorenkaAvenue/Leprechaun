@@ -31,7 +31,7 @@ export default async function RootLayout({ children }: Readonly<{ children: Reac
                                 <ul className="flex gap-4">
                                     {categories.map(i => (
                                         <li key={i.id}>
-                                            <Link href={i.url}>{i.title}</Link>
+                                            <Link href={`/${i.url}`}>{i.title}</Link>
                                         </li>
                                     ))}
                                 </ul>

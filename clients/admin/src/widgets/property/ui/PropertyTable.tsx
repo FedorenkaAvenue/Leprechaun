@@ -1,16 +1,19 @@
 import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
-import { ReactNode } from "react";
+import { FC } from "react";
 
 import PropertyModel from "@entities/property/model/Property";
 import Property from "@entities/property/ui/Property";
 import Empty from "@shared/ui/Empty";
+import PropertyDeleteButton from "@features/property/ui/PropertyDeleteButton";
+import EditButton from "@shared/ui/EditButton";
+import PropertyGroupModel from "@entities/propertyGroup/model/PropertyGroupPreview";
 
 interface Props {
     properties: PropertyModel[] | undefined
-    renderPropertyTools?: (property: PropertyModel) => ReactNode
+    group: PropertyGroupModel | undefined
 }
 
-const PropertyTableFuture = ({ properties, renderPropertyTools }: Props) => {
+const PropertyTableWidget: FC<Props> = ({ properties, group }) => {
     return (
         <Empty data={properties?.length}>
             <TableContainer component={Paper}>
@@ -26,7 +29,16 @@ const PropertyTableFuture = ({ properties, renderPropertyTools }: Props) => {
                     </TableHead>
                     <TableBody>
                         {properties?.map(i => (
-                            <Property property={i} renderTools={renderPropertyTools} key={i.id} />
+                            <Property
+                                property={i}
+                                renderTools={property => (
+                                    <>
+                                        <PropertyDeleteButton groupId={group?.id} property={property} />
+                                        <EditButton handleClick={() => alert("Хуя")} title="Edit property group" />
+                                    </>
+                                )}
+                                key={i.id}
+                            />
                         ))}
                     </TableBody>
                 </Table>
@@ -35,4 +47,4 @@ const PropertyTableFuture = ({ properties, renderPropertyTools }: Props) => {
     );
 };
 
-export default PropertyTableFuture;
+export default PropertyTableWidget;

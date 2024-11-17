@@ -1,18 +1,18 @@
-import { FC, ReactNode } from 'react';
-import NextLink from 'next/link';
 import Image from "next/image";
+import NextLink from 'next/link';
+import { ReactNode } from "react";
 
-import { ProductPreviewModel } from '../models/Product';
-import { Card, CardContent } from '@shared/ui/card';
-import Label from './Label';
-import Price from '@shared/ui/price';
+import { ProductPreviewModel } from "../models/Product";
+import { Card, CardContent } from "@shared/ui/card";
+import Price from "@shared/ui/price";
+import Label from "./Label";
 
 interface Props {
     product: ProductPreviewModel
     renderTools?: (product: ProductPreviewModel) => ReactNode
 }
 
-const ProductPreview: FC<Props> = ({ product, renderTools }) => {
+const ProductCardPreview = ({ product, renderTools }: Props) => {
     return (
         <Card className="w-full h-full">
             <CardContent className="relative">
@@ -24,7 +24,7 @@ const ProductPreview: FC<Props> = ({ product, renderTools }) => {
                     </ul>
                 </div>
                 <div>
-                    <NextLink href=''>
+                    <NextLink href={`product/${product.id}`}>
                         <Image src={"/" + product.image} alt="loh" width="300" height="500" />
                     </NextLink>
                 </div>
@@ -38,4 +38,4 @@ const ProductPreview: FC<Props> = ({ product, renderTools }) => {
     );
 };
 
-export default ProductPreview;
+export default ProductCardPreview;
