@@ -16,7 +16,7 @@ export default class OrderService {
         @InjectRepository(OrderEntity) public readonly orderRepo: Repository<OrderEntity>,
         @InjectRepository(OrderItemEntity) public readonly orderItemRepo: Repository<OrderItemEntity>,
         protected readonly productService: ProductService,
-    ) {}
+    ) { }
 
     /**
      * @description create new order with session ID
@@ -47,6 +47,8 @@ export default class OrderService {
             .orderBy('list.created_at', 'ASC')
             .getOne();
 
-        return res ? (resConstructor ? new resConstructor(res, searchParams) : res) : null;
+        return res
+            ? (resConstructor ? new resConstructor(res, searchParams) : res)
+            : null;
     }
 }

@@ -12,7 +12,7 @@ interface Props {
     productId: ProductCardModel['id']
 }
 
-const AddProductToCart: FC<Props> = ({ productId }) => {
+const OrderAddToCart: FC<Props> = ({ productId }) => {
     const router = useRouter();
     const { data, isFetching } = useCart();
     const { mutate: add } = useAddOrderItem();
@@ -30,4 +30,4 @@ const AddProductToCart: FC<Props> = ({ productId }) => {
         />;
 };
 
-export default AddProductToCart;
+export default OrderAddToCart;

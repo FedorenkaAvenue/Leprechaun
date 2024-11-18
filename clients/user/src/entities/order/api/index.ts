@@ -1,8 +1,8 @@
-import { clientAPI } from "@shared/lib/api";
+import clientAPI from "@shared/lib/clientApi";
 import { CartModel } from "../model/Cart";
 
 export async function getCart() {
-    const res = await clientAPI.get<CartModel>('/order');
+    const { data } = await clientAPI.get<CartModel>('/order');
 
-    return res.data;
+    return typeof data === 'string' ? { list: [] } : data;
 }

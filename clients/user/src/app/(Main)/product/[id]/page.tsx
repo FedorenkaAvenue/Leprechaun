@@ -1,6 +1,6 @@
 import { FC } from 'react';
 
-import ProductOverview from '@widgets/product/ui/Overview';
+import ProductOverview from '@widgets/product/ui/ProductOverview';
 import { getProduct } from '@entities/product/api';
 
 interface Props {
@@ -10,8 +10,6 @@ interface Props {
 const Product: FC<Props> = async ({ params }) => {
     const { id } = await params;
     const product = await getProduct(id);
-
-    console.log(product);
 
     return (
         <div>

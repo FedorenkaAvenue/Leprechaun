@@ -9,6 +9,7 @@ interface Props {
 const ProductOverview: FC<Props> = ({ product }) => {
     return (
         <div>
+            loh
             {product.title}
         </div>
     );

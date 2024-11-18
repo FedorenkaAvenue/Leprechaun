@@ -4,18 +4,18 @@ import { FC } from 'react';
 import { Heart, Loader } from 'lucide-react';
 
 import { ProductCardModel } from '@entities/product/models/Product';
-import { useAddProductToFavorite, useRemoveProductToFavorite } from '../api/hooks';
+import { useAddProductToWishlist, useRemoveProductToWishlist } from '../api/hooks';
 import { useWishList } from '@entities/wishlist/api/hook';
 
 interface Props {
     productId: ProductCardModel['id']
 }
 
-const ProductAddToFavorite: FC<Props> = ({ productId }) => {
+const WishlistAddProduct: FC<Props> = ({ productId }) => {
     const { data, isFetching } = useWishList();
-    const { mutate: add } = useAddProductToFavorite(productId);
+    const { mutate: add } = useAddProductToWishlist(productId);
     const selected = data?.find(i => i.product.id === productId);
-    const { mutate: remove } = useRemoveProductToFavorite(selected?.id);
+    const { mutate: remove } = useRemoveProductToWishlist(selected?.id);
 
     function toogle() {
         // eslint-disable-next-line @typescript-eslint/no-unused-expressions
@@ -30,4 +30,4 @@ const ProductAddToFavorite: FC<Props> = ({ productId }) => {
         />;
 };
 
-export default ProductAddToFavorite;
+export default WishlistAddProduct;

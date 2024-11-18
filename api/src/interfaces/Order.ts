@@ -2,6 +2,14 @@ import { OrderItemI, OrderItemPublicI } from './OrderItem';
 import { SessionI } from './Session';
 import { OrderStatus } from '@enums/Order';
 
+interface BaseI<T> {
+    id?: number;
+    status?: OrderStatus;
+    list?: T[];
+    summary?: OrderSummaryI;
+    updated_at: Date;
+}
+
 export interface OrderCustomerDataI {
     name: string;
     phone: string;
@@ -12,17 +20,9 @@ export interface OrderSummaryI {
     productsAmount: number;
 }
 
-interface BaseI<T = OrderItemI> {
-    id?: number;
-    status?: OrderStatus;
-    list?: T[];
-    summary?: OrderSummaryI;
-    updated_at: Date;
-}
-
 export type OrderPublicI = BaseI<OrderItemPublicI>;
 
-export interface OrderI extends BaseI {
+export interface OrderI extends BaseI<OrderItemI> {
     created_at?: Date;
     customer?: OrderCustomerDataI; // reciever data
     sid?: SessionI['sid']; // for non-authorizated users

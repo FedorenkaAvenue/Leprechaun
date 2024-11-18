@@ -1,4 +1,4 @@
-import { PriceModel } from "@models/Product";
+import { PriceModel } from "../models/Price";
 
 const CURRENCY = process.env.CURRENCY_SYMBOL;
 

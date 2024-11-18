@@ -3,8 +3,8 @@ import Link from "next/link";
 
 import '../globals.css';
 import cn from "@shared/lib/cn";
-import WishListBadge from "@widgets/wishlist/ui/Badge";
-import CartBadge from "@widgets/order/ui/Badge";
+import WishListBadge from "@widgets/wishlist/ui/WishlistBadge";
+import CartBadge from "@widgets/order/ui/CartBadge";
 import QueryClientProvider from "@shared/providers/QueryClient";
 import { getCategoryList } from "@entities/category/api";
 

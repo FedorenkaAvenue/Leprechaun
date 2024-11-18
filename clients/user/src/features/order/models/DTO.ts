@@ -1,6 +1,10 @@
 import { ProductCardModel } from "@entities/product/models/Product"
 
-export interface AddOrderItemDTO {
+export interface OrderItemAddDTO {
     product: ProductCardModel['id']
+    amount: number
+}
+
+export interface OderItemChangeAmountDTO {
     amount: number
 }

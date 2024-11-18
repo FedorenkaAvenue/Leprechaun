@@ -1,6 +1,6 @@
 import { getCategory, getProductListByCategory } from "@entities/category/api";
 import { Pagination } from "@shared/ui/pagination";
-import ProductCatalogueCard from "@widgets/product/ui/CatalogueCard";
+import ProductCatalogueCard from "@widgets/product/ui/ProductCatalogueCard";
 
 interface Props {
     params: Promise<{ category: string }>

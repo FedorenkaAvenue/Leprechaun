@@ -1,7 +1,7 @@
 'use client';
 
 import { useWishList } from "@entities/wishlist/api/hook";
-import WishlistCard from "@widgets/wishlist/ui/Card";
+import WishlistProductCard from "@widgets/wishlist/ui/WishlistProductCard";
 
 const WishList = () => {
     const { data } = useWishList();
@@ -11,7 +11,7 @@ const WishList = () => {
             {
                 data?.map(i => (
                     <li key={i.id}>
-                        <WishlistCard {...i} />
+                        <WishlistProductCard {...i} />
                     </li>
                 ))
             }

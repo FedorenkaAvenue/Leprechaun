@@ -1,1 +1,1 @@
-export const CART_QUERY = 'CART_QUERY';
+export const CART_QUERY = 'CART';

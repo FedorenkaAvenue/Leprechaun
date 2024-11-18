@@ -1,5 +1,6 @@
 import type { Config } from "tailwindcss";
 import tailwindcssAnimate from 'tailwindcss-animate';
+import { PluginAPI } from "tailwindcss/types/config";
 
 const config: Config = {
     darkMode: ["class"],
@@ -29,7 +30,13 @@ const config: Config = {
             },
         }
     },
-    plugins: [tailwindcssAnimate],
+    plugins: [
+        tailwindcssAnimate,
+        function ({ addVariant }: PluginAPI) {
+            addVariant('child', '& > *');
+            addVariant('child-hover', '& > *:hover');
+        }
+    ],
 };
 
 export default config;

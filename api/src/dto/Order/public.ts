@@ -38,7 +38,7 @@ export class OrderPublic implements OrderPublicI {
     @ApiProperty({ type: Date, description: 'date of last changed status' })
     updated_at: Date;
 
-    constructor({ id, status, list, updated_at }: OrderEntity, lang: QueriesCommon['lang']) {
+    constructor({ id, status, list, updated_at }: OrderEntity, { lang }: QueriesCommon) {
         this.id = id;
         this.status = status;
         this.list = list.map(prod => new OrderItemPublic(prod, lang));

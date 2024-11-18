@@ -23,7 +23,9 @@ export default class HistoryPublicController {
     }
 
     @Get('product')
-    @ApiOperation({ summary: `get user product history (${(this as HistoryPublicController).historyLength} items max length)` })
+    @ApiOperation({
+        summary: `get user product history (${(this as HistoryPublicController).historyLength} items max length)`,
+    })
     @ApiOkResponse({ type: ProductPreviewPublic, isArray: true })
     private getUserHistory(@Session() { id }, @Queries() queries: QueriesCommon): Promise<ProductPreviewPublic[]> {
         return this.historyService.getHistoryList(id, queries);

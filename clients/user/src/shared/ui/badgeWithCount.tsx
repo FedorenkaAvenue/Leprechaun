@@ -8,7 +8,7 @@ const BadgeWithCount: FC<PropsWithChildren<Props>> = ({ count, children }) => {
     return (
         <div className='relative'>
             {children}
-            <div className='absolute -top-2 -right-2'>{count}</div>
+            {count !== 0 && <div className='absolute -top-2 -right-2'>{count}</div>}
         </div>
     );
 };

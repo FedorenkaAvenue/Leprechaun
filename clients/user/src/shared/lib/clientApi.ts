@@ -1,7 +1,6 @@
 import axios from 'axios';
 
-export const serverAPI = axios.create({ baseURL: process.env.DOMAIN_API });
-export const clientAPI = axios.create({
+const clientAPI = axios.create({
     baseURL: process.env.NEXT_PUBLIC_DOMAIN_API,
     withCredentials: true,
 });
@@ -27,3 +26,5 @@ export const clientAPI = axios.create({
 //     },
 //     (error) => Promise.reject(error)
 // );
+
+export default clientAPI;

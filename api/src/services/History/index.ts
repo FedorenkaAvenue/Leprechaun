@@ -47,7 +47,7 @@ export default class HistoryService {
         return await this.historyRepo.find({
             where: { sid },
             order: { created_at: 'DESC' },
-            relations: ['product'],
+            relations: { product: { images: true } },
             take: this.historyLength,
         });
     }

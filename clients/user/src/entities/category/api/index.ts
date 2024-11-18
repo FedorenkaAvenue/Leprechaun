@@ -1,7 +1,7 @@
-import { serverAPI } from "@shared/lib/api";
 import { CategoryModel } from "../models/Category";
 import { PaginationModel } from "@shared/models/Pagination";
 import { ProductCardModel } from "@entities/product/models/Product";
+import serverAPI from "@shared/lib/serverApi";
 
 export async function getCategoryList() {
     const data = await serverAPI.get<CategoryModel[]>('/category/list');
