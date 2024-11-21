@@ -1,15 +1,10 @@
-import { useState } from "react";
+import { UseQueryResult } from "@tanstack/react-query";
 
 import { DashboardContent } from "@entities/dashboard/model/DashboardContent";
 import { useProductHistory } from "@entities/history/api/hooks";
-import { ProductPreviewModel } from "@entities/product/models/Product";
+import { DashboardDTO } from "@entities/dashboard/model/dto";
 
-interface Result {
-    data: ProductPreviewModel[] | undefined
-    isLoading: boolean
-}
-
-export default function useContentTypeData(type: DashboardContent): Result {
+export default function useContentTypeData(type: DashboardContent): UseQueryResult<DashboardDTO> {
     switch (type) {
         case DashboardContent.HISTORY:
             return useProductHistory();
