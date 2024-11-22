@@ -43,12 +43,16 @@ services:
     ports:
       - 3000:80
     volumes:
+      # - client_user_trans_hosting:/app/src/public/locales:rw
+      # - ./translations/dist/client_user:/app/src/public/locales
       - ./clients/user:/app
     environment:
       - IS_DEV=true
       - NODE_ENV=development
       - CHOKIDAR_USEPOLLING=true
       - WATCHPACK_POLLING=true
+    depends_on:
+      - translations
 
   client_admin:
     restart: unless-stopped
@@ -56,10 +60,9 @@ services:
     build:
       context: ./clients/admin
       dockerfile: Dockerfile
-    # extends:
-    #   file: docker-compose.shared.yaml
-    #   service: node
     volumes:
+      # - client_admin_trans_hosting:/app/public/locales:rw
+      # - ./translations/dist/client_admin:/app/public/locales
       - ./clients/admin:/app
     environment:
       - LANGS
@@ -73,3 +76,23 @@ services:
       - client
     depends_on:
       - server
+
+  translations:
+    restart: unless-stopped
+    container_name: leprechaun_translations
+    extends:
+      file: docker-compose.shared.yaml
+      service: node
+    command: yarn dev
+    volumes:
+      - ./translations:/app
+      # - client_user_trans_hosting:/app/dist/client_user:rw
+      # - client_admin_trans_hosting:/app/dist/client_admin:rw
+    environment:
+      - LANGS
+
+# volumes:
+#   client_user_trans_hosting:
+#     driver: local
+#   client_admin_trans_hosting:
+#     driver: local

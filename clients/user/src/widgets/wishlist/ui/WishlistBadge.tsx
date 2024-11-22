@@ -4,7 +4,7 @@ import { Heart } from 'lucide-react';
 import Link from 'next/link';
 
 import { useWishList } from '@entities/wishlist/api/hook';
-import BadgeWithCount from '@shared/ui/badgeWithCount';
+import BadgeWithCount from '@shared/ui/BadgeWithCount';
 
 const WishListBadge = () => {
     const { data } = useWishList();

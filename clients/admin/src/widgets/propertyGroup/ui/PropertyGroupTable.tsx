@@ -20,7 +20,7 @@ const PropertyGroupTableWidget = () => {
             isLoading={isFetching}
             addItemHandle={() => nav(CREATE_SEGMENT)}
         >
-            <Empty data={data?.length}>
+            <Empty data={data?.length} align='center'>
                 <TableContainer component={Paper}>
                     <Table aria-label="simple table" size="small">
                         <TableHead>

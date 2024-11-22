@@ -3,7 +3,7 @@
 import { FC, useEffect, useState } from 'react';
 import { useDebounce } from '@uidotdev/usehooks';
 
-import { Button } from './button';
+import { Button } from './Button';
 
 interface Props {
     amount: number

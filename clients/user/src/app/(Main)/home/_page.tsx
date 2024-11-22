@@ -7,7 +7,6 @@ const Home = () => {
     return (
         <div className='child:mb-5'>
             <Dashboard contentType={DashboardContent.HISTORY} />
-            <Dashboard contentType={DashboardContent.HISTORY} />
         </div>
     )
 }

@@ -4,7 +4,7 @@ import Image from 'next/image';
 
 import { ProductCardModel, ProductPreviewModel } from "../models/Product";
 import { Card as CardUI, CardContent } from "@shared/ui/card";
-import Price from "@shared/ui/price";
+import Price from "@shared/ui/Price";
 import ProductLabel from "./ProductLabel";
 
 type ProductType = ProductCardModel | ProductPreviewModel

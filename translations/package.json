@@ -9,8 +9,8 @@
 	},
 	"author": "August Luzanovsky",
 	"engines": {
-		"node": "16.17.*",
-		"npm": "8.3.*",
+		"node": "20.18.*",
+		"npm": "10.8.*",
 		"yarn": "1.22.*"
 	},
 	"dependencies": {

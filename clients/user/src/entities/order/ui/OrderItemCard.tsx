@@ -3,7 +3,7 @@ import { FC, ReactNode } from 'react';
 
 import ProductLabel from '@entities/product/ui/ProductLabel';
 import { OrderItemModel } from '../model/OrderItem';
-import Price from '@shared/ui/price';
+import Price from '@shared/ui/Price';
 
 interface Props {
     item: OrderItemModel

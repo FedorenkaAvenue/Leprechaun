@@ -4,7 +4,7 @@ import { ShoppingCartIcon } from 'lucide-react';
 import Link from 'next/link';
 
 import { useCart } from '@entities/order/api/hooks';
-import BadgeWithCount from '@shared/ui/badgeWithCount';
+import BadgeWithCount from '@shared/ui/BadgeWithCount';
 
 const CartBadge = () => {
     const { data } = useCart();

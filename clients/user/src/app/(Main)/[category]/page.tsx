@@ -1,5 +1,5 @@
 import { getCategory, getProductListByCategory } from "@entities/category/api";
-import { Pagination } from "@shared/ui/pagination";
+import { Pagination } from "@shared/ui/Pagination";
 import ProductCatalogueCard from "@widgets/product/ui/ProductCatalogueCard";
 
 interface Props {

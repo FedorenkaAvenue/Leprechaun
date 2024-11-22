@@ -63,7 +63,7 @@ export class Category extends CreateCategoryDTO {
         super();
         this.url = url;
         this.title = title;
-        this.is_public = is_public;
+        this.is_public = typeof is_public === 'string' && is_public === 'true';
         this.comment = comment || null;
         // TODO
         // @ts-ignore for table relations

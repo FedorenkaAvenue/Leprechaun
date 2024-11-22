@@ -13,10 +13,11 @@ build_prod_single:
 image_hosting:
 	@sudo xdg-open /var/lib/docker/volumes/leprechaun_image_hosting/_data
 
-translation:
-	@echo 'Building translations⏳...'
-	@cd ./translations && make build
-
 _cp_admin_client_static:
 	@rm -rf ./server/admin
 	@mkdir -p ./server/admin/ && cp -r ./clients/admin/ ./server/
+
+translation:
+	@echo 'Move translations⏳...'
+	@cp -r ./translations/dist/client_user/. ./clients/user/src/public/locales
+	@cp -r ./translations/dist/client_admin/. ./clients/admin/public/locales

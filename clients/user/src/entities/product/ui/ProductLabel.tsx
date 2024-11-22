@@ -1,6 +1,6 @@
 import { cva, type VariantProps } from "class-variance-authority";
 
-import Label, { LabelProps } from "@shared/ui/label";
+import Label, { LabelProps } from "@shared/ui/Label";
 import { ProductLabelModel } from "../models/Label";
 
 const labelVariants = cva(

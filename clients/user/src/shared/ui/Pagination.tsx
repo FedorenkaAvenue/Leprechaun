@@ -4,7 +4,7 @@ import Link, { LinkProps } from "next/link"
 
 import cn from "@shared/lib/cn"
 import { PaginationModel } from "@shared/models/Pagination"
-import { ButtonProps, buttonVariants } from "./button"
+import { ButtonProps, buttonVariants } from "./Button"
 
 interface Props {
     pagination: PaginationModel<unknown>['pagination']

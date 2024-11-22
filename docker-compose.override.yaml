@@ -94,6 +94,7 @@ services:
     environment:
       - APP_NAME
       - LANGS
+      - NEXT_PUBLIC_LANGS=${LANGS}
       - DOMAIN
       - DOMAIN_MEDIA
       - DOMAIN_API

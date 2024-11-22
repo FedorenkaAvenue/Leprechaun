@@ -1,6 +1,6 @@
 import HomeClient from './_page';
 
-export default function Home() {
+export default async function Home() {
     return (
         <div>
             <HomeClient />
