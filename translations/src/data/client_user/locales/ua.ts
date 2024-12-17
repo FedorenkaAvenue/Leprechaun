@@ -4,6 +4,9 @@ const data: Translates = {
     dashboard: {
         history: "Історія",
     },
+    cart: {
+        emptyCart: 'Порожнiй кошик',
+    }
 };
 
 export default data;

@@ -91,5 +91,5 @@ Boilerplate for web store
 
 -   other
 
-    -   `make translation` build translations
+    -   `make translation` move translations
     -   `make image_hosting` open image hosting GUI folder (_linux_)

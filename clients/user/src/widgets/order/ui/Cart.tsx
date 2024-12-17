@@ -5,6 +5,7 @@ import { OrderItemModel } from '@entities/order/model/OrderItem';
 import OrderItemCard from '@entities/order/ui/OrderItemCard';
 import OrderItemChangeAmount from '@features/order/ui/OrderChangeItemAmount';
 import OrderRemoveItem from '@features/order/ui/OrderRemoveItem';
+import { useI18n } from '@shared/lib/i18n_client';
 
 type OrderItemCardProps = OrderItemModel;
 
@@ -23,10 +24,18 @@ const ItemCard: FC<OrderItemCardProps> = (item) => {
 };
 
 interface Props {
-    data: CartModel | undefined
+    data: CartModel | null | undefined
 }
 
 const Cart: FC<Props> = ({ data }) => {
+    const { dictionary } = useI18n();
+
+    if (typeof data === 'object' && !data) {
+        return (
+            <div>{dictionary?.cart.emptyCart}</div>
+        )
+    }
+
     return (
         <div className='flex justify-between'>
             <ul className='flex flex-col gap-5'>

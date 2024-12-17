@@ -5,8 +5,7 @@ import CartBadge from "@widgets/order/ui/CartBadge";
 import { getCategoryList } from "@entities/category/api";
 import LanguageSwitch from "@widgets/header/ui/LanguageSwitch";
 import AppLink from "@shared/ui/AppLink";
-
-const APP_NAME = process.env.APP_NAME;
+import { APP_NAME } from "@shared/constants/content";
 
 const MainLayout: FC<PropsWithChildren> = async ({ children }) => {
     const categories = await getCategoryList();
