@@ -13,7 +13,7 @@ import { availableEnum } from '@utils/enum';
 import { ProductStatusE } from '@enums/Product';
 import { singleConfigService } from '@services/Config';
 
-const [DEFAULT_LANG] = singleConfigService.getVal('LANGS');
+const LANGS = singleConfigService.getVal('LANGS');
 
 /**
  * @description create range object for filters
@@ -39,7 +39,7 @@ export class QueriesCommon implements QueriesCommonI {
     portion: number;
 
     constructor({ lang, page, price, portion }: QueriesCommonI<string>) {
-        this.lang = lang || DEFAULT_LANG;
+        this.lang = LANGS.includes(lang) ? lang : LANGS[0];
         this.page = Number(page) || 1;
         this.price ? new RangeQuery(price) : null;
         this.portion = Number(portion) || 10;

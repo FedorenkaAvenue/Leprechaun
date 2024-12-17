@@ -9,11 +9,11 @@ import { QueriesCommonI } from '@interfaces/Queries';
  * @param {String} construct query constructor. if constructor doesn't exist, uses QueriesCommon
  * @return one of query param or full query params object
  */
-const QueryCommonDecorator = createParamDecorator((construct: { new(...args: any[]): any }, ctx: ExecutionContext) => {
+const QueryDecorator = createParamDecorator((construct: { new(...args: any[]): any }, ctx: ExecutionContext) => {
     const { query }: Request<any, any, any, QueriesCommonI<string>> = ctx.switchToHttp().getRequest();
     const queries = construct ? new construct(query) : new QueriesCommon(query);
 
     return queries;
 });
 
-export default QueryCommonDecorator;
+export default QueryDecorator;

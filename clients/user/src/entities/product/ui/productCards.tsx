@@ -1,4 +1,3 @@
-import NextLink from 'next/link';
 import { FC, ReactNode } from "react";
 import Image from 'next/image';
 
@@ -6,6 +5,7 @@ import { ProductCardModel, ProductPreviewModel } from "../models/Product";
 import { Card as CardUI, CardContent } from "@shared/ui/card";
 import Price from "@shared/ui/Price";
 import ProductLabel from "./ProductLabel";
+import AppLink from '@shared/ui/AppLink';
 
 type ProductType = ProductCardModel | ProductPreviewModel
 
@@ -30,9 +30,9 @@ const Card = <T extends ProductType>({
                     </ul>
                 </div>
                 <div>
-                    <NextLink href={`product/${product.id}`}>
+                    <AppLink href={`/product/${product.id}`}>
                         {renderImages(product)}
-                    </NextLink>
+                    </AppLink>
                 </div>
                 <div>
                     <div>{product.title}</div>

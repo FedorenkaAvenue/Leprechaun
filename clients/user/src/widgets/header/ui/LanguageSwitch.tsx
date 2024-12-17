@@ -1,6 +1,7 @@
 'use client';
 
-import { FC } from 'react';
+import { FC, useCallback } from 'react';
+
 import {
     Select,
     SelectContent,
@@ -9,19 +10,27 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@shared/ui/select";
-
-import getLanguages from '../lib/getLanguages';
+import { LANGS } from '@shared/constants/i18n_client';
+import { useI18n } from '@shared/lib/i18n_client';
 
 const LanguageSwitch: FC = () => {
+    const { lang } = useI18n();
+
+    const handleChangeLang = useCallback((newLang: string) => {
+        const newPath = window.location.pathname.split('/').slice(2).join('/');
+        document.cookie = `lang=${newLang}; path=/;`
+        window.location.href = `/${newLang}/${newPath}`;
+    }, []);
+
     return (
-        <Select>
+        <Select defaultValue={lang} onValueChange={handleChangeLang}>
             <SelectTrigger className='w-20'>
                 <SelectValue />
             </SelectTrigger>
             <SelectContent>
                 <SelectGroup>
-                    {getLanguages().map(i => (
-                        <SelectItem key={i} value={i}>{i}</SelectItem>
+                    {LANGS.map(lang => (
+                        <SelectItem key={lang} value={lang}>{lang}</SelectItem>
                     ))}
                 </SelectGroup>
             </SelectContent>

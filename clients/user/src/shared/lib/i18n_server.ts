@@ -1,9 +1,8 @@
-import { useContext } from 'react';
+'use server'
 
 import { DictionaryModuleModel } from '@shared/models/i18n';
-import { DictionaryContext } from '@shared/providers/i18n';
+import { LANGS } from '@shared/constants/i18n_server';
 
-const LANGS = process.env.LANGS?.split(',') as [];
 const DICTIONARIES = LANGS.reduce<Record<string, DictionaryModuleModel>>((acc, l) => {
     return {
         ...acc,
@@ -12,7 +11,5 @@ const DICTIONARIES = LANGS.reduce<Record<string, DictionaryModuleModel>>((acc, l
 }, {});
 
 export async function getDictionary(locale: string): ReturnType<DictionaryModuleModel> {
-    return DICTIONARIES[locale]();
+    return await DICTIONARIES[locale]();
 }
-
-export const useDictionary = () => useContext(DictionaryContext);

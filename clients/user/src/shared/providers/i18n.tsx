@@ -1,19 +1,20 @@
 'use client'
 
-import { createContext, FC, PropsWithChildren, useContext } from "react";
+import { createContext, FC, PropsWithChildren } from "react";
 
 import { DictionaryModel } from "@shared/models/i18n";
 
 interface Props {
-    dictionary: DictionaryModel
+    dictionary: DictionaryModel | null
+    lang: string
 }
 
-export const DictionaryContext = createContext<DictionaryModel | null>(null);
+export const I18nContext = createContext<Props>({ dictionary: null, lang: '' });
 
-export const DictionaryProvider: FC<PropsWithChildren<Props>> = ({ dictionary, children }) => {
+export const I18nProvider: FC<PropsWithChildren<Props>> = ({ dictionary, lang, children }) => {
     return (
-        <DictionaryContext.Provider value={dictionary}>
+        <I18nContext.Provider value={{ dictionary, lang }}>
             {children}
-        </DictionaryContext.Provider>
+        </I18nContext.Provider>
     )
 }

@@ -1,10 +1,11 @@
 import * as React from "react"
 import { ChevronLeft, ChevronRight, MoreHorizontal } from "lucide-react"
-import Link, { LinkProps } from "next/link"
+import { LinkProps } from "next/link";
 
 import cn from "@shared/lib/cn"
 import { PaginationModel } from "@shared/models/Pagination"
 import { ButtonProps, buttonVariants } from "./Button"
+import AppLink from "./AppLink";
 
 interface Props {
     pagination: PaginationModel<unknown>['pagination']
@@ -75,7 +76,7 @@ type PaginationLinkProps = {
 } & LinkProps & Pick<ButtonProps, "size"> & Omit<React.ComponentProps<"a">, 'href'>;
 
 const PaginationLink = ({ className, isActive, href, size = "icon", ...props }: PaginationLinkProps) => (
-    <Link
+    <AppLink
         href={href}
         aria-current={isActive ? "page" : undefined}
         className={cn(

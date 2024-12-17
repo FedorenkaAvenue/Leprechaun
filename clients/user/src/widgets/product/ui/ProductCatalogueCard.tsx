@@ -4,7 +4,7 @@ import { ProductCardModel } from "@entities/product/models/Product";
 import { ProductCard } from "@entities/product/ui/productCards";
 import OrderAddToCart from "@features/order/ui/OrderAddToCart";
 import WishlistAddProduct from "@features/wishlist/ui/WishlistAddProduct";
-import AppLink from "@shared/ui/Link";
+import AppLink from "@shared/ui/AppLink";
 
 type Props = ProductCardModel;
 

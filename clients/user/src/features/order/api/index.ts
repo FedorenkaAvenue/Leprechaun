@@ -1,7 +1,7 @@
 import { OrderItemAddDTO, OderItemChangeAmountDTO } from "../models/DTO";
 import { CartModel } from "@entities/order/model/Cart";
 import { OrderItemModel } from "@entities/order/model/OrderItem";
-import clientAPI from "@shared/lib/clientApi";
+import clientAPI from "@shared/lib/api_client";
 
 export async function addToCart(item: OrderItemAddDTO) {
     const res = await clientAPI.post<CartModel>(`/order/item`, item);

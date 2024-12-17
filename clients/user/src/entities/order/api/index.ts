@@ -1,4 +1,4 @@
-import clientAPI from "@shared/lib/clientApi";
+import clientAPI from "@shared/lib/api_client";
 import { CartModel } from "../model/Cart";
 
 export async function getCart() {
