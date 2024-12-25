@@ -3,8 +3,14 @@ type Translates = {
         history: string,
     },
     cart: {
-        emptyCart: string
-    }
+        emptyCart: string,
+    },
+    wishList: {
+        emptyList: string,
+    },
+    common: {
+        showMore: string,
+    },
 }
 
 export default Translates;

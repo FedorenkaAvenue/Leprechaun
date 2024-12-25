@@ -2,18 +2,22 @@ import { FC, ReactNode, useMemo, useState } from 'react';
 
 import { DashboardModel } from '../model/Dashboard';
 import { ProductPreviewModel } from '@entities/product/models/Product';
+import { useI18n } from '@shared/lib/i18n_client';
 
 interface Props extends DashboardModel {
     isLoading: boolean
     renderProductCard: (product: ProductPreviewModel) => ReactNode;
 }
 
+const MAX_DASHBOARD_ITEM = 5;
+
 const Dashboard: FC<Props> = ({ title, list, isLoading, renderProductCard }) => {
     if (!list?.length && !isLoading) return null;
 
+    const { dictionary } = useI18n();
     const [isOpen, setOpen] = useState<boolean>(false);
     const visibleList = useMemo(
-        () => isOpen ? list : list?.slice(0, 5),
+        () => isOpen ? list : list?.slice(0, MAX_DASHBOARD_ITEM),
         [isOpen, isLoading, list]
     );
 
@@ -24,10 +28,10 @@ const Dashboard: FC<Props> = ({ title, list, isLoading, renderProductCard }) => 
                 {visibleList?.map(i => <li key={i.id}>{renderProductCard(i)}</li>)}
             </ul>
             {
-                !isOpen && !isLoading
+                !isOpen && !isLoading && list?.length as number > MAX_DASHBOARD_ITEM
                 && (
                     <div className='flex justify-end'>
-                        <div onClick={() => setOpen(true)}>show more</div>
+                        <div onClick={() => setOpen(true)}>{dictionary?.common.showMore}</div>
                     </div>
                 )
             }

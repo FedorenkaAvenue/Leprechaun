@@ -1,1 +1,1 @@
-export const WISHLIST_QUERY = 'WISHLIST';
+export const WISHLISTS_QUERY = 'WISHLISTS';

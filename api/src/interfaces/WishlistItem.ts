@@ -1,5 +1,5 @@
 import { ProductI, ProductPreviewPublicI } from '@interfaces/Product';
-import { SessionI } from './Session';
+import { WishlistI } from './Wishlist';
 
 interface BaseI<P> {
     id?: string;
@@ -8,7 +8,7 @@ interface BaseI<P> {
 }
 
 export interface WishlistItemI extends BaseI<ProductI> {
-    sid: SessionI['sid'];
+    wishlist: WishlistI
 }
 
-export type WishlistItemPublicI = BaseI<ProductPreviewPublicI>;
+export interface WishlistItemPublicI extends BaseI<ProductPreviewPublicI> { }

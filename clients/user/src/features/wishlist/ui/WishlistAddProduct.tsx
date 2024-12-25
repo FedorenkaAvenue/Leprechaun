@@ -4,7 +4,7 @@ import { FC } from 'react';
 import { Heart, Loader } from 'lucide-react';
 
 import { ProductCardModel } from '@entities/product/models/Product';
-import { useAddProductToWishlist, useRemoveProductToWishlist } from '../api/hooks';
+import { useAddProductToWishlist, useRemoveProductFromWishlist } from '../api/hooks';
 import { useWishList } from '@entities/wishlist/api/hook';
 
 interface Props {
@@ -14,17 +14,17 @@ interface Props {
 const WishlistAddProduct: FC<Props> = ({ productId }) => {
     const { data, isFetching } = useWishList();
     const { mutate: add } = useAddProductToWishlist(productId);
-    const selected = data?.find(i => i.product.id === productId);
-    const { mutate: remove } = useRemoveProductToWishlist(selected?.id);
+    const selected = data?.flatMap(({ items }) => items).find(({ product }) => product.id === productId);
+    const { mutate: remove } = useRemoveProductFromWishlist(selected?.id);
 
     function toogle() {
-        // eslint-disable-next-line @typescript-eslint/no-unused-expressions
         selected ? remove() : add()
     }
 
     return isFetching
         ? <Loader />
         : <Heart
+            className='cursor-pointer'
             style={{ color: selected ? 'red' : 'gray' }}
             onClick={toogle}
         />;

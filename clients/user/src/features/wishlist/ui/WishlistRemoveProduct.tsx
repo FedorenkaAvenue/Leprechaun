@@ -1,15 +1,15 @@
 import { FC } from 'react';
 import { Trash } from 'lucide-react';
 
-import { useRemoveProductToWishlist } from '../api/hooks';
-import { WishListItemModel } from '@entities/wishlist/models/WishList';
+import { useRemoveProductFromWishlist } from '../api/hooks';
+import { WishlistModel } from '@entities/wishlist/models/WishList';
 
 interface Props {
-    itemId: WishListItemModel['id']
+    itemId: WishlistModel['id']
 }
 
 const WishlistRemoveProduct: FC<Props> = ({ itemId }) => {
-    const { mutate } = useRemoveProductToWishlist(itemId);
+    const { mutate } = useRemoveProductFromWishlist(itemId);
 
     return <Trash onClick={() => mutate()} />;
 };

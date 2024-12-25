@@ -15,8 +15,8 @@ const Dashboard: FC<Props> = ({ contentType }) => {
 
     return (
         <DashboardEntity
-            list={data}
-            title='lol'
+            list={data?.list}
+            title={data?.title}
             isLoading={isLoading}
             renderProductCard={product => (
                 <ProductCardPreview

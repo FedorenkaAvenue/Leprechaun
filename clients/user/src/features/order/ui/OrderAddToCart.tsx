@@ -25,6 +25,7 @@ const OrderAddToCart: FC<Props> = ({ productId }) => {
     return isFetching
         ? <Loader />
         : <ShoppingCartIcon
+            className='cursor-pointer'
             onClick={onClick}
             style={{ color: isSelected ? 'green' : 'gray' }}
         />;

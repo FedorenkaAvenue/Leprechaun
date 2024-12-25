@@ -1,7 +1,9 @@
-import { ProductCardModel, ProductPreviewModel } from "@entities/product/models/Product"
+import { WishlistItemModel } from "./WishlistItem"
 
-export interface WishListItemModel {
+export interface WishlistModel {
     id: string
+    isDefault: boolean
+    title: string
     created_at: string
-    product: ProductPreviewModel
+    items: WishlistItemModel[]
 }

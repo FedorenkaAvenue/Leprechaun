@@ -13,7 +13,7 @@ export class WishlistItemPublic implements WishlistItemPublicI {
     @ApiProperty()
     created_at: Date;
 
-    @ApiProperty({ required: true })
+    @ApiProperty({ type: ProductPreviewPublic, required: true })
     product: ProductPreviewPublicI;
 
     constructor({ id, product, created_at }: WishlistItemEntity, searchParams: QueriesWishlistI) {

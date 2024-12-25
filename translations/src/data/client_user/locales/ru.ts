@@ -2,10 +2,16 @@ import Translates from '../interface';
 
 const data: Translates = {
     dashboard: {
-        history: "История",
+        history: 'История',
     },
     cart: {
         emptyCart: 'Пустая корзина',
+    },
+    wishList: {
+        emptyList: 'Пустой список желаний',
+    },
+    common: {
+        showMore: 'Показать больше',
     }
 };
 

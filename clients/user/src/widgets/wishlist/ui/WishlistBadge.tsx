@@ -11,7 +11,7 @@ const WishListBadge = () => {
 
     return (
         <AppLink href="/wishlist">
-            <BadgeWithCount count={data?.length}>
+            <BadgeWithCount count={data?.flatMap(({ items }) => items).length}>
                 <Heart width='30' height='30' />
             </BadgeWithCount>
         </AppLink>
