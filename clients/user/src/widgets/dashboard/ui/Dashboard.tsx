@@ -1,10 +1,10 @@
 import { FC } from 'react';
 
-import { DashboardContent } from '@entities/dashboard/model/DashboardContent';
+import { DashboardContent } from '@entities/dashboard/model/enums';
 import DashboardEntity from '@entities/dashboard/ui/Dashboard';
 import useContentTypeData from '../lib/useContentTypeData';
-import { ProductCardPreview } from '@entities/product/ui/productCards';
-import WishlistAddProduct from '@features/wishlist/ui/WishlistAddProduct';
+import { ProductCardPreview } from '@entities/product/ui/ProductCards';
+import WishlistItemAdd from '@features/wishlist/ui/WishlistItemAdd';
 
 interface Props {
     contentType: DashboardContent
@@ -21,7 +21,7 @@ const Dashboard: FC<Props> = ({ contentType }) => {
             renderProductCard={product => (
                 <ProductCardPreview
                     product={product}
-                    renderOptions={({ id }) => <WishlistAddProduct productId={id} />}
+                    renderOptions={({ id }) => <WishlistItemAdd productId={id} />}
                 />
             )}
         />

@@ -2,7 +2,7 @@ import Image from 'next/image';
 import { FC, ReactNode } from 'react';
 
 import ProductLabel from '@entities/product/ui/ProductLabel';
-import { OrderItemModel } from '../model/OrderItem';
+import { OrderItemModel } from '../model/interfaces';
 import Price from '@shared/ui/Price';
 
 interface Props {

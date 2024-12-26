@@ -1,8 +1,8 @@
 import { FC } from 'react';
 
-import { OrderItemModel } from '@entities/order/model/OrderItem';
+import { OrderItemModel } from '@entities/order/model/interfaces';
 import Counter from '@shared/ui/Counter';
-import { useChangeOrderItemAmount } from '../api/hook';
+import { useChangeOrderItemAmount } from '../model/hook';
 
 interface Props {
     orderItem: OrderItemModel

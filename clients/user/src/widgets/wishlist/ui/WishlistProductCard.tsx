@@ -1,9 +1,9 @@
 import { FC } from 'react';
 
-import { WishlistItemModel } from '@entities/wishlist/models/WishlistItem';
-import WishlistRemoveProduct from '@features/wishlist/ui/WishlistRemoveProduct';
+import { WishlistItemModel } from '@entities/wishlist/model/interfaces';
+import WishlistItemRemove from '@features/wishlist/ui/WishlistItemRemove';
 import OrderAddToCart from '@features/order/ui/OrderAddToCart';
-import { ProductCardPreview } from '@entities/product/ui/productCards';
+import { ProductCardPreview } from '@entities/product/ui/ProductCards';
 
 type Props = WishlistItemModel;
 
@@ -13,7 +13,7 @@ const WishlistProductCard: FC<Props> = ({ id, product }) => {
             product={product}
             renderOptions={() => (
                 <>
-                    <WishlistRemoveProduct itemId={id} />
+                    <WishlistItemRemove itemId={id} />
                     <OrderAddToCart productId={product.id} />
                 </>
             )}

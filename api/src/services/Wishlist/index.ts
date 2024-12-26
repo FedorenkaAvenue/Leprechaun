@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { Repository } from 'typeorm';
+import { DataSource, Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 
 import WishlistItemEntity from '@entities/WishlistItem';
@@ -11,6 +11,7 @@ export default class WishlistService {
     protected readonly wishlistLength: number;
 
     constructor(
+        protected dataSource: DataSource,
         @InjectRepository(WishlistEntity) public readonly wishlistRepo: Repository<WishlistEntity>,
         @InjectRepository(WishlistItemEntity) public readonly wishlistItemRepo: Repository<WishlistItemEntity>,
         private readonly configService: ConfigService,

@@ -1,6 +1,6 @@
-import { DashboardContent } from "@entities/dashboard/model/DashboardContent";
-import { useProductHistory } from "@entities/history/api/hooks";
-import { DashboardModel } from "@entities/dashboard/model/Dashboard";
+import { DashboardContent } from "@entities/dashboard/model/enums";
+import { useProductHistory } from "@entities/history/model/hooks";
+import { DashboardModel } from "@entities/dashboard/model/interfaces";
 import { useI18n } from "@shared/lib/i18n_client";
 
 type DashboardLoadData = {

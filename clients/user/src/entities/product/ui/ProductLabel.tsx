@@ -1,7 +1,7 @@
 import { cva, type VariantProps } from "class-variance-authority";
 
 import Label, { LabelProps } from "@shared/ui/Label";
-import { ProductLabelModel } from "../models/Label";
+import { ProductLabelModel } from "../model/enums";
 
 const labelVariants = cva(
     'rounded-2xl',

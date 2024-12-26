@@ -1,7 +1,7 @@
 import { LabelModel } from "@shared/models/Label"
-import { ProductLabelModel } from "./Label"
+import { ProductLabelModel } from "./enums"
 import { ImageModel } from "@shared/models/Image"
-import { ProductStatusModel } from "./Status"
+import { ProductStatusModel } from "./enums"
 import { PriceModel } from "@shared/models/Price"
 
 type ProductId = string;

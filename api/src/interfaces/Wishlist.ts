@@ -5,6 +5,7 @@ interface BaseI<I> {
     id: string
     title: string
     created_at: Date
+    items_updated_at: Date
     isDefault: boolean
     items: I[]
 }

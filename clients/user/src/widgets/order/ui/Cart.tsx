@@ -1,7 +1,7 @@
 import { FC } from 'react';
 
-import { CartModel } from '@entities/order/model/Cart';
-import { OrderItemModel } from '@entities/order/model/OrderItem';
+import { CartModel } from '@entities/order/model/interfaces';
+import { OrderItemModel } from '@entities/order/model/interfaces';
 import OrderItemCard from '@entities/order/ui/OrderItemCard';
 import OrderItemChangeAmount from '@features/order/ui/OrderChangeItemAmount';
 import OrderRemoveItem from '@features/order/ui/OrderRemoveItem';

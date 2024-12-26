@@ -4,8 +4,10 @@ import { QueryClient, QueryClientProvider as QClientProvider } from '@tanstack/r
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { PropsWithChildren, useState } from 'react';
 
+const QUERY_CLIENT = new QueryClient();
+
 export default function QueryClientProvider({ children }: PropsWithChildren) {
-    const [queryClient] = useState(() => new QueryClient());
+    const [queryClient] = useState(() => QUERY_CLIENT);
 
     return (
         <QClientProvider client={queryClient}>

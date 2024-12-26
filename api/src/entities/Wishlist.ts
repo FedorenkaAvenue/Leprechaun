@@ -24,6 +24,10 @@ export default class WishlistEntity implements WishlistI {
     @ApiProperty({ required: false, default: false })
     isDefault: boolean;
 
+    @ApiProperty()
+    @CreateDateColumn()
+    items_updated_at: Date;
+
     @CreateDateColumn()
     @ApiProperty({ required: true })
     created_at: Date;

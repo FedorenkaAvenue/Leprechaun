@@ -9,7 +9,7 @@ import {
     SelectItem,
     SelectTrigger,
     SelectValue,
-} from "@shared/ui/select";
+} from "@shared/ui/Select";
 import { LANGS } from '@shared/constants/i18n_client';
 import { useI18n } from '@shared/lib/i18n_client';
 

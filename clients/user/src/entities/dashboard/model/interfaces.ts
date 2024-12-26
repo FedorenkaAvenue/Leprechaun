@@ -1,4 +1,4 @@
-import { ProductPreviewModel } from "@entities/product/models/Product"
+import { ProductPreviewModel } from "@entities/product/model/interfaces"
 
 export interface DashboardModel {
     title: string | undefined

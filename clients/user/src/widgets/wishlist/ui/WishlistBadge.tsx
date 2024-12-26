@@ -2,7 +2,7 @@
 
 import { Heart } from 'lucide-react';
 
-import { useWishList } from '@entities/wishlist/api/hook';
+import { useWishList } from '@entities/wishlist/model/hooks';
 import BadgeWithCount from '@shared/ui/BadgeWithCount';
 import AppLink from '@shared/ui/AppLink';
 

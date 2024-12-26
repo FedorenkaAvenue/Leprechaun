@@ -1,9 +1,9 @@
 import { FC } from "react";
 
-import { ProductCardModel } from "@entities/product/models/Product";
-import { ProductCard } from "@entities/product/ui/productCards";
+import { ProductCardModel } from "@entities/product/model/interfaces";
+import { ProductCard } from "@entities/product/ui/ProductCards";
 import OrderAddToCart from "@features/order/ui/OrderAddToCart";
-import WishlistAddProduct from "@features/wishlist/ui/WishlistAddProduct";
+import WishlistItemAdd from "@features/wishlist/ui/WishlistItemAdd";
 import AppLink from "@shared/ui/AppLink";
 
 type Props = ProductCardModel;
@@ -15,7 +15,7 @@ const ProductCatalogueCard: FC<Props> = (item) => {
                 product={item}
                 renderOptions={product => (
                     <>
-                        <WishlistAddProduct productId={product.id} />
+                        <WishlistItemAdd productId={product.id} />
                         <OrderAddToCart productId={product.id} />
                     </>
                 )}

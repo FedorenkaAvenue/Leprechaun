@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 
-import { getProductHistory } from ".";
+import { getProductHistory } from "../api";
 import { PRODUCT_HISTORY_QUERY } from "../constants/queryKeys";
 
 export function useProductHistory() {

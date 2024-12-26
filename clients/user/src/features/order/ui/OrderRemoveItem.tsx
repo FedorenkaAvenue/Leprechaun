@@ -1,8 +1,8 @@
 import { FC } from 'react';
 import { Trash } from 'lucide-react';
 
-import { useRemoveOrderItem } from '../api/hook';
-import { OrderItemModel } from '@entities/order/model/OrderItem';
+import { useRemoveOrderItem } from '../model/hook';
+import { OrderItemModel } from '@entities/order/model/interfaces';
 
 interface Props {
     itemId: OrderItemModel['id']

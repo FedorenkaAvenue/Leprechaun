@@ -1,6 +1,6 @@
 'use client';
 
-import { DashboardContent } from "@entities/dashboard/model/DashboardContent";
+import { DashboardContent } from "@entities/dashboard/model/enums";
 import Dashboard from "@widgets/dashboard/ui/Dashboard";
 
 const Home = () => {

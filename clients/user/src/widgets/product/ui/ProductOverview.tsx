@@ -1,6 +1,6 @@
 import { FC } from 'react';
 
-import { ProductOverviewModel } from '@entities/product/models/Product';
+import { ProductOverviewModel } from '@entities/product/model/interfaces';
 
 interface Props {
     product: ProductOverviewModel

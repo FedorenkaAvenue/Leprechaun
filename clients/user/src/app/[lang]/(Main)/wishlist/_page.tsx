@@ -1,8 +1,9 @@
 'use client';
 
-import { useWishList } from "@entities/wishlist/api/hook";
+import { useWishList } from "@entities/wishlist/model/hooks";
 import { useI18n } from "@shared/lib/i18n_client";
-import WishlistProductCard from "@widgets/wishlist/ui/WishlistProductCard";
+import WishlistCard from "@widgets/wishlist/ui/WishlistCard";
+import WishlistCreate from "@widgets/wishlist/ui/WIshlistCreate";
 
 const WishList = () => {
     const { data, isLoading } = useWishList();
@@ -14,16 +15,26 @@ const WishList = () => {
         )
     }
 
+    const sortedWishlists = data?.sort(
+        (a, b) => new Date(b.items_updated_at).valueOf() - new Date(a.items_updated_at).valueOf()
+    );
+
     return (
-        <ul className="grid grid-cols-5 gap-2">
-            {
-                data?.map(i => (
-                    <li key={i.id}>
-                        <WishlistProductCard {...i} />
-                    </li>
-                ))
-            }
-        </ul>
+        <div>
+            <div className='flex justify-between mb-6'>
+                <h1>{dictionary?.wishList.wishlists}</h1>
+                <WishlistCreate />
+            </div>
+            <ul className="">
+                {
+                    sortedWishlists?.map(i => (
+                        <li key={i.id}>
+                            <WishlistCard wishlist={i} />
+                        </li>
+                    ))
+                }
+            </ul>
+        </div>
     );
 };
 

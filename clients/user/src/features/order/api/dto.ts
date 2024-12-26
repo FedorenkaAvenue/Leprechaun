@@ -1,4 +1,4 @@
-import { ProductCardModel } from "@entities/product/models/Product"
+import { ProductCardModel } from "@entities/product/model/interfaces"
 
 export interface OrderItemAddDTO {
     product: ProductCardModel['id']

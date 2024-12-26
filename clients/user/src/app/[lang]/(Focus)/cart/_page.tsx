@@ -2,7 +2,7 @@
 
 import { FC } from 'react';
 
-import { useCart } from '@entities/order/api/hooks';
+import { useCart } from '@entities/order/model/hooks';
 import CartWidget from '@widgets/order/ui/Cart';
 
 const Cart: FC = () => {

@@ -3,8 +3,10 @@ import {
     Controller,
     Delete,
     Get,
+    NotFoundException,
     Param,
     ParseUUIDPipe,
+    Patch,
     Post,
     Session,
     UseGuards,
@@ -12,12 +14,14 @@ import {
     ValidationPipe,
 } from '@nestjs/common';
 import {
+    ApiCookieAuth,
+    ApiNotAcceptableResponse,
     ApiNotFoundResponse,
     ApiOkResponse,
     ApiOperation,
     ApiTags,
 } from '@nestjs/swagger';
-import { DeleteResult } from 'typeorm';
+import { DeleteResult, UpdateResult } from 'typeorm';
 
 import WishlistPublicService from '@services/Wishlist/public';
 import AffectedResultInterceptor from '@interceptors/AffectedResult';
@@ -25,7 +29,7 @@ import { WishlistItemPublic } from '@dto/WishlistItem/public';
 import SessionGuard from '@guards/Session';
 import Queries from '@decorators/Query';
 import { QueriesWishlist } from '@dto/Queries/constructor';
-import { WishlistPublic } from '@dto/Wishlist/public';
+import { CreateWishlistDTO, UpdateWishlistDTO, WishlistPublic } from '@dto/Wishlist/public';
 
 @Controller('wishlist')
 @ApiTags('Wishlist 🧑‍💻')
@@ -34,6 +38,7 @@ export default class WishlistPublicController {
 
     @Get()
     @ApiOperation({ summary: 'get all wishlists' })
+    @ApiCookieAuth()
     @ApiOkResponse({ type: WishlistPublic, isArray: true })
     private getWishlists(
         @Session() { id },
@@ -42,12 +47,52 @@ export default class WishlistPublicController {
         return this.wishlistPublicService.getWishlists(id, queries);
     }
 
+    @Post()
+    @UseGuards(SessionGuard)
+    @ApiOperation({ summary: 'create new wishlist' })
+    @ApiCookieAuth()
+    @ApiOkResponse({ type: WishlistPublic })
+    private createWishlist(
+        @Body(new ValidationPipe({ transform: true })) wishlist: CreateWishlistDTO,
+        @Session() { id },
+        @Queries(QueriesWishlist) queries: QueriesWishlist,
+    ): Promise<WishlistPublic> {
+        return this.wishlistPublicService.createWishlist(wishlist, id, queries);
+    }
+
+    @Patch(':wishlistID')
+    @UseGuards(SessionGuard)
+    @UseInterceptors(AffectedResultInterceptor('wishlist is not found', NotFoundException))
+    @ApiOperation({ summary: 'update wishlist' })
+    @ApiCookieAuth()
+    @ApiNotFoundResponse({ description: 'wishlist is not found' })
+    private updateWishlist(
+        @Param('wishlistID', ParseUUIDPipe) wishlistId: string,
+        @Body(new ValidationPipe({ transform: true })) updates: UpdateWishlistDTO,
+        @Session() { id },
+    ): Promise<UpdateResult> {
+        return this.wishlistPublicService.updateWishlist(wishlistId, updates, id);
+    }
+
+    @Delete(':wishlistID')
+    @UseGuards(SessionGuard)
+    @UseInterceptors(AffectedResultInterceptor('wishlist is not found', NotFoundException))
+    @ApiOperation({ summary: 'delete wishlist' })
+    @ApiCookieAuth()
+    @ApiNotFoundResponse({ description: 'wishlist is not found' })
+    private removeWishlist(
+        @Param('wishlistID', ParseUUIDPipe) wishlistId: string,
+        @Session() { id }
+    ): Promise<DeleteResult> {
+        return this.wishlistPublicService.removeWishlist(wishlistId, id);
+    }
+
     @Post('/item/:productID')
     @UseGuards(SessionGuard)
     @ApiOperation({ summary: 'add product to default wishlist' })
+    @ApiCookieAuth()
     @ApiOkResponse({ type: WishlistItemPublic })
-    @ApiNotFoundResponse({ description: 'product or wishlist not found' })
-    // @ApiNotAcceptableResponse({ description: 'product is already added to wishlist or wishlist doesn\'t exist' })
+    @ApiNotAcceptableResponse({ description: 'product is already added to wishlist' })
     private addWishlistItem(
         @Param('productID', ParseUUIDPipe) productId: string,
         @Session() { id },
@@ -60,6 +105,7 @@ export default class WishlistPublicController {
     @UseGuards(SessionGuard)
     @UseInterceptors(AffectedResultInterceptor('wishlist item was not found'))
     @ApiOperation({ summary: 'remove wishlist item from wishlist' })
+    @ApiCookieAuth()
     @ApiNotFoundResponse({ description: 'wishlist item not found' })
     private deleteItem(
         @Param('wishlistItemID', ParseUUIDPipe) wishlistItemID: string,
@@ -67,13 +113,4 @@ export default class WishlistPublicController {
     ): Promise<DeleteResult> {
         return this.wishlistPublicService.removeItem(wishlistItemID, id);
     }
-
-    // @Delete()
-    // @UseGuards(SessionGuard)
-    // @UseInterceptors(AffectedResultInterceptor('wishlist is already empty', BadRequestException))
-    // @ApiOperation({ summary: 'clear wishlist' })
-    // @ApiBadRequestResponse({ description: 'wishlist is already empty' })
-    // private clearWishlist(@Session() { id }): Promise<DeleteResult> {
-    //     return this.wishlistPublicService.clearWishlist(id);
-    // }
 }

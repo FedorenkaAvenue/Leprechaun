@@ -2,7 +2,7 @@
 
 import { ShoppingCartIcon } from 'lucide-react';
 
-import { useCart } from '@entities/order/api/hooks';
+import { useCart } from '@entities/order/model/hooks';
 import BadgeWithCount from '@shared/ui/BadgeWithCount';
 import AppLink from '@shared/ui/AppLink';
 

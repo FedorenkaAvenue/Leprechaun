@@ -1,4 +1,7 @@
 type Translates = {
+    product: {
+        amout: string,
+    },
     dashboard: {
         history: string,
     },
@@ -6,10 +9,34 @@ type Translates = {
         emptyCart: string,
     },
     wishList: {
+        wishlists: string,
         emptyList: string,
+        myList: string,
+        addedToList: string,
+        createNewList: string,
+        makeListAsDefault: string,
+        newListName: string,
+        editWishlist: string,
+    },
+    share: {
+        share: string,
+        shareDescription: string,
+        linkCopied: string,
     },
     common: {
+        default: string,
         showMore: string,
+        create: string,
+        cancel: string,
+        link: string,
+        remove: string,
+        rename: string,
+        edit: string,
+        save: string,
+    },
+    errors: {
+        textMinLength: string,
+        textMaxLength: string,
     },
 }
 

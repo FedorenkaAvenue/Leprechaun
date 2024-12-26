@@ -12,7 +12,9 @@ import {
     UseInterceptors,
     ValidationPipe,
 } from '@nestjs/common';
-import { ApiBadRequestResponse, ApiNotFoundResponse, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
+import {
+    ApiBadRequestResponse, ApiCookieAuth, ApiNotFoundResponse, ApiOkResponse, ApiOperation, ApiTags,
+} from '@nestjs/swagger';
 import { UpdateResult } from 'typeorm';
 
 import OrderPublicService from '@services/Order/public';
@@ -30,6 +32,7 @@ export default class OrderPublicController {
 
     @Get()
     @ApiOperation({ summary: 'get cart' })
+    @ApiCookieAuth()
     @ApiOkResponse({ type: OrderPublic })
     private getCart(@Session() { id }, @Queries() queries: QueriesCommon): Promise<OrderPublic> {
         return this.orderService.getCart(id, queries);
@@ -37,6 +40,7 @@ export default class OrderPublicController {
 
     @Get('list')
     @ApiOperation({ summary: 'get order list (without current cart)' })
+    @ApiCookieAuth()
     @ApiOkResponse({ type: OrderPublic, isArray: true })
     private getOrderHistory(@Session() { id }, @Queries() queries: QueriesCommon): Promise<OrderPublic[]> {
         return this.orderService.getOrderList(id, queries);
@@ -45,6 +49,7 @@ export default class OrderPublicController {
     @Post('item')
     @UseGuards(SessionGuard)
     @ApiOperation({ summary: 'add new order item' })
+    @ApiCookieAuth()
     @ApiOkResponse({ type: OrderPublic })
     @ApiBadRequestResponse({ description: 'product already exists' })
     private addOrderItem(
@@ -58,6 +63,7 @@ export default class OrderPublicController {
     @Patch('item/:itemID')
     @UseGuards(SessionGuard)
     @ApiOperation({ summary: 'change order item amount' })
+    @ApiCookieAuth()
     @ApiOkResponse({ type: OrderPublic })
     private changeOrderItemAmount(
         @Param('itemID', ParseUUIDPipe) itemID: string,
@@ -72,6 +78,7 @@ export default class OrderPublicController {
     @UseGuards(SessionGuard)
     @UseInterceptors(AffectedResultInterceptor())
     @ApiOperation({ summary: 'send order' })
+    @ApiCookieAuth()
     @ApiOkResponse({ type: OrderPublic })
     private sendOrder(
         @Body(new ValidationPipe({ transform: true })) order: CreateOrderDTO,
@@ -83,6 +90,7 @@ export default class OrderPublicController {
     @Delete('item/:itemID')
     @UseGuards(SessionGuard)
     @ApiOperation({ summary: 'delete order item' })
+    @ApiCookieAuth()
     @ApiOkResponse({ type: OrderPublic })
     @ApiNotFoundResponse({ description: 'order item not found' })
     private removeItem(

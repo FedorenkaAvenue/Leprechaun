@@ -1,8 +1,8 @@
 import { FC, ReactNode } from "react";
 import Image from 'next/image';
 
-import { ProductCardModel, ProductPreviewModel } from "../models/Product";
-import { Card as CardUI, CardContent } from "@shared/ui/card";
+import { ProductCardModel, ProductPreviewModel } from "../model/interfaces";
+import { Card as CardUI, CardContent } from "@shared/ui/Card";
 import Price from "@shared/ui/Price";
 import ProductLabel from "./ProductLabel";
 import AppLink from '@shared/ui/AppLink';

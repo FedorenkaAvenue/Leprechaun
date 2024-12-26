@@ -4,9 +4,10 @@ import { ShoppingCartIcon, Loader } from 'lucide-react';
 import { FC } from 'react';
 import { useRouter } from 'next/navigation';
 
-import { useAddOrderItem } from "../api/hook";
-import { ProductCardModel } from '@entities/product/models/Product';
-import { useCart } from '@entities/order/api/hooks';
+import { useAddOrderItem } from "../model/hook";
+import { ProductCardModel } from '@entities/product/model/interfaces';
+import { useCart } from '@entities/order/model/hooks';
+import IconButton from '@shared/ui/IconButton';
 
 interface Props {
     productId: ProductCardModel['id']
@@ -24,11 +25,11 @@ const OrderAddToCart: FC<Props> = ({ productId }) => {
 
     return isFetching
         ? <Loader />
-        : <ShoppingCartIcon
-            className='cursor-pointer'
-            onClick={onClick}
-            style={{ color: isSelected ? 'green' : 'gray' }}
-        />;
+        : (
+            <IconButton onClick={onClick}>
+                <ShoppingCartIcon style={{ color: isSelected ? 'green' : 'gray' }} />
+            </IconButton>
+        );
 };
 
 export default OrderAddToCart;

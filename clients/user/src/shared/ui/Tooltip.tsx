@@ -1,20 +1,21 @@
 "use client"
 
-import * as React from "react"
 import * as TooltipPrimitive from "@radix-ui/react-tooltip"
+import { ComponentPropsWithoutRef, ElementRef, forwardRef, ReactNode } from "react";
 
 import cn from "@shared/lib/cn";
 
-const TooltipProvider = TooltipPrimitive.Provider
+interface Props {
+    content: ReactNode
+    isOpen: boolean
+    handleOpen: (state: boolean) => void
+    disabled?: boolean
+}
 
-const Tooltip = TooltipPrimitive.Root
-
-const TooltipTrigger = TooltipPrimitive.Trigger
-
-const TooltipContent = React.forwardRef<
-    React.ElementRef<typeof TooltipPrimitive.Content>,
-    React.ComponentPropsWithoutRef<typeof TooltipPrimitive.Content>
->(({ className, sideOffset = 4, ...props }, ref) => (
+const TooltipContent = forwardRef<
+    ElementRef<typeof TooltipPrimitive.Content>,
+    ComponentPropsWithoutRef<typeof TooltipPrimitive.Content>
+>(({ className, sideOffset = 5, ...props }, ref) => (
     <TooltipPrimitive.Content
         ref={ref}
         sideOffset={sideOffset}
@@ -24,7 +25,25 @@ const TooltipContent = React.forwardRef<
         )}
         {...props}
     />
-))
-TooltipContent.displayName = TooltipPrimitive.Content.displayName
+));
+TooltipContent.displayName = TooltipPrimitive.Content.displayName;
 
-export { Tooltip, TooltipTrigger, TooltipContent, TooltipProvider }
+const Tooltip: React.FC<React.PropsWithChildren<Props>> = ({
+    children, content, disabled, isOpen, handleOpen,
+}) => (
+    <TooltipPrimitive.Provider>
+        <TooltipPrimitive.Root open={isOpen} onOpenChange={handleOpen}>
+            <TooltipPrimitive.Trigger asChild>
+                {children}
+            </TooltipPrimitive.Trigger>
+            {!disabled && (
+                <TooltipContent side='bottom'>
+                    <TooltipPrimitive.Arrow />
+                    {content}
+                </TooltipContent>
+            )}
+        </TooltipPrimitive.Root>
+    </TooltipPrimitive.Provider>
+);
+
+export default Tooltip;

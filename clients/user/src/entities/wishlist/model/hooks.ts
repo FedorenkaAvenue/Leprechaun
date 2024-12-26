@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 
-import { getWishList } from ".";
+import { getWishList } from "../api";
 import { WISHLISTS_QUERY } from "../constants/queryKeys";
 
 export function useWishList() {
