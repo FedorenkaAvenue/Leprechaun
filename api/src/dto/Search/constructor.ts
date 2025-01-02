@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 
 import { SearchAutocompleteI, SearchResI } from '@interfaces/Search';
-import { QueriesSearch } from '@dto/Queries/constructor';
+import { QueriesSearch } from '@dto/Queries';
 import { ProductEntity } from '@entities/Product';
 import { CategoryEntity } from '@entities/Category';
 import { CategoryPublicI } from '@interfaces/Category';

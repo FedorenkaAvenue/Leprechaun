@@ -41,6 +41,13 @@ const data: Translates = {
         textMinLength: 'Текст занадто малий (мiнiмум $1 символ)',
         textMaxLength: 'Текст занадто великий (максимум $1 символiв)',
     },
+    sort: {
+        byDate: 'За датою додавання',
+        byPriceUp: 'Від дешевих до дорогих',
+        byPriceDown: 'Від дорогих до дешевих',
+        byRating: 'За рейтингом',
+        byNewest: 'Новинки',
+    },
 };
 
 export default data;

@@ -1,5 +1,5 @@
 import { ProductStatusE } from '@enums/Product';
-import { SortProductE, SortWishlistE } from '@enums/Query';
+import { ProductSort, WishlistItemsSort } from '@enums/Query';
 import { PropertyI } from './Property';
 import { PropertyGroupI } from './PropertyGroup';
 
@@ -20,13 +20,13 @@ export interface QueriesCommonI<P = QueryPriceI> {
 }
 
 export interface QueriesProductListI<P = QueryPriceI> extends QueriesCommonI<P> {
-    sort: SortProductE;
+    sort: ProductSort;
     status: ProductStatusE;
     optionsFilter: QueryOptionsFiltersT;
 }
 
 export interface QueriesWishlistI<P = QueryPriceI> extends QueriesCommonI<P> {
-    sort: SortWishlistE;
+    wishlist_item_sort: WishlistItemsSort;
 }
 
 export interface QueriesSearchI<P = QueryPriceI> extends QueriesCommonI<P> {

@@ -8,7 +8,7 @@ import {
     QueryOptionsFiltersT,
     QueryPriceI,
 } from '@interfaces/Queries';
-import { SortProductE, SortWishlistE } from '@enums/Query';
+import { ProductSort, WishlistItemsSort } from '@enums/Query';
 import { availableEnum } from '@utils/enum';
 import { ProductStatusE } from '@enums/Product';
 import { singleConfigService } from '@services/Config';
@@ -47,13 +47,13 @@ export class QueriesCommon implements QueriesCommonI {
 }
 
 export class QueriesProductList extends QueriesCommon implements QueriesProductListI {
-    sort: SortProductE;
+    sort: ProductSort;
     status: ProductStatusE;
     optionsFilter: QueryOptionsFiltersT;
 
     constructor({ lang, sort, page, portion, price, status, ...restQueries }: QueriesProductListI<string>) {
         super({ lang, page, price, portion });
-        this.sort = Number(sort) || SortProductE.POPULAR;
+        this.sort = Number(sort) || ProductSort.POPULAR;
         this.status = availableEnum(status, ProductStatusE) ? status : ProductStatusE.AVAILABLE;
         this.optionsFilter = Object.keys(restQueries).length
             ? Object
@@ -65,11 +65,11 @@ export class QueriesProductList extends QueriesCommon implements QueriesProductL
 }
 
 export class QueriesWishlist extends QueriesCommon implements QueriesWishlistI {
-    sort: SortWishlistE;
+    wishlist_item_sort: WishlistItemsSort;
 
-    constructor({ sort, ...restQueries }: QueriesWishlistI<string>) {
+    constructor({ wishlist_item_sort, ...restQueries }: QueriesWishlistI<string>) {
         super(restQueries);
-        this.sort = Number(sort) || SortWishlistE.LASTEST;
+        this.wishlist_item_sort = Number(wishlist_item_sort) || WishlistItemsSort.LASTEST;
     }
 }
 

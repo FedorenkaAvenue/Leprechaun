@@ -7,7 +7,7 @@ import AffectedResultInterceptor from '@interceptors/AffectedResult';
 import SessionGuard from '@guards/Session';
 import ConfigService from '@services/Config';
 import Queries from '@decorators/Query';
-import { QueriesCommon } from '@dto/Queries/constructor';
+import { QueriesCommon } from '@dto/Queries';
 import { ProductPreviewPublic } from '@dto/Product/public';
 
 @Controller('history')

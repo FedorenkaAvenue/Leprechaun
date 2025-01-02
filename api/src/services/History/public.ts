@@ -3,7 +3,7 @@ import { DeleteResult } from 'typeorm';
 
 import HistoryService from '.';
 import { SessionI } from '@interfaces/Session';
-import { QueriesCommon } from '@dto/Queries/constructor';
+import { QueriesCommon } from '@dto/Queries';
 import { ProductPreviewPublicI } from '@interfaces/Product';
 import { ProductPreviewPublic } from '@dto/Product/public';
 

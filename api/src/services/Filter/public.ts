@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 
-import { QueriesCommon } from '@dto/Queries/constructor';
+import { QueriesCommon } from '@dto/Queries';
 import FilterService from '.';
 import { FilterPublic } from '@dto/Filter/constructor';
 import FilterE from '@enums/Filter';

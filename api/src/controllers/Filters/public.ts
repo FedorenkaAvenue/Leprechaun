@@ -4,7 +4,7 @@ import { CacheInterceptor } from '@nestjs/cache-manager';
 
 import FilterPublicService from '@services/Filter/public';
 import Queries from '@decorators/Query';
-import { QueriesCommon } from '@dto/Queries/constructor';
+import { QueriesCommon } from '@dto/Queries';
 
 @Controller('filters')
 @ApiTags('Filters 🧑‍💻')

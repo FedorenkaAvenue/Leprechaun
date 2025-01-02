@@ -5,7 +5,7 @@ import { SessionI } from '@interfaces/Session';
 import { OrderStatus } from '@enums/Order';
 import { OrderItemI } from '@interfaces/OrderItem';
 import OrderService from '.';
-import { QueriesCommon } from '@dto/Queries/constructor';
+import { QueriesCommon } from '@dto/Queries';
 import { CreateOrderDTO, OrderPublic } from '@dto/Order/public';
 import { CreateOrderItemDTO, UpdateOrderItemDTO } from '@dto/OrderItem/public';
 import { OrderItemEntity } from '@entities/OrderItem';

@@ -3,7 +3,7 @@ import { Injectable } from '@nestjs/common';
 import { CommonDashboards, UserDashboards } from '@dto/Dashboard/constructor';
 import { SessionI } from '@interfaces/Session';
 import DashboardService from '.';
-import { QueriesCommon } from '@dto/Queries/constructor';
+import { QueriesCommon } from '@dto/Queries';
 
 @Injectable()
 export default class DashboardPublicService extends DashboardService {

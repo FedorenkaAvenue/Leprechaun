@@ -19,7 +19,7 @@ import OrderPublicService from '@services/Order/public';
 import AffectedResultInterceptor from '@interceptors/AffectedResult';
 import SessionGuard from '@guards/Session';
 import Queries from '@decorators/Query';
-import { QueriesCommon } from '@dto/Queries/constructor';
+import { QueriesCommon } from '@dto/Queries';
 import { CreateOrderItemDTO, UpdateOrderItemDTO } from '@dto/OrderItem/public';
 import { CreateOrderDTO, OrderPublic } from '@dto/Order/public';
 

@@ -39,6 +39,13 @@ type Translates = {
         textMinLength: string,
         textMaxLength: string,
     },
+    sort: {
+        byDate: string,
+        byPriceUp: string,
+        byPriceDown: string,
+        byRating: string,
+        byNewest: string,
+    },
 }
 
 export default Translates;

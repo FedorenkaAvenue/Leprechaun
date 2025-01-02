@@ -4,7 +4,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { FOLDER_TYPES } from '@services/FS';
 import { PaginationResult } from '@dto/Pagination';
 import ProductService from '.';
-import { QueriesProductList } from '@dto/Queries/constructor';
+import { QueriesProductList } from '@dto/Queries';
 import { ProductEntity } from '@entities/Product';
 import { ProductI } from '@interfaces/Product';
 import { CreateProductDTO, Product, ProductPreview } from '@dto/Product/private';

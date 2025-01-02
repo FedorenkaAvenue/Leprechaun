@@ -41,6 +41,13 @@ const data: Translates = {
         textMinLength: 'Text is to small (min $1 character)',
         textMaxLength: 'Text is too large (max $1 characters)',
     },
+    sort: {
+        byDate: 'By date added',
+        byPriceUp: 'By price up',
+        byPriceDown: 'By price down',
+        byRating: 'By rating',
+        byNewest: 'By newest',
+    },
 };
 
 export default data;

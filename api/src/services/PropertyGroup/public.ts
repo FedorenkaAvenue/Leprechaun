@@ -1,4 +1,4 @@
-import { QueriesCommon } from '@dto/Queries/constructor';
+import { QueriesCommon } from '@dto/Queries';
 import PropertyGroupService from '.';
 import { PropertyGroupPublic } from '@dto/PropertyGroup/private';
 

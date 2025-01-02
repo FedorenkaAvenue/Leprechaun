@@ -3,7 +3,7 @@ import { ApiNotFoundResponse, ApiOkResponse, ApiOperation, ApiTags } from '@nest
 
 import CategoryPublicService from '@services/Category/public';
 import Queries from '@decorators/Query';
-import { QueriesCommon } from '@dto/Queries/constructor';
+import { QueriesCommon } from '@dto/Queries';
 import { CacheInterceptor } from '@nestjs/cache-manager';
 import { CategoryPublic } from '@dto/Category/public';
 

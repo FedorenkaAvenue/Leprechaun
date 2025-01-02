@@ -15,8 +15,8 @@ import { ApiPaginatedResponseDecorator as ApiPaginatedResponse } from '@decorato
 import InvalidPaginationPageInterceptor from '@interceptors/InvalidPaginationPage';
 import SessionProductHistoryInterceptor from '@interceptors/SessionProductHistory';
 import Queries from '@decorators/Query';
-import { QueriesProductList } from '@dto/Queries/constructor';
-import { SortProductE } from '@enums/Query';
+import { QueriesProductList } from '@dto/Queries';
+import { ProductSort } from '@enums/Query';
 import { ProductStatusE } from '@enums/Product';
 import { ProductCardPublic, ProductPublic } from '@dto/Product/public';
 
@@ -33,7 +33,7 @@ export default class ProductPublicController {
     @ApiQuery({
         name: 'sort',
         required: false,
-        enum: SortProductE,
+        enum: ProductSort,
     })
     // @ApiQuery({
     //     name: 'price',

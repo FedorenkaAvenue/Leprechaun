@@ -2,7 +2,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 
 import { CategoryI } from '@interfaces/Category';
 import CategoryService from '.';
-import { QueriesCommon } from '@dto/Queries/constructor';
+import { QueriesCommon } from '@dto/Queries';
 import { CategoryPublic } from '@dto/Category/public';
 
 @Injectable()

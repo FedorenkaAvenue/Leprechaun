@@ -1,25 +1,9 @@
 import {
-    Body,
-    Controller,
-    Delete,
-    Get,
-    NotFoundException,
-    Param,
-    ParseUUIDPipe,
-    Patch,
-    Post,
-    Session,
-    UseGuards,
-    UseInterceptors,
-    ValidationPipe,
+    Body, Controller, Delete, Get, NotFoundException, Param, ParseUUIDPipe, Patch, Post, Session, UseGuards,
+    UseInterceptors, ValidationPipe,
 } from '@nestjs/common';
 import {
-    ApiCookieAuth,
-    ApiNotAcceptableResponse,
-    ApiNotFoundResponse,
-    ApiOkResponse,
-    ApiOperation,
-    ApiTags,
+    ApiCookieAuth, ApiNotAcceptableResponse, ApiNotFoundResponse, ApiOkResponse, ApiOperation, ApiTags,
 } from '@nestjs/swagger';
 import { DeleteResult, UpdateResult } from 'typeorm';
 
@@ -28,7 +12,7 @@ import AffectedResultInterceptor from '@interceptors/AffectedResult';
 import { WishlistItemPublic } from '@dto/WishlistItem/public';
 import SessionGuard from '@guards/Session';
 import Queries from '@decorators/Query';
-import { QueriesWishlist } from '@dto/Queries/constructor';
+import { QueriesWishlist } from '@dto/Queries';
 import { CreateWishlistDTO, UpdateWishlistDTO, WishlistPublic } from '@dto/Wishlist/public';
 
 @Controller('wishlist')

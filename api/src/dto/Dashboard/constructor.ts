@@ -3,7 +3,7 @@ import { ApiProperty } from '@nestjs/swagger';
 import { CommonDashboardsI, UserDashboardsI } from '@interfaces/Dashboard';
 import { ProductEntity } from '@entities/Product';
 import { HistoryEntity } from '@entities/History';
-import { QueriesCommon } from '@dto/Queries/constructor';
+import { QueriesCommon } from '@dto/Queries';
 import { ProductPreviewPublic } from '@dto/Product/public';
 
 interface CommonDashboardsIConstructorI {

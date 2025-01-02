@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 
 import { CategoryI, CategoryPublicI } from '@interfaces/Category';
-import { QueriesCommon } from '@dto/Queries/constructor';
+import { QueriesCommon } from '@dto/Queries';
 
 export class CategoryPublic implements CategoryPublicI {
     @ApiProperty()

@@ -1,32 +1,24 @@
 'use client';
 
 import { Copy, Share2 } from "lucide-react";
-import { FC, useState } from "react";
+import { FC } from "react";
 
 import Dialog from "./Dialog";
 import { Button } from "./Button";
 import { Label } from "./Form";
 import InputText from "./Input";
 import { useI18n } from "@shared/lib/i18n_client";
+import { useCopyToClipboard } from "@uidotdev/usehooks";
 
 interface Props {
     link: string
 }
 
 const Share: FC<Props> = ({ link }) => {
-    const [isCopied, setCopied] = useState<boolean>(false);
+    const [val, copy] = useCopyToClipboard();
     const { dictionary, lang } = useI18n();
 
     const href = `${window.location.origin}/${lang}/${link}`;
-
-    function copyLink() {
-        try {
-            navigator.clipboard.writeText(href);
-            setCopied(true);
-        } catch (err) {
-            alert('clipboard is disabled')
-        }
-    }
 
     return (
         <Dialog.Root>
@@ -34,9 +26,9 @@ const Share: FC<Props> = ({ link }) => {
             <Dialog.Content className="sm:max-w-md">
                 <Dialog.Header>
                     <Dialog.Title>{dictionary?.share.share}</Dialog.Title>
-                    {!isCopied && <Dialog.Description>{dictionary?.share.shareDescription}</Dialog.Description>}
+                    {!val && <Dialog.Description>{dictionary?.share.shareDescription}</Dialog.Description>}
                 </Dialog.Header>
-                {isCopied
+                {val
                     ? <div>{dictionary?.share.linkCopied}</div>
                     : (
                         <div className="flex items-center space-x-2">
@@ -44,7 +36,7 @@ const Share: FC<Props> = ({ link }) => {
                                 <Label htmlFor="link" className="sr-only">{dictionary?.common.link}</Label>
                                 <InputText id="link" defaultValue={href} readOnly />
                             </div>
-                            <Button onClick={copyLink} type="submit" size="sm" className="px-3">
+                            <Button onClick={() => copy(href)} type="submit" size="sm" className="px-3">
                                 <Copy />
                             </Button>
                         </div>

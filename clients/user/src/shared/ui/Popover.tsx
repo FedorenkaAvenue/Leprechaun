@@ -6,7 +6,6 @@ import { ComponentPropsWithoutRef, ElementRef, forwardRef } from "react";
 import cn from "@shared/lib/cn";
 
 const Popover = PopoverPrimitive.Root
-
 const PopoverTrigger = PopoverPrimitive.Trigger
 
 const PopoverContent = forwardRef<
@@ -26,7 +25,6 @@ const PopoverContent = forwardRef<
         />
     </PopoverPrimitive.Portal>
 ));
-
 PopoverContent.displayName = PopoverPrimitive.Content.displayName;
 
 export { Popover, PopoverTrigger, PopoverContent };

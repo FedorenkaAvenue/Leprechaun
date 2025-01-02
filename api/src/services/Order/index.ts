@@ -8,7 +8,7 @@ import { OrderItemEntity } from '@entities/OrderItem';
 import { SessionI } from '@interfaces/Session';
 import { genID } from '@utils/genIds';
 import ProductService from '@services/Product';
-import { QueriesCommon } from '@dto/Queries/constructor';
+import { QueriesCommon } from '@dto/Queries';
 
 @Injectable()
 export default class OrderService {

@@ -5,7 +5,7 @@ import { CacheInterceptor } from '@nestjs/cache-manager';
 import { CommonDashboards, UserDashboards } from '@dto/Dashboard/constructor';
 import DashboardPublicService from '@services/Dashboard/public';
 import Queries from '@decorators/Query';
-import { QueriesCommon } from '@dto/Queries/constructor';
+import { QueriesCommon } from '@dto/Queries';
 
 @Controller('dashboard')
 @ApiTags('Dashboard 🧑‍💻')

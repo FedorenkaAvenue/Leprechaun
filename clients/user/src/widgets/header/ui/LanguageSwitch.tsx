@@ -2,14 +2,7 @@
 
 import { FC, useCallback } from 'react';
 
-import {
-    Select,
-    SelectContent,
-    SelectGroup,
-    SelectItem,
-    SelectTrigger,
-    SelectValue,
-} from "@shared/ui/Select";
+import Select from "@shared/ui/Select";
 import { LANGS } from '@shared/constants/i18n_client';
 import { useI18n } from '@shared/lib/i18n_client';
 
@@ -23,18 +16,18 @@ const LanguageSwitch: FC = () => {
     }, []);
 
     return (
-        <Select defaultValue={lang} onValueChange={handleChangeLang}>
-            <SelectTrigger className='w-20'>
-                <SelectValue />
-            </SelectTrigger>
-            <SelectContent>
-                <SelectGroup>
+        <Select.Root defaultValue={lang} onValueChange={handleChangeLang}>
+            <Select.Trigger className='w-16'>
+                <Select.Value />
+            </Select.Trigger>
+            <Select.Content>
+                <Select.Group>
                     {LANGS.map(lang => (
-                        <SelectItem key={lang} value={lang}>{lang}</SelectItem>
+                        <Select.Item key={lang} value={lang}>{lang}</Select.Item>
                     ))}
-                </SelectGroup>
-            </SelectContent>
-        </Select>
+                </Select.Group>
+            </Select.Content>
+        </Select.Root>
     );
 };
 

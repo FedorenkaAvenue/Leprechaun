@@ -1,42 +1,43 @@
 import { Injectable, NotAcceptableException } from '@nestjs/common';
-import { DeepPartial, DeleteResult, UpdateResult } from 'typeorm';
+import { DeepPartial, DeleteResult, FindOptionsOrder, UpdateResult } from 'typeorm';
 
 import { SessionI } from '@interfaces/Session';
 import WishlistService from '.';
 import WishlistItemEntity from '@entities/WishlistItem';
 import { WishlistItemI } from '@interfaces/WishlistItem';
 import { WishlistItemPublic } from '@dto/WishlistItem/public';
-import { QueriesWishlist } from '@dto/Queries/constructor';
+import { QueriesWishlist } from '@dto/Queries';
 import { CreateWishlistDTO, UpdateWishlistDTO, WishlistPublic } from '@dto/Wishlist/public';
 import { QueriesWishlistI } from '@interfaces/Queries';
 import { WishlistI } from '@interfaces/Wishlist';
 import { ProductI } from '@interfaces/Product';
 import WishlistEntity from '@entities/Wishlist';
+import { WishlistItemsSort } from '@enums/Query';
 
 @Injectable()
 export default class WishlistPublicService extends WishlistService {
     public async getWishlists(sid: SessionI['sid'], searchParams: QueriesWishlistI): Promise<WishlistPublic[]> {
-        // let sorting: FindOptionsOrder<WishlistEntity>;
+        let sorting: FindOptionsOrder<WishlistEntity>;
 
-        // switch (searchParams.sort) {
-        //     case SortWishlistE.PRICE_UP: {
-        //         sorting = { items: { product: { price: { current: 'ASC' } } } };
-        //         break;
-        //     }
+        switch (searchParams.wishlist_item_sort) {
+            case WishlistItemsSort.PRICE_UP: {
+                sorting = { items: { product: { price: { current: 'ASC' } } } };
+                break;
+            }
 
-        //     case SortWishlistE.PRICE_DOWN: {
-        //         sorting = { items: { product: { price: { current: 'DESC' } } } };
-        //         break;
-        //     }
+            case WishlistItemsSort.PRICE_DOWN: {
+                sorting = { items: { product: { price: { current: 'DESC' } } } };
+                break;
+            }
 
-        //     default: // SortWishlistE.LATEST
-        //         sorting = { items: { created_at: 'ASC' } };
-        // }
+            default: // WishlistItemsSort.LATEST
+                sorting = { items: { created_at: 'ASC' } };
+        }
 
         const result = await this.wishlistRepo.find({
             where: { sid },
             relations: { items: { product: { images: true } } },
-            // order: sorting,
+            order: sorting,
         });
 
         return result.map(item => new WishlistPublic(item, searchParams));

@@ -1,6 +1,6 @@
 import { ApiProperty } from "@nestjs/swagger";
 
-import { QueriesCommon } from "@dto/Queries/constructor";
+import { QueriesCommon } from "@dto/Queries";
 import { PropertyI, PropertyPublicI } from "@interfaces/Property";
 
 export class PropertyPublic implements PropertyPublicI {

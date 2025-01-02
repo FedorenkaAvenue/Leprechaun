@@ -7,7 +7,7 @@ import { ImageEntity } from '@entities/Image';
 import { singleConfigService } from '@services/Config';
 import { ProductEntity } from '@entities/Product';
 import { QueriesProductListI } from '@interfaces/Queries';
-import { QueriesCommon } from '@dto/Queries/constructor';
+import { QueriesCommon } from '@dto/Queries';
 import { PriceEntity } from '@entities/_Price';
 import { LabelI } from '@interfaces/Label';
 import { Label } from '@dto/Label/constructor';

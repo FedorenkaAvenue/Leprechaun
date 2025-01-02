@@ -3,7 +3,7 @@ import { IsNotEmpty, IsNumber, IsOptional, IsUUID } from 'class-validator';
 
 import { Price } from '@dto/Price';
 import { OrderItemEntity } from '@entities/OrderItem';
-import { QueriesCommon } from '@dto/Queries/constructor';
+import { QueriesCommon } from '@dto/Queries';
 import { PriceI } from '@interfaces/Price';
 import { OrderItemI } from '@interfaces/OrderItem';
 import { ProductPreviewPublicI } from '@interfaces/Product';

@@ -9,15 +9,18 @@ import WishlistShare from '@features/wishlist/ui/WishlistShare';
 import WishlistProductCard from '@widgets/wishlist/ui/WishlistProductCard';
 import WishlistOptions from '@features/wishlist/ui/WishlistOptions';
 import WishlistAddToCart from '@features/wishlist/ui/WishlistAddToCart';
+import WishlistSortList from '@widgets/wishlist/ui/WishlistSortList';
+import useSortWishlistItems from '@widgets/wishlist/lib/useSortWishlistItems';
 
 interface Props {
     wishlistId: string
 }
 
 const Wishlist: FC<Props> = ({ wishlistId }) => {
-    const { data } = useWishList();
     const { dictionary } = useI18n();
+    const { data } = useWishList();
     const currentWishlist = data?.find(({ id }) => id === wishlistId) as WishlistModel;
+    const { sort, setSort, sortedItems } = useSortWishlistItems(currentWishlist.items);
 
     return (
         <div className='flex flex-col gap-2'>
@@ -30,11 +33,12 @@ const Wishlist: FC<Props> = ({ wishlistId }) => {
                             <WishlistOptions wishlist={currentWishlist} />
                         </div>
                     </div>
-                    <div>
+                    <div className='flex justify-between'>
                         {currentWishlist.items.length > 0 && <WishlistAddToCart wishlistId={currentWishlist.id} />}
+                        <WishlistSortList value={sort} handleChange={setSort} />
                     </div>
                     <ul className='flex'>
-                        {currentWishlist.items.map(i => (
+                        {sortedItems.map(i => (
                             <li key={i.id}>
                                 <WishlistProductCard {...i} />
                             </li>

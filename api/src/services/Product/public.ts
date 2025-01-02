@@ -2,7 +2,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 
 import { PaginationResult } from '@dto/Pagination';
 import ProductService from '.';
-import { QueriesProductList } from '@dto/Queries/constructor';
+import { QueriesProductList } from '@dto/Queries';
 import WishlistItemEntity from '@entities/WishlistItem';
 import { CategoryI } from '@interfaces/Category';
 import { ProductI } from '@interfaces/Product';

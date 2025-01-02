@@ -6,9 +6,9 @@ import { FSService } from '@services/FS';
 import { ProductEntity } from '@entities/Product';
 import { ImageService } from '@services/Image';
 import { PaginationResult } from '@dto/Pagination';
-import { QueriesProductList } from '@dto/Queries/constructor';
+import { QueriesProductList } from '@dto/Queries';
 import HistoryPublicService from '@services/History/public';
-import { SortProductE } from '@enums/Query';
+import { ProductSort } from '@enums/Query';
 import { PropertyGroupEntity } from '@entities/PropertGroup';
 import LoggerService from '@services/Logger';
 import { ProductI } from '@interfaces/Product';
@@ -105,17 +105,17 @@ export default class ProductService {
 
         // sorting
         switch (sort) {
-            case SortProductE.PRICE_UP: {
+            case ProductSort.PRICE_UP: {
                 qb.orderBy('p.price.current', 'ASC');
                 break;
             }
 
-            case SortProductE.PRICE_DOWN: {
+            case ProductSort.PRICE_DOWN: {
                 qb.orderBy('p.price.current', 'DESC');
                 break;
             }
 
-            case SortProductE.NEW: {
+            case ProductSort.NEW: {
                 qb.orderBy('p.created_at', 'DESC');
                 break;
             }

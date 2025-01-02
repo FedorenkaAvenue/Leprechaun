@@ -3,21 +3,16 @@
 import * as DropdownMenuPrimitive from "@radix-ui/react-dropdown-menu"
 import { Check, ChevronRight, Circle } from "lucide-react"
 import { ComponentPropsWithoutRef, ElementRef, forwardRef, HTMLAttributes, ReactNode } from "react"
+import { DialogProps } from "@radix-ui/react-dialog"
 
 import cn from "@shared/lib/cn"
 import Dialog from "./Dialog"
-import { DialogProps } from "@radix-ui/react-dialog"
 
 const Menu = DropdownMenuPrimitive.Root
-
 const MenuTrigger = DropdownMenuPrimitive.Trigger
-
 const MenuGroup = DropdownMenuPrimitive.Group
-
 const MenuPortal = DropdownMenuPrimitive.Portal
-
 const MenuSub = DropdownMenuPrimitive.Sub
-
 const MenuRadioGroup = DropdownMenuPrimitive.RadioGroup
 
 const MenuSubTrigger = forwardRef<

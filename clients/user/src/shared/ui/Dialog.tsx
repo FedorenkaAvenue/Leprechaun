@@ -7,11 +7,8 @@ import { ComponentPropsWithoutRef, ElementRef, forwardRef, HTMLAttributes } from
 import cn from "@shared/lib/cn";
 
 const Root = DialogPrimitive.Root
-
 const Trigger = DialogPrimitive.Trigger
-
 const Portal = DialogPrimitive.Portal
-
 const Close = DialogPrimitive.Close
 
 const Overlay = forwardRef<

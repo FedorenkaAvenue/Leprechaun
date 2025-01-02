@@ -31,7 +31,7 @@ import UndefinedResultInterceptor from '@interceptors/UndefinedResult';
 import AffectedResultInterceptor from '@interceptors/AffectedResult';
 import { Pagination } from '@dto/Pagination';
 import Query from '@decorators/Query';
-import { QueriesProductList } from '@dto/Queries/constructor';
+import { QueriesProductList } from '@dto/Queries';
 import { CreateProductDTO, ProductPreview } from '@dto/Product/private';
 
 @Controller('adm/product')

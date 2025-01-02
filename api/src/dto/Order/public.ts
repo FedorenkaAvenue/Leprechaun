@@ -4,7 +4,7 @@ import { Type } from 'class-transformer';
 
 import { OrderItemI, OrderItemPublicI } from '@interfaces/OrderItem';
 import { OrderEntity } from '@entities/Order';
-import { QueriesCommon } from '@dto/Queries/constructor';
+import { QueriesCommon } from '@dto/Queries';
 import { OrderCustomerDataI, OrderI, OrderPublicI, OrderSummaryI } from '@interfaces/Order';
 import { OrderStatus } from '@enums/Order';
 import { OrderItemPublic } from '@dto/OrderItem/public';

@@ -11,7 +11,7 @@ import {
 import { Type } from 'class-transformer';
 
 import { TransDTO } from '@dto/Trans';
-import { QueriesCommon } from '@dto/Queries/constructor';
+import { QueriesCommon } from '@dto/Queries';
 import { PropertyGroupI, PropertyGroupPublicI } from '@interfaces/PropertyGroup';
 import { OptionI, OptionPublicI } from '@interfaces/Option';
 import { PropertyPublic } from '@dto/Property/public';
