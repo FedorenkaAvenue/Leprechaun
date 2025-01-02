@@ -13,7 +13,7 @@ const ProductCatalogueCard: FC<Props> = (item) => {
         <div>
             <ProductCard
                 product={item}
-                renderOptions={product => (
+                renderBottomOptions={product => (
                     <>
                         <WishlistItemAdd productId={product.id} />
                         <OrderAddToCart productId={product.id} />

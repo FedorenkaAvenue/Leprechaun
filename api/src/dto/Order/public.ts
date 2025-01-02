@@ -30,7 +30,7 @@ export class OrderPublic implements OrderPublicI {
     status: OrderStatus;
 
     @ApiProperty({ type: OrderItemPublic, isArray: true, description: 'order items array' })
-    list: OrderItemPublicI[];
+    items: OrderItemPublicI[];
 
     @ApiProperty({ type: OrderSummary, description: 'summary order data' })
     summary: OrderSummaryI;
@@ -38,11 +38,11 @@ export class OrderPublic implements OrderPublicI {
     @ApiProperty({ type: Date, description: 'date of last changed status' })
     updated_at: Date;
 
-    constructor({ id, status, list, updated_at }: OrderEntity, { lang }: QueriesCommon) {
+    constructor({ id, status, items, updated_at }: OrderEntity, { lang }: QueriesCommon) {
         this.id = id;
         this.status = status;
-        this.list = list.map(prod => new OrderItemPublic(prod, lang));
-        this.summary = new OrderSummary(list);
+        this.items = items.map(prod => new OrderItemPublic(prod, lang));
+        this.summary = new OrderSummary(items);
         this.updated_at = updated_at;
     }
 }

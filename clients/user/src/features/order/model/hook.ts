@@ -5,12 +5,12 @@ import { OrderItemAddDTO, OderItemChangeAmountDTO } from "../api/dto";
 import { CART_QUERY } from "@entities/order/constants/queryKeys";
 import { OrderItemModel } from "@entities/order/model/interfaces";
 
-export function useAddOrderItem() {
+export function useAddOrderItems() {
     const qClient = useQueryClient();
 
     return useMutation({
-        mutationFn: (item: OrderItemAddDTO) => addToCart(item),
-        onSuccess: (data) => {
+        mutationFn: (items: OrderItemAddDTO[]) => addToCart(items),
+        onSuccess: data => {
             qClient.setQueryData([CART_QUERY], data);
         }
     })
@@ -21,7 +21,7 @@ export function useChangeOrderItemAmount(orderItemId: OrderItemModel['id']) {
 
     return useMutation({
         mutationFn: (amount: OderItemChangeAmountDTO['amount']) => changeOrderItemAmount(orderItemId, { amount }),
-        onSuccess: (data) => {
+        onSuccess: data => {
             client.setQueryData([CART_QUERY], data);
         }
     })
@@ -32,7 +32,7 @@ export function useRemoveOrderItem(itemId: OrderItemModel['id']) {
 
     return useMutation({
         mutationFn: () => removeOrderItem(itemId),
-        onSuccess: (data) => {
+        onSuccess: data => {
             client.setQueryData([CART_QUERY], data);
         }
     })

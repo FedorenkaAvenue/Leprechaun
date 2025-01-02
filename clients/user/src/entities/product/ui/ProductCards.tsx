@@ -12,22 +12,24 @@ type ProductType = ProductCardModel | ProductPreviewModel
 interface CardProps<T> {
     product: T
     renderImages: (product: T) => ReactNode
-    renderOptions?: (product: T) => ReactNode
+    renderBottomOptions?: (product: T) => ReactNode
+    renderTopOptions?: (product: T) => ReactNode
     renderAdditionalData?: (product: T) => ReactNode
 }
 
 const Card = <T extends ProductType>({
-    product, renderImages, renderOptions, renderAdditionalData,
+    product, renderImages, renderBottomOptions, renderTopOptions, renderAdditionalData,
 }: CardProps<T>) => {
     return (
         <CardUI className="w-full h-full">
             <CardContent className="relative">
-                <div>
+                <div className='flex justify-between'>
                     <ul className="flex flex-col gap-1">
                         {product.labels.map((i, k) => (
                             <li key={k}><ProductLabel type={i.type} value={i.value} /></li>
                         ))}
                     </ul>
+                    {renderTopOptions?.call(null, product)}
                 </div>
                 <div>
                     <AppLink href={`/product/${product.id}`}>
@@ -39,7 +41,7 @@ const Card = <T extends ProductType>({
                     <div className='flex justify-between'>
                         <Price current={product.price.current} old={product.price.old} />
                         <div className='flex gap-2'>
-                            {renderOptions?.call(null, product)}
+                            {renderBottomOptions?.call(null, product)}
                         </div>
                     </div>
                 </div>
@@ -49,7 +51,10 @@ const Card = <T extends ProductType>({
     );
 };
 
-type ProductCardPreviewProps = Pick<CardProps<ProductPreviewModel>, 'product' | 'renderOptions'>;
+type ProductCardPreviewProps = Pick<
+    CardProps<ProductPreviewModel>,
+    'product' | 'renderBottomOptions' | 'renderTopOptions'
+>;
 
 export const ProductCardPreview: FC<ProductCardPreviewProps> = props => (
     <Card<ProductPreviewModel>
@@ -60,7 +65,10 @@ export const ProductCardPreview: FC<ProductCardPreviewProps> = props => (
     />
 );
 
-type ProductCardProps = Pick<CardProps<ProductCardModel>, 'product' | 'renderOptions' | 'renderAdditionalData'>;
+type ProductCardProps = Pick<
+    CardProps<ProductCardModel>,
+    'product' | 'renderBottomOptions' | 'renderAdditionalData' | 'renderTopOptions'
+>;
 
 export const ProductCard: FC<ProductCardProps> = props => (
     <Card<ProductCardModel>

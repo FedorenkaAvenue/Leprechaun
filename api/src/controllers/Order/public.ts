@@ -12,9 +12,7 @@ import {
     UseInterceptors,
     ValidationPipe,
 } from '@nestjs/common';
-import {
-    ApiBadRequestResponse, ApiCookieAuth, ApiNotFoundResponse, ApiOkResponse, ApiOperation, ApiTags,
-} from '@nestjs/swagger';
+import { ApiBody, ApiCookieAuth, ApiNotFoundResponse, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { UpdateResult } from 'typeorm';
 
 import OrderPublicService from '@services/Order/public';
@@ -22,7 +20,7 @@ import AffectedResultInterceptor from '@interceptors/AffectedResult';
 import SessionGuard from '@guards/Session';
 import Queries from '@decorators/Query';
 import { QueriesCommon } from '@dto/Queries/constructor';
-import { CreateOrderItemDTO, UpdateOrderItemDTO } from '@dto/OrderItem/private';
+import { CreateOrderItemDTO, UpdateOrderItemDTO } from '@dto/OrderItem/public';
 import { CreateOrderDTO, OrderPublic } from '@dto/Order/public';
 
 @Controller('order')
@@ -46,18 +44,18 @@ export default class OrderPublicController {
         return this.orderService.getOrderList(id, queries);
     }
 
-    @Post('item')
+    @Post('items')
     @UseGuards(SessionGuard)
-    @ApiOperation({ summary: 'add new order item' })
+    @ApiOperation({ summary: 'add new order items' })
     @ApiCookieAuth()
+    @ApiBody({ type: CreateOrderItemDTO, isArray: true })
     @ApiOkResponse({ type: OrderPublic })
-    @ApiBadRequestResponse({ description: 'product already exists' })
     private addOrderItem(
         @Session() { id },
-        @Body(new ValidationPipe({ transform: true })) orderItem: CreateOrderItemDTO,
+        @Body(new ValidationPipe({ transform: true })) orderItems: CreateOrderItemDTO[],
         @Queries() queries: QueriesCommon,
     ): Promise<OrderPublic> {
-        return this.orderService.addOrderItem(orderItem, id, queries);
+        return this.orderService.addOrderItems(orderItems, id, queries);
     }
 
     @Patch('item/:itemID')

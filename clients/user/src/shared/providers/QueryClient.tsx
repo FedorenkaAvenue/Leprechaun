@@ -1,18 +1,37 @@
-"use client";
+'use client'
 
-import { QueryClient, QueryClientProvider as QClientProvider } from '@tanstack/react-query';
+import { isServer, QueryClient, QueryClientProvider as QClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
-import { PropsWithChildren, useState } from 'react';
+import { FC, PropsWithChildren } from 'react';
 
-const QUERY_CLIENT = new QueryClient();
-
-export default function QueryClientProvider({ children }: PropsWithChildren) {
-    const [queryClient] = useState(() => QUERY_CLIENT);
-
-    return (
-        <QClientProvider client={queryClient}>
-            {children}
-            <ReactQueryDevtools initialIsOpen={false} />
-        </QClientProvider>
-    );
+function makeQueryClient() {
+    return new QueryClient({
+        defaultOptions: {
+            queries: {
+                // With SSR, we usually want to set some default staleTime above 0 to avoid refetching immediately on the client
+                staleTime: 60 * 60 * 1000,
+            },
+        },
+    })
 }
+
+let browserQueryClient: QueryClient | undefined = undefined;
+
+function getQueryClient() {
+    if (isServer) {
+        return makeQueryClient();
+    } else {
+        if (!browserQueryClient) browserQueryClient = makeQueryClient();
+
+        return browserQueryClient
+    }
+}
+
+const QueryClientProvider: FC<PropsWithChildren> = ({ children }) => (
+    <QClientProvider client={getQueryClient()}>
+        {children}
+        <ReactQueryDevtools initialIsOpen={false} position='right' />
+    </QClientProvider>
+);
+
+export default QueryClientProvider;

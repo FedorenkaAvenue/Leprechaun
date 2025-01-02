@@ -29,8 +29,8 @@ export default class OrderPrivateService extends OrderService {
     public async getOrdersByProductId(productId: ProductI['id']): Promise<OrderEntity[]> {
         return await this.orderRepo
             .createQueryBuilder('order')
-            .leftJoinAndSelect('order.list', 'list')
-            .leftJoin('list.product', 'product')
+            .leftJoinAndSelect('order.items', 'items')
+            .leftJoin('items.product', 'product')
             .where('product.id = :id', { id: productId })
             .getMany();
     }

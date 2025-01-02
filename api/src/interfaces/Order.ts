@@ -5,7 +5,7 @@ import { OrderStatus } from '@enums/Order';
 interface BaseI<T> {
     id?: number;
     status?: OrderStatus;
-    list?: T[];
+    items?: T[];
     summary?: OrderSummaryI;
     updated_at: Date;
 }

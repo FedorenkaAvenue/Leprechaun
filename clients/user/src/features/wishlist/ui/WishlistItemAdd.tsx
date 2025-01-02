@@ -38,9 +38,9 @@ const WishlistItemAdd: FC<WishlistItemAddProps> = ({ productId }) => {
     const [isHovered, setHovered] = useState<boolean>(false);
     const { isFetching, selected, selectedWishlist } = useAddedToWishlist(productId, isHovered);
     const { mutate: add } = useAddProductToWishlist(productId);
-    const { mutate: remove } = useRemoveProductFromWishlist(selected?.id);
+    const { mutate: remove } = useRemoveProductFromWishlist();
 
-    const toogle = useCallback(() => selected ? remove() : add(), [selected]);
+    const toogle = useCallback(() => selected ? remove(selected?.id) : add(), [selected]);
 
     return isFetching
         ? <Loader />

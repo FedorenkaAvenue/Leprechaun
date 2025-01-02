@@ -4,19 +4,20 @@ import { EllipsisVertical } from 'lucide-react';
 import { WishlistModel } from '@entities/wishlist/model/interfaces';
 import { useI18n } from '@shared/lib/i18n_client';
 import IconButton from '@shared/ui/IconButton';
-import { useRemoveWishlist, useUpdateWishlist } from '@features/wishlist/model/hooks';
-import WishlistCU from '@features/wishlist/ui/WishlistCU';
 import Dropdown from '@shared/ui/DropdownMenu';
+import { useRemoveWishlist, useUpdateWishlist } from '../model/hooks';
+import WishlistCU from './WishlistCU';
+import useAddWishlistItemsToCart from '../lib/useAddWishlistItemsToCart';
 
 interface Props {
     wishlist: WishlistModel
 }
 
 const WishlistOptions: FC<Props> = ({ wishlist }) => {
-    const { id, isDefault } = wishlist;
     const { dictionary } = useI18n();
-    const { mutate: remove } = useRemoveWishlist(id);
-    const { mutate: update } = useUpdateWishlist(id);
+    const { mutate: remove } = useRemoveWishlist(wishlist.id);
+    const { mutate: update } = useUpdateWishlist(wishlist.id);
+    const { addWishlistItemsToCart, isDisableToAdd } = useAddWishlistItemsToCart(wishlist.id);
 
     return (
         <Dropdown.Menu>
@@ -38,7 +39,12 @@ const WishlistOptions: FC<Props> = ({ wishlist }) => {
                 >
                     {dictionary?.common.edit}
                 </Dropdown.MenuItemWishDialog>
-                {!isDefault && (
+                {!isDisableToAdd && (
+                    <Dropdown.MenuItem onClick={addWishlistItemsToCart}>
+                        {dictionary?.wishList.buyAllItems}
+                    </Dropdown.MenuItem>
+                )}
+                {!wishlist?.isDefault && (
                     <>
                         <Dropdown.MenuItem onClick={() => update({ isDefault: true })}>
                             {dictionary?.wishList.makeListAsDefault}

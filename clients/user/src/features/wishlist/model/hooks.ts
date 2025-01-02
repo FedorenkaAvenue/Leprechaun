@@ -1,6 +1,8 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
-import { addProductToWishlist, createWishlist, removeProductFromWishlist, removeWishlist, updateWishlist } from "../api";
+import {
+    addProductToWishlist, createWishlist, removeProductFromWishlist, removeWishlist, updateWishlist,
+} from "../api";
 import { WISHLISTS_QUERY } from "@entities/wishlist/constants/queryKeys";
 import { WishlistItemModel } from "@entities/wishlist/model/interfaces";
 import { WishlistModel } from "@entities/wishlist/model/interfaces";
@@ -14,7 +16,7 @@ export function useCreateWishlist() {
         onSuccess: res => {
             const wishlists = queryClient.getQueryData<WishlistModel[]>([WISHLISTS_QUERY]);
 
-            if (!wishlists) return queryClient.invalidateQueries({ queryKey: [WISHLISTS_QUERY] });
+            if (!wishlists) return queryClient.refetchQueries({ queryKey: [WISHLISTS_QUERY] });
 
             if (res.isDefault) {
                 const defaultWishlist = wishlists?.find(({ isDefault }) => isDefault);
@@ -44,12 +46,12 @@ export function useUpdateWishlist(wishlistId: WishlistModel['id']) {
             const updatedWishlist = wishlists?.find(({ id }) => wishlistId === id);
 
             if (!wishlists) {
-                queryClient.invalidateQueries({ queryKey: [WISHLISTS_QUERY] });
+                queryClient.refetchQueries({ queryKey: [WISHLISTS_QUERY] });
 
                 return;
             }
 
-            if (updates.isDefault) {
+            if (!updatedWishlist?.isDefault && updates.isDefault) {
                 const defaultWishlist = wishlists?.find(({ isDefault }) => isDefault);
 
                 queryClient.setQueryData(
@@ -117,18 +119,18 @@ export function useAddProductToWishlist(wishlistItemId: WishlistItemModel['id'])
                     [...wishlists?.filter(({ isDefault }) => !isDefault), updWislist],
                 )
             } else {
-                queryClient.invalidateQueries({ queryKey: [WISHLISTS_QUERY] });
+                queryClient.refetchQueries({ queryKey: [WISHLISTS_QUERY] });
             }
         },
     });
 }
 
-export function useRemoveProductFromWishlist(wishlistItemId: WishlistItemModel['id'] | undefined) {
+export function useRemoveProductFromWishlist() {
     const queryClient = useQueryClient();
 
     return useMutation({
-        mutationFn: () => removeProductFromWishlist(wishlistItemId),
-        onMutate: () => {
+        mutationFn: (wishlistItemId: WishlistItemModel['id']) => removeProductFromWishlist(wishlistItemId),
+        onMutate: wishlistItemId => {
             const wishlists = queryClient.getQueryData<WishlistModel[]>([WISHLISTS_QUERY]);
 
             queryClient.setQueryData(
@@ -143,6 +145,6 @@ export function useRemoveProductFromWishlist(wishlistItemId: WishlistItemModel['
         },
         onError: (err, _, prevData) => {
             queryClient.setQueryData([WISHLISTS_QUERY], prevData);
-        }
+        },
     });
 }

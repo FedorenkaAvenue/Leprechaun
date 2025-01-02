@@ -11,9 +11,7 @@ interface Props {
 const OrderItemChangeAmount: FC<Props> = ({ orderItem }) => {
     const { mutate } = useChangeOrderItemAmount(orderItem.id);
 
-    return (
-        <Counter amount={orderItem.amount} handleChange={mutate} />
-    );
+    return <Counter amount={orderItem.amount} handleChange={mutate} />;
 };
 
 export default OrderItemChangeAmount;

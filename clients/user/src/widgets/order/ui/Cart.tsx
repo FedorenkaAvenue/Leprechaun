@@ -39,7 +39,7 @@ const Cart: FC<Props> = ({ data }) => {
     return (
         <div className='flex justify-between'>
             <ul className='flex flex-col gap-5'>
-                {data?.list.map(i => (
+                {data?.items.map(i => (
                     <li key={i.id}>
                         <ItemCard {...i} />
                     </li>

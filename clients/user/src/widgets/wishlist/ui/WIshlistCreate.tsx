@@ -1,3 +1,5 @@
+'use client';
+
 import { FC, useState } from 'react';
 import { CirclePlus } from 'lucide-react';
 

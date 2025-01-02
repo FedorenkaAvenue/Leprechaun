@@ -17,6 +17,7 @@ type Translates = {
         makeListAsDefault: string,
         newListName: string,
         editWishlist: string,
+        buyAllItems: string,
     },
     share: {
         share: string,

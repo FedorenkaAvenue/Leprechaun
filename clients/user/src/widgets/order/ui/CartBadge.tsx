@@ -11,7 +11,7 @@ const CartBadge = () => {
 
     return (
         <AppLink href='/cart'>
-            <BadgeWithCount count={data?.list.length}>
+            <BadgeWithCount count={data?.items.length}>
                 <ShoppingCartIcon width='30' height='30' />
             </BadgeWithCount>
         </AppLink>

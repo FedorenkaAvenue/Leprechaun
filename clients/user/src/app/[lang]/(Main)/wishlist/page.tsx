@@ -1,10 +1,5 @@
-import WishListPage from './_page';
+import WishlistClient from "./_page";
 
-
-const WishList = () => {
-    return (
-        <div><WishListPage /></div>
-    );
-};
-
-export default WishList;
+export default async function Wishlist() {
+    return <WishlistClient />;
+}

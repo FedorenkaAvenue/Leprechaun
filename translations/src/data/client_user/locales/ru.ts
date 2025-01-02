@@ -19,6 +19,7 @@ const data: Translates = {
         makeListAsDefault: 'Сделать списком по умолчанию',
         newListName: 'Имя нового списка',
         editWishlist: 'Редактировать список',
+        buyAllItems: 'Купить все товары',
     },
     share: {
         share: 'Поделиться',

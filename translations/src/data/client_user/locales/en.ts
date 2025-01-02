@@ -19,6 +19,7 @@ const data: Translates = {
         makeListAsDefault: 'Make list as default wishlist',
         newListName: 'New list name',
         editWishlist: 'Edit wishlist',
+        buyAllItems: 'Buy all items',
     },
     share: {
         share: 'Share',

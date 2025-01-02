@@ -50,7 +50,7 @@ export class OrderEntity implements OrderI {
 
     @OneToMany(() => OrderItemEntity, ({ order_id }) => order_id, { eager: true })
     @ApiProperty({ type: OrderItemEntity, isArray: true })
-    list: OrderItemEntity[];
+    items: OrderItemEntity[];
 
     @Column(() => OrderCustomerDataEntity, { prefix: false })
     @ApiProperty({ description: "customer's order credentials" })

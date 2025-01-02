@@ -1,29 +1,26 @@
-import clientAPI from "@shared/api/api_client";
+'use server'
+
 import { WishlistItemModel } from "@entities/wishlist/model/interfaces";
 import { WishlistModel } from "@entities/wishlist/model/interfaces";
 import { CreateWishlistDTO, UpdateWishlistDTO } from "./dto";
+import serverAPI from "@shared/api/serverApi";
 
 export async function createWishlist(wishlist: CreateWishlistDTO): Promise<WishlistModel> {
-    const res = await clientAPI.post<WishlistModel>('/wishlist', wishlist);
-
-    return res.data;
+    return (await serverAPI.post<WishlistModel>('/wishlist', wishlist)).data;
 }
 
 export async function updateWishlist(wishlistId: WishlistModel['id'], updates: UpdateWishlistDTO): Promise<void> {
-    return await clientAPI.patch(`/wishlist/${wishlistId}`, updates);
+    return (await serverAPI.patch(`/wishlist/${wishlistId}`, updates)).data;
 }
 
 export async function removeWishlist(wishlistId: WishlistModel['id']): Promise<void> {
-    return await clientAPI.delete(`/wishlist/${wishlistId}`);
+    return (await serverAPI.delete(`/wishlist/${wishlistId}`)).data;
 }
 
 export async function addProductToWishlist(wishlistItemId: WishlistItemModel['id']): Promise<WishlistItemModel> {
-    const res = await clientAPI.post<WishlistItemModel>(`/wishlist/item/${wishlistItemId}`);
-
-    return res.data;
+    return (await serverAPI.post<WishlistItemModel>(`/wishlist/item/${wishlistItemId}`)).data;
 }
 
-export async function removeProductFromWishlist(wishlistItemId: WishlistItemModel['id'] | undefined): Promise<void> {
-    return await clientAPI.delete(`/wishlist/item/${wishlistItemId}`);
+export async function removeProductFromWishlist(wishlistItemId: WishlistItemModel['id']): Promise<void> {
+    return (await serverAPI.delete(`/wishlist/item/${wishlistItemId}`)).data;
 }
-

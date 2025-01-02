@@ -3,6 +3,7 @@ import { Trash } from 'lucide-react';
 
 import { useRemoveOrderItem } from '../model/hook';
 import { OrderItemModel } from '@entities/order/model/interfaces';
+import IconButton from '@shared/ui/IconButton';
 
 interface Props {
     itemId: OrderItemModel['id']
@@ -11,7 +12,7 @@ interface Props {
 const OrderRemoveItem: FC<Props> = ({ itemId }) => {
     const { mutate } = useRemoveOrderItem(itemId);
 
-    return <Trash onClick={() => mutate()} />;
+    return <IconButton onClick={() => mutate()}><Trash /></IconButton>;
 };
 
 export default OrderRemoveItem;

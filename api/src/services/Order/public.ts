@@ -1,14 +1,14 @@
-import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { DeepPartial, Not, UpdateResult } from 'typeorm';
 
 import { SessionI } from '@interfaces/Session';
 import { OrderStatus } from '@enums/Order';
 import { OrderItemI } from '@interfaces/OrderItem';
-import { ProductEntity } from '@entities/Product';
 import OrderService from '.';
 import { QueriesCommon } from '@dto/Queries/constructor';
 import { CreateOrderDTO, OrderPublic } from '@dto/Order/public';
-import { CreateOrderItemDTO, UpdateOrderItemDTO } from '@dto/OrderItem/private';
+import { CreateOrderItemDTO, UpdateOrderItemDTO } from '@dto/OrderItem/public';
+import { OrderItemEntity } from '@entities/OrderItem';
 
 @Injectable()
 export default class OrderPublicService extends OrderService {
@@ -21,32 +21,23 @@ export default class OrderPublicService extends OrderService {
         return await this.getOrder<OrderPublic>(qb, searchParams, OrderPublic);
     }
 
-    public async addOrderItem(
-        orderItem: CreateOrderItemDTO,
+    public async addOrderItems(
+        orderItems: CreateOrderItemDTO[],
         sid: SessionI['sid'],
         searchParams: QueriesCommon,
     ): Promise<OrderPublic> {
-        const res = await this.orderRepo.findOneBy({
-            sid,
-            status: OrderStatus.INIT,
-        });
+        const res = await this.orderRepo.findOneBy({ sid, status: OrderStatus.INIT });
 
-        if (res) {
-            // order is existed
-            const { list, id } = res;
+        if (res) { // order is existed
+            const filteredItems = orderItems.filter(
+                ({ product }) => !res.items.find(({ product: { id } }) => id === product)
+            );
 
-            if (list.some(({ product }) => product.id == orderItem.product)) {
-                // order item already at order
-                throw new BadRequestException('product already exists');
-            } else {
-                // add order item
-                await this.orderItemRepo.save({ order_id: id, ...orderItem } as DeepPartial<ProductEntity>);
-            }
-        } else {
-            // create new order
+            await this.orderItemRepo.save(filteredItems.map(i => ({ order_id: res.id, ...i }) as DeepPartial<OrderItemEntity>));
+        } else { // create new order
             const { id: order_id } = await this.createOrder(sid);
 
-            await this.orderItemRepo.save({ order_id, ...orderItem } as DeepPartial<ProductEntity>);
+            await this.orderItemRepo.save({ order_id, ...orderItems } as DeepPartial<OrderItemEntity>);
         }
 
         return await this.getCart(sid, searchParams);
@@ -64,9 +55,9 @@ export default class OrderPublicService extends OrderService {
     }
 
     public async postOrder({ order: { id }, customer }: CreateOrderDTO, sid: SessionI['sid']): Promise<UpdateResult> {
-        const { list } = await this.orderRepo.findOneBy({ id });
+        const { items } = await this.orderRepo.findOneBy({ id });
 
-        list.forEach(({ product: { id } }) => this.productService.incrementProductOrderCount(id));
+        items.forEach(({ product: { id } }) => this.productService.incrementProductOrderCount(id));
 
         return this.orderRepo.update({ id, sid }, { status: OrderStatus.POSTED, customer });
     }

@@ -40,11 +40,11 @@ export default class OrderService {
         resConstructor?: any,
     ): Promise<C> {
         const res = await qb
-            .leftJoinAndSelect('order.list', 'list')
-            .leftJoinAndSelect('list.product', 'p')
+            .leftJoinAndSelect('order.items', 'items')
+            .leftJoinAndSelect('items.product', 'p')
             .leftJoinAndSelect('p.title', 'title')
             .leftJoinAndSelect('p.images', 'images')
-            .orderBy('list.created_at', 'ASC')
+            .orderBy('items.created_at', 'ASC')
             .getOne();
 
         return res

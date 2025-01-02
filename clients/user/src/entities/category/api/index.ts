@@ -1,12 +1,10 @@
 import { CategoryModel } from "../model/interfaces";
 import { PaginationModel } from "@shared/models/Pagination";
 import { ProductCardModel } from "@entities/product/model/interfaces";
-import serverAPI from "@shared/api/api_server";
+import serverAPI from "@shared/api/serverApi";
 
 export async function getCategoryList(): Promise<CategoryModel[]> {
-    const data = await serverAPI.get<CategoryModel[]>('/category/list');
-
-    return data.data;
+    return (await serverAPI.get<CategoryModel[]>('/category/list')).data;
 }
 
 export async function getProductListByCategory(
@@ -23,7 +21,5 @@ export async function getProductListByCategory(
 }
 
 export async function getCategory(categoryUR: CategoryModel['url']): Promise<CategoryModel> {
-    const res = await serverAPI.get<CategoryModel>(`/category/${categoryUR}`);
-
-    return res.data;
+    return (await serverAPI.get<CategoryModel>(`/category/${categoryUR}`)).data;
 }

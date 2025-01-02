@@ -1,3 +1,5 @@
+'use client';
+
 import { Copy, Share2 } from "lucide-react";
 import { FC, useState } from "react";
 

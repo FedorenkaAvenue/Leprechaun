@@ -21,7 +21,7 @@ const Dashboard: FC<Props> = ({ contentType }) => {
             renderProductCard={product => (
                 <ProductCardPreview
                     product={product}
-                    renderOptions={({ id }) => <WishlistItemAdd productId={id} />}
+                    renderBottomOptions={({ id }) => <WishlistItemAdd productId={id} />}
                 />
             )}
         />

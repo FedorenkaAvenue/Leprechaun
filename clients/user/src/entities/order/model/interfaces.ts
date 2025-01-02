@@ -12,7 +12,7 @@ export interface OrderItemModel {
 export interface CartModel {
     id: string,
     status: OrderStatusModel,
-    list: OrderItemModel[],
+    items: OrderItemModel[],
     summary: {
         price: number,
         productsAmount: number
