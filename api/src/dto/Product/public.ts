@@ -35,7 +35,9 @@ class Base implements ProductPublicBaseI {
     @ApiProperty({ type: Label, isArray: true })
     labels: LabelI[];
 
-    constructor({ id, title, price, status }: Pick<ProductEntity, 'id' | 'title' | 'price' | 'status'>, lang: QueriesCommon['lang']) {
+    constructor({
+        id, title, price, status,
+    }: Pick<ProductEntity, 'id' | 'title' | 'price' | 'status'>, lang: QueriesCommon['lang']) {
         this.id = id;
         this.title = title[lang];
         this.price = price;
@@ -50,7 +52,7 @@ export class ProductPreviewPublic extends Base implements ProductPreviewPublicI 
 
     constructor({ images, ...base }: ProductEntity, lang: QueriesCommon['lang']) {
         super(base, lang);
-        this.image = (images[0] as ImageEntity)?.src;
+        this.image = images.find(({ is_main }) => is_main).src;
     }
 }
 

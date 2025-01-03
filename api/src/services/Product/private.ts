@@ -17,7 +17,7 @@ export default class ProductPrivateService extends ProductService {
         const {
             id,
             title: { id: _titleID, ...titles },
-            description: { id: _descID, ...descriptions }
+            description: { id: _descID, ...descriptions },
         } = createdProduct;
 
         if (images) {

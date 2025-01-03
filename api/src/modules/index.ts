@@ -10,7 +10,6 @@ import PropertyGroupModule from './PropertyGroup';
 import PropertyModule from './Property';
 import ImageModule from './Image';
 import AdminModule from './Admin';
-import UserModule from './User';
 import OrderModule from './Order';
 import WishlistModule from './Wishlist';
 import ScheduleModule from './Sheduler';
@@ -24,7 +23,6 @@ import ProductPrivateController from '@controllers/Product/private';
 import CategoryPrivateController from '@controllers/Category/private';
 import PropertyPrivateController from '@controllers/Property/private';
 import ProductPublicController from '@controllers/Product/public';
-import UserPublicController from '@controllers/User/public';
 import OrderPublicController from '@controllers/Order/public';
 import WishlistPublicController from '@controllers/Wishlist/public';
 import HistoryPublicController from '@controllers/History/public';
@@ -49,7 +47,6 @@ import UncaughtExceptionFilter from '@filters/UncaughtException';
         DashboardModule,
         OrderModule,
         WishlistModule,
-        UserModule,
         HistoryModule,
         PropertyGroupModule,
         PropertyModule,
@@ -78,7 +75,6 @@ export default class AppModule implements NestModule {
             .apply(session(this.configService.getSessionConfig()))
             .forRoutes(
                 ProductPublicController,
-                UserPublicController,
                 OrderPublicController,
                 WishlistPublicController,
                 HistoryPublicController,

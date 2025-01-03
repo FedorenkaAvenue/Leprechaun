@@ -1,5 +1,6 @@
 import { SessionI } from './Session';
 
-export interface UserPublicI {
-    session: SessionI['sid'];
+export interface UserI {
+    id: string
+    sid: SessionI
 }

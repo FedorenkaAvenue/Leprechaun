@@ -24,7 +24,7 @@ export class ImageService {
      */
     public async addImageArr(productId: string, imgArr: string[]): Promise<void> {
         try {
-            await Promise.all(imgArr.map(imgUrl => this.addImage(new Image(productId, imgUrl))));
+            await Promise.all(imgArr.map((imgUrl, i) => this.addImage(new Image(productId, imgUrl, i === 0))));
         } catch (err) {
             throw new InternalServerErrorException(err);
         }

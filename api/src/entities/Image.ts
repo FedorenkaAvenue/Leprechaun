@@ -19,4 +19,8 @@ export class ImageEntity implements ImageI {
     @JoinColumn({ name: 'product_id', referencedColumnName: 'id' })
     @ApiProperty()
     product_id: ProductI['id'];
+
+    @Column({ default: false })
+    @ApiProperty()
+    is_main: boolean;
 }
