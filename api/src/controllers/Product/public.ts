@@ -13,7 +13,7 @@ import ProductPublicService from '@services/Product/public';
 import { PaginationResult } from '@dto/Pagination';
 import { ApiPaginatedResponseDecorator as ApiPaginatedResponse } from '@decorators/OpenAPI';
 import InvalidPaginationPageInterceptor from '@interceptors/InvalidPaginationPage';
-import SessionProductHistoryInterceptor from '@interceptors/SessionProductHistory';
+import ProductHistoryInterceptor from '@interceptors/SessionProductHistory';
 import Queries from '@decorators/Query';
 import { QueriesProductList } from '@dto/Queries';
 import { ProductSort } from '@enums/Query';
@@ -66,7 +66,7 @@ export default class ProductPublicController {
 
     @Get(':productId')
     @UseInterceptors(CacheInterceptor)
-    @UseInterceptors(SessionProductHistoryInterceptor)
+    @UseInterceptors(ProductHistoryInterceptor)
     @ApiOperation({ summary: 'get public product by ID 💾' })
     @ApiOkResponse({ type: ProductPublic })
     @ApiBadRequestResponse({ description: 'invalid product ID' })

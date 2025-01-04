@@ -1,8 +1,10 @@
+'use server'
+
 import { ProductPreviewModel } from "@entities/product/model/interfaces";
-import clientAPI from "@shared/api/clientApi";
+import serverAPI from "@shared/api/serverApi";
 
 export async function getProductHistory(): Promise<ProductPreviewModel[]> {
-    const res = await clientAPI.get<ProductPreviewModel[]>('/history/product');
+    const res = await serverAPI.get<ProductPreviewModel[]>('/history/product');
 
     return res.data;
 }

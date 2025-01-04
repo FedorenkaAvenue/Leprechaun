@@ -9,7 +9,7 @@ import { ProductI } from '@interfaces/Product';
  * @description set product to history
  */
 @Injectable()
-export default class SessionProductHistoryInterceptor implements NestInterceptor {
+export default class ProductHistoryInterceptor implements NestInterceptor {
     constructor(private readonly historyService: HistoryPublicService) { }
 
     intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
