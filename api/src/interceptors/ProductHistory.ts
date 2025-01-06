@@ -21,18 +21,15 @@ export default class ProductHistoryInterceptor implements NestInterceptor {
     intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
         return next.handle().pipe(
             tap(async ({ id }: ProductI) => {
-                const {
-                    session: { ip },
-                    sessionID,
-                } = context.switchToHttp().getRequest() as Request;
+                const { session: { ip }, sessionID } = context.switchToHttp().getRequest() as Request;
 
                 if (!ip) return;
 
                 this.historyService.addHistoryItem(id, sessionID);
 
-                const productPreview = await this.productPublicService.getProductPreview(id, 'ru');
+                const productPreview = await this.productPublicService.getProductPreview(id, 'en');
 
-                this.eventPublicService.pushToProductHistory(productPreview);
+                this.eventPublicService.pushToProductHistory(sessionID, productPreview);
             }),
         );
     }
