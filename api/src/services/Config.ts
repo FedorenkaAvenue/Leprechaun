@@ -4,12 +4,12 @@ import { CorsOptions } from '@nestjs/common/interfaces/external/cors-options.int
 import { SessionOptions } from 'express-session';
 import SMTPTransport from 'nodemailer/lib/smtp-transport';
 import * as session from 'express-session';
-import * as redisCacheStore from 'cache-manager-redis-store';
+import { redisStore } from 'cache-manager-redis-yet';
 import { Pool as PGPool } from 'pg';
 import { PostgresConnectionCredentialsOptions } from 'typeorm/driver/postgres/PostgresConnectionCredentialsOptions';
 import { memoryStorage } from 'multer';
 import { MulterModuleOptions } from '@nestjs/platform-express';
-import { CacheModuleOptions } from '@nestjs/cache-manager';
+import { CacheModuleAsyncOptions, CacheOptions, CacheStore } from '@nestjs/cache-manager';
 const pgConnect = require('connect-pg-simple');
 
 const ENV_ARRAY_SPLIT_SYMBOL = ',';
@@ -109,11 +109,14 @@ export default class ConfigService {
     /**
      * @description get cache manager config
      */
-    public getCacheStoreConfig(): CacheModuleOptions {
+    public async getCacheStoreConfig(): Promise<CacheOptions> {
         return {
-            store: redisCacheStore as any,
-            host: this.getVal('CACHE_HOST'),
-            port: this.getVal('CACHE_PORT'),
+            store: await redisStore({
+                socket: {
+                    host: this.getVal('CACHE_HOST') as string,
+                    port: Number(this.getVal('CACHE_PORT')),
+                },
+            }),
             auth_pass: this.getVal('CACHE_PASSWORD'),
             ttl: +this.getVal('DEFAULT_CACHE_TTL'),
             max: 1000,

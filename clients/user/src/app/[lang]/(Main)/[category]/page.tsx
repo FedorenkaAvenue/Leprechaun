@@ -1,17 +1,26 @@
+import { Metadata } from "next";
+
 import { getCategory, getProductListByCategory } from "@entities/category/api";
+import { RouteProps } from "@shared/models/router";
 import { Pagination } from "@shared/ui/Pagination";
 import ProductCatalogueCard from "@widgets/product/ui/ProductCatalogueCard";
 
-interface Props {
-    params: Promise<{ category: string }>
-    searchParams: Promise<{ page: string | undefined }>
+type Props = RouteProps<{ category: string }, { page: string | undefined }>;
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+    const { title } = await getCategory((await params).category);
+
+    return { title };
 }
 
 export default async function Category({ params, searchParams }: Props) {
     const { category: categoryURL } = await params;
     const { page } = await searchParams;
-    const category = await getCategory(categoryURL);
-    const products = await getProductListByCategory(categoryURL, page);
+
+    const [category, products] = await Promise.all([
+        getCategory(categoryURL),
+        getProductListByCategory(categoryURL, page),
+    ]);
 
     return (
         <div className="flex flex-col gap-4">

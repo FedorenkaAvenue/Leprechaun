@@ -16,6 +16,7 @@ import ProductListPage from '@pages/product/ui/ProductTable';
 import ProductPage from "@pages/product/ui/Product";
 import DashboardPage from "@pages/dashboard/ui/Dashboard";
 import ToolsPage from "@pages/tools/ui/Tools";
+import SocketsPage from "@pages/connections/Sockets";
 
 const routerConfig = createBrowserRouter([
     {
@@ -94,6 +95,10 @@ const routerConfig = createBrowserRouter([
                         element: <ProductPage />,
                     }
                 ],
+            },
+            {
+                path: 'connections',
+                element: <SocketsPage />,
             },
             {
                 path: "",

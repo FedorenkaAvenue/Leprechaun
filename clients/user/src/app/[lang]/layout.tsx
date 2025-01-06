@@ -1,5 +1,6 @@
 import { FC, PropsWithChildren } from "react";
 import { HydrationBoundary, QueryClient, dehydrate } from "@tanstack/react-query";
+import dynamic from "next/dynamic";
 
 import '../globals.css';
 import { inter } from "@shared/lib/fonts";
@@ -13,17 +14,25 @@ import { CART_QUERY } from "@entities/order/constants/queryKeys";
 import { getCart } from "@entities/order/api";
 import { PRODUCT_HISTORY_QUERY } from "@entities/history/constants/queryKeys";
 import { getProductHistory } from "@entities/history/api";
+import { Metadata } from "next";
+import { APP_NAME } from "@shared/constants/content";
+import { RouteProps } from "@shared/models/router";
 
-interface Props {
-    params: { lang: string }
+const Socket = dynamic(() => import('./socket'));
+
+export const metadata: Metadata = {
+    title: {
+        template: `%s | ${APP_NAME}`,
+        default: APP_NAME as string,
+    },
 }
 
-const RootLayout: FC<PropsWithChildren<Props>> = async ({ params, children }) => {
+const RootLayout: FC<PropsWithChildren<RouteProps>> = async ({ params, children }) => {
     const { lang } = await params;
     const dict = await getDictionary(lang);
     const queryClient = new QueryClient({
         defaultOptions: {
-            queries: { staleTime: Infinity },
+            queries: { staleTime: 5 * 60 * 1000 },
         },
     });
 
@@ -41,9 +50,9 @@ const RootLayout: FC<PropsWithChildren<Props>> = async ({ params, children }) =>
                         <I18nProvider dictionary={dict} lang={lang}>
                             {children}
                         </I18nProvider>
+                        <Socket />
                     </HydrationBoundary>
                 </QueryClientProvider>
-
             </body>
         </html>
     );

@@ -8,10 +8,12 @@ const data: Translates = {
         history: 'History',
     },
     cart: {
+        cart: 'Cart',
         emptyCart: 'Empty cart',
     },
     wishList: {
-        wishlists: 'Wish lists',
+        wishlist: 'Wishlist',
+        wishlists: 'Wishlists',
         emptyList: 'Empty list',
         myList: 'My list',
         addedToList: 'Added to',

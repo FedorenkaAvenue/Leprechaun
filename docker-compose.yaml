@@ -27,11 +27,13 @@ services:
     extends:
       file: docker-compose.shared.yaml
       service: node
-    command: yarn dev
+    command: npm run dev
     volumes:
       - ./api:/app
     environment:
       - IS_DEV=true
+    ports:
+      - 9999:8080
 
   client_user:
     restart: unless-stopped

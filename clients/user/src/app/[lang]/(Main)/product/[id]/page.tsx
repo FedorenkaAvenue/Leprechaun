@@ -1,13 +1,18 @@
-import { FC } from 'react';
+import { Metadata } from 'next';
 
 import ProductOverview from '@widgets/product/ui/ProductOverview';
 import { getProduct } from '@entities/product/api';
+import { RouteProps } from '@shared/models/router';
 
-interface Props {
-    params: Promise<{ id: string }>
+type Props = RouteProps<{ id: string }>
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+    const { title } = await getProduct((await params).id);
+
+    return { title };
 }
 
-const Product: FC<Props> = async ({ params }) => {
+export default async function Product({ params }: Props) {
     const { id } = await params;
     const product = await getProduct(id);
 
@@ -16,6 +21,4 @@ const Product: FC<Props> = async ({ params }) => {
             <ProductOverview product={product} />
         </div>
     );
-};
-
-export default Product;
+}

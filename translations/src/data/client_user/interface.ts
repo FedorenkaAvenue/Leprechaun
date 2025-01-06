@@ -6,9 +6,11 @@ type Translates = {
         history: string,
     },
     cart: {
+        cart: string,
         emptyCart: string,
     },
     wishList: {
+        wishlist: string,
         wishlists: string,
         emptyList: string,
         myList: string,

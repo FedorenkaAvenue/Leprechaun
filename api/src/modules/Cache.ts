@@ -15,4 +15,4 @@ import ConfigService from '@services/Config';
     providers: [CacheService],
     exports: [CacheService, CacheNestModule],
 })
-export default class Cachemodule { }
+export default class CacheModule { }

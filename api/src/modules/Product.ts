@@ -9,11 +9,12 @@ import ProductPrivateService from '@services/Product/private';
 import ImageModule from '@modules/Image';
 import HistoryModule from './History';
 import ProductService from '@services/Product';
+import EventModule from './Event';
 
 @Module({
-    imports: [TypeOrmModule.forFeature([ProductEntity]), ImageModule, HistoryModule],
+    imports: [TypeOrmModule.forFeature([ProductEntity]), ImageModule, HistoryModule, EventModule],
     controllers: [ProductPublicController, ProductPrivateController],
     providers: [ProductPublicService, ProductPrivateService, ProductService],
     exports: [ProductPublicService, ProductPrivateService, ProductService],
 })
-export default class ProductModule {}
+export default class ProductModule { }

@@ -14,6 +14,7 @@ import CheckroomIcon from '@mui/icons-material/Checkroom';
 import { Outlet, useLocation, useNavigate } from 'react-router-dom';
 import Divider from '@mui/material/Divider';
 import BuildIcon from '@mui/icons-material/Build';
+import BluetoothAudioIcon from '@mui/icons-material/BluetoothAudio';
 
 import BreadCrumbs from '@widgets/navigation/ui/BreadCrumbs';
 import routerSubConfig from '@shared/config/router';
@@ -21,7 +22,7 @@ import routerSubConfig from '@shared/config/router';
 const NAVIGATION = [
     {
         kind: 'header',
-        title: 'Tools',
+        title: 'Entities',
     },
     {
         segment: 'dashboard',
@@ -69,10 +70,15 @@ const NAVIGATION = [
         title: routerSubConfig.tools.title,
         icon: <BuildIcon />,
     },
-    // {
-    //     kind: 'header',
-    //     title: 'Analytics',
-    // },
+    {
+        kind: 'header',
+        title: 'Analytics',
+    },
+    {
+        segment: 'connections',
+        title: 'Connections',
+        icon: <BluetoothAudioIcon />,
+    }
     // {
     //     segment: 'reports',
     //     title: 'Reports',

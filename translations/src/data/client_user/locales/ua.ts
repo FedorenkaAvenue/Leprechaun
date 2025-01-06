@@ -8,9 +8,11 @@ const data: Translates = {
         history: 'Історія',
     },
     cart: {
+        cart: 'Кошик',
         emptyCart: 'Порожнiй кошик',
     },
     wishList: {
+        wishlist: 'Список бажань',
         wishlists: 'Списки бажань',
         emptyList: 'Порожнiй список',
         myList: 'Мiй список',

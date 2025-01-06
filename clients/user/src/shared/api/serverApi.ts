@@ -1,7 +1,9 @@
 import axios from "axios";
 import { cookies } from "next/headers";
 
-const serverAPI = axios.create({ baseURL: process.env.DOMAIN_API });
+import { SERVER_DOMAIN_API } from "../constants/api";
+
+const serverAPI = axios.create({ baseURL: SERVER_DOMAIN_API });
 
 serverAPI.interceptors.request.use(
     async conf => {
@@ -12,6 +14,7 @@ serverAPI.interceptors.request.use(
             lang: cookieStore.get('lang')?.value,
             portion: cookieStore.get('portion')?.value,
         };
+        conf.fetchOptions = { next: { revalidate: 60 }, };
 
         return conf;
     }

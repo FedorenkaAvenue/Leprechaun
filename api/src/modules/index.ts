@@ -18,6 +18,7 @@ import HistoryModule from './History';
 import CacheModule from './Cache';
 // import FilterModule from './Filter';
 import ToolModule from './Tool';
+import EventModule from './Event';
 import CacheResetMiddleware from '@middlewares/CacheReset';
 import ProductPrivateController from '@controllers/Product/private';
 import CategoryPrivateController from '@controllers/Category/private';
@@ -55,6 +56,7 @@ import UncaughtExceptionFilter from '@filters/UncaughtException';
         AdminModule,
         SessionModule,
         CacheModule,
+        EventModule,
     ],
     providers: [
         {

@@ -1,9 +1,8 @@
 import axios from 'axios';
 
-const clientAPI = axios.create({
-    baseURL: process.env.NEXT_PUBLIC_DOMAIN_API,
-    withCredentials: true,
-});
+import { CLIENT_DOMAIN_API } from '../constants/api';
+
+const clientAPI = axios.create({ baseURL: CLIENT_DOMAIN_API, withCredentials: true });
 
 // apiClient.interceptors.response.use(
 //     (response) => {
