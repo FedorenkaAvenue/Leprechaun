@@ -16,7 +16,6 @@ import ScheduleModule from './Sheduler';
 import SessionModule from './Session';
 import HistoryModule from './History';
 import CacheModule from './Cache';
-// import FilterModule from './Filter';
 import ToolModule from './Tool';
 import EventModule from './Event';
 import CacheResetMiddleware from '@middlewares/CacheReset';
@@ -32,6 +31,7 @@ import DashboardPublicController from '@controllers/Dashboard/public';
 import { TransEntity } from '@entities/Trans';
 import ConfigService from '@services/Config';
 import UncaughtExceptionFilter from '@filters/UncaughtException';
+import { HTTPLogMiddleware } from '@middlewares/HTTPLog';
 
 @Module({
     imports: [
@@ -44,7 +44,6 @@ import UncaughtExceptionFilter from '@filters/UncaughtException';
         TypeOrmModule.forFeature([TransEntity]),
         CategoryModule,
         ProductModule,
-        // FilterModule,
         DashboardModule,
         OrderModule,
         WishlistModule,
@@ -69,6 +68,10 @@ export default class AppModule implements NestModule {
     constructor(private readonly configService: ConfigService) { }
 
     configure(consumer: MiddlewareConsumer) {
+        if (this.configService.isDev) {
+            consumer.apply(HTTPLogMiddleware).forRoutes('*');
+        }
+
         consumer
             .apply(CacheResetMiddleware)
             .exclude({ path: '(.*)', method: RequestMethod.GET })

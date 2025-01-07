@@ -29,7 +29,7 @@ export default class ProductHistoryInterceptor implements NestInterceptor {
 
                 const productPreview = await this.productPublicService.getProductPreview(id, 'en');
 
-                this.eventPublicService.pushToProductHistory(sessionID, productPreview);
+                this.eventPublicService.pushToProductHistory('100', productPreview);
             }),
         );
     }

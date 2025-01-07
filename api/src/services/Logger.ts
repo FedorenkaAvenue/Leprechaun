@@ -11,6 +11,12 @@ type LogT = LogLevel | 'info';
  */
 @Injectable()
 export default class LoggerService extends ConsoleLogger {
+    static contextsToIgnore = ['InstanceLoader', 'RoutesResolver', 'RouterExplorer', 'NestFactory'];
+
+    public log(_: any, context?: string): void {
+        if (!LoggerService.contextsToIgnore.includes(context)) super.log.apply(this, arguments);
+    }
+
     public info(message: string): void {
         this.writeLog(message, 'info');
     }

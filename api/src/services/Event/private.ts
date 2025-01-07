@@ -4,7 +4,7 @@ import { instrument } from "@socket.io/admin-ui";
 
 import { singleConfigService } from '@services/Config';
 
-@WebSocketGateway(8080, {
+@WebSocketGateway(81, {
     cors: { origin: '*' },
     namespace: 'admin',
     transports: ['websocket'],

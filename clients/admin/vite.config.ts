@@ -7,9 +7,5 @@ export default defineConfig({
     plugins: [react(), tsconfigPaths()],
     server: {
         port: 80,
-        hmr: {
-            host: 'localhost',
-            clientPort: 5173,
-        }
     }
 })

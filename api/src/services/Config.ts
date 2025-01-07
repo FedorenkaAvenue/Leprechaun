@@ -9,7 +9,8 @@ import { Pool as PGPool } from 'pg';
 import { PostgresConnectionCredentialsOptions } from 'typeorm/driver/postgres/PostgresConnectionCredentialsOptions';
 import { memoryStorage } from 'multer';
 import { MulterModuleOptions } from '@nestjs/platform-express';
-import { CacheModuleAsyncOptions, CacheOptions, CacheStore } from '@nestjs/cache-manager';
+import { CacheOptions } from '@nestjs/cache-manager';
+import { RedisClientOptions } from 'redis';
 const pgConnect = require('connect-pg-simple');
 
 const ENV_ARRAY_SPLIT_SYMBOL = ',';
@@ -121,6 +122,14 @@ export default class ConfigService {
             ttl: +this.getVal('DEFAULT_CACHE_TTL'),
             max: 1000,
             db: +this.getVal('CACHE_DB_NUMBER'),
+        };
+    }
+
+    public getSocketStoreConfig(): RedisClientOptions {
+        return {
+            url: `redis://${this.getVal('SOCKET_HOST')}:${+this.getVal('SOCKET_PORT')}`,
+            // password: this.getVal('SOCKET_PASSWORD') as string,
+            database: +this.getVal('SOCKET_DB_NUMBER'),
         };
     }
 

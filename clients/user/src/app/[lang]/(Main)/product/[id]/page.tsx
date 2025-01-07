@@ -6,11 +6,11 @@ import { RouteProps } from '@shared/models/router';
 
 type Props = RouteProps<{ id: string }>
 
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
-    const { title } = await getProduct((await params).id);
+// export async function generateMetadata({ params }: Props): Promise<Metadata> {
+//     const { title } = await getProduct((await params).id); // dont do with cause api create two product histories
 
-    return { title };
-}
+//     return { title };
+// }
 
 export default async function Product({ params }: Props) {
     const { id } = await params;

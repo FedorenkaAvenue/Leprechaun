@@ -32,8 +32,6 @@ services:
       - ./api:/app
     environment:
       - IS_DEV=true
-    ports:
-      - 9999:8080
 
   client_user:
     restart: unless-stopped
@@ -42,8 +40,6 @@ services:
       service: node
     working_dir: /app
     command: yarn dev
-    ports:
-      - 3000:80
     volumes:
       # - client_user_trans_hosting:/app/src/public/locales:rw
       # - ./translations/dist/client_user:/app/src/public/locales
@@ -72,8 +68,6 @@ services:
       - DOMAIN
       - VITE_DOMAIN_API=${DOMAIN_API}
       - VITE_DOMAIN_MEDIA=${DOMAIN_MEDIA}
-    ports:
-      - 5173:80
     networks:
       - client
     depends_on:
