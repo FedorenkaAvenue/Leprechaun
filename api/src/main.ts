@@ -21,7 +21,7 @@ async function runServer() {
     // OpenAPI
     const config = new DocumentBuilder()
         .setTitle(singleConfigService.getAppName())
-        .setDescription(`💾 - cached |  🧑‍💻 - user |  🤵🏿‍♂️ - admin`)
+        .setDescription(`🧑‍💻 - user |  🤵🏿‍♂️ - admin |  🧷 - init session  |  💾 - cached`)
         .build();
     const document = SwaggerModule.createDocument(app, config, {
         ignoreGlobalPrefix: true,

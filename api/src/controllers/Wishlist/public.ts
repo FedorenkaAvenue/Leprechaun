@@ -10,10 +10,11 @@ import { DeleteResult, UpdateResult } from 'typeorm';
 import WishlistPublicService from '@services/Wishlist/public';
 import AffectedResultInterceptor from '@interceptors/AffectedResult';
 import { WishlistItemPublic } from '@dto/WishlistItem/public';
-import SessionGuard from '@guards/Session';
+import AuthGuard from '@guards/Auth';
 import Queries from '@decorators/Query';
 import { QueriesWishlist } from '@dto/Queries';
 import { CreateWishlistDTO, UpdateWishlistDTO, WishlistPublic } from '@dto/Wishlist/public';
+import SessionInitInterceptor from '@interceptors/SessionInit';
 
 @Controller('wishlist')
 @ApiTags('Wishlist 🧑‍💻')
@@ -32,8 +33,8 @@ export default class WishlistPublicController {
     }
 
     @Post()
-    @UseGuards(SessionGuard)
-    @ApiOperation({ summary: 'create new wishlist' })
+    @UseInterceptors(SessionInitInterceptor)
+    @ApiOperation({ summary: 'create new wishlist 🧷' })
     @ApiCookieAuth()
     @ApiOkResponse({ type: WishlistPublic })
     private createWishlist(
@@ -45,7 +46,7 @@ export default class WishlistPublicController {
     }
 
     @Patch(':wishlistID')
-    @UseGuards(SessionGuard)
+    @UseGuards(AuthGuard)
     @UseInterceptors(AffectedResultInterceptor('wishlist is not found', NotFoundException))
     @ApiOperation({ summary: 'update wishlist' })
     @ApiCookieAuth()
@@ -59,7 +60,7 @@ export default class WishlistPublicController {
     }
 
     @Delete(':wishlistID')
-    @UseGuards(SessionGuard)
+    @UseGuards(AuthGuard)
     @UseInterceptors(AffectedResultInterceptor('wishlist is not found', NotFoundException))
     @ApiOperation({ summary: 'delete wishlist' })
     @ApiCookieAuth()
@@ -72,8 +73,8 @@ export default class WishlistPublicController {
     }
 
     @Post('/item/:productID')
-    @UseGuards(SessionGuard)
-    @ApiOperation({ summary: 'add product to default wishlist' })
+    @UseInterceptors(SessionInitInterceptor)
+    @ApiOperation({ summary: 'add product to default wishlist 🧷' })
     @ApiCookieAuth()
     @ApiOkResponse({ type: WishlistItemPublic })
     @ApiNotAcceptableResponse({ description: 'product is already added to wishlist' })
@@ -86,7 +87,7 @@ export default class WishlistPublicController {
     }
 
     @Delete('/item/:wishlistItemID')
-    @UseGuards(SessionGuard)
+    @UseGuards(AuthGuard)
     @UseInterceptors(AffectedResultInterceptor('wishlist item was not found'))
     @ApiOperation({ summary: 'remove wishlist item from wishlist' })
     @ApiCookieAuth()

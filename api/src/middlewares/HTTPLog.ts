@@ -13,7 +13,7 @@ export class HTTPLogMiddleware implements NestMiddleware {
         this.loggserService.setContext('HTTP_REQUEST');
         const { method, originalUrl } = request;
 
-        this.loggserService.log(`${method} ${originalUrl}`);
+        this.loggserService.verbose(`${method} ${originalUrl}`);
 
         response.on('finish', () => {
             this.loggserService.setContext('HTTP_RESPONSE');

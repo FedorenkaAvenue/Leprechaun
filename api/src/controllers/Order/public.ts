@@ -1,27 +1,17 @@
 import {
-    Body,
-    Controller,
-    Delete,
-    Get,
-    Param,
-    ParseUUIDPipe,
-    Patch,
-    Post,
-    Session,
-    UseGuards,
-    UseInterceptors,
-    ValidationPipe,
+    Body, Controller, Delete, Get, Param, ParseUUIDPipe, Patch, Post, Session, UseGuards, UseInterceptors, ValidationPipe,
 } from '@nestjs/common';
 import { ApiBody, ApiCookieAuth, ApiNotFoundResponse, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { UpdateResult } from 'typeorm';
 
 import OrderPublicService from '@services/Order/public';
 import AffectedResultInterceptor from '@interceptors/AffectedResult';
-import SessionGuard from '@guards/Session';
+import AuthGuard from '@guards/Auth';
 import Queries from '@decorators/Query';
 import { QueriesCommon } from '@dto/Queries';
 import { CreateOrderItemDTO, UpdateOrderItemDTO } from '@dto/OrderItem/public';
 import { CreateOrderDTO, OrderPublic } from '@dto/Order/public';
+import SessionInitInterceptor from '@interceptors/SessionInit';
 
 @Controller('order')
 @ApiTags('Order 🧑‍💻')
@@ -45,8 +35,8 @@ export default class OrderPublicController {
     }
 
     @Post('items')
-    @UseGuards(SessionGuard)
-    @ApiOperation({ summary: 'add new order items' })
+    @UseInterceptors(SessionInitInterceptor)
+    @ApiOperation({ summary: 'add new order items 🧷' })
     @ApiCookieAuth()
     @ApiBody({ type: CreateOrderItemDTO, isArray: true })
     @ApiOkResponse({ type: OrderPublic })
@@ -59,7 +49,7 @@ export default class OrderPublicController {
     }
 
     @Patch('item/:itemID')
-    @UseGuards(SessionGuard)
+    @UseGuards(AuthGuard)
     @ApiOperation({ summary: 'change order item amount' })
     @ApiCookieAuth()
     @ApiOkResponse({ type: OrderPublic })
@@ -73,7 +63,7 @@ export default class OrderPublicController {
     }
 
     @Post()
-    @UseGuards(SessionGuard)
+    @UseGuards(AuthGuard)
     @UseInterceptors(AffectedResultInterceptor())
     @ApiOperation({ summary: 'send order' })
     @ApiCookieAuth()
@@ -86,7 +76,7 @@ export default class OrderPublicController {
     }
 
     @Delete('item/:itemID')
-    @UseGuards(SessionGuard)
+    @UseGuards(AuthGuard)
     @ApiOperation({ summary: 'delete order item' })
     @ApiCookieAuth()
     @ApiOkResponse({ type: OrderPublic })

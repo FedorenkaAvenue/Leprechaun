@@ -5,7 +5,6 @@ import { APP_FILTER } from '@nestjs/core';
 
 import CategoryModule from './Category';
 import ProductModule from './Product';
-import DashboardModule from './Dashboard';
 import PropertyGroupModule from './PropertyGroup';
 import PropertyModule from './Property';
 import ImageModule from './Image';
@@ -22,16 +21,14 @@ import CacheResetMiddleware from '@middlewares/CacheReset';
 import ProductPrivateController from '@controllers/Product/private';
 import CategoryPrivateController from '@controllers/Category/private';
 import PropertyPrivateController from '@controllers/Property/private';
-import ProductPublicController from '@controllers/Product/public';
-import OrderPublicController from '@controllers/Order/public';
-import WishlistPublicController from '@controllers/Wishlist/public';
-import HistoryPublicController from '@controllers/History/public';
-import SesssionInitMiddleware from '@middlewares/SessionInit';
-import DashboardPublicController from '@controllers/Dashboard/public';
 import { TransEntity } from '@entities/Trans';
 import ConfigService from '@services/Config';
 import UncaughtExceptionFilter from '@filters/UncaughtException';
 import { HTTPLogMiddleware } from '@middlewares/HTTPLog';
+import OrderPublicController from '@controllers/Order/public';
+import ProductPublicController from '@controllers/Product/public';
+import WishlistPublicController from '@controllers/Wishlist/public';
+import HistoryPublicController from '@controllers/History/public';
 
 @Module({
     imports: [
@@ -44,7 +41,6 @@ import { HTTPLogMiddleware } from '@middlewares/HTTPLog';
         TypeOrmModule.forFeature([TransEntity]),
         CategoryModule,
         ProductModule,
-        DashboardModule,
         OrderModule,
         WishlistModule,
         HistoryModule,
@@ -83,10 +79,6 @@ export default class AppModule implements NestModule {
                 OrderPublicController,
                 WishlistPublicController,
                 HistoryPublicController,
-                DashboardPublicController,
             );
-        consumer
-            .apply(SesssionInitMiddleware)
-            .forRoutes(WishlistPublicController, OrderPublicController, HistoryPublicController);
     }
 }

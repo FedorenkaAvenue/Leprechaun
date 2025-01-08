@@ -1,11 +1,6 @@
 import { Controller, Get, Param, ParseUUIDPipe, UseInterceptors } from '@nestjs/common';
 import {
-    ApiBadRequestResponse,
-    ApiNotFoundResponse,
-    ApiOkResponse,
-    ApiOperation,
-    ApiQuery,
-    ApiTags,
+    ApiBadRequestResponse, ApiNotFoundResponse, ApiOkResponse, ApiOperation, ApiQuery, ApiTags,
 } from '@nestjs/swagger';
 import { CacheInterceptor } from '@nestjs/cache-manager';
 
@@ -19,6 +14,7 @@ import { QueriesProductList } from '@dto/Queries';
 import { ProductSort } from '@enums/Query';
 import { ProductStatusE } from '@enums/Product';
 import { ProductCardPublic, ProductPublic } from '@dto/Product/public';
+import SessionInitInterceptor from '@interceptors/SessionInit';
 
 @Controller('product')
 @ApiTags('Product 🧑‍💻')
@@ -65,9 +61,10 @@ export default class ProductPublicController {
     }
 
     @Get(':productId')
+    @UseInterceptors(SessionInitInterceptor)
     @UseInterceptors(CacheInterceptor)
     @UseInterceptors(ProductHistoryInterceptor)
-    @ApiOperation({ summary: 'get public product by ID 💾' })
+    @ApiOperation({ summary: 'get public product by ID 💾 🧷' })
     @ApiOkResponse({ type: ProductPublic })
     @ApiBadRequestResponse({ description: 'invalid product ID' })
     @ApiNotFoundResponse({ description: 'product not found' })

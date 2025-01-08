@@ -42,9 +42,9 @@ export class EventPublicService implements OnGatewayConnection, OnGatewayDisconn
     }
 
     async handleConnection(client: Socket): Promise<void> {
-        const cookie = client.handshake.headers.cookie;
+        // const cookie = client.handshake.headers.cookie;
 
-        console.log(cookie);
+        // console.log(cookie);
 
         // if (cookie) {
         //     await this.redisClient.hSet('user_sockets', 100, client.id);

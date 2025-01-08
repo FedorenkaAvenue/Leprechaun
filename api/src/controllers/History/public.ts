@@ -4,7 +4,7 @@ import { DeleteResult } from 'typeorm';
 
 import HistoryPublicService from '@services/History/public';
 import AffectedResultInterceptor from '@interceptors/AffectedResult';
-import SessionGuard from '@guards/Session';
+import AuthGuard from '@guards/Auth';
 import ConfigService from '@services/Config';
 import Queries from '@decorators/Query';
 import { QueriesCommon } from '@dto/Queries';
@@ -33,7 +33,7 @@ export default class HistoryPublicController {
     }
 
     @Delete('product')
-    @UseGuards(SessionGuard)
+    @UseGuards(AuthGuard)
     @UseInterceptors(AffectedResultInterceptor('history is already empty', BadRequestException))
     @ApiOperation({ summary: 'clear product history' })
     @ApiCookieAuth()
