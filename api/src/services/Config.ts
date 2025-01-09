@@ -78,27 +78,14 @@ export default class ConfigService {
         const pgSession = pgConnect(session);
         const { username, password, host, port, database } = this.getDBConnectionData();
 
-        /**
-            * @description create simple session ID (incrementing +1)
-            * @returns {Function} callback which returns session ID
-        */
-        function genSessionId(): (req: Express.Request) => string {
-            let count = 0;
-
-            return function (req: Express.Request): string {
-                return String(++count);
-            };
-        }
-
         return {
             store: new pgSession({
                 pool: new PGPool({ user: username, database, password, host, port }),
                 tableName: 'session',
             }),
-            genid: this.isDev ? genSessionId() : undefined,
             proxy: true,
             name: 'session',
-            secret: this.getVal('SESSION_COOKIE_SECRET'),
+            secret: this.getSessionSecretKey(),
             resave: false,
             unset: 'destroy',
             saveUninitialized: false,
@@ -110,6 +97,14 @@ export default class ConfigService {
                 secure: !this.isDev,
             },
         };
+    }
+
+    /**
+     * @description get cookie session secret key
+     * @return cookie session secret key
+     */
+    public getSessionSecretKey(): string {
+        return this.getVal('SESSION_COOKIE_SECRET') as string;
     }
 
     /**

@@ -46,7 +46,10 @@ export default class ProductHistoryInterceptor implements NestInterceptor {
                 if (!ip) return;
 
                 this.historyService.addHistoryItem(product.id, sessionID);
-                this.eventPublicService.pushToProductHistory(sessionID, new ProductpublicPreviewFromProductPublic(product));
+                this.eventPublicService.pushToProductHistory(
+                    sessionID,
+                    new ProductpublicPreviewFromProductPublic(product),
+                );
             }),
         );
     }

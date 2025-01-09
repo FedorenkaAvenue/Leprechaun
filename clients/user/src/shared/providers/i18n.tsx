@@ -22,11 +22,11 @@ export const I18nContext = createContext<Props>({
 export const I18nProvider: FC<PropsWithChildren<Props>> = ({ dictionary, lang, children }) => {
     const { replace } = useRouter();
 
-    const switchLocale = useCallback((newLocale: string) => {
+    const switchLocale = useCallback(async (newLocale: string) => {
         // do not use usePathname cause pathName will always trigger changing state
         const pathWithoutLocale = window.location.pathname.split('/').slice(2).join('/');
 
-        setLocaleCookie(newLocale);
+        await setLocaleCookie(newLocale);
         replace(`/${newLocale}/${pathWithoutLocale}`);
     }, []);
 
