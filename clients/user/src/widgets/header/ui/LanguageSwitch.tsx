@@ -7,13 +7,9 @@ import { LANGS } from '@shared/constants/i18n_client';
 import { useI18n } from '@shared/lib/i18n_client';
 
 const LanguageSwitch: FC = () => {
-    const { lang } = useI18n();
+    const { lang, switchLocale } = useI18n();
 
-    const handleChangeLang = useCallback((newLang: string) => {
-        const newPath = window.location.pathname.split('/').slice(2).join('/');
-        document.cookie = `lang=${newLang}; path=/;`
-        window.location.href = `/${newLang}/${newPath}`;
-    }, []);
+    const handleChangeLang = useCallback(switchLocale, []);
 
     return (
         <Select.Root defaultValue={lang} onValueChange={handleChangeLang}>

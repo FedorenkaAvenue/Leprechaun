@@ -1,7 +1,9 @@
 'use server'
 
-import { DictionaryModuleModel } from '@shared/models/i18n';
-import { LANGS } from '@shared/constants/i18n_server';
+import { cookies } from "next/headers";
+
+import { DictionaryModuleModel } from '../models/i18n';
+import { LANGS } from '../constants/i18n_server';
 
 const DICTIONARIES = LANGS.reduce<Record<string, DictionaryModuleModel>>((acc, l) => {
     return {
@@ -12,4 +14,8 @@ const DICTIONARIES = LANGS.reduce<Record<string, DictionaryModuleModel>>((acc, l
 
 export async function getDictionary(locale: string): ReturnType<DictionaryModuleModel> {
     return await DICTIONARIES[locale]();
+}
+
+export default async function setLocaleCookie(newLang: string) {
+    (await cookies()).set('lang', newLang, { httpOnly: true });
 }
