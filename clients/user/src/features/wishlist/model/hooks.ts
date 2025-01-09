@@ -106,7 +106,7 @@ export function useAddProductToWishlist(wishlistItemId: WishlistItemModel['id'])
         onSuccess: res => {
             const wishlists = queryClient.getQueryData<WishlistModel[]>([WISHLISTS_QUERY]);
 
-            if (wishlists && wishlists.length > 0) {
+            if (wishlists && wishlists.length > 0) { // for new users
                 const currWishlist = wishlists.find(({ isDefault }) => isDefault) as WishlistModel;
                 const updWislist = {
                     ...currWishlist,

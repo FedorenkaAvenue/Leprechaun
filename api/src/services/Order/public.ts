@@ -36,8 +36,9 @@ export default class OrderPublicService extends OrderService {
             await this.orderItemRepo.save(filteredItems.map(i => ({ order_id: res.id, ...i }) as DeepPartial<OrderItemEntity>));
         } else { // create new order
             const { id: order_id } = await this.createOrder(sid);
+            const mapedOrderItems = orderItems.map(o => ({ order_id, ...o }));
 
-            await this.orderItemRepo.save({ order_id, ...orderItems } as DeepPartial<OrderItemEntity>);
+            await this.orderItemRepo.save(mapedOrderItems as DeepPartial<OrderItemEntity[]>);
         }
 
         return await this.getCart(sid, searchParams);

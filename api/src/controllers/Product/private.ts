@@ -1,22 +1,8 @@
 import {
-    Body,
-    Controller,
-    Delete,
-    Get,
-    Param,
-    ParseUUIDPipe,
-    Post,
-    UploadedFiles,
-    UseInterceptors,
-    ValidationPipe,
+    Body, Controller, Delete, Get, Param, ParseUUIDPipe, Post, UploadedFiles, UseInterceptors, ValidationPipe,
 } from '@nestjs/common';
 import {
-    ApiBadRequestResponse,
-    ApiNotFoundResponse,
-    ApiOkResponse,
-    ApiOperation,
-    ApiServiceUnavailableResponse,
-    ApiTags,
+    ApiBadRequestResponse, ApiNotFoundResponse, ApiOkResponse, ApiOperation, ApiServiceUnavailableResponse, ApiTags,
     ApiUnsupportedMediaTypeResponse,
 } from '@nestjs/swagger';
 import { DeleteResult } from 'typeorm';

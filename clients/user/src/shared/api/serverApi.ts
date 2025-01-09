@@ -26,15 +26,12 @@ serverAPI.interceptors.response.use(
     async response => {
         const cookie = response.headers['set-cookie'];
 
-        console.log(response.headers);
+        if (cookie) {
+            const [cookieName, cookieValue] = cookie[0].split(';')[0].split('=');
+            const cookieStore = await cookies();
 
-
-        // if (cookie) {
-        //     const [cookieName, cookieValue] = cookie[0].split(';')[0].split('=');
-        //     const cookieStore = await cookies();
-
-        //     cookieStore.set(cookieName, cookieValue);
-        // }
+            cookieStore.set(cookieName, cookieValue);
+        }
 
         return response;
     },
