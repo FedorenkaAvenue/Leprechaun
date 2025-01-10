@@ -38,6 +38,8 @@ const data: Translates = {
         rename: 'Rename',
         edit: 'Edit',
         save: 'Save',
+        previous: 'Previous',
+        next: 'Next',
     },
     errors: {
         textMinLength: 'Text is to small (min $1 character)',

@@ -2,7 +2,7 @@
 
 import * as DropdownMenuPrimitive from "@radix-ui/react-dropdown-menu"
 import { Check, ChevronRight, Circle } from "lucide-react"
-import { ComponentPropsWithoutRef, ElementRef, forwardRef, HTMLAttributes, ReactNode } from "react"
+import { ComponentPropsWithoutRef, ElementRef, forwardRef, HTMLAttributes, ReactNode, useCallback, useState } from "react"
 import { DialogProps } from "@radix-ui/react-dialog"
 
 import cn from "@shared/lib/cn"
@@ -176,15 +176,20 @@ const MenuItemWishDialog = forwardRef<
     ElementRef<typeof DropdownMenuPrimitive.Item>,
     ComponentPropsWithoutRef<typeof MenuItem> & { dialog: ReactNode, onOpenChange?: DialogProps['onOpenChange'] }
 >(({ dialog, children, onSelect, onOpenChange, ...itemProps }, ref) => {
+    const [isOpen, setOpen] = useState(false);
+
+    const selectMenuItem = useCallback((e: Event): void => {
+        e.preventDefault();
+        onSelect?.call(null, e);
+        setOpen(() => true);
+    }, [onSelect]);
+
     return (
-        <Dialog.Root onOpenChange={onOpenChange}>
+        <Dialog.Root open={isOpen} onOpenChange={setOpen}>
             <Dialog.Trigger asChild>
                 <Dropdown.MenuItem
                     ref={ref}
-                    onSelect={e => {
-                        e.preventDefault();
-                        onSelect?.call(null, e);
-                    }}
+                    onSelect={selectMenuItem}
                     {...itemProps}
                 >
                     {children}

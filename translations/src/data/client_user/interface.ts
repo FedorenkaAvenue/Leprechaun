@@ -36,6 +36,8 @@ type Translates = {
         rename: string,
         edit: string,
         save: string,
+        previous: string,
+        next: string,
     },
     errors: {
         textMinLength: string,

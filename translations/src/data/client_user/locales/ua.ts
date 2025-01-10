@@ -38,6 +38,8 @@ const data: Translates = {
         rename: 'Перейменувати',
         edit: 'Редагувати',
         save: 'Зберегти',
+        previous: 'Попередня',
+        next: 'Наступна',
     },
     errors: {
         textMinLength: 'Текст занадто малий (мiнiмум $1 символ)',
