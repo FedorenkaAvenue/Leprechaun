@@ -1,10 +1,10 @@
 import { FC, PropsWithChildren } from "react";
 import { HydrationBoundary, QueryClient, dehydrate } from "@tanstack/react-query";
 import dynamic from "next/dynamic";
+import { Metadata } from "next";
 
 import '../globals.css';
 import { inter } from "@shared/lib/fonts";
-import cn from "@shared/lib/cn";
 import { getDictionary } from "@shared/lib/i18n_server";
 import { I18nProvider } from "@shared/providers/i18n";
 import QueryClientProvider from "@shared/providers/QueryClient";
@@ -14,9 +14,10 @@ import { CART_QUERY } from "@entities/order/constants/queryKeys";
 import { getCart } from "@entities/order/api";
 import { PRODUCT_HISTORY_QUERY } from "@entities/history/constants/queryKeys";
 import { getProductHistory } from "@entities/history/api";
-import { Metadata } from "next";
 import { APP_NAME } from "@shared/constants/content";
 import { RouteProps } from "@shared/models/router";
+import { cn } from "@shared/ui/primitives/lib/utils";
+import { Toaster } from "@primitives/ui/toaster";
 
 const Socket = dynamic(() => import('./socket'));
 
@@ -54,6 +55,7 @@ const RootLayout: FC<PropsWithChildren<RouteProps>> = async ({ params, children 
                     </HydrationBoundary>
                 </QueryClientProvider>
             </body>
+            <Toaster />
         </html>
     );
 }

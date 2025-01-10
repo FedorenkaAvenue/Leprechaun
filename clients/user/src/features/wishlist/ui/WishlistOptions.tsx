@@ -4,10 +4,12 @@ import { EllipsisVertical } from 'lucide-react';
 import { WishlistModel } from '@entities/wishlist/model/interfaces';
 import { useI18n } from '@shared/lib/i18n_client';
 import IconButton from '@shared/ui/IconButton';
-import Dropdown from '@shared/ui/DropdownMenu';
 import { useRemoveWishlist, useUpdateWishlist } from '../model/hooks';
 import WishlistCU from './WishlistCU';
 import useAddWishlistItemsToCart from '../lib/useAddWishlistItemsToCart';
+import {
+    DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuItemWishDialog, DropdownMenuTrigger,
+} from '@primitives/ui/dropdown-menu';
 
 interface Props {
     wishlist: WishlistModel
@@ -20,12 +22,12 @@ const WishlistOptions: FC<Props> = ({ wishlist }) => {
     const { addWishlistItemsToCart, isDisableToAdd } = useAddWishlistItemsToCart(wishlist.id);
 
     return (
-        <Dropdown.Menu>
-            <Dropdown.MenuTrigger asChild>
+        <DropdownMenu>
+            <DropdownMenuTrigger asChild>
                 <IconButton><EllipsisVertical /></IconButton>
-            </Dropdown.MenuTrigger>
-            <Dropdown.MenuContent className="w-56">
-                <Dropdown.MenuItemWishDialog
+            </DropdownMenuTrigger>
+            <DropdownMenuContent className="w-56">
+                <DropdownMenuItemWishDialog
                     dialog={
                         <WishlistCU
                             handleSubmit={update}
@@ -38,24 +40,24 @@ const WishlistOptions: FC<Props> = ({ wishlist }) => {
                     }
                 >
                     {dictionary?.common.edit}
-                </Dropdown.MenuItemWishDialog>
+                </DropdownMenuItemWishDialog>
                 {!isDisableToAdd && (
-                    <Dropdown.MenuItem onClick={addWishlistItemsToCart}>
+                    <DropdownMenuItem onClick={addWishlistItemsToCart}>
                         {dictionary?.wishList.buyAllItems}
-                    </Dropdown.MenuItem>
+                    </DropdownMenuItem>
                 )}
                 {!wishlist?.isDefault && (
                     <>
-                        <Dropdown.MenuItem onClick={() => update({ isDefault: true })}>
+                        <DropdownMenuItem onClick={() => update({ isDefault: true })}>
                             {dictionary?.wishList.makeListAsDefault}
-                        </Dropdown.MenuItem>
-                        <Dropdown.MenuItem onClick={() => remove()}>
+                        </DropdownMenuItem>
+                        <DropdownMenuItem onClick={() => remove()}>
                             {dictionary?.common.remove}
-                        </Dropdown.MenuItem>
+                        </DropdownMenuItem>
                     </>
                 )}
-            </Dropdown.MenuContent>
-        </Dropdown.Menu>
+            </DropdownMenuContent>
+        </DropdownMenu>
     );
 };
 

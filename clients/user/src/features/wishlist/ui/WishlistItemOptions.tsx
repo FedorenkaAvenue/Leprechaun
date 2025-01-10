@@ -2,10 +2,10 @@ import { FC } from 'react';
 import { EllipsisVertical } from 'lucide-react';
 
 import { WishlistItemModel } from '@entities/wishlist/model/interfaces';
-import Dropdown from '@shared/ui/DropdownMenu';
 import IconButton from '@shared/ui/IconButton';
 import { useI18n } from '@shared/lib/i18n_client';
 import { useRemoveProductFromWishlist } from '../model/hooks';
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@primitives/ui/dropdown-menu';
 
 interface Props {
     itemId: WishlistItemModel['id']
@@ -16,16 +16,16 @@ const WishlistItemOptions: FC<Props> = ({ itemId }) => {
     const { mutate: remove } = useRemoveProductFromWishlist();
 
     return (
-        <Dropdown.Menu>
-            <Dropdown.MenuTrigger asChild>
+        <DropdownMenu>
+            <DropdownMenuTrigger asChild>
                 <IconButton><EllipsisVertical /></IconButton>
-            </Dropdown.MenuTrigger>
-            <Dropdown.MenuContent className="w-56">
-                <Dropdown.MenuItem onClick={() => remove(itemId)}>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent className="w-56">
+                <DropdownMenuItem onClick={() => remove(itemId)}>
                     {dictionary?.common.remove}
-                </Dropdown.MenuItem>
-            </Dropdown.MenuContent>
-        </Dropdown.Menu>
+                </DropdownMenuItem>
+            </DropdownMenuContent>
+        </DropdownMenu>
     );
 };
 

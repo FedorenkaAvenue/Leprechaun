@@ -2,10 +2,10 @@ import { FC, ReactNode } from "react";
 import Image from 'next/image';
 
 import { ProductCardModel, ProductPreviewModel } from "../model/interfaces";
-import { Card as CardUI, CardContent } from "@shared/ui/Card";
 import Price from "@shared/ui/Price";
 import ProductLabel from "./ProductLabel";
 import AppLink from '@shared/ui/AppLink';
+import { Card as CardUI, CardContent } from '@primitives/ui/card';
 
 type ProductType = ProductCardModel | ProductPreviewModel
 

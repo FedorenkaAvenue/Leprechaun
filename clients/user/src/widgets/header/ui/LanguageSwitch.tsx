@@ -2,9 +2,9 @@
 
 import { FC, useCallback } from 'react';
 
-import Select from "@shared/ui/Select";
 import { LANGS } from '@shared/constants/i18n_client';
 import { useI18n } from '@shared/lib/i18n_client';
+import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from '@primitives/ui/select';
 
 const LanguageSwitch: FC = () => {
     const { lang, switchLocale } = useI18n();
@@ -12,18 +12,18 @@ const LanguageSwitch: FC = () => {
     const handleChangeLang = useCallback(switchLocale, []);
 
     return (
-        <Select.Root defaultValue={lang} onValueChange={handleChangeLang}>
-            <Select.Trigger className='w-16'>
-                <Select.Value />
-            </Select.Trigger>
-            <Select.Content>
-                <Select.Group>
+        <Select defaultValue={lang} onValueChange={handleChangeLang}>
+            <SelectTrigger className='w-16'>
+                <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+                <SelectGroup>
                     {LANGS.map(lang => (
-                        <Select.Item key={lang} value={lang}>{lang}</Select.Item>
+                        <SelectItem key={lang} value={lang}>{lang}</SelectItem>
                     ))}
-                </Select.Group>
-            </Select.Content>
-        </Select.Root>
+                </SelectGroup>
+            </SelectContent>
+        </Select>
     );
 };
 

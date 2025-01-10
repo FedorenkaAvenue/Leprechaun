@@ -1,8 +1,9 @@
 'use client'
 
-import { I18nContext } from '@shared/providers/i18n';
 import Link, { type LinkProps } from 'next/link';
 import { FC, PropsWithChildren, useContext } from 'react';
+
+import { I18nContext } from '@shared/providers/i18n';
 
 type Props = PropsWithChildren<LinkProps> & {
     className?: string

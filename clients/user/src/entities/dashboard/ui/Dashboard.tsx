@@ -1,8 +1,8 @@
 import { FC, ReactNode, useMemo, useState } from 'react';
 
 import { DashboardModel } from '../model/interfaces';
-import { ProductPreviewModel } from '@entities/product/models/Product';
 import { useI18n } from '@shared/lib/i18n_client';
+import { ProductPreviewModel } from '@entities/product/model/interfaces';
 
 interface Props extends DashboardModel {
     isLoading: boolean

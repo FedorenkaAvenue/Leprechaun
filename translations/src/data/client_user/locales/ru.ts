@@ -38,6 +38,7 @@ const data: Translates = {
         rename: 'Переименовать',
         edit: 'Редактировать',
         save: 'Сохранить',
+        change: 'Сменить',
         previous: 'Предыдущая',
         next: 'Следующая',
     },

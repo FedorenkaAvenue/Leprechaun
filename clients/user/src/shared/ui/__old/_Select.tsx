@@ -146,4 +146,4 @@ Separator.displayName = SelectPrimitive.Separator.displayName
 
 const Select = { Root, Group, Value, Trigger, Content, Label, Item, Separator, ScrollUpButton, ScrollDownButton };
 
-export default Select;
+// export default Select;

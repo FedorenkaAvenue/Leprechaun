@@ -1,19 +1,22 @@
 "use client"
 
+import * as React from "react"
 import * as DialogPrimitive from "@radix-ui/react-dialog"
 import { X } from "lucide-react"
-import { ComponentPropsWithoutRef, ElementRef, forwardRef, HTMLAttributes } from "react";
 
-import cn from "@shared/lib/cn";
+import { cn } from "@primitives/lib/utils"
 
-const Root = DialogPrimitive.Root
-const Trigger = DialogPrimitive.Trigger
-const Portal = DialogPrimitive.Portal
-const Close = DialogPrimitive.Close
+const Dialog = DialogPrimitive.Root
 
-const Overlay = forwardRef<
-    ElementRef<typeof DialogPrimitive.Overlay>,
-    ComponentPropsWithoutRef<typeof DialogPrimitive.Overlay>
+const DialogTrigger = DialogPrimitive.Trigger
+
+const DialogPortal = DialogPrimitive.Portal
+
+const DialogClose = DialogPrimitive.Close
+
+const DialogOverlay = React.forwardRef<
+    React.ElementRef<typeof DialogPrimitive.Overlay>,
+    React.ComponentPropsWithoutRef<typeof DialogPrimitive.Overlay>
 >(({ className, ...props }, ref) => (
     <DialogPrimitive.Overlay
         ref={ref}
@@ -24,14 +27,14 @@ const Overlay = forwardRef<
         {...props}
     />
 ))
-Overlay.displayName = DialogPrimitive.Overlay.displayName
+DialogOverlay.displayName = DialogPrimitive.Overlay.displayName
 
-const Content = forwardRef<
-    ElementRef<typeof DialogPrimitive.Content>,
-    ComponentPropsWithoutRef<typeof DialogPrimitive.Content>
+const DialogContent = React.forwardRef<
+    React.ElementRef<typeof DialogPrimitive.Content>,
+    React.ComponentPropsWithoutRef<typeof DialogPrimitive.Content>
 >(({ className, children, ...props }, ref) => (
-    <Portal>
-        <Overlay />
+    <DialogPortal>
+        <DialogOverlay />
         <DialogPrimitive.Content
             ref={ref}
             className={cn(
@@ -46,11 +49,14 @@ const Content = forwardRef<
                 <span className="sr-only">Close</span>
             </DialogPrimitive.Close>
         </DialogPrimitive.Content>
-    </Portal>
+    </DialogPortal>
 ))
-Content.displayName = DialogPrimitive.Content.displayName
+DialogContent.displayName = DialogPrimitive.Content.displayName
 
-const Header = ({ className, ...props }: HTMLAttributes<HTMLDivElement>) => (
+const DialogHeader = ({
+    className,
+    ...props
+}: React.HTMLAttributes<HTMLDivElement>) => (
     <div
         className={cn(
             "flex flex-col space-y-1.5 text-center sm:text-left",
@@ -59,9 +65,12 @@ const Header = ({ className, ...props }: HTMLAttributes<HTMLDivElement>) => (
         {...props}
     />
 )
-Header.displayName = "DialogHeader"
+DialogHeader.displayName = "DialogHeader"
 
-const Footer = ({ className, ...props }: HTMLAttributes<HTMLDivElement>) => (
+const DialogFooter = ({
+    className,
+    ...props
+}: React.HTMLAttributes<HTMLDivElement>) => (
     <div
         className={cn(
             "flex flex-col-reverse sm:flex-row sm:justify-end sm:space-x-2",
@@ -70,11 +79,11 @@ const Footer = ({ className, ...props }: HTMLAttributes<HTMLDivElement>) => (
         {...props}
     />
 )
-Footer.displayName = "DialogFooter"
+DialogFooter.displayName = "DialogFooter"
 
-const Title = forwardRef<
-    ElementRef<typeof DialogPrimitive.Title>,
-    ComponentPropsWithoutRef<typeof DialogPrimitive.Title>
+const DialogTitle = React.forwardRef<
+    React.ElementRef<typeof DialogPrimitive.Title>,
+    React.ComponentPropsWithoutRef<typeof DialogPrimitive.Title>
 >(({ className, ...props }, ref) => (
     <DialogPrimitive.Title
         ref={ref}
@@ -85,11 +94,11 @@ const Title = forwardRef<
         {...props}
     />
 ))
-Title.displayName = DialogPrimitive.Title.displayName
+DialogTitle.displayName = DialogPrimitive.Title.displayName
 
-const Description = forwardRef<
-    ElementRef<typeof DialogPrimitive.Description>,
-    ComponentPropsWithoutRef<typeof DialogPrimitive.Description>
+const DialogDescription = React.forwardRef<
+    React.ElementRef<typeof DialogPrimitive.Description>,
+    React.ComponentPropsWithoutRef<typeof DialogPrimitive.Description>
 >(({ className, ...props }, ref) => (
     <DialogPrimitive.Description
         ref={ref}
@@ -97,8 +106,17 @@ const Description = forwardRef<
         {...props}
     />
 ))
-Description.displayName = DialogPrimitive.Description.displayName
+DialogDescription.displayName = DialogPrimitive.Description.displayName
 
-const Dialog = { Root, Portal, Overlay, Close, Trigger, Content, Header, Footer, Title, Description };
-
-export default Dialog;
+export {
+    Dialog,
+    DialogPortal,
+    DialogOverlay,
+    DialogClose,
+    DialogTrigger,
+    DialogContent,
+    DialogHeader,
+    DialogFooter,
+    DialogTitle,
+    DialogDescription,
+}

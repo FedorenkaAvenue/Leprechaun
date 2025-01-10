@@ -5,9 +5,9 @@ import { CirclePlus } from 'lucide-react';
 
 import { useCreateWishlist } from '@features/wishlist/model/hooks';
 import WishlistCU from '@features/wishlist/ui/WishlistCU';
-import Dialog from '@shared/ui/Dialog';
 import { CreateWishlistDTO } from '@features/wishlist/api/dto';
 import { useI18n } from '@shared/lib/i18n_client';
+import { Dialog, DialogTrigger } from '@primitives/ui/dialog';
 
 const WishlistCreate: FC = () => {
     const [isOpen, setOpen] = useState<boolean>(false);
@@ -20,10 +20,10 @@ const WishlistCreate: FC = () => {
     }
 
     return (
-        <Dialog.Root open={isOpen} onOpenChange={setOpen}>
-            <Dialog.Trigger>
+        <Dialog open={isOpen} onOpenChange={setOpen}>
+            <DialogTrigger>
                 <CirclePlus />
-            </Dialog.Trigger>
+            </DialogTrigger>
             <WishlistCU
                 handleSubmit={submit}
                 trans={{
@@ -31,7 +31,7 @@ const WishlistCreate: FC = () => {
                     submitButton: dictionary?.common.create,
                 }}
             />
-        </Dialog.Root>
+        </Dialog>
     );
 };
 

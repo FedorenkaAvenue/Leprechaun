@@ -4,7 +4,6 @@ import * as React from "react"
 import { ChevronLeft, ChevronRight, MoreHorizontal } from "lucide-react"
 import { LinkProps } from "next/link";
 
-import cn from "@shared/lib/cn"
 import { PaginationModel } from "@shared/models/Pagination"
 import { ButtonProps, buttonVariants } from "./Button"
 import AppLink from "./AppLink";
@@ -140,4 +139,4 @@ const PaginationEllipsis = ({ className, ...props }: React.ComponentProps<"span"
 );
 PaginationEllipsis.displayName = "PaginationEllipsis";
 
-export default Pagination;
+// export default Pagination;

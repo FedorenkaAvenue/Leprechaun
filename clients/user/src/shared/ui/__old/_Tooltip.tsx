@@ -46,4 +46,4 @@ const Tooltip: React.FC<React.PropsWithChildren<Props>> = ({
     </TooltipPrimitive.Provider>
 );
 
-export default Tooltip;
+// export default Tooltip;

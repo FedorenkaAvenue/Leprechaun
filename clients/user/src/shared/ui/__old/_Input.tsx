@@ -8,7 +8,7 @@ interface Props extends ComponentProps<"input"> {
     error?: string
 }
 
-export const InputText = forwardRef<HTMLInputElement, Props>(({ className, type, error, ...props }, ref) => (
+const InputText = forwardRef<HTMLInputElement, Props>(({ className, type, error, ...props }, ref) => (
     <div>
         <input
             type={type}
@@ -25,4 +25,4 @@ export const InputText = forwardRef<HTMLInputElement, Props>(({ className, type,
 
 InputText.displayName = "InputText";
 
-export default InputText;
+// export default InputText;

@@ -2,8 +2,8 @@ import { Metadata } from "next";
 
 import { getCategory, getProductListByCategory } from "@entities/category/api";
 import { RouteProps } from "@shared/models/router";
-import Pagination from "@shared/ui/Pagination";
 import ProductCatalogueCard from "@widgets/product/ui/ProductCatalogueCard";
+import { PaginationWrapper } from "@primitives/ui/pagination";
 
 type Props = RouteProps<{ category: string }, { page: string | undefined }>;
 
@@ -35,7 +35,7 @@ export default async function Category({ params, searchParams }: Props) {
                     </li>
                 ))}
             </ul>
-            <Pagination pagination={products.pagination} />
+            <PaginationWrapper pagination={products.pagination} />
         </div>
     )
 }

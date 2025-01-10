@@ -18,6 +18,7 @@
             }
         ],
         "paths": {
+            "@primitives/*": ["./src/shared/ui/primitives/*"],
             "@shared/*": ["./src/shared/*"],
             "@entities/*": ["./src/entities/*"],
             "@features/*": ["./src/features/*"],

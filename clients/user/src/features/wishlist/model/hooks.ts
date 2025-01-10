@@ -98,16 +98,16 @@ export function useRemoveWishlist(wishlistId: WishlistModel['id']) {
     });
 }
 
-export function useAddProductToWishlist(wishlistItemId: WishlistItemModel['id']) {
+export function useAddProductToWishlist(wishlistItemId: WishlistItemModel['id'], successCallback?: () => void) {
     const queryClient = useQueryClient();
 
     return useMutation({
         mutationFn: () => addProductToWishlist(wishlistItemId),
-        onSuccess: res => {
+        onSuccess: async res => {
             const wishlists = queryClient.getQueryData<WishlistModel[]>([WISHLISTS_QUERY]);
+            const currWishlist = wishlists?.find(({ isDefault }) => isDefault);
 
-            if (wishlists && wishlists.length > 0) { // for new users
-                const currWishlist = wishlists.find(({ isDefault }) => isDefault) as WishlistModel;
+            if (wishlists && wishlists.length > 0 && currWishlist) { // for existed users
                 const updWislist = {
                     ...currWishlist,
                     items_updated_at: new Date(),
@@ -119,9 +119,11 @@ export function useAddProductToWishlist(wishlistItemId: WishlistItemModel['id'])
                     [...wishlists?.filter(({ isDefault }) => !isDefault), updWislist],
                 )
             } else {
-                queryClient.refetchQueries({ queryKey: [WISHLISTS_QUERY] });
+                await queryClient.refetchQueries({ queryKey: [WISHLISTS_QUERY] });
             }
-        },
+
+            successCallback?.call(null);
+        }
     });
 }
 
