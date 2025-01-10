@@ -1,12 +1,12 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 import {
-    addProductToWishlist, createWishlist, removeProductFromWishlist, removeWishlist, updateWishlist,
+    addWishlistItem, createWishlist, removeWishlistItem, removeWishlist, updateWishlist, moveWishlistItem,
 } from "../api";
 import { WISHLISTS_QUERY } from "@entities/wishlist/constants/queryKeys";
 import { WishlistItemModel } from "@entities/wishlist/model/interfaces";
 import { WishlistModel } from "@entities/wishlist/model/interfaces";
-import { CreateWishlistDTO, UpdateWishlistDTO } from "../api/dto";
+import { CreateWishlistDTO, UpdateWishlistDTO, WishlistItemChangeWishlistDTO } from "../api/dto";
 
 export function useCreateWishlist() {
     const queryClient = useQueryClient();
@@ -19,16 +19,14 @@ export function useCreateWishlist() {
             if (!wishlists) return queryClient.refetchQueries({ queryKey: [WISHLISTS_QUERY] });
 
             if (res.isDefault) {
-                const defaultWishlist = wishlists?.find(({ isDefault }) => isDefault);
-
-                queryClient.setQueryData(
-                    [WISHLISTS_QUERY],
+                const updatedWishlists = wishlists.reduce<WishlistModel[]>((acc, wishlist) => (
                     [
-                        ...wishlists?.filter(({ isDefault }) => !isDefault),
-                        { ...defaultWishlist, isDefault: false },
-                        res,
-                    ],
-                );
+                        wishlist.isDefault ? { ...wishlist, isDefault: false } : wishlist,
+                        ...acc,
+                    ]
+                ), []);
+
+                queryClient.setQueryData([WISHLISTS_QUERY], [...updatedWishlists, res]);
             } else {
                 queryClient.setQueryData([WISHLISTS_QUERY], [...wishlists, res]);
             }
@@ -43,7 +41,6 @@ export function useUpdateWishlist(wishlistId: WishlistModel['id']) {
         mutationFn: (updates: UpdateWishlistDTO) => updateWishlist(wishlistId, updates),
         onMutate: (updates) => {
             const wishlists = queryClient.getQueryData<WishlistModel[]>([WISHLISTS_QUERY]);
-            const updatedWishlist = wishlists?.find(({ id }) => wishlistId === id);
 
             if (!wishlists) {
                 queryClient.refetchQueries({ queryKey: [WISHLISTS_QUERY] });
@@ -51,26 +48,18 @@ export function useUpdateWishlist(wishlistId: WishlistModel['id']) {
                 return;
             }
 
-            if (!updatedWishlist?.isDefault && updates.isDefault) {
-                const defaultWishlist = wishlists?.find(({ isDefault }) => isDefault);
+            const updatedWishlists = wishlists.reduce<WishlistModel[]>((acc, wishlist) => (
+                [
+                    wishlist.id === wishlistId
+                        ? { ...wishlist, ...updates }
+                        : (updates.isDefault && wishlist.isDefault)
+                            ? { ...wishlist, isDefault: false }
+                            : wishlist,
+                    ...acc,
+                ]
+            ), []);
 
-                queryClient.setQueryData(
-                    [WISHLISTS_QUERY],
-                    [
-                        ...wishlists?.filter(({ isDefault, id }) => !isDefault && id !== wishlistId),
-                        { ...updatedWishlist, ...updates },
-                        { ...defaultWishlist, isDefault: false },
-                    ],
-                );
-            } else {
-                queryClient.setQueryData(
-                    [WISHLISTS_QUERY],
-                    [
-                        ...wishlists?.filter(({ id }) => id !== wishlistId),
-                        { ...updatedWishlist, ...updates },
-                    ],
-                );
-            }
+            queryClient.setQueryData([WISHLISTS_QUERY], updatedWishlists);
 
             return wishlists;
         },
@@ -98,26 +87,25 @@ export function useRemoveWishlist(wishlistId: WishlistModel['id']) {
     });
 }
 
-export function useAddProductToWishlist(wishlistItemId: WishlistItemModel['id'], successCallback?: () => void) {
+export function useAddWishlistItem(wishlistItemId: WishlistItemModel['id'], successCallback?: () => void) {
     const queryClient = useQueryClient();
 
     return useMutation({
-        mutationFn: () => addProductToWishlist(wishlistItemId),
+        mutationFn: () => addWishlistItem(wishlistItemId),
         onSuccess: async res => {
             const wishlists = queryClient.getQueryData<WishlistModel[]>([WISHLISTS_QUERY]);
-            const currWishlist = wishlists?.find(({ isDefault }) => isDefault);
 
-            if (wishlists && wishlists.length > 0 && currWishlist) { // for existed users
-                const updWislist = {
-                    ...currWishlist,
-                    items_updated_at: new Date(),
-                    items: [...currWishlist.items, res],
-                };
+            if (wishlists && wishlists.length > 0) { // for existed users
+                const updatedWishlists = wishlists.reduce<WishlistModel[]>((acc, wishlist) => (
+                    [
+                        wishlist.isDefault
+                            ? { ...wishlist, items: [...wishlist.items, res] }
+                            : wishlist,
+                        ...acc,
+                    ]
+                ), []);
 
-                queryClient.setQueryData(
-                    [WISHLISTS_QUERY],
-                    [...wishlists?.filter(({ isDefault }) => !isDefault), updWislist],
-                )
+                queryClient.setQueryData([WISHLISTS_QUERY], updatedWishlists);
             } else {
                 await queryClient.refetchQueries({ queryKey: [WISHLISTS_QUERY] });
             }
@@ -127,26 +115,56 @@ export function useAddProductToWishlist(wishlistItemId: WishlistItemModel['id'],
     });
 }
 
-export function useRemoveProductFromWishlist() {
+export function useMoveWishlistItem() {
     const queryClient = useQueryClient();
 
     return useMutation({
-        mutationFn: (wishlistItemId: WishlistItemModel['id']) => removeProductFromWishlist(wishlistItemId),
-        onMutate: wishlistItemId => {
+        mutationFn: (updates: WishlistItemChangeWishlistDTO) => moveWishlistItem(updates),
+        onMutate: ({ wishlistId, itemId }) => {
             const wishlists = queryClient.getQueryData<WishlistModel[]>([WISHLISTS_QUERY]);
+            const wishlistItem = wishlists?.flatMap(({ items }) => items).find(({ id }) => id === itemId);
 
-            queryClient.setQueryData(
-                [WISHLISTS_QUERY],
-                wishlists?.map<WishlistModel>(w => ({
-                    ...w,
-                    items: w.items.filter(({ id }) => id !== wishlistItemId),
-                })),
-            );
+            if (wishlists && wishlistItem) {
+                const updatedWishlists = wishlists.reduce<WishlistModel[]>((acc, wishlist) => (
+                    [
+                        wishlistId === wishlist.id
+                            ? { ...wishlist, items: [...wishlist.items, wishlistItem] }
+                            : { ...wishlist, items: wishlist.items.filter(({ id }) => id !== itemId) },
+                        ...acc
+                    ]
+                ), []);
+
+                queryClient.setQueryData([WISHLISTS_QUERY], updatedWishlists);
+            } else {
+                queryClient.refetchQueries({ queryKey: [WISHLISTS_QUERY] });
+            }
 
             return wishlists;
         },
-        onError: (err, _, prevData) => {
-            queryClient.setQueryData([WISHLISTS_QUERY], prevData);
+        onError: (err, _, prevState) => {
+            queryClient.setQueryData([WISHLISTS_QUERY], prevState);
+        },
+    });
+}
+
+export function useRemoveWishlistItem() {
+    const queryClient = useQueryClient();
+
+    return useMutation({
+        mutationFn: (wishlistItemId: WishlistItemModel['id']) => removeWishlistItem(wishlistItemId),
+        onMutate: wishlistItemId => {
+            const wishlists = queryClient.getQueryData<WishlistModel[]>([WISHLISTS_QUERY]);
+            const updatedWishlists = wishlists?.map<WishlistModel>(w => ({
+                ...w,
+                items: w.items.filter(({ id }) => id !== wishlistItemId),
+            }));
+
+            queryClient.setQueryData([WISHLISTS_QUERY], updatedWishlists);
+
+            return wishlists;
+        },
+        onError: (err, _, prevState) => {
+            queryClient.setQueryData([WISHLISTS_QUERY], prevState);
         },
     });
 }

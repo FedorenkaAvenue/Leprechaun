@@ -1,10 +1,12 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { IsNotEmpty, IsUUID } from 'class-validator';
 
 import WishlistItemEntity from '@entities/WishlistItem';
 import { QueriesWishlistI } from '@interfaces/Queries';
-import { WishlistItemPublicI } from '@interfaces/WishlistItem';
+import { WishlistItemI, WishlistItemPublicI } from '@interfaces/WishlistItem';
 import { ProductPreviewPublicI } from '@interfaces/Product';
 import { ProductPreviewPublic } from '@dto/Product/public';
+import { WishlistI } from '@interfaces/Wishlist';
 
 export class WishlistItemPublic implements WishlistItemPublicI {
     @ApiProperty()
@@ -21,4 +23,16 @@ export class WishlistItemPublic implements WishlistItemPublicI {
         this.created_at = created_at;
         this.product = new ProductPreviewPublic(product, searchParams.lang);
     }
+}
+
+export class WishlistItemMoveDTO {
+    @IsUUID()
+    @IsNotEmpty()
+    @ApiProperty({ required: true, type: 'string' })
+    itemId: WishlistItemI['id'];
+
+    @IsUUID()
+    @IsNotEmpty()
+    @ApiProperty({ required: true, type: 'string' })
+    wishlistId: WishlistI['id'];
 }

@@ -1,6 +1,6 @@
 import { useCallback, useMemo } from "react";
 
-import { useWishList } from "@entities/wishlist/model/hooks";
+import { useWishlists } from "@entities/wishlist/model/hooks";
 import { WishlistModel } from "@entities/wishlist/model/interfaces";
 import { OrderItemAddDTO } from "@features/order/api/dto";
 import { useAddOrderItems } from "@features/order/model/hook";
@@ -13,7 +13,7 @@ interface Result {
 }
 
 export default function useAddWishlistItemsToCart(wishlistId: WishlistModel['id']): Result {
-    const { data: wishlists, isFetching: wishlistsIsFetching } = useWishList();
+    const { data: wishlists, isFetching: wishlistsIsFetching } = useWishlists();
     const { mutate, isPending: addOrderItemsIsPending } = useAddOrderItems();
     const { data: cart, isFetching: cartIsFetching } = useCart();
 

@@ -2,7 +2,7 @@ import { UseQueryResult } from "@tanstack/react-query";
 import { useMemo } from "react";
 
 import { ProductCardModel } from "@entities/product/model/interfaces";
-import { useWishList } from "@entities/wishlist/model/hooks";
+import { useWishlists } from "@entities/wishlist/model/hooks";
 import { WishlistItemModel } from "@entities/wishlist/model/interfaces";
 import { WishlistModel } from "@entities/wishlist/model/interfaces";
 
@@ -12,8 +12,8 @@ interface Result {
     selectedWishlist: WishlistModel | undefined
 }
 
-export default function useAddedToWishlist(productId: ProductCardModel['id'], getWishlist: boolean): Result {
-    const { data, isFetching } = useWishList();
+export default function useAddedToWishlist(productId: ProductCardModel['id'], shouldGetSelectedWishlist: boolean): Result {
+    const { data, isFetching } = useWishlists();
 
     const selected = useMemo(
         () => data?.flatMap(({ items }) => items).find(({ product }) => product.id === productId),
@@ -21,11 +21,11 @@ export default function useAddedToWishlist(productId: ProductCardModel['id'], ge
     );
 
     const selectedWishlist = useMemo(
-        () => getWishlist && selected
+        () => shouldGetSelectedWishlist && selected
             ? data?.find(({ items }) => items.find(({ product: { id } }) => id === productId))
             : undefined
         ,
-        [getWishlist, selected],
+        [shouldGetSelectedWishlist, selected],
     );
 
     return { isFetching, selected, selectedWishlist };

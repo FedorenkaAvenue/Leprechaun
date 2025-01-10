@@ -2,13 +2,13 @@
 
 import { Suspense } from "react";
 
-import { useWishList } from "@entities/wishlist/model/hooks";
+import { useWishlists } from "@entities/wishlist/model/hooks";
 import { useI18n } from "@shared/lib/i18n_client";
 import WishlistCard from "@widgets/wishlist/ui/WishlistCard";
 import WishlistCreate from "@widgets/wishlist/ui/WIshlistCreate";
 
 const WishList = () => {
-    const { data } = useWishList();
+    const { data } = useWishlists();
     const { dictionary } = useI18n();
 
     const sortedWishlists = data?.sort(

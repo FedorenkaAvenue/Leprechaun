@@ -1,11 +1,12 @@
 import { Injectable, NotAcceptableException } from '@nestjs/common';
 import { DeepPartial, DeleteResult, FindOptionsOrder, UpdateResult } from 'typeorm';
+import { QueryDeepPartialEntity } from 'typeorm/query-builder/QueryPartialEntity';
 
 import { SessionI } from '@interfaces/Session';
 import WishlistService from '.';
 import WishlistItemEntity from '@entities/WishlistItem';
 import { WishlistItemI } from '@interfaces/WishlistItem';
-import { WishlistItemPublic } from '@dto/WishlistItem/public';
+import { WishlistItemMoveDTO, WishlistItemPublic } from '@dto/WishlistItem/public';
 import { QueriesWishlist } from '@dto/Queries';
 import { CreateWishlistDTO, UpdateWishlistDTO, WishlistPublic } from '@dto/Wishlist/public';
 import { QueriesWishlistI } from '@interfaces/Queries';
@@ -111,7 +112,16 @@ export default class WishlistPublicService extends WishlistService {
         return new WishlistItemPublic(addedItem, searchParams);
     }
 
-    public async removeItem(id: WishlistItemI['id'], sid: SessionI['sid']): Promise<DeleteResult> {
+    public async moveWishlistItems(updates: WishlistItemMoveDTO): Promise<void> {
+        const { raw } = await this.wishlistItemRepo.upsert(
+            { id: updates.itemId, wishlist: updates.wishlistId as QueryDeepPartialEntity<WishlistEntity> },
+            { conflictPaths: { id: true } },
+        );
+
+        if (raw.length === 0) throw new NotAcceptableException('wishlist item or wishlist is not exists');
+    }
+
+    public async removeWishlistItem(id: WishlistItemI['id'], sid: SessionI['sid']): Promise<DeleteResult> {
         return await this.wishlistItemRepo.delete({ id });
     }
 }

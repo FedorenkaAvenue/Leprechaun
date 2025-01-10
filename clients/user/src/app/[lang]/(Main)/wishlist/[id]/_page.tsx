@@ -2,7 +2,7 @@
 
 import { FC, Suspense } from 'react';
 
-import { useWishList } from '@entities/wishlist/model/hooks';
+import { useWishlists } from '@entities/wishlist/model/hooks';
 import { WishlistModel } from '@entities/wishlist/model/interfaces';
 import { useI18n } from '@shared/lib/i18n_client';
 import WishlistShare from '@features/wishlist/ui/WishlistShare';
@@ -18,7 +18,7 @@ interface Props {
 
 const Wishlist: FC<Props> = ({ wishlistId }) => {
     const { dictionary } = useI18n();
-    const { data } = useWishList();
+    const { data } = useWishlists();
     const currentWishlist = data?.find(({ id }) => id === wishlistId) as WishlistModel;
     const { sort, setSort, sortedItems } = useSortWishlistItems(currentWishlist.items);
 

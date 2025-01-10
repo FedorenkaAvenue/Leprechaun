@@ -29,6 +29,7 @@ import OrderPublicController from '@controllers/Order/public';
 import ProductPublicController from '@controllers/Product/public';
 import WishlistPublicController from '@controllers/Wishlist/public';
 import HistoryPublicController from '@controllers/History/public';
+import WishlistItemPublicController from '@controllers/WishlistItem/public';
 
 @Module({
     imports: [
@@ -78,6 +79,7 @@ export default class AppModule implements NestModule {
                 ProductPublicController,
                 OrderPublicController,
                 WishlistPublicController,
+                WishlistItemPublicController,
                 HistoryPublicController,
             );
     }

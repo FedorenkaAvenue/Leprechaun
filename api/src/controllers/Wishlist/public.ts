@@ -2,14 +2,11 @@ import {
     Body, Controller, Delete, Get, NotFoundException, Param, ParseUUIDPipe, Patch, Post, Session, UseGuards,
     UseInterceptors, ValidationPipe,
 } from '@nestjs/common';
-import {
-    ApiCookieAuth, ApiNotAcceptableResponse, ApiNotFoundResponse, ApiOkResponse, ApiOperation, ApiTags,
-} from '@nestjs/swagger';
+import { ApiCookieAuth, ApiNotFoundResponse, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { DeleteResult, UpdateResult } from 'typeorm';
 
 import WishlistPublicService from '@services/Wishlist/public';
 import AffectedResultInterceptor from '@interceptors/AffectedResult';
-import { WishlistItemPublic } from '@dto/WishlistItem/public';
 import AuthGuard from '@guards/Auth';
 import Queries from '@decorators/Query';
 import { QueriesWishlist } from '@dto/Queries';
@@ -70,32 +67,5 @@ export default class WishlistPublicController {
         @Session() { id }
     ): Promise<DeleteResult> {
         return this.wishlistPublicService.removeWishlist(wishlistId, id);
-    }
-
-    @Post('/item/:productID')
-    @UseInterceptors(SessionInitInterceptor)
-    @ApiOperation({ summary: 'add product to default wishlist 🧷' })
-    @ApiCookieAuth()
-    @ApiOkResponse({ type: WishlistItemPublic })
-    @ApiNotAcceptableResponse({ description: 'product is already added to wishlist' })
-    private addWishlistItem(
-        @Param('productID', ParseUUIDPipe) productId: string,
-        @Session() { id },
-        @Queries(QueriesWishlist) queries: QueriesWishlist,
-    ): Promise<WishlistItemPublic> {
-        return this.wishlistPublicService.addWishlistItem(productId, id, queries);
-    }
-
-    @Delete('/item/:wishlistItemID')
-    @UseGuards(AuthGuard)
-    @UseInterceptors(AffectedResultInterceptor('wishlist item was not found'))
-    @ApiOperation({ summary: 'remove wishlist item from wishlist' })
-    @ApiCookieAuth()
-    @ApiNotFoundResponse({ description: 'wishlist item not found' })
-    private deleteItem(
-        @Param('wishlistItemID', ParseUUIDPipe) wishlistItemID: string,
-        @Session() { id },
-    ): Promise<DeleteResult> {
-        return this.wishlistPublicService.removeItem(wishlistItemID, id);
     }
 }
