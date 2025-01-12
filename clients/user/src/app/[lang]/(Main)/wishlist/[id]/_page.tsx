@@ -23,21 +23,25 @@ const Wishlist: FC<Props> = ({ wishlistId }) => {
     const { sort, setSort, sortedItems } = useSortWishlistItems(currentWishlist.items);
 
     return (
-        <div className='flex flex-col gap-2'>
+        <div className='flex flex-col gap-4'>
             <Suspense fallback='...loading'>
                 <>
                     <div className='flex justify-between'>
                         <h1>{currentWishlist?.title || dictionary?.wishList.myList}</h1>
-                        <div>
+                        <div className='flex gap-2'>
                             <WishlistShare wishlistId={currentWishlist.id} />
                             <WishlistOptions wishlist={currentWishlist} />
                         </div>
                     </div>
-                    <div className='flex justify-between'>
-                        {currentWishlist.items.length > 0 && <WishlistAddToCart wishlistId={currentWishlist.id} />}
-                        <WishlistSortList value={sort} handleChange={setSort} />
-                    </div>
-                    <ul className='flex'>
+                    {
+                        currentWishlist.items.length > 0 && (
+                            <div className='flex justify-between'>
+                                <WishlistAddToCart wishlistId={currentWishlist.id} />
+                                <WishlistSortList value={sort} handleChange={setSort} />
+                            </div>
+                        )
+                    }
+                    <ul className='flex gap-1'>
                         {sortedItems.map(i => (
                             <li key={i.id}>
                                 <WishlistProductCard {...i} />

@@ -4,7 +4,7 @@ import Label, { LabelProps } from "@shared/ui/Label";
 import { ProductLabelModel } from "../model/enums";
 
 const labelVariants = cva(
-    'rounded-2xl',
+    'rounded',
     {
         variants: {
             type: {

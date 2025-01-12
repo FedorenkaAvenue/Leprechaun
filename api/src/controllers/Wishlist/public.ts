@@ -9,9 +9,9 @@ import WishlistPublicService from '@services/Wishlist/public';
 import AffectedResultInterceptor from '@interceptors/AffectedResult';
 import AuthGuard from '@guards/Auth';
 import Queries from '@decorators/Query';
-import { QueriesWishlist } from '@dto/Queries';
 import { CreateWishlistDTO, UpdateWishlistDTO, WishlistPublic } from '@dto/Wishlist/public';
 import SessionInitInterceptor from '@interceptors/SessionInit';
+import { QueriesCommon } from '@dto/Queries';
 
 @Controller('wishlist')
 @ApiTags('Wishlist 🧑‍💻')
@@ -24,7 +24,7 @@ export default class WishlistPublicController {
     @ApiOkResponse({ type: WishlistPublic, isArray: true })
     private getWishlists(
         @Session() { id },
-        @Queries(QueriesWishlist) queries: QueriesWishlist,
+        @Queries() queries: QueriesCommon,
     ): Promise<WishlistPublic[]> {
         return this.wishlistPublicService.getWishlists(id, queries);
     }
@@ -37,7 +37,7 @@ export default class WishlistPublicController {
     private createWishlist(
         @Body(new ValidationPipe({ transform: true })) wishlist: CreateWishlistDTO,
         @Session() { id },
-        @Queries(QueriesWishlist) queries: QueriesWishlist,
+        @Queries() queries: QueriesCommon,
     ): Promise<WishlistPublic> {
         return this.wishlistPublicService.createWishlist(wishlist, id, queries);
     }

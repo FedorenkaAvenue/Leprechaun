@@ -7,13 +7,15 @@ import { DictionaryModel } from "../models/i18n";
 import { LANGS } from "../constants/i18n_client";
 import setLocaleCookie from "../lib/i18n_server";
 
-interface Props {
+interface I18n {
     dictionary: DictionaryModel | null
     lang: string
     switchLocale: (locale: string) => void
 }
 
-export const I18nContext = createContext<Props>({
+type Props = Omit<I18n, 'switchLocale'>
+
+export const I18nContext = createContext<I18n>({
     dictionary: null,
     lang: LANGS[0],
     switchLocale: () => { },

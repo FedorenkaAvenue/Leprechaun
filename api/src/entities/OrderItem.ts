@@ -1,4 +1,4 @@
-import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
 import { ApiProperty } from '@nestjs/swagger';
 
 import { OrderI } from '@interfaces/Order';
@@ -29,4 +29,8 @@ export class OrderItemEntity implements OrderItemI {
     @Column({ default: 1, nullable: false })
     @ApiProperty({ required: true })
     amount: number;
+
+    @UpdateDateColumn()
+    @ApiProperty()
+    updated_at?: Date;
 }

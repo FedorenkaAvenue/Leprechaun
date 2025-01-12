@@ -15,6 +15,7 @@ import { TooltipWrapper } from '@primitives/ui/tooltip';
 import useAddedToWishlist from '@features/wishlist/lib/useAddedToWishlist';
 import { useAddWishlistItem, useMoveWishlistItem, useRemoveWishlistItem } from '@features/wishlist/model/hooks';
 import WishlistItemChangeList from '@features/wishlist/ui/WishlistItemChangeList';
+import { twConfig } from '@root/tailwind.config';
 
 interface WishlistItemAddProps {
     productId: ProductCardModel['id']
@@ -91,8 +92,8 @@ const WishlistItemAdd: FC<WishlistItemAddProps> = ({ productId }) => {
                             handleOpen={setHovered}
                             disabled={!Boolean(selected)}
                         >
-                            <IconButton onClick={toogle}>
-                                <Heart style={{ color: selected ? 'red' : 'gray' }} />
+                            <IconButton onClick={toogle} customIcon>
+                                <Heart style={{ color: selected && twConfig.theme.colors.achtung }} />
                             </IconButton>
                         </TooltipWrapper>
                     )

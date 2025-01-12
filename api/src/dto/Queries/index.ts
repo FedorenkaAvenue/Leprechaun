@@ -1,12 +1,7 @@
 import { BadRequestException } from '@nestjs/common';
 
 import {
-    QueriesCommonI,
-    QueriesProductListI,
-    QueriesSearchI,
-    QueriesWishlistI,
-    QueryOptionsFiltersT,
-    QueryPriceI,
+    QueriesCommonI, QueriesProductListI, QueriesSearchI, QueryOptionsFiltersT, QueryPriceI,
 } from '@interfaces/Queries';
 import { ProductSort, WishlistItemsSort } from '@enums/Query';
 import { availableEnum } from '@utils/enum';
@@ -61,15 +56,6 @@ export class QueriesProductList extends QueriesCommon implements QueriesProductL
                 .entries<string>(restQueries)
                 .reduce((acc, [k, v]) => ({ ...acc, [k]: v.split(',') }), {})
             : null;
-    }
-}
-
-export class QueriesWishlist extends QueriesCommon implements QueriesWishlistI {
-    wishlist_item_sort: WishlistItemsSort;
-
-    constructor({ wishlist_item_sort, ...restQueries }: QueriesWishlistI<string>) {
-        super(restQueries);
-        this.wishlist_item_sort = Number(wishlist_item_sort) || WishlistItemsSort.LASTEST;
     }
 }
 

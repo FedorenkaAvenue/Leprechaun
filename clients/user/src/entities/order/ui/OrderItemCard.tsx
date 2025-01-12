@@ -4,6 +4,8 @@ import { FC, ReactNode } from 'react';
 import ProductLabel from '@entities/product/ui/ProductLabel';
 import { OrderItemModel } from '../model/interfaces';
 import Price from '@shared/ui/Price';
+import { Card } from '@primitives/ui/card';
+import AppLink from '@shared/ui/AppLink';
 
 interface Props {
     item: OrderItemModel
@@ -13,20 +15,39 @@ interface Props {
 
 const OrderItemCard: FC<Props> = ({ item, renderAmount, renderOptions }) => {
     return (
-        <div className='flex gap-2 items-center'>
-            <div>
-                {item.product.labels.map((v, i) => (
-                    <ProductLabel key={i} type={v.type} value={v.value} />
-                ))}
-                <Image src={'/' + item.product.image} width="100" height="200" alt={item.product.title} />
-                <div>{item.product.title}</div>
+        <Card className='flex gap-2 justify-between h-full min-h-32' size='tiny'>
+            <div className='flex'>
+                <AppLink href={`/product/${item.product.id}`} className='flex h-full'>
+                    <Image
+                        src={'/' + item.product.image}
+                        width="100" height="100"
+                        alt={item.product.title}
+                        className='object-contain'
+                    />
+                </AppLink>
             </div>
-            <div className='flex gap-2'>
-                {renderAmount?.call(null, item)}
-                <div><Price {...item.summaryPrice} /></div>
+            <div className='flex flex-col gap-2 flex-grow justify-center items-start'>
+                <AppLink href={`/product/${item.product.id}`}>
+                    <div>{item.product.title}</div>
+                </AppLink>
+                {item.product.labels.length > 0 && (
+                    <ul>
+                        {item.product.labels.map((v, i) => (
+                            <li key={i}>
+                                <ProductLabel type={v.type} value={v.value} />
+                            </li>
+                        ))}
+                    </ul>
+                )}
             </div>
-            {renderOptions?.call(null, item)}
-        </div>
+            <div className='flex flex-col items-end justify-between h-full'>
+                {renderOptions?.call(null, item)}
+                <div className='flex gap-3'>
+                    <Price price={item.summaryPrice} classNames='text-right' />
+                    {renderAmount?.call(null, item)}
+                </div>
+            </div>
+        </Card>
     );
 };
 

@@ -9,9 +9,9 @@ export interface LabelProps {
 
 const Label = ({ classNames, value }: LabelProps) => {
     return (
-        <span className={cn("px-2 py-0.5", classNames)}>
+        <div className={cn("px-2 text-sm", classNames)}>
             {value}
-        </span>
+        </div>
     );
 };
 

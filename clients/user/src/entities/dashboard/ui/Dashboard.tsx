@@ -23,8 +23,8 @@ const Dashboard: FC<Props> = ({ title, list, isLoading, renderProductCard }) => 
 
     return (
         <div>
-            <h4 className='text-2xl mb-3'>{title}</h4>
-            <ul className='grid grid-cols-5 gap-2'>
+            <h3 className='text-2xl mb-3'>{title}</h3>
+            <ul className='flex gap-2'>
                 {visibleList?.map(i => <li key={i.id}>{renderProductCard(i)}</li>)}
             </ul>
             {

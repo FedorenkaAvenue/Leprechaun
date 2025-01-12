@@ -59,7 +59,7 @@ const WishlistCU: FC<Props> = ({ handleSubmit, trans, initForm }) => {
                         control={form.control}
                         name='isDefault'
                         render={({ field }) => (
-                            <FormItem>
+                            <FormItem className='flex gap-1 items-center'>
                                 <FormControl>
                                     <Checkbox
                                         disabled={initForm?.isDefault}
@@ -79,7 +79,7 @@ const WishlistCU: FC<Props> = ({ handleSubmit, trans, initForm }) => {
                         {dictionary?.common.cancel}
                     </Button>
                 </DialogClose>
-                <Button form='new-wishlist' type='submit' variant='default'>
+                <Button form='new-wishlist' type='submit'>
                     {trans.submitButton}
                 </Button>
             </DialogFooter>

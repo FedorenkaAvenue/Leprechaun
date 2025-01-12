@@ -10,6 +10,8 @@ const data: Translates = {
     cart: {
         cart: 'Корзина',
         emptyCart: 'Пустая корзина',
+        summaryProductAmount: 'Количество товаров',
+        summaryPrice: 'Сумма',
     },
     wishList: {
         wishlist: 'Список желаний',

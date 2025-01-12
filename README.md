@@ -59,12 +59,6 @@ Boilerplate for web store
         -   `PRICE_DOWN`: **3** (от дорогих к дешевым)
         -   `NEW`: **4** (по новинкам)
 
-    -   wishlist sort type
-
-        -   `LASTEST`: **1**, (последние добавленные)
-        -   `PRICE_UP`: **2** (от дешевых к дорогим)
-        -   `PRICE_DOWN`: **3** (от дорогих к дешевым)
-
     -   label types
 
         -   `DISCOUNT`: **discount** (скидка)

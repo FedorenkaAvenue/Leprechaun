@@ -5,11 +5,11 @@ import { Price } from '@dto/Price';
 import { OrderItemEntity } from '@entities/OrderItem';
 import { QueriesCommon } from '@dto/Queries';
 import { PriceI } from '@interfaces/Price';
-import { OrderItemI } from '@interfaces/OrderItem';
-import { ProductPreviewPublicI } from '@interfaces/Product';
+import { OrderItemI, OrderItemPublicI } from '@interfaces/OrderItem';
+import { ProductI, ProductPreviewPublicI } from '@interfaces/Product';
 import { ProductPreviewPublic } from '@dto/Product/public';
 
-export class OrderItemPublic implements OrderItemI<ProductPreviewPublicI> {
+export class OrderItemPublic implements OrderItemPublicI {
     @ApiProperty({ description: 'order item ID', required: true })
     id: string;
 
@@ -33,11 +33,11 @@ export class OrderItemPublic implements OrderItemI<ProductPreviewPublicI> {
     }
 }
 
-export class CreateOrderItemDTO implements OrderItemI<string> {
+export class CreateOrderItemDTO {
     @IsNotEmpty()
     @IsUUID()
     @ApiProperty({ description: 'product ID', required: true })
-    product: string;
+    product: ProductI['id'];
 
     @IsOptional()
     @IsNumber()

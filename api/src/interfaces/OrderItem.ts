@@ -13,8 +13,9 @@ export interface OrderItemPublicI extends BaseI {
     product: ProductPreviewPublicI;
 }
 
-export interface OrderItemI<T = ProductI> extends BaseI {
+export interface OrderItemI extends BaseI {
     order_id?: OrderI['id'];
-    product: T;
+    product: ProductI;
     created_at?: Date;
+    updated_at?: Date;
 }

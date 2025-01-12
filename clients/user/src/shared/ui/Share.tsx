@@ -5,12 +5,12 @@ import { FC } from "react";
 
 import { useI18n } from "@shared/lib/i18n_client";
 import { useCopyToClipboard } from "@uidotdev/usehooks";
-import { Button } from "./primitives/ui/button";
 import { Input } from "./primitives/ui/input";
 import { Label } from "./primitives/ui/label";
 import {
     Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger,
 } from "./primitives/ui/dialog";
+import IconButton from "./IconButton";
 
 interface Props {
     link: string
@@ -38,9 +38,7 @@ const Share: FC<Props> = ({ link }) => {
                                 <Label htmlFor="link" className="sr-only">{dictionary?.common.link}</Label>
                                 <Input id="link" defaultValue={href} readOnly />
                             </div>
-                            <Button onClick={() => copy(href)} type="submit" size="sm" className="px-3">
-                                <Copy />
-                            </Button>
+                            <IconButton onClick={() => copy(href)}><Copy size='20' /></IconButton>
                         </div>
                     )
                 }

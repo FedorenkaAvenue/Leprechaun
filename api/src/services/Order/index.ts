@@ -44,7 +44,10 @@ export default class OrderService {
             .leftJoinAndSelect('items.product', 'p')
             .leftJoinAndSelect('p.title', 'title')
             .leftJoinAndSelect('p.images', 'images')
-            .orderBy('items.created_at', 'ASC')
+            .orderBy({
+                'items.created_at': 'DESC',
+                'items.id': 'ASC', // when some items are added to cart, they have equal created_at value
+            })
             .getOne();
 
         return res

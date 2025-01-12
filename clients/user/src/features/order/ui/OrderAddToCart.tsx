@@ -8,6 +8,7 @@ import { useAddOrderItems } from "../model/hook";
 import { ProductCardModel } from '@entities/product/model/interfaces';
 import { useCart } from '@entities/order/model/hooks';
 import IconButton from '@shared/ui/IconButton';
+import { twConfig } from '@root/tailwind.config';
 
 interface Props {
     productId: ProductCardModel['id']
@@ -26,8 +27,8 @@ const OrderAddToCart: FC<Props> = ({ productId }) => {
     return isFetching
         ? <Loader />
         : (
-            <IconButton onClick={onClick}>
-                <ShoppingCartIcon style={{ color: isSelected ? 'green' : 'gray' }} />
+            <IconButton onClick={onClick} customIcon>
+                <ShoppingCartIcon style={{ color: isSelected && twConfig.theme.colors.success }} />
             </IconButton>
         );
 };

@@ -8,6 +8,8 @@ type Translates = {
     cart: {
         cart: string,
         emptyCart: string,
+        summaryProductAmount: string
+        summaryPrice: string
     },
     wishList: {
         wishlist: string,

@@ -1,11 +1,11 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { IsBoolean, IsNotEmpty, IsOptional, IsString } from 'class-validator';
 
-import { QueriesWishlistI } from '@interfaces/Queries';
 import { WishlistI, WishlistPublicI } from '@interfaces/Wishlist';
 import WishlistEntity from '@entities/Wishlist';
 import { WishlistItemPublicI } from '@interfaces/WishlistItem';
 import { WishlistItemPublic } from '@dto/WishlistItem/public';
-import { IsBoolean, IsNotEmpty, IsOptional, IsString } from 'class-validator';
+import { QueriesCommon } from '@dto/Queries';
 
 export class WishlistPublic implements WishlistPublicI {
     @ApiProperty()
@@ -26,7 +26,7 @@ export class WishlistPublic implements WishlistPublicI {
     @ApiProperty({ type: WishlistItemPublic, isArray: true })
     items: WishlistItemPublicI[];
 
-    constructor({ id, created_at, isDefault, title, items, items_updated_at }: WishlistEntity, searchParams: QueriesWishlistI) {
+    constructor({ id, created_at, isDefault, title, items, items_updated_at }: WishlistEntity, searchParams: QueriesCommon) {
         this.id = id;
         this.title = title;
         this.items_updated_at = items_updated_at;

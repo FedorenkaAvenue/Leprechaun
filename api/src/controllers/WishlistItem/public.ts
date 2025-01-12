@@ -11,8 +11,8 @@ import AffectedResultInterceptor from '@interceptors/AffectedResult';
 import { WishlistItemMoveDTO, WishlistItemPublic } from '@dto/WishlistItem/public';
 import AuthGuard from '@guards/Auth';
 import Queries from '@decorators/Query';
-import { QueriesWishlist } from '@dto/Queries';
 import SessionInitInterceptor from '@interceptors/SessionInit';
+import { QueriesCommon } from '@dto/Queries';
 
 @Controller('wishlist/item')
 @ApiTags('Wishlist item🧑‍💻')
@@ -41,7 +41,7 @@ export default class WishlistItemPublicController {
     private addWishlistItem(
         @Param('productID', ParseUUIDPipe) productId: string,
         @Session() { id },
-        @Queries(QueriesWishlist) queries: QueriesWishlist,
+        @Queries() queries: QueriesCommon,
     ): Promise<WishlistItemPublic> {
         return this.wishlistPublicService.addWishlistItem(productId, id, queries);
     }

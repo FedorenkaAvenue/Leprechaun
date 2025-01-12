@@ -17,8 +17,14 @@ export class OrderSummary implements OrderSummaryI {
     productsAmount: number;
 
     constructor(items: OrderItemI[]) {
-        this.price = items.reduce<number>((prev, { product, amount }) => product.price.current * amount + prev, 0);
-        this.productsAmount = items.length;
+        let productsAmount = 0;
+
+        this.price = items.reduce<number>((acc, { product, amount }) => {
+            productsAmount = productsAmount + amount;
+
+            return product.price.current * amount + acc;
+        }, 0);
+        this.productsAmount = productsAmount;
     }
 }
 

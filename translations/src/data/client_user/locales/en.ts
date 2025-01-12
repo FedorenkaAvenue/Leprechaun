@@ -10,6 +10,8 @@ const data: Translates = {
     cart: {
         cart: 'Cart',
         emptyCart: 'Empty cart',
+        summaryProductAmount: 'Products amount',
+        summaryPrice: 'Summary price',
     },
     wishList: {
         wishlist: 'Wishlist',

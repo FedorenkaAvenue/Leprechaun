@@ -1,9 +1,9 @@
-import type { Config } from "tailwindcss";
 import tailwindcssAnimate from 'tailwindcss-animate';
 import { PluginAPI } from "tailwindcss/types/config";
+import resolveConfig from 'tailwindcss/resolveConfig'
 
-const config: Config = {
-    darkMode: ["class"],
+/** @type {import('tailwindcss').Config} */
+const config = {
     content: [
         "./src/**/*.{js,ts,jsx,tsx,mdx}",
     ],
@@ -11,12 +11,18 @@ const config: Config = {
         colors: {
             primary: 'var(--primary)',
             'primary-foreground': 'var(--primary-foreground)',
-            secondary: 'var(--secondary)',
+            secondary: 'rgba(var(--secondary))',
             'secondary-foreground': 'var(--secondary-foreground)',
+            success: 'rgb(var(--success))',
             achtung: 'var(--achtung)',
             'achtung-foreground': 'var(--achtung-foreground)',
             'achtung-secondary': 'var(--achtung-secondary)',
             'achtung-secondary-foreground': 'var(--achtung-secondary-foreground)',
+            action: 'rgb(var(--action))',
+            'action-hover': 'rgb(var(--action-hover))',
+            overlay: 'rgba(var(--overlay))',
+            popover: 'var(--popover)',
+            'popover-foreground': 'var(--popover-foreground)',
         },
         extend: {
             colors: {
@@ -24,9 +30,7 @@ const config: Config = {
                 foreground: 'var(--foreground)'
             },
             borderRadius: {
-                lg: 'var(--radius)',
-                md: 'calc(var(--radius) - 2px)',
-                sm: 'calc(var(--radius) - 4px)'
+                DEFAULT: 'var(--frame-radius)',
             },
         }
     },
@@ -38,5 +42,7 @@ const config: Config = {
         }
     ],
 };
+
+export const twConfig = resolveConfig<typeof config>(config);
 
 export default config;

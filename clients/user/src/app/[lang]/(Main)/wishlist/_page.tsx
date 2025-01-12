@@ -28,7 +28,7 @@ const WishList = () => {
                             <ul>
                                 {
                                     sortedWishlists?.map(i => (
-                                        <li key={i.id}>
+                                        <li key={i.id} className='mb-3'>
                                             <WishlistCard wishlist={i} />
                                         </li>
                                     ))

@@ -16,7 +16,7 @@ const MainLayout: FC<PropsWithChildren> = async ({ children }) => {
                 <div className="flex justify-between">
                     <AppLink href="/">{APP_NAME}</AppLink>
                     <input className="flex-grow" />
-                    <ul className="flex gap-4">
+                    <ul className="flex items-center gap-4">
                         <LanguageSwitch />
                         <li>
                             <WishListBadge />
