@@ -6,6 +6,7 @@ import { OrderItemModel } from '../model/interfaces';
 import Price from '@shared/ui/Price';
 import { Card } from '@primitives/ui/card';
 import AppLink from '@shared/ui/AppLink';
+import { Skeleton } from '@primitives/ui/skeleton';
 
 interface Props {
     item: OrderItemModel
@@ -50,5 +51,18 @@ const OrderItemCard: FC<Props> = ({ item, renderAmount, renderOptions }) => {
         </Card>
     );
 };
+
+export const OrderItemCardSkeleton: FC = () => (
+    <Skeleton type='card' className='flex gap-2 justify-between p-2'>
+        <Skeleton className='w-24 h-24' />
+        <div className='flex flex-col gap-2 justify-center items-start flex-grow'>
+            <Skeleton className='w-40 h-5' />
+            <Skeleton className='w-40 h-5' />
+        </div>
+        <div>
+            <Skeleton />
+        </div>
+    </Skeleton>
+)
 
 export default OrderItemCard;

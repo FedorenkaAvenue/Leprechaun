@@ -5,13 +5,16 @@ import OrderAddToCart from '@features/order/ui/OrderAddToCart';
 import { ProductCardPreview } from '@entities/product/ui/ProductCards';
 import WishlistItemOptions from '@features/wishlist/ui/WishlistItemOptions';
 
-type Props = WishlistItemModel;
+interface Props {
+    item: WishlistItemModel;
+    shared?: boolean
+}
 
-const WishlistProductCard: FC<Props> = ({ product, id }) => {
+const WishlistProductCard: FC<Props> = ({ item: { product, id }, shared }) => {
     return (
         <ProductCardPreview
             product={product}
-            renderTopOptions={() => <WishlistItemOptions itemId={id} />}
+            renderTopOptions={shared ? undefined : () => <WishlistItemOptions itemId={id} />}
             renderBottomOptions={p => <OrderAddToCart productId={p.id} />}
         />
     );

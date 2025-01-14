@@ -9,7 +9,7 @@ import { getDictionary } from "@shared/lib/i18n_server";
 import { I18nProvider } from "@shared/providers/i18n";
 import QueryClientProvider from "@shared/providers/QueryClient";
 import { WISHLISTS_QUERY } from "@entities/wishlist/constants/queryKeys";
-import { getWishList } from "@entities/wishlist/api";
+import { getWishLists } from "@entities/wishlist/api";
 import { CART_QUERY } from "@entities/order/constants/queryKeys";
 import { getCart } from "@entities/order/api";
 import { PRODUCT_HISTORY_QUERY } from "@entities/history/constants/queryKeys";
@@ -38,7 +38,7 @@ const RootLayout: FC<PropsWithChildren<RouteProps>> = async ({ params, children 
     });
 
     await Promise.all<void>([
-        queryClient.prefetchQuery({ queryKey: [WISHLISTS_QUERY], queryFn: getWishList }),
+        queryClient.prefetchQuery({ queryKey: [WISHLISTS_QUERY], queryFn: getWishLists }),
         queryClient.prefetchQuery({ queryKey: [CART_QUERY], queryFn: getCart }),
         queryClient.prefetchQuery({ queryKey: [PRODUCT_HISTORY_QUERY], queryFn: getProductHistory }),
     ]);

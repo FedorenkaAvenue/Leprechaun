@@ -1,12 +1,9 @@
 'use client';
 
-import { Suspense } from "react";
-
 import { useWishlists } from "@entities/wishlist/model/hooks";
 import { useI18n } from "@shared/lib/i18n_client";
 import WishlistCard from "@widgets/wishlist/ui/WishlistCard";
 import WishlistCreate from "@widgets/wishlist/ui/WIshlistCreate";
-import Loading from "./loading";
 
 const WishList = () => {
     const { data } = useWishlists();
@@ -22,23 +19,21 @@ const WishList = () => {
                 <h1>{dictionary?.wishList.wishlists}</h1>
                 <WishlistCreate />
             </div>
-            <Suspense fallback={<Loading />}>
-                {
-                    data.length > 0
-                        ? (
-                            <ul>
-                                {
-                                    sortedWishlists?.map(i => (
-                                        <li key={i.id} className='mb-3'>
-                                            <WishlistCard wishlist={i} />
-                                        </li>
-                                    ))
-                                }
-                            </ul>
-                        )
-                        : <div>{dictionary?.wishList.emptyList}</div>
-                }
-            </Suspense>
+            {
+                data.length > 0
+                    ? (
+                        <ul>
+                            {
+                                sortedWishlists?.map(i => (
+                                    <li key={i.id} className='mb-3'>
+                                        <WishlistCard wishlist={i} />
+                                    </li>
+                                ))
+                            }
+                        </ul>
+                    )
+                    : <div>{dictionary?.wishList.emptyList}</div>
+            }
         </div>
     );
 };

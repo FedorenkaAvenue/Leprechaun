@@ -14,7 +14,7 @@ const WishlistShare: FC<Props> = ({ wishlistId }) => {
     return (
         <IconButton>
             <Suspense fallback="...loading">
-                <Share link={`/wishlist_share/${wishlistId}`} />
+                <Share link={`wishlist/share/${wishlistId}`} />
             </Suspense>
         </IconButton>
     );

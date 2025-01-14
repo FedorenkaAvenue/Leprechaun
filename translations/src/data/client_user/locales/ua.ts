@@ -25,6 +25,7 @@ const data: Translates = {
         editWishlist: 'Редагувати список',
         buyAllItems: 'Купити всi товари',
         moveItemsToAnotherList: 'Перемiстити в iнший список бажань',
+        sharedList: 'Спiльний список',
     },
     share: {
         share: 'Подiлитись',

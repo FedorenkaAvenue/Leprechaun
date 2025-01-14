@@ -25,6 +25,7 @@ const data: Translates = {
         editWishlist: 'Edit wishlist',
         buyAllItems: 'Buy all items',
         moveItemsToAnotherList: 'Move items to another wishlist',
+        sharedList: 'Shared list',
     },
     share: {
         share: 'Share',

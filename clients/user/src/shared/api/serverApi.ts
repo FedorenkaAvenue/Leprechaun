@@ -2,6 +2,7 @@
 
 import axios from "axios";
 import { cookies } from "next/headers";
+import { notFound } from "next/navigation";
 
 import { SERVER_DOMAIN_API } from "../constants/api";
 
@@ -36,8 +37,11 @@ serverAPI.interceptors.response.use(
         return response;
     },
     error => {
-        if (error.status === 401) {
-            console.log('unknown user');
+        switch (error.status) {
+            case 404:
+                notFound();
+            case 401:
+                console.log('unknown user');
         }
 
         throw error;

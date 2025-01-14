@@ -29,6 +29,17 @@ export default class WishlistPublicController {
         return this.wishlistPublicService.getWishlists(id, queries);
     }
 
+    @Get(':wishlistiD')
+    @ApiOperation({ summary: 'get wishlist by ID (for sharing wishlist)' })
+    @ApiOkResponse({ type: WishlistPublic })
+    @ApiNotFoundResponse({ description: 'wishlist not found' })
+    private getWishlist(
+        @Param('wishlistiD', ParseUUIDPipe) wishlistID: string,
+        @Queries() queries: QueriesCommon,
+    ): Promise<WishlistPublic> {
+        return this.wishlistPublicService.getWishlist(wishlistID, queries);
+    }
+
     @Post()
     @UseInterceptors(SessionInitInterceptor)
     @ApiOperation({ summary: 'create new wishlist 🧷' })

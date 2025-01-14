@@ -6,6 +6,12 @@ import { DEFAULT_LANG, LANGS } from "@shared/constants/i18n_server";
 export function middleware(request: NextRequest) {
     const { pathname } = request.nextUrl;
 
+    if (pathname.endsWith('/share')) {
+        request.nextUrl.pathname = '/wishlist';
+
+        return NextResponse.redirect(request.nextUrl);
+    }
+
     if (LANGS.some(locale => pathname.startsWith(`/${locale}/`) || pathname === `/${locale}`)) return;
 
     const cookieLang = request.cookies.get('lang');

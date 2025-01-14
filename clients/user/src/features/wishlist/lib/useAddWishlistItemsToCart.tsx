@@ -1,6 +1,5 @@
 import { useCallback, useMemo } from "react";
 
-import { useWishlists } from "@entities/wishlist/model/hooks";
 import { WishlistModel } from "@entities/wishlist/model/interfaces";
 import { OrderItemAddDTO } from "@features/order/api/dto";
 import { useAddOrderItems } from "@features/order/model/hook";
@@ -12,16 +11,14 @@ interface Result {
     isLoading: boolean
 }
 
-export default function useAddWishlistItemsToCart(wishlistId: WishlistModel['id']): Result {
-    const { data: wishlists, isFetching: wishlistsIsFetching } = useWishlists();
+export default function useAddWishlistItemsToCart(wishlist: WishlistModel): Result {
     const { mutate, isPending: addOrderItemsIsPending } = useAddOrderItems();
     const { data: cart, isFetching: cartIsFetching } = useCart();
 
-    const wishlist = useMemo(() => wishlists.find(({ id }) => id === wishlistId), [wishlists]);
-    const orderItems = useMemo(() => wishlist?.items.map<OrderItemAddDTO>(({ product: { id } }) => ({
+    const orderItems = useMemo(() => wishlist?.items?.map<OrderItemAddDTO>(({ product: { id } }) => ({
         product: id, amount: 1,
     })), [wishlist]);
-    const isDisableToAdd = useMemo(() => wishlist?.items.every(
+    const isDisableToAdd = useMemo(() => wishlist?.items?.every(
         ({ product }) => cart?.items.find(({ product: { id } }) => id === product.id)
     ), [wishlist, cart]);
 
@@ -32,6 +29,6 @@ export default function useAddWishlistItemsToCart(wishlistId: WishlistModel['id'
     return {
         addWishlistItemsToCart,
         isDisableToAdd,
-        isLoading: wishlistsIsFetching || cartIsFetching || addOrderItemsIsPending,
+        isLoading: cartIsFetching || addOrderItemsIsPending,
     };
 }

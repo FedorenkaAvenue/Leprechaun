@@ -1,4 +1,4 @@
-import { Injectable, NotAcceptableException } from '@nestjs/common';
+import { Injectable, NotAcceptableException, NotFoundException } from '@nestjs/common';
 import { DeepPartial, DeleteResult, UpdateResult } from 'typeorm';
 import { QueryDeepPartialEntity } from 'typeorm/query-builder/QueryPartialEntity';
 
@@ -22,6 +22,17 @@ export default class WishlistPublicService extends WishlistService {
         });
 
         return result.map(item => new WishlistPublic(item, searchParams));
+    }
+
+    public async getWishlist(id: WishlistI['id'], searchParams: QueriesCommon): Promise<WishlistPublic> {
+        const res = await this.wishlistRepo.findOne({
+            where: { id },
+            relations: { items: { product: { images: true } } },
+        });
+
+        if (!res) throw new NotFoundException('wishlist not found');
+
+        return new WishlistPublic(res, searchParams);
     }
 
     public async createWishlist(
