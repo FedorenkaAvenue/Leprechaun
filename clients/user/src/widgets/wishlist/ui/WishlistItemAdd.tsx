@@ -5,7 +5,7 @@ import { Heart, Loader } from 'lucide-react';
 
 import { ProductCardModel } from '@entities/product/model/interfaces';
 import { useI18n } from '@shared/lib/i18n_client';
-import { WishlistItemModel, WishlistModel } from '@entities/wishlist/model/interfaces';
+import { WishlistModel } from '@entities/wishlist/model/interfaces';
 import AppLink from '@shared/ui/AppLink';
 import IconButton from '@shared/ui/IconButton';
 import { useWishlists } from '@entities/wishlist/model/hooks';
@@ -13,9 +13,10 @@ import { useToast } from '@primitives/hooks/use-toast';
 import { ToastAction } from '@primitives/ui/toast';
 import { TooltipWrapper } from '@primitives/ui/tooltip';
 import useAddedToWishlist from '@features/wishlist/lib/useAddedToWishlist';
-import { useAddWishlistItem, useMoveWishlistItem, useRemoveWishlistItem } from '@features/wishlist/model/hooks';
+import { useAddWishlistItem, useRemoveWishlistItem } from '@features/wishlist/model/hooks';
 import WishlistItemChangeList from '@features/wishlist/ui/WishlistItemChangeList';
 import { twConfig } from '@root/tailwind.config';
+import { Dialog, DialogContent } from '@primitives/ui/dialog';
 
 interface WishlistItemAddProps {
     productId: ProductCardModel['id']
@@ -46,14 +47,21 @@ const WishlistItemAdd: FC<WishlistItemAddProps> = ({ productId }) => {
     const { dictionary } = useI18n();
     const { data: wishlists } = useWishlists();
     const { isFetching, selected, selectedWishlist } = useAddedToWishlist(productId, isHovered);
-    const { mutate: moveItem } = useMoveWishlistItem();
     const { mutate: remove } = useRemoveWishlistItem();
 
     const successfullAddCallback = useCallback(() => {
         const defaultWishlist = wishlists.find(({ isDefault }) => isDefault);
 
         toast({
-            description: `${dictionary?.wishList.addedToList} ${defaultWishlist?.title || dictionary?.wishList.myList}`,
+            description: (
+                <div>
+                    {dictionary?.wishList.addedToList}
+                    <span>&#32;</span>
+                    <AppLink href={`/wishlist/${defaultWishlist?.id}`} withAction>
+                        {defaultWishlist?.title || dictionary?.wishList.myList}
+                    </AppLink>
+                </div>
+            ),
             action: wishlists.length > 1
                 ? (
                     <ToastAction
@@ -67,21 +75,17 @@ const WishlistItemAdd: FC<WishlistItemAddProps> = ({ productId }) => {
         });
     }, [wishlists]);
 
-    const moveItemToAnotherWishlist = useCallback((wishlistId: WishlistModel['id']): void => {
-        moveItem({ wishlistId, itemId: selected?.id as WishlistItemModel['id'] });
-    }, [selected]);
-
     const toogle = useCallback(() => selected ? remove(selected?.id) : add(), [selected]);
 
     const { mutate: add } = useAddWishlistItem(productId, successfullAddCallback);
 
     return (
         <>
-            <WishlistItemChangeList
-                isOpen={isChangeWishlistOpen}
-                handleSubmit={moveItemToAnotherWishlist}
-                handleOpenChange={setChangeWishlistOpen}
-            />
+            <Dialog open={isChangeWishlistOpen} onOpenChange={setChangeWishlistOpen}>
+                <DialogContent>
+                    <WishlistItemChangeList handleOpenChange={setChangeWishlistOpen} wishlistItemId={selected?.id} />
+                </DialogContent>
+            </Dialog>
             {
                 isFetching
                     ? <Loader />

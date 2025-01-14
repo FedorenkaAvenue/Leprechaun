@@ -17,10 +17,8 @@ const MainLayout: FC<PropsWithChildren> = async ({ children }) => {
                     <AppLink href="/">{APP_NAME}</AppLink>
                     <input className="flex-grow" />
                     <ul className="flex items-center gap-4">
-                        <LanguageSwitch />
-                        <li>
-                            <WishListBadge />
-                        </li>
+                        <li><LanguageSwitch /></li>
+                        <li><WishListBadge /></li>
                         <li><CartBadge /></li>
                     </ul>
                 </div>

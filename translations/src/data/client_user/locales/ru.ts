@@ -24,6 +24,7 @@ const data: Translates = {
         newListName: 'Имя нового списка',
         editWishlist: 'Редактировать список',
         buyAllItems: 'Купить все товары',
+        moveItemsToAnotherList: 'Переместить в другой список желаний',
     },
     share: {
         share: 'Поделиться',
@@ -43,6 +44,7 @@ const data: Translates = {
         change: 'Сменить',
         previous: 'Предыдущая',
         next: 'Следующая',
+        move: 'Переместить',
     },
     errors: {
         textMinLength: 'Текст слишком мал (минимум $1 символ)',

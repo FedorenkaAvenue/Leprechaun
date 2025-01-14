@@ -182,38 +182,6 @@ const DropdownMenuShortcut = ({
 }
 DropdownMenuShortcut.displayName = "DropdownMenuShortcut"
 
-const DropdownMenuItemWishDialog = React.forwardRef<
-    React.ElementRef<typeof DropdownMenuPrimitive.Item>,
-    React.ComponentPropsWithoutRef<typeof DropdownMenuItem> & { dialog: React.ReactNode, onOpenChange?: DialogProps['onOpenChange'] }
->(({ dialog, children, onSelect, onOpenChange, ...itemProps }, ref) => {
-    const [isOpen, setOpen] = React.useState(false);
-
-    const selectMenuItem = React.useCallback((e: Event): void => {
-        e.preventDefault();
-        onSelect?.call(null, e);
-        setOpen(() => true);
-    }, [onSelect]);
-
-    return (
-        <Dialog open={isOpen} onOpenChange={setOpen}>
-            <DialogTrigger asChild>
-                <DropdownMenuItem
-                    ref={ref}
-                    onSelect={selectMenuItem}
-                    {...itemProps}
-                >
-                    {children}
-                </DropdownMenuItem>
-            </DialogTrigger>
-            <DialogPortal>
-                <DialogOverlay />
-                {dialog}
-            </DialogPortal>
-        </Dialog>
-    );
-});
-DropdownMenuItemWishDialog.displayName = 'MenuItemWishDialog';
-
 export {
     DropdownMenu,
     DropdownMenuTrigger,
@@ -230,5 +198,4 @@ export {
     DropdownMenuSubContent,
     DropdownMenuSubTrigger,
     DropdownMenuRadioGroup,
-    DropdownMenuItemWishDialog,
 }

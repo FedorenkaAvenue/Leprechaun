@@ -6,11 +6,20 @@ import { WishlistItemModel } from '../model/interfaces';
 import AppLink from '@shared/ui/AppLink';
 import { useI18n } from '@shared/lib/i18n_client';
 import { Card } from '@primitives/ui/card';
+import { Skeleton } from '@primitives/ui/skeleton';
 
 interface Props {
     wishlist: WishlistModel
     renderOption?: (wishlist: WishlistModel) => ReactNode
 }
+
+export const WishlistSkeleton: FC = () => (
+    <Skeleton className='h-44 w-full p-4 flex flex-col items-start gap-2' type='card'>
+        <Skeleton className='h-8 w-52 inline-block' />
+        <Skeleton className='h-8 w-40 inline-block' />
+        <Skeleton className='h-full w-full' />
+    </Skeleton>
+)
 
 const Item: FC<WishlistItemModel> = ({ product: { image, title } }) => (
     <li className='flex'>

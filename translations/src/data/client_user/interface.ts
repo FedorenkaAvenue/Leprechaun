@@ -22,6 +22,7 @@ type Translates = {
         newListName: string,
         editWishlist: string,
         buyAllItems: string,
+        moveItemsToAnotherList: string,
     },
     share: {
         share: string,
@@ -41,6 +42,7 @@ type Translates = {
         change: string,
         previous: string,
         next: string,
+        move: string,
     },
     errors: {
         textMinLength: string,

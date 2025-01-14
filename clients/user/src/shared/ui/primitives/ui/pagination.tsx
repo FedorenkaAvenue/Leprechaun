@@ -7,6 +7,8 @@ import { cn } from "@primitives/lib/utils"
 import { ButtonProps, buttonVariants } from "@primitives/ui/button"
 import { PaginationModel } from "@shared/models/Pagination"
 import { useI18n } from "@shared/lib/i18n_client"
+import AppLink from "@shared/ui/AppLink"
+import { LinkProps } from "next/link"
 
 const Pagination = ({ className, ...props }: React.ComponentProps<"nav">) => (
     <nav
@@ -18,10 +20,7 @@ const Pagination = ({ className, ...props }: React.ComponentProps<"nav">) => (
 )
 Pagination.displayName = "Pagination"
 
-const PaginationContent = React.forwardRef<
-    HTMLUListElement,
-    React.ComponentProps<"ul">
->(({ className, ...props }, ref) => (
+const PaginationContent = React.forwardRef<HTMLUListElement, React.ComponentProps<"ul">>(({ className, ...props }, ref) => (
     <ul
         ref={ref}
         className={cn("flex flex-row items-center gap-1", className)}
@@ -40,16 +39,11 @@ PaginationItem.displayName = "PaginationItem"
 
 type PaginationLinkProps = {
     isActive?: boolean
-} & Pick<ButtonProps, "size"> &
-    React.ComponentProps<"a">
+} & LinkProps & Pick<ButtonProps, "size"> & Omit<React.ComponentProps<"a">, 'href'>;
 
-const PaginationLink = ({
-    className,
-    isActive,
-    size = "icon",
-    ...props
-}: PaginationLinkProps) => (
-    <a
+const PaginationLink = ({ className, isActive, href, size = "icon", ...props }: PaginationLinkProps) => (
+    <AppLink
+        href={href}
         aria-current={isActive ? "page" : undefined}
         className={cn(
             buttonVariants({
@@ -60,13 +54,10 @@ const PaginationLink = ({
         )}
         {...props}
     />
-)
+);
 PaginationLink.displayName = "PaginationLink"
 
-const PaginationPrevious = ({
-    className,
-    ...props
-}: React.ComponentProps<typeof PaginationLink>) => {
+const PaginationPrevious = ({ className, ...props }: React.ComponentProps<typeof PaginationLink>) => {
     const { dictionary } = useI18n();
 
     return (
@@ -83,10 +74,7 @@ const PaginationPrevious = ({
 }
 PaginationPrevious.displayName = "PaginationPrevious"
 
-const PaginationNext = ({
-    className,
-    ...props
-}: React.ComponentProps<typeof PaginationLink>) => {
+const PaginationNext = ({ className, ...props }: React.ComponentProps<typeof PaginationLink>) => {
     const { dictionary } = useI18n();
 
     return (
@@ -103,10 +91,7 @@ const PaginationNext = ({
 }
 PaginationNext.displayName = "PaginationNext"
 
-const PaginationEllipsis = ({
-    className,
-    ...props
-}: React.ComponentProps<"span">) => (
+const PaginationEllipsis = ({ className, ...props }: React.ComponentProps<"span">) => (
     <span
         aria-hidden
         className={cn("flex h-9 w-9 items-center justify-center", className)}

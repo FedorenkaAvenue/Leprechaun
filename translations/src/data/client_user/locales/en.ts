@@ -24,6 +24,7 @@ const data: Translates = {
         newListName: 'New list name',
         editWishlist: 'Edit wishlist',
         buyAllItems: 'Buy all items',
+        moveItemsToAnotherList: 'Move items to another wishlist',
     },
     share: {
         share: 'Share',
@@ -43,6 +44,7 @@ const data: Translates = {
         change: 'Change',
         previous: 'Previous',
         next: 'Next',
+        move: 'Move',
     },
     errors: {
         textMinLength: 'Text is to small (min $1 character)',

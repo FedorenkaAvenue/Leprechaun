@@ -7,7 +7,7 @@ import { useCreateWishlist } from '@features/wishlist/model/hooks';
 import WishlistCU from '@features/wishlist/ui/WishlistCU';
 import { CreateWishlistDTO } from '@features/wishlist/api/dto';
 import { useI18n } from '@shared/lib/i18n_client';
-import { Dialog, DialogTrigger } from '@primitives/ui/dialog';
+import { Dialog, DialogContent, DialogTrigger } from '@primitives/ui/dialog';
 
 const WishlistCreate: FC = () => {
     const [isOpen, setOpen] = useState<boolean>(false);
@@ -24,13 +24,15 @@ const WishlistCreate: FC = () => {
             <DialogTrigger className='button-with-svg'>
                 <CirclePlus />
             </DialogTrigger>
-            <WishlistCU
-                handleSubmit={submit}
-                trans={{
-                    title: dictionary?.wishList.createNewList,
-                    submitButton: dictionary?.common.create,
-                }}
-            />
+            <DialogContent>
+                <WishlistCU
+                    handleSubmit={submit}
+                    trans={{
+                        title: dictionary?.wishList.createNewList,
+                        submitButton: dictionary?.common.create,
+                    }}
+                />
+            </DialogContent>
         </Dialog>
     );
 };

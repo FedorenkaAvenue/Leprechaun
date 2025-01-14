@@ -4,15 +4,15 @@
     :root {
         /* Default background color of <body />...etc */
         --background: #fff;
-        --foreground: 222.2 47.4% 11.2%;
+        --foreground: black;
 
         --primary: black;
         --primary-foreground: white;
 
-        --secondary: 241, 241, 241, 0.6;
+        --secondary: #f8f8f8;
         --secondary-foreground: #797878;
 
-        --success: 68, 178, 111;
+        --success: green;
 
         --achtung: #f84147;
         --achtung-foreground: #fff;
@@ -20,16 +20,19 @@
         --achtung-secondary: #ffa900;
         --achtung-secondary-foreground: #fff;
 
-        --overlay: 225, 225, 225, 0.4;
+        --overlay: #ededed7d;
 
-        --action: 105 160 215;
-        --action-hover: 28 109 193;
+        --action: #73afe4;
+        --action-hover: #0b5ba1;
 
         --popover: white;
         --popover-foreground: black;
 
-        --muted: 210 40% 96.1%;
-        --muted-foreground: 215.4 16.3% 46.9%;
+        --muted-primary: #e7e7e7;
+        --muted-primary-foreground: gray;
+
+        --muted-secondary: var(--secondary);
+        --muted-secondary-foreground: gray;
 
         /* --accent: 210 40% 96.1%;
         --accent-foreground: 222.2 47.4% 11.2%;
@@ -59,12 +62,6 @@
 
 --card: 0 0% 100%;
 --card-foreground: 222.2 47.4% 11.2%;
-
---popover: 0 0% 100%;
---popover-foreground: 222.2 47.4% 11.2%;
-
-/* --muted: 210 40% 96.1%;
---muted-foreground: 215.4 16.3% 46.9%;
 
 --border: 214.3 31.8% 91.4%;
 

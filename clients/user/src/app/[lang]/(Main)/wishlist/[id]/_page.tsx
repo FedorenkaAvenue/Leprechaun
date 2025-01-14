@@ -11,6 +11,7 @@ import WishlistOptions from '@features/wishlist/ui/WishlistOptions';
 import WishlistAddToCart from '@features/wishlist/ui/WishlistAddToCart';
 import WishlistSortList from '@widgets/wishlist/ui/WishlistSortList';
 import useSortWishlistItems from '@widgets/wishlist/lib/useSortWishlistItems';
+import Loading from './loading';
 
 interface Props {
     wishlistId: string
@@ -24,7 +25,7 @@ const Wishlist: FC<Props> = ({ wishlistId }) => {
 
     return (
         <div className='flex flex-col gap-4'>
-            <Suspense fallback='...loading'>
+            <Suspense fallback={<Loading />}>
                 <>
                     <div className='flex justify-between'>
                         <h1>{currentWishlist?.title || dictionary?.wishList.myList}</h1>

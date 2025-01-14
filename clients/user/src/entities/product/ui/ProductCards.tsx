@@ -6,6 +6,7 @@ import Price, { Props as PriceProps } from "@shared/ui/Price";
 import ProductLabel from "./ProductLabel";
 import AppLink from '@shared/ui/AppLink';
 import { Card as CardUI, CardContent, CardProps as CardUIProps } from '@primitives/ui/card';
+import { Skeleton } from "@primitives/ui/skeleton";
 
 type ProductType = ProductCardModel | ProductPreviewModel
 
@@ -84,6 +85,14 @@ export const ProductCardPreview: FC<ProductCardPreviewProps> = props => (
     />
 );
 
+export const ProductCardPreviewSkeleton: FC = () => (
+    <Skeleton className='flex flex-col gap-2 w-44 h-64 p-2' type='card'>
+        <Skeleton className='h-40' />
+        <Skeleton className='h-4' />
+        <Skeleton className='flex-grow h-8' />
+    </Skeleton>
+);
+
 export const ProductCard: FC<ProductCardProps> = props => (
     <Card<ProductCardModel>
         renderImages={({ images }) => (
@@ -96,4 +105,12 @@ export const ProductCard: FC<ProductCardProps> = props => (
         )}
         {...props}
     />
+);
+
+export const ProductCardSkeleton: FC = () => (
+    <Skeleton className='flex flex-col gap-2 w-44 h-64 p-2' type='card'>
+        <Skeleton className='h-40' />
+        <Skeleton className='h-4' />
+        <Skeleton className='flex-grow h-8' />
+    </Skeleton>
 );

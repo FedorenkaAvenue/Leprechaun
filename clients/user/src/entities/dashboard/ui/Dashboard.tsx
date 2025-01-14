@@ -1,8 +1,12 @@
+'use client'
+
 import { FC, ReactNode, useMemo, useState } from 'react';
 
 import { DashboardModel } from '../model/interfaces';
 import { useI18n } from '@shared/lib/i18n_client';
 import { ProductPreviewModel } from '@entities/product/model/interfaces';
+import { Skeleton } from '@primitives/ui/skeleton';
+import { ProductCardPreviewSkeleton } from '@entities/product/ui/ProductCards';
 
 interface Props extends DashboardModel {
     isLoading: boolean
@@ -38,5 +42,14 @@ const Dashboard: FC<Props> = ({ title, list, isLoading, renderProductCard }) => 
         </div>
     );
 };
+
+export const DashboardSkeleton: FC = () => (
+    <div className='flex flex-col gap-4 mb-5'>
+        <Skeleton className='h-8 w-32' />
+        <div className='flex gap-2'>
+            {[...new Array(5)].map((_, i) => <ProductCardPreviewSkeleton key={i} />)}
+        </div>
+    </div>
+);
 
 export default Dashboard;
