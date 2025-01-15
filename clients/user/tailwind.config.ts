@@ -20,6 +20,7 @@ const config = {
             'achtung-secondary-foreground': 'var(--achtung-secondary-foreground)',
             action: 'var(--action)',
             'action-hover': 'var(--action-hover)',
+            'action-active': 'var(--action-active)',
             overlay: 'var(--overlay)',
             popover: 'var(--popover)',
             'popover-foreground': 'var(--popover-foreground)',

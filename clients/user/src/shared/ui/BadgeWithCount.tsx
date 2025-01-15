@@ -1,7 +1,7 @@
-import { FC, PropsWithChildren } from "react";
+import { FC, PropsWithChildren, ReactNode } from 'react';
 
 interface Props {
-    count: number | undefined
+    count: ReactNode | undefined
 }
 
 const BadgeWithCount: FC<PropsWithChildren<Props>> = ({ count, children }) => {

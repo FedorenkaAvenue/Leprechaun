@@ -1,4 +1,4 @@
-import { ProductPreviewModel } from "@entities/product/model/interfaces";
+import { ProductPreviewModel } from '@entities/product/model/interfaces';
 
 export interface WishlistItemModel {
     id: string

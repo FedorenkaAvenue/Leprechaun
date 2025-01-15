@@ -6,30 +6,31 @@ import { useCart } from '@entities/order/model/hooks';
 import { useI18n } from '@shared/lib/i18n_client';
 import CartItem from '@widgets/order/ui/CartItem';
 import { Card } from '@primitives/ui/card';
+import Grid from '@shared/ui/Grid';
 
 const Cart: FC = () => {
     const { data } = useCart();
     const { dictionary } = useI18n();
 
-    if (typeof data === 'object' && !data) {
+    if (typeof data === 'object' && (!data || data?.items.length === 0)) {
         return (
             <div>{dictionary?.cart.emptyCart}</div>
         )
     }
 
     return (
-        <div>
+        <section>
             <h1 className='mb-6'>{dictionary?.cart.cart}</h1>
-            <div className='flex justify-between gap-4'>
-                <ul className='flex flex-col gap-4 flex-grow'>
+            <Grid className='justify-between' size='xl'>
+                <Grid direction='column' className='flex-grow'>
                     {data?.items.map(i => <li key={i.id}><CartItem {...i} /></li>)}
-                </ul>
+                </Grid>
                 <Card>
                     <div>{dictionary?.cart.summaryProductAmount}: {data?.summary.productsAmount}</div>
                     <div>{dictionary?.cart.summaryPrice}: {data?.summary.price}</div>
                 </Card>
-            </div>
-        </div>
+            </Grid>
+        </section>
     );
 };
 

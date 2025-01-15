@@ -11,6 +11,9 @@ type Translates = {
         summaryProductAmount: string
         summaryPrice: string
     }
+    order: {
+        myOrders: string
+    }
     wishList: {
         wishlist: string
         wishlists: string
@@ -55,6 +58,14 @@ type Translates = {
         byPriceDown: string
         byRating: string
         byNewest: string
+    }
+    profile: {
+        profile: string
+    }
+    history: {
+        visitedProducts: string
+        clearHistory: string
+        emptyProductList: string
     }
 }
 

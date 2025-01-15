@@ -36,7 +36,7 @@ const WishlistItemChangeList: FC<Props> = ({ wishlistItemId, handleOpenChange })
             </DialogHeader>
             <RadioGroup defaultValue={currentWishlist?.id} onValueChange={setSelected}>
                 {wishlists.map(({ id, title }) => (
-                    <div key={id} className="flex items-center space-x-2">
+                    <div key={id} className='flex items-center space-x-2'>
                         <RadioGroupItem value={id} id={id} />
                         <Label htmlFor={id}>{title}</Label>
                     </div>

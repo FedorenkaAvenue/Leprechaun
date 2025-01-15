@@ -1,10 +1,10 @@
-import { Metadata } from "next";
+import { Metadata } from 'next';
 
-import { getWishlist } from "@entities/wishlist/api"
-import WishlistAddToCart from "@features/wishlist/ui/WishlistAddToCart";
-import { getDictionary } from "@shared/lib/i18n_server";
-import { RouteProps } from "@shared/models/router";
-import WishlistProductCard from "@widgets/wishlist/ui/WishlistProductCard";
+import { getWishlist } from '@entities/wishlist/api'
+import WishlistAddToCart from '@features/wishlist/ui/WishlistAddToCart';
+import { getDictionary } from '@shared/lib/i18n_server';
+import { RouteProps } from '@shared/models/router';
+import WishlistProductCard from '@widgets/wishlist/ui/WishlistProductCard';
 
 type Props = RouteProps<{ id: string }>
 
@@ -21,7 +21,7 @@ export default async function WishlistShare({ params }: Props) {
     const [wishlist, dictionary] = await Promise.all([getWishlist(id), getDictionary(lang)]);
 
     return (
-        <div className='flex flex-col gap-4'>
+        <section className='flex flex-col gap-4'>
             <div className='flex justify-between'>
                 {
                     wishlist.title
@@ -42,6 +42,6 @@ export default async function WishlistShare({ params }: Props) {
                     </li>
                 ))}
             </ul>
-        </div>
+        </section>
     )
 }

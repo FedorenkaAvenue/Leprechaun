@@ -1,11 +1,11 @@
 'use client'
 
-import { createContext, FC, PropsWithChildren, useCallback } from "react";
-import { useRouter } from "next/navigation";
+import { createContext, FC, PropsWithChildren, useCallback } from 'react';
+import { useRouter } from 'next/navigation';
 
-import { DictionaryModel } from "../models/i18n";
-import { LANGS } from "../constants/i18n_client";
-import setLocaleCookie from "../lib/i18n_server";
+import { DictionaryModel } from '../models/i18n';
+import { LANGS } from '../constants/i18n_client';
+import setLocaleCookie from '../lib/i18n_server';
 
 interface I18n {
     dictionary: DictionaryModel | null

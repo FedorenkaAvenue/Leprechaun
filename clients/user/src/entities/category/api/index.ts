@@ -1,7 +1,7 @@
-import { CategoryModel } from "../model/interfaces";
-import { PaginationModel } from "@shared/models/Pagination";
-import { ProductCardModel } from "@entities/product/model/interfaces";
-import serverAPI from "@shared/api/serverApi";
+import { CategoryModel } from '../model/interfaces';
+import { PaginationModel } from '@shared/models/Pagination';
+import { ProductCardModel } from '@entities/product/model/interfaces';
+import serverAPI from '@shared/api/serverApi';
 
 export async function getCategoryList(): Promise<CategoryModel[]> {
     return (await serverAPI.get<CategoryModel[]>('/category/list')).data;

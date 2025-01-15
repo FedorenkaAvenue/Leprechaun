@@ -1,4 +1,4 @@
-import { OrderItemCardSkeleton } from "@entities/order/ui/OrderItemCard";
+import { OrderItemCardSkeleton } from '@entities/order/ui/OrderItemCard';
 
 export default function Loading() {
     return (

@@ -12,7 +12,7 @@
         --secondary: #f8f8f8;
         --secondary-foreground: #797878;
 
-        --success: green;
+        --success: #00a046;
 
         --achtung: #f84147;
         --achtung-foreground: #fff;
@@ -24,6 +24,7 @@
 
         --action: #73afe4;
         --action-hover: #0b5ba1;
+        --action-active: var(--success);
 
         --popover: white;
         --popover-foreground: black;

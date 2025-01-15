@@ -1,7 +1,7 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextRequest, NextResponse } from 'next/server';
 import Negotiator from 'negotiator';
 
-import { DEFAULT_LANG, LANGS } from "@shared/constants/i18n_server";
+import { DEFAULT_LANG, LANGS } from '@shared/constants/i18n_server';
 
 export function middleware(request: NextRequest) {
     const { pathname } = request.nextUrl;
@@ -36,6 +36,6 @@ export function middleware(request: NextRequest) {
 
 export const config = {
     matcher: [
-        "/((?!api|_next/static|_next/image|img/|favicon.ico).*)",
+        '/((?!api|_next/static|_next/image|img/|favicon.ico).*)',
     ],
 }

@@ -1,14 +1,15 @@
-import { ProductCardPreviewSkeleton } from "@entities/product/ui/ProductCards";
-import { Skeleton } from "@primitives/ui/skeleton";
+import { ProductCardPreviewSkeleton } from '@entities/product/ui/ProductCards';
+import { Skeleton } from '@primitives/ui/skeleton';
+import Grid from '@shared/ui/Grid';
 
 export default function Loading() {
     return (
         <div className='flex flex-col gap-4'>
-            <Skeleton className="h-8 w-60" />
+            <Skeleton className='h-8 w-60' />
             <Skeleton className='h-10 w-40' />
-            <div className='flex gap-1'>
+            <Grid>
                 {[...new Array(5)].map((_, i) => <ProductCardPreviewSkeleton key={i} />)}
-            </div>
+            </Grid>
         </div>
     )
 }

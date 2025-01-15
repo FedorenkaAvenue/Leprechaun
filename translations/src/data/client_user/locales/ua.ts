@@ -13,6 +13,9 @@ const data: Translates = {
         summaryProductAmount: 'Кiлькiсть товарiв',
         summaryPrice: 'Сума',
     },
+    order: {
+        myOrders: 'Мої замовлення',
+    },
     wishList: {
         wishlist: 'Список бажань',
         wishlists: 'Списки бажань',
@@ -57,6 +60,14 @@ const data: Translates = {
         byPriceDown: 'Від дорогих до дешевих',
         byRating: 'За рейтингом',
         byNewest: 'Новинки',
+    },
+    profile: {
+        profile: 'Профiль',
+    },
+    history: {
+        visitedProducts: 'Переглянутi товари',
+        clearHistory: 'Очистити iсторiю',
+        emptyProductList: 'У вас ще немає переглянутих товарів',
     },
 };
 

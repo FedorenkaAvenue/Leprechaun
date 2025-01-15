@@ -1,10 +1,10 @@
-import { UseQueryResult } from "@tanstack/react-query";
-import { useMemo } from "react";
+import { UseQueryResult } from '@tanstack/react-query';
+import { useMemo } from 'react';
 
-import { ProductCardModel } from "@entities/product/model/interfaces";
-import { useWishlists } from "@entities/wishlist/model/hooks";
-import { WishlistItemModel } from "@entities/wishlist/model/interfaces";
-import { WishlistModel } from "@entities/wishlist/model/interfaces";
+import { ProductCardModel } from '@entities/product/model/interfaces';
+import { useWishlists } from '@entities/wishlist/model/hooks';
+import { WishlistItemModel } from '@entities/wishlist/model/interfaces';
+import { WishlistModel } from '@entities/wishlist/model/interfaces';
 
 interface Result {
     isFetching: UseQueryResult['isFetching']

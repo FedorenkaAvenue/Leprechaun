@@ -7,6 +7,7 @@ import { useI18n } from '@shared/lib/i18n_client';
 import { ProductPreviewModel } from '@entities/product/model/interfaces';
 import { Skeleton } from '@primitives/ui/skeleton';
 import { ProductCardPreviewSkeleton } from '@entities/product/ui/ProductCards';
+import Grid from '@shared/ui/Grid';
 
 interface Props extends DashboardModel {
     isLoading: boolean
@@ -26,11 +27,11 @@ const Dashboard: FC<Props> = ({ title, list, isLoading, renderProductCard }) => 
     );
 
     return (
-        <div>
-            <h3 className='text-2xl mb-3'>{title}</h3>
-            <ul className='flex gap-2'>
+        <article>
+            <h2 className='text-2xl mb-3'>{title}</h2>
+            <Grid>
                 {visibleList?.map(i => <li key={i.id}>{renderProductCard(i)}</li>)}
-            </ul>
+            </Grid>
             {
                 !isOpen && !isLoading && list?.length as number > MAX_DASHBOARD_ITEM
                 && (
@@ -39,16 +40,16 @@ const Dashboard: FC<Props> = ({ title, list, isLoading, renderProductCard }) => 
                     </div>
                 )
             }
-        </div>
+        </article>
     );
 };
 
 export const DashboardSkeleton: FC = () => (
-    <div className='flex flex-col gap-4 mb-5'>
+    <div className='flex flex-col gap-4'>
         <Skeleton className='h-8 w-32' />
-        <div className='flex gap-2'>
+        <Grid>
             {[...new Array(5)].map((_, i) => <ProductCardPreviewSkeleton key={i} />)}
-        </div>
+        </Grid>
     </div>
 );
 

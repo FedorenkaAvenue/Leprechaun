@@ -13,8 +13,8 @@ interface Props {
 const WishlistShare: FC<Props> = ({ wishlistId }) => {
     return (
         <IconButton>
-            <Suspense fallback="...loading">
-                <Share link={`wishlist/share/${wishlistId}`} />
+            <Suspense fallback='...loading'>
+                <Share link={`profile/wishlist/share/${wishlistId}`} />
             </Suspense>
         </IconButton>
     );

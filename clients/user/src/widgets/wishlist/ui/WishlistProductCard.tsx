@@ -1,9 +1,10 @@
 import { FC } from 'react';
 
 import { WishlistItemModel } from '@entities/wishlist/model/interfaces';
-import OrderAddToCart from '@features/order/ui/OrderAddToCart';
+import CartAddItem from '@features/order/ui/CartAddItem';
 import { ProductCardPreview } from '@entities/product/ui/ProductCards';
 import WishlistItemOptions from '@features/wishlist/ui/WishlistItemOptions';
+import WishlistItemAdd from './WishlistItemAdd';
 
 interface Props {
     item: WishlistItemModel;
@@ -15,7 +16,12 @@ const WishlistProductCard: FC<Props> = ({ item: { product, id }, shared }) => {
         <ProductCardPreview
             product={product}
             renderTopOptions={shared ? undefined : () => <WishlistItemOptions itemId={id} />}
-            renderBottomOptions={p => <OrderAddToCart productId={p.id} />}
+            renderBottomOptions={p => (
+                <>
+                    {shared && <WishlistItemAdd productId={product.id} />}
+                    <CartAddItem productId={p.id} />
+                </>
+            )}
         />
     );
 };

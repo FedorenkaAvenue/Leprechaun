@@ -1,9 +1,9 @@
 'use server'
 
-import { WishlistItemModel } from "@entities/wishlist/model/interfaces";
-import { WishlistModel } from "@entities/wishlist/model/interfaces";
-import { CreateWishlistDTO, UpdateWishlistDTO, WishlistItemChangeWishlistDTO } from "./dto";
-import serverAPI from "@shared/api/serverApi";
+import { WishlistItemModel } from '@entities/wishlist/model/interfaces';
+import { WishlistModel } from '@entities/wishlist/model/interfaces';
+import { CreateWishlistDTO, UpdateWishlistDTO, WishlistItemChangeWishlistDTO } from './dto';
+import serverAPI from '@shared/api/serverApi';
 
 export async function createWishlist(wishlist: CreateWishlistDTO): Promise<WishlistModel> {
     return (await serverAPI.post<WishlistModel>('/wishlist', wishlist)).data;

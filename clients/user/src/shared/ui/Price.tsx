@@ -1,9 +1,9 @@
-import { FC } from "react";
-import { cva, VariantProps } from "class-variance-authority";
+import { FC } from 'react';
+import { cva, VariantProps } from 'class-variance-authority';
 
-import { PriceModel } from "../models/Price";
-import { CURRENCY } from "@shared/constants/content";
-import { cn } from "@primitives/lib/utils";
+import { PriceModel } from '../models/Price';
+import { CURRENCY } from '@shared/constants/content';
+import { cn } from '@primitives/lib/utils';
 
 export interface Props extends VariantProps<typeof oldPriceVariants> {
     price: PriceModel

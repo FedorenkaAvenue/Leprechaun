@@ -1,9 +1,9 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 
-import { addToCart, changeOrderItemAmount, removeOrderItem } from "../api";
-import { OrderItemAddDTO, OderItemChangeAmountDTO } from "../api/dto";
-import { CART_QUERY } from "@entities/order/constants/queryKeys";
-import { OrderItemModel } from "@entities/order/model/interfaces";
+import { addToCart, changeOrderItemAmount, removeOrderItem } from '../api';
+import { OrderItemAddDTO, OderItemChangeAmountDTO } from '../api/dto';
+import { CART_QUERY } from '@entities/order/constants/queryKeys';
+import { OrderItemModel } from '@entities/order/model/interfaces';
 
 export function useAddOrderItems() {
     const qClient = useQueryClient();

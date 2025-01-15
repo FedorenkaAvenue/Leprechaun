@@ -33,7 +33,7 @@ const WishlistOptions: FC<Props> = ({ wishlist }) => {
                 <DropdownMenuTrigger asChild>
                     <IconButton><EllipsisVertical /></IconButton>
                 </DropdownMenuTrigger>
-                <DropdownMenuContent className="w-56">
+                <DropdownMenuContent className='w-56'>
                     <DropdownMenuItem onSelect={() => setEditOpen(true)}>
                         {dictionary?.common.edit}
                     </DropdownMenuItem>

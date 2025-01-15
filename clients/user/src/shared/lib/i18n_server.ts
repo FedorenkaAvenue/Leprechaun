@@ -1,6 +1,6 @@
 'use server'
 
-import { cookies } from "next/headers";
+import { cookies } from 'next/headers';
 
 import { DictionaryModuleModel } from '../models/i18n';
 import { LANGS } from '../constants/i18n_server';

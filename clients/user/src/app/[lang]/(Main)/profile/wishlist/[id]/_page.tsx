@@ -11,6 +11,7 @@ import WishlistOptions from '@features/wishlist/ui/WishlistOptions';
 import WishlistAddToCart from '@features/wishlist/ui/WishlistAddToCart';
 import WishlistSortList from '@widgets/wishlist/ui/WishlistSortList';
 import useSortWishlistItems from '@widgets/wishlist/lib/useSortWishlistItems';
+import Grid from '@shared/ui/Grid';
 
 interface Props {
     wishlistId: string
@@ -23,7 +24,7 @@ const Wishlist: FC<Props> = ({ wishlistId }) => {
     const { sort, setSort, sortedItems } = useSortWishlistItems(currentWishlist.items);
 
     return (
-        <div className='flex flex-col gap-4'>
+        <section className='flex flex-col gap-4'>
             <>
                 <div className='flex justify-between'>
                     <h1>{currentWishlist?.title || dictionary?.wishList.myList}</h1>
@@ -40,15 +41,15 @@ const Wishlist: FC<Props> = ({ wishlistId }) => {
                         </div>
                     )
                 }
-                <ul className='flex gap-1'>
+                <Grid>
                     {sortedItems.map(i => (
                         <li key={i.id}>
                             <WishlistProductCard item={i} />
                         </li>
                     ))}
-                </ul>
+                </Grid>
             </>
-        </div>
+        </section>
     );
 };
 

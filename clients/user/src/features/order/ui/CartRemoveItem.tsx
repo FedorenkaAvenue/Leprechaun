@@ -9,10 +9,10 @@ interface Props {
     itemId: OrderItemModel['id']
 }
 
-const OrderRemoveItem: FC<Props> = ({ itemId }) => {
+const CartRemoveItem: FC<Props> = ({ itemId }) => {
     const { mutate } = useRemoveOrderItem(itemId);
 
     return <IconButton onClick={() => mutate()}><Trash /></IconButton>;
 };
 
-export default OrderRemoveItem;
+export default CartRemoveItem;

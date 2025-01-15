@@ -1,8 +1,8 @@
-"use client";
+'use client';
 
-import { io } from "socket.io-client";
+import { io } from 'socket.io-client';
 
-import { CLIENT_DOMAIN_API } from "../constants/api";
+import { CLIENT_DOMAIN_API } from '../constants/api';
 
 export const socket = io(
     `${CLIENT_DOMAIN_API}/user`,

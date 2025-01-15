@@ -1,7 +1,7 @@
-import { z } from "zod";
+import { z } from 'zod';
 
-import { TEXT_MAX_LENGTH, TEXT_MIN_LENGTH } from "@shared/constants/errors";
-import { WISHLIST_TITLE_MIN_TEXT_LENGHT } from "../constants/schames";
+import { TEXT_MAX_LENGTH, TEXT_MIN_LENGTH } from '@shared/constants/errors';
+import { WISHLIST_TITLE_MIN_TEXT_LENGHT } from '../constants/schames';
 
 export const createWishlistSchema = z.object({
     title: z

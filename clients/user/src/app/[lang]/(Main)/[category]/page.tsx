@@ -1,9 +1,10 @@
-import { Metadata } from "next";
+import { Metadata } from 'next';
 
-import { getCategory, getProductListByCategory } from "@entities/category/api";
-import { RouteProps } from "@shared/models/router";
-import ProductCatalogueCard from "@widgets/product/ui/ProductCatalogueCard";
-import { PaginationWrapper } from "@primitives/ui/pagination";
+import { getCategory, getProductListByCategory } from '@entities/category/api';
+import { RouteProps } from '@shared/models/router';
+import ProductCatalogueCard from '@widgets/product/ui/ProductCatalogueCard';
+import { PaginationWrapper } from '@primitives/ui/pagination';
+import Grid from '@shared/ui/Grid';
 
 type Props = RouteProps<{ category: string }, { page: string | undefined }>;
 
@@ -23,18 +24,18 @@ export default async function Category({ params, searchParams }: Props) {
     ]);
 
     return (
-        <div className="flex flex-col gap-4">
+        <div className='flex flex-col gap-4'>
             <div>
-                <h2 className="inline">{category.title}</h2>
+                <h2 className='inline'>{category.title}</h2>
                 <span>{products.pagination.totalCount} items</span>
             </div>
-            <ul className="grid grid-cols-5 gap-2">
+            <Grid size='l'>
                 {products.data.map(i => (
                     <li key={i.id}>
                         <ProductCatalogueCard {...i} />
                     </li>
                 ))}
-            </ul>
+            </Grid>
             <PaginationWrapper pagination={products.pagination} />
         </div>
     )

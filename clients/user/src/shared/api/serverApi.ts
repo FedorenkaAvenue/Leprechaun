@@ -1,10 +1,10 @@
 'use server';
 
-import axios from "axios";
-import { cookies } from "next/headers";
-import { notFound } from "next/navigation";
+import axios from 'axios';
+import { cookies } from 'next/headers';
+import { notFound } from 'next/navigation';
 
-import { SERVER_DOMAIN_API } from "../constants/api";
+import { SERVER_DOMAIN_API } from '../constants/api';
 
 const serverAPI = axios.create({ baseURL: SERVER_DOMAIN_API });
 

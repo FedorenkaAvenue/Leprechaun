@@ -1,6 +1,6 @@
-import { LabelModel } from "@shared/models/Label";
+import { LabelModel } from '@shared/models/Label';
 
-import { cn } from "./primitives/lib/utils";
+import { cn } from './primitives/lib/utils';
 
 export interface LabelProps {
     value: LabelModel<unknown>['value']
@@ -9,7 +9,7 @@ export interface LabelProps {
 
 const Label = ({ classNames, value }: LabelProps) => {
     return (
-        <div className={cn("px-2 text-sm", classNames)}>
+        <div className={cn('px-2 text-sm', classNames)}>
             {value}
         </div>
     );

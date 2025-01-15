@@ -13,6 +13,9 @@ const data: Translates = {
         summaryProductAmount: 'Products amount',
         summaryPrice: 'Summary price',
     },
+    order: {
+        myOrders: 'My orders',
+    },
     wishList: {
         wishlist: 'Wishlist',
         wishlists: 'Wishlists',
@@ -57,6 +60,14 @@ const data: Translates = {
         byPriceDown: 'By price down',
         byRating: 'By rating',
         byNewest: 'By newest',
+    },
+    profile: {
+        profile: 'Profile',
+    },
+    history: {
+        visitedProducts: 'Visited products',
+        clearHistory: 'Clear history',
+        emptyProductList: 'You still don’t have any of the products you looked at',
     },
 };
 

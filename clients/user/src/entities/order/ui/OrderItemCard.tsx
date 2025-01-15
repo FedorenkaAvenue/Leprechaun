@@ -16,12 +16,12 @@ interface Props {
 
 const OrderItemCard: FC<Props> = ({ item, renderAmount, renderOptions }) => {
     return (
-        <Card className='flex gap-2 justify-between h-full min-h-32' size='tiny'>
+        <Card element='article' className='flex gap-2 justify-between h-full min-h-32' size='tiny'>
             <div className='flex'>
                 <AppLink href={`/product/${item.product.id}`} className='flex h-full'>
                     <Image
                         src={'/' + item.product.image}
-                        width="100" height="100"
+                        width='100' height='100'
                         alt={item.product.title}
                         className='object-contain'
                     />

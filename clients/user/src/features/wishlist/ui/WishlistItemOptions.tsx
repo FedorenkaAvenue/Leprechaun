@@ -26,7 +26,7 @@ const WishlistItemOptions: FC<Props> = ({ itemId }) => {
                 <DropdownMenuTrigger asChild>
                     <IconButton><EllipsisVertical /></IconButton>
                 </DropdownMenuTrigger>
-                <DropdownMenuContent className="w-56">
+                <DropdownMenuContent className='w-56'>
                     <DropdownMenuItem onClick={() => remove(itemId)}>
                         {dictionary?.common.remove}
                     </DropdownMenuItem>

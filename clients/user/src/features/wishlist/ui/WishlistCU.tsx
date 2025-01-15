@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import { useForm } from "react-hook-form";
+import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 
 import { useI18n } from '@shared/lib/i18n_client';
@@ -75,7 +75,7 @@ const WishlistCU: FC<Props> = ({ handleSubmit, trans, initForm }) => {
             </Form>
             <DialogFooter className='flex justify-center gap-1'>
                 <DialogClose asChild>
-                    <Button type="button" variant="secondary">
+                    <Button type='button' variant='secondary'>
                         {dictionary?.common.cancel}
                     </Button>
                 </DialogClose>

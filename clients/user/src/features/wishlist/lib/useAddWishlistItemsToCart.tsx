@@ -1,9 +1,9 @@
-import { useCallback, useMemo } from "react";
+import { useCallback, useMemo } from 'react';
 
-import { WishlistModel } from "@entities/wishlist/model/interfaces";
-import { OrderItemAddDTO } from "@features/order/api/dto";
-import { useAddOrderItems } from "@features/order/model/hook";
-import { useCart } from "@entities/order/model/hooks";
+import { WishlistModel } from '@entities/wishlist/model/interfaces';
+import { OrderItemAddDTO } from '@features/order/api/dto';
+import { useAddOrderItems } from '@features/order/model/hook';
+import { useCart } from '@entities/order/model/hooks';
 
 interface Result {
     addWishlistItemsToCart: () => void;

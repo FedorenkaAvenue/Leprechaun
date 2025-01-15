@@ -1,6 +1,6 @@
-import { OrderStatusModel } from "./enums"
-import { ProductPreviewModel } from "@entities/product/model/interfaces";
-import { PriceModel } from "@shared/models/Price";
+import { OrderStatusModel } from './enums'
+import { ProductPreviewModel } from '@entities/product/model/interfaces';
+import { PriceModel } from '@shared/models/Price';
 
 export interface OrderItemModel {
     id: string,

@@ -1,12 +1,12 @@
-import { FC, ReactNode } from "react";
+import { FC, ReactNode } from 'react';
 import Image from 'next/image';
 
-import { ProductCardModel, ProductPreviewModel } from "../model/interfaces";
-import Price, { Props as PriceProps } from "@shared/ui/Price";
-import ProductLabel from "./ProductLabel";
+import { ProductCardModel, ProductPreviewModel } from '../model/interfaces';
+import Price, { Props as PriceProps } from '@shared/ui/Price';
+import ProductLabel from './ProductLabel';
 import AppLink from '@shared/ui/AppLink';
 import { Card as CardUI, CardContent, CardProps as CardUIProps } from '@primitives/ui/card';
-import { Skeleton } from "@primitives/ui/skeleton";
+import { Skeleton } from '@primitives/ui/skeleton';
 
 type ProductType = ProductCardModel | ProductPreviewModel
 
@@ -36,11 +36,11 @@ const Card = <T extends ProductType>({
     product, renderImages, renderBottomOptions, renderTopOptions, renderAdditionalData, ui,
 }: CardProps<T>) => {
     return (
-        <CardUI className="w-full h-full" {...ui?.card}>
-            <CardContent className="relative flex flex-col h-full">
+        <CardUI element='article' className='w-full h-full' {...ui?.card}>
+            <CardContent className='relative flex flex-col h-full'>
                 <div className='flex-grow mb-2'>
                     <div className='absolute flex justify-between w-full'>
-                        <ul className="flex flex-col items-start gap-1">
+                        <ul className='flex flex-col items-start gap-1'>
                             {product.labels.map((i, k) => (
                                 <li key={k}><ProductLabel type={i.type} value={i.value} /></li>
                             ))}
@@ -54,7 +54,7 @@ const Card = <T extends ProductType>({
                     </div>
                 </div>
                 <div>
-                    <div>{product.title}</div>
+                    <h6>{product.title}</h6>
                     <div className='flex justify-between items-end'>
                         <Price price={product.price} {...ui?.price} />
                         <div className='flex gap-2 relative bottom-1'>
@@ -72,7 +72,7 @@ export const ProductCardPreview: FC<ProductCardPreviewProps> = props => (
     <Card<ProductPreviewModel>
         renderImages={({ image }) => (
             <Image
-                src={"/" + image}
+                src={'/' + image}
                 alt={props.product.title}
                 width={160} height={160}
             />
@@ -97,10 +97,10 @@ export const ProductCard: FC<ProductCardProps> = props => (
     <Card<ProductCardModel>
         renderImages={({ images }) => (
             <Image
-                src={"/" + images[0].src}
+                src={'/' + images[0].src}
                 alt={props.product.title}
-                width="300"
-                height="300"
+                width='300'
+                height='300'
             />
         )}
         {...props}

@@ -8,10 +8,10 @@ interface Props {
     orderItem: OrderItemModel
 }
 
-const OrderItemChangeAmount: FC<Props> = ({ orderItem }) => {
+const CartChangeItemAmount: FC<Props> = ({ orderItem }) => {
     const { mutate } = useChangeOrderItemAmount(orderItem.id);
 
     return <Counter amount={orderItem.amount} handleChange={mutate} />;
 };
 
-export default OrderItemChangeAmount;
+export default CartChangeItemAmount;

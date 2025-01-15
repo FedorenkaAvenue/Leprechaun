@@ -1,6 +1,6 @@
-import { useMemo, useState } from "react";
+import { useMemo, useState } from 'react';
 
-import { WishlistModel } from "@entities/wishlist/model/interfaces";
+import { WishlistModel } from '@entities/wishlist/model/interfaces';
 import { WishlistItemsSort } from '@entities/wishlist/model/enums';
 
 interface Result {

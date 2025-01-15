@@ -1,10 +1,11 @@
-import { DashboardSkeleton } from "@entities/dashboard/ui/Dashboard";
+import { DashboardSkeleton } from '@entities/dashboard/ui/Dashboard';
+import Grid from '@shared/ui/Grid';
 
 export default function Loading() {
     return (
-        <div>
+        <Grid direction='column' size='xl'>
             <DashboardSkeleton />
             <DashboardSkeleton />
-        </div>
+        </Grid>
     )
 }

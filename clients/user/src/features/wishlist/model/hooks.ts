@@ -1,12 +1,12 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 import {
     addWishlistItem, createWishlist, removeWishlistItem, removeWishlist, updateWishlist, moveWishlistItem,
-} from "../api";
-import { WISHLISTS_QUERY } from "@entities/wishlist/constants/queryKeys";
-import { WishlistItemModel } from "@entities/wishlist/model/interfaces";
-import { WishlistModel } from "@entities/wishlist/model/interfaces";
-import { CreateWishlistDTO, UpdateWishlistDTO, WishlistItemChangeWishlistDTO } from "../api/dto";
+} from '../api';
+import { WISHLISTS_QUERY } from '@entities/wishlist/constants/queryKeys';
+import { WishlistItemModel } from '@entities/wishlist/model/interfaces';
+import { WishlistModel } from '@entities/wishlist/model/interfaces';
+import { CreateWishlistDTO, UpdateWishlistDTO, WishlistItemChangeWishlistDTO } from '../api/dto';
 
 export function useCreateWishlist() {
     const queryClient = useQueryClient();
