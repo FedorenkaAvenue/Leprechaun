@@ -18,6 +18,11 @@ export default async function Layout({ params, children }: PropsWithChildren<Pro
             <Card element='nav' className='min-w-60'>
                 <Grid direction='column' size='l' className='text-sm'>
                     <li>
+                        <AppLink href='/profile/data' withActive>
+                            {dictionary.profile.personalData}
+                        </AppLink>
+                    </li>
+                    <li>
                         <AppLink href='/profile/orders' withActive>
                             {dictionary.order.myOrders}
                         </AppLink>
@@ -41,7 +46,7 @@ export default async function Layout({ params, children }: PropsWithChildren<Pro
                     </li>
                 </Grid>
             </Card>
-            <section className='flex-grow'>{children}</section>
+            <div className='flex-grow'>{children}</div>
         </div>
     )
 }

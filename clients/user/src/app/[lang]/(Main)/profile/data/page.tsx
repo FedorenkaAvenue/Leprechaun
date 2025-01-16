@@ -4,15 +4,15 @@ import { getDictionary } from "@shared/lib/i18n_server";
 import { RouteProps } from "@shared/models/router";
 
 export async function generateMetadata({ params }: RouteProps): Promise<Metadata> {
-    const { order } = await getDictionary((await params).lang);
+    const { profile } = await getDictionary((await params).lang);
 
     return {
-        title: order.myOrders,
+        title: profile.personalData,
     }
 }
 
-export default async function Orders() {
+export default async function Data() {
     return (
-        <section>orders TODO</section>
+        <section>personal data TODO</section>
     )
 }

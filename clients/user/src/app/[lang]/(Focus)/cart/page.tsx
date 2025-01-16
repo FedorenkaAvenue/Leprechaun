@@ -12,6 +12,13 @@ export async function generateMetadata({ params }: RouteProps): Promise<Metadata
     }
 }
 
-export default function Cart() {
-    return <CartClient />;
+export default async function Cart({ params }: RouteProps) {
+    const dictionary = await getDictionary((await params).lang);
+
+    return (
+        <section>
+            <h1 className='mb-6'>{dictionary?.cart.cart}</h1>
+            <CartClient />
+        </section>
+    );
 }

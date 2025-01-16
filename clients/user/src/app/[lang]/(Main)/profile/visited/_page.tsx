@@ -11,15 +11,11 @@ const VisitedClient: FC = () => {
     const { data } = useProductHistory();
     const { dictionary } = useI18n();
 
-    if (data.length === 0) {
-        return <div>{dictionary?.history.emptyProductList}</div>
-    }
+    if (data.length === 0) return <div>{dictionary?.history.emptyProductList}</div>;
 
     return (
         <Grid>
-            {data.map(i => (
-                <li key={i.id}><HistoryProductCard product={i} /></li>
-            ))}
+            {data.map(i => <li key={i.id}><HistoryProductCard product={i} /></li>)}
         </Grid>
     )
 }

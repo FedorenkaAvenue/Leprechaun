@@ -18,6 +18,7 @@ import { APP_NAME } from '@shared/constants/content';
 import { RouteProps } from '@shared/models/router';
 import { cn } from '@shared/ui/primitives/lib/utils';
 import { Toaster } from '@primitives/ui/toaster';
+import { CartProvider } from '@entities/order/model/providers';
 
 const Socket = dynamic(() => import('./socket'));
 
@@ -49,7 +50,9 @@ const RootLayout: FC<PropsWithChildren<RouteProps>> = async ({ params, children 
                 <QueryClientProvider>
                     <HydrationBoundary state={dehydrate(queryClient)}>
                         <I18nProvider dictionary={dict} lang={lang}>
-                            {children}
+                            <CartProvider>
+                                {children}
+                            </CartProvider>
                         </I18nProvider>
                         <Socket />
                     </HydrationBoundary>

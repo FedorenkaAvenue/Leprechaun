@@ -62,7 +62,7 @@ const data: Translates = {
         byNewest: 'Новинки',
     },
     profile: {
-        profile: 'Профиль',
+        personalData: 'Персональные данные',
     },
     history: {
         visitedProducts: 'Посещенные товары',

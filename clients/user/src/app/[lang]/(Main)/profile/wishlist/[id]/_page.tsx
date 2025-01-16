@@ -25,30 +25,28 @@ const Wishlist: FC<Props> = ({ wishlistId }) => {
 
     return (
         <section className='flex flex-col gap-4'>
-            <>
-                <div className='flex justify-between'>
-                    <h1>{currentWishlist?.title || dictionary?.wishList.myList}</h1>
-                    <div className='flex gap-2'>
-                        <WishlistShare wishlistId={currentWishlist.id} />
-                        <WishlistOptions wishlist={currentWishlist} />
-                    </div>
+            <div className='flex justify-between'>
+                <h1>{currentWishlist?.title || dictionary?.wishList.myList}</h1>
+                <div className='flex gap-2'>
+                    <WishlistShare wishlistId={currentWishlist.id} />
+                    <WishlistOptions wishlist={currentWishlist} />
                 </div>
-                {
-                    currentWishlist.items.length > 0 && (
-                        <div className='flex justify-between'>
-                            <WishlistAddToCart wishlist={currentWishlist} />
-                            <WishlistSortList value={sort} handleChange={setSort} />
-                        </div>
-                    )
-                }
-                <Grid>
-                    {sortedItems.map(i => (
-                        <li key={i.id}>
-                            <WishlistProductCard item={i} />
-                        </li>
-                    ))}
-                </Grid>
-            </>
+            </div>
+            {
+                currentWishlist.items.length > 0 && (
+                    <div className='flex justify-between'>
+                        <WishlistAddToCart wishlist={currentWishlist} />
+                        <WishlistSortList value={sort} handleChange={setSort} />
+                    </div>
+                )
+            }
+            <Grid>
+                {sortedItems.map(i => (
+                    <li key={i.id}>
+                        <WishlistProductCard item={i} />
+                    </li>
+                ))}
+            </Grid>
         </section>
     );
 };

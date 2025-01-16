@@ -17,12 +17,12 @@ export default async function Visited({ params }: RouteProps) {
     const { history } = await getDictionary((await params).lang);
 
     return (
-        <div>
+        <section>
             <div className='flex justify-between mb-5'>
                 <h1>{history.visitedProducts}</h1>
                 <HistoryClearProducts />
             </div>
             <VisitedClient />
-        </div>
+        </section>
     )
 }

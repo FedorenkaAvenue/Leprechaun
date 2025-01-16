@@ -1,11 +1,7 @@
-import { useSuspenseQuery } from '@tanstack/react-query';
+import { useContext } from 'react';
 
-import { CART_QUERY } from '../constants/queryKeys';
-import { getCart } from '../api';
+import { CartContext } from './providers';
 
 export function useCart() {
-    return useSuspenseQuery({
-        queryKey: [CART_QUERY],
-        queryFn: getCart
-    });
+    return useContext(CartContext);
 }

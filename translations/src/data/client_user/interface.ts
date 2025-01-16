@@ -60,7 +60,7 @@ type Translates = {
         byNewest: string
     }
     profile: {
-        profile: string
+        personalData: string
     }
     history: {
         visitedProducts: string

@@ -7,7 +7,7 @@ export default function Loading() {
         <div>
             <Skeleton className='h-7 w-64 mb-5' />
             <Grid>
-                {[...new Array(4)].map((_, i) => <ProductCardPreviewSkeleton />)}
+                {[...new Array(4)].map((_, i) => <ProductCardPreviewSkeleton key={i} />)}
             </Grid>
         </div>
     )

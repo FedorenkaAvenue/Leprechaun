@@ -57,7 +57,7 @@ const WishlistItemAdd: FC<WishlistItemAddProps> = ({ productId }) => {
                 <div>
                     {dictionary?.wishList.addedToList}
                     <span>&#32;</span>
-                    <AppLink href={`/wishlist/${defaultWishlist?.id}`} withAction>
+                    <AppLink href={`/profile/wishlist/${defaultWishlist?.id}`} withAction>
                         {defaultWishlist?.title || dictionary?.wishList.myList}
                     </AppLink>
                 </div>

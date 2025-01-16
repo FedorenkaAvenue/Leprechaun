@@ -12,6 +12,12 @@ export function middleware(request: NextRequest) {
         return NextResponse.redirect(request.nextUrl);
     }
 
+    if (pathname.endsWith('/profile')) {
+        request.nextUrl.pathname = '/profile/orders';
+
+        return NextResponse.redirect(request.nextUrl);
+    }
+
     if (LANGS.some(locale => pathname.startsWith(`/${locale}/`) || pathname === `/${locale}`)) return;
 
     const cookieLang = request.cookies.get('lang');

@@ -38,7 +38,7 @@ const WishlistItemChangeList: FC<Props> = ({ wishlistItemId, handleOpenChange })
                 {wishlists.map(({ id, title }) => (
                     <div key={id} className='flex items-center space-x-2'>
                         <RadioGroupItem value={id} id={id} />
-                        <Label htmlFor={id}>{title}</Label>
+                        <Label htmlFor={id}>{title || dictionary?.wishList.myList}</Label>
                     </div>
                 ))}
             </RadioGroup>
