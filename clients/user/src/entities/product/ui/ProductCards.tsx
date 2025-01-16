@@ -5,7 +5,7 @@ import { ProductCardModel, ProductPreviewModel } from '../model/interfaces';
 import Price, { Props as PriceProps } from '@shared/ui/Price';
 import ProductLabel from './ProductLabel';
 import AppLink from '@shared/ui/AppLink';
-import { Card as CardUI, CardContent, CardProps as CardUIProps } from '@primitives/ui/card';
+import { CardContent, Card as CardUI, CardProps as CardUIProps } from '@primitives/ui/card';
 import { Skeleton } from '@primitives/ui/skeleton';
 
 type ProductType = ProductCardModel | ProductPreviewModel
@@ -13,9 +13,9 @@ type ProductType = ProductCardModel | ProductPreviewModel
 interface CardProps<T> {
     product: T
     renderImages: (product: T) => ReactNode
-    renderBottomOptions?: (product: T) => ReactNode
+    renderBottomOptions?: (product: T) => ReactNode // right to price
     renderTopOptions?: (product: T) => ReactNode
-    renderAdditionalData?: (product: T) => ReactNode
+    renderAdditionalData?: (product: T) => ReactNode // bottom on card hover
     ui?: {
         card?: CardUIProps
         price?: Partial<PriceProps>
@@ -36,33 +36,42 @@ const Card = <T extends ProductType>({
     product, renderImages, renderBottomOptions, renderTopOptions, renderAdditionalData, ui,
 }: CardProps<T>) => {
     return (
-        <CardUI element='article' className='w-full h-full' {...ui?.card}>
-            <CardContent className='relative flex flex-col h-full'>
-                <div className='flex-grow mb-2'>
-                    <div className='absolute flex justify-between w-full'>
-                        <ul className='flex flex-col items-start gap-1'>
-                            {product.labels.map((i, k) => (
-                                <li key={k}><ProductLabel type={i.type} value={i.value} /></li>
-                            ))}
-                        </ul>
-                        {renderTopOptions?.call(null, product)}
+        <CardUI element='article' className='group/additional relative w-full h-full' {...ui?.card}>
+            <CardContent className='h-full'>
+                <div className='flex flex-col h-full'>
+                    <div className=' flex-grow mb-2'>
+                        <div className='absolute flex justify-between w-full'>
+                            <ul className='flex flex-col items-start gap-1'>
+                                {product.labels.map((i, k) => (
+                                    <li key={k}><ProductLabel type={i.type} value={i.value} /></li>
+                                ))}
+                            </ul>
+                            {renderTopOptions?.call(null, product)}
+                        </div>
+                        <div className='h-full flex items-center'>
+                            <AppLink href={`/product/${product.id}`}>
+                                {renderImages(product)}
+                            </AppLink>
+                        </div>
                     </div>
-                    <div className='h-full flex items-center'>
-                        <AppLink href={`/product/${product.id}`}>
-                            {renderImages(product)}
-                        </AppLink>
-                    </div>
-                </div>
-                <div>
-                    <h6>{product.title}</h6>
-                    <div className='flex justify-between items-end'>
-                        <Price price={product.price} {...ui?.price} />
-                        <div className='flex gap-2 relative bottom-1'>
-                            {renderBottomOptions?.call(null, product)}
+                    <div>
+                        <h6>{product.title}</h6>
+                        <div className='flex justify-between items-end'>
+                            <Price price={product.price} {...ui?.price} />
+                            <div className='flex gap-2 relative bottom-1'>
+                                {renderBottomOptions?.call(null, product)}
+                            </div>
                         </div>
                     </div>
                 </div>
-                {renderAdditionalData?.call(null, product)}
+                {
+                    renderAdditionalData
+                    && (
+                        <CardUI className='absolute hidden text-sm group-hover/additional:block left-0 w-full pt-2'>
+                            {renderAdditionalData(product)}
+                        </CardUI>
+                    )
+                }
             </CardContent>
         </CardUI>
     );

@@ -84,9 +84,7 @@ export default class ProductService {
         searchParams: QueriesProductList,
         resultMapConstructor?: any,
     ): Promise<PaginationResult<T>> {
-        const {
-            sort, portion, page, status, price, optionsFilter,
-        } = searchParams;
+        const { sort, portion, page, status, price, optionsFilter } = searchParams;
 
         // filtering by dinamical filters
         if (optionsFilter) {

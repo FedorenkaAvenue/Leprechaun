@@ -1,5 +1,5 @@
 import { ProductStatusE } from '@enums/Product';
-import { ProductSort, WishlistItemsSort } from '@enums/Query';
+import { ProductSort } from '@enums/Query';
 
 export interface QueryPriceI {
     min: number;

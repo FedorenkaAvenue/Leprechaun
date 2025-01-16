@@ -1,3 +1,5 @@
+'use client'
+
 import { useMemo, useState } from 'react';
 
 import { WishlistModel } from '@entities/wishlist/model/interfaces';

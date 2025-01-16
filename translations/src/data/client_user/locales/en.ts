@@ -3,6 +3,8 @@ import Translates from '../interface';
 const data: Translates = {
     product: {
         amout: 'Items amount',
+        foundProductAmount: '$1 product found',
+        foundProductsAmount: '$1 products found',
     },
     dashboard: {
         history: 'History',
@@ -59,7 +61,8 @@ const data: Translates = {
         byPriceUp: 'By price up',
         byPriceDown: 'By price down',
         byRating: 'By rating',
-        byNewest: 'By newest',
+        byPopular: 'Most popular',
+        byNewest: 'Newest',
     },
     profile: {
         personalData: 'Personal data',

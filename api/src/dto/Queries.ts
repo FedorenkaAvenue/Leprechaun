@@ -3,7 +3,7 @@ import { BadRequestException } from '@nestjs/common';
 import {
     QueriesCommonI, QueriesProductListI, QueriesSearchI, QueryOptionsFiltersT, QueryPriceI,
 } from '@interfaces/Queries';
-import { ProductSort, WishlistItemsSort } from '@enums/Query';
+import { ProductSort } from '@enums/Query';
 import { availableEnum } from '@utils/enum';
 import { ProductStatusE } from '@enums/Product';
 import { singleConfigService } from '@services/Config';

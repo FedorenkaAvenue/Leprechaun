@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FC, useCallback } from 'react';
 
 import { WishlistItemsSort } from '@entities/wishlist/model/enums';
 import { useI18n } from '@shared/lib/i18n_client';
@@ -12,16 +12,20 @@ interface Props {
 const WishlistSortList: FC<Props> = ({ value, handleChange }) => {
     const { dictionary } = useI18n();
 
+    const change = useCallback((val: string) => {
+        handleChange(+val);
+    }, []);
+
     return (
-        <Select defaultValue={value} onValueChange={handleChange}>
+        <Select defaultValue={String(value)} onValueChange={change}>
             <SelectTrigger className='w-auto'>
                 <SelectValue />
             </SelectTrigger>
             <SelectContent>
                 <SelectGroup>
-                    <SelectItem value={WishlistItemsSort.LASTEST}>{dictionary?.sort.byDate}</SelectItem>
-                    <SelectItem value={WishlistItemsSort.PRICE_UP}>{dictionary?.sort.byPriceUp}</SelectItem>
-                    <SelectItem value={WishlistItemsSort.PRICE_DOWN}>{dictionary?.sort.byPriceDown}</SelectItem>
+                    <SelectItem value={String(WishlistItemsSort.LASTEST)}>{dictionary?.sort.byDate}</SelectItem>
+                    <SelectItem value={String(WishlistItemsSort.PRICE_UP)}>{dictionary?.sort.byPriceUp}</SelectItem>
+                    <SelectItem value={String(WishlistItemsSort.PRICE_DOWN)}>{dictionary?.sort.byPriceDown}</SelectItem>
                 </SelectGroup>
             </SelectContent>
         </Select>

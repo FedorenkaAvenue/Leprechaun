@@ -15,7 +15,8 @@ serverAPI.interceptors.request.use(
         conf.headers.set('cookie', `session=${cookieStore.get('session')?.value}`);
         conf.params = {
             lang: cookieStore.get('lang')?.value,
-            portion: cookieStore.get('portion')?.value,
+            ...conf.params,
+            // portion: cookieStore.get('portion')?.value,
         };
         conf.fetchOptions = { next: { revalidate: 60 }, };
 

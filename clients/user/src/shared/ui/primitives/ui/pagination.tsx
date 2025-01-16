@@ -2,13 +2,13 @@
 
 import * as React from 'react'
 import { ChevronLeft, ChevronRight, MoreHorizontal } from 'lucide-react'
+import { LinkProps } from 'next/link'
 
 import { cn } from '@primitives/lib/utils'
 import { ButtonProps, buttonVariants } from '@primitives/ui/button'
-import { PaginationModel } from '@shared/models/Pagination'
 import { useI18n } from '@shared/lib/i18n_client'
 import AppLink from '@shared/ui/AppLink'
-import { LinkProps } from 'next/link'
+import useSetSearchParams from '@shared/lib/useSetSearchParams'
 
 const Pagination = ({ className, ...props }: React.ComponentProps<'nav'>) => (
     <nav
@@ -33,28 +33,38 @@ const PaginationItem = React.forwardRef<
     HTMLLIElement,
     React.ComponentProps<'li'>
 >(({ className, ...props }, ref) => (
-    <li ref={ref} className={cn('', className)} {...props} />
+    <li ref={ref} className={cn(className)} {...props} />
 ))
 PaginationItem.displayName = 'PaginationItem'
 
 type PaginationLinkProps = {
     isActive?: boolean
+    disabled?: boolean
 } & LinkProps & Pick<ButtonProps, 'size'> & Omit<React.ComponentProps<'a'>, 'href'>;
 
-const PaginationLink = ({ className, isActive, href, size = 'icon', ...props }: PaginationLinkProps) => (
-    <AppLink
-        href={href}
-        aria-current={isActive ? 'page' : undefined}
-        className={cn(
-            buttonVariants({
-                variant: isActive ? 'outline' : 'ghost',
-                size,
-            }),
-            className
-        )}
-        {...props}
-    />
-);
+const PaginationLink = ({ className, isActive, disabled, href, size = 'icon', ...props }: PaginationLinkProps) => {
+    const setSearchParams = useSetSearchParams();
+
+    const click: React.MouseEventHandler<HTMLAnchorElement> = (e) => {
+        e.preventDefault();
+        //@ts-ignore
+        !disabled && setSearchParams(href.query);
+    }
+
+    return (
+        <AppLink
+            href={href}
+            aria-current={isActive ? 'page' : undefined}
+            className={cn(
+                disabled && 'text-muted-primary-foreground',
+                buttonVariants({ variant: isActive ? 'outline' : 'ghost', size }),
+                className
+            )}
+            {...props}
+            onClick={click}
+        />
+    );
+};
 PaginationLink.displayName = 'PaginationLink'
 
 const PaginationPrevious = ({ className, ...props }: React.ComponentProps<typeof PaginationLink>) => {
@@ -103,42 +113,6 @@ const PaginationEllipsis = ({ className, ...props }: React.ComponentProps<'span'
 )
 PaginationEllipsis.displayName = 'PaginationEllipsis'
 
-interface Props {
-    pagination: PaginationModel<unknown>['pagination']
-}
-
-const PaginationWrapper = ({ pagination: { currentPage, pageCount, totalCount } }: Props) => {
-    return totalCount === 0
-        ? null
-        : (
-            <Pagination>
-                <PaginationContent>
-                    <PaginationItem>
-                        <PaginationPrevious href={{ query: { page: currentPage - 1 } }} />
-                    </PaginationItem>
-                    {
-                        [...new Array(pageCount)].map((_, i) => (
-                            <PaginationItem key={i}>
-                                <PaginationLink
-                                    isActive={currentPage === i + 1}
-                                    href={{ query: { page: i + 1 } }}
-                                >
-                                    {i + 1}
-                                </PaginationLink>
-                            </PaginationItem>
-                        ))
-                    }
-                    {/* <PaginationItem>
-                    <PaginationEllipsis />
-                </PaginationItem> */}
-                    <PaginationItem>
-                        <PaginationNext href={{ query: { page: currentPage + 1 } }} />
-                    </PaginationItem>
-                </PaginationContent>
-            </Pagination>
-        );
-}
-
 export {
     Pagination,
     PaginationContent,
@@ -147,5 +121,4 @@ export {
     PaginationLink,
     PaginationNext,
     PaginationPrevious,
-    PaginationWrapper,
 }

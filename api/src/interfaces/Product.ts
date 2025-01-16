@@ -49,6 +49,7 @@ export interface ProductPreviewPublicI extends ProductPublicBaseI {
 export interface ProductCardPublicI extends ProductPublicBaseI {
     images: ImageI[];
     options: OptionPublicI[];
+    description: string;
 }
 
 export interface ProductPublicI extends ProductCardPublicI {

@@ -1,11 +1,11 @@
 'use client'
 
 import Link, { type LinkProps } from 'next/link';
-import { FC, PropsWithChildren, useContext } from 'react';
+import { FC, PropsWithChildren } from 'react';
 import { usePathname } from 'next/navigation';
 
-import { I18nContext } from '@shared/providers/i18n';
 import { cn } from '@primitives/lib/utils';
+import { useI18n } from '@shared/lib/i18n_client';
 
 type Props = PropsWithChildren<LinkProps> & {
     className?: string
@@ -14,7 +14,7 @@ type Props = PropsWithChildren<LinkProps> & {
 };
 
 const AppLink: FC<Props> = ({ href, withAction, withActive, children, className, ...props }) => {
-    const { lang } = useContext(I18nContext);
+    const { lang } = useI18n();
     const path = usePathname();
 
     return (

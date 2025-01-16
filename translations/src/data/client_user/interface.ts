@@ -1,6 +1,8 @@
 type Translates = {
     product: {
         amout: string
+        foundProductAmount: string
+        foundProductsAmount: string
     }
     dashboard: {
         history: string
@@ -57,6 +59,7 @@ type Translates = {
         byPriceUp: string
         byPriceDown: string
         byRating: string
+        byPopular: string
         byNewest: string
     }
     profile: {

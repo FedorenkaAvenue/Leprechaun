@@ -57,8 +57,8 @@ const RootLayout: FC<PropsWithChildren<RouteProps>> = async ({ params, children 
                         <Socket />
                     </HydrationBoundary>
                 </QueryClientProvider>
+                <Toaster />
             </body>
-            <Toaster />
         </html>
     );
 }

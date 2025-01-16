@@ -20,15 +20,18 @@ const ProductCatalogueCard: FC<Props> = (item) => {
             )}
             renderAdditionalData={product => (
                 !!product.options.length && (
-                    <div className='text-sm'>
-                        {product.options.map(o => (
-                            <div key={o.id}>
-                                <span className='text-secondary-foreground'>{o.title}</span>:&nbsp;
-                                {o.properties.map(p => (
-                                    <span key={p.id}><AppLink href=''>{p.title}</AppLink></span>
-                                ))}
-                            </div>
-                        ))}
+                    <div>
+                        <div className='text-secondary-foreground'>{product.description}</div>
+                        <ul>
+                            {product.options.map(({ id, title, properties }) => (
+                                <li key={id}>
+                                    <span>{title}</span>:&nbsp;
+                                    {properties.map(p => (
+                                        <span key={p.id}><AppLink href='' withAction>{p.title}</AppLink></span>
+                                    ))}
+                                </li>
+                            ))}
+                        </ul>
                     </div>
                 )
             )}

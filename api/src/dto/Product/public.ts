@@ -64,10 +64,14 @@ export class ProductCardPublic extends Base implements ProductCardPublicI {
     @ApiProperty({ description: 'mapped properties (into property groups)', isArray: true })
     options: OptionPublic[];
 
+    @ApiProperty()
+    description: string;
+
     constructor({ images, options, description, ...base }: ProductEntity, { lang }: QueriesCommon) {
         super(base, lang);
         this.images = images?.slice(0, Number(PRODUCT_PUBLIC_IMAGE_AMOUNT)) as ImageEntity[];
         this.options = options.filter(({ is_primary }) => is_primary).map(opt => new OptionPublic(opt, lang));
+        this.description = description?.[lang];
     }
 }
 

@@ -26,7 +26,7 @@ const Wishlist: FC<Props> = ({ wishlist, renderOption }) => {
 
     return (
         <Card element='article' className='flex flex-col gap-2 h-full'>
-            <div className='flex justify-between items-center gap-7'>
+            <header className='flex justify-between items-center gap-7'>
                 <div>
                     <AppLink href={`/profile/wishlist/${id}`}>
                         <div className='font-medium text-base'>
@@ -34,10 +34,14 @@ const Wishlist: FC<Props> = ({ wishlist, renderOption }) => {
                             {isDefault && <span className='font-normal text-xs'> ({dictionary?.common.default})</span>}
                         </div>
                     </AppLink>
-                    <div className='text-sm'>{items.length > 0 ? `${dictionary?.product.amout}: ${items.length}` : dictionary?.wishList.emptyList}</div>
+                    <div className='text-sm'>
+                        {items.length > 0
+                            ? `${dictionary?.product.amout}: ${items.length}`
+                            : dictionary?.wishList.emptyList}
+                    </div>
                 </div>
                 {renderOption?.call(null, wishlist)}
-            </div>
+            </header>
             {items.length > 0 && (
                 <AppLink href={`/profile/wishlist/${id}`}>
                     <Grid size='s'>

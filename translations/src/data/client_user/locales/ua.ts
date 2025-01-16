@@ -3,6 +3,8 @@ import Translates from '../interface';
 const data: Translates = {
     product: {
         amout: 'Кiлькiсть товарiв',
+        foundProductAmount: 'Знайдено $1 продукт',
+        foundProductsAmount: 'Знайдено $1 продуктiв',
     },
     dashboard: {
         history: 'Історія',
@@ -59,6 +61,7 @@ const data: Translates = {
         byPriceUp: 'Від дешевих до дорогих',
         byPriceDown: 'Від дорогих до дешевих',
         byRating: 'За рейтингом',
+        byPopular: 'Полулярнi',
         byNewest: 'Новинки',
     },
     profile: {
