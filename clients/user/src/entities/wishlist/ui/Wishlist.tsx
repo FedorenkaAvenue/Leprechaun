@@ -25,8 +25,8 @@ const Wishlist: FC<Props> = ({ wishlist, renderOption }) => {
     const { id, isDefault, title, items } = wishlist;
 
     return (
-        <Card element='article' className='flex flex-col gap-2'>
-            <div className='flex justify-between items-center'>
+        <Card element='article' className='flex flex-col gap-2 h-full'>
+            <div className='flex justify-between items-center gap-7'>
                 <div>
                     <AppLink href={`/profile/wishlist/${id}`}>
                         <div className='font-medium text-base'>

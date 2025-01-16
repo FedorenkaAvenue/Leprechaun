@@ -31,8 +31,8 @@ const WishlistTooltip: FC<WishlistTooltipProps> = memo(
         return (
             <div>
                 {dictionary?.wishList.addedToList}&nbsp;
-                <AppLink href={`/wishlist/${id}`}>
-                    {isDefault ? title || dictionary?.wishList.myList : title}
+                <AppLink href={`/profile/wishlist/${id}`} withAction>
+                    {title || dictionary?.wishList.myList}
                 </AppLink>
             </div>
         );

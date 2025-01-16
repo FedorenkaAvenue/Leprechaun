@@ -1,4 +1,4 @@
-import { FC, useMemo, useState } from 'react';
+import { FC, useCallback, useMemo, useState } from 'react';
 
 import { DialogClose, DialogFooter, DialogHeader, DialogTitle } from '@primitives/ui/dialog';
 import { Button } from '@primitives/ui/button';
@@ -18,16 +18,19 @@ const WishlistItemChangeList: FC<Props> = ({ wishlistItemId, handleOpenChange })
     const [selected, setSelected] = useState<WishlistModel['id']>();
     const { dictionary } = useI18n();
     const { data: wishlists } = useWishlists();
-    const currentWishlist = useMemo(() => wishlists.find(({ isDefault }) => isDefault), [wishlists]);
+    const currentWishlist = useMemo(
+        () => wishlists.find(({ items }) => items.find(({ id }) => id === wishlistItemId)),
+        [wishlists],
+    );
     const { mutate: moveItem } = useMoveWishlistItem();
 
-    function submit(): void {
+    const submit = useCallback(() => {
         if (wishlistItemId && selected && selected !== currentWishlist?.id) {
             moveItem({ wishlistId: selected, itemId: wishlistItemId });
         }
 
         handleOpenChange(false);
-    }
+    }, [selected, currentWishlist]);
 
     return (
         <>

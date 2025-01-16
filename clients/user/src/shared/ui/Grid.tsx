@@ -3,6 +3,8 @@ import { FC, PropsWithChildren } from 'react';
 
 import { cn } from '@primitives/lib/utils';
 
+export type GridVariants = VariantProps<typeof gridVariants>;
+
 const gridVariants = cva(
     ['flex', 'flex-wrap'],
     {
@@ -25,7 +27,7 @@ const gridVariants = cva(
     }
 )
 
-interface Props extends VariantProps<typeof gridVariants> {
+interface Props extends GridVariants {
     className?: string
 }
 

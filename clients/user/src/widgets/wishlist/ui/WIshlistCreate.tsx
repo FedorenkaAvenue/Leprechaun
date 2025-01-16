@@ -22,7 +22,7 @@ const WishlistCreate: FC = () => {
     return (
         <Dialog open={isOpen} onOpenChange={setOpen}>
             <DialogTrigger className='button-with-svg'>
-                <CirclePlus />
+                <CirclePlus width='25' height='25' />
             </DialogTrigger>
             <DialogContent>
                 <WishlistCU
