@@ -44,11 +44,11 @@ export default async function Category({ params, searchParams }: Props) {
                         }
                     </span>
                 </div>
-                <div>
+                <div className='flex gap-2 items-center'>
                     <ProductSortList sort={queries.sort} />
                 </div>
             </div>
-            <Grid size='l'>
+            <Grid type='grid5' gap='l'>
                 {products.data.map(i => (
                     <li key={i.id}>
                         <ProductCatalogueCard {...i} />

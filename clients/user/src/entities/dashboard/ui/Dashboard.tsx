@@ -29,7 +29,7 @@ const Dashboard: FC<Props> = ({ title, list, isLoading, renderProductCard }) => 
     return (
         <article>
             <h2 className='text-2xl mb-3'>{title}</h2>
-            <Grid>
+            <Grid type='column'>
                 {visibleList?.map(i => <li key={i.id}>{renderProductCard(i)}</li>)}
             </Grid>
             {
@@ -47,7 +47,7 @@ const Dashboard: FC<Props> = ({ title, list, isLoading, renderProductCard }) => 
 export const DashboardSkeleton: FC = () => (
     <div className='flex flex-col gap-4'>
         <Skeleton className='h-8 w-32' />
-        <Grid>
+        <Grid type='column'>
             {[...new Array(5)].map((_, i) => <ProductCardPreviewSkeleton key={i} />)}
         </Grid>
     </div>

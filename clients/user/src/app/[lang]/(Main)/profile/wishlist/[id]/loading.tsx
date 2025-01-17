@@ -7,7 +7,7 @@ export default function Loading() {
         <div className='flex flex-col gap-4'>
             <Skeleton className='h-8 w-60' />
             <Skeleton className='h-10 w-40' />
-            <Grid>
+            <Grid type='column'>
                 {[...new Array(5)].map((_, i) => <ProductCardPreviewSkeleton key={i} />)}
             </Grid>
         </div>

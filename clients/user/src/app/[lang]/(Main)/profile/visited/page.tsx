@@ -20,7 +20,9 @@ export default async function Visited({ params }: RouteProps) {
         <section>
             <div className='flex justify-between mb-5'>
                 <h1>{history.visitedProducts}</h1>
-                <HistoryClearProducts />
+                <div className='flex items-center gap-2'>
+                    <HistoryClearProducts />
+                </div>
             </div>
             <VisitedClient />
         </section>

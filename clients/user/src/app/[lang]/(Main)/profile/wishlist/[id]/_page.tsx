@@ -40,12 +40,8 @@ const Wishlist: FC<Props> = ({ wishlistId }) => {
                     </div>
                 )
             }
-            <Grid>
-                {sortedItems.map(i => (
-                    <li key={i.id}>
-                        <WishlistProductCard item={i} />
-                    </li>
-                ))}
+            <Grid type='column'>
+                {sortedItems.map(i => <li key={i.id}><WishlistProductCard item={i} /></li>)}
             </Grid>
         </section>
     );

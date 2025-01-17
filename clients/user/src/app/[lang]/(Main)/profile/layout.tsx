@@ -16,7 +16,7 @@ export default async function Layout({ params, children }: PropsWithChildren<Pro
     return (
         <div className='flex gap-4 items-start'>
             <Card element='nav' className='min-w-60'>
-                <Grid direction='column' size='l' className='text-sm'>
+                <Grid gap='l' className='text-sm'>
                     <li>
                         <AppLink href='/profile/data' withActive>
                             {dictionary.profile.personalData}

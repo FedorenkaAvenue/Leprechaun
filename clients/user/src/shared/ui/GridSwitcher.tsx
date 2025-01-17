@@ -1,23 +1,28 @@
-'use client';
+// 'use client';
 
-import { FC, useContext } from 'react';
-import { LayoutGrid, List } from 'lucide-react';
+// import { FC, ReactNode, use, useContext } from 'react';
+// import { Grid3X3, LayoutGrid, List, LogsIcon, Wheat } from 'lucide-react';
 
-import IconButton from './IconButton';
-import { GridSwitcherContext } from '@shared/providers/gridSwitcher';
+// import IconButton from './IconButton';
+// import { GridSwitcherContext, GridSwitcherType } from '@shared/providers/gridSwitcher';
 
-const GridSwitcher: FC = () => {
-    const { type, switchType } = useContext(GridSwitcherContext);
+// function getIcon(type: GridSwitcherType): ReactNode {
+//     switch (type) {
+//         case 'grid2': return <LayoutGrid width='25' height='25' />;
+//         case 'grid3': return <Grid3X3 width='25' height='25' />;
+//         case 'grid4': return <Wheat width='25' height='25' />;
+//         case 'grid5': return <LogsIcon width='25' height='25' />;
+//         default: return <List width='25' height='25' />;
+//     }
+// }
 
-    return (
-        <IconButton onClick={switchType}>
-            {
-                type === 'raw'
-                    ? <List width='25' height='25' />
-                    : <LayoutGrid width='25' height='25' />
-            }
-        </IconButton>
-    );
-};
+// const GridSwitcher: FC = () => {
+//     const { type, switchType } = use(GridSwitcherContext);
 
-export default GridSwitcher;
+//     console.log(type);
+
+
+//     return <IconButton onClick={switchType}>{getIcon(type)}</IconButton>;
+// };
+
+// export default GridSwitcher;

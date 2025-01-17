@@ -22,15 +22,15 @@ const Cart: FC = () => {
     if (isUpdating) return <Loading />;
 
     return (
-        <Grid className='justify-between' size='xl'>
-            <Grid direction='column' className='flex-grow'>
+        <div className='flex justify-between gap-4'>
+            <Grid className='flex-grow'>
                 {data?.items.map(i => <li key={i.id}><CartItem {...i} /></li>)}
             </Grid>
             <Card>
                 <div>{dictionary?.cart.summaryProductAmount}: {data?.summary.productsAmount}</div>
                 <div>{dictionary?.cart.summaryPrice}: {data?.summary.price}</div>
             </Card>
-        </Grid>
+        </div>
     );
 };
 

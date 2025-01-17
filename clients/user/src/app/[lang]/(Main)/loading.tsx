@@ -3,7 +3,7 @@ import Grid from '@shared/ui/Grid';
 
 export default function Loading() {
     return (
-        <Grid direction='column' size='xl'>
+        <Grid gap='xl'>
             <DashboardSkeleton />
             <DashboardSkeleton />
         </Grid>

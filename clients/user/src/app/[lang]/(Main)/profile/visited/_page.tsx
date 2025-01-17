@@ -14,7 +14,7 @@ const VisitedClient: FC = () => {
     if (data.length === 0) return <div>{dictionary?.history.emptyProductList}</div>;
 
     return (
-        <Grid>
+        <Grid type='column'>
             {data.map(i => <li key={i.id}><HistoryProductCard product={i} /></li>)}
         </Grid>
     )

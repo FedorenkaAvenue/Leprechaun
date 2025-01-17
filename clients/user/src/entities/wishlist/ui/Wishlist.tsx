@@ -15,7 +15,7 @@ interface Props {
 }
 
 const Item: FC<WishlistItemModel> = ({ product: { image, title } }) => (
-    <li className='flex'>
+    <li className='flex h-20 w-20'>
         <Image src={'/' + image} width={80} height={80} alt={title} className='object-contain' />
     </li>
 )
@@ -44,7 +44,7 @@ const Wishlist: FC<Props> = ({ wishlist, renderOption }) => {
             </header>
             {items.length > 0 && (
                 <AppLink href={`/profile/wishlist/${id}`}>
-                    <Grid size='s'>
+                    <Grid type='column' gap='s'>
                         {items.map(item => <Item key={item.id} {...item} />)}
                     </Grid>
                 </AppLink>

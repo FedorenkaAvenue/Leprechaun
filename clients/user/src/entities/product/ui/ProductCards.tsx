@@ -87,7 +87,7 @@ export const ProductCardPreview: FC<ProductCardPreviewProps> = props => (
             />
         )}
         ui={{
-            card: { size: 'tiny', className: 'max-w-[180px] h-full' },
+            card: { size: 'tiny', className: 'min-w-[180px] h-full' },
             price: { size: 'small' },
         }}
         {...props}
