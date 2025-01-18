@@ -3,6 +3,10 @@ type Translates = {
         amout: string
         foundProductAmount: string
         foundProductsAmount: string
+        status: {
+            available: string
+            outOfStock: string
+        }
     }
     dashboard: {
         history: string

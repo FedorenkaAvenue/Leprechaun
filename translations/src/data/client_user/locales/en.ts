@@ -5,6 +5,10 @@ const data: Translates = {
         amout: 'Items amount',
         foundProductAmount: '$1 product found',
         foundProductsAmount: '$1 products found',
+        status: {
+            available: 'Available',
+            outOfStock: 'Out of stock',
+        },
     },
     dashboard: {
         history: 'History',

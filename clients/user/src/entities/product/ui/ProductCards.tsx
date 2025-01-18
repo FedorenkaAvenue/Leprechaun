@@ -7,6 +7,10 @@ import ProductLabel from './ProductLabel';
 import AppLink from '@shared/ui/AppLink';
 import { CardContent, Card as CardUI, CardProps as CardUIProps } from '@primitives/ui/card';
 import { Skeleton } from '@primitives/ui/skeleton';
+import { cn } from '@primitives/lib/utils';
+import Grid from '@shared/ui/Grid';
+import { ProductStatusModel } from '../model/enums';
+import ProductStatus from './ProductStatus';
 
 type ProductType = ProductCardModel | ProductPreviewModel
 
@@ -16,6 +20,7 @@ interface CardProps<T> {
     renderBottomOptions?: (product: T) => ReactNode // right to price
     renderTopOptions?: (product: T) => ReactNode
     renderAdditionalData?: (product: T) => ReactNode // bottom on card hover
+    renderStatus?: (status: ProductStatusModel) => ReactNode
     ui?: {
         card?: CardUIProps
         price?: Partial<PriceProps>
@@ -33,31 +38,44 @@ type ProductCardProps = Pick<
 >;
 
 const Card = <T extends ProductType>({
-    product, renderImages, renderBottomOptions, renderTopOptions, renderAdditionalData, ui,
+    product, renderImages, renderBottomOptions, renderTopOptions, renderAdditionalData, renderStatus, ui,
 }: CardProps<T>) => {
+    const { labels, id, title, price, status } = product;
+    const isAvailable = status === ProductStatusModel.AVAILABLE;
+
     return (
-        <CardUI element='article' className='group/additional relative w-full h-full' {...ui?.card}>
+        <CardUI
+            element='article'
+            {...ui?.card}
+            className={cn('group/additional relative w-full h-full', ui?.card?.className)}
+        >
             <CardContent className='h-full'>
                 <div className='flex flex-col h-full'>
-                    <div className=' flex-grow mb-2'>
-                        <div className='absolute flex justify-between w-full'>
-                            <ul className='flex flex-col items-start gap-1'>
-                                {product.labels.map((i, k) => (
-                                    <li key={k}><ProductLabel type={i.type} value={i.value} /></li>
+                    <div className='flex-grow mb-2 relative'>
+                        <div className='z-10 absolute flex justify-between items-start w-full'>
+                            <Grid gap='s' className={cn(!isAvailable && 'opacity-60')}>
+                                {labels.map((label, i) => (
+                                    <li key={i}><ProductLabel type={label.type} value={label.value} /></li>
                                 ))}
-                            </ul>
+                            </Grid>
                             {renderTopOptions?.call(null, product)}
                         </div>
-                        <div className='h-full flex items-center'>
-                            <AppLink href={`/product/${product.id}`}>
+                        <div className={cn('h-full flex items-center', !isAvailable && 'opacity-35')}>
+                            <AppLink href={`/product/${id}`}>
                                 {renderImages(product)}
                             </AppLink>
                         </div>
                     </div>
                     <div>
-                        <h6>{product.title}</h6>
+                        <h6 className={cn(!isAvailable && 'opacity-35')}>{title}</h6>
+                        {renderStatus?.call(null, status)}
                         <div className='flex justify-between items-end'>
-                            <Price price={product.price} {...ui?.price} />
+                            <Price
+                                price={price}
+                                {...ui?.price}
+                                classNames={ui?.price?.classNames}
+                                isUnavailable={!isAvailable}
+                            />
                             <div className='flex gap-2 relative bottom-1'>
                                 {renderBottomOptions?.call(null, product)}
                             </div>
@@ -87,7 +105,7 @@ export const ProductCardPreview: FC<ProductCardPreviewProps> = props => (
             />
         )}
         ui={{
-            card: { size: 'tiny', className: 'min-w-[180px] h-full' },
+            card: { size: 'tiny', className: 'min-w-[180px]' },
             price: { size: 'small' },
         }}
         {...props}
@@ -112,12 +130,13 @@ export const ProductCard: FC<ProductCardProps> = props => (
                 height='300'
             />
         )}
+        renderStatus={status => <ProductStatus status={status} />}
         {...props}
     />
 );
 
 export const ProductCardSkeleton: FC = () => (
-    <Skeleton className='flex flex-col gap-2 w-44 h-64 p-2' type='card'>
+    <Skeleton className='flex flex-col gap-2 h-64 p-2' type='card'>
         <Skeleton className='h-40' />
         <Skeleton className='h-4' />
         <Skeleton className='flex-grow h-8' />

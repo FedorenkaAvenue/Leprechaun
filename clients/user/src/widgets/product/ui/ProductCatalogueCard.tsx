@@ -5,17 +5,23 @@ import { ProductCard } from '@entities/product/ui/ProductCards';
 import CartAddItem from '@features/order/ui/CartAddItem';
 import AppLink from '@shared/ui/AppLink';
 import WishlistItemAdd from '../../wishlist/ui/WishlistItemAdd';
+import { ProductStatusModel } from '@entities/product/model/enums';
+import ProductStatusNotify from '@features/product/ui/ProductStatusNotify';
 
 type Props = ProductCardModel;
 
-const ProductCatalogueCard: FC<Props> = (item) => {
+const ProductCatalogueCard: FC<Props> = item => {
     return (
         <ProductCard
             product={item}
             renderBottomOptions={product => (
                 <>
                     <WishlistItemAdd productId={product.id} />
-                    <CartAddItem productId={product.id} />
+                    {
+                        item.status === ProductStatusModel.AVAILABLE
+                            ? <CartAddItem productId={product.id} />
+                            : <ProductStatusNotify productId={item.id} />
+                    }
                 </>
             )}
             renderAdditionalData={product => (

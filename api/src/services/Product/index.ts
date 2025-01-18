@@ -84,7 +84,7 @@ export default class ProductService {
         searchParams: QueriesProductList,
         resultMapConstructor?: any,
     ): Promise<PaginationResult<T>> {
-        const { sort, portion, page, status, price, optionsFilter } = searchParams;
+        const { sort, portion, page, price, optionsFilter } = searchParams;
 
         // filtering by dinamical filters
         if (optionsFilter) {
@@ -99,7 +99,7 @@ export default class ProductService {
         if (price) qb.andWhere('p.price.current BETWEEN :min AND :max', { ...price });
 
         // product status
-        qb.andWhere('p.status = :status', { status });
+        // qb.andWhere('p.status = :status', { status });
 
         // sorting
         switch (sort) {

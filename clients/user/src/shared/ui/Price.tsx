@@ -8,6 +8,7 @@ import { cn } from '@primitives/lib/utils';
 export interface Props extends VariantProps<typeof oldPriceVariants> {
     price: PriceModel
     classNames?: string
+    isUnavailable?: boolean
 }
 
 const oldPriceVariants = cva(
@@ -19,9 +20,14 @@ const oldPriceVariants = cva(
                 medium: ['text-sm'],
                 large: ['text-lg'],
             },
+            status: {
+                available: [],
+                unavailable: ['text-muted-primary-foreground'],
+            }
         },
         defaultVariants: {
             size: 'medium',
+            status: 'available',
         }
     }
 );
@@ -35,23 +41,28 @@ const currentPriceVariants = cva(
                 medium: ['text-2xl'],
                 large: ['text-3xl'],
             },
+            status: {
+                available: [],
+                unavailable: ['text-muted-primary-foreground'],
+            }
         },
         defaultVariants: {
             size: 'medium',
+            status: 'available',
         }
     }
 );
 
-const Price: FC<Props> = ({ price: { current, old }, size, classNames }) => (
-    <div className={classNames}>
+const Price: FC<Props> = ({ price: { current, old }, size, isUnavailable, classNames }) => (
+    <div className={cn(classNames, isUnavailable && 'opacity-35')}>
         {
             old && (
-                <div className={cn(oldPriceVariants({ size }))}>
+                <div className={cn(oldPriceVariants({ size, status: isUnavailable ? 'unavailable' : 'available' }))}>
                     {old}<span>{CURRENCY}</span>
                 </div>
             )
         }
-        <div className={cn(currentPriceVariants({ size }))}>
+        <div className={cn(currentPriceVariants({ size, status: isUnavailable ? 'unavailable' : 'available' }))}>
             {current}<span>{CURRENCY}</span>
         </div>
     </div>

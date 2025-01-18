@@ -2,11 +2,11 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 
 import { PaginationResult } from '@dto/Pagination';
 import ProductService from '.';
-import { QueriesCommon, QueriesProductList } from '@dto/Queries';
+import { QueriesProductList } from '@dto/Queries';
 import WishlistItemEntity from '@entities/WishlistItem';
 import { CategoryI } from '@interfaces/Category';
 import { ProductI } from '@interfaces/Product';
-import { ProductCardPublic, ProductPreviewPublic, ProductPublic } from '@dto/Product/public';
+import { ProductCardPublic, ProductPublic } from '@dto/Product/public';
 
 @Injectable()
 export default class ProductPublicService extends ProductService {
@@ -41,14 +41,5 @@ export default class ProductPublicService extends ProductService {
             .andWhere('p.is_public = true');
 
         return this.renderProductList<ProductCardPublic>(qb, searchParams, ProductCardPublic);
-    }
-
-    public async getProductPreview(id: ProductI['id'], lang: QueriesCommon['lang']): Promise<ProductPreviewPublic> {
-        const res = await this.productRepo.findOne({
-            where: { id },
-            relations: { images: true },
-        });
-
-        return new ProductPreviewPublic(res, lang);
     }
 }

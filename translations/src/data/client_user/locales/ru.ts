@@ -5,6 +5,10 @@ const data: Translates = {
         amout: 'Количество товаров',
         foundProductAmount: 'Найдено $1 продукт',
         foundProductsAmount: 'Найдено $1 продуктов',
+        status: {
+            available: 'Есть в наличии',
+            outOfStock: 'Нет на складе',
+        },
     },
     dashboard: {
         history: 'История',

@@ -8,15 +8,22 @@ import { useI18n } from '@shared/lib/i18n_client';
 import { Card } from '@primitives/ui/card';
 import { Skeleton } from '@primitives/ui/skeleton';
 import Grid from '@shared/ui/Grid';
+import { cn } from '@primitives/lib/utils';
+import { ProductStatusModel } from '@entities/product/model/enums';
 
 interface Props {
     wishlist: WishlistModel
     renderOption?: (wishlist: WishlistModel) => ReactNode
 }
 
-const Item: FC<WishlistItemModel> = ({ product: { image, title } }) => (
+const Item: FC<WishlistItemModel> = ({ product: { image, title, status } }) => (
     <li className='flex h-20 w-20'>
-        <Image src={'/' + image} width={80} height={80} alt={title} className='object-contain' />
+        <Image
+            src={'/' + image}
+            width={80} height={80}
+            alt={title}
+            className={cn('object-contain', status !== ProductStatusModel.AVAILABLE && 'opacity-35')}
+        />
     </li>
 )
 

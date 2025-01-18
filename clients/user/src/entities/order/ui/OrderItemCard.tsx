@@ -7,6 +7,9 @@ import Price from '@shared/ui/Price';
 import { Card } from '@primitives/ui/card';
 import AppLink from '@shared/ui/AppLink';
 import { Skeleton } from '@primitives/ui/skeleton';
+import { ProductStatusModel } from '@entities/product/model/enums';
+import { cn } from '@primitives/lib/utils';
+import ProductStatus from '@entities/product/ui/ProductStatus';
 
 interface Props {
     item: OrderItemModel
@@ -15,36 +18,41 @@ interface Props {
 }
 
 const OrderItemCard: FC<Props> = ({ item, renderAmount, renderOptions }) => {
+    const { product: { id, image, title, labels, status }, summaryPrice } = item;
+    const isAvailable = status === ProductStatusModel.AVAILABLE;
+
     return (
         <Card element='article' className='flex gap-2 justify-between h-full min-h-32' size='tiny'>
-            <div className='flex'>
-                <AppLink href={`/product/${item.product.id}`} className='flex h-full'>
+            <div className={cn('flex', !isAvailable && 'opacity-35')}>
+                <AppLink href={`/product/${id}`} className='flex h-full'>
                     <Image
-                        src={'/' + item.product.image}
+                        src={'/' + image}
                         width='100' height='100'
-                        alt={item.product.title}
+                        alt={title}
                         className='object-contain'
                     />
                 </AppLink>
             </div>
-            <div className='flex flex-col gap-2 flex-grow justify-center items-start'>
-                <AppLink href={`/product/${item.product.id}`}>
-                    <div>{item.product.title}</div>
+            <div className={cn(
+                'flex flex-col gap-2 flex-grow justify-center items-start',
+                !isAvailable && 'opacity-35',
+            )}>
+                <AppLink href={`/product/${id}`}>
+                    <div>{title}</div>
                 </AppLink>
-                {item.product.labels.length > 0 && (
+                {labels.length > 0 && (
                     <ul>
-                        {item.product.labels.map((v, i) => (
-                            <li key={i}>
-                                <ProductLabel type={v.type} value={v.value} />
-                            </li>
+                        {labels.map((label, i) => (
+                            <li key={i}><ProductLabel type={label.type} value={label.value} /></li>
                         ))}
                     </ul>
                 )}
+                {!isAvailable && <ProductStatus status={status} />}
             </div>
             <div className='flex flex-col items-end justify-between h-full'>
                 {renderOptions?.call(null, item)}
                 <div className='flex gap-3'>
-                    <Price price={item.summaryPrice} classNames='text-right' />
+                    <Price price={summaryPrice} isUnavailable={!isAvailable} classNames='text-right' />
                     {renderAmount?.call(null, item)}
                 </div>
             </div>
