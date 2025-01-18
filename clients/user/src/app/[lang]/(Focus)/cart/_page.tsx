@@ -23,10 +23,18 @@ const Cart: FC = () => {
 
     return (
         <div className='flex justify-between gap-4'>
-            <Grid className='flex-grow'>
-                {data?.items.map(i => <li key={i.id}><CartItem {...i} /></li>)}
-            </Grid>
-            <Card>
+            <div className='flex-grow'>
+                <Grid className='mb-6'>
+                    {data?.items.map(i => <li key={i.id}><CartItem {...i} /></li>)}
+                </Grid>
+                <div>
+                    <div className='text-muted-primary-foreground'>{dictionary?.cart.unvailableItems}</div>
+                    <Grid>
+                        {data?.unavailableItems.map(i => <li key={i.id}><CartItem {...i} /></li>)}
+                    </Grid>
+                </div>
+            </div>
+            <Card className='whitespace-nowrap'>
                 <div>{dictionary?.cart.summaryProductAmount}: {data?.summary.productsAmount}</div>
                 <div>{dictionary?.cart.summaryPrice}: {data?.summary.price}</div>
             </Card>

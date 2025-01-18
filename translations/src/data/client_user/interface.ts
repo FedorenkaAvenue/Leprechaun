@@ -16,6 +16,7 @@ type Translates = {
         emptyCart: string
         summaryProductAmount: string
         summaryPrice: string
+        unvailableItems: string
     }
     order: {
         myOrders: string

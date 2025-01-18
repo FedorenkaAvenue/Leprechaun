@@ -8,6 +8,8 @@ import { QueriesCommon } from '@dto/Queries';
 import { OrderCustomerDataI, OrderI, OrderPublicI, OrderSummaryI } from '@interfaces/Order';
 import { OrderStatus } from '@enums/Order';
 import { OrderItemPublic } from '@dto/OrderItem/public';
+import { ProductStatusE } from '@enums/Product';
+import { OrderItemEntity } from '@entities/OrderItem';
 
 export class OrderSummary implements OrderSummaryI {
     @ApiProperty({ description: 'summary order price' })
@@ -35,8 +37,11 @@ export class OrderPublic implements OrderPublicI {
     @ApiProperty({ enum: OrderStatus })
     status: OrderStatus;
 
-    @ApiProperty({ type: OrderItemPublic, isArray: true, description: 'order items array' })
+    @ApiProperty({ type: OrderItemPublic, isArray: true, description: 'available order items' })
     items: OrderItemPublicI[];
+
+    @ApiProperty({ type: OrderItemPublic, isArray: true, description: 'unavailable order items' })
+    unavailableItems: OrderItemPublicI[];
 
     @ApiProperty({ type: OrderSummary, description: 'summary order data' })
     summary: OrderSummaryI;
@@ -45,10 +50,15 @@ export class OrderPublic implements OrderPublicI {
     updated_at: Date;
 
     constructor({ id, status, items, updated_at }: OrderEntity, { lang }: QueriesCommon) {
+        const availableItems = items.filter(({ product: { status } }) => status === ProductStatusE.AVAILABLE);
+
         this.id = id;
         this.status = status;
-        this.items = items.map(prod => new OrderItemPublic(prod, lang));
-        this.summary = new OrderSummary(items);
+        this.items = availableItems.map(prod => new OrderItemPublic(prod, lang));
+        this.unavailableItems = items.
+            filter(({ product: { status } }) => status !== ProductStatusE.AVAILABLE).
+            map(prod => new OrderItemPublic(prod, lang));
+        this.summary = new OrderSummary(availableItems);
         this.updated_at = updated_at;
     }
 }

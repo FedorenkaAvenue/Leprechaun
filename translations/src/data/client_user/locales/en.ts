@@ -18,6 +18,7 @@ const data: Translates = {
         emptyCart: 'Empty cart',
         summaryProductAmount: 'Products amount',
         summaryPrice: 'Summary price',
+        unvailableItems: 'Unavailable items',
     },
     order: {
         myOrders: 'My orders',

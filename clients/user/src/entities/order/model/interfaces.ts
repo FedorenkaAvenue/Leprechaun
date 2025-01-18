@@ -3,18 +3,19 @@ import { ProductPreviewModel } from '@entities/product/model/interfaces';
 import { PriceModel } from '@shared/models/Price';
 
 export interface OrderItemModel {
-    id: string,
-    product: ProductPreviewModel,
-    summaryPrice: PriceModel,
+    id: string
+    product: ProductPreviewModel
+    summaryPrice: PriceModel
     amount: number
 }
 
 export interface CartModel {
-    id: string,
-    status: OrderStatusModel,
-    items: OrderItemModel[],
+    id: string
+    status: OrderStatusModel
+    items: OrderItemModel[]
+    unavailableItems: OrderItemModel[]
     summary: {
-        price: number,
+        price: number
         productsAmount: number
     },
     updated_at: Date

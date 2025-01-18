@@ -11,6 +11,7 @@ import { cn } from '@primitives/lib/utils';
 import Grid from '@shared/ui/Grid';
 import { ProductStatusModel } from '../model/enums';
 import ProductStatus from './ProductStatus';
+import ImageSlider from '@shared/ui/ImageSlider';
 
 type ProductType = ProductCardModel | ProductPreviewModel
 
@@ -52,16 +53,22 @@ const Card = <T extends ProductType>({
             <CardContent className='h-full'>
                 <div className='flex flex-col h-full'>
                     <div className='flex-grow mb-2 relative'>
-                        <div className='z-10 absolute flex justify-between items-start w-full'>
+                        <div className='z-10 absolute pointer-events-none flex justify-between items-start w-full'>
                             <Grid gap='s' className={cn(!isAvailable && 'opacity-60')}>
                                 {labels.map((label, i) => (
-                                    <li key={i}><ProductLabel type={label.type} value={label.value} /></li>
+                                    <li key={i} className='flex'>
+                                        <ProductLabel type={label.type} value={label.value} />
+                                    </li>
                                 ))}
                             </Grid>
-                            {renderTopOptions?.call(null, product)}
+                            {renderTopOptions && (
+                                <div className='pointer-events-auto'>
+                                    {renderTopOptions.call(null, product)}
+                                </div>
+                            )}
                         </div>
                         <div className={cn('h-full flex items-center', !isAvailable && 'opacity-35')}>
-                            <AppLink href={`/product/${id}`}>
+                            <AppLink href={`/product/${id}`} className='w-full'>
                                 {renderImages(product)}
                             </AppLink>
                         </div>
@@ -97,10 +104,10 @@ const Card = <T extends ProductType>({
 
 export const ProductCardPreview: FC<ProductCardPreviewProps> = props => (
     <Card<ProductPreviewModel>
-        renderImages={({ image }) => (
+        renderImages={({ image, title }) => (
             <Image
                 src={'/' + image}
-                alt={props.product.title}
+                alt={title}
                 width={160} height={160}
             />
         )}
@@ -122,13 +129,8 @@ export const ProductCardPreviewSkeleton: FC = () => (
 
 export const ProductCard: FC<ProductCardProps> = props => (
     <Card<ProductCardModel>
-        renderImages={({ images }) => (
-            <Image
-                src={'/' + images[0].src}
-                alt={props.product.title}
-                width='300'
-                height='300'
-            />
+        renderImages={({ images, title }) => (
+            <ImageSlider images={images} imageTitle={title} imageSize={300} />
         )}
         renderStatus={status => <ProductStatus status={status} />}
         {...props}

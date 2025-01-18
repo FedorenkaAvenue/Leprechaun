@@ -9,7 +9,7 @@ export interface LabelProps {
 
 const Label = ({ classNames, value }: LabelProps) => {
     return (
-        <div className={cn('px-2 text-sm', classNames)}>
+        <div className={cn('inline-block px-2 text-sm', classNames)}>
             {value}
         </div>
     );

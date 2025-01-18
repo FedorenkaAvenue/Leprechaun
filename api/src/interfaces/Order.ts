@@ -20,7 +20,9 @@ export interface OrderSummaryI {
     productsAmount: number;
 }
 
-export type OrderPublicI = BaseI<OrderItemPublicI>;
+export interface OrderPublicI extends BaseI<OrderItemPublicI> {
+    unavailableItems: OrderItemPublicI[]
+}
 
 export interface OrderI extends BaseI<OrderItemI> {
     created_at?: Date;

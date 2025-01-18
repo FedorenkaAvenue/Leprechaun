@@ -18,6 +18,7 @@ const data: Translates = {
         emptyCart: 'Порожнiй кошик',
         summaryProductAmount: 'Кiлькiсть товарiв',
         summaryPrice: 'Сума',
+        unvailableItems: 'Недоступні товари',
     },
     order: {
         myOrders: 'Мої замовлення',
