@@ -7,6 +7,8 @@ import { ProductStatusE } from "@enums/Product";
 import AuthGuard from "@guards/Auth";
 import SessionInitInterceptor from "@interceptors/SessionInit";
 import { ProductStatusSubscriptionI } from "@interfaces/Subscribe";
+import Queries from '@decorators/Query';
+import { QueriesCommon } from "@dto/Queries";
 
 @Controller('subscribe')
 @ApiTags('Subscribe 🧑‍💻')
@@ -32,7 +34,8 @@ export default class SubscribePublicController {
     private async subscribeProductStatus(
         @Body(new ValidationPipe({ transform: true })) body: SubscribeProductStatusDTO,
         @Session() { id },
+        @Queries() queries: QueriesCommon,
     ): Promise<void> {
-        return this.subscribeService.subscribeProductStatus(body, id);
+        return this.subscribeService.subscribeProductStatus(body, id, queries);
     }
 }

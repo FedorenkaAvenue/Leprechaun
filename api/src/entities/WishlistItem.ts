@@ -41,6 +41,7 @@ export class WishlistItemSubscriber implements EntitySubscriberInterface<Wishlis
     }
 
     async afterInsert(event: InsertEvent<WishlistItemEntity>) {
+        // update wishlist's "items_updated_at" field after insert wishlist item
         await event.manager.getRepository(WishlistEntity).update(
             { id: event.entity.wishlist as unknown as string },
             { items_updated_at: new Date() },

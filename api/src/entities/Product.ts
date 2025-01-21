@@ -1,16 +1,9 @@
 import { ApiProperty } from '@nestjs/swagger';
 import {
-    Column,
-    CreateDateColumn,
-    Entity,
-    JoinColumn,
-    JoinTable,
-    ManyToMany,
-    ManyToOne,
-    OneToMany,
-    OneToOne,
-    PrimaryGeneratedColumn,
+    Column, CreateDateColumn, DataSource, Entity, EntitySubscriberInterface, EventSubscriber, JoinColumn, JoinTable,
+    ManyToMany, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn, UpdateEvent,
 } from 'typeorm';
+import { Inject } from '@nestjs/common';
 
 import { CategoryEntity } from '@entities/Category';
 import { ProductStatusE } from '@enums/Product';
@@ -23,6 +16,7 @@ import { TransEntity } from './Trans';
 import { ProductI } from '@interfaces/Product';
 import WishlistItemEntity from './WishlistItem';
 import { OptionI } from '@interfaces/Option';
+import SubscribePublicService from '@services/Subscribe/public';
 
 @Entity('product')
 export class ProductEntity implements Omit<ProductI, 'labels' | 'wishlistCount'> {
@@ -97,4 +91,30 @@ export class ProductEntity implements Omit<ProductI, 'labels' | 'wishlistCount'>
 
     @ApiProperty({ description: 'mapped properties (into property groups)' })
     options: OptionI[];
+}
+
+@EventSubscriber()
+export class ProductEntitySubscriber implements EntitySubscriberInterface<ProductEntity> {
+    constructor(
+        dataSource: DataSource,
+        @Inject(SubscribePublicService) public readonly subscribePublicService: SubscribePublicService,
+    ) {
+        dataSource.subscribers.push(this);
+    }
+
+    listenTo() {
+        return ProductEntity;
+    }
+
+    async afterUpdate(event: UpdateEvent<ProductEntity>) {
+        // notify user who subscribed on product's available status
+        if ((event.entity as ProductEntity).status === ProductStatusE.AVAILABLE) {
+            const product = await event.manager.getRepository(ProductEntity).findOne({
+                where: { id: (event.entity as ProductEntity).id },
+                relations: { images: true },
+            });
+
+            this.subscribePublicService.notifyProductAvailableStatus(product);
+        }
+    }
 }

@@ -1,8 +1,8 @@
 import {
-    Body, Controller, Delete, Get, Param, ParseUUIDPipe, Post, UploadedFiles, UseInterceptors, ValidationPipe,
+    Body, Controller, Delete, Get, Param, ParseUUIDPipe, Patch, Post, UploadedFiles, UseInterceptors, ValidationPipe,
 } from '@nestjs/common';
 import {
-    ApiBadRequestResponse, ApiNotFoundResponse, ApiOkResponse, ApiOperation, ApiServiceUnavailableResponse, ApiTags,
+    ApiBadRequestResponse, ApiBody, ApiNotFoundResponse, ApiOkResponse, ApiOperation, ApiServiceUnavailableResponse, ApiTags,
     ApiUnsupportedMediaTypeResponse,
 } from '@nestjs/swagger';
 import { DeleteResult } from 'typeorm';
@@ -18,7 +18,7 @@ import AffectedResultInterceptor from '@interceptors/AffectedResult';
 import { Pagination } from '@dto/Pagination';
 import Query from '@decorators/Query';
 import { QueriesProductList } from '@dto/Queries';
-import { CreateProductDTO, ProductPreview } from '@dto/Product/private';
+import { ProductCreateDTO, ProductPreview, ProductUpdateDTO } from '@dto/Product/private';
 
 @Controller('adm/product')
 @ApiTags('Product 🤵🏿‍♂️')
@@ -30,7 +30,7 @@ export default class ProductPrivateController {
     @ApiOperation({ summary: 'create new product' })
     @ApiOkResponse({ description: 'success' })
     private createProduct(
-        @Body(new ValidationPipe({ transform: true })) product: CreateProductDTO,
+        @Body(new ValidationPipe({ transform: true })) product: ProductCreateDTO,
         @UploadedFiles() images: Express.Multer.File[],
     ): Promise<ProductEntity> {
         return this.productService.createProduct(product, images);
@@ -46,18 +46,6 @@ export default class ProductPrivateController {
         return this.productService.getProductList(queries);
     }
 
-    // @Get('category/:categoryURL')
-    // @UseInterceptors(InvalidPaginationPageInterceptor)
-    // @ApiOperation({ summary: 'get products by category URL' })
-    // @ApiNotFoundResponse({ description: 'category not found' })
-    // @ApiPaginatedResponse(ProductEntity)
-    // private getCategoryProducts(
-    //     @Param('categoryURL') categoryURL: string,
-    //     @Query(QueriesProductList) queries: QueriesProductList,
-    // ): Promise<PaginationResult<ProductEntity>> {
-    //     return this.productService.getCategoryProducts(categoryURL, queries);
-    // }
-
     @Get(':productID')
     @UseInterceptors(UndefinedResultInterceptor)
     @ApiOperation({ summary: 'get product by ID' })
@@ -66,6 +54,16 @@ export default class ProductPrivateController {
     @ApiNotFoundResponse({ description: 'product not found' })
     private getProduct(@Param('productID', ParseUUIDPipe) productID: string): Promise<ProductEntity> {
         return this.productService.getProduct(productID);
+    }
+
+    @Patch(':productID')
+    @ApiOperation({ summary: 'update product' })
+    @ApiBody({ type: ProductUpdateDTO })
+    private updateProduct(
+        @Param('productID', ParseUUIDPipe) productId: string,
+        @Body(new ValidationPipe({ transform: true })) productUpdates: ProductUpdateDTO,
+    ) {
+        return this.productService.updateProduct(productId, productUpdates);
     }
 
     // ! DONT TOUCH

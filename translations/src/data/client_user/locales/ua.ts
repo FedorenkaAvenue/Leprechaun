@@ -14,6 +14,7 @@ const data: Translates = {
         notifyWhenProductIsAvailable: 'Повідомити коли продукт буде в наявності',
         emailAlreadySubscribedOnProduct: 'Цей e-mail вже підписаний на цей продукт',
         productStatusSubscriptionsSuccess: 'Ми повідомимо Вас коли продукт буде в наявності',
+        productStatusSubscribed: 'Ви вже пiдписанi',
     },
     dashboard: {
         history: 'Історія',

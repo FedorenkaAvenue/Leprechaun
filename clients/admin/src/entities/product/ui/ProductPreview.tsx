@@ -35,7 +35,7 @@ const ProductPreview = ({ product, renderTools }: Props) => {
                 <ProductTogglePublic selected={product.is_public} />
             </TableCell>
             <TableCell align="right">
-                <ProductStatusSelect value={product.status} size='small' />
+                <ProductStatusSelect productId={product.id} value={product.status} size='small' />
             </TableCell>
         </TableRow >
     );

@@ -31,6 +31,7 @@ export default class ProductPublicService extends ProductService {
         return this.renderProductList<ProductCardPublic>(qb, searchParams, ProductCardPublic);
     }
 
+    // TODO: remove and make universal getProducts
     public async getCategoryProducts(
         categoryUrl: CategoryI['url'],
         searchParams: QueriesProductList,

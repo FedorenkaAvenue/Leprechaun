@@ -3,15 +3,18 @@ import { Request, Response } from 'express';
 import { QueryFailedError } from 'typeorm';
 
 import { DevLogMail } from '@dto/Mail/constructor';
-import MailService from '@services/Mail';
 import ConfigService from '@services/Config';
+import MailPrivateService from '@services/Mail/private';
 
 /**
  * @description catch uncaughted error and send mail log
  */
 @Catch(InternalServerErrorException, QueryFailedError)
 export default class UncaughtExceptionFilter implements ExceptionFilter {
-    constructor(private readonly mailService: MailService, private readonly configService: ConfigService) {}
+    constructor(
+        private readonly mailPrivateService: MailPrivateService,
+        private readonly configService: ConfigService,
+    ) { }
 
     catch(exception: InternalServerErrorException | QueryFailedError, host: ArgumentsHost) {
         if (this.configService.isDev) return;
@@ -33,7 +36,7 @@ export default class UncaughtExceptionFilter implements ExceptionFilter {
             timestamp,
         });
 
-        this.mailService.sendErrorLogMail(log);
+        this.mailPrivateService.sendErrorLogMail(log);
 
         console.error(log);
 

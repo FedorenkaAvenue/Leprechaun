@@ -5,8 +5,9 @@ import { SubscribeProductI } from "@interfaces/Subscribe";
 import { ProductI } from "@interfaces/Product";
 import SessionEntity from "./Session";
 import { ProductEntity } from "./Product";
+import { LanguagesI } from "@interfaces/Trans";
 
-@Entity('notify_product')
+@Entity('subscribe_product')
 @Index('product_email_UNIQUE', ['email', 'product'], { unique: true })
 export default class SubscribeProductEntity implements SubscribeProductI {
     @PrimaryGeneratedColumn('increment')
@@ -24,4 +25,8 @@ export default class SubscribeProductEntity implements SubscribeProductI {
     @ManyToOne(() => ProductEntity, ({ id }) => id, { onDelete: 'CASCADE' })
     @ApiProperty({ description: 'product' })
     product: ProductI;
+
+    @Column({ type: 'varchar' })
+    @ApiProperty({ description: 'language in moment on applying' })
+    lang: keyof LanguagesI;
 }

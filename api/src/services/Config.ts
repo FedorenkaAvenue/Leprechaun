@@ -154,9 +154,9 @@ export default class ConfigService {
      */
     public getMailConfig(): SMTPTransport.Options {
         return {
-            host: this.getVal('MAIL_SMTP_HOST') as string,
+            host: this.isDev ? 'leprechaun_mailcatcher' : this.getVal('MAIL_SMTP_HOST') as string,
             secure: false,
-            port: Number(this.getVal('MAIL_SMTP_PORT')),
+            port: Number(this.getVal(this.isDev ? 'MAIL_SMPT_PORT_DEV' : 'MAIL_SMTP_PORT_PROD')),
             auth: {
                 user: this.getVal('MAIL_SENDER_ACCOUNT') as string,
                 pass: this.getVal('MAIL_SENDER_PASSWORD') as string,
@@ -167,14 +167,15 @@ export default class ConfigService {
 
     /**
      * @description mail sender credentials
-     * @returns 'APP_NAME <SENDER_NAME>' string
+     * @returns {String} 'APP_NAME <SENDER_NAME>'
      */
     public getMailCredentials(): string {
         return `${this.getVal('APP_NAME')} <${this.getVal('MAIL_SENDER_ACCOUNT')}>`;
     }
 
     /**
-     * @description get development mail account
+     * @description get developer/admin mail account
+     * @returns developer/admin email
      */
     public getDevMailReciever(): string {
         return this.getVal('DEV_MAIL_RECIEVER') as string;

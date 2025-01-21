@@ -15,6 +15,10 @@ export function createProduct(product: ProductSchemaT) {
     return apiClient.postForm<ProductSchemaT>('/product', product);
 }
 
+export function updateProduct(productId: ProductModel['id'], updates: any) {
+    return apiClient.patch(`/product/${productId}`, updates);
+}
+
 export function removeProduct(productID: ProductModel['id'] | undefined) {
     return apiClient.delete(`/product/${productID}`);
 }

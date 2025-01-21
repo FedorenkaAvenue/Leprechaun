@@ -1,4 +1,4 @@
-import { DeleteResult } from 'typeorm';
+import { DeleteResult, UpdateResult } from 'typeorm';
 import { Injectable, NotFoundException } from '@nestjs/common';
 
 import { FOLDER_TYPES } from '@services/FS';
@@ -7,11 +7,11 @@ import ProductService from '.';
 import { QueriesProductList } from '@dto/Queries';
 import { ProductEntity } from '@entities/Product';
 import { ProductI } from '@interfaces/Product';
-import { CreateProductDTO, Product, ProductPreview } from '@dto/Product/private';
+import { ProductCreateDTO, Product, ProductPreview, ProductUpdateDTO } from '@dto/Product/private';
 
 @Injectable()
 export default class ProductPrivateService extends ProductService {
-    public async createProduct(newProduct: CreateProductDTO, images: Express.Multer.File[]): Promise<ProductEntity> {
+    public async createProduct(newProduct: ProductCreateDTO, images: Express.Multer.File[]): Promise<ProductEntity> {
         const createdProduct = await this.productRepo.save(new Product(newProduct));
 
         const {
@@ -57,16 +57,13 @@ export default class ProductPrivateService extends ProductService {
         );
     }
 
-    // public async getCategoryProducts(
-    //     categoryUrl: string,
-    //     searchParams: QueriesProductList,
-    // ): Promise<PaginationResult<ProductEntity>> {
-    //     const qb = this.getProductQueryBulder()
-    //         .innerJoin('p.category', 'category')
-    //         .where('category.url = :categoryUrl', { categoryUrl });
-
-    //     return this.renderProductList<ProductEntity>(qb, searchParams);
-    // }
+    public async updateProduct(productId: ProductI['id'], updates: ProductUpdateDTO): Promise<void> {
+        try {
+            this.productRepo.save({ id: productId, ...updates }); // ! should use 'save' instead of update
+        } catch (err) {
+            console.log(`while updating product: ${err}`);
+        }
+    }
 
     public async deleteProduct(productId: string): Promise<DeleteResult> {
         const res = await this.productRepo.delete({ id: productId });

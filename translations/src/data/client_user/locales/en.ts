@@ -14,6 +14,7 @@ const data: Translates = {
         notifyWhenProductIsAvailable: 'Notify when product will be available',
         emailAlreadySubscribedOnProduct: 'This email is already sibscribed on this product',
         productStatusSubscriptionsSuccess: 'We\'ll notify You when product will be available',
+        productStatusSubscribed: 'You are already subscribed',
     },
     dashboard: {
         history: 'History',

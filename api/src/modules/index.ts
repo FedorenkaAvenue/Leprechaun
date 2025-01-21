@@ -18,6 +18,7 @@ import CacheModule from './Cache';
 import ToolModule from './Tool';
 import EventModule from './Event';
 import SubscribeModule from './Subscribe';
+import MailModule from './Mail';
 import CacheResetMiddleware from '@middlewares/CacheReset';
 import ProductPrivateController from '@controllers/Product/private';
 import CategoryPrivateController from '@controllers/Category/private';
@@ -56,6 +57,7 @@ import SubscribePublicController from '@controllers/Subscribe/public';
         SessionModule,
         CacheModule,
         EventModule,
+        MailModule,
     ],
     providers: [
         {

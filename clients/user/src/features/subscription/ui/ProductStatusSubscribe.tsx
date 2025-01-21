@@ -15,6 +15,7 @@ import { twConfig } from '@root/tailwind.config';
 import { useSubscribeProductStatus } from '../model/hooks';
 import { SubscribeProductStatusSchema } from '../model/schemas';
 import { useProductStatusSubscriptions } from '@entities/subscribtion/model/hooks';
+import { TooltipWrapper } from '@primitives/ui/tooltip';
 
 interface Props {
     productId: ProductCardModel['id']
@@ -39,7 +40,11 @@ const SubscribeProductStatus: FC<Props> = ({ productId }) => {
         <Dialog open={isOpen} onOpenChange={setOpen}>
             {
                 isSubscribed
-                    ? <Bell color={twConfig.theme.colors.success} />
+                    ? (
+                        <TooltipWrapper content={dictionary?.subscriptions.productStatusSubscribed}>
+                            <Bell color={twConfig.theme.colors.success} />
+                        </TooltipWrapper>
+                    )
                     : <DialogTrigger><BellPlus color={twConfig.theme.colors.action} /></DialogTrigger>
             }
             <DialogContent>

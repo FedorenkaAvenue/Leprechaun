@@ -3,12 +3,13 @@ import { IoAdapter } from '@nestjs/platform-socket.io';
 import { Server, ServerOptions, Socket } from 'socket.io';
 import { createAdapter } from '@socket.io/redis-adapter';
 import { createClient } from 'redis';
+import { signedCookie } from 'cookie-parser';
+import { OnGatewayConnection, OnGatewayDisconnect, WebSocketServer } from '@nestjs/websockets';
 
 import { singleConfigService } from '@services/Config';
-import { OnGatewayConnection, OnGatewayDisconnect, WebSocketServer } from '@nestjs/websockets';
-import { signedCookie } from 'cookie-parser';
 
 const SESSION_SECRET_KEY = singleConfigService.getSessionSecretKey();
+const USER_SOCKETS_KEY = 'user_sockets';
 
 export class EventService implements OnGatewayConnection, OnGatewayDisconnect {
     @WebSocketServer()
@@ -20,14 +21,18 @@ export class EventService implements OnGatewayConnection, OnGatewayDisconnect {
         this.redisClient.connect();
     }
 
+    protected async getAllConnections(): Promise<Record<string, string>> {
+        return await this.redisClient.hGetAll(USER_SOCKETS_KEY);
+    }
+
     protected async findSocketByUserId(userId: string): Promise<string | undefined> {
-        const connections = await this.redisClient.hGetAll('user_sockets');
+        const connections = await this.getAllConnections();
 
         return connections[userId];
     }
 
     protected async findUserIdBySocketId(socketId: string): Promise<string | undefined> {
-        const users = await this.redisClient.hGetAll('user_sockets');
+        const users = await this.getAllConnections();
 
         return Object.keys(users).find((userId) => users[userId] === socketId);
     }
@@ -44,7 +49,7 @@ export class EventService implements OnGatewayConnection, OnGatewayDisconnect {
                 SESSION_SECRET_KEY,
             ) as string;
 
-            this.redisClient.hSet('user_sockets', sessionId, client.id);
+            this.redisClient.hSet(USER_SOCKETS_KEY, sessionId, client.id);
         } else {
             client.disconnect();
         }
@@ -53,7 +58,7 @@ export class EventService implements OnGatewayConnection, OnGatewayDisconnect {
     public async handleDisconnect(client: Socket): Promise<void> {
         const userId = await this.findUserIdBySocketId(client.id);
 
-        if (userId) await this.redisClient.hDel('user_sockets', userId);
+        if (userId) await this.redisClient.hDel(USER_SOCKETS_KEY, userId);
     }
 }
 

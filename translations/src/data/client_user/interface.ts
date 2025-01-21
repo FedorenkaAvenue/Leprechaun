@@ -12,6 +12,7 @@ type Translates = {
         notifyWhenProductIsAvailable: string
         emailAlreadySubscribedOnProduct: string
         productStatusSubscriptionsSuccess: string
+        productStatusSubscribed: string
     }
     dashboard: {
         history: string

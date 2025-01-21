@@ -1,6 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
-import { createProduct, getProductList, removeProduct } from ".";
+import { createProduct, getProductList, removeProduct, updateProduct } from ".";
 import { ProductSchemaT } from "../model/schema";
 import { ProductModel } from "@entities/product/model/Product";
 import { PRODUCT_LIST_QUERY } from "@entities/product/constants/queryKeys";
@@ -18,6 +18,17 @@ export function useCreateProduct(successCallback?: () => void) {
         mutationFn: (product: ProductSchemaT) => createProduct(product),
         onSuccess: () => {
             successCallback?.call(null);
+        }
+    });
+}
+
+export function useUpdateProduct(productId: ProductModel['id']) {
+    const queryClient = useQueryClient();
+
+    return useMutation({
+        mutationFn: (updates: any) => updateProduct(productId, updates),
+        onSuccess() {
+            queryClient.invalidateQueries({ queryKey: [PRODUCT_LIST_QUERY] });
         }
     });
 }

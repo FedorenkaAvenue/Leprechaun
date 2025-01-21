@@ -32,6 +32,7 @@ services:
       - ./api:/app
     environment:
       - IS_DEV=true
+      - MAIL_SMPT_PORT_DEV
 
   client_user:
     restart: unless-stopped
@@ -86,6 +87,14 @@ services:
       # - client_admin_trans_hosting:/app/dist/client_admin:rw
     environment:
       - LANGS
+
+  mailcatcher:
+    container_name: leprechaun_mailcatcher
+    image: dockage/mailcatcher:0.9.0
+    ports:
+      - 1080:1080
+    networks:
+      - api
 
 # volumes:
 #   client_user_trans_hosting:

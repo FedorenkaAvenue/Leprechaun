@@ -6,17 +6,10 @@ import { ImageEntity } from '@entities/Image';
 import { Price } from '@dto/Price';
 import { ProductEntity } from '@entities/Product';
 import { PriceEntity } from '@entities/_Price';
-import { ProductBaseI, ProductI, ProductPreviewI } from '@interfaces/Product';
+import { ProductI, ProductPreviewI } from '@interfaces/Product';
 import { TransI } from '@interfaces/Trans';
 import {
-    IsBooleanString,
-    IsNotEmpty,
-    IsNotEmptyObject,
-    IsNumberString,
-    IsObject,
-    IsOptional,
-    IsString,
-    ValidateNested,
+    IsBooleanString, IsEnum, IsNotEmpty, IsNotEmptyObject, IsNumberString, IsObject, IsOptional, IsString, ValidateNested,
 } from 'class-validator';
 import { Type } from 'class-transformer';
 
@@ -25,7 +18,7 @@ import { PropertyI } from '@interfaces/Property';
 import { ImageI } from '@interfaces/Image';
 import { TransDTO } from '@dto/Trans';
 
-export class CreateProductDTO {
+export class ProductCreateDTO {
     @IsNotEmptyObject()
     @IsObject()
     @ValidateNested()
@@ -54,6 +47,8 @@ export class CreateProductDTO {
     @ApiProperty({ required: false, default: false })
     is_public: boolean;
 
+    @IsEnum(ProductStatusE)
+    @IsOptional()
     @ApiProperty({
         enum: ProductStatusE,
         required: false,
@@ -70,6 +65,93 @@ export class CreateProductDTO {
     @IsNumberString()
     @ApiProperty({
         required: true,
+        type: 'number',
+        description: 'category id',
+    })
+    category: CategoryI;
+
+    @IsOptional()
+    @ApiProperty({
+        description: 'array of binary files',
+        type: 'file',
+        isArray: true,
+        required: false,
+        default: [],
+    })
+    images: ImageI[];
+
+    @IsOptional()
+    @IsNumberString({}, { each: true })
+    @ApiProperty({
+        description: 'array of properties',
+        isArray: true,
+        required: false,
+        default: [],
+    })
+    properties: PropertyI[];
+
+    @IsOptional()
+    @IsBooleanString()
+    @ApiProperty({
+        required: false,
+        default: true,
+        description: 'novelty status',
+    })
+    is_new: boolean;
+
+    @IsOptional()
+    @IsString()
+    @ApiProperty({ required: false, default: null })
+    comment: string;
+}
+
+export class ProductUpdateDTO implements ProductCreateDTO {
+    @IsOptional()
+    @IsObject()
+    @ValidateNested()
+    @Type(() => TransDTO)
+    @ApiProperty({ required: false })
+    title: TransDTO;
+
+    @IsOptional()
+    @IsObject()
+    @ValidateNested()
+    @Type(() => TransDTO)
+    @ApiProperty({ required: false })
+    description: TransDTO;
+
+    @IsOptional()
+    @IsNumberString()
+    @ApiProperty({ required: false })
+    price_current: PriceI['current'];
+
+    @IsOptional()
+    @ApiProperty({ required: false, default: null })
+    price_old: PriceI['old'];
+
+    @IsOptional()
+    @IsBooleanString()
+    @ApiProperty({ required: false, default: false })
+    is_public: boolean;
+
+    @IsEnum(ProductStatusE)
+    @IsOptional()
+    @ApiProperty({
+        enum: ProductStatusE,
+        required: false,
+        default: ProductStatusE.AVAILABLE,
+    })
+    status: ProductStatusE;
+
+    @IsOptional()
+    @IsNumberString()
+    @ApiProperty({ required: false, default: 0 })
+    rating: number;
+
+    @IsOptional()
+    @IsNumberString()
+    @ApiProperty({
+        required: false,
         type: 'number',
         description: 'category id',
     })
@@ -135,7 +217,7 @@ export class Product implements Omit<ProductI, 'orderCount' | 'wishlistCount' | 
         comment,
         is_new,
         rating,
-    }: CreateProductDTO) {
+    }: ProductCreateDTO) {
         this.title = title;
         this.price = new Price({ current: price_current, old: price_old });
         this.is_public = ((<unknown>is_public) as string) === 'true';
@@ -151,7 +233,7 @@ export class Product implements Omit<ProductI, 'orderCount' | 'wishlistCount' | 
     }
 }
 
-class Base implements ProductBaseI {
+export class ProductPreview implements ProductPreviewI {
     @ApiProperty()
     id: string;
 
@@ -185,27 +267,23 @@ class Base implements ProductBaseI {
     @ApiProperty()
     comment: string;
 
-    constructor(p: ProductBaseI) {
-        this.id = p.id;
-        this.title = p.title;
-        this.price = p.price;
-        this.status = p.status;
-        this.price = p.price;
-        this.category = p.category;
-        this.rating = p.rating;
-        this.created_at = p.created_at;
-        this.is_public = p.is_public;
-        this.is_new = p.is_new;
-        this.comment = p.comment;
-    }
-}
-
-export class ProductPreview extends Base implements ProductPreviewI {
     @ApiProperty()
     image: string;
 
-    constructor({ images, ...base }: ProductEntity) {
-        super(base);
+    constructor({
+        images, id, title, price, status, category, rating, created_at, is_public, is_new, comment,
+    }: ProductEntity) {
         this.image = (images[0] as ImageEntity)?.src;
+        this.id = id;
+        this.title = title;
+        this.price = price;
+        this.status = status;
+        this.price = price;
+        this.category = category;
+        this.rating = rating;
+        this.created_at = created_at;
+        this.is_public = is_public;
+        this.is_new = is_new;
+        this.comment = comment;
     }
 }
