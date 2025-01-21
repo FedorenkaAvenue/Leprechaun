@@ -47,19 +47,6 @@ export default class ProductPublicController {
         return this.productService.getProductList(queries);
     }
 
-    @Get('category/:categoryUrl')
-    @UseInterceptors(CacheInterceptor)
-    @UseInterceptors(InvalidPaginationPageInterceptor)
-    @ApiOperation({ summary: 'get public products by category URL 💾' })
-    @ApiNotFoundResponse({ description: 'category not found' })
-    @ApiPaginatedResponse(ProductCardPublic)
-    private getCategoryProducts(
-        @Param('categoryUrl') categoryUrl: string,
-        @Queries(QueriesProductList) queries: QueriesProductList,
-    ): Promise<PaginationResult<ProductCardPublic>> {
-        return this.productService.getCategoryProducts(categoryUrl, queries);
-    }
-
     @Get(':productId')
     @UseInterceptors(SessionInitInterceptor)
     @UseInterceptors(CacheInterceptor)

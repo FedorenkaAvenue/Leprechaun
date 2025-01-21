@@ -4,7 +4,6 @@ import { PaginationResult } from '@dto/Pagination';
 import ProductService from '.';
 import { QueriesProductList } from '@dto/Queries';
 import WishlistItemEntity from '@entities/WishlistItem';
-import { CategoryI } from '@interfaces/Category';
 import { ProductI } from '@interfaces/Product';
 import { ProductCardPublic, ProductPublic } from '@dto/Product/public';
 
@@ -27,19 +26,6 @@ export default class ProductPublicService extends ProductService {
 
     public async getProductList(searchParams: QueriesProductList): Promise<PaginationResult<ProductCardPublic>> {
         const qb = this.getProductQueryBulder().where('p.is_public = true');
-
-        return this.renderProductList<ProductCardPublic>(qb, searchParams, ProductCardPublic);
-    }
-
-    // TODO: remove and make universal getProducts
-    public async getCategoryProducts(
-        categoryUrl: CategoryI['url'],
-        searchParams: QueriesProductList,
-    ): Promise<PaginationResult<ProductCardPublic>> {
-        const qb = this.getProductQueryBulder()
-            .leftJoin('p.category', 'cat')
-            .where('cat.url = :categoryUrl', { categoryUrl })
-            .andWhere('p.is_public = true');
 
         return this.renderProductList<ProductCardPublic>(qb, searchParams, ProductCardPublic);
     }

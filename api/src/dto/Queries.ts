@@ -7,6 +7,7 @@ import { ProductSort } from '@enums/Query';
 import { availableEnum } from '@utils/enum';
 import { ProductStatusE } from '@enums/Product';
 import { singleConfigService } from '@services/Config';
+import { CategoryI } from '@interfaces/Category';
 
 const LANGS = singleConfigService.getVal('LANGS');
 
@@ -43,13 +44,15 @@ export class QueriesCommon implements QueriesCommonI {
 
 export class QueriesProductList extends QueriesCommon implements QueriesProductListI {
     sort: ProductSort;
+    category: CategoryI['url'];
     status: ProductStatusE;
     optionsFilter: QueryOptionsFiltersT;
 
-    constructor({ lang, sort, page, portion, price, status, ...restQueries }: QueriesProductListI<string>) {
+    constructor({ category, lang, sort, page, portion, status, price, ...restQueries }: QueriesProductListI<string>) {
         super({ lang, page, price, portion });
         this.sort = Number(sort) || ProductSort.POPULAR;
         this.status = availableEnum(status, ProductStatusE) ? status : ProductStatusE.AVAILABLE;
+        this.category = category;
         this.optionsFilter = Object.keys(restQueries).length
             ? Object
                 //@ts-ignore

@@ -1,7 +1,7 @@
 import { Metadata } from 'next';
 import { cache } from 'react';
 
-import { getCategory, getProductListByCategory } from '@entities/category/api';
+import { getCategory } from '@entities/category/api';
 import { RouteProps } from '@shared/models/router';
 import ProductCatalogueCard from '@widgets/product/ui/ProductCatalogueCard';
 import Grid from '@shared/ui/Grid';
@@ -9,6 +9,7 @@ import interpolate from '@shared/lib/interpolate';
 import { getDictionary } from '@shared/lib/i18n_server';
 import ProductSortList from '@widgets/product/ui/ProductSortList';
 import Pagination from '@shared/ui/Pagination';
+import { getProductList } from '@entities/product/api';
 
 type Props = RouteProps<{ category: string }, { page: string | undefined }>;
 
@@ -25,7 +26,7 @@ export default async function Category({ params, searchParams }: Props) {
     const queries = await searchParams;
     const [category, products, dictionary] = await Promise.all([
         getCategoryCached(categoryURL),
-        getProductListByCategory(categoryURL, queries),
+        getProductList({ ...queries, category: categoryURL }),
         getDictionary(lang),
     ]);
 

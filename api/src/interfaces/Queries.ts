@@ -1,5 +1,6 @@
 import { ProductStatusE } from '@enums/Product';
 import { ProductSort } from '@enums/Query';
+import { CategoryI } from './Category';
 
 export interface QueryPriceI {
     min: number;
@@ -20,6 +21,7 @@ export interface QueriesCommonI<P = QueryPriceI> {
 export interface QueriesProductListI<P = QueryPriceI> extends QueriesCommonI<P> {
     sort: ProductSort;
     status: ProductStatusE;
+    category: CategoryI['url']
     optionsFilter: QueryOptionsFiltersT;
 }
 

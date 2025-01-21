@@ -41,7 +41,7 @@ export default class ProductPrivateService extends ProductService {
 
     public async getProductList(q: QueriesProductList): Promise<PaginationResult<ProductPreview>> {
         const [res, count] = await this.productRepo.findAndCount({
-            where: { category: { id: q.optionsFilter?.category[0] } },
+            where: { category: { url: q.category } },
             relations: { images: true },
             take: q.portion,
             skip: q.portion * (q.page - 1),

@@ -32,7 +32,7 @@ const ProductTableWidget = () => {
                         setParams({ ...params, category: value })
                     }}
                     size='small'
-                    value={params.category ? Number(params.category) : ''}
+                    value={params.category ? params.category : ''}
                 />}
         >
             <Empty data={data?.data.length} align="center">

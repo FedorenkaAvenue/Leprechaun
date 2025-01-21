@@ -11,7 +11,7 @@ type Props = {
 
 const CategorySelectList = forwardRef<ReactNode, Props>(({ value = '', ...props }, ref) => {
     const { data, isFetching } = useCategoryList();
-    const mapedOptions = useMemo(() => mapToOptions(data || []), [data]);
+    const mapedOptions = useMemo(() => mapToOptions(data || [], 'en'), [data]);
 
     return (
         <Select
