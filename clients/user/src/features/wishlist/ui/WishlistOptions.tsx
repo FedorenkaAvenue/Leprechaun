@@ -20,7 +20,7 @@ const WishlistOptions: FC<Props> = ({ wishlist }) => {
     const [isEditOpen, setEditOpen] = useState(false);
     const { mutate: remove } = useRemoveWishlist(wishlist.id);
     const { mutate: update } = useUpdateWishlist(wishlist.id);
-    const { addWishlistItemsToCart, isDisableToAdd } = useAddWishlistItemsToCart(wishlist.id);
+    const { addWishlistItemsToCart, isDisableToAdd } = useAddWishlistItemsToCart(wishlist);
 
     function onUpdate(data: CreateWishlistDTO) {
         update(data);

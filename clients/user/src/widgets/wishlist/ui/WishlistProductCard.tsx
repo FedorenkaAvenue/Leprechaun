@@ -6,7 +6,7 @@ import { ProductCardPreview } from '@entities/product/ui/ProductCards';
 import WishlistItemOptions from '@features/wishlist/ui/WishlistItemOptions';
 import WishlistItemAdd from './WishlistItemAdd';
 import { ProductStatusModel } from '@entities/product/model/enums';
-import ProductStatusNotify from '@features/product/ui/ProductStatusNotify';
+import SubscribeProductStatus from '@features/subscription/ui/ProductStatusSubscribe';
 
 interface Props {
     item: WishlistItemModel;
@@ -26,7 +26,7 @@ const WishlistProductCard: FC<Props> = ({ item: { product, id }, shared }) => {
                             <CartAddItem productId={p.id} />
                         </>
                     )
-                    : <ProductStatusNotify productId={product.id} />
+                    : <SubscribeProductStatus productId={product.id} />
             )}
         />
     );

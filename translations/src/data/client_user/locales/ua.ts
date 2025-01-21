@@ -10,6 +10,11 @@ const data: Translates = {
             outOfStock: 'Немає на складі',
         },
     },
+    subscriptions: {
+        notifyWhenProductIsAvailable: 'Повідомити коли продукт буде в наявності',
+        emailAlreadySubscribedOnProduct: 'Цей e-mail вже підписаний на цей продукт',
+        productStatusSubscriptionsSuccess: 'Ми повідомимо Вас коли продукт буде в наявності',
+    },
     dashboard: {
         history: 'Історія',
     },
@@ -57,9 +62,14 @@ const data: Translates = {
         next: 'Наступна',
         move: 'Перемiстити',
     },
+    form: {
+        weGotYourRequest: 'Ми отримали Вашу заявку',
+    },
     errors: {
+        notEmpty: 'Поле не може бути порожнiм',
         textMinLength: 'Текст занадто малий (мiнiмум $1 символ)',
         textMaxLength: 'Текст занадто великий (максимум $1 символiв)',
+        invalidEmail: 'Невалідний формат пошти',
     },
     sort: {
         byDate: 'За датою додавання',
@@ -71,6 +81,7 @@ const data: Translates = {
     },
     profile: {
         personalData: 'Персональнi данi',
+        yourEmail: 'Ваш електроний адрес',
     },
     history: {
         visitedProducts: 'Переглянутi товари',

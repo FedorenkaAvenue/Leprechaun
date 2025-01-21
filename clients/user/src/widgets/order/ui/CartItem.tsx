@@ -6,7 +6,7 @@ import OrderItemChangeAmount from '@features/order/ui/CartChangeItemAmount';
 import CartRemoveItem from '@features/order/ui/CartRemoveItem';
 import WishlistItemAdd from '@widgets/wishlist/ui/WishlistItemAdd';
 import { ProductStatusModel } from '@entities/product/model/enums';
-import ProductStatusNotify from '@features/product/ui/ProductStatusNotify';
+import SubscribeProductStatus from '@features/subscription/ui/ProductStatusSubscribe';
 
 type Props = OrderItemModel;
 
@@ -23,7 +23,7 @@ const CartItem: FC<Props> = item => {
                     {
                         isAvailable
                             ? <WishlistItemAdd productId={item.product.id} />
-                            : <ProductStatusNotify productId={item.product.id} />
+                            : <SubscribeProductStatus productId={item.product.id} />
                     }
                 </div>
             )}

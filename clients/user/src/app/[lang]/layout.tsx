@@ -19,6 +19,8 @@ import { RouteProps } from '@shared/models/router';
 import { cn } from '@shared/ui/primitives/lib/utils';
 import { Toaster } from '@primitives/ui/toaster';
 import { CartProvider } from '@entities/order/model/providers';
+import { SUBSCRIBTION_PRODUCT_STATUS } from '@entities/subscribtion/constants/queryKeys';
+import { getProductStatusSubscriptions } from '@entities/subscribtion/api';
 
 const Socket = dynamic(() => import('./socket'));
 
@@ -42,6 +44,7 @@ const RootLayout: FC<PropsWithChildren<RouteProps>> = async ({ params, children 
         queryClient.prefetchQuery({ queryKey: [WISHLISTS_QUERY], queryFn: getWishLists }),
         queryClient.prefetchQuery({ queryKey: [CART_QUERY], queryFn: getCart }),
         queryClient.prefetchQuery({ queryKey: [PRODUCT_HISTORY_QUERY], queryFn: getProductHistory }),
+        queryClient.prefetchQuery({ queryKey: [SUBSCRIBTION_PRODUCT_STATUS], queryFn: getProductStatusSubscriptions })
     ]);
 
     return (

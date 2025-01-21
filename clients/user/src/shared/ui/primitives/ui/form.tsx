@@ -14,6 +14,7 @@ import {
 
 import { cn } from '@primitives/lib/utils'
 import { Label } from '@primitives/ui/label'
+import { useI18n } from '@shared/lib/i18n_client'
 
 const Form = FormProvider
 
@@ -146,12 +147,12 @@ const FormMessage = React.forwardRef<
     HTMLParagraphElement,
     React.HTMLAttributes<HTMLParagraphElement>
 >(({ className, children, ...props }, ref) => {
+    const { dictionary } = useI18n();
     const { error, formMessageId } = useFormField()
-    const body = error ? String(error?.message) : children
+    //@ts-ignore
+    const body = error ? String(dictionary?.errors[error?.message] || 'UNKNOWN_ERROR') : children;
 
-    if (!body) {
-        return null
-    }
+    if (!body) return null
 
     return (
         <p

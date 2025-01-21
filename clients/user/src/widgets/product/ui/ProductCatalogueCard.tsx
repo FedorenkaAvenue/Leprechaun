@@ -6,7 +6,7 @@ import CartAddItem from '@features/order/ui/CartAddItem';
 import AppLink from '@shared/ui/AppLink';
 import WishlistItemAdd from '../../wishlist/ui/WishlistItemAdd';
 import { ProductStatusModel } from '@entities/product/model/enums';
-import ProductStatusNotify from '@features/product/ui/ProductStatusNotify';
+import SubscribeProductStatus from '@features/subscription/ui/ProductStatusSubscribe';
 
 type Props = ProductCardModel;
 
@@ -20,7 +20,7 @@ const ProductCatalogueCard: FC<Props> = item => {
                     {
                         item.status === ProductStatusModel.AVAILABLE
                             ? <CartAddItem productId={product.id} />
-                            : <ProductStatusNotify productId={item.id} />
+                            : <SubscribeProductStatus productId={item.id} />
                     }
                 </>
             )}

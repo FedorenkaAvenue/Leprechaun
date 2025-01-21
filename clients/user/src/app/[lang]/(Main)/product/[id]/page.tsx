@@ -1,24 +1,26 @@
 import { Metadata } from 'next';
+import { cache } from 'react';
 
-import ProductOverview from '@widgets/product/ui/ProductOverview';
 import { getProduct } from '@entities/product/api';
 import { RouteProps } from '@shared/models/router';
 
 type Props = RouteProps<{ id: string }>
 
-// export async function generateMetadata({ params }: Props): Promise<Metadata> {
-//     const { title } = await getProduct((await params).id); // dont do with cause api create two product histories
+const getProductCached = cache(getProduct);
 
-//     return { title };
-// }
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+    const { title } = await getProductCached((await params).id); // dont do with cause api create two product histories
+
+    return { title };
+}
 
 export default async function Product({ params }: Props) {
     const { id } = await params;
-    const product = await getProduct(id);
+    const product = await getProductCached(id);
 
     return (
         <div>
-            <ProductOverview product={product} />
+            {product.title}
         </div>
     );
 }

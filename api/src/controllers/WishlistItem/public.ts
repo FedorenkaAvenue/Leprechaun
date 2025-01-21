@@ -24,7 +24,6 @@ export default class WishlistItemPublicController {
     @ApiOperation({ summary: 'move wishlist item to another wishlist' })
     @ApiCookieAuth()
     @ApiBody({ type: WishlistItemMoveDTO })
-    @ApiOkResponse()
     @ApiNotAcceptableResponse({ description: 'wishlist item or wishlist is not exists' })
     private moveWishlistItemToAnotherWishlist(
         @Body(new ValidationPipe({ transform: true })) updates: WishlistItemMoveDTO,

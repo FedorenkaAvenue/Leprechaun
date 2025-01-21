@@ -5,8 +5,6 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useI18n } from '@shared/lib/i18n_client';
 import { CreateWishlistDTO } from '@features/wishlist/api/dto';
 import { createWishlistSchema } from '@features/wishlist/model/schemas';
-import interpolate from '@shared/lib/interpolate';
-import { WISHLIST_TITLE_MIN_TEXT_LENGHT } from '@features/wishlist/constants/schames';
 import { DialogClose, DialogFooter, DialogHeader, DialogTitle } from '@primitives/ui/dialog';
 import { Button } from '@primitives/ui/button';
 import { Form, FormControl, FormField, FormItem, FormMessage } from '@primitives/ui/form';
@@ -45,13 +43,7 @@ const WishlistCU: FC<Props> = ({ handleSubmit, trans, initForm }) => {
                                 <FormControl>
                                     <Input {...field} placeholder={dictionary?.wishList.newListName} />
                                 </FormControl>
-                                <FormMessage>
-                                    {interpolate(
-                                        //@ts-ignore
-                                        dictionary?.errors[form.formState.errors.title?.message],
-                                        [WISHLIST_TITLE_MIN_TEXT_LENGHT],
-                                    )}
-                                </FormMessage>
+                                <FormMessage />
                             </FormItem>
                         )}
                     />
@@ -79,11 +71,9 @@ const WishlistCU: FC<Props> = ({ handleSubmit, trans, initForm }) => {
                         {dictionary?.common.cancel}
                     </Button>
                 </DialogClose>
-                <DialogClose asChild>
-                    <Button form='new-wishlist' type='submit'>
-                        {trans.submitButton}
-                    </Button>
-                </DialogClose>
+                <Button form='new-wishlist' type='submit'>
+                    {trans.submitButton}
+                </Button>
             </DialogFooter>
         </>
     );

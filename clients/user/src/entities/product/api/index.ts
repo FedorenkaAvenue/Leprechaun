@@ -1,3 +1,5 @@
+'use server'
+
 import { ProductOverviewModel } from '../model/interfaces';
 import serverAPI from '@shared/api/serverApi';
 

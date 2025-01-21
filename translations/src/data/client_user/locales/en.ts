@@ -10,6 +10,11 @@ const data: Translates = {
             outOfStock: 'Out of stock',
         },
     },
+    subscriptions: {
+        notifyWhenProductIsAvailable: 'Notify when product will be available',
+        emailAlreadySubscribedOnProduct: 'This email is already sibscribed on this product',
+        productStatusSubscriptionsSuccess: 'We\'ll notify You when product will be available',
+    },
     dashboard: {
         history: 'History',
     },
@@ -57,9 +62,14 @@ const data: Translates = {
         next: 'Next',
         move: 'Move',
     },
+    form: {
+        weGotYourRequest: 'We\'ve got Your request'
+    },
     errors: {
+        notEmpty: 'Field souldn\'t be empty',
         textMinLength: 'Text is to small (min $1 character)',
         textMaxLength: 'Text is too large (max $1 characters)',
+        invalidEmail: 'Invaild email',
     },
     sort: {
         byDate: 'By date added',
@@ -71,6 +81,7 @@ const data: Translates = {
     },
     profile: {
         personalData: 'Personal data',
+        yourEmail: 'Your e-mail',
     },
     history: {
         visitedProducts: 'Visited products',

@@ -10,6 +10,11 @@ const data: Translates = {
             outOfStock: 'Нет на складе',
         },
     },
+    subscriptions: {
+        notifyWhenProductIsAvailable: 'Уведомить когда продукт будет в наличии',
+        emailAlreadySubscribedOnProduct: 'Этот e-mail уже подписан на этот продукт',
+        productStatusSubscriptionsSuccess: 'Мы уведомим Вас когда продукт будет в наличии',
+    },
     dashboard: {
         history: 'История',
     },
@@ -57,9 +62,14 @@ const data: Translates = {
         next: 'Следующая',
         move: 'Переместить',
     },
+    form: {
+        weGotYourRequest: 'Мы получили Вашу заявку',
+    },
     errors: {
+        notEmpty: 'Поле не может быть пустым',
         textMinLength: 'Текст слишком мал (минимум $1 символ)',
         textMaxLength: 'Текст слишком большой (максимум $1 символов)',
+        invalidEmail: 'Неверный формат почты',
     },
     sort: {
         byDate: 'За датою добавления',
@@ -71,6 +81,7 @@ const data: Translates = {
     },
     profile: {
         personalData: 'Персональные данные',
+        yourEmail: 'Ваша електронная почта',
     },
     history: {
         visitedProducts: 'Посещенные товары',

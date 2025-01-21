@@ -16,8 +16,6 @@ const config = {
             success: 'var(--success)',
             achtung: 'var(--achtung)',
             'achtung-foreground': 'var(--achtung-foreground)',
-            'achtung-secondary': 'var(--achtung-secondary)',
-            'achtung-secondary-foreground': 'var(--achtung-secondary-foreground)',
             action: 'var(--action)',
             'action-hover': 'var(--action-hover)',
             'action-active': 'var(--action-active)',

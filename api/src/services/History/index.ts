@@ -19,28 +19,12 @@ export default class HistoryService {
     }
 
     public async addHistoryItem(productId: ProductI['id'], sid: SessionI['sid']): Promise<void> {
-        // TODO refactoring
-        const existedItem = await this.historyRepo.findOneBy({
-            product: { id: productId },
-            sid,
-        });
-
-        if (!existedItem) {
-            await this.historyRepo.save({
-                sid,
-                product: productId,
-            } as DeepPartial<HistoryEntity>);
-        } else {
-            await this.historyRepo.update(
-                {
-                    sid,
-                    product: { id: productId },
-                },
-                {},
-            );
-        }
-
-        // check if history length is full
+        await this.historyRepo.upsert(
+            { product: productId, sid } as DeepPartial<HistoryEntity>,
+            {
+                conflictPaths: { product: true, sid: true },
+            },
+        )
     }
 
     public async getHistoryListBySID(sid: SessionI['sid']): Promise<HistoryEntity[]> {

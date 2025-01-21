@@ -8,6 +8,11 @@ type Translates = {
             outOfStock: string
         }
     }
+    subscriptions: {
+        notifyWhenProductIsAvailable: string
+        emailAlreadySubscribedOnProduct: string
+        productStatusSubscriptionsSuccess: string
+    }
     dashboard: {
         history: string
     }
@@ -55,9 +60,14 @@ type Translates = {
         next: string
         move: string
     }
+    form: {
+        weGotYourRequest: string
+    }
     errors: {
+        notEmpty: string
         textMinLength: string
         textMaxLength: string
+        invalidEmail: string
     }
     sort: {
         byDate: string
@@ -69,6 +79,7 @@ type Translates = {
     }
     profile: {
         personalData: string
+        yourEmail: string
     }
     history: {
         visitedProducts: string

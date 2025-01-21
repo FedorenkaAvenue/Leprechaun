@@ -25,7 +25,7 @@ interface WishlistItemAddProps {
 interface WishlistTooltipProps extends Partial<WishlistModel> { }
 
 const WishlistTooltip: FC<WishlistTooltipProps> = memo(
-    function Tooltip({ id, title, isDefault }) {
+    function Tooltip({ id, title }) {
         const { dictionary } = useI18n();
 
         return (

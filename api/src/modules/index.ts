@@ -17,6 +17,7 @@ import HistoryModule from './History';
 import CacheModule from './Cache';
 import ToolModule from './Tool';
 import EventModule from './Event';
+import SubscribeModule from './Subscribe';
 import CacheResetMiddleware from '@middlewares/CacheReset';
 import ProductPrivateController from '@controllers/Product/private';
 import CategoryPrivateController from '@controllers/Category/private';
@@ -30,6 +31,7 @@ import ProductPublicController from '@controllers/Product/public';
 import WishlistPublicController from '@controllers/Wishlist/public';
 import HistoryPublicController from '@controllers/History/public';
 import WishlistItemPublicController from '@controllers/WishlistItem/public';
+import SubscribePublicController from '@controllers/Subscribe/public';
 
 @Module({
     imports: [
@@ -45,6 +47,7 @@ import WishlistItemPublicController from '@controllers/WishlistItem/public';
         OrderModule,
         WishlistModule,
         HistoryModule,
+        SubscribeModule,
         PropertyGroupModule,
         PropertyModule,
         ImageModule,
@@ -81,6 +84,7 @@ export default class AppModule implements NestModule {
                 WishlistPublicController,
                 WishlistItemPublicController,
                 HistoryPublicController,
+                SubscribePublicController,
             );
     }
 }

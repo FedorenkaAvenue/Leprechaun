@@ -18,7 +18,6 @@ serverAPI.interceptors.request.use(
             ...conf.params,
             // portion: cookieStore.get('portion')?.value,
         };
-        conf.fetchOptions = { next: { revalidate: 60 }, };
 
         return conf;
     }
@@ -38,14 +37,15 @@ serverAPI.interceptors.response.use(
         return response;
     },
     error => {
-        switch (error.status) {
+        switch (error.response?.status) {
             case 404:
                 notFound();
             case 401:
-                console.log('unknown user');
+                console.log('Unauthorized user');
+                break;
         }
 
-        throw error;
+        throw new Error(error.response?.status);
     }
 );
 

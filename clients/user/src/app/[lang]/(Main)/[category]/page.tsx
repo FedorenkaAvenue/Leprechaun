@@ -1,4 +1,5 @@
 import { Metadata } from 'next';
+import { cache } from 'react';
 
 import { getCategory, getProductListByCategory } from '@entities/category/api';
 import { RouteProps } from '@shared/models/router';
@@ -11,8 +12,10 @@ import Pagination from '@shared/ui/Pagination';
 
 type Props = RouteProps<{ category: string }, { page: string | undefined }>;
 
+const getCategoryCached = cache(getCategory);
+
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-    const { title } = await getCategory((await params).category);
+    const { title } = await getCategoryCached((await params).category);
 
     return { title };
 }
@@ -21,7 +24,7 @@ export default async function Category({ params, searchParams }: Props) {
     const { category: categoryURL, lang } = await params;
     const queries = await searchParams;
     const [category, products, dictionary] = await Promise.all([
-        getCategory(categoryURL),
+        getCategoryCached(categoryURL),
         getProductListByCategory(categoryURL, queries),
         getDictionary(lang),
     ]);
