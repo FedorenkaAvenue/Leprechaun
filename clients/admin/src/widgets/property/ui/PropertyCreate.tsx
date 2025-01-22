@@ -3,23 +3,23 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from "react-hook-form";
 import LoadingButton from '@mui/lab/LoadingButton';
 
-import { useCreateProperty } from "@features/property/api/hook";
-import PropertyGroupPreviewModel from "@entities/propertyGroup/model/PropertyGroup";
-import PropertyCreateSchema, { PropertySchemaT } from "@features/property/models/schema";
 import TextInput from "@shared/ui/TextInput";
+import { useCreateProperty } from "@features/property/models/hook";
+import { PropertyGroupPreview } from "@entities/propertyGroup/model/interfaces";
+import { propertySchema, PropertySchema } from "@features/property/models/schema";
 
 interface Props {
-    groupId: PropertyGroupPreviewModel['id']
+    groupId: PropertyGroupPreview['id']
     handleClose: () => void
 }
 
 const PropertyCreateWidget = ({ groupId, handleClose }: Props) => {
     const { mutate, isPending } = useCreateProperty(groupId, handleClose);
-    const { handleSubmit, register, formState: { errors } } = useForm<PropertySchemaT>({
-        resolver: zodResolver(PropertyCreateSchema),
+    const { handleSubmit, register, formState: { errors } } = useForm<PropertySchema>({
+        resolver: zodResolver(propertySchema),
     });
 
-    function sendForm(data: PropertySchemaT) {
+    function sendForm(data: PropertySchema) {
         mutate(data);
     }
 

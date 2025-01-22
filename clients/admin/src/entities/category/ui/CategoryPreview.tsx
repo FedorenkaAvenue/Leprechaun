@@ -2,19 +2,19 @@ import { ReactNode } from "react";
 import { Link } from "react-router-dom";
 import { TableCell, TableRow, Typography } from "@mui/material";
 
-import { CategoryPreviewModel } from "../model/CategoryPreview";
 import routerSubConfig from "@shared/config/router";
 import TooltipContent from "@shared/ui/TooltipContent";
 import TransList from "@shared/ui/TransList";
 import Image from "@shared/ui/Image";
+import { CategoryPreview } from "../model/interfaces";
 
 interface Props {
-    category: CategoryPreviewModel
-    renderTools?: (category: CategoryPreviewModel) => ReactNode
-    renderPublictStatus: (category: CategoryPreviewModel) => ReactNode
+    category: CategoryPreview
+    renderTools?: (category: CategoryPreview) => ReactNode
+    renderPublictStatus: (category: CategoryPreview) => ReactNode
 }
 
-const CategoryPreview = ({ category, renderTools, renderPublictStatus }: Props) => {
+const CategoryPreviewEntity = ({ category, renderTools, renderPublictStatus }: Props) => {
     return (
         <TableRow className="hover-item">
             <TableCell align="left">{category.id}</TableCell>
@@ -47,4 +47,4 @@ const CategoryPreview = ({ category, renderTools, renderPublictStatus }: Props) 
     );
 };
 
-export default CategoryPreview;
+export default CategoryPreviewEntity;

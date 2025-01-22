@@ -5,12 +5,12 @@ import ContentListManager from "@shared/ui/ContentListManager";
 import routerSubConfig from "@shared/config/router";
 import CategoryDeleteButton from "@features/category/ui/CategoryDeleteButton";
 import EditButton from "@shared/ui/EditButton";
-import { useCategoryList } from "@features/category/api/hooks";
 import Empty from "@shared/ui/Empty";
 import CategoryPreview from "@entities/category/ui/CategoryPreview";
 import CategoryTogglePublic from "@features/category/ui/CategoryTogglePublic";
+import { useCategoryList } from "@entities/category/model/hooks";
 
-const CategoryTableWidget = () => {
+const CategoryTablePage = () => {
     const { data, isFetching } = useCategoryList();
     const nav = useNavigate();
 
@@ -60,4 +60,4 @@ const CategoryTableWidget = () => {
     );
 };
 
-export default CategoryTableWidget;
+export default CategoryTablePage;

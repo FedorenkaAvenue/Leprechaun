@@ -1,13 +1,8 @@
 import apiClient from "@shared/api/client"
-import { CategoryPreviewModel } from "@entities/category/model/CategoryPreview";
 import { CategorySchemaT } from "../model/schema";
+import { CategoryPreview } from "@entities/category/model/interfaces";
 
-export const getCategoryList = async () => {
-    const res = await apiClient.get<CategoryPreviewModel[]>('/category/list');
-    return res.data;
-}
-
-export const removeCategory = (id: CategoryPreviewModel['id'] | undefined) => {
+export const removeCategory = (id: CategoryPreview['id']) => {
     return apiClient.delete(`/category/${id}`);
 }
 

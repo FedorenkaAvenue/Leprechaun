@@ -3,13 +3,13 @@ import LoadingButton from '@mui/lab/LoadingButton';
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 
-import PropertyGroupSelectList from "@features/propertyGroup/ui/PropertyGroupSelectList";
 import { CategorySchemaT } from "@features/category/model/schema";
-import { useCreateCategory } from "@features/category/api/hooks";
 import FileUploader from "@shared/ui/FileUploader";
 import TextInput from "@shared/ui/TextInput";
+import PropertyGroupSelectList from '@widgets/propertyGroup/ui/PropertyGroupSelectList';
+import { useCreateCategory } from '@features/category/model/hooks';
 
-const CategoryCreateWidget = () => {
+const CategoryCreatePage = () => {
     const nav = useNavigate();
     const { register, handleSubmit, getValues, watch, setValue, formState: { errors } } = useForm<CategorySchemaT>({
         defaultValues: {
@@ -65,4 +65,4 @@ const CategoryCreateWidget = () => {
     );
 };
 
-export default CategoryCreateWidget;
+export default CategoryCreatePage;

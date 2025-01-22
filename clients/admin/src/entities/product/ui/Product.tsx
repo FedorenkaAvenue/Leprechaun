@@ -2,18 +2,18 @@ import { Divider, ImageList, ImageListItem, Typography } from "@mui/material";
 import { ReactNode } from "react";
 import { PhotoProvider } from "react-photo-view";
 
-import { ProductModel } from "../model/Product";
 import Chip from "@shared/ui/Chip";
 import TransList from "@shared/ui/TransList";
 import Image from "@shared/ui/Image";
 import Empty from "@shared/ui/Empty";
+import { Product } from "../model/interfaces";
 
 interface Props {
-    product: ProductModel | undefined
+    product: Product | undefined
     aditionalContent?: ReactNode
 }
 
-const Product = ({ product, aditionalContent }: Props) => {
+const ProductEntity = ({ product, aditionalContent }: Props) => {
     return (
         <div className="flex flex-col gap-4">
             <div className="flex flex-wrap gap-4">
@@ -106,4 +106,4 @@ const Product = ({ product, aditionalContent }: Props) => {
     );
 };
 
-export default Product;
+export default ProductEntity;

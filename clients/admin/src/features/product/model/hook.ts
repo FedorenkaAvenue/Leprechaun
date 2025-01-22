@@ -1,17 +1,9 @@
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
-import { createProduct, getProductList, removeProduct, updateProduct } from ".";
+import { createProduct, removeProduct, updateProduct } from "../api";
 import { ProductSchemaT } from "../model/schema";
-import { ProductModel } from "@entities/product/model/Product";
 import { PRODUCT_LIST_QUERY } from "@entities/product/constants/queryKeys";
-import { ProductListUrlQueryParams } from "../model/urlQueryParams";
-
-export function useProductList(queryParams: ProductListUrlQueryParams) {
-    return useQuery({
-        queryFn: () => getProductList(queryParams),
-        queryKey: [PRODUCT_LIST_QUERY, queryParams],
-    })
-}
+import { Product } from "@entities/product/model/interfaces";
 
 export function useCreateProduct(successCallback?: () => void) {
     return useMutation({
@@ -22,7 +14,7 @@ export function useCreateProduct(successCallback?: () => void) {
     });
 }
 
-export function useUpdateProduct(productId: ProductModel['id']) {
+export function useUpdateProduct(productId: Product['id']) {
     const queryClient = useQueryClient();
 
     return useMutation({
@@ -33,7 +25,7 @@ export function useUpdateProduct(productId: ProductModel['id']) {
     });
 }
 
-export function useRemoveProduct(productID: ProductModel['id'] | undefined) {
+export function useRemoveProduct(productID: Product['id'] | undefined) {
     const queryClient = useQueryClient();
 
     return useMutation({

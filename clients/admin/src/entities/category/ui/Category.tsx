@@ -1,17 +1,17 @@
 import { ReactNode } from "react";
 
-import { CategoryModel } from "../model/Category";
-import PropertyGroupPreviewModel from "@entities/propertyGroup/model/PropertyGroup";
-import ProductPreviewModel from "@entities/product/model/ProductPreview";
 import Image from "@shared/ui/Image";
+import { Category } from "../model/interfaces";
+import { ProductPreview } from "@entities/product/model/interfaces";
+import { PropertyGroupPreview } from "@entities/propertyGroup/model/interfaces";
 
 interface Props {
-    category: CategoryModel | undefined
-    renderPropertyGroups?: (p: PropertyGroupPreviewModel[] | undefined) => ReactNode
-    renderProducts?: (p: ProductPreviewModel[] | undefined) => ReactNode
+    category: Category | undefined
+    renderPropertyGroups?: (p: PropertyGroupPreview[] | undefined) => ReactNode
+    renderProducts?: (p: ProductPreview[] | undefined) => ReactNode
 }
 
-const Category = ({ category, renderPropertyGroups, renderProducts }: Props) => {
+const CategoryEntity = ({ category, renderPropertyGroups, renderProducts }: Props) => {
     return (
         <div className="flex flex-col gap-4">
             <div className="flex flex-wrap">
@@ -39,4 +39,4 @@ const Category = ({ category, renderPropertyGroups, renderProducts }: Props) => 
     );
 };
 
-export default Category;
+export default CategoryEntity;

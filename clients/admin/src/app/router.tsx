@@ -1,22 +1,22 @@
 import { createBrowserRouter } from "react-router-dom";
 
 import Layout from "./layout";
-import Home from "@pages/home/Home";
-import NotFound from "@pages/notFound/NotFound";
+import HomePage from "@pages/home/ui/Home";
+import NotFoundPage from "@pages/notFound/ui/NotFound";
 import PropertyGroupTablePage from "@pages/propertyGroup/ui/PropertyGroupTable";
 import PropertyGroupCreate from "@pages/propertyGroup/ui/PropertyGroupCreate";
 import { CREATE_SEGMENT } from "@shared/constants/routerSegments";
 import routerSubConfig from "@shared/config/router";
-import CategoryCreatePage from "@pages/category/CategoryCreate";
-import CategoryTablePage from "@pages/category/CategoryTable";
-import Category from "@pages/category/Category";
+import CategoryCreatePage from "@pages/category/ui/CategoryCreate";
+import CategoryTablePage from "@pages/category/ui/CategoryTable";
+import Category from "@pages/category/ui/Category";
 import PropertyGroupPage from '@pages/propertyGroup/ui/PropertyGroup';
 import ProductCreatePage from "@pages/product/ui/ProductCreate";
 import ProductListPage from '@pages/product/ui/ProductTable';
 import ProductPage from "@pages/product/ui/Product";
 import DashboardPage from "@pages/dashboard/ui/Dashboard";
 import ToolsPage from "@pages/tools/ui/Tools";
-import SocketsPage from "@pages/connections/Sockets";
+import SocketsPage from "@pages/connections/ui/Sockets";
 
 const routerConfig = createBrowserRouter([
     {
@@ -25,7 +25,7 @@ const routerConfig = createBrowserRouter([
         children: [
             {
                 index: true,
-                element: <Home />,
+                element: <HomePage />,
             },
             {
                 path: routerSubConfig.tools.segment,
@@ -102,7 +102,7 @@ const routerConfig = createBrowserRouter([
             },
             {
                 path: "",
-                element: <NotFound />
+                element: <NotFoundPage />
             }
         ],
     },

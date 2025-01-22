@@ -1,16 +1,16 @@
 import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
 import { FC } from "react";
 
-import PropertyModel from "@entities/property/model/Property";
-import Property from "@entities/property/ui/Property";
 import Empty from "@shared/ui/Empty";
 import PropertyDeleteButton from "@features/property/ui/PropertyDeleteButton";
 import EditButton from "@shared/ui/EditButton";
-import PropertyGroupModel from "@entities/propertyGroup/model/PropertyGroupPreview";
+import { PropertyGroup } from "@entities/propertyGroup/model/interfaces";
+import { Property } from "@entities/property/model/interfaces";
+import PropertyEntity from "@entities/property/ui/Property";
 
 interface Props {
-    properties: PropertyModel[] | undefined
-    group: PropertyGroupModel | undefined
+    properties: Property[] | undefined
+    group: PropertyGroup
 }
 
 const PropertyTableWidget: FC<Props> = ({ properties, group }) => {
@@ -29,11 +29,11 @@ const PropertyTableWidget: FC<Props> = ({ properties, group }) => {
                     </TableHead>
                     <TableBody>
                         {properties?.map(i => (
-                            <Property
+                            <PropertyEntity
                                 property={i}
                                 renderTools={property => (
                                     <>
-                                        <PropertyDeleteButton groupId={group?.id} property={property} />
+                                        <PropertyDeleteButton groupId={group.id} property={property} />
                                         <EditButton handleClick={() => alert("Хуя")} title="Edit property group" />
                                     </>
                                 )}

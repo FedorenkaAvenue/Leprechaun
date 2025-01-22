@@ -1,17 +1,15 @@
-import { ProductModel } from '@entities/product/model/Product';
 import DeleteButton, { DeleteButtonProps } from '@shared/ui/DeleteButton';
-import { useRemoveProduct } from '../api/hook';
-import { useProduct } from '@entities/product/api/hooks';
 import { CircularProgress, DialogContentText } from '@mui/material';
+import { Product } from '@entities/product/model/interfaces';
+import { useProduct } from '@entities/product/model/hooks';
+import { useRemoveProduct } from '../model/hook';
 
 interface Props extends Omit<DeleteButtonProps, 'buttonTitle' | 'modalTitle' | 'handleAgree' | 'onAgree'> {
-    productID: ProductModel['id'] | undefined
+    productID: Product['id'] | undefined
 }
 
-function ModalContent({ id }: { id: ProductModel['id'] | undefined }) {
-    const { data, isFetching } = useProduct(id);
-
-    // if (!productsLen) return null;
+function ModalContent({ id }: { id: Product['id'] | undefined }) {
+    const { isFetching } = useProduct(id);
 
     return isFetching
         ? <CircularProgress />

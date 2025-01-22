@@ -1,9 +1,9 @@
 import mapPropertyListToOptions from "@entities/property/lib/mapToOptions";
-import PropertyGroupPreviewModel from "@entities/propertyGroup/model/PropertyGroup";
+import { PropertyGroupPreview } from "@entities/propertyGroup/model/interfaces";
 import Select, { CustomSelectProps } from "@shared/ui/Select";
 
 type Props = {
-    propertyGroup: PropertyGroupPreviewModel
+    propertyGroup: PropertyGroupPreview
     isLoading?: boolean
 } & Omit<CustomSelectProps, 'options' | 'multiple'>;
 

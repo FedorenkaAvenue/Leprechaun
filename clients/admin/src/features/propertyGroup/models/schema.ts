@@ -1,8 +1,9 @@
-import TransSchema from '@shared/models/TransSchema';
 import { z } from 'zod';
 
+import { transSchema } from '@shared/models/schemas';
+
 const PropertyGroupSchema = z.object({
-    title: TransSchema,
+    title: transSchema,
     alt_name: z.string().min(1),
     is_primary: z.boolean().optional(),
     comment: z.string().optional(),

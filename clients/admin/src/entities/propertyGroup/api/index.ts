@@ -1,8 +1,15 @@
 import apiClient from '@shared/api/client';
-import PropertyGroupPreviewModel from '../model/PropertyGroup';
-import PropertyGroupModel from '../model/PropertyGroupPreview';
+import { PropertyGroup, PropertyGroupPreview } from '../model/interfaces';
+import { Category } from '@entities/category/model/interfaces';
 
-export async function getPropertyGroup(id: PropertyGroupPreviewModel['id']) {
-    const res = await apiClient.get<PropertyGroupModel>(`propertygroup/${id}`);
-    return res.data;
+export async function getPropertyGroup(id: PropertyGroupPreview['id']): Promise<PropertyGroup> {
+    return (await apiClient.get<PropertyGroup>(`propertygroup/${id}`)).data;
+}
+
+export async function getPropertyGroupList(): Promise<PropertyGroupPreview[]> {
+    return (await apiClient.get<PropertyGroupPreview[]>('propertygroup/list')).data;
+}
+
+export async function getPropertyGroupListByCategoryId(id: Category['id']): Promise<PropertyGroupPreview[]> {
+    return (await apiClient.get<PropertyGroupPreview[]>(`propertygroup/list/${id}`)).data;
 }

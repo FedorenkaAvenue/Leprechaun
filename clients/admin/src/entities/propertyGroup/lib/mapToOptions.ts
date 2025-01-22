@@ -1,6 +1,7 @@
-import OptionModel from "@shared/models/Option";
-import PropertyGroupPreviewModel from "../model/PropertyGroup";
+import { Option } from "@shared/models/interfaces";
+import { PropertyGroupPreview } from "../model/interfaces";
 
-export default function mapToOptions(propGroups: PropertyGroupPreviewModel[]): OptionModel[] {
-    return propGroups.map(i => ({ id: i.id, title: i.title.en }));
+
+export default function mapToOptions(propGroups: PropertyGroupPreview[]): Option[] {
+    return propGroups.map(i => ({ id: String(i.id), title: i.title.en }));
 }

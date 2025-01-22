@@ -1,13 +1,13 @@
 import { z } from 'zod';
 
-import TransSchema from '@shared/models/TransSchema';
+import { transSchema } from '@shared/models/schemas';
 
 const MAX_FILE_SIZE = 10000000;
 const ACCEPTED_IMAGE_TYPES = ["image/svg+xml"];
 
 const CategorySchema = z.object({
     url: z.string().min(1),
-    title: TransSchema,
+    title: transSchema,
     is_public: z.boolean(),
     icon: z.any()
         .refine(files => files?.[0]?.size <= MAX_FILE_SIZE, `Max image size is 5MB.`)

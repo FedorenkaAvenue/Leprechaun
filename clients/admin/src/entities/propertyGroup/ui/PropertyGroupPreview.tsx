@@ -2,17 +2,17 @@ import { TableCell, TableRow, Typography } from "@mui/material";
 import { ReactNode } from "react";
 import { Link } from "react-router-dom";
 
-import PropertyGroupPreviewModel from "../model/PropertyGroup";
 import TooltipContent from "@shared/ui/TooltipContent";
 import TransList from "@shared/ui/TransList";
+import { PropertyGroupPreview } from "../model/interfaces";
 
 interface Props {
-    group: PropertyGroupPreviewModel
-    renderTools?: (group: PropertyGroupPreviewModel) => ReactNode
-    renderPublicStatus: (group: PropertyGroupPreviewModel) => ReactNode
+    group: PropertyGroupPreview
+    renderTools?: (group: PropertyGroupPreview) => ReactNode
+    renderPublicStatus: (group: PropertyGroupPreview) => ReactNode
 }
 
-const PropertyGroupPreview = ({ group, renderTools, renderPublicStatus }: Props) => {
+const PropertyGroupPreviewEntity = ({ group, renderTools, renderPublicStatus }: Props) => {
     return (
         <TableRow className="hover-item">
             <TableCell align="left">{group.id}</TableCell>
@@ -46,4 +46,4 @@ const PropertyGroupPreview = ({ group, renderTools, renderPublicStatus }: Props)
     );
 };
 
-export default PropertyGroupPreview;
+export default PropertyGroupPreviewEntity;

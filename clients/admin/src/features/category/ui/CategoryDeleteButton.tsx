@@ -1,20 +1,20 @@
 import { CircularProgress, Typography } from '@mui/material';
-
-import { useCategory } from '@entities/category/api/hooks';
-import { useRemoveCategory } from '../api/hooks';
-import { CategoryModel } from '@entities/category/model/Category';
-import DeleteButton, { DeleteButtonProps } from '@shared/ui/DeleteButton';
 import { Link } from 'react-router-dom';
+
+import DeleteButton, { DeleteButtonProps } from '@shared/ui/DeleteButton';
 import routerSubConfig from '@shared/config/router';
 import { PRODUCT_LIST_URL_QUERY_PARAMS } from '@features/product/constants/urlQueryParams';
+import { Category } from '@entities/category/model/interfaces';
+import { useCategory } from '@entities/category/model/hooks';
+import { useRemoveCategory } from '../model/hooks';
 
 interface Props extends Omit<DeleteButtonProps, 'buttonTitle' | 'modalContent' | 'handleAgree' | 'modalTitle' | 'onAgree'> {
-    categoryId: CategoryModel['id'] | undefined
-    categoryUrl: CategoryModel['url'] | undefined
+    categoryId: Category['id']
+    categoryUrl: Category['url'] | undefined
     removeCallback?: () => void
 }
 
-function ModalContent({ url }: { url: CategoryModel['url'] | undefined }) {
+function ModalContent({ url }: { url: Category['url'] | undefined }) {
     const { data, isFetching } = useCategory(url);
     const productsLen = data?.products.length;
 

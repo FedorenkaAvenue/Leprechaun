@@ -1,12 +1,12 @@
 import { forwardRef, ReactNode, useMemo } from "react";
 
 import mapToOptions from "@entities/category/lib/mapToOptions";
-import { CategoryModel } from "@entities/category/model/Category";
 import Select, { CustomSelectProps } from "@shared/ui/Select";
-import { useCategoryList } from "../api/hooks";
+import { Category } from "@entities/category/model/interfaces";
+import { useCategoryList } from "@entities/category/model/hooks";
 
 type Props = {
-    value: CategoryModel['id'] | undefined
+    value: Category['id'] | undefined
 } & Omit<CustomSelectProps, 'options' | 'label'>;
 
 const CategorySelectList = forwardRef<ReactNode, Props>(({ value = '', ...props }, ref) => {

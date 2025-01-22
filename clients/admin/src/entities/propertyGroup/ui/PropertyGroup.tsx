@@ -1,15 +1,16 @@
 import { ReactNode } from "react";
-import PropertyGroupModel from "../model/PropertyGroupPreview";
-import { CategoryPreviewModel } from "@entities/category/model/CategoryPreview";
-import PropertyModel from "@entities/property/model/Property";
+
+import { PropertyGroup } from "../model/interfaces";
+import { CategoryPreview } from "@entities/category/model/interfaces";
+import { Property } from "@entities/property/model/interfaces";
 
 interface Props {
-    group: PropertyGroupModel | undefined
-    renderCategories?: (c: CategoryPreviewModel[] | undefined) => ReactNode
-    renderProperties?: (c: PropertyModel[] | undefined) => ReactNode
+    group: PropertyGroup | undefined
+    renderCategories?: (c: CategoryPreview[] | undefined) => ReactNode
+    renderProperties?: (c: Property[] | undefined) => ReactNode
 }
 
-const PropertyGroup = ({ group, renderCategories, renderProperties }: Props) => {
+const PropertyGroupEntity = ({ group, renderCategories, renderProperties }: Props) => {
     return (
         <div className="flex flex-col gap-4">
             <div className="flex flex-wrap">
@@ -34,4 +35,4 @@ const PropertyGroup = ({ group, renderCategories, renderProperties }: Props) => 
     );
 };
 
-export default PropertyGroup;
+export default PropertyGroupEntity;

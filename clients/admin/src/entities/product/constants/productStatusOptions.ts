@@ -1,9 +1,9 @@
-import OptionModel from "@shared/models/Option";
-import ProductStatus from "../model/ProductStatus";
+import { Option } from "@shared/models/interfaces";
+import { productStatusSchema } from "../model/schemas";
 
-const productStatusOptions: OptionModel[] = [
-    { title: 'Available', id: ProductStatus.enum.AVAILABLE },
-    { title: 'Out of stock', id: ProductStatus.enum.OUT_OF_STOCK },
+const productStatusOptions: Option[] = [
+    { title: 'Available', id: String(productStatusSchema.enum.AVAILABLE) },
+    { title: 'Out of stock', id: String(productStatusSchema.enum.OUT_OF_STOCK) },
 ];
 
 export default productStatusOptions;

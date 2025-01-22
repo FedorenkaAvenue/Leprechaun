@@ -1,13 +1,13 @@
 import { z } from 'zod';
 
-import TransSchema from '@shared/models/TransSchema';
-import ProductStatus from '@entities/product/model/ProductStatus';
+import { transSchema } from '@shared/models/schemas';
+import { productStatusSchema } from '@entities/product/model/schemas';
 
 const MAX_FILE_SIZE = 10000000;
 
 const step1 = z.object({
-    title: TransSchema,
-    description: TransSchema,
+    title: transSchema,
+    description: transSchema,
     price_current: z.preprocess(val => {
         if (val === "") return;
 
@@ -19,7 +19,7 @@ const step1 = z.object({
         return typeof val === 'string' ? parseFloat(val) : val;
     }, z.number().positive().optional()),
     is_public: z.boolean(),
-    status: ProductStatus,
+    status: productStatusSchema,
     rating: z.preprocess(val => {
         return typeof val === 'string' ? parseFloat(val) : val;
     }, z.number().positive().min(1).max(100)),

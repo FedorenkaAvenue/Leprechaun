@@ -2,14 +2,14 @@ import { forwardRef } from "react";
 import { SelectChangeEvent } from "@mui/material";
 
 import Select, { CustomSelectProps } from "@shared/ui/Select";
-import { ProductStatusT } from "@entities/product/model/ProductStatus";
 import productStatusOptions from "@entities/product/constants/productStatusOptions";
-import { useUpdateProduct } from "../api/hook";
-import { ProductModel } from "@entities/product/model/Product";
+import { Product } from "@entities/product/model/interfaces";
+import { ProductStatus } from "@entities/product/model/enums";
+import { useUpdateProduct } from "../model/hook";
 
 type Props = {
-    productId: ProductModel['id']
-    value: ProductStatusT
+    productId: Product['id']
+    value: ProductStatus
 } & Omit<CustomSelectProps, 'options' | 'multiple'>;
 
 const ProductStatusSelect = forwardRef<React.JSX.Element, Props>((

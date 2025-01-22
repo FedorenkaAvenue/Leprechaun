@@ -6,15 +6,15 @@ import TooltipContent from "@shared/ui/TooltipContent";
 import TransList from "@shared/ui/TransList";
 import ProductTogglePublic from "@features/product/ui/ProductTogglePublic";
 import ProductStatusSelect from "@features/product/ui/ProductStatusSelect";
-import ProductPreviewModel from "../model/ProductPreview";
 import Image from '@shared/ui/Image';
+import { ProductPreview } from "../model/interfaces";
 
 interface Props {
-    product: ProductPreviewModel
-    renderTools?: (product: ProductPreviewModel) => ReactNode
+    product: ProductPreview
+    renderTools?: (product: ProductPreview) => ReactNode
 }
 
-const ProductPreview = ({ product, renderTools }: Props) => {
+const ProductPreviewEntity = ({ product, renderTools }: Props) => {
     return (
         <TableRow className="hover-item">
             <TableCell align="left">
@@ -41,4 +41,4 @@ const ProductPreview = ({ product, renderTools }: Props) => {
     );
 };
 
-export default ProductPreview;
+export default ProductPreviewEntity;

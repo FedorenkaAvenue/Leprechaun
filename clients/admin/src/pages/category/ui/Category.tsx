@@ -1,21 +1,22 @@
-import { Link, useNavigate, useParams } from 'react-router-dom';
-import { Button, Divider, Typography } from '@mui/material';
+import { Button, Divider, Typography } from "@mui/material";
+import { Link, useNavigate, useParams } from "react-router-dom";
 
-import { useCategory } from '@entities/category/api/hooks';
-import Category from '@entities/category/ui/Category';
-import ContentManager from '@shared/ui/ContentManager';
-import CategoryDeleteButton from '@features/category/ui/CategoryDeleteButton';
+import CategoryEntity from "@entities/category/ui/Category";
+import CategoryDeleteButton from "@features/category/ui/CategoryDeleteButton";
+import Chip from "@shared/ui/Chip";
+import ContentManager from "@shared/ui/ContentManager";
+import Empty from "@shared/ui/Empty";
+import TransList from "@shared/ui/TransList";
 import routerSubConfig from '@shared/config/router';
-import Chip from '@shared/ui/Chip';
-import TransList from '@shared/ui/TransList';
-import Empty from '@shared/ui/Empty';
-import { PRODUCT_LIST_URL_QUERY_PARAMS } from '@features/product/constants/urlQueryParams';
+import { PRODUCT_LIST_URL_QUERY_PARAMS } from "@features/product/constants/urlQueryParams";
+import { useCategory } from "@entities/category/model/hooks";
 
-const CategoryWidget = () => {
+const CategoryPage = () => {
     const nav = useNavigate();
     const { url } = useParams();
-
     const { data, isFetching } = useCategory(url as string);
+
+    if (isFetching || !data) return <div>loading</div>;
 
     return (
         <ContentManager
@@ -33,14 +34,14 @@ const CategoryWidget = () => {
                     </Button>
                     <CategoryDeleteButton
                         withoutIcon
-                        categoryId={data?.id}
+                        categoryId={data.id}
                         categoryUrl={data?.url}
                         removeCallback={() => nav(routerSubConfig.categoryList.path)}
                     />
                 </>
             }
         >
-            <Category
+            <CategoryEntity
                 category={data}
                 renderPropertyGroups={groups => (
                     <>
@@ -87,4 +88,4 @@ const CategoryWidget = () => {
     );
 };
 
-export default CategoryWidget;
+export default CategoryPage;

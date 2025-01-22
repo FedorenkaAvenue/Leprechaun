@@ -1,14 +1,14 @@
 import { FC } from "react";
 import DeleteIcon from '@mui/icons-material/Delete';
 
-import PropertyModel from "@entities/property/model/Property";
 import ConfirmButton from "@shared/ui/ConfirmButton";
-import { useDeleteProperty } from "../api/hook";
-import PropertyGroupPreviewModel from "@entities/propertyGroup/model/PropertyGroup";
+import { PropertyGroupPreview } from "@entities/propertyGroup/model/interfaces";
+import { Property } from "@entities/property/model/interfaces";
+import { useDeleteProperty } from "../models/hook";
 
 interface Props {
-    groupId: PropertyGroupPreviewModel['id'] | undefined
-    property: PropertyModel
+    groupId: PropertyGroupPreview['id']
+    property: Property
     icon?: FC
 }
 

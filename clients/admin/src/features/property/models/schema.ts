@@ -1,12 +1,11 @@
 import { z } from "zod";
 
-import transSchemaValidation from "@shared/models/TransSchema";
+import { transSchema } from "@shared/models/schemas";
 
-const PropertySchema = z.object({
-    title: transSchemaValidation,
+export const propertySchema = z.object({
+    title: transSchema,
     alt_name: z.string().min(1, { message: 'Required' }),
     comment: z.string().optional(),
 });
 
-export type PropertySchemaT = z.infer<typeof PropertySchema>;
-export default PropertySchema;
+export type PropertySchema = z.infer<typeof propertySchema>;

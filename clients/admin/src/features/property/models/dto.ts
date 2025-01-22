@@ -1,6 +1,6 @@
-import PropertyGroupPreviewModel from "@entities/propertyGroup/model/PropertyGroup";
-import { PropertySchemaT } from "./schema";
+import { PropertyGroupPreview } from "@entities/propertyGroup/model/interfaces";
+import { PropertySchema } from "./schema";
 
-export interface PropertyCreateDTO extends PropertySchemaT {
-    propertygroup: PropertyGroupPreviewModel['id']
+export interface PropertyCreateDTO extends PropertySchema {
+    propertygroup: PropertyGroupPreview['id']
 }

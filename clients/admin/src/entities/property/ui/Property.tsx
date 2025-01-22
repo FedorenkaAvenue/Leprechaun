@@ -1,16 +1,16 @@
 import { TableCell, TableRow } from "@mui/material";
 import { ReactNode } from "react";
 
-import PropertyModel from "../model/Property";
 import TooltipContent from "@shared/ui/TooltipContent";
 import TransList from "@shared/ui/TransList";
+import { Property } from "../model/interfaces";
 
 interface Props {
-    property: PropertyModel
-    renderTools?: (property: PropertyModel) => ReactNode
+    property: Property
+    renderTools?: (property: Property) => ReactNode
 }
 
-const Property = ({ property, renderTools }: Props) => {
+const PropertyEntity = ({ property, renderTools }: Props) => {
     return (
         <>
             <TableRow className="hover-item">
@@ -28,4 +28,4 @@ const Property = ({ property, renderTools }: Props) => {
     );
 };
 
-export default Property;
+export default PropertyEntity;

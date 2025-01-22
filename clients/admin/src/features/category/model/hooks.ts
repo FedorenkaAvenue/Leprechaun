@@ -1,25 +1,18 @@
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
-import { createCategory, getCategoryList, removeCategory } from ".";
-import { CategoryPreviewModel } from "@entities/category/model/CategoryPreview";
+import { createCategory, removeCategory } from "../api";
 import { CATEGORY_LIST_QUERY } from "@entities/category/constants/queryKeys";
 import { CategorySchemaT } from "../model/schema";
+import { CategoryPreview } from "@entities/category/model/interfaces";
 
-export function useCategoryList() {
-    return useQuery({
-        queryFn: () => getCategoryList(),
-        queryKey: [CATEGORY_LIST_QUERY],
-    });
-}
-
-export function useRemoveCategory(id: CategoryPreviewModel['id'] | undefined, removeCallback?: () => void) {
+export function useRemoveCategory(id: CategoryPreview['id'], removeCallback?: () => void) {
     const client = useQueryClient();
 
     return useMutation({
         mutationFn: () => removeCategory(id),
         onSuccess: () => {
             removeCallback?.call(null);
-            const query = client.getQueryData<CategoryPreviewModel[]>([CATEGORY_LIST_QUERY]);
+            const query = client.getQueryData<CategoryPreview[]>([CATEGORY_LIST_QUERY]);
             client.setQueryData([CATEGORY_LIST_QUERY], query?.filter(i => i.id !== id));
         }
     });

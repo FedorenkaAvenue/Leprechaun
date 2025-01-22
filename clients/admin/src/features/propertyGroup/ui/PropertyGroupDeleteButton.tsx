@@ -1,16 +1,15 @@
-import PropertyGroupPreviewModel from "@entities/propertyGroup/model/PropertyGroup";
-import { useDeletePropertyGroup } from '../api/hooks';
 import DeleteButton, { DeleteButtonProps } from '@shared/ui/DeleteButton';
 import { CircularProgress } from "@mui/material";
-import { usePropertyGroup } from "@entities/propertyGroup/api/hooks";
-import PropertyGroupModel from "@entities/propertyGroup/model/PropertyGroupPreview";
+import { PropertyGroup, PropertyGroupPreview } from '@entities/propertyGroup/model/interfaces';
+import { usePropertyGroup } from '@entities/propertyGroup/model/hooks';
+import { useDeletePropertyGroup } from '../models/hooks';
 
 interface Props extends Omit<DeleteButtonProps, 'buttonTitle' | 'modalTitle' | 'handleAgree' | 'onAgree'> {
-    group: PropertyGroupPreviewModel | undefined
+    group: PropertyGroupPreview
     removeCallback?: () => void
 }
 
-function ModalContent({ id }: { id: PropertyGroupModel['id'] | undefined }) {
+function ModalContent({ id }: { id: PropertyGroup['id'] }) {
     const { data, isFetching } = usePropertyGroup(id);
     const categoriesLen = data?.categories.length;
     const propertiesLen = data?.properties.length;
@@ -27,7 +26,7 @@ function ModalContent({ id }: { id: PropertyGroupModel['id'] | undefined }) {
 }
 
 const PropertyGroupDeleteButton = (props: Props) => {
-    const { mutate } = useDeletePropertyGroup(props.group?.id, props.removeCallback);
+    const { mutate } = useDeletePropertyGroup(props.group.id, props.removeCallback);
 
     return (
         <DeleteButton

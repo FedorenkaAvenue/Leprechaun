@@ -1,6 +1,6 @@
-import OptionModel from "@shared/models/Option";
-import PropertyModel from "../model/Property";
+import { Property } from "../model/interfaces";
+import { Option } from '@shared/models/interfaces';
 
-export default function mapPropertyListToOptions(propertyList: PropertyModel[]): OptionModel[] {
-    return propertyList.map(i => ({ title: i.title.en, id: i.id }));
+export default function mapPropertyListToOptions(propertyList: Property[]): Option[] {
+    return propertyList.map(i => ({ title: i.title.en, id: String(i.id) }));
 }

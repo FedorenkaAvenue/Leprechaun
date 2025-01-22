@@ -1,12 +1,12 @@
 import { forwardRef, ReactNode, useMemo } from "react";
 
-import PropertyGroupPreviewModel from "@entities/propertyGroup/model/PropertyGroup";
 import Select, { CustomSelectProps } from "@shared/ui/Select";
 import mapToOptions from "@entities/propertyGroup/lib/mapToOptions";
-import { usePropertyGroupList } from "../api/hooks";
+import { PropertyGroupPreview } from "@entities/propertyGroup/model/interfaces";
+import { usePropertyGroupList } from "@entities/propertyGroup/model/hooks";
 
 type Props = {
-    value: PropertyGroupPreviewModel['id'][] | undefined
+    value: PropertyGroupPreview['id'][] | undefined
 } & Omit<CustomSelectProps, 'options' | 'label' | 'multiple'>;
 
 const PropertyGroupSelectList = forwardRef<ReactNode, Props>(({ value = '', ...props }, ref) => {
