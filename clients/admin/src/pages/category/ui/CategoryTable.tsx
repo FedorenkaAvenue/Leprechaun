@@ -11,14 +11,14 @@ import CategoryTogglePublic from "@features/category/ui/CategoryTogglePublic";
 import { useCategoryList } from "@entities/category/model/hooks";
 
 const CategoryTablePage = () => {
-    const { data, isFetching } = useCategoryList();
+    const { data, isLoading } = useCategoryList();
     const nav = useNavigate();
 
     return (
         <div>
             <ContentListManager
                 searchHandle={val => console.log(val)}
-                isLoading={isFetching}
+                isLoading={isLoading}
                 addItemHandle={() => nav(routerSubConfig.categoryCreate.path)}
             >
                 <Empty data={data?.length} align="center">
@@ -36,10 +36,10 @@ const CategoryTablePage = () => {
                                 </TableRow>
                             </TableHead>
                             <TableBody>
-                                {data?.map(i => (
+                                {data?.map(category => (
                                     <CategoryPreview
-                                        category={i}
-                                        key={i.id}
+                                        category={category}
+                                        key={category.id}
                                         renderTools={category => (
                                             <>
                                                 <CategoryDeleteButton categoryId={category.id} categoryUrl={category.url} />

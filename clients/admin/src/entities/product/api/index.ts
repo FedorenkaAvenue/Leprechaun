@@ -1,11 +1,22 @@
-import apiClient from "@shared/api/client";
 import { Product, ProductListUrlQueryParams, ProductPreview } from "../model/interfaces";
 import { Pagination } from "@shared/models/interfaces";
+import { rootApi } from "@shared/api";
+import { PRODUCT_LIST_QUERY, PRODUCT_QUERY } from "../constants/queryKeys";
 
-export async function getProduct(id: Product['id']): Promise<Product> {
-    return (await apiClient.get<Product>(`/product/${id}`)).data;
-}
-
-export async function getProductList(params: ProductListUrlQueryParams): Promise<Pagination<ProductPreview[]>> {
-    return (await apiClient.get<Pagination<ProductPreview[]>>('/product/list', { params })).data;
-}
+export const productEntityApi = rootApi.injectEndpoints({
+    endpoints: build => ({
+        product: build.query<Product, any>({
+            query: (id: Product['id']) => ({
+                url: `/product/${id}`,
+            }),
+            providesTags: [PRODUCT_QUERY],
+        }),
+        productList: build.query<Pagination<ProductPreview[]>, any>({
+            query: (args: ProductListUrlQueryParams) => ({
+                url: '/product/list',
+                params: args,
+            }),
+            providesTags: [PRODUCT_LIST_QUERY],
+        })
+    }),
+});

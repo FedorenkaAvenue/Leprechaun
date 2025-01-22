@@ -1,10 +1,20 @@
-import apiClient from "@shared/api/client"
 import { Category, CategoryPreview } from "../model/interfaces";
+import { rootApi } from "@shared/api";
+import { CATEGORY_LIST_QUERY, CATEGORY_QUERY } from "../constants/queryKeys";
 
-export const getCategory = async (url: Category['url']): Promise<Category> => {
-    return (await apiClient.get<Category>(`/category/${url}`)).data;
-}
-
-export const getCategoryList = async (): Promise<CategoryPreview[]> => {
-    return (await apiClient.get<CategoryPreview[]>('/category/list')).data;
-}
+export const categoryEntityApi = rootApi.injectEndpoints({
+    endpoints: build => ({
+        category: build.query<Category, any>({
+            query: (url: Category['url']) => ({
+                url: `/category/${url}`,
+            }),
+            providesTags: [CATEGORY_QUERY],
+        }),
+        categoryList: build.query<CategoryPreview[], void>({
+            query: () => ({
+                url: '/category/list',
+            }),
+            providesTags: [CATEGORY_LIST_QUERY],
+        }),
+    }),
+});

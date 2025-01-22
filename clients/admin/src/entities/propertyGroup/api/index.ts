@@ -1,15 +1,27 @@
-import apiClient from '@shared/api/client';
 import { PropertyGroup, PropertyGroupPreview } from '../model/interfaces';
 import { Category } from '@entities/category/model/interfaces';
+import { rootApi } from '@shared/api';
+import { PROPERTY_GROUP_LIST_QUERY, PROPERTY_GROUP_QUERY } from '../constants/queryKeys';
 
-export async function getPropertyGroup(id: PropertyGroupPreview['id']): Promise<PropertyGroup> {
-    return (await apiClient.get<PropertyGroup>(`propertygroup/${id}`)).data;
-}
-
-export async function getPropertyGroupList(): Promise<PropertyGroupPreview[]> {
-    return (await apiClient.get<PropertyGroupPreview[]>('propertygroup/list')).data;
-}
-
-export async function getPropertyGroupListByCategoryId(id: Category['id']): Promise<PropertyGroupPreview[]> {
-    return (await apiClient.get<PropertyGroupPreview[]>(`propertygroup/list/${id}`)).data;
-}
+export const propertyGroupEntityApi = rootApi.injectEndpoints({
+    endpoints: build => ({
+        propertyGroup: build.query<PropertyGroup, any>({
+            query: (id: PropertyGroup['id']) => ({
+                url: `propertygroup/${id}`,
+            }),
+            providesTags: [PROPERTY_GROUP_QUERY],
+        }),
+        propertyGroupList: build.query<PropertyGroupPreview[], any>({
+            query: () => ({
+                url: `propertygroup/list`,
+            }),
+            providesTags: [PROPERTY_GROUP_LIST_QUERY],
+        }),
+        propertyGroupListByCategoryId: build.query<PropertyGroupPreview[], any>({
+            query: (id: Category['id']) => ({
+                url: `propertygroup/list/${id}`,
+            }),
+            providesTags: [PROPERTY_GROUP_LIST_QUERY],
+        }),
+    })
+});

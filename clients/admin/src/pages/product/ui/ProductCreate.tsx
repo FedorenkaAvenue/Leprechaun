@@ -4,6 +4,7 @@ import {
     Button, FormControl, FormControlLabel, Slider, Step, StepConnector, StepLabel, Stepper, Switch, Typography,
 } from "@mui/material";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useNavigate } from "react-router-dom";
 
 import CategorySelectList from "@features/category/ui/CategorySelectList";
 import PropertySelectList from "@features/property/ui/PropertySelectList";
@@ -15,7 +16,6 @@ import TextInput from "@shared/ui/TextInput";
 import Select from "@shared/ui/Select";
 import productStatusOptions from "@entities/product/constants/productStatusOptions";
 import Empty from "@shared/ui/Empty";
-import { useNavigate } from "react-router-dom";
 import useQueryParam from "@shared/lib/useQueryParam";
 import { PRODUCT_CREATE_URL_QUERY_PARAMS } from "@features/product/constants/urlQueryParams";
 import { useCategoryList } from "@entities/category/model/hooks";

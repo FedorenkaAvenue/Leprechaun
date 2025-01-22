@@ -5,11 +5,10 @@ import {
 } from '@mui/material';
 import { forwardRef } from 'react';
 
-import OptionModel from '@shared/models/Option';
-
+import { Option } from '@shared/models/interfaces';
 
 export type CustomSelectProps = {
-    options: OptionModel[] | undefined
+    options: Option[] | undefined
     isLoading?: boolean
     error?: string
 } & Omit<SelectProps<any>, 'error'>;
@@ -34,6 +33,7 @@ const Select = forwardRef(({
                             return <div>{options?.find(i => i.id === props.value)?.title}</div>;
                         default:
                             const mapedSelected = (selected as number[]).map(i => options?.find(o => i === o.id));
+
                             return (
                                 <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
                                     {mapedSelected.map((i) => (
@@ -45,8 +45,8 @@ const Select = forwardRef(({
                 }}
                 {...props}
             >
-                {options?.map(i => (
-                    <MenuItem key={i.id} value={i.id}>{i.title}</MenuItem>
+                {options?.map(({ id, title }) => (
+                    <MenuItem key={id} value={id}>{title}</MenuItem>
                 ))}
             </SelectMui>
             {error && <FormHelperText>{error}</FormHelperText>}

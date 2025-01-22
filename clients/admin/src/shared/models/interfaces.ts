@@ -4,7 +4,7 @@ export interface Image {
 }
 
 export interface Option {
-    id: string
+    id: number | string
     title: string
 }
 
