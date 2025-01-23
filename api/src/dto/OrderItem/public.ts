@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsNotEmpty, IsNumber, IsOptional, IsUUID } from 'class-validator';
 
-import { Price } from '@dto/Price';
+import { PriceDTO } from '@dto/Price';
 import { OrderItemEntity } from '@entities/OrderItem';
 import { QueriesCommon } from '@dto/Queries';
 import { PriceI } from '@interfaces/Price';
@@ -26,9 +26,9 @@ export class OrderItemPublic implements OrderItemPublicI {
         this.id = id;
         this.amount = amount;
         this.product = new ProductPreviewPublic(product, lang);
-        this.summaryPrice = new Price({
+        this.summaryPrice = new PriceDTO({
             current: product.price.current * amount,
-            old: product.price.old * amount,
+            old: product.price.old ? product.price.old * amount : null,
         });
     }
 }

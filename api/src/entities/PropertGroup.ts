@@ -1,23 +1,17 @@
 import { ApiProperty } from '@nestjs/swagger';
 import {
-    Column,
-    Entity,
-    JoinColumn,
-    JoinTable,
-    ManyToMany,
-    OneToMany,
-    OneToOne,
-    PrimaryGeneratedColumn,
+    Column, Entity, JoinColumn, JoinTable, ManyToMany, OneToMany, OneToOne, PrimaryGeneratedColumn,
 } from 'typeorm';
 
 import { PropertyEntity } from './Property';
-import { PropertyGroupI, PropertyGroupPreviewI } from '@interfaces/PropertyGroup';
+import { PropertyGroupI } from '@interfaces/PropertyGroup';
 import { TransI } from '@interfaces/Trans';
 import { TransEntity } from './Trans';
-import { CategoryEntity, CategoryPreviewEntity } from './Category';
+import { CategoryEntity } from './Category';
 import { CategoryPreviewI } from '@interfaces/Category';
 
-export class PropertyGroupPreviewEntity implements PropertyGroupPreviewI {
+@Entity('propertygroup')
+export class PropertyGroupEntity implements PropertyGroupI {
     @PrimaryGeneratedColumn('rowid')
     @ApiProperty()
     id: number;
@@ -42,10 +36,7 @@ export class PropertyGroupPreviewEntity implements PropertyGroupPreviewI {
     @Column({ default: false })
     @ApiProperty({ description: 'visible property for ProductCard' })
     is_primary: boolean;
-}
 
-@Entity('propertygroup')
-export class PropertyGroupEntity extends PropertyGroupPreviewEntity implements PropertyGroupI {
     @ManyToMany(() => CategoryEntity, ({ id }) => id)
     @JoinTable({
         name: '_categories_to_propertygroups',
@@ -58,6 +49,6 @@ export class PropertyGroupEntity extends PropertyGroupPreviewEntity implements P
             referencedColumnName: 'id',
         },
     })
-    @ApiProperty({ type: () => CategoryPreviewEntity, isArray: true })
+    @ApiProperty({ type: () => CategoryEntity, isArray: true })
     categories: CategoryPreviewI[];
 }

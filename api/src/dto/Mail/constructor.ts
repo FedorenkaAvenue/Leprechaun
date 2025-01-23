@@ -8,13 +8,13 @@ export class DevLogMail implements DevLogMailI {
     url: string;
     body?: string | null;
     cookies?: Request['cookies'];
-    stack: string;
-    ip: string;
+    stack: string | undefined;
+    ip: string | undefined;
     timestamp: string;
 
     constructor({ method, message, url, body, cookies, stack, ip, timestamp }: DevLogMailI) {
-        if (Object.keys(body).length) this.body = JSON.stringify(body);
-        if (Object.keys(cookies).length) this.cookies = cookies;
+        if (body && Object.keys(body).length) this.body = JSON.stringify(body);
+        if (cookies && Object.keys(cookies).length) this.cookies = cookies;
 
         this.method = method;
         this.message = message;

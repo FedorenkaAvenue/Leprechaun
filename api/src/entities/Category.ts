@@ -1,24 +1,18 @@
 import {
-    Column,
-    Entity,
-    JoinColumn,
-    JoinTable,
-    ManyToMany,
-    OneToMany,
-    OneToOne,
-    PrimaryGeneratedColumn,
+    Column, Entity, JoinColumn, JoinTable, ManyToMany, OneToMany, OneToOne, PrimaryGeneratedColumn,
 } from 'typeorm';
 import { ApiProperty } from '@nestjs/swagger';
 
 import { ProductEntity } from '@entities/Product';
-import { CategoryI, CategoryPreviewI } from '@interfaces/Category';
-import { PropertyGroupEntity, PropertyGroupPreviewEntity } from '@entities/PropertGroup';
+import { CategoryI } from '@interfaces/Category';
+import { PropertyGroupEntity } from '@entities/PropertGroup';
 import { TransI } from '@interfaces/Trans';
 import { TransEntity } from './Trans';
 import { PropertyGroupPreviewI } from '@interfaces/PropertyGroup';
 import { ProductPreviewI } from '@interfaces/Product';
 
-export class CategoryPreviewEntity implements CategoryPreviewI {
+@Entity('category')
+export class CategoryEntity implements CategoryI {
     @PrimaryGeneratedColumn('rowid')
     @ApiProperty()
     id: number;
@@ -36,17 +30,14 @@ export class CategoryPreviewEntity implements CategoryPreviewI {
     @ApiProperty()
     icon: string;
 
-    @Column({ nullable: true })
+    @Column({ type: 'varchar', nullable: true })
     @ApiProperty()
-    comment: string;
+    comment: string | null;
 
     @Column({ default: false })
     @ApiProperty()
     is_public: boolean;
-}
 
-@Entity('category')
-export class CategoryEntity extends CategoryPreviewEntity implements CategoryI {
     @OneToMany(() => ProductEntity, ({ category }) => category)
     @ApiProperty({ type: () => ProductEntity, isArray: true })
     products: ProductPreviewI[];
@@ -63,6 +54,6 @@ export class CategoryEntity extends CategoryPreviewEntity implements CategoryI {
             referencedColumnName: 'id',
         },
     })
-    @ApiProperty({ type: () => PropertyGroupPreviewEntity, isArray: true })
+    @ApiProperty({ type: () => PropertyGroupEntity, isArray: true })
     propertygroups: PropertyGroupPreviewI[];
 }

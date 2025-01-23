@@ -32,5 +32,5 @@ export class OrderItemEntity implements OrderItemI {
 
     @UpdateDateColumn()
     @ApiProperty()
-    updated_at?: Date;
+    updated_at: Date;
 }

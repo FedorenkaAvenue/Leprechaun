@@ -1,9 +1,9 @@
 import { ApiProperty } from '@nestjs/swagger';
 
 import { PriceI } from '@interfaces/Price';
-import { ProductStatusE } from '@enums/Product';
+import { ProductStatus } from '@enums/Product';
 import { ImageEntity } from '@entities/Image';
-import { Price } from '@dto/Price';
+import { PriceDTO } from '@dto/Price';
 import { ProductEntity } from '@entities/Product';
 import { PriceEntity } from '@entities/_Price';
 import { ProductI, ProductPreviewI } from '@interfaces/Product';
@@ -47,14 +47,14 @@ export class ProductCreateDTO {
     @ApiProperty({ required: false, default: false })
     is_public: boolean;
 
-    @IsEnum(ProductStatusE)
+    @IsEnum(ProductStatus)
     @IsOptional()
     @ApiProperty({
-        enum: ProductStatusE,
+        enum: ProductStatus,
         required: false,
-        default: ProductStatusE.AVAILABLE,
+        default: ProductStatus.AVAILABLE,
     })
-    status: ProductStatusE;
+    status: ProductStatus;
 
     @IsOptional()
     @IsNumberString()
@@ -134,14 +134,14 @@ export class ProductUpdateDTO implements ProductCreateDTO {
     @ApiProperty({ required: false, default: false })
     is_public: boolean;
 
-    @IsEnum(ProductStatusE)
+    @IsEnum(ProductStatus)
     @IsOptional()
     @ApiProperty({
-        enum: ProductStatusE,
+        enum: ProductStatus,
         required: false,
-        default: ProductStatusE.AVAILABLE,
+        default: ProductStatus.AVAILABLE,
     })
-    status: ProductStatusE;
+    status: ProductStatus;
 
     @IsOptional()
     @IsNumberString()
@@ -199,7 +199,7 @@ export class Product implements Omit<ProductI, 'orderCount' | 'wishlistCount' | 
     title: TransI;
     is_public: boolean;
     category: CategoryI;
-    status: ProductStatusE;
+    status: ProductStatus;
     comment: string;
     is_new: boolean;
     rating: number;
@@ -219,7 +219,7 @@ export class Product implements Omit<ProductI, 'orderCount' | 'wishlistCount' | 
         rating,
     }: ProductCreateDTO) {
         this.title = title;
-        this.price = new Price({ current: price_current, old: price_old });
+        this.price = new PriceDTO({ current: price_current, old: price_old });
         this.is_public = ((<unknown>is_public) as string) === 'true';
         this.status = status;
         this.rating = rating;
@@ -240,8 +240,8 @@ export class ProductPreview implements ProductPreviewI {
     @ApiProperty()
     title: TransI;
 
-    @ApiProperty({ enum: ProductStatusE })
-    status: ProductStatusE;
+    @ApiProperty({ enum: ProductStatus })
+    status: ProductStatus;
 
     @ApiProperty({ type: PriceEntity })
     price: PriceEntity;
@@ -260,9 +260,6 @@ export class ProductPreview implements ProductPreviewI {
 
     @ApiProperty()
     is_new: boolean;
-
-    @ApiProperty()
-    description: TransI;
 
     @ApiProperty()
     comment: string;

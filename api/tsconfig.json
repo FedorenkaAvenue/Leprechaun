@@ -1,16 +1,26 @@
 {
     "compilerOptions": {
         "module": "commonjs",
+
+        "strict": true,
+        "noImplicitAny": true,
+        "strictNullChecks": true,
+        "strictBindCallApply": true,
+        "strictFunctionTypes": false,
+        "strictPropertyInitialization": false,
+        "strictBuiltinIteratorReturn": false,
+
         "declaration": true,
         "removeComments": true,
         "emitDecoratorMetadata": true,
         "experimentalDecorators": true,
         "allowSyntheticDefaultImports": true,
-        "target": "es2017",
+        "target": "ES2017",
         "sourceMap": true,
         "outDir": "./dist",
         "incremental": true,
         "skipLibCheck": true,
+
         "baseUrl": "./src",
         "paths": {
             "@modules/*": ["modules/*"],

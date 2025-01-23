@@ -5,14 +5,15 @@ import { SessionI } from '@interfaces/Session';
 import { OrderStatus } from '@enums/Order';
 import { OrderItemI } from '@interfaces/OrderItem';
 import OrderService from '.';
-import { QueriesCommon } from '@dto/Queries';
 import { CreateOrderDTO, OrderPublic } from '@dto/Order/public';
 import { CreateOrderItemDTO, UpdateOrderItemDTO } from '@dto/OrderItem/public';
 import { OrderItemEntity } from '@entities/OrderItem';
+import { QueriesCommonI } from '@interfaces/Queries';
+import { OrderPublicI } from '@interfaces/Order';
 
 @Injectable()
 export default class OrderPublicService extends OrderService {
-    public async getCart(sid: SessionI['sid'], searchParams: QueriesCommon): Promise<OrderPublic> {
+    public async getCart(sid: SessionI['sid'], searchParams: QueriesCommonI): Promise<OrderPublicI | null> {
         const qb = this.orderRepo
             .createQueryBuilder('order')
             .where('order.sid = :sid', { sid })
@@ -24,8 +25,8 @@ export default class OrderPublicService extends OrderService {
     public async addOrderItems(
         orderItems: CreateOrderItemDTO[],
         sid: SessionI['sid'],
-        searchParams: QueriesCommon,
-    ): Promise<OrderPublic> {
+        searchParams: QueriesCommonI,
+    ): Promise<OrderPublicI | null> {
         const res = await this.orderRepo.findOneBy({ sid, status: OrderStatus.INIT });
 
         if (res) { // order is existed
@@ -48,22 +49,18 @@ export default class OrderPublicService extends OrderService {
         id: OrderItemI['id'],
         { amount }: UpdateOrderItemDTO,
         sid: SessionI['sid'],
-        searchParams: QueriesCommon,
-    ): Promise<OrderPublic> {
+        searchParams: QueriesCommonI,
+    ): Promise<OrderPublicI | null> {
         await this.orderItemRepo.update({ id }, { amount });
 
         return this.getCart(sid, searchParams);
     }
 
     public async postOrder({ order: { id }, customer }: CreateOrderDTO, sid: SessionI['sid']): Promise<UpdateResult> {
-        const { items } = await this.orderRepo.findOneBy({ id });
-
-        items.forEach(({ product: { id } }) => this.productService.incrementProductOrderCount(id));
-
         return this.orderRepo.update({ id, sid }, { status: OrderStatus.POSTED, customer });
     }
 
-    public async getOrderList(sid: SessionI['sid'], searchParams: QueriesCommon): Promise<OrderPublic[]> {
+    public async getOrderList(sid: SessionI['sid'], searchParams: QueriesCommonI): Promise<OrderPublicI[]> {
         try {
             const res = await this.orderRepo.find({
                 where: { sid, status: Not(OrderStatus.INIT) },
@@ -81,8 +78,8 @@ export default class OrderPublicService extends OrderService {
     public async removeOrderItem(
         id: OrderItemI['id'],
         sid: SessionI['sid'],
-        searchParams: QueriesCommon,
-    ): Promise<OrderPublic> {
+        searchParams: QueriesCommonI,
+    ): Promise<OrderPublicI | null> {
         await this.orderItemRepo.delete({ id });
 
         return this.getCart(sid, searchParams);

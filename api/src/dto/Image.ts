@@ -1,6 +1,6 @@
 import { ImageI } from '@interfaces/Image';
 
-export class Image implements ImageI {
+export class Image implements Omit<ImageI, 'id'> {
     src: string;
     product_id: string;
     is_main: boolean;

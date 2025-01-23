@@ -2,8 +2,8 @@ import { PropertyGroupPreviewI } from '@interfaces/PropertyGroup';
 import { TransI } from './Trans';
 import { ProductPreviewI } from './Product';
 
-interface BaseI<I = string, T = TransI> {
-    id?: number;
+interface BaseI<I, T> {
+    id: number;
     url: string;
     title: T;
     icon: I | null;
@@ -11,9 +11,9 @@ interface BaseI<I = string, T = TransI> {
 
 export type CategoryPublicI = BaseI<string, string>;
 
-export interface CategoryPreviewI extends BaseI {
+export interface CategoryPreviewI extends BaseI<string, TransI> {
     is_public: boolean;
-    comment: string;
+    comment: string | null;
 }
 
 export interface CategoryI extends CategoryPreviewI {

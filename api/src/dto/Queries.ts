@@ -1,15 +1,16 @@
 import { BadRequestException } from '@nestjs/common';
 
 import {
-    QueriesCommonI, QueriesProductListI, QueriesSearchI, QueryOptionsFiltersT, QueryPriceI,
+    QueriesCommonI, QueriesPaginationI, QueriesProductListI, QueriesSearchI, QueryOptionsFiltersT, QueryPriceI,
 } from '@interfaces/Queries';
 import { ProductSort } from '@enums/Query';
 import { availableEnum } from '@utils/enum';
-import { ProductStatusE } from '@enums/Product';
+import { ProductStatus } from '@enums/Product';
 import { singleConfigService } from '@services/Config';
 import { CategoryI } from '@interfaces/Category';
+import { LanguagesI } from '@interfaces/Trans';
 
-const LANGS = singleConfigService.getVal('LANGS');
+const LANGS = singleConfigService.getVal('LANGS') as (keyof LanguagesI)[];
 
 /**
  * @description create range object for filters
@@ -29,30 +30,37 @@ export class RangeQuery implements QueryPriceI {
 }
 
 export class QueriesCommon implements QueriesCommonI {
+    lang: keyof LanguagesI;
+
+    constructor({ lang }: QueriesCommonI) {
+        this.lang = LANGS.includes(lang) ? lang : LANGS[0];
+    }
+}
+
+class QueriesPagination extends QueriesCommon implements QueriesPaginationI {
     page: number;
-    lang: string;
-    price: QueryPriceI;
     portion: number;
 
-    constructor({ lang, page, price, portion }: QueriesCommonI<string>) {
-        this.lang = LANGS.includes(lang) ? lang : LANGS[0];
+    constructor({ page, portion, ...rest }: QueriesPaginationI) {
+        super(rest);
         this.page = Number(page) || 1;
-        this.price ? new RangeQuery(price) : null;
         this.portion = Number(portion) || 10;
     }
 }
 
-export class QueriesProductList extends QueriesCommon implements QueriesProductListI {
+export class QueriesProductList extends QueriesPagination implements QueriesProductListI {
     sort: ProductSort;
     category: CategoryI['url'];
-    status: ProductStatusE;
-    optionsFilter: QueryOptionsFiltersT;
+    status: ProductStatus;
+    price: QueryPriceI;
+    optionsFilter: QueryOptionsFiltersT | null;
 
     constructor({ category, lang, sort, page, portion, status, price, ...restQueries }: QueriesProductListI<string>) {
-        super({ lang, page, price, portion });
+        super({ lang, page, portion });
         this.sort = Number(sort) || ProductSort.POPULAR;
-        this.status = availableEnum(status, ProductStatusE) ? status : ProductStatusE.AVAILABLE;
+        this.status = availableEnum(status, ProductStatus) ? status : ProductStatus.AVAILABLE;
         this.category = category;
+        this.price ? new RangeQuery(price) : null;
         this.optionsFilter = Object.keys(restQueries).length
             ? Object
                 //@ts-ignore
@@ -66,7 +74,7 @@ export class QueriesSearch extends QueriesCommon implements QueriesSearchI {
     substring: string;
     price: QueryPriceI;
 
-    constructor({ substring, ...restQueries }: QueriesSearchI<string>) {
+    constructor({ substring, ...restQueries }: QueriesSearchI) {
         if (!substring) throw new BadRequestException('substring is empty');
 
         super(restQueries);

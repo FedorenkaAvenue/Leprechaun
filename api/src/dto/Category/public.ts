@@ -14,7 +14,7 @@ export class CategoryPublic implements CategoryPublicI {
     title: string;
 
     @ApiProperty()
-    icon: string;
+    icon: string | null;
 
     constructor({ id, title, url, icon }: CategoryI, lang: QueriesCommon['lang']) {
         this.id = id;

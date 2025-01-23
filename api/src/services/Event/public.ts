@@ -1,7 +1,7 @@
 import { WebSocketGateway, WsResponse } from '@nestjs/websockets';
 
-import { ProductPreviewPublic } from '@dto/Product/public';
 import { EventService } from '.';
+import { ProductPreviewPublicI } from '@interfaces/Product';
 
 @WebSocketGateway(81, {
     cors: { origin: '*', credentials: true },
@@ -9,7 +9,7 @@ import { EventService } from '.';
     transports: ['websocket'],
 })
 export class EventPublicService extends EventService {
-    public async pushToProductHistory(userId: string, product: ProductPreviewPublic): Promise<void> {
+    public async pushToProductHistory(userId: string, product: ProductPreviewPublicI): Promise<void> {
         const userSocket = await this.findSocketByUserId(userId);
 
         if (userSocket) this.server.to(userSocket).emit('push_product_history', product);

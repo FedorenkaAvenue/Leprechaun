@@ -1,24 +1,17 @@
 import {
-    Controller,
-    Get,
-    Param,
-    Body,
-    UseInterceptors,
-    Delete,
-    Post,
-    UploadedFile,
-    ValidationPipe,
+    Controller, Get, Param, Body, UseInterceptors, Delete, Post, UploadedFile, ValidationPipe,
 } from '@nestjs/common';
 import { ApiBadRequestResponse, ApiNotFoundResponse, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { DeleteResult } from 'typeorm';
 
-import { CategoryEntity, CategoryPreviewEntity } from '@entities/Category';
+import { CategoryEntity } from '@entities/Category';
 import { FSService } from '@services/FS';
-import UndefinedResultInterceptor from '@interceptors/UndefinedResult';
+import NotFoundInterceptor from '@interceptors/UndefinedResult';
 import AffectedResultInterceptor from '@interceptors/AffectedResult';
 import CategoryPrivateService from '@services/Category/private';
 import { CreateCategoryDTO } from '@dto/Category/private';
+import { CategoryI, CategoryPreviewI } from '@interfaces/Category';
 
 @Controller('adm/category')
 @ApiTags('Category 🤵🏿‍♂️')
@@ -32,7 +25,7 @@ export default class CategoryPrivateController {
     private addCategory(
         @Body(new ValidationPipe({ transform: true })) body: CreateCategoryDTO,
         @UploadedFile() icon: Express.Multer.File,
-    ): Promise<CategoryEntity> {
+    ): Promise<CategoryI> {
         return this.categoryService.createCategory(body, icon);
     }
 
@@ -51,18 +44,18 @@ export default class CategoryPrivateController {
 
     @Get('list')
     @ApiOperation({ summary: 'get all categories' })
-    @ApiOkResponse({ type: CategoryPreviewEntity, isArray: true })
-    private getAllCategories(): Promise<CategoryPreviewEntity[]> {
+    @ApiOkResponse({ type: CategoryEntity, isArray: true })
+    private getAllCategories(): Promise<CategoryPreviewI[]> {
         return this.categoryService.getCategoryList();
     }
 
-    @Get(':categoryURL')
-    @UseInterceptors(UndefinedResultInterceptor)
-    @ApiOperation({ summary: 'get category info by URL' })
+    @Get(':categoryID')
+    @UseInterceptors(NotFoundInterceptor)
+    @ApiOperation({ summary: 'get category by ID' })
     @ApiOkResponse({ type: CategoryEntity, isArray: true })
     @ApiNotFoundResponse({ description: 'category not found' })
-    private getCategory(@Param('categoryURL') categoryURL: string): Promise<CategoryEntity> {
-        return this.categoryService.getCategory(categoryURL);
+    private getCategory(@Param('categoryID') categoryId: number): Promise<CategoryI | null> {
+        return this.categoryService.getCategory(categoryId);
     }
 
     @Delete(':categoryID')

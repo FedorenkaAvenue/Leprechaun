@@ -2,12 +2,13 @@ import { Body, Controller, Delete, Get, Param, Post, UseInterceptors, Validation
 import { ApiBadRequestResponse, ApiNotFoundResponse, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { DeleteResult } from 'typeorm';
 
-import { PropertyGroupEntity, PropertyGroupPreviewEntity } from '@entities/PropertGroup';
+import { PropertyGroupEntity } from '@entities/PropertGroup';
 import PropertyGroupService from '@services/PropertyGroup/private';
 import AffectedResultInterceptor from '@interceptors/AffectedResult';
-import UndefinedResultInterceptor from '@interceptors/UndefinedResult';
+import NotFoundInterceptor from '@interceptors/UndefinedResult';
 import { CategoryI } from '@interfaces/Category';
 import { CreatePropertyGroupDTO } from '@dto/PropertyGroup/private';
+import { PropertyGroupI, PropertyGroupPreviewI } from '@interfaces/PropertyGroup';
 
 @Controller('adm/propertygroup')
 @ApiTags('Property group 🤵🏿‍♂️')
@@ -19,7 +20,7 @@ export default class PropertyGroupPrivateController {
     @ApiBadRequestResponse({ description: 'some of filed is already exists' })
     private createGroup(
         @Body(new ValidationPipe({ transform: true })) group: CreatePropertyGroupDTO,
-    ): Promise<PropertyGroupEntity> {
+    ): Promise<PropertyGroupI> {
         return this.propertyGroupService.createGroup(group);
     }
 
@@ -36,23 +37,25 @@ export default class PropertyGroupPrivateController {
 
     @Get('list/:categoryID')
     @ApiOperation({ summary: 'get property groups by category ID' })
-    @ApiOkResponse({ type: PropertyGroupPreviewEntity, isArray: true })
-    private getGroupListByCategoryID(@Param('categoryID') categoryID: CategoryI['id']): Promise<PropertyGroupPreviewEntity[]> {
+    @ApiOkResponse({ type: PropertyGroupEntity, isArray: true })
+    private getGroupListByCategoryID(
+        @Param('categoryID') categoryID: CategoryI['id'],
+    ): Promise<PropertyGroupPreviewI[]> {
         return this.propertyGroupService.getGroupListByCategoryID(categoryID);
     }
 
     @Get('list')
     @ApiOperation({ summary: 'get all property groups' })
-    @ApiOkResponse({ type: PropertyGroupPreviewEntity, isArray: true })
-    private getGroupList(): Promise<PropertyGroupPreviewEntity[]> {
+    @ApiOkResponse({ type: PropertyGroupEntity, isArray: true })
+    private getGroupList(): Promise<PropertyGroupPreviewI[]> {
         return this.propertyGroupService.getGroupList();
     }
 
     @Get(':groupID')
-    @UseInterceptors(UndefinedResultInterceptor)
+    @UseInterceptors(NotFoundInterceptor)
     @ApiOperation({ summary: 'get property group by ID' })
     @ApiOkResponse({ type: PropertyGroupEntity })
-    private getGroup(@Param('groupID') groupID: number): Promise<PropertyGroupEntity> {
+    private getGroup(@Param('groupID') groupID: number): Promise<PropertyGroupI | null> {
         return this.propertyGroupService.getGroup(groupID);
     }
 

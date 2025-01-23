@@ -1,14 +1,15 @@
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { SelectQueryBuilder } from 'typeorm';
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 
 import { OrderEntity } from '@entities/Order';
 import { OrderItemEntity } from '@entities/OrderItem';
 import { SessionI } from '@interfaces/Session';
 import { genID } from '@utils/genIds';
 import ProductService from '@services/Product';
-import { QueriesCommon } from '@dto/Queries';
+import { OrderI } from '@interfaces/Order';
+import { QueriesCommonI } from '@interfaces/Queries';
 
 @Injectable()
 export default class OrderService {
@@ -23,7 +24,7 @@ export default class OrderService {
      * @param sid session ID
      * @returns created order with 1 status
      */
-    protected async createOrder(sid: SessionI['sid']): Promise<OrderEntity> {
+    protected async createOrder(sid: SessionI['sid']): Promise<OrderI> {
         return await this.orderRepo.save({ sid, id: genID() });
     }
 
@@ -34,11 +35,22 @@ export default class OrderService {
      * @param resConstructor constructor for result maping
      * @returns completed OrderPublicDTO or null
      */
-    protected async getOrder<C>(
+    protected async getOrder<T>(
         qb: SelectQueryBuilder<OrderEntity>,
-        searchParams?: QueriesCommon,
-        resConstructor?: any,
-    ): Promise<C> {
+        searchParams: QueriesCommonI,
+        resConstructor: { new(res: OrderEntity, searchParams?: QueriesCommonI): T }
+    ): Promise<T | null>;
+
+    protected async getOrder(
+        qb: SelectQueryBuilder<OrderEntity>,
+        searchParams: QueriesCommonI
+    ): Promise<OrderI | null>;
+
+    protected async getOrder<T = OrderI>(
+        qb: SelectQueryBuilder<OrderEntity>,
+        searchParams: QueriesCommonI,
+        resConstructor?: { new(res: OrderEntity, searchParams?: QueriesCommonI): T }
+    ): Promise<T | OrderI | null> {
         const res = await qb
             .leftJoinAndSelect('order.items', 'items')
             .leftJoinAndSelect('items.product', 'p')
@@ -50,8 +62,8 @@ export default class OrderService {
             })
             .getOne();
 
-        return res
-            ? (resConstructor ? new resConstructor(res, searchParams) : res)
-            : null;
+        if (!res) return null;
+
+        return resConstructor ? new resConstructor(res, searchParams) : res;
     }
 }

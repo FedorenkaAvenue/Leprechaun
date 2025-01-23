@@ -2,19 +2,19 @@ import { CallHandler, ExecutionContext, Injectable, NestInterceptor } from '@nes
 import { Observable, tap } from 'rxjs';
 import { Request } from 'express';
 
-import HistoryPublicService from '@services/History/public';
 import { EventPublicService } from '@services/Event/public';
 import { ProductPublic } from '@dto/Product/public';
 import { ProductPreviewPublicI } from '@interfaces/Product';
 import { LabelI } from '@interfaces/Label';
 import { PriceEntity } from '@entities/_Price';
-import { ProductStatusE } from '@enums/Product';
+import { ProductStatus } from '@enums/Product';
+import HistoryProductPublicService from '@services/HistoryProduct/public';
 
 class ProductpublicPreviewFromProductPublic implements ProductPreviewPublicI {
     id: string;
     title: string;
     labels: LabelI[];
-    status: ProductStatusE;
+    status: ProductStatus;
     price: PriceEntity;
     image: string;
 
@@ -23,7 +23,7 @@ class ProductpublicPreviewFromProductPublic implements ProductPreviewPublicI {
         this.title = title;
         this.labels = labels;
         this.status = status;
-        this.image = images.find(({ is_main }) => is_main).src;
+        this.image = images.find(({ is_main }) => is_main)?.src as string;
         this.price = price;
     }
 }
@@ -32,9 +32,9 @@ class ProductpublicPreviewFromProductPublic implements ProductPreviewPublicI {
  * @description set product to history and send product preview to client
  */
 @Injectable()
-export default class ProductHistoryInterceptor implements NestInterceptor {
+export default class HistoryProductInterceptor implements NestInterceptor {
     constructor(
-        private readonly historyService: HistoryPublicService,
+        private readonly historyService: HistoryProductPublicService,
         private readonly eventPublicService: EventPublicService,
     ) { }
 
@@ -45,7 +45,7 @@ export default class ProductHistoryInterceptor implements NestInterceptor {
 
                 if (!ip) return;
 
-                this.historyService.addHistoryItem(product.id, sessionID);
+                this.historyService.addHistoryProductItem(product.id, sessionID);
                 this.eventPublicService.pushToProductHistory(
                     sessionID,
                     new ProductpublicPreviewFromProductPublic(product),

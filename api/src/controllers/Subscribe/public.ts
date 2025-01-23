@@ -3,12 +3,12 @@ import { ApiBody, ApiCookieAuth, ApiNotAcceptableResponse, ApiOkResponse, ApiOpe
 
 import SubscribePublicService from "@services/Subscribe/public";
 import { SubscribeProductStatusDTO } from "@dto/Subscribe/public";
-import { ProductStatusE } from "@enums/Product";
+import { ProductStatus } from "@enums/Product";
 import AuthGuard from "@guards/Auth";
 import SessionInitInterceptor from "@interceptors/SessionInit";
 import { ProductStatusSubscriptionI } from "@interfaces/Subscribe";
 import Queries from '@decorators/Query';
-import { QueriesCommon } from "@dto/Queries";
+import { QueriesCommonI } from "@interfaces/Queries";
 
 @Controller('subscribe')
 @ApiTags('Subscribe 🧑‍💻')
@@ -21,20 +21,20 @@ export default class SubscribePublicController {
     @ApiOperation({ summary: `get subscriptions on product\'s statuses` })
     @ApiOkResponse({ type: 'string', isArray: true })
     private async getProductStatusSubscriptions(
-        @Session() { id },
+        @Session() { id }: Record<string, any>,
     ): Promise<ProductStatusSubscriptionI[]> {
         return this.subscribeService.getProductStatusSubscriptions(id);
     }
 
     @Post('/product')
     @UseInterceptors(SessionInitInterceptor)
-    @ApiOperation({ summary: `subscribe on product available status (№ ${ProductStatusE.AVAILABLE}) 🧷` })
+    @ApiOperation({ summary: `subscribe on product available status (№ ${ProductStatus.AVAILABLE}) 🧷` })
     @ApiBody({ type: SubscribeProductStatusDTO })
     @ApiNotAcceptableResponse({ description: 'this email already subscribed on this product' })
     private async subscribeProductStatus(
         @Body(new ValidationPipe({ transform: true })) body: SubscribeProductStatusDTO,
-        @Session() { id },
-        @Queries() queries: QueriesCommon,
+        @Session() { id }: Record<string, any>,
+        @Queries() queries: QueriesCommonI,
     ): Promise<void> {
         return this.subscribeService.subscribeProductStatus(body, id, queries);
     }

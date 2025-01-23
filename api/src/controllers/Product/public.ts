@@ -1,20 +1,23 @@
 import { Controller, Get, Param, ParseUUIDPipe, UseInterceptors } from '@nestjs/common';
 import {
-    ApiBadRequestResponse, ApiNotFoundResponse, ApiOkResponse, ApiOperation, ApiQuery, ApiTags,
+    ApiBadRequestResponse, ApiNotFoundResponse, ApiOkResponse, ApiOperation, ApiTags,
 } from '@nestjs/swagger';
 import { CacheInterceptor } from '@nestjs/cache-manager';
 
 import ProductPublicService from '@services/Product/public';
 import { PaginationResult } from '@dto/Pagination';
-import { ApiPaginatedResponseDecorator as ApiPaginatedResponse } from '@decorators/OpenAPI';
+import {
+    ApiPaginatedResponseDecorator as ApiPaginatedResponse, ApiProductListQueries,
+} from '@decorators/OpenAPI';
 import InvalidPaginationPageInterceptor from '@interceptors/InvalidPaginationPage';
-import ProductHistoryInterceptor from '@interceptors/ProductHistory';
-import Queries from '@decorators/Query';
 import { QueriesProductList } from '@dto/Queries';
-import { ProductSort } from '@enums/Query';
-import { ProductStatusE } from '@enums/Product';
 import { ProductCardPublic, ProductPublic } from '@dto/Product/public';
 import SessionInitInterceptor from '@interceptors/SessionInit';
+import { QueriesProductListI } from '@interfaces/Queries';
+import { ProductCardPublicI, ProductPublicI } from '@interfaces/Product';
+import QueryDecorator from '@decorators/Query';
+import NotFoundInterceptor from '@interceptors/UndefinedResult';
+import HistoryProductInterceptor from '@interceptors/HistoryProduct';
 
 @Controller('product')
 @ApiTags('Product 🧑‍💻')
@@ -22,43 +25,26 @@ export default class ProductPublicController {
     constructor(private readonly productService: ProductPublicService) { }
 
     @Get('list')
-    @UseInterceptors(CacheInterceptor)
-    @UseInterceptors(InvalidPaginationPageInterceptor)
+    @UseInterceptors(CacheInterceptor, InvalidPaginationPageInterceptor)
     @ApiOperation({ summary: 'get all public products 💾' })
+    @ApiProductListQueries()
     @ApiPaginatedResponse(ProductCardPublic)
-    @ApiQuery({
-        name: 'sort',
-        required: false,
-        enum: ProductSort,
-    })
-    // @ApiQuery({
-    //     name: 'price',
-    //     required: false,
-    //     enum: 'LOL',
-    // })
-    @ApiQuery({
-        name: 'status',
-        required: false,
-        enum: ProductStatusE,
-    })
     private getProducts(
-        @Queries(QueriesProductList) queries: QueriesProductList,
-    ): Promise<PaginationResult<ProductCardPublic>> {
+        @QueryDecorator(QueriesProductList) queries: QueriesProductListI,
+    ): Promise<PaginationResult<ProductCardPublicI>> {
         return this.productService.getProductList(queries);
     }
 
     @Get(':productId')
-    @UseInterceptors(SessionInitInterceptor)
-    @UseInterceptors(CacheInterceptor)
-    @UseInterceptors(ProductHistoryInterceptor)
+    @UseInterceptors(SessionInitInterceptor, CacheInterceptor, HistoryProductInterceptor, NotFoundInterceptor)
     @ApiOperation({ summary: 'get public product by ID 💾 🧷' })
     @ApiOkResponse({ type: ProductPublic })
     @ApiBadRequestResponse({ description: 'invalid product ID' })
     @ApiNotFoundResponse({ description: 'product not found' })
     private getProduct(
         @Param('productId', ParseUUIDPipe) productId: string,
-        @Queries(QueriesProductList) queries: QueriesProductList,
-    ): Promise<ProductPublic> {
+        @QueryDecorator(QueriesProductList) queries: QueriesProductListI,
+    ): Promise<ProductPublicI | null> {
         return this.productService.getProduct(productId, queries);
     }
 }

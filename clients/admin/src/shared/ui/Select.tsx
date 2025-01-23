@@ -11,10 +11,11 @@ export type CustomSelectProps = {
     options: Option[] | undefined
     isLoading?: boolean
     error?: string
+    withNone?: boolean
 } & Omit<SelectProps<any>, 'error'>;
 
 const Select = forwardRef(({
-    options, isLoading, error, disabled, ...props
+    options, isLoading, error, disabled, withNone, ...props
 }: CustomSelectProps, ref) => {
     const isEmptyList = !options?.length;
 
@@ -45,6 +46,7 @@ const Select = forwardRef(({
                 }}
                 {...props}
             >
+                {withNone && <MenuItem value=''>None</MenuItem>}
                 {options?.map(({ id, title }) => (
                     <MenuItem key={id} value={id}>{title}</MenuItem>
                 ))}

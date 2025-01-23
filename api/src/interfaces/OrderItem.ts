@@ -4,7 +4,7 @@ import { ProductI } from './Product';
 import { ProductPreviewPublicI } from './Product';
 
 interface BaseI {
-    id?: string;
+    id: string;
     amount: number;
     summaryPrice?: PriceI;
 }
@@ -14,8 +14,8 @@ export interface OrderItemPublicI extends BaseI {
 }
 
 export interface OrderItemI extends BaseI {
-    order_id?: OrderI['id'];
+    order_id: OrderI['id'];
     product: ProductI;
-    created_at?: Date;
-    updated_at?: Date;
+    created_at: Date;
+    updated_at: Date;
 }

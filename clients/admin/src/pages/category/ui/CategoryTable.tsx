@@ -11,14 +11,14 @@ import CategoryTogglePublic from "@features/category/ui/CategoryTogglePublic";
 import { useCategoryList } from "@entities/category/model/hooks";
 
 const CategoryTablePage = () => {
-    const { data, isLoading } = useCategoryList();
+    const { data, isFetching } = useCategoryList();
     const nav = useNavigate();
 
     return (
         <div>
             <ContentListManager
                 searchHandle={val => console.log(val)}
-                isLoading={isLoading}
+                isLoading={isFetching}
                 addItemHandle={() => nav(routerSubConfig.categoryCreate.path)}
             >
                 <Empty data={data?.length} align="center">

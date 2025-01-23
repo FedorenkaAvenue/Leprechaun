@@ -2,18 +2,17 @@ import { DeleteResult } from 'typeorm';
 import { BadRequestException, Injectable } from '@nestjs/common';
 
 import { FOLDER_TYPES } from '@services/FS';
-import { CategoryI } from '@interfaces/Category';
+import { CategoryI, CategoryPreviewI } from '@interfaces/Category';
 import CategoryService from '.';
-import { CategoryEntity, CategoryPreviewEntity } from '@entities/Category';
 import { Category, CreateCategoryDTO } from '@dto/Category/private';
 
 @Injectable()
 export default class CategoryPrivateService extends CategoryService {
-    getCategoryList(): Promise<CategoryPreviewEntity[]> {
+    getCategoryList(): Promise<CategoryPreviewI[]> {
         return this.categoryRepo.find();
     }
 
-    public async createCategory(newCategory: CreateCategoryDTO, icon: Express.Multer.File): Promise<CategoryEntity> {
+    public async createCategory(newCategory: CreateCategoryDTO, icon: Express.Multer.File): Promise<CategoryI> {
         try {
             const createdCategory = await this.categoryRepo.save(new Category(newCategory));
             const {
@@ -32,29 +31,13 @@ export default class CategoryPrivateService extends CategoryService {
 
             return createdCategory;
         } catch (err) {
-            throw new BadRequestException(err?.detail);
+            throw new BadRequestException(err);
         }
     }
 
-    // async updateCategory(
-    //     id: CategoryI['id'],
-    //     data: CreateCategoryDTO,
-    //     icon: Express.Multer.File,
-    // ): Promise<UpdateResult> {
-    //     const res =  await this.categoryRepo.update({ id }, { ...data });
-
-    //     if (icon) {
-    //         const [uploadedIcon] = await this.FSService.saveFiles(FOLDER_TYPES.CATEGORY, id, [icon]);
-
-    //         await this.categoryRepo.update({ id }, { icon: uploadedIcon });
-    //     }
-
-    //     return res;
-    // }
-
-    public async getCategory(categoryUrl: CategoryI['url']): Promise<CategoryEntity> {
+    public async getCategory(categoryid: CategoryI['id']): Promise<CategoryI | null> {
         return await this.categoryRepo.findOne({
-            where: { url: categoryUrl },
+            where: { id: categoryid },
             relations: { propertygroups: true, products: true }
         });
     }

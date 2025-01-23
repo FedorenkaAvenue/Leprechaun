@@ -189,7 +189,7 @@ export default class ConfigService {
             origin: [
                 this.getVal('DOMAIN') as string,
                 this.getVal('DOMAIN_ADM') as string,
-                ...this.getVal('CORS_DOMAINS'),
+                ...this.getVal('CORS_DOMAINS') as string[],
             ],
             methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
             credentials: true,

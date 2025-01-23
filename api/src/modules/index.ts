@@ -10,10 +10,10 @@ import PropertyModule from './Property';
 import ImageModule from './Image';
 import AdminModule from './Admin';
 import OrderModule from './Order';
+import HistoryProductModule from './HistoryProduct';
 import WishlistModule from './Wishlist';
 import ScheduleModule from './Sheduler';
 import SessionModule from './Session';
-import HistoryModule from './History';
 import CacheModule from './Cache';
 import ToolModule from './Tool';
 import EventModule from './Event';
@@ -30,9 +30,9 @@ import { HTTPLogMiddleware } from '@middlewares/HTTPLog';
 import OrderPublicController from '@controllers/Order/public';
 import ProductPublicController from '@controllers/Product/public';
 import WishlistPublicController from '@controllers/Wishlist/public';
-import HistoryPublicController from '@controllers/History/public';
 import WishlistItemPublicController from '@controllers/WishlistItem/public';
 import SubscribePublicController from '@controllers/Subscribe/public';
+import HistoryProductPublicController from '@controllers/HistoryProduct/public';
 
 @Module({
     imports: [
@@ -47,7 +47,7 @@ import SubscribePublicController from '@controllers/Subscribe/public';
         ProductModule,
         OrderModule,
         WishlistModule,
-        HistoryModule,
+        HistoryProductModule,
         SubscribeModule,
         PropertyGroupModule,
         PropertyModule,
@@ -85,7 +85,7 @@ export default class AppModule implements NestModule {
                 OrderPublicController,
                 WishlistPublicController,
                 WishlistItemPublicController,
-                HistoryPublicController,
+                HistoryProductPublicController,
                 SubscribePublicController,
             );
     }

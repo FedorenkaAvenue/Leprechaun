@@ -22,7 +22,7 @@ export default class SessionInitInterceptor implements NestInterceptor {
                     req.session.save((err) => err ? reject(err) : resolve());
                 });
             } catch (err) {
-                throw new InternalServerErrorException('Failed to save session :', err);
+                throw new InternalServerErrorException('Failed to save session :', String(err));
             }
         } else {
             req.session.touch();

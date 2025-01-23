@@ -1,4 +1,4 @@
-import { ProductStatusE } from "@enums/Product";
+import { ProductStatus } from "@enums/Product";
 import { TransI } from "./Trans";
 import { PriceI } from "./Price";
 import { LabelI } from "./Label";
@@ -10,7 +10,7 @@ import { OptionPublicI } from "./Option";
 interface BaseI<T> {
     id: string;
     title: T;
-    status: ProductStatusE;
+    status: ProductStatus;
     price: PriceI;
 }
 

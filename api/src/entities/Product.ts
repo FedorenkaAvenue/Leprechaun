@@ -6,7 +6,7 @@ import {
 import { Inject } from '@nestjs/common';
 
 import { CategoryEntity } from '@entities/Category';
-import { ProductStatusE } from '@enums/Product';
+import { ProductStatus } from '@enums/Product';
 import { ImageEntity } from '@entities/Image';
 import { CategoryI } from '@interfaces/Category';
 import { PropertyEntity } from '@entities/Property';
@@ -34,9 +34,9 @@ export class ProductEntity implements Omit<ProductI, 'labels' | 'wishlistCount'>
     @ApiProperty({ type: TransEntity, nullable: true, default: null })
     description: TransI;
 
-    @Column({ default: ProductStatusE.AVAILABLE })
-    @ApiProperty({ enum: ProductStatusE })
-    status: ProductStatusE;
+    @Column({ default: ProductStatus.AVAILABLE })
+    @ApiProperty({ enum: ProductStatus })
+    status: ProductStatus;
 
     @Column(() => PriceEntity, { prefix: false })
     @ApiProperty({ type: PriceEntity })
@@ -87,10 +87,10 @@ export class ProductEntity implements Omit<ProductI, 'labels' | 'wishlistCount'>
     // virtual properties, maped from SQL
 
     @ApiProperty({ description: 'how many users added this product to wishlist' })
-    wishlistCount: WishlistItemEntity[];
+    wishlistCount?: WishlistItemEntity[];
 
     @ApiProperty({ description: 'mapped properties (into property groups)' })
-    options: OptionI[];
+    options?: OptionI[];
 }
 
 @EventSubscriber()
@@ -108,11 +108,11 @@ export class ProductEntitySubscriber implements EntitySubscriberInterface<Produc
 
     async afterUpdate(event: UpdateEvent<ProductEntity>) {
         // notify user who subscribed on product's available status
-        if ((event.entity as ProductEntity).status === ProductStatusE.AVAILABLE) {
+        if ((event.entity as ProductEntity).status === ProductStatus.AVAILABLE) {
             const product = await event.manager.getRepository(ProductEntity).findOne({
                 where: { id: (event.entity as ProductEntity).id },
                 relations: { images: true },
-            });
+            }) as ProductEntity;
 
             this.subscribePublicService.notifyProductAvailableStatus(product);
         }

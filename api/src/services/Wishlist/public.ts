@@ -1,4 +1,4 @@
-import { Injectable, NotAcceptableException, NotFoundException } from '@nestjs/common';
+import { Injectable, NotAcceptableException } from '@nestjs/common';
 import { DeepPartial, DeleteResult, UpdateResult } from 'typeorm';
 import { QueryDeepPartialEntity } from 'typeorm/query-builder/QueryPartialEntity';
 
@@ -8,14 +8,14 @@ import WishlistItemEntity from '@entities/WishlistItem';
 import { WishlistItemI } from '@interfaces/WishlistItem';
 import { WishlistItemMoveDTO, WishlistItemPublic } from '@dto/WishlistItem/public';
 import { CreateWishlistDTO, UpdateWishlistDTO, WishlistPublic } from '@dto/Wishlist/public';
-import { WishlistI } from '@interfaces/Wishlist';
+import { WishlistI, WishlistPublicI } from '@interfaces/Wishlist';
 import { ProductI } from '@interfaces/Product';
 import WishlistEntity from '@entities/Wishlist';
-import { QueriesCommon } from '@dto/Queries';
+import { QueriesCommonI } from '@interfaces/Queries';
 
 @Injectable()
 export default class WishlistPublicService extends WishlistService {
-    public async getWishlists(sid: SessionI['sid'], searchParams: QueriesCommon): Promise<WishlistPublic[]> {
+    public async getWishlists(sid: SessionI['sid'], searchParams: QueriesCommonI): Promise<WishlistPublicI[]> {
         const result = await this.wishlistRepo.find({
             where: { sid },
             relations: { items: { product: { images: true } } },
@@ -24,13 +24,13 @@ export default class WishlistPublicService extends WishlistService {
         return result.map(item => new WishlistPublic(item, searchParams));
     }
 
-    public async getWishlist(id: WishlistI['id'], searchParams: QueriesCommon): Promise<WishlistPublic> {
+    public async getWishlist(id: WishlistI['id'], searchParams: QueriesCommonI): Promise<WishlistPublicI | null> {
         const res = await this.wishlistRepo.findOne({
             where: { id },
             relations: { items: { product: { images: true } } },
         });
 
-        if (!res) throw new NotFoundException('wishlist not found');
+        if (!res) return null;
 
         return new WishlistPublic(res, searchParams);
     }
@@ -38,7 +38,7 @@ export default class WishlistPublicService extends WishlistService {
     public async createWishlist(
         wishlist: CreateWishlistDTO,
         sid: SessionI['sid'],
-        searchParams: QueriesCommon,
+        searchParams: QueriesCommonI,
     ): Promise<WishlistPublic> {
         const newWishlist = await this.dataSource.transaction(async manager => {
             if (wishlist.isDefault) await manager.update(WishlistEntity, { sid, isDefault: true }, { isDefault: false });
@@ -71,7 +71,7 @@ export default class WishlistPublicService extends WishlistService {
     public async addWishlistItem(
         productId: ProductI['id'],
         sid: SessionI['sid'],
-        searchParams: QueriesCommon,
+        searchParams: QueriesCommonI,
     ): Promise<WishlistItemPublic> {
         let wishlist: WishlistI['id'];
 
@@ -98,7 +98,7 @@ export default class WishlistPublicService extends WishlistService {
         const addedItem = await this.wishlistItemRepo.findOne({
             where: { id: raw[0].id },
             relations: { product: { images: true } },
-        });
+        }) as WishlistItemEntity;
 
         return new WishlistItemPublic(addedItem, searchParams);
     }

@@ -4,6 +4,7 @@ import mapToOptions from "@entities/category/lib/mapToOptions";
 import Select, { CustomSelectProps } from "@shared/ui/Select";
 import { Category } from "@entities/category/model/interfaces";
 import { useCategoryList } from "@entities/category/model/hooks";
+import { Option } from "@shared/models/interfaces";
 
 type Props = {
     value: Category['id'] | undefined
@@ -11,7 +12,7 @@ type Props = {
 
 const CategorySelectList = forwardRef<ReactNode, Props>(({ value = '', ...props }, ref) => {
     const { data, isFetching } = useCategoryList();
-    const mapedOptions = useMemo(() => mapToOptions(data || [], 'en'), [data]);
+    const mapedOptions: Option[] = useMemo(() => mapToOptions(data || [], 'en'), [data]);
 
     return (
         <Select
@@ -21,6 +22,7 @@ const CategorySelectList = forwardRef<ReactNode, Props>(({ value = '', ...props 
             isLoading={isFetching}
             value={value}
             options={mapedOptions}
+            withNone
         />
     );
 });

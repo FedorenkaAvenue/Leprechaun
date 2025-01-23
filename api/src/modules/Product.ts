@@ -7,13 +7,19 @@ import { ProductEntity, ProductEntitySubscriber } from '@entities/Product';
 import ProductPublicService from '@services/Product/public';
 import ProductPrivateService from '@services/Product/private';
 import ImageModule from '@modules/Image';
-import HistoryModule from './History';
 import ProductService from '@services/Product';
 import EventModule from './Event';
 import SubscribeModule from './Subscribe';
+import HistoryProductModule from './HistoryProduct';
 
 @Module({
-    imports: [TypeOrmModule.forFeature([ProductEntity]), ImageModule, HistoryModule, EventModule, SubscribeModule],
+    imports: [
+        TypeOrmModule.forFeature([ProductEntity]),
+        ImageModule,
+        HistoryProductModule,
+        EventModule,
+        SubscribeModule,
+    ],
     controllers: [ProductPublicController, ProductPrivateController],
     providers: [ProductPublicService, ProductPrivateService, ProductService, ProductEntitySubscriber],
     exports: [ProductPublicService, ProductPrivateService, ProductService],

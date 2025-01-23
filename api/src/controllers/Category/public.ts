@@ -3,9 +3,11 @@ import { ApiNotFoundResponse, ApiOkResponse, ApiOperation, ApiTags } from '@nest
 
 import CategoryPublicService from '@services/Category/public';
 import Queries from '@decorators/Query';
-import { QueriesCommon } from '@dto/Queries';
 import { CacheInterceptor } from '@nestjs/cache-manager';
 import { CategoryPublic } from '@dto/Category/public';
+import { CategoryPublicI } from '@interfaces/Category';
+import { QueriesCommonI } from '@interfaces/Queries';
+import NotFoundInterceptor from '@interceptors/UndefinedResult';
 
 @Controller('category')
 @ApiTags('Category 🧑‍💻')
@@ -16,15 +18,19 @@ export default class CategoryPublicController {
     @Get('list')
     @ApiOperation({ summary: 'get all public categories 💾' })
     @ApiOkResponse({ type: CategoryPublic, isArray: true })
-    private getAllCategories(@Queries() queries: QueriesCommon): Promise<CategoryPublic[]> {
+    private getAllCategories(@Queries() queries: QueriesCommonI): Promise<CategoryPublicI[]> {
         return this.categoryService.getCategoryList(queries);
     }
 
     @Get(':categoryURL')
+    @UseInterceptors(NotFoundInterceptor)
     @ApiOperation({ summary: 'get category info by URL 💾' })
     @ApiOkResponse({ type: CategoryPublic })
     @ApiNotFoundResponse({ description: 'category not found' })
-    private getCategory(@Param('categoryURL') categoryURL: string, @Queries() queries: QueriesCommon): Promise<CategoryPublic> {
+    private getCategory(
+        @Param('categoryURL') categoryURL: string,
+        @Queries() queries: QueriesCommonI,
+    ): Promise<CategoryPublicI | null> {
         return this.categoryService.getCategory(categoryURL, queries);
     }
 }

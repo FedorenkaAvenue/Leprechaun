@@ -1,13 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import {
-    IsBooleanString,
-    IsNotEmpty,
-    IsNotEmptyObject,
-    IsNumberString,
-    IsObject,
-    IsOptional,
-    IsString,
-    ValidateNested,
+    IsBooleanString, IsNotEmpty, IsNotEmptyObject, IsNumberString, IsObject, IsOptional, IsString, ValidateNested,
 } from 'class-validator';
 import { Type } from 'class-transformer';
 
@@ -55,7 +48,7 @@ export class CreateCategoryDTO {
     @IsOptional()
     @IsString()
     @ApiProperty({ required: false, default: null })
-    comment: string;
+    comment: string | null;
 }
 
 export class Category extends CreateCategoryDTO {

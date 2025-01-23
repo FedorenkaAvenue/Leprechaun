@@ -1,32 +1,32 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 
-import { PaginationResult } from '@dto/Pagination';
 import ProductService from '.';
-import { QueriesProductList } from '@dto/Queries';
 import WishlistItemEntity from '@entities/WishlistItem';
-import { ProductI } from '@interfaces/Product';
+import { ProductCardPublicI, ProductI, ProductPublicI } from '@interfaces/Product';
 import { ProductCardPublic, ProductPublic } from '@dto/Product/public';
+import { QueriesProductListI } from '@interfaces/Queries';
+import { PaginationIResultI } from '@interfaces/Pagination';
 
 @Injectable()
 export default class ProductPublicService extends ProductService {
-    public async getProduct(id: ProductI['id'], searchParams: QueriesProductList): Promise<ProductPublic> {
-        const qb = this.getProductQueryBulder()
+    public async getProduct(id: ProductI['id'], searchParams: QueriesProductListI): Promise<ProductPublicI | null> {
+        const product = await this.getProductQueryBulder()
             .where('p.is_public = true')
             .andWhere('p.id = :id', { id })
             .leftJoinAndMapMany('p.wishlistCount', WishlistItemEntity, 'w', 'w.product.id = p.id')
             .leftJoinAndSelect('p.description', 'desc')
             .leftJoinAndSelect('p.category', 'cat')
-            .leftJoinAndSelect('cat.title', 'cat_title');
-        try {
-            return new ProductPublic(await qb.getOneOrFail(), searchParams);
-        } catch (_) {
-            throw new NotFoundException('product not found');
-        }
+            .leftJoinAndSelect('cat.title', 'cat_title')
+            .getOne();
+
+        if (!product) return null;
+
+        return new ProductPublic(product, searchParams);
     }
 
-    public async getProductList(searchParams: QueriesProductList): Promise<PaginationResult<ProductCardPublic>> {
+    public async getProductList(searchParams: QueriesProductListI): Promise<PaginationIResultI<ProductCardPublicI>> {
         const qb = this.getProductQueryBulder().where('p.is_public = true');
 
-        return this.renderProductList<ProductCardPublic>(qb, searchParams, ProductCardPublic);
+        return this.renderProductList<ProductCardPublic>(qb, searchParams, true, ProductCardPublic);
     }
 }

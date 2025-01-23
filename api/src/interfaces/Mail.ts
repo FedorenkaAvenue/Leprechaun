@@ -6,7 +6,7 @@ export interface DevLogMailI {
     url: string;
     body?: string | null;
     cookies?: Request['cookies']
-    stack: string;
-    ip: string;
+    stack: string | undefined;
+    ip: string | undefined;
     timestamp: string;
 }

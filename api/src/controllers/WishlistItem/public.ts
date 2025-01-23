@@ -12,7 +12,8 @@ import { WishlistItemMoveDTO, WishlistItemPublic } from '@dto/WishlistItem/publi
 import AuthGuard from '@guards/Auth';
 import Queries from '@decorators/Query';
 import SessionInitInterceptor from '@interceptors/SessionInit';
-import { QueriesCommon } from '@dto/Queries';
+import { QueriesCommonI } from '@interfaces/Queries';
+import { WishlistItemPublicI } from '@interfaces/WishlistItem';
 
 @Controller('wishlist/item')
 @ApiTags('Wishlist item🧑‍💻')
@@ -27,7 +28,7 @@ export default class WishlistItemPublicController {
     @ApiNotAcceptableResponse({ description: 'wishlist item or wishlist is not exists' })
     private moveWishlistItemToAnotherWishlist(
         @Body(new ValidationPipe({ transform: true })) updates: WishlistItemMoveDTO,
-    ) {
+    ): Promise<void> {
         return this.wishlistPublicService.moveWishlistItems(updates);
     }
 
@@ -39,9 +40,9 @@ export default class WishlistItemPublicController {
     @ApiNotAcceptableResponse({ description: 'product is already added to wishlist' })
     private addWishlistItem(
         @Param('productID', ParseUUIDPipe) productId: string,
-        @Session() { id },
-        @Queries() queries: QueriesCommon,
-    ): Promise<WishlistItemPublic> {
+        @Session() { id }: Record<string, any>,
+        @Queries() queries: QueriesCommonI,
+    ): Promise<WishlistItemPublicI> {
         return this.wishlistPublicService.addWishlistItem(productId, id, queries);
     }
 
@@ -53,7 +54,7 @@ export default class WishlistItemPublicController {
     @ApiNotFoundResponse({ description: 'wishlist item not found' })
     private deleteWishlistItem(
         @Param('wishlistItemID', ParseUUIDPipe) wishlistItemID: string,
-        @Session() { id },
+        @Session() { id }: Record<string, any>,
     ): Promise<DeleteResult> {
         return this.wishlistPublicService.removeWishlistItem(wishlistItemID, id);
     }

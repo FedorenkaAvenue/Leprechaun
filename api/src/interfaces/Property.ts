@@ -1,13 +1,13 @@
 import { TransI } from './Trans';
 
 interface BaseI<T> {
-    id?: number;
+    id: number;
     title: T;
     alt_name: string;
 }
 
 export interface PropertyI extends BaseI<TransI> {
-    comment?: string;
+    comment: string;
 }
 
 export type PropertyPublicI = BaseI<string>;

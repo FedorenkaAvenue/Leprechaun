@@ -1,17 +1,17 @@
-import { Button, Pagination } from "@mui/material";
+import { Button, Pagination as PaginationUI } from "@mui/material";
 import { useDebounce } from "@uidotdev/usehooks";
 import { PropsWithChildren, ReactNode, useEffect, useState } from "react";
 
 import LinearLoader from "./LinearLoader";
 import TextInput from "./TextInput";
-import PaginationModel from "@shared/models/Pagination";
+import { Pagination } from "@shared/models/interfaces";
 
 interface Props {
     addItemHandle: () => void
     isLoading: boolean
     searchHandle: (val: string) => void
     pagination?: {
-        data: PaginationModel<unknown> | undefined
+        data: Pagination<unknown> | undefined
         setPage: (page: number) => void
     }
     additionalTools?: ReactNode
@@ -47,14 +47,16 @@ const ContentListManager = ({
             {children}
             {
                 prevPagination
-                && <Pagination
-                    sx={{ display: 'flex', justifyContent: 'center', position: 'fixed', bottom: '10px', left: '50%' }}
-                    count={prevPagination?.pagination.pageCount}
-                    page={prevPagination?.pagination.currentPage || 1}
-                    onChange={(_, page) => pagination?.setPage(page)}
-                    color="primary"
-                    disabled={!pagination?.data?.pagination.totalCount}
-                />
+                && (
+                    <PaginationUI
+                        sx={{ display: 'flex', justifyContent: 'center', position: 'fixed', bottom: '10px', left: '50%' }}
+                        count={prevPagination?.pagination.pageCount}
+                        page={prevPagination?.pagination.currentPage || 1}
+                        onChange={(_, page) => pagination?.setPage(page)}
+                        color="primary"
+                        disabled={!pagination?.data?.pagination.totalCount}
+                    />
+                )
             }
         </div>
     );

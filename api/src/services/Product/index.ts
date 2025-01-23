@@ -1,5 +1,5 @@
 import { InjectRepository } from '@nestjs/typeorm';
-import { FindManyOptions, Repository, SelectQueryBuilder } from 'typeorm';
+import { Repository, SelectQueryBuilder } from 'typeorm';
 import { Injectable } from '@nestjs/common';
 
 import { FSService } from '@services/FS';
@@ -7,21 +7,27 @@ import { ProductEntity } from '@entities/Product';
 import { ImageService } from '@services/Image';
 import { PaginationResult } from '@dto/Pagination';
 import { QueriesProductList } from '@dto/Queries';
-import HistoryPublicService from '@services/History/public';
 import { ProductSort } from '@enums/Query';
 import { PropertyGroupEntity } from '@entities/PropertGroup';
 import LoggerService from '@services/Logger';
-import { ProductI } from '@interfaces/Product';
 
 @Injectable()
 export default class ProductService {
     constructor(
         @InjectRepository(ProductEntity) protected readonly productRepo: Repository<ProductEntity>,
         protected readonly imageService: ImageService,
-        protected readonly historyService: HistoryPublicService,
         protected readonly FSService: FSService,
         private readonly loggerService: LoggerService,
     ) { }
+
+    /**
+     * @description change "new" entity field
+     */
+    public async changeNewStatus(): Promise<void> {
+        const { affected } = await this.productRepo.update({ is_new: true }, { is_new: false });
+
+        this.loggerService.info(`${affected} products was changed to is_new = false`);
+    }
 
     /**
      * @description get common product query builder
@@ -45,87 +51,66 @@ export default class ProductService {
     }
 
     /**
-     * @description get product list by criteria
-     * @param {FindManyOptions<ProductEntity>} options search criteria option
-     * @returns array of ProductEntity
-     */
-    public async getProductListByCriteria(options: FindManyOptions<ProductEntity>): Promise<ProductEntity[]> {
-        return await this.productRepo.find(options);
-    }
-
-    /**
-     * @description change "new" entity field
-     */
-    public async changeNewStatus(): Promise<void> {
-        const { affected } = await this.productRepo.update({ is_new: true }, { is_new: false });
-
-        this.loggerService.info(`${affected} products was changed to is_new = false`);
-    }
-
-    /**
-     * @description update (increment) product.orderCount field
-     * @param id product ID
-     */
-    public async incrementProductOrderCount(id: ProductI['id']): Promise<void> {
-        const { orderCount } = await this.productRepo.findOneBy({ id });
-
-        await this.productRepo.update({ id }, { orderCount: orderCount + 1 });
-    }
-
-    /**
      * @description render product search result with filters, sorting and pagination
      * @param qb query builder to continue building query
      * @param searchParams
      * @param resultMapConstructor constructor for maping result. by default will return ProductEntity
+     * @param isPublic get only pablic data
      * @returns completed search result with pagination
      */
     protected async renderProductList<T>(
         qb: SelectQueryBuilder<ProductEntity>,
         searchParams: QueriesProductList,
-        resultMapConstructor?: any,
+        isPublic: boolean,
+        resultMapConstructor: { new(res: ProductEntity, searchParams?: QueriesProductList): T }
+    ): Promise<PaginationResult<T>>;
+
+    protected async renderProductList(
+        qb: SelectQueryBuilder<ProductEntity>,
+        searchParams: QueriesProductList,
+        isPublic: boolean
+    ): Promise<PaginationResult<ProductEntity>>;
+
+    protected async renderProductList<T = ProductEntity>(
+        qb: SelectQueryBuilder<ProductEntity>,
+        searchParams: QueriesProductList,
+        isPublic: boolean,
+        resultMapConstructor?: { new(res: ProductEntity, searchParams?: QueriesProductList): T }
     ): Promise<PaginationResult<T>> {
-        const { sort, portion, page, price, category, optionsFilter } = searchParams;
+        const { sort, portion, page, price, status, category, optionsFilter } = searchParams;
 
-        // filtering by dinamical filters
+        // Filtering by dynamic filters
         if (optionsFilter) {
-            console.log(Object.values(optionsFilter));
-
-            qb
-                .andWhere('p.properties.alt_name = bavovna', { propGroup: Object.values(optionsFilter) })
-            // .andWhere('props.alt_name IN(:...props)', { props: dynamicFilters[propGroup] });
+            qb.andWhere('p.properties.alt_name = :value', { value: 'bavovna' }); // Example filter logic
         }
 
-        // price
+        // Price
         if (price) qb.andWhere('p.price.current BETWEEN :min AND :max', { ...price });
 
-        // category
+        // Category
         if (category) {
-            qb.leftJoin('p.category', 'cat')
-                .where('cat.url = :categoryUrl', { categoryUrl: category })
-                .andWhere('p.is_public = true');
+            qb.leftJoin('p.category', 'cat').where('cat.url = :categoryUrl', { categoryUrl: category });
+
+            if (isPublic) qb.andWhere('cat.is_public = true');
         }
 
-        // product status
-        // qb.andWhere('p.status = :status', { status });
+        // Product status
+        if (status) {
+            qb.andWhere('p.status = :status', { status });
+        }
 
-        // sorting
+        // Sorting
         switch (sort) {
-            case ProductSort.PRICE_UP: {
+            case ProductSort.PRICE_UP:
                 qb.orderBy('p.price.current', 'ASC');
                 break;
-            }
-
-            case ProductSort.PRICE_DOWN: {
+            case ProductSort.PRICE_DOWN:
                 qb.orderBy('p.price.current', 'DESC');
                 break;
-            }
-
-            case ProductSort.NEW: {
+            case ProductSort.NEW:
                 qb.orderBy('p.created_at', 'DESC');
                 break;
-            }
-
-            default: // CookieSortType.POPULAR
+            default: // ProductSort.POPULAR
                 qb.orderBy('p.rating', 'DESC');
         }
 
@@ -134,13 +119,15 @@ export default class ProductService {
             .skip((page - 1) * portion)
             .getManyAndCount();
 
-        return new PaginationResult<T>(
-            resultMapConstructor ? result.map(prod => new resultMapConstructor(prod, searchParams)) : result,
-            {
-                currentPage: page,
-                totalCount: resCount,
-                itemPortion: portion,
-            },
-        );
+        const mappedResult = resultMapConstructor
+            ? result.map(product => new resultMapConstructor(product, searchParams))
+            : (result as T[]);
+
+        return new PaginationResult<T>(mappedResult, {
+            currentPage: page,
+            totalCount: resCount,
+            itemPortion: portion,
+        });
     }
+
 }

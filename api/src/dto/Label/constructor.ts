@@ -8,7 +8,7 @@ export class Label implements LabelI {
     type: LabelType;
 
     @ApiProperty({ required: false, nullable: true })
-    value: string;
+    value: string | null;
 
     constructor(type: LabelI['type'], value?: LabelI['value']) {
         this.type = type;

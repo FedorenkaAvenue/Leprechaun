@@ -1,6 +1,7 @@
-import { ProductStatusE } from '@enums/Product';
+import { ProductStatus } from '@enums/Product';
 import { ProductSort } from '@enums/Query';
 import { CategoryI } from './Category';
+import { LanguagesI } from './Trans';
 
 export interface QueryPriceI {
     min: number;
@@ -11,20 +12,23 @@ export type QueryOptionsFiltersT = {
     [key: string]: string | number
 };
 
-export interface QueriesCommonI<P = QueryPriceI> {
-    lang: string;
-    price: P;
+export interface QueriesCommonI {
+    lang: keyof LanguagesI;
+}
+
+export interface QueriesPaginationI extends QueriesCommonI {
     page: number;
     portion: number;
 }
 
-export interface QueriesProductListI<P = QueryPriceI> extends QueriesCommonI<P> {
+export interface QueriesProductListI<P = QueryPriceI> extends QueriesPaginationI {
     sort: ProductSort;
-    status: ProductStatusE;
+    status: ProductStatus;
     category: CategoryI['url']
-    optionsFilter: QueryOptionsFiltersT;
+    price: P;
+    optionsFilter: QueryOptionsFiltersT | null;
 }
 
-export interface QueriesSearchI<P = QueryPriceI> extends QueriesCommonI<P> {
+export interface QueriesSearchI extends QueriesCommonI {
     substring: string;
 }

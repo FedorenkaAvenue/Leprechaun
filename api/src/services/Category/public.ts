@@ -1,13 +1,14 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 
-import { CategoryI } from '@interfaces/Category';
+import { CategoryI, CategoryPublicI } from '@interfaces/Category';
 import CategoryService from '.';
 import { QueriesCommon } from '@dto/Queries';
 import { CategoryPublic } from '@dto/Category/public';
+import { QueriesCommonI } from '@interfaces/Queries';
 
 @Injectable()
 export default class CategoryPublicService extends CategoryService {
-    public async getCategoryList({ lang }: QueriesCommon): Promise<CategoryPublic[]> {
+    public async getCategoryList({ lang }: QueriesCommon): Promise<CategoryPublicI[]> {
         const res = await this.categoryRepo.find({
             where: { is_public: true },
         });
@@ -15,15 +16,13 @@ export default class CategoryPublicService extends CategoryService {
         return res.map(cat => new CategoryPublic(cat, lang));
     }
 
-    public async getCategory(categoryUrl: CategoryI['url'], { lang }: QueriesCommon): Promise<CategoryPublic> {
-        try {
-            const res = await this.categoryRepo.findOneOrFail({
-                where: { url: categoryUrl, is_public: true },
-            });
+    public async getCategory(categoryUrl: CategoryI['url'], { lang }: QueriesCommonI): Promise<CategoryPublicI | null> {
+        const res = await this.categoryRepo.findOne({
+            where: { url: categoryUrl, is_public: true },
+        });
 
-            return new CategoryPublic(res, lang);
-        } catch (_) {
-            throw new NotFoundException(`category ${categoryUrl} not found`);
-        }
+        if (!res) return null;
+
+        return new CategoryPublic(res, lang);
     }
 }

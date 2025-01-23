@@ -29,6 +29,8 @@ const ProductTablePage = () => {
             additionalTools={
                 <CategorySelectList
                     onChange={({ target: { value } }) => {
+                        console.log(value);
+
                         setParams({ ...params, category: value })
                     }}
                     size='small'

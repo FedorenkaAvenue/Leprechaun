@@ -1,17 +1,16 @@
-import { DeleteResult, UpdateResult } from 'typeorm';
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { DeleteResult } from 'typeorm';
+import { Injectable } from '@nestjs/common';
 
 import { FOLDER_TYPES } from '@services/FS';
 import { PaginationResult } from '@dto/Pagination';
 import ProductService from '.';
-import { QueriesProductList } from '@dto/Queries';
-import { ProductEntity } from '@entities/Product';
-import { ProductI } from '@interfaces/Product';
+import { ProductI, ProductPreviewI } from '@interfaces/Product';
 import { ProductCreateDTO, Product, ProductPreview, ProductUpdateDTO } from '@dto/Product/private';
+import { QueriesProductListI } from '@interfaces/Queries';
 
 @Injectable()
 export default class ProductPrivateService extends ProductService {
-    public async createProduct(newProduct: ProductCreateDTO, images: Express.Multer.File[]): Promise<ProductEntity> {
+    public async createProduct(newProduct: ProductCreateDTO, images: Express.Multer.File[]): Promise<ProductI> {
         const createdProduct = await this.productRepo.save(new Product(newProduct));
 
         const {
@@ -29,32 +28,17 @@ export default class ProductPrivateService extends ProductService {
         return createdProduct;
     }
 
-    public async getProduct(id: ProductI['id']): Promise<ProductEntity> {
-        const qb = this.getProductQueryBulder().andWhere('p.id = :id', { id }).addSelect('p.orderCount');
-
-        try {
-            return await qb.getOneOrFail();
-        } catch (_) {
-            throw new NotFoundException('product not found');
-        }
+    public async getProduct(id: ProductI['id']): Promise<ProductI | null> {
+        return await this.getProductQueryBulder()
+            .andWhere('p.id = :id', { id })
+            .addSelect('p.orderCount')
+            .getOne();
     }
 
-    public async getProductList(q: QueriesProductList): Promise<PaginationResult<ProductPreview>> {
-        const [res, count] = await this.productRepo.findAndCount({
-            where: { category: { url: q.category } },
-            relations: { images: true },
-            take: q.portion,
-            skip: q.portion * (q.page - 1),
-        });
+    public async getProductList(searchParams: QueriesProductListI): Promise<PaginationResult<ProductPreviewI>> {
+        const qb = this.getProductQueryBulder();
 
-        return new PaginationResult<ProductPreview>(
-            res.map(i => new ProductPreview(i)),
-            {
-                currentPage: q.page,
-                totalCount: count,
-                itemPortion: q.portion,
-            },
-        );
+        return this.renderProductList<ProductPreview>(qb, searchParams, false, ProductPreview);
     }
 
     public async updateProduct(productId: ProductI['id'], updates: ProductUpdateDTO): Promise<void> {

@@ -2,16 +2,16 @@ import { CallHandler, ExecutionContext, Injectable, NestInterceptor, NotFoundExc
 import { Observable, tap } from 'rxjs';
 
 /**
- * @description check if DB value responce === undefined
+ * @description check if DB value responce === undefined or null
  * @returns return result
  * @throws {NotFoundException} DB value responce === undefined
  */
 @Injectable()
-export default class UndefinedResultInterceptor implements NestInterceptor {
+export default class NotFoundInterceptor implements NestInterceptor {
     intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
         return next.handle().pipe(
             tap(data => {
-                if (data === undefined) throw new NotFoundException();
+                if (data === undefined || data === null) throw new NotFoundException();
             }),
         );
     }

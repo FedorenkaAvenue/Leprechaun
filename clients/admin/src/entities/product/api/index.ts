@@ -1,22 +1,21 @@
 import { Product, ProductListUrlQueryParams, ProductPreview } from "../model/interfaces";
 import { Pagination } from "@shared/models/interfaces";
 import { rootApi } from "@shared/api";
-import { PRODUCT_LIST_QUERY, PRODUCT_QUERY } from "../constants/queryKeys";
 
 export const productEntityApi = rootApi.injectEndpoints({
     endpoints: build => ({
-        product: build.query<Product, any>({
+        product: build.query<Product, Product['id']>({
             query: (id: Product['id']) => ({
                 url: `/product/${id}`,
             }),
-            providesTags: [PRODUCT_QUERY],
+            providesTags: (_, __, id) => [{ type: 'product', id }],
         }),
-        productList: build.query<Pagination<ProductPreview[]>, any>({
+        productList: build.query<Pagination<ProductPreview[]>, ProductListUrlQueryParams>({
             query: (args: ProductListUrlQueryParams) => ({
                 url: '/product/list',
                 params: args,
             }),
-            providesTags: [PRODUCT_LIST_QUERY],
+            providesTags: (_, __, args) => [{ type: 'product_list' }],
         })
     }),
 });

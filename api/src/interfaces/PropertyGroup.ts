@@ -2,7 +2,7 @@ import { CategoryPreviewI } from './Category';
 import { TransI } from './Trans';
 
 interface BaseI<T> {
-    id?: number;
+    id: number;
     title: T;
     alt_name: string;
 }

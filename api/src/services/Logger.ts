@@ -14,7 +14,9 @@ export default class LoggerService extends ConsoleLogger {
     static contextsToIgnore = ['InstanceLoader', 'RoutesResolver', 'RouterExplorer', 'NestFactory'];
 
     public log(_: any, context?: string): void {
-        if (!LoggerService.contextsToIgnore.includes(context)) super.log.apply(this, arguments);
+        if (context && LoggerService.contextsToIgnore.includes(context)) return;
+
+        super.log.apply(this, arguments as any);
     }
 
     public info(message: string): void {
@@ -33,7 +35,7 @@ export default class LoggerService extends ConsoleLogger {
      */
     private async writeLog(message: string, type: LogT): Promise<void> {
         const currDate = new Date();
-        const logFolder = `logs/${currDate.getMonth()}_${currDate.getFullYear()}`;
+        const logFolder = `logs/${currDate.getMonth() + 1}_${currDate.getFullYear()}`;
 
         try {
             await appendFile(`${logFolder}/${type}.log`, `${currDate.toLocaleString()}: ${message}.\n`);

@@ -1,13 +1,12 @@
 import { ApiProperty } from '@nestjs/swagger';
 
-import { ProductStatusE } from '@enums/Product';
+import { ProductStatus } from '@enums/Product';
 import WithLabels from '@decorators/Label';
 import { LabelType } from '@enums/Label';
 import { ImageEntity } from '@entities/Image';
 import { singleConfigService } from '@services/Config';
 import { ProductEntity } from '@entities/Product';
 import { QueriesProductListI } from '@interfaces/Queries';
-import { QueriesCommon } from '@dto/Queries';
 import { PriceEntity } from '@entities/_Price';
 import { LabelI } from '@interfaces/Label';
 import { Label } from '@dto/Label/constructor';
@@ -26,8 +25,8 @@ class Base implements ProductPublicBaseI {
     @ApiProperty()
     title: string;
 
-    @ApiProperty({ enum: ProductStatusE })
-    status: ProductStatusE;
+    @ApiProperty({ enum: ProductStatus })
+    status: ProductStatus;
 
     @ApiProperty({ type: PriceEntity })
     price: PriceEntity;
@@ -37,7 +36,7 @@ class Base implements ProductPublicBaseI {
 
     constructor({
         id, title, price, status,
-    }: Pick<ProductEntity, 'id' | 'title' | 'price' | 'status'>, lang: QueriesCommon['lang']) {
+    }: Pick<ProductEntity, 'id' | 'title' | 'price' | 'status'>, lang: QueriesProductListI['lang']) {
         this.id = id;
         this.title = title[lang];
         this.price = price;
@@ -50,9 +49,9 @@ export class ProductPreviewPublic extends Base implements ProductPreviewPublicI 
     @ApiProperty()
     image: string;
 
-    constructor({ images, ...base }: ProductEntity, lang: QueriesCommon['lang']) {
+    constructor({ images, ...base }: ProductEntity, lang: QueriesProductListI['lang']) {
         super(base, lang);
-        this.image = images.find(({ is_main }) => is_main).src;
+        this.image = images.find(({ is_main }) => is_main)?.src as string;
     }
 }
 
@@ -67,12 +66,14 @@ export class ProductCardPublic extends Base implements ProductCardPublicI {
     @ApiProperty()
     description: string;
 
-    constructor({ images, options, description, ...base }: ProductEntity, { lang }: QueriesCommon) {
+    constructor({ images, options, description, ...base }: ProductEntity, { lang }: QueriesProductListI) {
         super(base, lang);
         this.images = images?.
             sort(({ is_main }) => is_main ? -1 : 1).
             slice(0, Number(PRODUCT_PUBLIC_IMAGE_AMOUNT)) as ImageEntity[];
-        this.options = options.filter(({ is_primary }) => is_primary).map(opt => new OptionPublic(opt, lang));
+        this.options = options
+            ? options.filter(({ is_primary }) => is_primary).map(opt => new OptionPublic(opt, lang))
+            : [];
         this.description = description?.[lang];
     }
 }
@@ -106,7 +107,7 @@ export class ProductPublic extends Base implements ProductPublicI {
         this.images = images?.slice(0, Number(PRODUCT_PUBLIC_IMAGE_AMOUNT)) as ImageEntity[];
         this.category = new CategoryPublic(category, lang);
         this.orderCount = orderCount;
-        this.options = options.map(opt => new OptionPublic(opt, lang));
+        this.options = options ? options.map(opt => new OptionPublic(opt, lang)) : [];
         // this.wishlistCount = wishlistCount.length;
     }
 }

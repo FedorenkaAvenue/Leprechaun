@@ -1,12 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import {
-    IsNotEmpty,
-    IsNotEmptyObject,
-    IsNumber,
-    IsObject,
-    IsOptional,
-    IsString,
-    ValidateNested,
+    IsNotEmpty, IsNotEmptyObject, IsNumber, IsObject, IsOptional, IsString, ValidateNested,
 } from 'class-validator';
 import { Type } from 'class-transformer';
 
@@ -14,7 +8,7 @@ import { PropertyI } from '@interfaces/Property';
 import { PropertyGroupI } from '@interfaces/PropertyGroup';
 import { TransDTO } from '@dto/Trans';
 
-export class CreatePropertyDTO implements PropertyI {
+export class CreatePropertyDTO implements Omit<PropertyI, 'id'> {
     @IsNotEmpty()
     @IsNumber()
     @ApiProperty({ type: 'number', description: 'property group ID' })

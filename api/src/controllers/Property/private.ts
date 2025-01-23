@@ -1,12 +1,13 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post, UseInterceptors, ValidationPipe } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, UseInterceptors, ValidationPipe } from '@nestjs/common';
 import { ApiNotFoundResponse, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { DeleteResult } from 'typeorm';
 
 import { PropertyEntity } from '@entities/Property';
 import PropertyService from '@services/Property/private';
 import AffectedResultInterceptor from '@interceptors/AffectedResult';
-import UndefinedResultInterceptor from '@interceptors/UndefinedResult';
+import NotFoundInterceptor from '@interceptors/UndefinedResult';
 import { CreatePropertyDTO } from '@dto/Property/private';
+import { PropertyI } from '@interfaces/Property';
 
 @Controller('adm/property')
 @ApiTags('Property 🤵🏿‍♂️')
@@ -18,7 +19,7 @@ export default class PropertyPrivateController {
     @ApiOkResponse({ type: PropertyEntity })
     private createProperty(
         @Body(new ValidationPipe({ transform: true })) data: CreatePropertyDTO,
-    ): Promise<PropertyEntity> {
+    ): Promise<PropertyI> {
         return this.propertyService.createProperty(data);
     }
 
@@ -34,10 +35,10 @@ export default class PropertyPrivateController {
     // }
 
     @Get(':propertyID')
-    @UseInterceptors(UndefinedResultInterceptor)
+    @UseInterceptors(NotFoundInterceptor)
     @ApiOperation({ summary: 'get property by ID' })
     @ApiOkResponse({ type: PropertyEntity })
-    private getProperty(@Param('propertyID') propertyID: number): Promise<PropertyEntity> {
+    private getProperty(@Param('propertyID') propertyID: number): Promise<PropertyI | null> {
         return this.propertyService.getProperty(propertyID);
     }
 

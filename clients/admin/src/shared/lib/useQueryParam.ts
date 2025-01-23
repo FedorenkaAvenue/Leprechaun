@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useSearchParams } from "react-router-dom";
 
 /**
- * @param {Array} queryParam array of requesting query parameters
+ * @param {Array} queryParam array of requested query parameters
  * @param {Record<Q, string>} defaultValue default query parameters. Doesn'n set them to the URL
  * @returns {Record<Q, string>} object with requested query parameters
  * @example const [params, setParams] = useQueryParam<keyof typeof URL_QUERY_PARAMS>(['page', 'category']);

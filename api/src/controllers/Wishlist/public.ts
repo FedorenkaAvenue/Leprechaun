@@ -11,7 +11,9 @@ import AuthGuard from '@guards/Auth';
 import Queries from '@decorators/Query';
 import { CreateWishlistDTO, UpdateWishlistDTO, WishlistPublic } from '@dto/Wishlist/public';
 import SessionInitInterceptor from '@interceptors/SessionInit';
-import { QueriesCommon } from '@dto/Queries';
+import { QueriesCommonI } from '@interfaces/Queries';
+import { WishlistPublicI } from '@interfaces/Wishlist';
+import NotFoundInterceptor from '@interceptors/UndefinedResult';
 
 @Controller('wishlist')
 @ApiTags('Wishlist 🧑‍💻')
@@ -23,20 +25,21 @@ export default class WishlistPublicController {
     @ApiCookieAuth()
     @ApiOkResponse({ type: WishlistPublic, isArray: true })
     private getWishlists(
-        @Session() { id },
-        @Queries() queries: QueriesCommon,
-    ): Promise<WishlistPublic[]> {
+        @Session() { id }: Record<string, any>,
+        @Queries() queries: QueriesCommonI,
+    ): Promise<WishlistPublicI[]> {
         return this.wishlistPublicService.getWishlists(id, queries);
     }
 
     @Get(':wishlistiD')
+    @UseInterceptors(NotFoundInterceptor)
     @ApiOperation({ summary: 'get wishlist by ID (for sharing wishlist)' })
     @ApiOkResponse({ type: WishlistPublic })
     @ApiNotFoundResponse({ description: 'wishlist not found' })
     private getWishlist(
         @Param('wishlistiD', ParseUUIDPipe) wishlistID: string,
-        @Queries() queries: QueriesCommon,
-    ): Promise<WishlistPublic> {
+        @Queries() queries: QueriesCommonI,
+    ): Promise<WishlistPublicI | null> {
         return this.wishlistPublicService.getWishlist(wishlistID, queries);
     }
 
@@ -47,9 +50,9 @@ export default class WishlistPublicController {
     @ApiOkResponse({ type: WishlistPublic })
     private createWishlist(
         @Body(new ValidationPipe({ transform: true })) wishlist: CreateWishlistDTO,
-        @Session() { id },
-        @Queries() queries: QueriesCommon,
-    ): Promise<WishlistPublic> {
+        @Session() { id }: Record<string, any>,
+        @Queries() queries: QueriesCommonI,
+    ): Promise<WishlistPublicI> {
         return this.wishlistPublicService.createWishlist(wishlist, id, queries);
     }
 
@@ -62,7 +65,7 @@ export default class WishlistPublicController {
     private updateWishlist(
         @Param('wishlistID', ParseUUIDPipe) wishlistId: string,
         @Body(new ValidationPipe({ transform: true })) updates: UpdateWishlistDTO,
-        @Session() { id },
+        @Session() { id }: Record<string, any>,
     ): Promise<UpdateResult> {
         return this.wishlistPublicService.updateWishlist(wishlistId, updates, id);
     }
@@ -75,7 +78,7 @@ export default class WishlistPublicController {
     @ApiNotFoundResponse({ description: 'wishlist is not found' })
     private removeWishlist(
         @Param('wishlistID', ParseUUIDPipe) wishlistId: string,
-        @Session() { id }
+        @Session() { id }: Record<string, any>,
     ): Promise<DeleteResult> {
         return this.wishlistPublicService.removeWishlist(wishlistId, id);
     }

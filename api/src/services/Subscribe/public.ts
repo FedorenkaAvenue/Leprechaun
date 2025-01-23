@@ -5,12 +5,12 @@ import { DeepPartial, Repository } from "typeorm";
 import SubscribeProductEntity from "@entities/SubscribeProduct";
 import { SubscribeProductStatusDTO } from "@dto/Subscribe/public";
 import { SessionI } from "@interfaces/Session";
-import { ProductStatusSubscriptionI } from "@interfaces/Subscribe";
+import { ProductStatusSubscriptionI, SubscribeProductI } from "@interfaces/Subscribe";
 import MailPublicService from "@services/Mail/public";
 import renderTemplate from "@utils/renderTemplate";
-import { QueriesCommon } from "@dto/Queries";
-import { ProductEntity } from "@entities/Product";
 import { ProductPreviewPublic } from "@dto/Product/public";
+import { QueriesCommonI } from "@interfaces/Queries";
+import { ProductI } from "@interfaces/Product";
 
 @Injectable()
 export default class SubscribePublicService {
@@ -31,10 +31,10 @@ export default class SubscribePublicService {
     }
 
     public async subscribeProductStatus(
-        { productId, email }: SubscribeProductStatusDTO, sid: SessionI['sid'], { lang }: QueriesCommon,
+        { productId, email }: SubscribeProductStatusDTO, sid: SessionI['sid'], { lang }: QueriesCommonI,
     ): Promise<void> {
         const { raw } = await this.subscribeProductRepo.upsert(
-            { product: productId, email, sid, lang } as DeepPartial<SubscribeProductEntity>,
+            { product: productId, email, sid, lang } as DeepPartial<SubscribeProductI>,
             {
                 conflictPaths: { product: true, email: true },
                 skipUpdateIfNoValuesChanged: true,
@@ -45,7 +45,7 @@ export default class SubscribePublicService {
     }
 
     // TODO email lang
-    public async notifyProductAvailableStatus(product: ProductEntity): Promise<void> {
+    public async notifyProductAvailableStatus(product: ProductI): Promise<void> {
         //@ts-ignore
         const subscribers = await this.subscribeProductRepo.find({ product: product.id });
 

@@ -8,7 +8,7 @@ import { QueriesCommon } from '@dto/Queries';
 import { OrderCustomerDataI, OrderI, OrderPublicI, OrderSummaryI } from '@interfaces/Order';
 import { OrderStatus } from '@enums/Order';
 import { OrderItemPublic } from '@dto/OrderItem/public';
-import { ProductStatusE } from '@enums/Product';
+import { ProductStatus } from '@enums/Product';
 import { OrderItemEntity } from '@entities/OrderItem';
 
 export class OrderSummary implements OrderSummaryI {
@@ -50,13 +50,13 @@ export class OrderPublic implements OrderPublicI {
     updated_at: Date;
 
     constructor({ id, status, items, updated_at }: OrderEntity, { lang }: QueriesCommon) {
-        const availableItems = items.filter(({ product: { status } }) => status === ProductStatusE.AVAILABLE);
+        const availableItems = items.filter(({ product: { status } }) => status === ProductStatus.AVAILABLE);
 
         this.id = id;
         this.status = status;
         this.items = availableItems.map(prod => new OrderItemPublic(prod, lang));
         this.unavailableItems = items.
-            filter(({ product: { status } }) => status !== ProductStatusE.AVAILABLE).
+            filter(({ product: { status } }) => status !== ProductStatus.AVAILABLE).
             map(prod => new OrderItemPublic(prod, lang));
         this.summary = new OrderSummary(availableItems);
         this.updated_at = updated_at;
