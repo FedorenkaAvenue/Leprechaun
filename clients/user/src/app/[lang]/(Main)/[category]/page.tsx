@@ -1,7 +1,7 @@
 import { Metadata } from 'next';
-import { cache } from 'react';
+import { notFound } from 'next/navigation';
 
-import { getCategory } from '@entities/category/api';
+import { getCategoryCached, getCategoryListCached } from '@entities/category/api';
 import { RouteProps } from '@shared/models/router';
 import ProductCatalogueCard from '@widgets/product/ui/ProductCatalogueCard';
 import Grid from '@shared/ui/Grid';
@@ -10,13 +10,23 @@ import { getDictionary } from '@shared/lib/i18n_server';
 import ProductSortList from '@widgets/product/ui/ProductSortList';
 import Pagination from '@shared/ui/Pagination';
 import { getProductList } from '@entities/product/api';
+import { CategoryModel } from '@entities/category/model/interfaces';
 
 type Props = RouteProps<{ category: string }, { page: string | undefined }>;
 
-const getCategoryCached = cache(getCategory);
+function getCatagory(
+    categoryUrl: CategoryModel['url'], categoryList: CategoryModel[],
+): CategoryModel {
+    const cat = categoryList.find(category => category.url === categoryUrl);
+
+    if (!cat) notFound();
+
+    return cat;
+}
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-    const { title } = await getCategoryCached((await params).category);
+    const categoryUrl = (await params).category;
+    const { title } = getCatagory(categoryUrl, await getCategoryListCached());
 
     return { title };
 }
@@ -24,26 +34,27 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 export default async function Category({ params, searchParams }: Props) {
     const { category: categoryURL, lang } = await params;
     const queries = await searchParams;
-    const [category, products, dictionary] = await Promise.all([
-        getCategoryCached(categoryURL),
-        getProductList({ ...queries, category: categoryURL }),
+    const category = getCatagory(categoryURL, await getCategoryListCached());
+    const [categoryFullData, productlist, dictionary] = await Promise.all([
+        getCategoryCached(category.id),
+        getProductList({ ...queries, category: String(category.id) }),
         getDictionary(lang),
     ]);
 
-    const productsAmount = products.pagination.totalCount;
+    const productsAmount = productlist.pagination.totalCount;
 
     return (
         <section className='flex flex-col gap-4'>
             <div className='flex justify-between'>
                 <div>
-                    <h1>{category.title}</h1>
+                    <h1>{categoryFullData.title}</h1>
                     <span>
                         {
                             interpolate(
                                 productsAmount === 1
                                     ? dictionary.product.foundProductAmount
                                     : dictionary.product.foundProductsAmount,
-                                [products.pagination.totalCount]
+                                [productlist.pagination.totalCount]
                             )
                         }
                     </span>
@@ -53,13 +64,13 @@ export default async function Category({ params, searchParams }: Props) {
                 </div>
             </div>
             <Grid type='grid5' gap='l'>
-                {products.data.map(i => (
+                {productlist.data.map(i => (
                     <li key={i.id}>
                         <ProductCatalogueCard {...i} />
                     </li>
                 ))}
             </Grid>
-            <Pagination pagination={products.pagination} />
+            <Pagination pagination={productlist.pagination} />
         </section>
     )
 }

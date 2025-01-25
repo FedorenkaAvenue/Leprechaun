@@ -1,4 +1,4 @@
-import { productEntityApi } from "../api";
+import { productApi } from "../api";
 
-export const useProduct = productEntityApi.useProductQuery;
-export const useProductList = productEntityApi.useProductListQuery;
+export const useProduct = productApi.useProductQuery;
+export const useProductList = productApi.useProductListQuery;

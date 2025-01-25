@@ -29,6 +29,14 @@ const Curtain: FC<CurtainProps> = ({ isActive, handleMouseOver }) => (
 )
 
 const ImageSlider = ({ images, imageTitle, imageSize }: Props) => {
+    if (!images.length) return (
+        <Image
+            src='/static/no_image.png'
+            width={imageSize} height={imageSize}
+            alt={imageTitle}
+        />
+    );
+
     const [postition, setPostition] = useState<number>(0);
 
     return (

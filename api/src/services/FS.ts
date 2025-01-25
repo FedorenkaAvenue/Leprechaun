@@ -105,8 +105,6 @@ export class FSService implements MulterOptionsFactory {
     public async removeFolder(folderType: FOLDER_TYPES, folderName: string | number): Promise<void> {
         try {
             await promises.rm(`${this.hostingPath}${folderType}/${folderName}`, { recursive: true });
-        } catch (err) {
-            throw new InternalServerErrorException(err);
-        }
+        } catch (err) { }
     }
 }

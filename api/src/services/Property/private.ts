@@ -16,9 +16,7 @@ export default class PropertyPrivateService extends PropertyService {
     }
 
     public async getProperty(id: PropertyI['id']): Promise<PropertyI | null> {
-        return await this.propertyRepo.findOne({
-            where: { id },
-        });
+        return await this.propertyRepo.findOne({ where: { id } });
     }
 
     public async updateProperty(id: PropertyI['id'], data: CreatePropertyDTO): Promise<UpdateResult> {

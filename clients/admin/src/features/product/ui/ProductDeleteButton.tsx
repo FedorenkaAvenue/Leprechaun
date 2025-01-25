@@ -5,10 +5,10 @@ import { useProduct } from '@entities/product/model/hooks';
 import { useRemoveProduct } from '../model/hook';
 
 interface Props extends Omit<DeleteButtonProps, 'buttonTitle' | 'modalTitle' | 'handleAgree' | 'onAgree'> {
-    productID: Product['id'] | undefined
+    productId: Product['id']
 }
 
-function ModalContent({ id }: { id: Product['id'] | undefined }) {
+function ModalContent({ id }: { id: Product['id'] }) {
     const { isFetching } = useProduct(id);
 
     return isFetching
@@ -16,14 +16,14 @@ function ModalContent({ id }: { id: Product['id'] | undefined }) {
         : <DialogContentText>⚠️d</DialogContentText>;
 }
 
-const ProductDeleteButton = ({ productID, ...props }: Props) => {
-    const { mutate } = useRemoveProduct(productID);
+const ProductDeleteButton = ({ productId, ...props }: Props) => {
+    const [mutate] = useRemoveProduct();
 
     return (
         <DeleteButton
-            onAgree={mutate}
-            modalTitle={(<>Confirm deleting <b>{productID}</b> product?</>)}
-            modalContent={<ModalContent id={productID} />}
+            onAgree={() => mutate(productId)}
+            modalTitle={(<>Confirm deleting <b>{productId}</b> product?</>)}
+            modalContent={<ModalContent id={productId} />}
             buttonTitle='Delete product'
             {...props}
         />

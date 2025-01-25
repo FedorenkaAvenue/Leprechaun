@@ -3,13 +3,13 @@ import { User } from 'lucide-react';
 
 import WishListBadge from '@widgets/wishlist/ui/WishlistBadge';
 import CartBadge from '@widgets/order/ui/CartBadge';
-import { getCategoryList } from '@entities/category/api';
+import { getCategoryListCached } from '@entities/category/api';
 import LanguageSwitch from '@widgets/header/ui/LanguageSwitch';
 import AppLink from '@shared/ui/AppLink';
 import { APP_NAME } from '@shared/constants/content';
 
 const MainLayout: FC<PropsWithChildren> = async ({ children }) => {
-    const categories = await getCategoryList();
+    const categories = await getCategoryListCached();
 
     return (
         <div className='w-[1200px] flex flex-col gap-4 my-4'>

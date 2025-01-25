@@ -51,14 +51,14 @@ class QueriesPagination extends QueriesCommon implements QueriesPaginationI {
 export class QueriesProductList extends QueriesPagination implements QueriesProductListI {
     sort: ProductSort;
     category: CategoryI['url'];
-    status: ProductStatus;
+    status: ProductStatus | null;
     price: QueryPriceI;
     optionsFilter: QueryOptionsFiltersT | null;
 
     constructor({ category, lang, sort, page, portion, status, price, ...restQueries }: QueriesProductListI<string>) {
         super({ lang, page, portion });
         this.sort = Number(sort) || ProductSort.POPULAR;
-        this.status = availableEnum(status, ProductStatus) ? status : ProductStatus.AVAILABLE;
+        this.status = availableEnum(status, ProductStatus) ? status : null;
         this.category = category;
         this.price ? new RangeQuery(price) : null;
         this.optionsFilter = Object.keys(restQueries).length

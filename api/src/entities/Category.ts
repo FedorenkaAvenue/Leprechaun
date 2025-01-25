@@ -1,5 +1,6 @@
 import {
-    Column, Entity, JoinColumn, JoinTable, ManyToMany, OneToMany, OneToOne, PrimaryGeneratedColumn,
+    Column, CreateDateColumn, Entity, JoinColumn, JoinTable, ManyToMany, OneToMany, OneToOne, PrimaryGeneratedColumn,
+    UpdateDateColumn,
 } from 'typeorm';
 import { ApiProperty } from '@nestjs/swagger';
 
@@ -16,6 +17,14 @@ export class CategoryEntity implements CategoryI {
     @PrimaryGeneratedColumn('rowid')
     @ApiProperty()
     id: number;
+
+    @CreateDateColumn()
+    @ApiProperty()
+    created_at: Date;
+
+    @UpdateDateColumn()
+    @ApiProperty()
+    updated_at: Date;
 
     @Column({ unique: true })
     @ApiProperty()

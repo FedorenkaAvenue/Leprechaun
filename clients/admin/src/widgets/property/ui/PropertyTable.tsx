@@ -33,7 +33,7 @@ const PropertyTableWidget: FC<Props> = ({ properties, group }) => {
                                 property={i}
                                 renderTools={property => (
                                     <>
-                                        <PropertyDeleteButton groupId={group.id} property={property} />
+                                        <PropertyDeleteButton property={property} />
                                         <EditButton handleClick={() => alert("Хуя")} title="Edit property group" />
                                     </>
                                 )}

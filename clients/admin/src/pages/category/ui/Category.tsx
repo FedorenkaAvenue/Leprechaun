@@ -16,7 +16,7 @@ const CategoryPage = () => {
     const { url } = useParams();
     const { data, isFetching } = useCategory(url as string);
 
-    if (isFetching || !data) return <div>loading</div>;
+    if (!data) return '...loading';
 
     return (
         <ContentManager
@@ -35,7 +35,7 @@ const CategoryPage = () => {
                     <CategoryDeleteButton
                         withoutIcon
                         categoryId={data.id}
-                        categoryUrl={data?.url}
+                        categoryUrl={data.url}
                         removeCallback={() => nav(routerSubConfig.categoryList.path)}
                     />
                 </>
@@ -72,7 +72,7 @@ const CategoryPage = () => {
                             <Typography variant='h5'>Products</Typography>
                             <Empty data={products?.length}>
                                 <Link
-                                    to={`${routerSubConfig.productList.path}?${PRODUCT_LIST_URL_QUERY_PARAMS.category}=${data?.id}`}
+                                    to={`${routerSubConfig.productList.path}?${PRODUCT_LIST_URL_QUERY_PARAMS.category}=${data.url}`}
                                 >
                                     There are&nbsp;
                                     <Typography component='span' color='primary'>

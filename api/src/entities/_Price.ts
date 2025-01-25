@@ -8,7 +8,7 @@ export class PriceEntity implements PriceI {
     @ApiProperty()
     current: number;
 
-    @Column({ type: 'int4', name: 'price_old', nullable: true })
+    @Column({ type: 'int4', name: 'price_old', nullable: true, default: null })
     @ApiProperty({ nullable: true })
     old: number | null;
 }

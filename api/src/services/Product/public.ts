@@ -25,7 +25,7 @@ export default class ProductPublicService extends ProductService {
     }
 
     public async getProductList(searchParams: QueriesProductListI): Promise<PaginationIResultI<ProductCardPublicI>> {
-        const qb = this.getProductQueryBulder().where('p.is_public = true');
+        const qb = this.getProductQueryBulder();
 
         return this.renderProductList<ProductCardPublic>(qb, searchParams, true, ProductCardPublic);
     }

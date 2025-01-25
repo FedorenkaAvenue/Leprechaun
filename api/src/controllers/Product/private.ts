@@ -62,12 +62,14 @@ export default class ProductPrivateController {
     }
 
     @Patch(':productID')
+    @UseInterceptors(FilesInterceptor('images[]'))
     @ApiOperation({ summary: 'update product' })
     @ApiBody({ type: ProductUpdateDTO })
     private updateProduct(
         @Param('productID', ParseUUIDPipe) productId: string,
         @Body(new ValidationPipe({ transform: true })) productUpdates: ProductUpdateDTO,
-    ) {
+        // @UploadedFiles() images: Express.Multer.File[],
+    ): Promise<void> {
         return this.productService.updateProduct(productId, productUpdates);
     }
 

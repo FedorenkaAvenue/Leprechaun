@@ -23,7 +23,7 @@ export interface QueriesPaginationI extends QueriesCommonI {
 
 export interface QueriesProductListI<P = QueryPriceI> extends QueriesPaginationI {
     sort: ProductSort;
-    status: ProductStatus;
+    status: ProductStatus | null;
     category: CategoryI['url']
     price: P;
     optionsFilter: QueryOptionsFiltersT | null;

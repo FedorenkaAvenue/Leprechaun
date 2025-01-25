@@ -29,10 +29,14 @@ const ProductPreviewEntity = ({ product, renderTools }: Props) => {
                 <TooltipContent content={<TransList data={product.title} />} />
             </TableCell>
             <TableCell align="right">
-                <TooltipContent content={<Image src={product.image} />} />
+                {
+                    product.image
+                        ? <TooltipContent content={<Image src={product.image} />} />
+                        : <Typography color='textDisabled'>empty</Typography>
+                }
             </TableCell>
             <TableCell align="right">
-                <ProductTogglePublic selected={product.is_public} />
+                <ProductTogglePublic productId={product.id} selected={product.is_public} />
             </TableCell>
             <TableCell align="right">
                 <ProductStatusSelect productId={product.id} value={product.status} size='small' />

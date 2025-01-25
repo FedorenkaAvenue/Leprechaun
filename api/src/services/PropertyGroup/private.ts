@@ -1,10 +1,10 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
-import { DeleteResult } from 'typeorm';
+import { DeleteResult, UpdateResult } from 'typeorm';
 
 import PropertyGroupService from '.';
 import { PropertyGroupI, PropertyGroupPreviewI } from '@interfaces/PropertyGroup';
 import { CategoryI } from '@interfaces/Category';
-import { CreatePropertyGroupDTO } from '@dto/PropertyGroup/private';
+import { PropertyGroupCreateDTO, PropertyGroupUpdateDTO } from '@dto/PropertyGroup/private';
 
 @Injectable()
 export default class PropertyGroupPrivateService extends PropertyGroupService {
@@ -16,7 +16,11 @@ export default class PropertyGroupPrivateService extends PropertyGroupService {
     }
 
     public async getGroupList(): Promise<PropertyGroupPreviewI[]> {
-        return await this.propertyGroupRepo.find();
+        return await this.propertyGroupRepo.find({
+            order: {
+                created_at: 'DESC',
+            }
+        });
     }
 
     public async getGroupListByCategoryID(id: CategoryI['id']): Promise<PropertyGroupPreviewI[]> {
@@ -25,21 +29,21 @@ export default class PropertyGroupPrivateService extends PropertyGroupService {
         });
     }
 
-    public async createGroup(newGroup: CreatePropertyGroupDTO): Promise<PropertyGroupI> {
+    public async createGroup(newGroup: PropertyGroupCreateDTO): Promise<PropertyGroupI> {
         try {
-            return await this.propertyGroupRepo.save(newGroup);
+            const { id } = await this.propertyGroupRepo.save(newGroup);
+
+            return this.propertyGroupRepo.findOneOrFail({
+                where: { id }, relations: { properties: true },
+            });
         } catch (err) {
             throw new BadRequestException(err);
         }
     }
 
-    // async updateGroup(id: PropertyGroupI['id'], data: CreatePropertyGroupDTO): Promise<PropertyGroupEntity> {
-    //     const res = await this.propertyGroupRepo.preload({ id: Number(id) });
-
-    //     console.log(res);
-
-    //     return await this.propertyGroupRepo.save(res);
-    // }
+    async updateGroup(id: PropertyGroupI['id'], updates: PropertyGroupUpdateDTO): Promise<UpdateResult> {
+        return await this.propertyGroupRepo.update({ id }, updates);
+    }
 
     public async deleteGroup(groupId: number): Promise<DeleteResult> {
         return await this.propertyGroupRepo.delete({ id: groupId });

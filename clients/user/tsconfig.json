@@ -23,7 +23,7 @@
             "@entities/*": ["./src/entities/*"],
             "@features/*": ["./src/features/*"],
             "@widgets/*": ["./src/widgets/*"],
-            "@public/*": ["./src/public/*"],
+            "@public/*": ["./public/*"],
             "@root/*": ["./*"]
         },
         "target": "ES2017"

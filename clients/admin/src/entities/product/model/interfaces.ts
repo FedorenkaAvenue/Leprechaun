@@ -12,7 +12,7 @@ export interface Product extends ProductPreview {
 export interface ProductPreview {
     comment: string
     created_at: string
-    image: string
+    image: string | null
     id: string
     is_new: boolean
     is_public: boolean

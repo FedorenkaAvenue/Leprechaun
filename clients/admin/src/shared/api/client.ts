@@ -1,4 +1,5 @@
-import axios from 'axios';
+import { BaseQueryFn } from '@reduxjs/toolkit/query';
+import axios, { AxiosError, AxiosRequestConfig } from 'axios';
 
 const apiClient = axios.create({ baseURL: `${import.meta.env.VITE_DOMAIN_API}/adm` });
 

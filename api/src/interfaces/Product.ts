@@ -26,7 +26,7 @@ export interface ProductBaseI extends BaseI<TransI> {
 }
 
 export interface ProductPreviewI extends ProductBaseI {
-    image: string;
+    image: string | null;
 }
 
 export interface ProductI extends ProductBaseI {

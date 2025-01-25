@@ -16,9 +16,9 @@ export default class CategoryPublicService extends CategoryService {
         return res.map(cat => new CategoryPublic(cat, lang));
     }
 
-    public async getCategory(categoryUrl: CategoryI['url'], { lang }: QueriesCommonI): Promise<CategoryPublicI | null> {
+    public async getCategory(id: CategoryI['id'], { lang }: QueriesCommonI): Promise<CategoryPublicI | null> {
         const res = await this.categoryRepo.findOne({
-            where: { url: categoryUrl, is_public: true },
+            where: { id, is_public: true },
         });
 
         if (!res) return null;

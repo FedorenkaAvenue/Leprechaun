@@ -1,4 +1,9 @@
 import { ApiProperty } from '@nestjs/swagger';
+import {
+    IsEnum, IsNotEmpty, IsNotEmptyObject, IsNumberString, IsObject, IsOptional, IsString, ValidateNested, IsBoolean,
+    IsNumber,
+} from 'class-validator';
+import { Transform, Type } from 'class-transformer';
 
 import { PriceI } from '@interfaces/Price';
 import { ProductStatus } from '@enums/Product';
@@ -8,11 +13,6 @@ import { ProductEntity } from '@entities/Product';
 import { PriceEntity } from '@entities/_Price';
 import { ProductI, ProductPreviewI } from '@interfaces/Product';
 import { TransI } from '@interfaces/Trans';
-import {
-    IsBooleanString, IsEnum, IsNotEmpty, IsNotEmptyObject, IsNumberString, IsObject, IsOptional, IsString, ValidateNested,
-} from 'class-validator';
-import { Type } from 'class-transformer';
-
 import { CategoryI } from '@interfaces/Category';
 import { PropertyI } from '@interfaces/Property';
 import { ImageI } from '@interfaces/Image';
@@ -34,21 +34,26 @@ export class ProductCreateDTO {
     description: TransDTO;
 
     @IsNotEmpty()
-    @IsNumberString()
+    @IsNumber()
+    @Transform(({ value }) => Number(value))
     @ApiProperty({ required: true })
     price_current: PriceI['current'];
 
     @IsOptional()
+    @IsNumber()
+    @Transform(({ value }) => value === '' ? null : Number(value))
     @ApiProperty({ required: false, default: null })
     price_old: PriceI['old'];
 
     @IsOptional()
-    @IsBooleanString()
+    @IsBoolean()
     @ApiProperty({ required: false, default: false })
+    @Transform(({ value }) => value === 'true')
     is_public: boolean;
 
-    @IsEnum(ProductStatus)
     @IsOptional()
+    @IsEnum(ProductStatus)
+    @Transform(({ value }) => Number(value))
     @ApiProperty({
         enum: ProductStatus,
         required: false,
@@ -57,7 +62,8 @@ export class ProductCreateDTO {
     status: ProductStatus;
 
     @IsOptional()
-    @IsNumberString()
+    @IsNumber()
+    @Transform(({ value }) => Number(value))
     @ApiProperty({ required: false, default: 0 })
     rating: number;
 
@@ -91,7 +97,8 @@ export class ProductCreateDTO {
     properties: PropertyI[];
 
     @IsOptional()
-    @IsBooleanString()
+    @IsBoolean()
+    @Transform(({ value }) => value === 'true')
     @ApiProperty({
         required: false,
         default: true,
@@ -110,32 +117,37 @@ export class ProductUpdateDTO implements ProductCreateDTO {
     @IsObject()
     @ValidateNested()
     @Type(() => TransDTO)
-    @ApiProperty({ required: false })
+    @ApiProperty()
     title: TransDTO;
 
     @IsOptional()
     @IsObject()
     @ValidateNested()
     @Type(() => TransDTO)
-    @ApiProperty({ required: false })
+    @ApiProperty()
     description: TransDTO;
 
     @IsOptional()
-    @IsNumberString()
-    @ApiProperty({ required: false })
+    @IsNumber()
+    @Transform(({ value }) => Number(value))
+    @ApiProperty({ required: true })
     price_current: PriceI['current'];
 
     @IsOptional()
+    @IsNumber()
+    @Transform(({ value }) => value === '' ? null : Number(value))
     @ApiProperty({ required: false, default: null })
     price_old: PriceI['old'];
 
     @IsOptional()
-    @IsBooleanString()
+    @IsBoolean()
     @ApiProperty({ required: false, default: false })
+    @Transform(({ value }) => value === 'true')
     is_public: boolean;
 
-    @IsEnum(ProductStatus)
     @IsOptional()
+    @IsEnum(ProductStatus)
+    @Transform(({ value }) => Number(value))
     @ApiProperty({
         enum: ProductStatus,
         required: false,
@@ -144,14 +156,15 @@ export class ProductUpdateDTO implements ProductCreateDTO {
     status: ProductStatus;
 
     @IsOptional()
-    @IsNumberString()
+    @IsNumber()
+    @Transform(({ value }) => Number(value))
     @ApiProperty({ required: false, default: 0 })
     rating: number;
 
     @IsOptional()
     @IsNumberString()
     @ApiProperty({
-        required: false,
+        required: true,
         type: 'number',
         description: 'category id',
     })
@@ -178,7 +191,8 @@ export class ProductUpdateDTO implements ProductCreateDTO {
     properties: PropertyI[];
 
     @IsOptional()
-    @IsBooleanString()
+    @IsBoolean()
+    @Transform(({ value }) => value === 'true')
     @ApiProperty({
         required: false,
         default: true,
@@ -220,10 +234,10 @@ export class Product implements Omit<ProductI, 'orderCount' | 'wishlistCount' | 
     }: ProductCreateDTO) {
         this.title = title;
         this.price = new PriceDTO({ current: price_current, old: price_old });
-        this.is_public = ((<unknown>is_public) as string) === 'true';
+        this.is_public = is_public;
         this.status = status;
         this.rating = rating;
-        this.is_new = typeof is_new === 'boolean' ? is_new : true;
+        this.is_new = is_new;
         this.category = category;
         this.description = description;
         this.comment = comment;
@@ -265,12 +279,12 @@ export class ProductPreview implements ProductPreviewI {
     comment: string;
 
     @ApiProperty()
-    image: string;
+    image: string | null;
 
     constructor({
         images, id, title, price, status, category, rating, created_at, is_public, is_new, comment,
     }: ProductEntity) {
-        this.image = (images[0] as ImageEntity)?.src;
+        this.image = (images[0] as ImageEntity)?.src || null;
         this.id = id;
         this.title = title;
         this.price = price;

@@ -35,17 +35,19 @@ const PropertyGroupTablePage = () => {
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {data?.map(i => (
+                            {data?.map(propGroup => (
                                 <PropertyGroupPreviewEntity
-                                    key={i.id}
-                                    group={i}
+                                    key={propGroup.id}
+                                    group={propGroup}
                                     renderTools={group => (
                                         <>
                                             <PropertyGroupDeleteButton group={group} />
                                             <EditButton handleClick={() => alert("Хуя")} title="Edit property group" />
                                         </>
                                     )}
-                                    renderPublicStatus={group => <PropertyGroupTogglePrimary selected={group.is_primary} />}
+                                    renderPublicStatus={group => (
+                                        <PropertyGroupTogglePrimary groupId={group.id} selected={group.is_primary} />
+                                    )}
                                 />
                             ))}
                         </TableBody>

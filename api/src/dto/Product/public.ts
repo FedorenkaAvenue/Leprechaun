@@ -15,6 +15,7 @@ import { ProductPreviewPublicI, ProductPublicI } from '@interfaces/Product';
 import { ProductCardPublicI } from '@interfaces/Product';
 import { OptionPublic } from '@dto/PropertyGroup/private';
 import { CategoryPublic } from '@dto/Category/public';
+import { PriceDTO } from '@dto/Price';
 
 const PRODUCT_PUBLIC_IMAGE_AMOUNT = singleConfigService.getVal('PRODUCT_PUBLIC_IMAGE_AMOUNT');
 
@@ -39,7 +40,7 @@ class Base implements ProductPublicBaseI {
     }: Pick<ProductEntity, 'id' | 'title' | 'price' | 'status'>, lang: QueriesProductListI['lang']) {
         this.id = id;
         this.title = title[lang];
-        this.price = price;
+        this.price = new PriceDTO({ ...price });
         this.status = status;
     }
 }

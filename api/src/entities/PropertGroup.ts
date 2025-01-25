@@ -1,6 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import {
-    Column, Entity, JoinColumn, JoinTable, ManyToMany, OneToMany, OneToOne, PrimaryGeneratedColumn,
+    Column, CreateDateColumn, Entity, JoinColumn, JoinTable, ManyToMany, OneToMany, OneToOne, PrimaryGeneratedColumn,
+    UpdateDateColumn,
 } from 'typeorm';
 
 import { PropertyEntity } from './Property';
@@ -15,6 +16,14 @@ export class PropertyGroupEntity implements PropertyGroupI {
     @PrimaryGeneratedColumn('rowid')
     @ApiProperty()
     id: number;
+
+    @CreateDateColumn()
+    @ApiProperty()
+    created_at: Date;
+
+    @UpdateDateColumn()
+    @ApiProperty()
+    updated_at: Date;
 
     @OneToOne(() => TransEntity, { cascade: true, eager: true })
     @JoinColumn({ name: 'title', referencedColumnName: 'id' })

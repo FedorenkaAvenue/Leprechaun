@@ -3,7 +3,7 @@ import LoadingButton from '@mui/lab/LoadingButton';
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 
-import { CategorySchemaT } from "@features/category/model/schema";
+import { CategorySchema } from "@features/category/model/schema";
 import FileUploader from "@shared/ui/FileUploader";
 import TextInput from "@shared/ui/TextInput";
 import PropertyGroupSelectList from '@widgets/propertyGroup/ui/PropertyGroupSelectList';
@@ -11,27 +11,30 @@ import { useCreateCategory } from '@features/category/model/hooks';
 
 const CategoryCreatePage = () => {
     const nav = useNavigate();
-    const { register, handleSubmit, getValues, watch, setValue, formState: { errors } } = useForm<CategorySchemaT>({
+    const { register, handleSubmit, getValues, watch, setValue, formState: { errors } } = useForm<CategorySchema>({
         defaultValues: {
             propertygroups: [],
         }
     });
-    const { mutate, isPending } = useCreateCategory(() => nav(-1));
-    const sendForm: SubmitHandler<CategorySchemaT> = data => {
-        mutate(data);
+    const [create, createState] = useCreateCategory();
+
+    const sendForm: SubmitHandler<CategorySchema> = body => {
+        create({ body, successCallback: () => nav(-1) });
     };
 
     watch('propertygroups');
 
     return (
         <form onSubmit={handleSubmit(sendForm)} className="flex gap-4 flex-col items-baseline">
-            <TextInput {...register('url')} r label="url" error={errors.url?.message} />
-            <FormControl>
-                <FormControlLabel control={
-                    <Switch {...register('is_public')} />
-                }
-                    label="public" />
-            </FormControl>
+            <div className='flex items-center gap-4'>
+                <TextInput {...register('url')} r label="url" error={errors.url?.message} />
+                <FormControl>
+                    <FormControlLabel control={
+                        <Switch {...register('is_public')} />
+                    }
+                        label="public" />
+                </FormControl>
+            </div>
             <div>
                 <FormLabel component="legend">Title</FormLabel>
                 <div className="flex gap-1">
@@ -54,7 +57,7 @@ const CategoryCreatePage = () => {
             <div className="w-full flex justify-center">
                 <LoadingButton
                     type='submit'
-                    loading={isPending}
+                    loading={createState.isLoading}
                     loadingPosition="center"
                     variant="contained"
                 >

@@ -11,7 +11,7 @@ import PropertySelectList from "@features/property/ui/PropertySelectList";
 import useMultiSelectOptions from "@shared/lib/useMultiSelectOptions";
 import LinearLoader from "@shared/ui/LinearLoader";
 import FileUploader, { FileUploaderFile } from "@shared/ui/FileUploader";
-import { ProductSchemaBySteps, ProductSchemaT } from "@features/product/model/schema";
+import { productSchemaBySteps, ProductSchema } from "@features/product/model/schema";
 import TextInput from "@shared/ui/TextInput";
 import Select from "@shared/ui/Select";
 import productStatusOptions from "@entities/product/constants/productStatusOptions";
@@ -26,7 +26,7 @@ import { useCreateProduct } from "@features/product/model/hook";
 const STEPS = ["Main info", "Properties", "Images"];
 
 function Step1() {
-    const { register, getValues, formState: { errors }, watch } = useFormContext<ProductSchemaT>();
+    const { register, getValues, formState: { errors }, watch } = useFormContext<ProductSchema>();
 
     watch('status');
 
@@ -84,11 +84,13 @@ function Step1() {
 }
 
 function Step2() {
-    const { register, getValues, formState: { errors }, watch, setValue } = useFormContext<ProductSchemaT>();
+    const { register, getValues, formState: { errors }, watch, setValue } = useFormContext<ProductSchema>();
     const selectedCategoryValue = getValues('category');
     const { data: categoryList, isFetching: categoryListIstFetching } = useCategoryList();
     const selectedCategory = categoryList?.find(i => i.id === selectedCategoryValue);
-    const { data: propGroupList, isFetching: propertyGroupListIsFetching } = usePropertyGroupListByCategoryId(selectedCategory?.id);
+    const {
+        data: propGroupList, isFetching: propertyGroupListIsFetching,
+    } = usePropertyGroupListByCategoryId(selectedCategory?.id, { skip: !selectedCategory });
     const { handleUpdataValues, values, selectedValues, clear } = useMultiSelectOptions();
 
     useEffect(() => {
@@ -135,7 +137,7 @@ function Step2() {
 }
 
 function Step3() {
-    const { getValues, formState: { errors }, setValue } = useFormContext<ProductSchemaT>();
+    const { getValues, formState: { errors }, setValue } = useFormContext<ProductSchema>();
 
     function change(images: FileUploaderFile[] | FileUploaderFile) {
         setValue('images', images as FileUploaderFile[]);
@@ -156,10 +158,10 @@ function Step3() {
 const ProductCreatePage = () => {
     const [params] = useQueryParam<keyof typeof PRODUCT_CREATE_URL_QUERY_PARAMS>(['category']);
     const nav = useNavigate();
-    const { mutate, isPending } = useCreateProduct(() => nav(-1));
+    const [mutate, { isLoading }] = useCreateProduct();
     const [activeStep, setActiveStep] = useState<number>(0);
-    const formMethods = useForm<ProductSchemaT>({
-        resolver: zodResolver(ProductSchemaBySteps[(activeStep > ProductSchemaBySteps.length - 1) ? 0 : activeStep]),
+    const formMethods = useForm<ProductSchema>({
+        resolver: zodResolver(productSchemaBySteps[(activeStep > productSchemaBySteps.length - 1) ? 0 : activeStep]),
         defaultValues: {
             status: ProductStatus.AVAILABLE,
             category: params.category ? Number(params.category) : undefined,
@@ -177,7 +179,7 @@ const ProductCreatePage = () => {
     };
 
     function onSubmit() {
-        mutate(formMethods.getValues());
+        mutate({ newProduct: formMethods.getValues(), successCallback: () => nav(-1) });
     };
 
     return (
@@ -189,7 +191,7 @@ const ProductCreatePage = () => {
                     </Step>
                 ))}
             </Stepper>
-            <LinearLoader isLoading={isPending} />
+            <LinearLoader isLoading={isLoading} />
             <FormProvider {...formMethods}>
                 <form className="flex flex-col gap-8">
                     {activeStep === 0 && <Step1 />}

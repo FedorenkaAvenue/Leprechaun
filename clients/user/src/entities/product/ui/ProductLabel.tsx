@@ -9,7 +9,7 @@ const labelVariants = cva(
         variants: {
             type: {
                 [ProductLabelModel.DISCOUNT]: 'bg-achtung text-achtung-foreground',
-                [ProductLabelModel.NEW]: 'bg-achtung-secondary text-achtung-secondary-foreground',
+                [ProductLabelModel.NEW]: 'bg-success text-achtung-foreground',
                 [ProductLabelModel.POPULAR]: 'bg-primary text-primary-foreground',
             },
         },

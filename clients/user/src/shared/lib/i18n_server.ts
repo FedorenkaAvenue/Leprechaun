@@ -8,7 +8,7 @@ import { LANGS } from '../constants/i18n_server';
 const DICTIONARIES = LANGS.reduce<Record<string, DictionaryModuleModel>>((acc, l) => {
     return {
         ...acc,
-        [l]: () => import(`../../public/locales/${l}.json`).then((module) => module.default)
+        [l]: () => import(`../../../public/locales/${l}.json`).then((module) => module.default)
     };
 }, {});
 

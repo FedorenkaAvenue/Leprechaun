@@ -20,7 +20,9 @@ export class HTTPLogMiddleware implements NestMiddleware {
             const { statusCode } = response;
             const res = `${method} ${originalUrl} ${statusCode}`;
 
-            statusCode >= 400 ? this.loggserService.error(res) : this.loggserService.log(res)
+            statusCode >= 400
+                ? this.loggserService.error(res)
+                : this.loggserService.log(res)
         });
 
         next();

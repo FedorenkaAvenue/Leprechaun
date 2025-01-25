@@ -53,16 +53,18 @@ const Card = <T extends ProductType>({
             <CardContent className='h-full'>
                 <div className='flex flex-col h-full'>
                     <div className='flex-grow mb-2 relative'>
-                        <div className='z-10 absolute pointer-events-none flex justify-between items-start w-full'>
-                            <Grid gap='s' className={cn(!isAvailable && 'opacity-60')}>
-                                {labels.map((label, i) => (
-                                    <li key={i} className='flex'>
-                                        <ProductLabel type={label.type} value={label.value} />
-                                    </li>
-                                ))}
-                            </Grid>
+                        <div className='z-10 absolute pointer-events-none w-full'>
+                            {labels.length > 0 && (
+                                <Grid gap='s' className={cn(!isAvailable && 'opacity-60')}>
+                                    {labels.map((label, i) => (
+                                        <li key={i} className='flex'>
+                                            <ProductLabel type={label.type} value={label.value} />
+                                        </li>
+                                    ))}
+                                </Grid>
+                            )}
                             {renderTopOptions && (
-                                <div className='pointer-events-auto'>
+                                <div className='absolute right-0 top-0 pointer-events-auto'>
                                     {renderTopOptions.call(null, product)}
                                 </div>
                             )}
@@ -106,7 +108,7 @@ export const ProductCardPreview: FC<ProductCardPreviewProps> = props => (
     <Card<ProductPreviewModel>
         renderImages={({ image, title }) => (
             <Image
-                src={'/' + image}
+                src={image ? '/' + image : '/static/no_image.png'}
                 alt={title}
                 width={160} height={160}
             />

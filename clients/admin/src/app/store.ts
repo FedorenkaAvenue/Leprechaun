@@ -1,18 +1,33 @@
-import { configureStore } from '@reduxjs/toolkit'
+import { configureStore, isRejectedWithValue, Middleware, MiddlewareAPI } from '@reduxjs/toolkit';
 import { setupListeners } from '@reduxjs/toolkit/query';
+import { toast } from 'react-toastify';
 
 import { rootApi } from '@shared/api';
+
+export const rtkQueryErrorLogger: Middleware = (api: MiddlewareAPI) => next => action => {
+    if (isRejectedWithValue(action)) {
+        console.warn(action);
+
+        toast.error(
+            //@ts-ignore
+            action.payload.data?.message
+                //@ts-ignore
+                ? `${action.payload.status}. ${action.payload.data?.message}`
+                : 'Unknown error...',
+        )
+    }
+
+    return next(action)
+}
 
 export const store = configureStore({
     reducer: {
         [rootApi.reducerPath]: rootApi.reducer,
     },
-    middleware: getDefaultMiddleware => getDefaultMiddleware().concat(rootApi.middleware),
+    middleware: getDefaultMiddleware => getDefaultMiddleware().concat(rootApi.middleware, rtkQueryErrorLogger),
 });
 
 setupListeners(store.dispatch);
 
-// Infer the `RootState` and `AppDispatch` types from the store itself
 export type RootState = ReturnType<typeof store.getState>
-// Inferred type: {posts: PostsState, comments: CommentsState, users: UsersState}
 export type AppDispatch = typeof store.dispatch

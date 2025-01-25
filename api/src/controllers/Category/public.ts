@@ -22,15 +22,15 @@ export default class CategoryPublicController {
         return this.categoryService.getCategoryList(queries);
     }
 
-    @Get(':categoryURL')
+    @Get(':categoryID')
     @UseInterceptors(NotFoundInterceptor)
-    @ApiOperation({ summary: 'get category info by URL 💾' })
+    @ApiOperation({ summary: 'get category info by ID 💾' })
     @ApiOkResponse({ type: CategoryPublic })
     @ApiNotFoundResponse({ description: 'category not found' })
     private getCategory(
-        @Param('categoryURL') categoryURL: string,
+        @Param('categoryID') categoryURL: string,
         @Queries() queries: QueriesCommonI,
     ): Promise<CategoryPublicI | null> {
-        return this.categoryService.getCategory(categoryURL, queries);
+        return this.categoryService.getCategory(Number(categoryURL), queries);
     }
 }

@@ -7,5 +7,3 @@ export const propertySchema = z.object({
     alt_name: z.string().min(1, { message: 'Required' }),
     comment: z.string().optional(),
 });
-
-export type PropertySchema = z.infer<typeof propertySchema>;

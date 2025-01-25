@@ -22,7 +22,7 @@ const CategoryPreviewEntity = ({ category, renderTools, renderPublictStatus }: P
                 {renderTools?.call(null, category)}
             </TableCell>
             <TableCell align="right">
-                <Link to={`${routerSubConfig.categoryList.path}/${category.id}`}>
+                <Link to={`${routerSubConfig.categoryList.path}/${category.url}`}>
                     <Typography component='span' color='primary'>{category.url}</Typography>
                 </Link>
             </TableCell>

@@ -4,18 +4,18 @@ import LoadingButton from '@mui/lab/LoadingButton';
 import { useNavigate } from "react-router-dom";
 import { zodResolver } from "@hookform/resolvers/zod";
 
-import PropertyGroupSchema, { PropertyGroupSchemaT } from "@features/propertyGroup/models/schema";
+import propertyGroupSchema, { PropertyGroupSchema } from "@features/propertyGroup/models/schema";
 import TextInput from "@shared/ui/TextInput";
 import { useCreatePropertyGroup } from "@features/propertyGroup/models/hooks";
 
 const PropertyGroupCreatePage = () => {
     const nav = useNavigate();
-    const { register, handleSubmit, formState: { errors } } = useForm<PropertyGroupSchemaT>({
-        resolver: zodResolver(PropertyGroupSchema),
+    const { register, handleSubmit, formState: { errors } } = useForm<PropertyGroupSchema>({
+        resolver: zodResolver(propertyGroupSchema),
     });
-    const { mutate, isPending } = useCreatePropertyGroup(() => nav(-1));
-    const sendForm: SubmitHandler<PropertyGroupSchemaT> = data => {
-        mutate(data);
+    const [mutate, { isLoading }] = useCreatePropertyGroup();
+    const sendForm: SubmitHandler<PropertyGroupSchema> = data => {
+        mutate({ data, successCallback: () => nav(-1) });
     };
 
     return (
@@ -39,7 +39,7 @@ const PropertyGroupCreatePage = () => {
             <div className="w-full flex justify-center">
                 <LoadingButton
                     type='submit'
-                    loading={isPending}
+                    loading={isLoading}
                     loadingPosition="center"
                     variant="contained"
                 >

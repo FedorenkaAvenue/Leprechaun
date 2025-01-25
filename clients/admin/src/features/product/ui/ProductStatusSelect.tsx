@@ -15,10 +15,10 @@ type Props = {
 const ProductStatusSelect = forwardRef<React.JSX.Element, Props>((
     { value, productId, ...props }, ref
 ) => {
-    const { mutate } = useUpdateProduct(productId);
+    const [mutate] = useUpdateProduct();
 
     function select({ target: { value } }: SelectChangeEvent<any>): void {
-        mutate({ status: value });
+        mutate({ id: productId, updates: { status: value } });
     }
 
     return (

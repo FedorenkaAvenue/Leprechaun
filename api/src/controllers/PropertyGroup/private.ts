@@ -1,13 +1,13 @@
-import { Body, Controller, Delete, Get, Param, Post, UseInterceptors, ValidationPipe } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Patch, Post, UseInterceptors, ValidationPipe } from '@nestjs/common';
 import { ApiBadRequestResponse, ApiNotFoundResponse, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
-import { DeleteResult } from 'typeorm';
+import { DeleteResult, UpdateResult } from 'typeorm';
 
 import { PropertyGroupEntity } from '@entities/PropertGroup';
 import PropertyGroupService from '@services/PropertyGroup/private';
 import AffectedResultInterceptor from '@interceptors/AffectedResult';
 import NotFoundInterceptor from '@interceptors/UndefinedResult';
 import { CategoryI } from '@interfaces/Category';
-import { CreatePropertyGroupDTO } from '@dto/PropertyGroup/private';
+import { PropertyGroupCreateDTO, PropertyGroupUpdateDTO } from '@dto/PropertyGroup/private';
 import { PropertyGroupI, PropertyGroupPreviewI } from '@interfaces/PropertyGroup';
 
 @Controller('adm/propertygroup')
@@ -19,21 +19,21 @@ export default class PropertyGroupPrivateController {
     @ApiOperation({ summary: 'add new property group' })
     @ApiBadRequestResponse({ description: 'some of filed is already exists' })
     private createGroup(
-        @Body(new ValidationPipe({ transform: true })) group: CreatePropertyGroupDTO,
+        @Body(new ValidationPipe({ transform: true })) group: PropertyGroupCreateDTO,
     ): Promise<PropertyGroupI> {
         return this.propertyGroupService.createGroup(group);
     }
 
-    // @Patch(':groupID')
-    // @UseInterceptors(AffectedResultInterceptor('property group not found'))
-    // @ApiOperation({ summary: 'update property group' })
-    // @ApiNotFoundResponse({ description: 'property group not found' })
-    // updateGroup(
-    //     @Param('groupID') groupID: number,
-    //     @Body(new ValidationPipe({ transform: true })) group: CreatePropertyGroupDTO,
-    // ): Promise<PropertyGroupEntity> {
-    //     return this.propertyGroupService.updateGroup(groupID, group);
-    // }
+    @Patch(':groupID')
+    @UseInterceptors(AffectedResultInterceptor('property group not found'))
+    @ApiOperation({ summary: 'update property group' })
+    @ApiNotFoundResponse({ description: 'property group not found' })
+    updateGroup(
+        @Param('groupID') groupID: number,
+        @Body(new ValidationPipe({ transform: true })) updates: PropertyGroupUpdateDTO,
+    ): Promise<UpdateResult> {
+        return this.propertyGroupService.updateGroup(groupID, updates);
+    }
 
     @Get('list/:categoryID')
     @ApiOperation({ summary: 'get property groups by category ID' })

@@ -2,7 +2,7 @@ import DeleteButton, { DeleteButtonProps } from '@shared/ui/DeleteButton';
 import { CircularProgress } from "@mui/material";
 import { PropertyGroup, PropertyGroupPreview } from '@entities/propertyGroup/model/interfaces';
 import { usePropertyGroup } from '@entities/propertyGroup/model/hooks';
-import { useDeletePropertyGroup } from '../models/hooks';
+import { useRemovePropertyGroup } from '../models/hooks';
 
 interface Props extends Omit<DeleteButtonProps, 'buttonTitle' | 'modalTitle' | 'handleAgree' | 'onAgree'> {
     group: PropertyGroupPreview
@@ -26,11 +26,15 @@ function ModalContent({ id }: { id: PropertyGroup['id'] }) {
 }
 
 const PropertyGroupDeleteButton = (props: Props) => {
-    const { mutate } = useDeletePropertyGroup(props.group.id, props.removeCallback);
+    const [mutate] = useRemovePropertyGroup();
+
+    const remove = () => {
+        mutate({ id: props.group.id, successCallback: props.removeCallback });
+    }
 
     return (
         <DeleteButton
-            onAgree={mutate}
+            onAgree={remove}
             modalTitle={(<>Confirm deleting <b>{props.group?.alt_name}</b> property group?</>)}
             modalContent={<ModalContent id={props.group?.id} />}
             buttonTitle='Delete group'

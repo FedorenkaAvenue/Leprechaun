@@ -10,16 +10,10 @@ import { Typography } from '@mui/material';
 import FilePondPluginFileValidateType from 'filepond-plugin-file-validate-type';
 
 registerPlugin(
-    FilePondPluginImageExifOrientation,
-    FilePondPluginImagePreview,
-    FilePondPluginImageEdit,
     FilePondPluginFileValidateType,
     FilePondPluginImageExifOrientation,
     FilePondPluginImagePreview,
     FilePondPluginImageEdit,
-    FilePondPluginImagePreview,
-    FilePondPluginImageEdit,
-    FilePondPluginImageEdit
 );
 
 export type FileUploaderFile = FilePondFile["file"];
@@ -32,10 +26,11 @@ interface Props extends FilePondProps {
 const FileUploader = forwardRef<FilePond, Props>(({ value = [], onChange, error, allowMultiple, ...props }, ref) => {
     const [files, setFiles] = useState<(FilePondInitialFile | ActualFileObject | Blob | string)[]>(value);
 
-    function onUpdate(files: FilePondFile[]) {
+    function onUpdate(updatedFiles: FilePondFile[]) {
+        const newFiles = allowMultiple ? updatedFiles : updatedFiles.slice(0, 1);
         //@ts-ignore
-        setFiles(allowMultiple ? files : files[0]);
-        onChange(allowMultiple ? files.map(i => i.file) : files[0].file);
+        setFiles(newFiles);
+        onChange(allowMultiple ? newFiles.map((file) => file.file) : newFiles[0].file);
     }
 
     return (
@@ -44,12 +39,13 @@ const FileUploader = forwardRef<FilePond, Props>(({ value = [], onChange, error,
             <FilePond
                 ref={ref}
                 files={files}
-                onreorderfiles={onUpdate}
+                // onreorderfiles={onUpdate} // ? maybe be bugged during file loading
                 allowReorder
                 styleButtonRemoveItemPosition='right'
                 credits={false}
                 onupdatefiles={onUpdate}
                 allowMultiple={allowMultiple}
+                allowFileTypeValidation={true}
                 {...props}
             />
         </div>

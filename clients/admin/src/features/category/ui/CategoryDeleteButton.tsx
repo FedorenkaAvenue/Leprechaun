@@ -10,11 +10,11 @@ import { useRemoveCategory } from '../model/hooks';
 
 interface Props extends Omit<DeleteButtonProps, 'buttonTitle' | 'modalContent' | 'handleAgree' | 'modalTitle' | 'onAgree'> {
     categoryId: Category['id']
-    categoryUrl: Category['url'] | undefined
+    categoryUrl: Category['url']
     removeCallback?: () => void
 }
 
-function ModalContent({ url }: { url: Category['url'] | undefined }) {
+function ModalContent({ url }: { url: Category['url'] }) {
     const { data, isFetching } = useCategory(url);
     const productsLen = data?.products.length;
 
@@ -34,14 +34,18 @@ function ModalContent({ url }: { url: Category['url'] | undefined }) {
 }
 
 const CategoryDeleteButton = ({ categoryId, categoryUrl, ...props }: Props) => {
-    const { mutate } = useRemoveCategory(categoryId, props.removeCallback);
+    const [mutate] = useRemoveCategory();
+
+    const remove = () => {
+        mutate({ id: categoryId, removeCallback: props.removeCallback })
+    }
 
     return (
         <DeleteButton
             modalTitle={(<>Confirm deleting <b>{categoryUrl}</b> category?</>)}
             modalContent={<ModalContent url={categoryUrl} />}
             buttonTitle='Delete category'
-            onAgree={mutate}
+            onAgree={remove}
             {...props}
         />
     );

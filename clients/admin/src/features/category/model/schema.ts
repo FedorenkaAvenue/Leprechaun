@@ -5,7 +5,7 @@ import { transSchema } from '@shared/models/schemas';
 const MAX_FILE_SIZE = 10000000;
 const ACCEPTED_IMAGE_TYPES = ["image/svg+xml"];
 
-const CategorySchema = z.object({
+const categorySchema = z.object({
     url: z.string().min(1),
     title: transSchema,
     is_public: z.boolean(),
@@ -19,5 +19,4 @@ const CategorySchema = z.object({
     comment: z.string().optional(),
 });
 
-export type CategorySchemaT = z.infer<typeof CategorySchema>;
-export default CategorySchema;
+export default categorySchema;

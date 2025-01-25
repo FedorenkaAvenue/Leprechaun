@@ -1,5 +1,5 @@
-import { propertyGroupEntityApi } from "../api";
+import { propertyGroupApi } from "../api";
 
-export const usePropertyGroup = propertyGroupEntityApi.usePropertyGroupQuery;
-export const usePropertyGroupList = propertyGroupEntityApi.usePropertyGroupListQuery;
-export const usePropertyGroupListByCategoryId = propertyGroupEntityApi.usePropertyGroupListByCategoryIdQuery;
+export const usePropertyGroup = propertyGroupApi.usePropertyGroupQuery;
+export const usePropertyGroupList = propertyGroupApi.usePropertyGroupListQuery;
+export const usePropertyGroupListByCategoryId = propertyGroupApi.usePropertyGroupListByCategoryIdQuery;

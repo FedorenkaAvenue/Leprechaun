@@ -79,27 +79,20 @@ export default class ProductService {
     ): Promise<PaginationResult<T>> {
         const { sort, portion, page, price, status, category, optionsFilter } = searchParams;
 
-        // Filtering by dynamic filters
         if (optionsFilter) {
             qb.andWhere('p.properties.alt_name = :value', { value: 'bavovna' }); // Example filter logic
         }
 
-        // Price
         if (price) qb.andWhere('p.price.current BETWEEN :min AND :max', { ...price });
 
-        // Category
         if (category) {
-            qb.leftJoin('p.category', 'cat').where('cat.url = :categoryUrl', { categoryUrl: category });
+            qb.leftJoin('p.category', 'cat').where('cat.id = :categoryId', { categoryId: category });
 
             if (isPublic) qb.andWhere('cat.is_public = true');
         }
 
-        // Product status
-        if (status) {
-            qb.andWhere('p.status = :status', { status });
-        }
+        if (status) qb.andWhere('p.status = :status', { status });
 
-        // Sorting
         switch (sort) {
             case ProductSort.PRICE_UP:
                 qb.orderBy('p.price.current', 'ASC');
@@ -113,6 +106,8 @@ export default class ProductService {
             default: // ProductSort.POPULAR
                 qb.orderBy('p.rating', 'DESC');
         }
+
+        if (isPublic) qb.andWhere('p.is_public = true');
 
         const [result, resCount] = await qb
             .take(portion)

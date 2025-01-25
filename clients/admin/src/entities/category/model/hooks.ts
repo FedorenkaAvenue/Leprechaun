@@ -1,4 +1,4 @@
-import { categoryEntityApi } from "../api";
+import { categoryApi } from "../api";
 
-export const useCategoryList = categoryEntityApi.useCategoryListQuery;
-export const useCategory = categoryEntityApi.useCategoryQuery;
+export const useCategoryList = categoryApi.useCategoryListQuery;
+export const useCategory = categoryApi.useCategoryQuery;

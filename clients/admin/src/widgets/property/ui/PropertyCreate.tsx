@@ -6,7 +6,8 @@ import LoadingButton from '@mui/lab/LoadingButton';
 import TextInput from "@shared/ui/TextInput";
 import { useCreateProperty } from "@features/property/models/hook";
 import { PropertyGroupPreview } from "@entities/propertyGroup/model/interfaces";
-import { propertySchema, PropertySchema } from "@features/property/models/schema";
+import { propertySchema } from "@features/property/models/schema";
+import { PropertyCreateDTO } from "@features/property/api/dto";
 
 interface Props {
     groupId: PropertyGroupPreview['id']
@@ -14,13 +15,13 @@ interface Props {
 }
 
 const PropertyCreateWidget = ({ groupId, handleClose }: Props) => {
-    const { mutate, isPending } = useCreateProperty(groupId, handleClose);
-    const { handleSubmit, register, formState: { errors } } = useForm<PropertySchema>({
+    const [mutate, { isLoading }] = useCreateProperty();
+    const { handleSubmit, register, formState: { errors } } = useForm<PropertyCreateDTO>({
         resolver: zodResolver(propertySchema),
     });
 
-    function sendForm(data: PropertySchema) {
-        mutate(data);
+    function sendForm(data: PropertyCreateDTO) {
+        mutate({ data: { ...data, propertygroup: groupId }, successCallback: handleClose });
     }
 
     return (
@@ -41,7 +42,7 @@ const PropertyCreateWidget = ({ groupId, handleClose }: Props) => {
                 <Button onClick={handleClose}>Cancel</Button>
                 <LoadingButton
                     type='submit'
-                    loading={isPending}
+                    loading={isLoading}
                     loadingPosition="center"
                     variant="contained"
                 >
