@@ -4,7 +4,7 @@ import {
     Button, FormControl, FormControlLabel, Slider, Step, StepConnector, StepLabel, Stepper, Switch, Typography,
 } from "@mui/material";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 
 import CategorySelectList from "@features/category/ui/CategorySelectList";
 import PropertySelectList from "@features/property/ui/PropertySelectList";

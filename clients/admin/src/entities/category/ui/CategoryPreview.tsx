@@ -1,5 +1,5 @@
 import { ReactNode } from "react";
-import { Link } from "react-router-dom";
+import { Link } from "react-router";
 import { TableCell, TableRow, Typography } from "@mui/material";
 
 import routerSubConfig from "@shared/config/router";

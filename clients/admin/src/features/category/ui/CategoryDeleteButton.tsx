@@ -1,5 +1,5 @@
 import { CircularProgress, Typography } from '@mui/material';
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router';
 
 import DeleteButton, { DeleteButtonProps } from '@shared/ui/DeleteButton';
 import routerSubConfig from '@shared/config/router';

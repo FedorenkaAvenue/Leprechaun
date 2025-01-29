@@ -1,5 +1,5 @@
 import { Button, Divider, Typography } from "@mui/material";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router";
 
 import CategoryEntity from "@entities/category/ui/Category";
 import CategoryDeleteButton from "@features/category/ui/CategoryDeleteButton";

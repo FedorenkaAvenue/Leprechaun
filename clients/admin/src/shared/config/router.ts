@@ -1,9 +1,14 @@
 import {
     CATEGORY_LIST_SEGMENT, CREATE_SEGMENT, DASHBOARD_SEGMENT, PRODUCT_LIST_SEGMENT, PROPERTY_GROUP_LIST_SEGMENT,
-    TOOLS_SEGMENT,
+    TOOLS_SEGMENT, AUTH_SEGMENT,
 } from "../constants/routerSegments";
 
 const routerSubConfig = {
+    auth: {
+        title: 'Auth',
+        segment: AUTH_SEGMENT,
+        path: `/${AUTH_SEGMENT}`,
+    },
     tools: {
         title: 'Tools',
         segment: TOOLS_SEGMENT,

@@ -7,3 +7,4 @@ export const DASHBOARD_SEGMENT = 'dashboard';
 export const PROPERTY_GROUP_LIST_SEGMENT = 'propertygroups';
 export const CATEGORY_LIST_SEGMENT = 'categories';
 export const PRODUCT_LIST_SEGMENT = 'products';
+export const AUTH_SEGMENT = 'auth';

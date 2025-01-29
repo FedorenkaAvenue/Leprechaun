@@ -33,8 +33,8 @@ const ContentListManager = ({
     }, [debounceVal, searchHandle]);
 
     return (
-        <div className="flex flex-col gap-2">
-            <div className="flex justify-end gap-2 items-center sticky top-16 bg-primary-color">
+        <div className="grid gap-2">
+            <div className="flex justify-end gap-2 items-center bg-primary-color">
                 {additionalTools}
                 <TextInput
                     onChange={({ target: { value } }) => setSearchVal(value)}

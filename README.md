@@ -27,13 +27,13 @@ Boilerplate for web store
     -   http://api.leprechaun.loc RestFull API server
     -   http://media.leprechaun.loc media files server
 
--   remote test server
+<!-- -   remote test server
 
     -   https://leprechaun.space user client
     -   https://adm.leprechaun.space admin client
     -   https://docs.leprechaun.space _Swagger_ docs
     -   https://api.leprechaun.space RestFull API server
-    -   https://media.leprechaun.space media files server
+    -   https://media.leprechaun.space media files server -->
 
 ## Docs
 
@@ -52,7 +52,7 @@ Boilerplate for web store
         -   `AVAILABLE`: **1** (в продаже)
         -   `OUT_OF_STOCK`: **2** (закончился)
 
-    -   catalogue sort type
+    -   product list sort
 
         -   `POPULAR`: **1** (по популярности)
         -   `PRICE_UP`: **2** (от дешевых к дорогим)
@@ -64,11 +64,6 @@ Boilerplate for web store
         -   `DISCOUNT`: **discount** (скидка)
         -   `NEW`: **new** (новинка)
         -   `POPULAR`: **popular** (популярные)
-
-    -   filter types
-
-        -   `RANGE`: **range**
-        -   `LIST`: **list**
 
     -   dashboard types
 

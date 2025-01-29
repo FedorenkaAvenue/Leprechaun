@@ -10,7 +10,7 @@ interface Props {
 const ContentManager = ({ isLoading, children, tools }: PropsWithChildren<Props>) => {
     return (
         <div className="flex flex-col gap-2">
-            <div className="flex justify-end gap-2 items-center sticky top-16 bg-primary-color">
+            <div className="flex justify-end gap-2 items-center bg-primary-color">
                 {tools}
             </div>
             <LinearLoader isLoading={isLoading} />

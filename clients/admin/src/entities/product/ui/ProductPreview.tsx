@@ -1,5 +1,5 @@
 import { TableCell, TableRow, Typography } from "@mui/material";
-import { Link } from "react-router-dom";
+import { Link } from "react-router";
 import { ReactNode } from "react";
 
 import TooltipContent from "@shared/ui/TooltipContent";

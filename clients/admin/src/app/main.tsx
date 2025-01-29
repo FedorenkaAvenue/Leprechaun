@@ -1,26 +1,27 @@
-import { StrictMode } from 'react'
-import { createRoot } from 'react-dom/client'
-import { RouterProvider } from 'react-router-dom';
-import 'react-toastify/dist/ReactToastify.css';
+import * as ReactDOM from 'react-dom/client';
+import { RouterProvider } from 'react-router';
+import { StrictMode } from 'react';
+import { Provider } from 'react-redux';
 import { Bounce, ToastContainer } from 'react-toastify';
-import { Provider } from 'react-redux'
+import 'react-toastify/dist/ReactToastify.css';
 
-import { store } from './store.ts';
-import router from './router.tsx';
+import router from './router';
+import { store } from './store';
 import './index.css';
 
-createRoot(document.getElementById('root')!).render(
+ReactDOM.createRoot(document.getElementById('root')!).render(
     <StrictMode>
         <Provider store={store}>
             <RouterProvider router={router} />
-            <ToastContainer
-                position="bottom-right"
-                autoClose={5000}
-                hideProgressBar={false}
-                closeOnClick
-                theme="colored"
-                transition={Bounce}
-            />
         </Provider>
-    </StrictMode>
-)
+        <ToastContainer
+            position="bottom-right"
+            autoClose={5000}
+            hideProgressBar={false}
+            closeOnClick
+            theme="colored"
+            transition={Bounce}
+            limit={5}
+        />
+    </StrictMode>,
+);

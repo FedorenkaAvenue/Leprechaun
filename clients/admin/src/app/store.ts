@@ -3,6 +3,7 @@ import { setupListeners } from '@reduxjs/toolkit/query';
 import { toast } from 'react-toastify';
 
 import { rootApi } from '@shared/api';
+import { userSlice } from '@entities/user/model/slice';
 
 export const rtkQueryErrorLogger: Middleware = (api: MiddlewareAPI) => next => action => {
     if (isRejectedWithValue(action)) {
@@ -22,6 +23,7 @@ export const rtkQueryErrorLogger: Middleware = (api: MiddlewareAPI) => next => a
 
 export const store = configureStore({
     reducer: {
+        [userSlice.name]: userSlice.reducer,
         [rootApi.reducerPath]: rootApi.reducer,
     },
     middleware: getDefaultMiddleware => getDefaultMiddleware().concat(rootApi.middleware, rtkQueryErrorLogger),

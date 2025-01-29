@@ -1,7 +1,7 @@
 import { BaseQueryFn } from '@reduxjs/toolkit/query';
 import axios, { AxiosError, AxiosRequestConfig } from 'axios';
 
-const apiClient = axios.create({ baseURL: `${import.meta.env.VITE_DOMAIN_API}/adm` });
+const apiClient = axios.create({ baseURL: `${import.meta.env.VITE_DOMAIN_API}` });
 
 // apiClient.interceptors.response.use(
 //     (response) => {

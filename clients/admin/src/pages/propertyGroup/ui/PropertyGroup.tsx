@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { useParams } from "react-router";
 import { Button, Dialog, DialogContent, DialogTitle, Divider, Paper, Typography } from "@mui/material";
 import { useState } from "react";
 

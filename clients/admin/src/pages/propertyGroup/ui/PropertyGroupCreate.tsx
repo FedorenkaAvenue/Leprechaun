@@ -1,7 +1,7 @@
 import { FormControl, FormControlLabel, FormLabel, Switch } from "@mui/material";
 import { SubmitHandler, useForm } from "react-hook-form";
 import LoadingButton from '@mui/lab/LoadingButton';
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 import propertyGroupSchema, { PropertyGroupSchema } from "@features/propertyGroup/models/schema";

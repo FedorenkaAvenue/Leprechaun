@@ -1,6 +1,6 @@
 import { ChipProps, Chip as MUIChip, Tooltip, TooltipProps } from "@mui/material"
 import { ReactNode } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 
 interface Props extends ChipProps {
     tooltip?: ReactNode

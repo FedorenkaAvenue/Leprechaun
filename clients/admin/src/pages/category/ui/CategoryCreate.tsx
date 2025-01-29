@@ -1,7 +1,7 @@
 import { FormControl, FormControlLabel, FormLabel, Switch } from '@mui/material';
 import LoadingButton from '@mui/lab/LoadingButton';
 import { SubmitHandler, useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 
 import { CategorySchema } from "@features/category/model/schema";
 import FileUploader from "@shared/ui/FileUploader";
