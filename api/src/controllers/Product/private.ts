@@ -1,5 +1,6 @@
 import {
-    Body, Controller, Delete, Get, Param, ParseUUIDPipe, Patch, Post, UploadedFiles, UseInterceptors, ValidationPipe,
+    Body, Controller, Delete, Get, Param, ParseUUIDPipe, Patch, Post, UploadedFiles, UseGuards, UseInterceptors,
+    ValidationPipe,
 } from '@nestjs/common';
 import {
     ApiBadRequestResponse, ApiBody, ApiNotFoundResponse, ApiOkResponse, ApiOperation, ApiServiceUnavailableResponse,
@@ -23,13 +24,19 @@ import { QueriesProductList } from '@dto/Queries';
 import { ProductCreateDTO, ProductPreview, ProductUpdateDTO } from '@dto/Product/private';
 import { QueriesProductListI } from '@interfaces/Queries';
 import { ProductI, ProductPreviewI } from '@interfaces/Product';
+import { AuthJWTGuard } from '@guards/Auth';
+import { UserRoleGuard } from '@guards/UserRole';
+import { UserRoleDecorator } from '@decorators/UserRole';
+import { UserRole } from '@enums/User';
 
 @Controller('adm/product')
+@UseGuards(AuthJWTGuard, UserRoleGuard)
 @ApiTags('Product 🤵🏿‍♂️')
 export default class ProductPrivateController {
     constructor(private readonly productService: ProductPrivateService) { }
 
     @Post()
+    @UserRoleDecorator(UserRole.ADMIN)
     @UseInterceptors(FilesInterceptor('images[]'))
     @ApiOperation({ summary: 'create new product' })
     @ApiOkResponse({ description: 'success' })
@@ -41,6 +48,7 @@ export default class ProductPrivateController {
     }
 
     @Get('list')
+    @UserRoleDecorator(UserRole.SUPPORT)
     @UseInterceptors(InvalidPaginationPageInterceptor)
     @ApiOperation({ summary: 'get product list' })
     @ApiProductListQueries()
@@ -52,6 +60,7 @@ export default class ProductPrivateController {
     }
 
     @Get(':productID')
+    @UserRoleDecorator(UserRole.SUPPORT)
     @UseInterceptors(NotFoundInterceptor)
     @ApiOperation({ summary: 'get product by ID' })
     @ApiOkResponse({ type: ProductEntity })
@@ -62,6 +71,7 @@ export default class ProductPrivateController {
     }
 
     @Patch(':productID')
+    @UserRoleDecorator(UserRole.ADMIN)
     @UseInterceptors(FilesInterceptor('images[]'))
     @ApiOperation({ summary: 'update product' })
     @ApiBody({ type: ProductUpdateDTO })
@@ -79,6 +89,7 @@ export default class ProductPrivateController {
     @ApiServiceUnavailableResponse({ type: ProductEntity, description: "never mind. it's a bug for feature" })
     // !
     @Delete(':productID')
+    @UserRoleDecorator(UserRole.ADMIN)
     @UseInterceptors(AffectedResultInterceptor('product not found'))
     @ApiOperation({ summary: 'delete product by ID' })
     @ApiOkResponse({ description: 'success' })

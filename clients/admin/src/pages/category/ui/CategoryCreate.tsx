@@ -3,22 +3,24 @@ import LoadingButton from '@mui/lab/LoadingButton';
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useNavigate } from "react-router";
 
-import { CategorySchema } from "@features/category/model/schema";
 import FileUploader from "@shared/ui/FileUploader";
 import TextInput from "@shared/ui/TextInput";
 import PropertyGroupSelectList from '@widgets/propertyGroup/ui/PropertyGroupSelectList';
 import { useCreateCategory } from '@features/category/model/hooks';
+import { CategoryCreateDTO } from '@features/category/api/dto';
+import withRoleGuard from '@shared/hocs/withRoleGuard';
+import { UserRole } from '@entities/user/model/enums';
 
 const CategoryCreatePage = () => {
     const nav = useNavigate();
-    const { register, handleSubmit, getValues, watch, setValue, formState: { errors } } = useForm<CategorySchema>({
+    const { register, handleSubmit, getValues, watch, setValue, formState: { errors } } = useForm<CategoryCreateDTO>({
         defaultValues: {
             propertygroups: [],
         }
     });
     const [create, createState] = useCreateCategory();
 
-    const sendForm: SubmitHandler<CategorySchema> = body => {
+    const sendForm: SubmitHandler<CategoryCreateDTO> = body => {
         create({ body, successCallback: () => nav(-1) });
     };
 
@@ -68,4 +70,4 @@ const CategoryCreatePage = () => {
     );
 };
 
-export default CategoryCreatePage;
+export default withRoleGuard(CategoryCreatePage, UserRole.ADMIN);

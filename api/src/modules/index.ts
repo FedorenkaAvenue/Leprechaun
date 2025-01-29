@@ -19,6 +19,7 @@ import ToolModule from './Tool';
 import EventModule from './Event';
 import SubscribeModule from './Subscribe';
 import MailModule from './Mail';
+import AuthModule from './Auth';
 import CacheResetMiddleware from '@middlewares/CacheReset';
 import ProductPrivateController from '@controllers/Product/private';
 import CategoryPrivateController from '@controllers/Category/private';
@@ -33,6 +34,7 @@ import WishlistPublicController from '@controllers/Wishlist/public';
 import WishlistItemPublicController from '@controllers/WishlistItem/public';
 import SubscribePublicController from '@controllers/Subscribe/public';
 import HistoryProductPublicController from '@controllers/HistoryProduct/public';
+import UserModule from './User';
 
 @Module({
     imports: [
@@ -43,6 +45,9 @@ import HistoryProductPublicController from '@controllers/HistoryProduct/public';
             name: 'default',
         }),
         TypeOrmModule.forFeature([TransEntity]),
+        AuthModule,
+        UserModule,
+        SessionModule,
         CategoryModule,
         ProductModule,
         OrderModule,
@@ -54,7 +59,6 @@ import HistoryProductPublicController from '@controllers/HistoryProduct/public';
         ImageModule,
         ScheduleModule,
         AdminModule,
-        SessionModule,
         CacheModule,
         EventModule,
         MailModule,

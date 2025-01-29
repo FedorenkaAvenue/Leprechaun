@@ -1,8 +1,10 @@
 import {
     Controller, Get, Param, Body, UseInterceptors, Delete, Post, UploadedFile, ValidationPipe,
-    Patch,
+    Patch, UseGuards,
 } from '@nestjs/common';
-import { ApiBadRequestResponse, ApiBody, ApiNotFoundResponse, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
+import {
+    ApiBadRequestResponse, ApiBody, ApiNotFoundResponse, ApiOkResponse, ApiOperation, ApiTags,
+} from '@nestjs/swagger';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { DeleteResult, UpdateResult } from 'typeorm';
 
@@ -13,13 +15,19 @@ import AffectedResultInterceptor from '@interceptors/AffectedResult';
 import CategoryPrivateService from '@services/Category/private';
 import { CategoryCreateDTO, CategoryUpdateDTO } from '@dto/Category/private';
 import { CategoryI, CategoryPreviewI } from '@interfaces/Category';
+import { AuthJWTGuard } from '@guards/Auth';
+import { UserRoleDecorator } from '@decorators/UserRole';
+import { UserRoleGuard } from '@guards/UserRole';
+import { UserRole } from '@enums/User';
 
 @Controller('adm/category')
+@UseGuards(AuthJWTGuard, UserRoleGuard)
 @ApiTags('Category 🤵🏿‍♂️')
 export default class CategoryPrivateController {
     constructor(private readonly categoryService: CategoryPrivateService) { }
 
     @Post()
+    @UserRoleDecorator(UserRole.ADMIN)
     @UseInterceptors(FileInterceptor('icon', { fileFilter: FSService.fileFilterOption('svg') }))
     @ApiOperation({ summary: 'add new category' })
     @ApiBadRequestResponse({ description: 'some of fields are unique' })
@@ -31,6 +39,7 @@ export default class CategoryPrivateController {
     }
 
     @Patch(':categoryID')
+    @UserRoleDecorator(UserRole.ADMIN)
     @UseInterceptors(FileInterceptor('icon', { fileFilter: FSService.fileFilterOption('svg') }))
     @UseInterceptors(AffectedResultInterceptor('category not found'))
     @ApiOperation({ summary: 'update category' })
@@ -44,6 +53,7 @@ export default class CategoryPrivateController {
     }
 
     @Get('list')
+    @UserRoleDecorator(UserRole.SUPPORT)
     @ApiOperation({ summary: 'get all categories' })
     @ApiOkResponse({ type: CategoryEntity, isArray: true })
     private getAllCategories(): Promise<CategoryPreviewI[]> {
@@ -51,6 +61,7 @@ export default class CategoryPrivateController {
     }
 
     @Get(':categoryURL')
+    @UserRoleDecorator(UserRole.SUPPORT)
     @UseInterceptors(NotFoundInterceptor)
     @ApiOperation({ summary: 'get category by URL' })
     @ApiOkResponse({ type: CategoryEntity, isArray: true })
@@ -60,6 +71,7 @@ export default class CategoryPrivateController {
     }
 
     @Delete(':categoryID')
+    @UserRoleDecorator(UserRole.ADMIN)
     @UseInterceptors(AffectedResultInterceptor('category not found'))
     @ApiOperation({ summary: 'delete category by ID' })
     @ApiOkResponse({ description: 'success' })

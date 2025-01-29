@@ -1,5 +1,5 @@
 import {
-    Body, Controller, Delete, Get, Param, ParseUUIDPipe, Patch, UseInterceptors, ValidationPipe,
+    Body, Controller, Delete, Get, Param, ParseUUIDPipe, Patch, UseGuards, UseInterceptors, ValidationPipe,
 } from '@nestjs/common';
 import { ApiNotFoundResponse, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { DeleteResult, UpdateResult } from 'typeorm';
@@ -12,13 +12,19 @@ import { OrderI } from '@interfaces/Order';
 import { QueriesCommonI } from '@interfaces/Queries';
 import Queries from '@decorators/Query';
 import NotFoundInterceptor from '@interceptors/UndefinedResult';
+import { AuthJWTGuard } from '@guards/Auth';
+import { UserRoleGuard } from '@guards/UserRole';
+import { UserRole } from '@enums/User';
+import { UserRoleDecorator } from '@decorators/UserRole';
 
 @Controller('adm/order')
+@UseGuards(AuthJWTGuard, UserRoleGuard)
 @ApiTags('Order 🤵🏿‍♂️')
 export default class OrderPrivateController {
     constructor(private readonly orderService: OrderPrivateService) { }
 
     @Get(':orderID')
+    @UserRoleDecorator(UserRole.SUPPORT)
     @UseInterceptors(NotFoundInterceptor)
     @ApiOperation({ summary: 'get order by ID' })
     @ApiOkResponse({ type: OrderEntity })
@@ -31,6 +37,7 @@ export default class OrderPrivateController {
     }
 
     @Get('product/:productID')
+    @UserRoleDecorator(UserRole.SUPPORT)
     @ApiOperation({ summary: 'get orders which contain product' })
     @ApiOkResponse({ type: OrderEntity, isArray: true })
     private getOrdersByProductId(@Param('productID', ParseUUIDPipe) productID: string): Promise<OrderI[]> {
@@ -38,6 +45,7 @@ export default class OrderPrivateController {
     }
 
     @Patch('status/:orderID')
+    @UserRoleDecorator(UserRole.SUPPORT)
     @UseInterceptors(AffectedResultInterceptor('order not found'))
     @ApiOperation({ summary: 'change order status' })
     @ApiNotFoundResponse({ description: 'order not found' })
@@ -49,6 +57,7 @@ export default class OrderPrivateController {
     }
 
     @Get('list')
+    @UserRoleDecorator(UserRole.SUPPORT)
     @ApiOperation({ summary: 'get order list' })
     @ApiOkResponse({ type: OrderEntity, isArray: true })
     private getOrders(): Promise<OrderI[]> {
@@ -56,6 +65,7 @@ export default class OrderPrivateController {
     }
 
     @Delete(':orderID')
+    @UserRoleDecorator(UserRole.ADMIN)
     @UseInterceptors(AffectedResultInterceptor('order not found'))
     @ApiOperation({ summary: 'remove order' })
     @ApiNotFoundResponse({ description: 'order not found' })

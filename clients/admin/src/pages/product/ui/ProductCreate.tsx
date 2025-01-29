@@ -11,7 +11,7 @@ import PropertySelectList from "@features/property/ui/PropertySelectList";
 import useMultiSelectOptions from "@shared/lib/useMultiSelectOptions";
 import LinearLoader from "@shared/ui/LinearLoader";
 import FileUploader, { FileUploaderFile } from "@shared/ui/FileUploader";
-import { productSchemaBySteps, ProductSchema } from "@features/product/model/schema";
+import { productSchemaBySteps } from "@features/product/model/schema";
 import TextInput from "@shared/ui/TextInput";
 import Select from "@shared/ui/Select";
 import productStatusOptions from "@entities/product/constants/productStatusOptions";
@@ -22,11 +22,14 @@ import { useCategoryList } from "@entities/category/model/hooks";
 import { usePropertyGroupListByCategoryId } from "@entities/propertyGroup/model/hooks";
 import { ProductStatus } from "@entities/product/model/enums";
 import { useCreateProduct } from "@features/product/model/hook";
+import withRoleGuard from "@shared/hocs/withRoleGuard";
+import { UserRole } from "@entities/user/model/enums";
+import { ProductCreateDTO } from "@features/product/api/dto";
 
 const STEPS = ["Main info", "Properties", "Images"];
 
 function Step1() {
-    const { register, getValues, formState: { errors }, watch } = useFormContext<ProductSchema>();
+    const { register, getValues, formState: { errors }, watch } = useFormContext<ProductCreateDTO>();
 
     watch('status');
 
@@ -84,7 +87,7 @@ function Step1() {
 }
 
 function Step2() {
-    const { register, getValues, formState: { errors }, watch, setValue } = useFormContext<ProductSchema>();
+    const { register, getValues, formState: { errors }, watch, setValue } = useFormContext<ProductCreateDTO>();
     const selectedCategoryValue = getValues('category');
     const { data: categoryList, isFetching: categoryListIstFetching } = useCategoryList();
     const selectedCategory = categoryList?.find(i => i.id === selectedCategoryValue);
@@ -137,7 +140,7 @@ function Step2() {
 }
 
 function Step3() {
-    const { getValues, formState: { errors }, setValue } = useFormContext<ProductSchema>();
+    const { getValues, formState: { errors }, setValue } = useFormContext<ProductCreateDTO>();
 
     function change(images: FileUploaderFile[] | FileUploaderFile) {
         setValue('images', images as FileUploaderFile[]);
@@ -160,7 +163,7 @@ const ProductCreatePage = () => {
     const nav = useNavigate();
     const [mutate, { isLoading }] = useCreateProduct();
     const [activeStep, setActiveStep] = useState<number>(0);
-    const formMethods = useForm<ProductSchema>({
+    const formMethods = useForm<ProductCreateDTO>({
         resolver: zodResolver(productSchemaBySteps[(activeStep > productSchemaBySteps.length - 1) ? 0 : activeStep]),
         defaultValues: {
             status: ProductStatus.AVAILABLE,
@@ -220,4 +223,4 @@ const ProductCreatePage = () => {
     );
 };
 
-export default ProductCreatePage;
+export default withRoleGuard(ProductCreatePage, UserRole.ADMIN);

@@ -1,5 +1,6 @@
 import { CircularProgress, Typography } from '@mui/material';
 import { Link } from 'react-router';
+import { FC } from 'react';
 
 import DeleteButton, { DeleteButtonProps } from '@shared/ui/DeleteButton';
 import routerSubConfig from '@shared/config/router';
@@ -7,6 +8,8 @@ import { PRODUCT_LIST_URL_QUERY_PARAMS } from '@features/product/constants/urlQu
 import { Category } from '@entities/category/model/interfaces';
 import { useCategory } from '@entities/category/model/hooks';
 import { useRemoveCategory } from '../model/hooks';
+import withRoleBlur from '@shared/hocs/withRoleBlur';
+import { UserRole } from '@entities/user/model/enums';
 
 interface Props extends Omit<DeleteButtonProps, 'buttonTitle' | 'modalContent' | 'handleAgree' | 'modalTitle' | 'onAgree'> {
     categoryId: Category['id']
@@ -33,7 +36,7 @@ function ModalContent({ url }: { url: Category['url'] }) {
         );
 }
 
-const CategoryDeleteButton = ({ categoryId, categoryUrl, ...props }: Props) => {
+const CategoryDeleteButton: FC<Props> = ({ categoryId, categoryUrl, ...props }) => {
     const [mutate] = useRemoveCategory();
 
     const remove = () => {
@@ -51,4 +54,4 @@ const CategoryDeleteButton = ({ categoryId, categoryUrl, ...props }: Props) => {
     );
 };
 
-export default CategoryDeleteButton;
+export default withRoleBlur<Props>(CategoryDeleteButton, UserRole.ADMIN);

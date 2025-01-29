@@ -39,31 +39,38 @@ Boilerplate for web store
 
 -   **Enums**
 
+    -   user type
+
+    -   `CUSTOMER`: **1** (client user)
+    -   `SUPPORT`: **2** (admin support)
+    -   `ADMIN` **3**
+    -   `ROOT` **4**
+
     -   order status
 
-        -   `INIT`: **1** (корзина)
-        -   `POSTED`: **2** (подтвержден пользователем)
-        -   `IN_PROCESS` **3** (подтвержден продавец)
-        -   `COMPLETED`: **4** (завершен)
-        -   `CANCELED`: **5** (отменен)
+        -   `INIT`: **1** (cart)
+        -   `POSTED`: **2** (posted cart)
+        -   `IN_PROCESS` **3** (cart is accepted by admin)
+        -   `COMPLETED`: **4**
+        -   `CANCELED`: **5**
 
     -   product status
 
-        -   `AVAILABLE`: **1** (в продаже)
-        -   `OUT_OF_STOCK`: **2** (закончился)
+        -   `AVAILABLE`: **1**
+        -   `OUT_OF_STOCK`: **2**
 
     -   product list sort
 
-        -   `POPULAR`: **1** (по популярности)
-        -   `PRICE_UP`: **2** (от дешевых к дорогим)
-        -   `PRICE_DOWN`: **3** (от дорогих к дешевым)
-        -   `NEW`: **4** (по новинкам)
+        -   `POPULAR`: **1**
+        -   `PRICE_UP`: **2**
+        -   `PRICE_DOWN`: **3**
+        -   `NEW`: **4**
 
     -   label types
 
-        -   `DISCOUNT`: **discount** (скидка)
-        -   `NEW`: **new** (новинка)
-        -   `POPULAR`: **popular** (популярные)
+        -   `DISCOUNT`: **discount**
+        -   `NEW`: **new**
+        -   `POPULAR`: **popular**
 
     -   dashboard types
 

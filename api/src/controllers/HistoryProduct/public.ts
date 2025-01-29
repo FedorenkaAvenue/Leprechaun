@@ -3,7 +3,7 @@ import { ApiBadRequestResponse, ApiCookieAuth, ApiOkResponse, ApiOperation, ApiT
 import { DeleteResult } from 'typeorm';
 
 import AffectedResultInterceptor from '@interceptors/AffectedResult';
-import AuthGuard from '@guards/Auth';
+import AuthSessionGuard from '@guards/Auth';
 import Queries from '@decorators/Query';
 import { ProductPreviewPublic } from '@dto/Product/public';
 import { ProductPreviewPublicI } from '@interfaces/Product';
@@ -29,7 +29,7 @@ export default class HistoryProductPublicController {
     }
 
     @Delete('product')
-    @UseGuards(AuthGuard)
+    @UseGuards(AuthSessionGuard)
     @UseInterceptors(AffectedResultInterceptor('history is already empty', BadRequestException))
     @ApiOperation({ summary: 'clear product history' })
     @ApiCookieAuth()

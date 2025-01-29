@@ -7,7 +7,7 @@ import { DeleteResult, UpdateResult } from 'typeorm';
 
 import WishlistPublicService from '@services/Wishlist/public';
 import AffectedResultInterceptor from '@interceptors/AffectedResult';
-import AuthGuard from '@guards/Auth';
+import AuthSessionGuard from '@guards/Auth';
 import Queries from '@decorators/Query';
 import { CreateWishlistDTO, UpdateWishlistDTO, WishlistPublic } from '@dto/Wishlist/public';
 import SessionInitInterceptor from '@interceptors/SessionInit';
@@ -57,7 +57,7 @@ export default class WishlistPublicController {
     }
 
     @Patch(':wishlistID')
-    @UseGuards(AuthGuard)
+    @UseGuards(AuthSessionGuard)
     @UseInterceptors(AffectedResultInterceptor('wishlist is not found', NotFoundException))
     @ApiOperation({ summary: 'update wishlist' })
     @ApiCookieAuth()
@@ -71,7 +71,7 @@ export default class WishlistPublicController {
     }
 
     @Delete(':wishlistID')
-    @UseGuards(AuthGuard)
+    @UseGuards(AuthSessionGuard)
     @UseInterceptors(AffectedResultInterceptor('wishlist is not found', NotFoundException))
     @ApiOperation({ summary: 'delete wishlist' })
     @ApiCookieAuth()

@@ -11,6 +11,7 @@ import { memoryStorage } from 'multer';
 import { MulterModuleOptions } from '@nestjs/platform-express';
 import { CacheOptions } from '@nestjs/cache-manager';
 import { RedisClientOptions } from 'redis';
+import { JwtModuleOptions } from '@nestjs/jwt';
 const pgConnect = require('connect-pg-simple');
 
 const ENV_ARRAY_SPLIT_SYMBOL = ',';
@@ -194,6 +195,20 @@ export default class ConfigService {
             methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
             credentials: true,
         };
+    }
+
+    /**
+     * @description get JwtModule register config
+     * @returns {JwtModuleOptions} config
+     */
+    public getJWTConfig(): JwtModuleOptions {
+        return {
+            global: true,
+            secret: this.getSessionSecretKey(),
+            signOptions: {
+                expiresIn: '600s',
+            },
+        }
     }
 }
 

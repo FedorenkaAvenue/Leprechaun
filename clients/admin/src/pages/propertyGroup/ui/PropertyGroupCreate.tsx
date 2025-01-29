@@ -4,17 +4,20 @@ import LoadingButton from '@mui/lab/LoadingButton';
 import { useNavigate } from "react-router";
 import { zodResolver } from "@hookform/resolvers/zod";
 
-import propertyGroupSchema, { PropertyGroupSchema } from "@features/propertyGroup/models/schema";
+import { propertyGroupSchema } from "@features/propertyGroup/models/schema";
 import TextInput from "@shared/ui/TextInput";
 import { useCreatePropertyGroup } from "@features/propertyGroup/models/hooks";
+import { PropertyGroupCreateDTO } from "@features/propertyGroup/api/dto";
+import withRoleGuard from "@shared/hocs/withRoleGuard";
+import { UserRole } from "@entities/user/model/enums";
 
 const PropertyGroupCreatePage = () => {
     const nav = useNavigate();
-    const { register, handleSubmit, formState: { errors } } = useForm<PropertyGroupSchema>({
+    const { register, handleSubmit, formState: { errors } } = useForm<PropertyGroupCreateDTO>({
         resolver: zodResolver(propertyGroupSchema),
     });
     const [mutate, { isLoading }] = useCreatePropertyGroup();
-    const sendForm: SubmitHandler<PropertyGroupSchema> = data => {
+    const sendForm: SubmitHandler<PropertyGroupCreateDTO> = data => {
         mutate({ data, successCallback: () => nav(-1) });
     };
 
@@ -50,4 +53,4 @@ const PropertyGroupCreatePage = () => {
     );
 };
 
-export default PropertyGroupCreatePage;
+export default withRoleGuard(PropertyGroupCreatePage, UserRole.ADMIN);

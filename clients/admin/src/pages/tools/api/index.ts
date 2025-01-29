@@ -1,7 +1,5 @@
-import { toast } from "react-toastify";
+import { apiClient } from "@shared/api";
 
-export async function resetServerCache() {
-    const res = await fetch('/cache/reset');
-
-    return res.status === 200 ? toast.success('Cache has been reseted') : toast.error(res.statusText);
+export async function resetServerCache(): Promise<void> {
+    return await apiClient.delete('/adm/cache');
 }

@@ -3,6 +3,8 @@ import { CircularProgress } from "@mui/material";
 import { PropertyGroup, PropertyGroupPreview } from '@entities/propertyGroup/model/interfaces';
 import { usePropertyGroup } from '@entities/propertyGroup/model/hooks';
 import { useRemovePropertyGroup } from '../models/hooks';
+import withRoleBlur from '@shared/hocs/withRoleBlur';
+import { UserRole } from '@entities/user/model/enums';
 
 interface Props extends Omit<DeleteButtonProps, 'buttonTitle' | 'modalTitle' | 'handleAgree' | 'onAgree'> {
     group: PropertyGroupPreview
@@ -43,4 +45,4 @@ const PropertyGroupDeleteButton = (props: Props) => {
     );
 };
 
-export default PropertyGroupDeleteButton;
+export default withRoleBlur(PropertyGroupDeleteButton, UserRole.ADMIN);

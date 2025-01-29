@@ -1,6 +1,10 @@
-import { SessionI } from './Session';
+import { UserRole } from '@enums/User';
 
 export interface UserI {
     id: string
-    sid: SessionI
+    role: UserRole
+    email: string | null
+    password: string
 }
+
+export type UserDataI = Omit<UserI, 'password'>;

@@ -1,18 +1,20 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
-import { UserRole } from "./enums";
 import { signIn } from "../api";
+import { AuthSuccessDTO } from "../api/dto";
+import { User } from "./interfaces";
+import { RootState } from "@app/store";
 
 interface UserState {
     isAuth: boolean
-    role: UserRole | null
-    isLoading: boolean
+    accessToken: AuthSuccessDTO['access_token'] | null
+    data: User | null
 }
 
 const initialState: UserState = {
     isAuth: false,
-    role: null,
-    isLoading: false,
+    accessToken: null,
+    data: null,
 }
 
 export const userSlice = createSlice({
@@ -20,15 +22,19 @@ export const userSlice = createSlice({
     initialState,
     reducers: {},
     extraReducers(builder) {
-        // Add reducers for additional action types here, and handle loading state as needed
-        builder.addCase(signInAction.fulfilled, (state, action) => {
-            console.log(state);
-            console.log(action.payload);
-
+        builder.addCase(userSignInAction.fulfilled, (state, { payload }) => {
+            state = Object.assign(state, {
+                ...state,
+                accessToken: payload.access_token,
+                isAuth: true,
+                data: payload.user,
+            });
         })
     },
 });
 
-export const signInAction = createAsyncThunk('user/signin', signIn);
+export const userSignInAction = createAsyncThunk('user/signin', signIn);
 
 export const { } = userSlice.actions;
+
+export const userSelector = (state: RootState) => state.user;

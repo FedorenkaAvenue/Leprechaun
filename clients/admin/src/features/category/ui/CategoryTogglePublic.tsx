@@ -3,6 +3,8 @@ import { FC } from "react";
 
 import { Category } from "@entities/category/model/interfaces";
 import { useUpdateCategory } from "../model/hooks";
+import withRoleBlur from "@shared/hocs/withRoleBlur";
+import { UserRole } from "@entities/user/model/enums";
 
 interface Props {
     categoryId: Category['id']
@@ -19,4 +21,4 @@ const CategoryTogglePublic: FC<Props> = ({ selected, categoryId }) => {
     return <Switch onChange={update} checked={selected} />;
 };
 
-export default CategoryTogglePublic;
+export default withRoleBlur(CategoryTogglePublic, UserRole.ADMIN);

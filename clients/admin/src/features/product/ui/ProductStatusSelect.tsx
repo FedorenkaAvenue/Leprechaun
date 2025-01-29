@@ -6,6 +6,8 @@ import productStatusOptions from "@entities/product/constants/productStatusOptio
 import { Product } from "@entities/product/model/interfaces";
 import { ProductStatus } from "@entities/product/model/enums";
 import { useUpdateProduct } from "../model/hook";
+import withRoleBlur from "@shared/hocs/withRoleBlur";
+import { UserRole } from "@entities/user/model/enums";
 
 type Props = {
     productId: Product['id']
@@ -35,4 +37,4 @@ const ProductStatusSelect = forwardRef<React.JSX.Element, Props>((
 
 ProductStatusSelect.displayName = 'ProductStatusSelect';
 
-export default ProductStatusSelect;
+export default withRoleBlur(ProductStatusSelect, UserRole.ADMIN);

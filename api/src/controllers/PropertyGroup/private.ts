@@ -1,4 +1,6 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post, UseInterceptors, ValidationPipe } from '@nestjs/common';
+import {
+    Body, Controller, Delete, Get, Param, Patch, Post, UseGuards, UseInterceptors, ValidationPipe,
+} from '@nestjs/common';
 import { ApiBadRequestResponse, ApiNotFoundResponse, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { DeleteResult, UpdateResult } from 'typeorm';
 
@@ -9,13 +11,19 @@ import NotFoundInterceptor from '@interceptors/UndefinedResult';
 import { CategoryI } from '@interfaces/Category';
 import { PropertyGroupCreateDTO, PropertyGroupUpdateDTO } from '@dto/PropertyGroup/private';
 import { PropertyGroupI, PropertyGroupPreviewI } from '@interfaces/PropertyGroup';
+import { AuthJWTGuard } from '@guards/Auth';
+import { UserRoleGuard } from '@guards/UserRole';
+import { UserRoleDecorator } from '@decorators/UserRole';
+import { UserRole } from '@enums/User';
 
 @Controller('adm/propertygroup')
+@UseGuards(AuthJWTGuard, UserRoleGuard)
 @ApiTags('Property group 🤵🏿‍♂️')
 export default class PropertyGroupPrivateController {
     constructor(private readonly propertyGroupService: PropertyGroupService) { }
 
     @Post()
+    @UserRoleDecorator(UserRole.ADMIN)
     @ApiOperation({ summary: 'add new property group' })
     @ApiBadRequestResponse({ description: 'some of filed is already exists' })
     private createGroup(
@@ -25,6 +33,7 @@ export default class PropertyGroupPrivateController {
     }
 
     @Patch(':groupID')
+    @UserRoleDecorator(UserRole.ADMIN)
     @UseInterceptors(AffectedResultInterceptor('property group not found'))
     @ApiOperation({ summary: 'update property group' })
     @ApiNotFoundResponse({ description: 'property group not found' })
@@ -36,6 +45,7 @@ export default class PropertyGroupPrivateController {
     }
 
     @Get('list/:categoryID')
+    @UserRoleDecorator(UserRole.SUPPORT)
     @ApiOperation({ summary: 'get property groups by category ID' })
     @ApiOkResponse({ type: PropertyGroupEntity, isArray: true })
     private getGroupListByCategoryID(
@@ -45,6 +55,7 @@ export default class PropertyGroupPrivateController {
     }
 
     @Get('list')
+    @UserRoleDecorator(UserRole.SUPPORT)
     @ApiOperation({ summary: 'get all property groups' })
     @ApiOkResponse({ type: PropertyGroupEntity, isArray: true })
     private getGroupList(): Promise<PropertyGroupPreviewI[]> {
@@ -52,6 +63,7 @@ export default class PropertyGroupPrivateController {
     }
 
     @Get(':groupID')
+    @UserRoleDecorator(UserRole.SUPPORT)
     @UseInterceptors(NotFoundInterceptor)
     @ApiOperation({ summary: 'get property group by ID' })
     @ApiOkResponse({ type: PropertyGroupEntity })
@@ -60,6 +72,7 @@ export default class PropertyGroupPrivateController {
     }
 
     @Delete(':groupID')
+    @UserRoleDecorator(UserRole.ADMIN)
     @UseInterceptors(AffectedResultInterceptor('property group not found'))
     @ApiOperation({ summary: 'delete property group by ID' })
     @ApiNotFoundResponse({ description: 'property group not found' })

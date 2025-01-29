@@ -2,7 +2,7 @@ import { AppProvider, AuthProvider, SignInPage, ThemeSwitcher } from "@toolpad/c
 import { FC } from "react";
 import { useDispatch } from "react-redux";
 
-import { signInAction } from "@entities/user/model/slice";
+import { userSignInAction } from "@entities/user/model/slice";
 
 interface AuthResponse {
     error?: string;
@@ -13,7 +13,7 @@ const AuthPage: FC = () => {
     const dispatch = useDispatch();
 
     const signIn: (_: AuthProvider, formData: FormData) => void = async (__, formData): Promise<AuthResponse | void> => {
-        const res = await dispatch<any>(signInAction(formData));
+        const res = await dispatch<any>(userSignInAction(formData));
 
         if (res.error) return { error: res.error.message };
     };

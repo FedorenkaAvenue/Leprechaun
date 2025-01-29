@@ -42,7 +42,5 @@ const step3 = z.object({
     // .refine(files => files?.[0]?.size <= MAX_FILE_SIZE, `Max image size is 5MB.`)
 });
 
-const productSchema = z.object({ ...step1.shape, ...step2.shape, ...step3.shape });
-
+export const productSchema = z.object({ ...step1.shape, ...step2.shape, ...step3.shape });
 export const productSchemaBySteps = [step1, step2, step3];
-export default productSchema;

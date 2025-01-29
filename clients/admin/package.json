@@ -29,7 +29,6 @@
 		"filepond-plugin-image-preview": "^4.6.12",
 		"filepond-plugin-image-resize": "^2.0.10",
 		"filepond-plugin-image-transform": "^3.8.7",
-		"invariant": "^2.2.4",
 		"react": "^19.0.0",
 		"react-dom": "^19.0.0",
 		"react-filepond": "^7.1.2",

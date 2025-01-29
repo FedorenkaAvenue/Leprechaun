@@ -18,19 +18,25 @@ import ToolsPage from "@pages/tools/ui/Tools";
 import SocketsPage from "@pages/connections/ui/Sockets";
 import AuthPage from "@pages/auth/ui/Auth";
 import App from "./app";
-import Layout from "./layout";
+import { AuthLayout, NonAuthLayout } from "./layouts";
 
 const routerConfig = createBrowserRouter([
     {
-        Component: App, // root layout route
+        Component: App,
         children: [
             {
-                path: routerSubConfig.auth.segment,
-                element: <AuthPage />,
+                path: routerSubConfig.auth.path,
+                element: <NonAuthLayout />,
+                children: [
+                    {
+                        index: true,
+                        element: <AuthPage />,
+                    },
+                ]
             },
             {
                 path: "",
-                element: <Layout />,
+                element: <AuthLayout />,
                 children: [
                     {
                         index: true,

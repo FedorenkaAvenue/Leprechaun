@@ -6,7 +6,7 @@ import { UpdateResult } from 'typeorm';
 
 import OrderPublicService from '@services/Order/public';
 import AffectedResultInterceptor from '@interceptors/AffectedResult';
-import AuthGuard from '@guards/Auth';
+import AuthSessionGuard from '@guards/Auth';
 import Queries from '@decorators/Query';
 import { CreateOrderItemDTO, UpdateOrderItemDTO } from '@dto/OrderItem/public';
 import { CreateOrderDTO, OrderPublic } from '@dto/Order/public';
@@ -58,7 +58,7 @@ export default class OrderPublicController {
     }
 
     @Patch('item/:itemID')
-    @UseGuards(AuthGuard)
+    @UseGuards(AuthSessionGuard)
     @UseInterceptors(NotFoundInterceptor)
     @ApiOperation({ summary: 'change order item amount' })
     @ApiCookieAuth()
@@ -73,7 +73,7 @@ export default class OrderPublicController {
     }
 
     @Post()
-    @UseGuards(AuthGuard)
+    @UseGuards(AuthSessionGuard)
     @UseInterceptors(AffectedResultInterceptor())
     @ApiOperation({ summary: 'send order' })
     @ApiCookieAuth()
@@ -86,7 +86,7 @@ export default class OrderPublicController {
     }
 
     @Delete('item/:itemID')
-    @UseGuards(AuthGuard)
+    @UseGuards(AuthSessionGuard)
     @UseInterceptors(NotFoundInterceptor)
     @ApiOperation({ summary: 'delete order item' })
     @ApiCookieAuth()

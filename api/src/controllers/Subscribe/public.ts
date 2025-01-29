@@ -4,7 +4,7 @@ import { ApiBody, ApiCookieAuth, ApiNotAcceptableResponse, ApiOkResponse, ApiOpe
 import SubscribePublicService from "@services/Subscribe/public";
 import { SubscribeProductStatusDTO } from "@dto/Subscribe/public";
 import { ProductStatus } from "@enums/Product";
-import AuthGuard from "@guards/Auth";
+import AuthSessionGuard from "@guards/Auth";
 import SessionInitInterceptor from "@interceptors/SessionInit";
 import { ProductStatusSubscriptionI } from "@interfaces/Subscribe";
 import Queries from '@decorators/Query';
@@ -16,7 +16,7 @@ export default class SubscribePublicController {
     constructor(private readonly subscribeService: SubscribePublicService) { }
 
     @Get('/product')
-    @UseGuards(AuthGuard)
+    @UseGuards(AuthSessionGuard)
     @ApiCookieAuth()
     @ApiOperation({ summary: `get subscriptions on product\'s statuses` })
     @ApiOkResponse({ type: 'string', isArray: true })

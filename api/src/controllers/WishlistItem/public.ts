@@ -9,7 +9,7 @@ import { DeleteResult } from 'typeorm';
 import WishlistPublicService from '@services/Wishlist/public';
 import AffectedResultInterceptor from '@interceptors/AffectedResult';
 import { WishlistItemMoveDTO, WishlistItemPublic } from '@dto/WishlistItem/public';
-import AuthGuard from '@guards/Auth';
+import AuthSessionGuard from '@guards/Auth';
 import Queries from '@decorators/Query';
 import SessionInitInterceptor from '@interceptors/SessionInit';
 import { QueriesCommonI } from '@interfaces/Queries';
@@ -21,7 +21,7 @@ export default class WishlistItemPublicController {
     constructor(private readonly wishlistPublicService: WishlistPublicService) { }
 
     @Patch()
-    @UseGuards(AuthGuard)
+    @UseGuards(AuthSessionGuard)
     @ApiOperation({ summary: 'move wishlist item to another wishlist' })
     @ApiCookieAuth()
     @ApiBody({ type: WishlistItemMoveDTO })
@@ -47,7 +47,7 @@ export default class WishlistItemPublicController {
     }
 
     @Delete(':wishlistItemID')
-    @UseGuards(AuthGuard)
+    @UseGuards(AuthSessionGuard)
     @UseInterceptors(AffectedResultInterceptor('wishlist item was not found'))
     @ApiOperation({ summary: 'remove wishlist item from wishlist' })
     @ApiCookieAuth()
