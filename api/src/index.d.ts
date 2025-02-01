@@ -1,5 +1,5 @@
 import { SessionDataI } from '@interfaces/Session';
-import { JWTPayloadI } from '@interfaces/JWT';
+import { JWTPayloadI, JWTSuccessTokensI } from '@interfaces/JWT';
 
 declare module 'express-session' {
     interface SessionData extends SessionDataI { }
@@ -8,7 +8,7 @@ declare module 'express-session' {
 declare global {
     namespace Express {
         interface Request {
-            user?: JWTPayloadI
+            user: JWTPayloadI
         }
     }
 }

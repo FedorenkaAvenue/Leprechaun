@@ -12,13 +12,13 @@ import { OrderI } from '@interfaces/Order';
 import { QueriesCommonI } from '@interfaces/Queries';
 import Queries from '@decorators/Query';
 import NotFoundInterceptor from '@interceptors/UndefinedResult';
-import { AuthJWTGuard } from '@guards/Auth';
+import { AuthJWTAccessGuard } from '@guards/Auth';
 import { UserRoleGuard } from '@guards/UserRole';
 import { UserRole } from '@enums/User';
 import { UserRoleDecorator } from '@decorators/UserRole';
 
 @Controller('adm/order')
-@UseGuards(AuthJWTGuard, UserRoleGuard)
+@UseGuards(AuthJWTAccessGuard, UserRoleGuard)
 @ApiTags('Order 🤵🏿‍♂️')
 export default class OrderPrivateController {
     constructor(private readonly orderService: OrderPrivateService) { }

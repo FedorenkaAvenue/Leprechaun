@@ -11,7 +11,7 @@ import AffectedResultInterceptor from '@interceptors/AffectedResult';
 import { WishlistItemMoveDTO, WishlistItemPublic } from '@dto/WishlistItem/public';
 import AuthSessionGuard from '@guards/Auth';
 import Queries from '@decorators/Query';
-import SessionInitInterceptor from '@interceptors/SessionInit';
+import { SessionInitInterceptor } from '@interceptors/Session';
 import { QueriesCommonI } from '@interfaces/Queries';
 import { WishlistItemPublicI } from '@interfaces/WishlistItem';
 

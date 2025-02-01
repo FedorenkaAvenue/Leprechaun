@@ -10,13 +10,13 @@ export const productApi = rootApi.injectEndpoints({
     endpoints: build => ({
         product: build.query<Product, Product['id']>({
             query: id => ({
-                url: `/product/${id}`,
+                url: `/adm/product/${id}`,
             }),
             providesTags: (_, __, id) => [{ type: 'product', id }],
         }),
         productList: build.query<Pagination<ProductPreview[]>, ProductListUrlQueryParams>({
             query: (args: ProductListUrlQueryParams) => ({
-                url: '/product/list',
+                url: '/adm/product/list',
                 params: args,
             }),
             providesTags: (_, __, args) => args
@@ -28,7 +28,7 @@ export const productApi = rootApi.injectEndpoints({
         }),
         createProduct: build.mutation<void, { newProduct: ProductCreateDTO, successCallback?: () => void }>({
             query: ({ newProduct }) => ({
-                url: '/product',
+                url: '/adm/product',
                 method: 'POST',
                 body: toFormData(newProduct),
             }),
@@ -41,7 +41,7 @@ export const productApi = rootApi.injectEndpoints({
         }),
         updateProduct: build.mutation<void, { id: Product['id'], updates: ProductUpdateDTO }>({
             query: ({ id, updates }) => ({
-                url: `/product/${id}`,
+                url: `/adm/product/${id}`,
                 method: 'PATCH',
                 body: toFormData(updates),
             }),
@@ -62,7 +62,7 @@ export const productApi = rootApi.injectEndpoints({
         }),
         removeProduct: build.mutation<undefined, Product['id']>({
             query: productId => ({
-                url: `/product/${productId}`,
+                url: `/adm/product/${productId}`,
                 method: 'DELETE',
             }),
             invalidatesTags: (_, __, id) => ([{ type: 'product', id }, 'product_list']),

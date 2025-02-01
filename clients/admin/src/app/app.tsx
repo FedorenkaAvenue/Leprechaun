@@ -7,11 +7,14 @@ import CycloneIcon from '@mui/icons-material/Cyclone';
 import CheckroomIcon from '@mui/icons-material/Checkroom';
 import BuildIcon from '@mui/icons-material/Build';
 import BluetoothAudioIcon from '@mui/icons-material/BluetoothAudio';
-import { useSelector } from 'react-redux';
 import { useMemo } from 'react';
+import { useSelector } from 'react-redux';
 
 import routerSubConfig from '@shared/config/router';
-import { userSelector } from '@entities/user/model/slice';
+import { useUser } from '@entities/user/model/hooks';
+import InternalServerErrorPage from '@pages/error/ui/500';
+import { errorSelector } from '@shared/models/slices/error';
+import { authSelector } from '@shared/models/slices/auth';
 
 const NAVIGATION: Navigation = [
     {
@@ -58,13 +61,17 @@ const NAVIGATION: Navigation = [
 ];
 
 export default function App() {
-    const { data } = useSelector(userSelector);
+    const err = useSelector(errorSelector);
+    const auth = useSelector(authSelector);
     const navigate = useNavigate();
+    const { data } = useUser(undefined, { skip: !auth.isAuth });
 
-    const auth: Authentication = useMemo(() => ({
+    const authentication: Authentication = useMemo(() => ({
         signIn: () => navigate(routerSubConfig.auth.path),
         signOut: () => alert('out'),
     }), []);
+
+    if (err.hasError) return <InternalServerErrorPage canUseClient />;
 
     return (
         <ReactRouterAppProvider
@@ -74,7 +81,7 @@ export default function App() {
                 title: import.meta.env.VITE_APP_NAME,
             }}
             session={{ user: data || undefined }}
-            authentication={auth}
+            authentication={authentication}
         >
             <Outlet />
         </ReactRouterAppProvider>

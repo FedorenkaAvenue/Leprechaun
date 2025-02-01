@@ -1,6 +1,5 @@
 import {
-    Controller, Get, Param, Body, UseInterceptors, Delete, Post, UploadedFile, ValidationPipe,
-    Patch, UseGuards,
+    Controller, Get, Param, Body, UseInterceptors, Delete, Post, UploadedFile, ValidationPipe, Patch, UseGuards,
 } from '@nestjs/common';
 import {
     ApiBadRequestResponse, ApiBody, ApiNotFoundResponse, ApiOkResponse, ApiOperation, ApiTags,
@@ -15,13 +14,13 @@ import AffectedResultInterceptor from '@interceptors/AffectedResult';
 import CategoryPrivateService from '@services/Category/private';
 import { CategoryCreateDTO, CategoryUpdateDTO } from '@dto/Category/private';
 import { CategoryI, CategoryPreviewI } from '@interfaces/Category';
-import { AuthJWTGuard } from '@guards/Auth';
+import { AuthJWTAccessGuard } from '@guards/Auth';
 import { UserRoleDecorator } from '@decorators/UserRole';
 import { UserRoleGuard } from '@guards/UserRole';
 import { UserRole } from '@enums/User';
 
 @Controller('adm/category')
-@UseGuards(AuthJWTGuard, UserRoleGuard)
+@UseGuards(AuthJWTAccessGuard, UserRoleGuard)
 @ApiTags('Category 🤵🏿‍♂️')
 export default class CategoryPrivateController {
     constructor(private readonly categoryService: CategoryPrivateService) { }

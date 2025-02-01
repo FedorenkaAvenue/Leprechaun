@@ -12,7 +12,7 @@ import {
 import InvalidPaginationPageInterceptor from '@interceptors/InvalidPaginationPage';
 import { QueriesProductList } from '@dto/Queries';
 import { ProductCardPublic, ProductPublic } from '@dto/Product/public';
-import SessionInitInterceptor from '@interceptors/SessionInit';
+import { SessionInitInterceptor } from '@interceptors/Session';
 import { QueriesProductListI } from '@interfaces/Queries';
 import { ProductCardPublicI, ProductPublicI } from '@interfaces/Product';
 import QueryDecorator from '@decorators/Query';

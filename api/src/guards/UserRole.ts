@@ -1,4 +1,4 @@
-import { Injectable, CanActivate, ExecutionContext } from '@nestjs/common';
+import { Injectable, CanActivate, ExecutionContext, InternalServerErrorException } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { Request } from 'express';
 
@@ -17,6 +17,9 @@ export class UserRoleGuard implements CanActivate {
             context.getHandler(),
             context.getClass(),
         ]);
+
+        if (!requiredRole) throw new InternalServerErrorException(`UserRoleGuard not found user role`);
+
         const request = context.switchToHttp().getRequest<Request>();
 
         return Boolean(request.user && (request.user?.role >= requiredRole));

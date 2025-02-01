@@ -8,7 +8,7 @@ import { propertyGroupSchema } from "@features/propertyGroup/models/schema";
 import TextInput from "@shared/ui/TextInput";
 import { useCreatePropertyGroup } from "@features/propertyGroup/models/hooks";
 import { PropertyGroupCreateDTO } from "@features/propertyGroup/api/dto";
-import withRoleGuard from "@shared/hocs/withRoleGuard";
+import withRoleGuardPage from "@shared/hocs/withRoleGuardPage";
 import { UserRole } from "@entities/user/model/enums";
 
 const PropertyGroupCreatePage = () => {
@@ -53,4 +53,4 @@ const PropertyGroupCreatePage = () => {
     );
 };
 
-export default withRoleGuard(PropertyGroupCreatePage, UserRole.ADMIN);
+export default withRoleGuardPage(PropertyGroupCreatePage, UserRole.ADMIN);

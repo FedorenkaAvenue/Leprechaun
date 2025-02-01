@@ -2,13 +2,13 @@ import { Controller, Delete, HttpCode, HttpStatus, UseGuards } from '@nestjs/com
 import { ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 
 import AdminPrivateService from '@services/Admin/private';
-import { AuthJWTGuard } from '@guards/Auth';
+import { AuthJWTAccessGuard } from '@guards/Auth';
 import { UserRoleDecorator } from '@decorators/UserRole';
 import { UserRole } from '@enums/User';
 import { UserRoleGuard } from '@guards/UserRole';
 
 @Controller('adm')
-@UseGuards(AuthJWTGuard, UserRoleGuard)
+@UseGuards(AuthJWTAccessGuard, UserRoleGuard)
 @UserRoleDecorator(UserRole.SUPPORT)
 @ApiTags('Admin 🤵🏿‍♂️')
 export default class AdminPrivateController {

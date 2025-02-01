@@ -9,7 +9,6 @@ import { map, Observable, tap } from 'rxjs';
  * @throws operation has no affected result. Default exeption type is NotFoundException
  */
 export default function AffectedResultInterceptor(responceErrMsg?: string, httpExeption = NotFoundException): any {
-    @Injectable()
     class AffectedResultInterceptorr implements NestInterceptor {
         intercept(_: ExecutionContext, next: CallHandler): Observable<any> {
             return next
@@ -20,7 +19,7 @@ export default function AffectedResultInterceptor(responceErrMsg?: string, httpE
                     }),
                     //TODO: rebuild 200 Responce
                 )
-                .pipe(map(() => {}));
+                .pipe(map(() => { }));
         }
     }
 

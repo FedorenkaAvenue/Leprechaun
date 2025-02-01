@@ -8,13 +8,13 @@ import AffectedResultInterceptor from '@interceptors/AffectedResult';
 import NotFoundInterceptor from '@interceptors/UndefinedResult';
 import { CreatePropertyDTO } from '@dto/Property/private';
 import { PropertyI } from '@interfaces/Property';
-import { AuthJWTGuard } from '@guards/Auth';
+import { AuthJWTAccessGuard } from '@guards/Auth';
 import { UserRoleGuard } from '@guards/UserRole';
 import { UserRoleDecorator } from '@decorators/UserRole';
 import { UserRole } from '@enums/User';
 
 @Controller('adm/property')
-@UseGuards(AuthJWTGuard, UserRoleGuard)
+@UseGuards(AuthJWTAccessGuard, UserRoleGuard)
 @ApiTags('Property 🤵🏿‍♂️')
 export default class PropertyPrivateController {
     constructor(private readonly propertyService: PropertyService) { }

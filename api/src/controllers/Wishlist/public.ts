@@ -10,7 +10,7 @@ import AffectedResultInterceptor from '@interceptors/AffectedResult';
 import AuthSessionGuard from '@guards/Auth';
 import Queries from '@decorators/Query';
 import { CreateWishlistDTO, UpdateWishlistDTO, WishlistPublic } from '@dto/Wishlist/public';
-import SessionInitInterceptor from '@interceptors/SessionInit';
+import { SessionInitInterceptor } from '@interceptors/Session';
 import { QueriesCommonI } from '@interfaces/Queries';
 import { WishlistPublicI } from '@interfaces/Wishlist';
 import NotFoundInterceptor from '@interceptors/UndefinedResult';

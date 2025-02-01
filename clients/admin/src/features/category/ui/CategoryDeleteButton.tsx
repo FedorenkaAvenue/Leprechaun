@@ -8,7 +8,7 @@ import { PRODUCT_LIST_URL_QUERY_PARAMS } from '@features/product/constants/urlQu
 import { Category } from '@entities/category/model/interfaces';
 import { useCategory } from '@entities/category/model/hooks';
 import { useRemoveCategory } from '../model/hooks';
-import withRoleBlur from '@shared/hocs/withRoleBlur';
+import withRoleGuardComponent from '@shared/hocs/withRoleGuardComponent';
 import { UserRole } from '@entities/user/model/enums';
 
 interface Props extends Omit<DeleteButtonProps, 'buttonTitle' | 'modalContent' | 'handleAgree' | 'modalTitle' | 'onAgree'> {
@@ -54,4 +54,4 @@ const CategoryDeleteButton: FC<Props> = ({ categoryId, categoryUrl, ...props }) 
     );
 };
 
-export default withRoleBlur<Props>(CategoryDeleteButton, UserRole.ADMIN);
+export default withRoleGuardComponent<Props>(CategoryDeleteButton, UserRole.ADMIN);

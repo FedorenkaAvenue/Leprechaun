@@ -1,12 +1,12 @@
 import { Injectable } from "@nestjs/common";
-import * as bcrypt from 'bcrypt';
+import * as bcrypt from 'bcryptjs';
 
 const SALT_ITERATIONS = 10;
 
 @Injectable()
 export default class CryptoService {
-    private genSalt(): Promise<string> {
-        return bcrypt.genSalt(SALT_ITERATIONS);
+    private async genSalt(): Promise<string> {
+        return await bcrypt.genSalt(SALT_ITERATIONS);
     }
 
     public async hash(str: string): Promise<string> {

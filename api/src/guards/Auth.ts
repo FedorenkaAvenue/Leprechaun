@@ -20,10 +20,10 @@ export default class AuthSessionGuard implements CanActivate {
 }
 
 /**
- * @description check user JWT token
+ * @description check user JWT access token. Pin user data from payload to request
  */
 @Injectable()
-export class AuthJWTGuard implements CanActivate {
+export class AuthJWTAccessGuard implements CanActivate {
     constructor(private jwtService: JwtService) { }
 
     async canActivate(context: ExecutionContext): Promise<boolean> {
@@ -35,14 +35,12 @@ export class AuthJWTGuard implements CanActivate {
         try {
             const payload = await this.jwtService.verifyAsync(
                 token,
-                { secret: singleConfigService.getJWTConfig().secret },
+                { secret: singleConfigService.getJWTAccessTokenOptions().secret },
             );
 
             request['user'] = payload;
         } catch (err) {
-            console.log(err);
-
-            throw new UnauthorizedException();
+            throw new UnauthorizedException('invalid access token');
         }
 
         return true;
@@ -52,5 +50,33 @@ export class AuthJWTGuard implements CanActivate {
         const [type, token] = request.headers.authorization?.split(' ') ?? [];
 
         return type === 'Bearer' ? token : undefined;
+    }
+}
+
+/**
+ * @description check if JWT refresh token exists and valid. Pin user data from payload to request
+ */
+@Injectable()
+export class AuthJWTRefreshGuard implements CanActivate {
+    constructor(private jwtService: JwtService) { }
+
+    async canActivate(context: ExecutionContext): Promise<boolean> {
+        const request = context.switchToHttp().getRequest() as Request;
+        const refreshToken = request.cookies.refreshToken;
+
+        if (!refreshToken) throw new UnauthorizedException('refresh token is not provided');
+
+        try {
+            const payload = await this.jwtService.verifyAsync(
+                refreshToken,
+                { secret: singleConfigService.getJWTRefreshTokenOptions().secret },
+            );
+
+            request['user'] = payload;
+        } catch (err) {
+            throw new UnauthorizedException('invalid refresh token');
+        }
+
+        return true;
     }
 }

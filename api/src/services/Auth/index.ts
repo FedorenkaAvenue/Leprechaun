@@ -1,34 +1,45 @@
 import { Injectable, UnauthorizedException } from "@nestjs/common";
 import { JwtService } from '@nestjs/jwt';
 
-import UserService from "@services/User";
-import { AuthSignInDTO, AuthSuccessDTO } from "@dto/Auth";
 import CryptoService from "@services/Crypto";
-import { JWTPayloadI } from "@interfaces/JWT";
-import { UserDTO } from "@dto/User";
+import { UserI } from "@interfaces/User";
+import { JWTPayloadI, JWTSuccessTokensI } from "@interfaces/JWT";
+import UserService from "@services/User";
+import { singleConfigService } from "@services/Config";
 
 @Injectable()
 export default class AuthService {
     constructor(
-        private readonly userService: UserService,
-        private readonly cryptoService: CryptoService,
-        private jwtService: JwtService,
+        protected readonly cryptoService: CryptoService,
+        protected readonly jwtService: JwtService,
+        protected readonly userService: UserService,
     ) { }
 
-    public async signIn({ email, password }: AuthSignInDTO): Promise<AuthSuccessDTO> {
-        const user = await this.userService.getUser(email);
-
-        if (
-            !user
-            || user.password !== password
-            // || !await this.cryptoService.checkHash(password, user.password)
-        ) throw new UnauthorizedException('invalid credentials');
-
+    /**
+     * @description get JWT pair
+     * @param {UserI} user user entiry
+     * @returns {JWTSuccessTokensI} JWT pair
+     */
+    protected async genAuthTokens(user: UserI): Promise<JWTSuccessTokensI> {
         const payload: JWTPayloadI = { id: user.id, role: user.role }; // ! must be literal object
 
         return {
-            access_token: await this.jwtService.signAsync(payload),
-            user: new UserDTO(user),
+            accessToken: await this.jwtService.signAsync(payload, singleConfigService.getJWTAccessTokenOptions()),
+            refreshToken: await this.jwtService.signAsync(payload, singleConfigService.getJWTRefreshTokenOptions()),
+        };
+    }
+
+    /**
+     * @description check refresh token. if valid return new JWT pair
+     * @param {String} refreshtoken
+     * @returns new JWT pair
+     */
+    public async refreshAccessToken(refreshtoken: JWTSuccessTokensI['refreshToken']): Promise<JWTSuccessTokensI> {
+        throw new UnauthorizedException('invalid refresh token');
+
+        return {
+            accessToken: 'lol',
+            refreshToken: 'REFRESH_TOKEN',
         };
     }
 }

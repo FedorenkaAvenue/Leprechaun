@@ -9,4 +9,4 @@ import AdminPrivateService from '@services/Admin/private';
     controllers: [AdminPrivateController],
     providers: [AdminPrivateService],
 })
-export default class AdminModule {}
+export default class AdminModule { }

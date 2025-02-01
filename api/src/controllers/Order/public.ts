@@ -1,5 +1,6 @@
 import {
-    Body, Controller, Delete, Get, Param, ParseUUIDPipe, Patch, Post, Session, UseGuards, UseInterceptors, ValidationPipe,
+    Body, Controller, Delete, Get, Param, ParseUUIDPipe, Patch, Post, Session, UseGuards, UseInterceptors,
+    ValidationPipe,
 } from '@nestjs/common';
 import { ApiBody, ApiCookieAuth, ApiNotFoundResponse, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { UpdateResult } from 'typeorm';
@@ -10,7 +11,7 @@ import AuthSessionGuard from '@guards/Auth';
 import Queries from '@decorators/Query';
 import { CreateOrderItemDTO, UpdateOrderItemDTO } from '@dto/OrderItem/public';
 import { CreateOrderDTO, OrderPublic } from '@dto/Order/public';
-import SessionInitInterceptor from '@interceptors/SessionInit';
+import { SessionInitInterceptor } from '@interceptors/Session';
 import { OrderPublicI } from '@interfaces/Order';
 import { QueriesCommonI } from '@interfaces/Queries';
 import NotFoundInterceptor from '@interceptors/UndefinedResult';
@@ -21,7 +22,6 @@ export default class OrderPublicController {
     constructor(private readonly orderService: OrderPublicService) { }
 
     @Get()
-    @UseInterceptors(NotFoundInterceptor)
     @ApiOperation({ summary: 'get cart' })
     @ApiCookieAuth()
     @ApiOkResponse({ type: OrderPublic })

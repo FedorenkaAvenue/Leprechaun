@@ -31,7 +31,7 @@ serverAPI.interceptors.response.use(
             const [cookieName, cookieValue] = cookie[0].split(';')[0].split('=');
             const cookieStore = await cookies();
 
-            cookieStore.set(cookieName, cookieValue, { httpOnly: true, domain: '.leprechaun.loc' });
+            cookieStore.set(cookieName, cookieValue, { httpOnly: true, domain: 'leprechaun.loc' });
         }
 
         return response;

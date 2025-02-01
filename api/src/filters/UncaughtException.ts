@@ -17,29 +17,29 @@ export default class UncaughtExceptionFilter implements ExceptionFilter {
     ) { }
 
     catch(exception: InternalServerErrorException | QueryFailedError, host: ArgumentsHost) {
-        if (this.configService.isDev) return;
-
-        const timestamp = new Date().toISOString();
         const ctx = host.switchToHttp();
         const response = ctx.getResponse<Response>();
-        const { url, body, cookies, method, ip } = ctx.getRequest<Request>();
-        const { message, stack } = exception;
 
-        const log = new DevLogMail({
-            url,
-            cookies,
-            method,
-            body,
-            stack,
-            message,
-            ip,
-            timestamp,
-        });
+        if (!this.configService.isDev) {
+            const timestamp = new Date().toISOString();
+            const { url, body, cookies, method, ip } = ctx.getRequest<Request>();
+            const { message, stack } = exception;
 
-        this.mailPrivateService.sendErrorLogMail(log);
+            const log = new DevLogMail({
+                url,
+                cookies,
+                method,
+                body,
+                stack,
+                message,
+                ip,
+                timestamp,
+            });
 
-        console.error(log);
+            this.mailPrivateService.sendErrorLogMail(log);
+        }
 
+        console.error(exception);
         response.sendStatus(500);
     }
 }

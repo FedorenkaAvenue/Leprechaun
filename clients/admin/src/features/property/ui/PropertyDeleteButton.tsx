@@ -4,7 +4,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import ConfirmButton from "@shared/ui/ConfirmButton";
 import { Property } from "@entities/property/model/interfaces";
 import { useRemoveProperty } from "../models/hook";
-import withRoleBlur from "@shared/hocs/withRoleBlur";
+import withRoleGuardComponent from "@shared/hocs/withRoleGuardComponent";
 import { UserRole } from "@entities/user/model/enums";
 
 interface Props {
@@ -27,4 +27,4 @@ const PropertyDeleteButton = ({ property, icon = DeleteIcon }: Props) => {
     );
 };
 
-export default withRoleBlur(PropertyDeleteButton, UserRole.ADMIN);
+export default withRoleGuardComponent(PropertyDeleteButton, UserRole.ADMIN);

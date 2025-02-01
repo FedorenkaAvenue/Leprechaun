@@ -3,7 +3,7 @@ import { ApiProperty } from "@nestjs/swagger";
 import { UserRole } from "@enums/User";
 import { UserDataI, UserI } from "@interfaces/User";
 
-export class UserDTO implements UserDataI {
+export class UserDataDTO implements UserDataI {
     @ApiProperty()
     id: string;
 

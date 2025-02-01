@@ -7,7 +7,7 @@ import SessionData from "@dto/SessionData";
 /**
  * @description init session to session store. if exists - update lifecycle
  */
-export default class SessionInitInterceptor implements NestInterceptor {
+export class SessionInitInterceptor implements NestInterceptor {
     async intercept(context: ExecutionContext, next: CallHandler<any>): Promise<Observable<any>> {
         const req = context.switchToHttp().getRequest() as Request;
 

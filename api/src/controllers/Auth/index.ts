@@ -1,23 +1,29 @@
-import { Body, Controller, HttpCode, HttpStatus, Post, UseInterceptors, ValidationPipe } from "@nestjs/common";
-import { ApiOkResponse, ApiOperation, ApiTags } from "@nestjs/swagger";
-import { FilesInterceptor } from "@nestjs/platform-express";
+import { Controller, Get, HttpCode, HttpStatus, Req, UseGuards, UseInterceptors } from "@nestjs/common";
+import { ApiOkResponse, ApiOperation, ApiTags, ApiUnauthorizedResponse } from "@nestjs/swagger";
+import { Request } from "express";
 
-import { AuthSignInDTO, AuthSuccessDTO } from "@dto/Auth";
+import { AuthSuccessDTO } from "@dto/Auth";
 import AuthService from "@services/Auth";
+import { AuthJWTMapInterceptor } from "@interceptors/Auth";
+import { JWTSuccessTokensI } from "@interfaces/JWT";
+import { AuthJWTRefreshGuard } from "@guards/Auth";
 
 @Controller('auth')
 @ApiTags('Auth')
 export default class AuthController {
     constructor(private readonly authService: AuthService) { }
 
-    @Post('signin')
+    @Get('/refresh')
     @HttpCode(HttpStatus.OK)
-    @UseInterceptors(FilesInterceptor(''))
-    @ApiOperation({ summary: 'sign in' })
+    @UseGuards(AuthJWTRefreshGuard)
+    @UseInterceptors(AuthJWTMapInterceptor)
+    @ApiOperation({ summary: 'refresh access token and get new tokens' })
     @ApiOkResponse({ type: AuthSuccessDTO })
-    private signIn(
-        @Body(new ValidationPipe({ transform: true })) body: AuthSignInDTO,
-    ): Promise<AuthSuccessDTO> {
-        return this.authService.signIn({ ...body });
+    @ApiUnauthorizedResponse({ description: 'refresh token is no longer valid' })
+    private refreshToken(@Req() req: Request): Promise<JWTSuccessTokensI> {
+        console.log(req.cookies);
+        console.log(req.signedCookies);
+
+        return this.authService.refreshAccessToken('');
     }
 }

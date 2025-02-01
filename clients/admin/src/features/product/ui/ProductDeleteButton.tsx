@@ -1,9 +1,10 @@
-import DeleteButton, { DeleteButtonProps } from '@shared/ui/DeleteButton';
 import { CircularProgress, DialogContentText } from '@mui/material';
+
+import DeleteButton, { DeleteButtonProps } from '@shared/ui/DeleteButton';
 import { Product } from '@entities/product/model/interfaces';
 import { useProduct } from '@entities/product/model/hooks';
 import { useRemoveProduct } from '../model/hook';
-import withRoleBlur from '@shared/hocs/withRoleBlur';
+import withRoleGuardComponent from '@shared/hocs/withRoleGuardComponent';
 import { UserRole } from '@entities/user/model/enums';
 
 interface Props extends Omit<DeleteButtonProps, 'buttonTitle' | 'modalTitle' | 'handleAgree' | 'onAgree'> {
@@ -32,4 +33,4 @@ const ProductDeleteButton = ({ productId, ...props }: Props) => {
     );
 };
 
-export default withRoleBlur(ProductDeleteButton, UserRole.ADMIN);
+export default withRoleGuardComponent(ProductDeleteButton, UserRole.ADMIN);

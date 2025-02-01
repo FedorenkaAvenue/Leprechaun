@@ -1,12 +1,11 @@
 import { Outlet, useNavigate } from 'react-router';
 import { PageContainer } from '@toolpad/core/PageContainer';
-import { Account, DashboardLayout } from '@toolpad/core';
+import { DashboardLayout } from '@toolpad/core';
 import { useSelector } from 'react-redux';
 import { useEffect } from 'react';
 
-import { userSelector } from '@entities/user/model/slice';
 import routerSubConfig from '@shared/config/router';
-import { Button } from '@mui/material';
+import { authSelector } from '@shared/models/slices/auth';
 
 // function Lal() {
 //     const { data } = useSelector(userSelector);
@@ -44,7 +43,7 @@ import { Button } from '@mui/material';
 // }
 
 export function AuthLayout() {
-    const { isAuth } = useSelector(userSelector);
+    const { isAuth } = useSelector(authSelector);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -65,7 +64,7 @@ export function AuthLayout() {
 }
 
 export function NonAuthLayout() {
-    const { isAuth } = useSelector(userSelector);
+    const { isAuth } = useSelector(authSelector);
     const navigate = useNavigate();
 
     useEffect(() => {

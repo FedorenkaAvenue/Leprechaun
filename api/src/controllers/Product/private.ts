@@ -24,13 +24,13 @@ import { QueriesProductList } from '@dto/Queries';
 import { ProductCreateDTO, ProductPreview, ProductUpdateDTO } from '@dto/Product/private';
 import { QueriesProductListI } from '@interfaces/Queries';
 import { ProductI, ProductPreviewI } from '@interfaces/Product';
-import { AuthJWTGuard } from '@guards/Auth';
+import { AuthJWTAccessGuard } from '@guards/Auth';
 import { UserRoleGuard } from '@guards/UserRole';
 import { UserRoleDecorator } from '@decorators/UserRole';
 import { UserRole } from '@enums/User';
 
 @Controller('adm/product')
-@UseGuards(AuthJWTGuard, UserRoleGuard)
+@UseGuards(AuthJWTAccessGuard, UserRoleGuard)
 @ApiTags('Product 🤵🏿‍♂️')
 export default class ProductPrivateController {
     constructor(private readonly productService: ProductPrivateService) { }

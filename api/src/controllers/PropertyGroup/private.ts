@@ -11,13 +11,13 @@ import NotFoundInterceptor from '@interceptors/UndefinedResult';
 import { CategoryI } from '@interfaces/Category';
 import { PropertyGroupCreateDTO, PropertyGroupUpdateDTO } from '@dto/PropertyGroup/private';
 import { PropertyGroupI, PropertyGroupPreviewI } from '@interfaces/PropertyGroup';
-import { AuthJWTGuard } from '@guards/Auth';
+import { AuthJWTAccessGuard } from '@guards/Auth';
 import { UserRoleGuard } from '@guards/UserRole';
 import { UserRoleDecorator } from '@decorators/UserRole';
 import { UserRole } from '@enums/User';
 
 @Controller('adm/propertygroup')
-@UseGuards(AuthJWTGuard, UserRoleGuard)
+@UseGuards(AuthJWTAccessGuard, UserRoleGuard)
 @ApiTags('Property group 🤵🏿‍♂️')
 export default class PropertyGroupPrivateController {
     constructor(private readonly propertyGroupService: PropertyGroupService) { }

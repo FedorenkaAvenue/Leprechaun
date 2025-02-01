@@ -3,7 +3,7 @@ import { FC } from "react";
 
 import { useUpdatePropertyGroup } from "../models/hooks";
 import { PropertyGroup } from "@entities/propertyGroup/model/interfaces";
-import withRoleBlur from "@shared/hocs/withRoleBlur";
+import withRoleGuardComponent from "@shared/hocs/withRoleGuardComponent";
 import { UserRole } from "@entities/user/model/enums";
 
 interface Props {
@@ -21,4 +21,4 @@ const PropertyGroupTogglePrimary: FC<Props> = ({ groupId, selected }) => {
     return <Switch onChange={update} checked={selected} />;
 };
 
-export default withRoleBlur(PropertyGroupTogglePrimary, UserRole.ADMIN);
+export default withRoleGuardComponent(PropertyGroupTogglePrimary, UserRole.ADMIN);

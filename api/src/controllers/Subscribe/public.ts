@@ -5,7 +5,7 @@ import SubscribePublicService from "@services/Subscribe/public";
 import { SubscribeProductStatusDTO } from "@dto/Subscribe/public";
 import { ProductStatus } from "@enums/Product";
 import AuthSessionGuard from "@guards/Auth";
-import SessionInitInterceptor from "@interceptors/SessionInit";
+import { SessionInitInterceptor } from "@interceptors/Session";
 import { ProductStatusSubscriptionI } from "@interfaces/Subscribe";
 import Queries from '@decorators/Query';
 import { QueriesCommonI } from "@interfaces/Queries";

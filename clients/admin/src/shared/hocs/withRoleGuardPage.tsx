@@ -1,25 +1,25 @@
-import { useSelector } from 'react-redux';
 import { FC } from 'react';
+import { Typography } from '@mui/material';
 
 import { UserRole } from '@entities/user/model/enums';
-import { userSelector } from '@entities/user/model/slice';
+import { useUser } from '@entities/user/model/hooks';
 
 /**
  * @description check if user has access to visit page
  * @param {UserRole} accessRole minimal access role
  */
-function withRoleGuard<T>(Component: FC<T>, accessRole: UserRole): FC<T> {
-    return function WithRoleGuard(props: T) {
-        const { data } = useSelector(userSelector);
+function withRoleGuardPage<T>(Component: FC<T>, accessRole: UserRole): FC<T> {
+    return function withRoleGuardPage(props: T) {
+        const { data } = useUser();
 
         if (data && (data?.role <= accessRole)) {
             return (
                 <div className='flex flex-col justify-center items-center gap-4'>
-                    <div className='text-center'>
-                        You have not access to visit this page
+                    <Typography align='center'>
+                        You have not access to visit this page.
                         <br />
-                        Plese, contact to admin.
-                    </div>
+                        Please, contact to admin.
+                    </Typography>
                     <img src='/static/access_denied.gif' width='300' height='300' />
                 </div>
             );
@@ -29,4 +29,4 @@ function withRoleGuard<T>(Component: FC<T>, accessRole: UserRole): FC<T> {
     }
 }
 
-export default withRoleGuard;
+export default withRoleGuardPage;

@@ -11,7 +11,8 @@ import { memoryStorage } from 'multer';
 import { MulterModuleOptions } from '@nestjs/platform-express';
 import { CacheOptions } from '@nestjs/cache-manager';
 import { RedisClientOptions } from 'redis';
-import { JwtModuleOptions } from '@nestjs/jwt';
+import { JwtModuleOptions, JwtSignOptions } from '@nestjs/jwt';
+import { CookieOptions } from 'express';
 const pgConnect = require('connect-pg-simple');
 
 const ENV_ARRAY_SPLIT_SYMBOL = ',';
@@ -92,9 +93,9 @@ export default class ConfigService {
             saveUninitialized: false,
             cookie: {
                 httpOnly: true,
-                maxAge: +this.getVal('SESSION_AGE'),
+                maxAge: +this.getVal('SESSION_TLL'),
                 sameSite: this.isDev ? 'lax' : 'strict',
-                domain: `.${this.getVal('HOST_NAME')}`,
+                domain: this.getVal('HOST_NAME') as string,
                 secure: !this.isDev,
             },
         };
@@ -201,14 +202,44 @@ export default class ConfigService {
      * @description get JwtModule register config
      * @returns {JwtModuleOptions} config
      */
-    public getJWTConfig(): JwtModuleOptions {
+    public getJWTModuleConfig(): JwtModuleOptions {
         return {
             global: true,
-            secret: this.getSessionSecretKey(),
-            signOptions: {
-                expiresIn: '600s',
-            },
-        }
+        };
+    }
+
+    /**
+     * @description get JWT access token options
+     */
+    public getJWTAccessTokenOptions(): JwtSignOptions {
+        return ({
+            secret: this.getVal('JWT_ACCESS_TOKEN_KEY') as string,
+            expiresIn: this.getVal('JWT_ACCESS_TOKEN_TTL') as string,
+        });
+    }
+
+    /**
+     * @description get JWT refresh token options
+     */
+    public getJWTRefreshTokenOptions(): JwtSignOptions {
+        return ({
+            secret: this.getVal('JWT_REFRESH_TOKEN_KEY') as string,
+            expiresIn: this.getVal('JWT_REFRESH_TOKEN_TTL') as string,
+        });
+    }
+
+    /**
+     * @description get refresh token cookie options
+     * @returns {CookieOptions} cookie options
+     */
+    public getJWTRefreshTokenCookieOptions(): CookieOptions {
+        return ({
+            httpOnly: true,
+            secure: !singleConfigService.isDev,
+            sameSite: 'none',
+            domain: `.${singleConfigService.getVal('HOST_NAME')}`,
+            maxAge: 123123123,
+        });
     }
 }
 

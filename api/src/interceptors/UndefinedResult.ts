@@ -6,7 +6,6 @@ import { Observable, tap } from 'rxjs';
  * @returns return result
  * @throws {NotFoundException} DB value responce === undefined
  */
-@Injectable()
 export default class NotFoundInterceptor implements NestInterceptor {
     intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
         return next.handle().pipe(

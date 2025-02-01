@@ -8,7 +8,7 @@ import TextInput from "@shared/ui/TextInput";
 import PropertyGroupSelectList from '@widgets/propertyGroup/ui/PropertyGroupSelectList';
 import { useCreateCategory } from '@features/category/model/hooks';
 import { CategoryCreateDTO } from '@features/category/api/dto';
-import withRoleGuard from '@shared/hocs/withRoleGuard';
+import withRoleGuardPage from '@shared/hocs/withRoleGuardPage';
 import { UserRole } from '@entities/user/model/enums';
 
 const CategoryCreatePage = () => {
@@ -70,4 +70,4 @@ const CategoryCreatePage = () => {
     );
 };
 
-export default withRoleGuard(CategoryCreatePage, UserRole.ADMIN);
+export default withRoleGuardPage(CategoryCreatePage, UserRole.ADMIN);

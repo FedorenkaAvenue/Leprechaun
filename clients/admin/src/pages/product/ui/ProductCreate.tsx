@@ -22,7 +22,7 @@ import { useCategoryList } from "@entities/category/model/hooks";
 import { usePropertyGroupListByCategoryId } from "@entities/propertyGroup/model/hooks";
 import { ProductStatus } from "@entities/product/model/enums";
 import { useCreateProduct } from "@features/product/model/hook";
-import withRoleGuard from "@shared/hocs/withRoleGuard";
+import withRoleGuardPage from "@shared/hocs/withRoleGuardPage";
 import { UserRole } from "@entities/user/model/enums";
 import { ProductCreateDTO } from "@features/product/api/dto";
 
@@ -223,4 +223,4 @@ const ProductCreatePage = () => {
     );
 };
 
-export default withRoleGuard(ProductCreatePage, UserRole.ADMIN);
+export default withRoleGuardPage(ProductCreatePage, UserRole.ADMIN);

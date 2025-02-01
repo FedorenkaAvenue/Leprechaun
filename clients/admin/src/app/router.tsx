@@ -1,7 +1,7 @@
 import { createBrowserRouter } from "react-router";
 
 import HomePage from "@pages/home/ui/Home";
-import NotFoundPage from "@pages/notFound/ui/NotFound";
+import NotFoundPage from "@pages/error/ui/404";
 import PropertyGroupTablePage from "@pages/propertyGroup/ui/PropertyGroupTable";
 import PropertyGroupCreate from "@pages/propertyGroup/ui/PropertyGroupCreate";
 import { CREATE_SEGMENT } from "@shared/constants/routerSegments";
@@ -19,10 +19,12 @@ import SocketsPage from "@pages/connections/ui/Sockets";
 import AuthPage from "@pages/auth/ui/Auth";
 import App from "./app";
 import { AuthLayout, NonAuthLayout } from "./layouts";
+import InternalServerErrorPage from "@pages/error/ui/500";
 
 const routerConfig = createBrowserRouter([
     {
         Component: App,
+        errorElement: <InternalServerErrorPage />,
         children: [
             {
                 path: routerSubConfig.auth.path,
@@ -116,9 +118,9 @@ const routerConfig = createBrowserRouter([
                         element: <SocketsPage />,
                     },
                     {
-                        path: "",
-                        element: <NotFoundPage />
-                    }
+                        path: '*',
+                        element: <NotFoundPage />,
+                    },
                 ],
             },
         ],
