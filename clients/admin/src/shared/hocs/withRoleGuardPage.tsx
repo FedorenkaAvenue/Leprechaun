@@ -2,7 +2,7 @@ import { FC } from 'react';
 import { Typography } from '@mui/material';
 
 import { UserRole } from '@entities/user/model/enums';
-import { useUser } from '@entities/user/model/hooks';
+import { useEmployerOwn } from '@entities/employer/model/hooks';
 
 /**
  * @description check if user has access to visit page
@@ -10,9 +10,9 @@ import { useUser } from '@entities/user/model/hooks';
  */
 function withRoleGuardPage<T>(Component: FC<T>, accessRole: UserRole): FC<T> {
     return function withRoleGuardPage(props: T) {
-        const { data } = useUser();
+        const { data } = useEmployerOwn();
 
-        if (data && (data?.role <= accessRole)) {
+        if (data && (data?.role < accessRole)) {
             return (
                 <div className='flex flex-col justify-center items-center gap-4'>
                     <Typography align='center'>
@@ -20,7 +20,7 @@ function withRoleGuardPage<T>(Component: FC<T>, accessRole: UserRole): FC<T> {
                         <br />
                         Please, contact to admin.
                     </Typography>
-                    <img src='/static/access_denied.gif' width='300' height='300' />
+                    <img src='/static/403.gif' width='300' height='300' />
                 </div>
             );
         }

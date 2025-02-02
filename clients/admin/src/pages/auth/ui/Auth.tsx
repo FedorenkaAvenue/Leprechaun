@@ -21,7 +21,7 @@ const AuthPage: FC = () => {
     return (
         <AppProvider
             branding={{
-                logo: <img src="./public/icon.svg" width='100' height='100' />,
+                logo: <img src='/static/logo.svg' width='100' height='100' />,
                 title: `${import.meta.env.VITE_APP_NAME} admin panel`,
             }}>
             <div className='flex flex-col justify-between min-h-screen p-2'>

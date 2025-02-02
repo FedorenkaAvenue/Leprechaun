@@ -236,7 +236,7 @@ export default class ConfigService {
         return ({
             httpOnly: true,
             secure: !singleConfigService.isDev,
-            sameSite: 'none',
+            sameSite: this.isDev ? 'lax' : 'none',
             domain: `.${singleConfigService.getVal('HOST_NAME')}`,
             maxAge: 123123123,
         });

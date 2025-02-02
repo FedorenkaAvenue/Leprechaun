@@ -3,11 +3,11 @@ import { TypeOrmModule } from "@nestjs/typeorm";
 
 import UserEntity from "@entities/User";
 import UserService from "@services/User";
-import UserPrivateController from "@controllers/User/private";
 import UserPrivateService from "@services/User/private";
+import EmployerPrivateController from "@controllers/Employer/private";
 
 @Module({
-    controllers: [UserPrivateController],
+    controllers: [EmployerPrivateController],
     imports: [TypeOrmModule.forFeature([UserEntity])],
     providers: [UserService, UserPrivateService],
     exports: [UserService],

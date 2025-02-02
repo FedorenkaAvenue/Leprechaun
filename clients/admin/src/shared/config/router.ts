@@ -1,6 +1,6 @@
 import {
     CATEGORY_LIST_SEGMENT, CREATE_SEGMENT, DASHBOARD_SEGMENT, PRODUCT_LIST_SEGMENT, PROPERTY_GROUP_LIST_SEGMENT,
-    TOOLS_SEGMENT, AUTH_SEGMENT,
+    TOOLS_SEGMENT, AUTH_SEGMENT, EMPLOYER_LIST_SEGMENT, ADMIN_SEGMENT, EMPLOYER_SEGMENT,
 } from "../constants/routerSegments";
 
 const routerSubConfig = {
@@ -8,6 +8,21 @@ const routerSubConfig = {
         title: 'Auth',
         segment: AUTH_SEGMENT,
         path: `/${AUTH_SEGMENT}`,
+    },
+    admin: {
+        title: 'Admin',
+        segment: ADMIN_SEGMENT,
+        path: `/${ADMIN_SEGMENT}`,
+    },
+    employerCreate: {
+        title: 'Create employer',
+        segment: CREATE_SEGMENT,
+        path: `/admin/${EMPLOYER_SEGMENT}/${CREATE_SEGMENT}`,
+    },
+    employerList: {
+        title: 'Employers',
+        segment: EMPLOYER_LIST_SEGMENT,
+        path: `/admin/${EMPLOYER_LIST_SEGMENT}`,
     },
     tools: {
         title: 'Tools',

@@ -20,6 +20,7 @@ import AuthPage from "@pages/auth/ui/Auth";
 import App from "./app";
 import { AuthLayout, NonAuthLayout } from "./layouts";
 import InternalServerErrorPage from "@pages/error/ui/500";
+import EmployerTable from "@pages/admin/ui/EmployerTable";
 
 const routerConfig = createBrowserRouter([
     {
@@ -43,6 +44,15 @@ const routerConfig = createBrowserRouter([
                     {
                         index: true,
                         element: <HomePage />,
+                    },
+                    {
+                        path: routerSubConfig.admin.segment,
+                        children: [
+                            {
+                                path: routerSubConfig.employerList.segment,
+                                element: <EmployerTable />,
+                            }
+                        ],
                     },
                     {
                         path: routerSubConfig.tools.segment,

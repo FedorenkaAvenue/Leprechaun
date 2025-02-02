@@ -10,10 +10,10 @@ import { UserRoleGuard } from "@guards/UserRole";
 import { UserRole } from "@enums/User";
 import { UserRoleDecorator } from "@decorators/UserRole";
 
-@Controller('adm/user')
+@Controller('adm/employer')
 @UseGuards(AuthJWTAccessGuard, UserRoleGuard)
-@ApiTags('User 🤵🏿‍♂️')
-export default class UserPrivateController {
+@ApiTags('Employer 🤵🏿‍♂️')
+export default class EmployerPrivateController {
     constructor(private readonly userPrivateService: UserPrivateService) { }
 
     @Get()
@@ -23,5 +23,13 @@ export default class UserPrivateController {
     @ApiNotFoundResponse({ description: 'user not found' })
     private async getUserData(@Req() req: Request): Promise<UserDataI> {
         return this.userPrivateService.getUser(req.user.id);
+    }
+
+    @Get('list')
+    @UserRoleDecorator(UserRole.SUPPORT)
+    @ApiOperation({ summary: 'get employers list' })
+    @ApiOkResponse({ type: UserDataDTO, isArray: true })
+    private async getEmployerList(): Promise<UserDataDTO[]> {
+        return this.userPrivateService.getEmployerList();
     }
 }

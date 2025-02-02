@@ -20,10 +20,16 @@ export default class AuthController {
     @ApiOperation({ summary: 'refresh access token and get new tokens' })
     @ApiOkResponse({ type: AuthSuccessDTO })
     @ApiUnauthorizedResponse({ description: 'refresh token is no longer valid' })
-    private refreshToken(@Req() req: Request): Promise<JWTSuccessTokensI> {
+    private async refreshToken(@Req() req: Request): Promise<JWTSuccessTokensI> {
         console.log(req.cookies);
         console.log(req.signedCookies);
 
-        return this.authService.refreshAccessToken('');
+        return await this.authService.refreshAccessToken('');
+    }
+
+    @Get('signout')
+    @ApiOperation({ summary: 'sign out, destroy tokens' })
+    private async signOut() {
+        return 'TODO';
     }
 }

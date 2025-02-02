@@ -7,9 +7,9 @@ import TextInput from "./TextInput";
 import { Pagination } from "@shared/models/interfaces";
 
 interface Props {
-    addItemHandle: () => void
     isLoading: boolean
-    searchHandle: (val: string) => void
+    searchHandle?: (val: string) => void
+    addItemHandle?: () => void
     pagination?: {
         data: Pagination<unknown> | undefined
         setPage: (page: number) => void
@@ -29,19 +29,21 @@ const ContentListManager = ({
     }, [pagination?.data]);
 
     useEffect(() => {
-        if (debounceVal) searchHandle(debounceVal);
+        if (debounceVal) searchHandle?.call(null, debounceVal);
     }, [debounceVal, searchHandle]);
 
     return (
         <div className="grid gap-2">
             <div className="flex justify-end gap-2 items-center bg-primary-color">
                 {additionalTools}
-                <TextInput
-                    onChange={({ target: { value } }) => setSearchVal(value)}
-                    size="small"
-                    label="Search"
-                />
-                <Button onClick={addItemHandle} variant="contained">Add</Button>
+                {searchHandle && (
+                    <TextInput
+                        onChange={({ target: { value } }) => setSearchVal(value)}
+                        size="small"
+                        label="Search"
+                    />
+                )}
+                {addItemHandle && <Button onClick={addItemHandle} variant="contained">Add</Button>}
             </div>
             <LinearLoader isLoading={isLoading} />
             {children}

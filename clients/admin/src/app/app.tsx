@@ -9,12 +9,15 @@ import BuildIcon from '@mui/icons-material/Build';
 import BluetoothAudioIcon from '@mui/icons-material/BluetoothAudio';
 import { useMemo } from 'react';
 import { useSelector } from 'react-redux';
+import FingerprintIcon from '@mui/icons-material/Fingerprint';
+import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
 
 import routerSubConfig from '@shared/config/router';
-import { useUser } from '@entities/user/model/hooks';
 import InternalServerErrorPage from '@pages/error/ui/500';
 import { errorSelector } from '@shared/models/slices/error';
-import { authSelector } from '@shared/models/slices/auth';
+import { authSelector, authSignOutAction } from '@shared/models/slices/auth';
+import { useEmployerOwn } from '@entities/employer/model/hooks';
+import { useAppDispatch } from '@shared/models/hooks';
 
 const NAVIGATION: Navigation = [
     {
@@ -58,17 +61,33 @@ const NAVIGATION: Navigation = [
         title: 'Connections',
         icon: <BluetoothAudioIcon />,
     },
+    {
+        kind: 'divider',
+    },
+    {
+        segment: 'admin',
+        title: 'Admin',
+        icon: <FingerprintIcon />,
+        children: [
+            {
+                segment: 'employers',
+                title: 'Employers',
+                icon: <PeopleAltIcon />,
+            },
+        ],
+    },
 ];
 
 export default function App() {
     const err = useSelector(errorSelector);
     const auth = useSelector(authSelector);
     const navigate = useNavigate();
-    const { data } = useUser(undefined, { skip: !auth.isAuth });
+    const dispatch = useAppDispatch();
+    const { data } = useEmployerOwn(undefined, { skip: !auth.isAuth });
 
     const authentication: Authentication = useMemo(() => ({
         signIn: () => navigate(routerSubConfig.auth.path),
-        signOut: () => alert('out'),
+        signOut: () => dispatch(authSignOutAction()),
     }), []);
 
     if (err.hasError) return <InternalServerErrorPage canUseClient />;
@@ -77,7 +96,7 @@ export default function App() {
         <ReactRouterAppProvider
             navigation={NAVIGATION}
             branding={{
-                logo: <img src="./public/icon.svg" />,
+                logo: <img src="/static/logo.svg" />,
                 title: import.meta.env.VITE_APP_NAME,
             }}
             session={{ user: data || undefined }}

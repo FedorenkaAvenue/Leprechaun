@@ -1,16 +1,16 @@
 import { Typography } from '@mui/material';
 import { FC } from 'react';
-import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router';
 
 import { errorClearAction } from '@shared/models/slices/error';
+import { useAppDispatch } from '@shared/models/hooks';
 
 interface Props {
     canUseClient?: boolean
 }
 
 const InternalServerErrorPage: FC<Props> = ({ canUseClient }) => {
-    const dispatch = useDispatch();
+    const dispatch = useAppDispatch();
     const navigate = useNavigate();
 
     const close = () => {
