@@ -8,7 +8,7 @@ type AxiosBaseQueryFn = BaseQueryFn<
     {
         url: string
         method?: AxiosRequestConfig['method']
-        data?: AxiosRequestConfig['data']
+        body?: AxiosRequestConfig['data']
         params?: AxiosRequestConfig['params']
         headers?: AxiosRequestConfig['headers']
     },
@@ -21,13 +21,13 @@ type AxiosBaseQueryParams = {
 }
 
 function axiosBaseQuery(queryParams?: AxiosBaseQueryParams): AxiosBaseQueryFn {
-    return async function ({ url, method, data, params, headers }, api) {
+    return async function ({ url, method, body, params, headers }, api) {
         const { auth } = api.getState() as RootState;
 
         const res = await apiClient.request({
             url: queryParams?.baseUrl ? queryParams.baseUrl + url : url,
             method,
-            data,
+            data: body,
             params,
             headers: { ...headers, Authorization: `Bearer ${auth.accessToken}` },
         });

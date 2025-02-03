@@ -21,7 +21,10 @@ const PropertyCreateWidget = ({ groupId, handleClose }: Props) => {
     });
 
     function sendForm(data: PropertyCreateDTO) {
-        mutate({ data: { ...data, propertygroup: groupId }, successCallback: handleClose });
+        mutate({
+            data: { ...data, propertygroup: groupId },
+            successCallback: handleClose,
+        });
     }
 
     return (

@@ -73,6 +73,7 @@ export const categoryApi = rootApi.injectEndpoints({
                 url: `/adm/category/${id}`,
                 method: 'DELETE',
             }),
+            invalidatesTags: (_, __, { id }) => ([{ type: 'category', id }]),
             async onQueryStarted({ id, removeCallback }, { dispatch, queryFulfilled }) {
                 toast.promise(queryFulfilled, { pending: 'Loading', success: `Category deleted` });
 

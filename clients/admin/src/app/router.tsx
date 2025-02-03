@@ -49,9 +49,13 @@ const routerConfig = createBrowserRouter([
                         path: routerSubConfig.admin.segment,
                         children: [
                             {
+                                index: true,
+                                element: <EmployerTable />,
+                            },
+                            {
                                 path: routerSubConfig.employerList.segment,
                                 element: <EmployerTable />,
-                            }
+                            },
                         ],
                     },
                     {

@@ -12,14 +12,13 @@ export default class PropertyGroupPrivateService extends PropertyGroupService {
         return await this.propertyGroupRepo.findOne({
             where: { id },
             relations: { categories: true },
+            order: { properties: { created_at: 'DESC' } },
         });
     }
 
     public async getGroupList(): Promise<PropertyGroupPreviewI[]> {
         return await this.propertyGroupRepo.find({
-            order: {
-                created_at: 'DESC',
-            }
+            order: { created_at: 'DESC' },
         });
     }
 

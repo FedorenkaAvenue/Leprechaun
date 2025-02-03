@@ -4,11 +4,10 @@ import {
 } from 'class-validator';
 import { Type } from 'class-transformer';
 
-import { PropertyI } from '@interfaces/Property';
-import { PropertyGroupI } from '@interfaces/PropertyGroup';
 import { TransDTO } from '@dto/Trans';
+import { PropertyGroupI } from '@interfaces/PropertyGroup';
 
-export class CreatePropertyDTO implements Omit<PropertyI, 'id'> {
+export class CreatePropertyDTO {
     @IsNotEmpty()
     @IsNumber()
     @ApiProperty({ type: 'number', description: 'property group ID' })

@@ -37,8 +37,8 @@ export const propertyGroupApi = rootApi.injectEndpoints({
                 toast.promise(queryFulfilled, { pending: 'Loading', success: 'Property group is created' });
 
                 const { data } = await queryFulfilled;
-                successCallback?.call(null);
 
+                successCallback?.call(null);
                 dispatch(
                     propertyGroupApi.util.updateQueryData('propertyGroupList', undefined, propertyGroupList => {
                         propertyGroupList.unshift(data);
@@ -102,12 +102,40 @@ export const propertyGroupApi = rootApi.injectEndpoints({
                 method: 'POST',
                 body: data,
             }),
+            async onQueryStarted({ data: { propertygroup }, successCallback }, { queryFulfilled, dispatch }) {
+                const { data } = await queryFulfilled;
+
+                successCallback?.call(null);
+                dispatch(
+                    propertyGroupApi.util.updateQueryData('propertyGroup', propertygroup, propertyGroup => {
+                        propertyGroup.properties.unshift(data);
+                    })
+                );
+            },
         }),
-        removeProperty: build.mutation<void, Property['id']>({
-            query: id => ({
-                url: `/adm/property/${id}`,
+        removeProperty: build.mutation<void, { propertyId: Property['id'], propertyGroupId: PropertyGroup['id'] }>({
+            query: ({ propertyId }) => ({
+                url: `/adm/property/${propertyId}`,
                 method: 'DELETE',
             }),
+            invalidatesTags: () => (['property_group_list']),
+            async onQueryStarted({ propertyId, propertyGroupId }, { queryFulfilled, dispatch }) {
+                toast.promise(queryFulfilled, { pending: 'Loading', success: 'Property is deleted' });
+
+                const patch = dispatch(
+                    propertyGroupApi.util.updateQueryData('propertyGroup', propertyGroupId, propertyGroup => {
+                        const propertyIndex = propertyGroup.properties.findIndex(property => property.id === propertyId);
+
+                        propertyGroup.properties.splice(propertyIndex, 1);
+                    })
+                );
+
+                try {
+                    await queryFulfilled;
+                } catch (err) {
+                    patch.undo();
+                }
+            },
         }),
     })
 });

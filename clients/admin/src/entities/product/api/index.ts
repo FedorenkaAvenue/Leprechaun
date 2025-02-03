@@ -45,6 +45,7 @@ export const productApi = rootApi.injectEndpoints({
                 method: 'PATCH',
                 body: toFormData(updates),
             }),
+            invalidatesTags: (_, __, { id }) => ([{ type: 'product', id }]),
             async onQueryStarted({ id, updates }, { queryFulfilled, dispatch }) {
                 toast.promise(queryFulfilled, { pending: 'Loading', success: 'Product is updated' });
 

@@ -5,4 +5,6 @@ export interface Property {
     title: Trans
     alt_name: string
     comment: string
+    created_at: Date
+    updated_at: Date
 }

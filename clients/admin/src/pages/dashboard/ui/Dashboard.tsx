@@ -1,6 +1,6 @@
 const DashboardPage = () => {
     return (
-        <div>dashboard</div>
+        <div></div>
     )
 };
 

@@ -19,7 +19,13 @@ const ProductPreviewEntity = ({ product, renderTools }: Props) => {
         <TableRow className="hover-item">
             <TableCell align="left">
                 <Link to={String(product.id)}>
-                    <Typography color='primary' component='span'>{product.id}</Typography>
+                    <Typography
+                        color='primary'
+                        component='span'
+                        className='text-ellipsis whitespace-nowrap overflow-hidden inline-block sm:max-w-48 2xl:max-w-none'
+                    >
+                        {product.id}
+                    </Typography>
                 </Link>
             </TableCell>
             <TableCell align="left">

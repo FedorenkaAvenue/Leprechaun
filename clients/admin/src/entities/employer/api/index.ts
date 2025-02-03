@@ -8,7 +8,7 @@ export const employerApi = rootApi.injectEndpoints({
                 url: '/adm/employer',
                 method: 'GET',
             }),
-            providesTags: ['employer'],
+            providesTags: [{ type: 'employer', id: 'ME' }],
         }),
         getEmployerList: build.query<User[], void>({
             query: () => ({
