@@ -14,7 +14,8 @@ services:
       - image_hosting:/var/www/img:rw
       - ./server/.http_auth:/etc/nginx/.http_auth
     depends_on:
-      - api
+      - api_gateway_private
+      - api_gateway_public
 
   db:
     container_name: leprechaun_db
@@ -43,8 +44,8 @@ services:
     ports:
       - ${CACHE_PORT_EXPOSE}:${CACHE_PORT}
 
-  api:
-    container_name: leprechaun_api
+  api_gateway_private:
+    container_name: leprechaun_api_gateway_private
     networks:
       - api
     environment:
@@ -93,6 +94,56 @@ services:
     volumes:
       - image_hosting:/var/www/img:rw
     depends_on:
+      - db
+
+  api_gateway_public:
+    container_name: leprechaun_api_gateway_public
+    networks:
+      - api
+    environment:
+      - HOST_NAME
+      - CORS_DOMAINS
+      - DOMAIN
+      - DOMAIN_ADM
+      - APP_NAME
+      - LANGS
+      - POSTGRES_HOST=${DB_HOST}
+      - POSTGRES_PORT=${DB_PORT}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_DATABASE=${DB_DATABASE}
+      - SE_HOST
+      - SE_PORT
+      - SE_USER
+      - SE_PASSWORD
+      - CACHE_HOST
+      - CACHE_PORT
+      - CACHE_USER
+      - CACHE_PASSWORD
+      - CACHE_DB_NUMBER
+      - SOCKET_HOST
+      - SOCKET_PORT
+      - SOCKET_USER
+      - SOCKET_PASSWORD
+      - SOCKET_DB_NUMBER
+      - HOSTING_PATH
+      - MAIL_SMTP_HOST
+      - MAIL_SMTP_PORT_PROD
+      - MAIL_SENDER_ACCOUNT
+      - MAIL_SENDER_PASSWORD
+      - DEV_MAIL_RECIEVER
+      - SESSION_COOKIE_SECRET
+      - SESSION_TLL
+      - JWT_ACCESS_TOKEN_KEY
+      - JWT_ACCESS_TOKEN_TTL
+      - JWT_REFRESH_TOKEN_KEY
+      - JWT_REFRESH_TOKEN_TTL
+      - DASHBOARD_PORTION
+      - USER_WISHLIST_LENGTH
+      - USER_HISTORY_LENGTH
+      - DEFAULT_CACHE_TTL
+      - PRODUCT_PUBLIC_IMAGE_AMOUNT
+    depends_on:
       - cache
       - db
 
@@ -106,8 +157,8 @@ services:
       - NEXT_PUBLIC_LANGS=${LANGS}
       - DOMAIN
       - DOMAIN_MEDIA
-      - DOMAIN_API
-      - NEXT_PUBLIC_DOMAIN_API=${DOMAIN_API}
+      - DOMAIN_API_PUBLIC
+      - NEXT_PUBLIC_DOMAIN_API=${DOMAIN_API_PUBLIC}
       - CURRENCY_SYMBOL
     depends_on:
       - server

@@ -13,9 +13,9 @@ Boilerplate for web store
     -   run `make build` to deploy and start all containers
     -   add `leprechaun.loc api.leprechaun.loc docs.leprechaun.loc media.leprechaun.loc adm.leprechaun.loc ssr.leprechaun.loc` aliases to Your `/etc/hosts` list
 
--   #### remote test server🌐
+<!-- -   #### remote test server🌐
 
-    -   push changes to **test** branch and check [action](https://github.com/FedorenkaAvenue/Leprechaun/actions) result
+    -   push changes to **test** branch and check [action](https://github.com/FedorenkaAvenue/Leprechaun/actions) result -->
 
 ## Links
 
@@ -23,7 +23,8 @@ Boilerplate for web store
 
     -   http://leprechaun.loc user client
     -   http://adm.leprechaun.loc admin client
-    -   http://docs.leprechaun.loc _Swagger_ docs
+    -   http://docs.leprechaun.loc/private _OpenAPI_ admin docs
+    -   http://docs.leprechaun.loc/public _OpenAPI_ customer docs
     -   http://api.leprechaun.loc RestFull API server
     -   http://media.leprechaun.loc media files server
 
@@ -41,10 +42,10 @@ Boilerplate for web store
 
     -   user type
 
-    -   `CUSTOMER`: **1** (client user)
-    -   `SUPPORT`: **2** (admin support)
-    -   `ADMIN` **3**
-    -   `ROOT` **4**
+        -   `CUSTOMER`: **1** (client user)
+        -   `SUPPORT`: **2** (admin support)
+        -   `ADMIN` **3**
+        -   `ROOT` **4**
 
     -   order status
 

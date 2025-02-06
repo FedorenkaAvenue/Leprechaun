@@ -22,17 +22,30 @@ services:
     volumes:
       - ./cache/redis.conf:/app/redis.conf
 
-  api:
+  api_gateway_private:
     restart: unless-stopped
     extends:
       file: docker-compose.shared.yaml
       service: node
-    command: npm run dev
+    command: npm run dev:private
     volumes:
-      - ./api:/app
+      - ./api/gateways:/app
+      - /app/apps/public # exclude public app
     environment:
       - IS_DEV=true
       - MAIL_SMPT_PORT_DEV
+
+  api_gateway_public:
+    restart: unless-stopped
+    extends:
+      file: docker-compose.shared.yaml
+      service: node
+    command: npm run dev:public
+    volumes:
+      - ./api/gateways:/app
+      - /app/apps/private # exclude private app
+    environment:
+      - IS_DEV=true
 
   client_user:
     restart: unless-stopped
@@ -67,7 +80,7 @@ services:
       - LANGS
       - VITE_APP_NAME=${APP_NAME}
       - DOMAIN
-      - VITE_DOMAIN_API=${DOMAIN_API}
+      - VITE_DOMAIN_API=${DOMAIN_API_PRIVATE}
       - VITE_DOMAIN_MEDIA=${DOMAIN_MEDIA}
     networks:
       - client
