@@ -1,15 +1,10 @@
-# API application (NestJS)
-
-## Tools
-
--   `yarn migrations:create` create migration module to `./migrations` folder
--   `yarn migrations:run` run all migrations inside `./migrations` folder
+# Private (admin) API
 
 ## Docs
 
--   ### scheduller
+- ### scheduller
 
-    -   **every day at 03:00**:
+    - **every day at 03:00**:
 
-        -   clear useless sessions
-        -   check product `is_new` status
+        - clear useless sessions
+        - check product `is_new` status

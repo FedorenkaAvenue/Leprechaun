@@ -22,10 +22,15 @@ Boilerplate for web store
 -   local
 
     -   http://leprechaun.loc user client
+
     -   http://adm.leprechaun.loc admin client
-    -   http://docs.leprechaun.loc/private _OpenAPI_ admin docs
-    -   http://docs.leprechaun.loc/public _OpenAPI_ customer docs
-    -   http://api.leprechaun.loc RestFull API server
+
+    -   http://docs.leprechaun.loc/private _OpenAPI_ private (admin) docs
+    -   http://docs.leprechaun.loc/public _OpenAPI_ public (customer) docs
+
+    -   http://api.leprechaun.loc/adm RestFull private (admin) API
+    -   http://api.leprechaun.loc RestFull public (customer) API
+
     -   http://media.leprechaun.loc media files server
 
 <!-- -   remote test server

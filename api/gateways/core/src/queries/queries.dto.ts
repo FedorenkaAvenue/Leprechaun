@@ -9,7 +9,7 @@ import { CategoryI } from '../category/category.interface';
 import { ProductSort, ProductStatus } from '../product/product.enum';
 import availableEnum from '@shared/utils/availableEnum';
 
-const LANGS = new ConfigService().getVal('LANGS') as (keyof LanguagesI)[];
+const LANGS = new ConfigService().getVal<(keyof LanguagesI)[]>('LANGS');
 
 /**
  * @description create range object for filters

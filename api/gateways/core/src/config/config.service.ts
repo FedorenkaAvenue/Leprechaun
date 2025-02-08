@@ -41,21 +41,27 @@ export default class ConfigService {
      * @returns variable value
      * @exception {Error} variable hasn't been set
      */
-    public getVal(key: string): string | string[] {
+    public getVal(key: string): string;
+    public getVal<T extends string[]>(key: string): T;
+    public getVal<T extends string | string[] = string>(key: string): T {
         const envVariable = process.env[key];
 
-        if (typeof envVariable === 'undefined') throw new Error(`config error: missing env ${key}`);
+        if (typeof envVariable === 'undefined') {
+            throw new Error(`config error: missing env ${key}`);
+        }
 
-        return envVariable?.includes(ENV_ARRAY_SPLIT_SYMBOL)
-            ? envVariable.split(ENV_ARRAY_SPLIT_SYMBOL).map(env => env.trim())
-            : envVariable;
+        if (envVariable.includes(ENV_ARRAY_SPLIT_SYMBOL)) {
+            return envVariable.split(ENV_ARRAY_SPLIT_SYMBOL).map(env => env.trim()) as T;
+        }
+
+        return envVariable as T;
     }
 
     /**
      * @description get application name
      */
     public getAppName(): string {
-        return this.getVal('APP_NAME') as string;
+        return this.getVal('APP_NAME');
     }
 
     /**
@@ -63,11 +69,11 @@ export default class ConfigService {
      */
     public getDBConnectionData(): TypeOrmModuleOptions & PostgresConnectionCredentialsOptions {
         return {
-            username: this.getVal('POSTGRES_USER') as string,
-            password: this.getVal('POSTGRES_PASSWORD') as string,
-            host: this.getVal('POSTGRES_HOST') as string,
+            username: this.getVal('POSTGRES_USER'),
+            password: this.getVal('POSTGRES_PASSWORD'),
+            host: this.getVal('POSTGRES_HOST'),
             port: Number(this.getVal('POSTGRES_PORT')),
-            database: this.getVal('POSTGRES_DATABASE') as string,
+            database: this.getVal('POSTGRES_DATABASE'),
             type: 'postgres',
             synchronize: true,
             autoLoadEntities: true,
@@ -96,7 +102,7 @@ export default class ConfigService {
                 httpOnly: true,
                 maxAge: +this.getVal('SESSION_TLL'),
                 sameSite: this.isDev ? 'lax' : 'strict',
-                domain: this.getVal('HOST_NAME') as string,
+                domain: this.getVal('HOST_NAME'),
                 secure: !this.isDev,
             },
         };
@@ -107,7 +113,7 @@ export default class ConfigService {
      * @return cookie session secret key
      */
     public getSessionSecretKey(): string {
-        return this.getVal('SESSION_COOKIE_SECRET') as string;
+        return this.getVal('SESSION_COOKIE_SECRET');
     }
 
     /**
@@ -124,7 +130,7 @@ export default class ConfigService {
         return {
             store: await redisStore({
                 socket: {
-                    host: this.getVal('CACHE_HOST') as string,
+                    host: this.getVal('CACHE_HOST'),
                     port: Number(this.getVal('CACHE_PORT')),
                 },
             }),
@@ -138,7 +144,7 @@ export default class ConfigService {
     public getSocketStoreConfig(): RedisClientOptions {
         return {
             url: `redis://${this.getVal('SOCKET_HOST')}:${+this.getVal('SOCKET_PORT')}`,
-            // password: this.getVal('SOCKET_PASSWORD') as string,
+            // password: this.getVal('SOCKET_PASSWORD'),
             database: +this.getVal('SOCKET_DB_NUMBER'),
         };
     }
@@ -148,7 +154,7 @@ export default class ConfigService {
      */
     public getHostingParams(): IHostingParams {
         return {
-            HOSTING_PATH: this.getVal('HOSTING_PATH') as string,
+            HOSTING_PATH: this.getVal('HOSTING_PATH'),
         };
     }
 
@@ -167,12 +173,12 @@ export default class ConfigService {
      */
     public getMailConfig(): SMTPTransport.Options {
         return {
-            host: this.isDev ? 'leprechaun_mailcatcher' : this.getVal('MAIL_SMTP_HOST') as string,
+            host: this.isDev ? 'leprechaun_mailcatcher' : this.getVal('MAIL_SMTP_HOST'),
             secure: false,
             port: Number(this.getVal(this.isDev ? 'MAIL_SMPT_PORT_DEV' : 'MAIL_SMTP_PORT_PROD')),
             auth: {
-                user: this.getVal('MAIL_SENDER_ACCOUNT') as string,
-                pass: this.getVal('MAIL_SENDER_PASSWORD') as string,
+                user: this.getVal('MAIL_SENDER_ACCOUNT'),
+                pass: this.getVal('MAIL_SENDER_PASSWORD'),
             },
             tls: { ciphers: 'SSLv3' },
         };
@@ -191,7 +197,7 @@ export default class ConfigService {
      * @returns developer/admin email
      */
     public getDevMailReciever(): string {
-        return this.getVal('DEV_MAIL_RECIEVER') as string;
+        return this.getVal('DEV_MAIL_RECIEVER');
     }
 
     /**
@@ -200,9 +206,9 @@ export default class ConfigService {
     public getCORSConfig(): CorsOptions {
         return {
             origin: [
-                this.getVal('DOMAIN') as string,
-                this.getVal('DOMAIN_ADM') as string,
-                ...this.getVal('CORS_DOMAINS') as string[],
+                this.getVal('DOMAIN'),
+                this.getVal('DOMAIN_ADM'),
+                ...this.getVal<string[]>('CORS_DOMAINS'),
             ],
             methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
             credentials: true,
@@ -224,8 +230,8 @@ export default class ConfigService {
      */
     public getJWTAccessTokenOptions(): JwtSignOptions {
         return ({
-            secret: this.getVal('JWT_ACCESS_TOKEN_KEY') as string,
-            expiresIn: this.getVal('JWT_ACCESS_TOKEN_TTL') as string,
+            secret: this.getVal('JWT_ACCESS_TOKEN_KEY'),
+            expiresIn: this.getVal('JWT_ACCESS_TOKEN_TTL'),
         });
     }
 
@@ -234,8 +240,8 @@ export default class ConfigService {
      */
     public getJWTRefreshTokenOptions(): JwtSignOptions {
         return ({
-            secret: this.getVal('JWT_REFRESH_TOKEN_KEY') as string,
-            expiresIn: this.getVal('JWT_REFRESH_TOKEN_TTL') as string,
+            secret: this.getVal('JWT_REFRESH_TOKEN_KEY'),
+            expiresIn: this.getVal('JWT_REFRESH_TOKEN_TTL'),
         });
     }
 
@@ -246,12 +252,10 @@ export default class ConfigService {
     public getJWTRefreshTokenCookieOptions(): CookieOptions {
         return ({
             httpOnly: true,
-            secure: !singleConfigService.isDev,
+            secure: !this.isDev,
             sameSite: this.isDev ? 'lax' : 'none',
-            domain: `.${singleConfigService.getVal('HOST_NAME')}`,
+            domain: `.${this.getVal('HOST_NAME')}`,
             maxAge: 123123123,
         });
     }
 }
-
-export const singleConfigService = new ConfigService();
