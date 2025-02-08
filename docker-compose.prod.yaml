@@ -1,33 +1,33 @@
-services:
-  server:
-    restart: on-failure:5
-    build:
-      context: ./server
-      dockerfile: Dockerfile.prod
-      args:
-        - ADMIN_CLIENT_PATH
-        - HOSTING_PATH
-        - APP_NAME
-        - LANGS
-        - DOMAIN
-        - DOMAIN_MEDIA
-        - DOMAIN_API
+# services:
+#   server:
+#     restart: on-failure:5
+#     build:
+#       context: ./server
+#       dockerfile: Dockerfile.prod
+#       args:
+#         - ADMIN_CLIENT_PATH
+#         - HOSTING_PATH
+#         - APP_NAME
+#         - LANGS
+#         - DOMAIN
+#         - DOMAIN_MEDIA
+#         - DOMAIN_API_PUBLIC
 
-  db:
-    restart: on-failure:5
+#   db:
+#     restart: on-failure:5
 
-  cache:
-    restart: on-failure:5
+#   cache:
+#     restart: on-failure:5
 
-  api:
-    restart: on-failure:5
-    build:
-      context: ./api
-      dockerfile: Dockerfile.prod
-    environment:
-      - IS_DEV=false
-    volumes:
-      - ./api/logs:/app/logs
+#   api:
+#     restart: on-failure:5
+#     build:
+#       context: ./api
+#       dockerfile: Dockerfile.prod
+#     environment:
+#       - IS_DEV=false
+#     volumes:
+#       - ./api/logs:/app/logs
 
   # client_user:
   #   restart: on-failure:5
@@ -39,7 +39,7 @@ services:
   #       - LANGS
   #       - DOMAIN
   #       - DOMAIN_MEDIA
-  #       - DOMAIN_API
+  #       - DOMAIN_API_PUBLIC
   #       - CURRENCY_SYMBOL
   #   environment:
   #     - IS_DEV=false
