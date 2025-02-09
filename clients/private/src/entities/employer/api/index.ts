@@ -5,14 +5,14 @@ export const employerApi = rootApi.injectEndpoints({
     endpoints: build => ({
         getEmployerOwn: build.query<User, void>({
             query: () => ({
-                url: '/adm/employer',
+                url: '/private/employer',
                 method: 'GET',
             }),
             providesTags: [{ type: 'employer', id: 'ME' }],
         }),
         getEmployerList: build.query<User[], void>({
             query: () => ({
-                url: '/adm/employer/list',
+                url: '/private/employer/list',
                 method: 'GET',
             }),
             providesTags: ['employer_list'],

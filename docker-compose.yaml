@@ -30,7 +30,8 @@ services:
     command: npm run dev:private
     volumes:
       - ./api/gateways:/app
-      - /app/apps/public # exclude public app
+      - /app/apps/public # exclude
+      - /app/apps/ws # exclude
     environment:
       - IS_DEV=true
       - MAIL_SMPT_PORT_DEV
@@ -43,40 +44,35 @@ services:
     command: npm run dev:public
     volumes:
       - ./api/gateways:/app
-      - /app/apps/private # exclude private app
+      - /app/apps/private # exclude
+      - /app/apps/ws # exclude
     environment:
       - IS_DEV=true
       - MAIL_SMPT_PORT_DEV
 
-  client_user:
+  api_gateway_ws:
     restart: unless-stopped
     extends:
       file: docker-compose.shared.yaml
       service: node
-    working_dir: /app
-    command: yarn dev
+    command: npm run dev:ws
     volumes:
-      # - client_user_trans_hosting:/app/src/public/locales:rw
-      # - ./translations/dist/client_user:/app/src/public/locales
-      - ./clients/user:/app
+      - ./api/gateways:/app
+      - /app/apps/private # exclude
+      - /app/apps/public # exclude
     environment:
       - IS_DEV=true
-      - NODE_ENV=development
-      - CHOKIDAR_USEPOLLING=true
-      - WATCHPACK_POLLING=true
-    depends_on:
-      - translations
 
-  client_admin:
+  client_private:
     restart: unless-stopped
-    container_name: leprechaun_client_admin
+    container_name: leprechaun_client_private
     build:
-      context: ./clients/admin
+      context: ./clients/private
       dockerfile: Dockerfile
     volumes:
-      # - client_admin_trans_hosting:/app/public/locales:rw
-      # - ./translations/dist/client_admin:/app/public/locales
-      - ./clients/admin:/app
+      # - client_private_trans_hosting:/app/public/locales:rw
+      # - ./translations/dist/client_private:/app/public/locales
+      - ./clients/private:/app
     environment:
       - LANGS
       - VITE_APP_NAME=${APP_NAME}
@@ -86,7 +82,24 @@ services:
     networks:
       - client
     depends_on:
-      - server
+      - api_gateway_private
+
+  client_public:
+    restart: unless-stopped
+    extends:
+      file: docker-compose.shared.yaml
+      service: node
+    working_dir: /app
+    command: yarn dev
+    volumes:
+      # - client_public_trans_hosting:/app/src/public/locales:rw
+      # - ./translations/dist/client_public:/app/src/public/locales
+      - ./clients/public:/app
+    environment:
+      - IS_DEV=true
+      - NODE_ENV=development
+      - CHOKIDAR_USEPOLLING=true
+      - WATCHPACK_POLLING=true
 
   translations:
     restart: unless-stopped
@@ -97,8 +110,8 @@ services:
     command: yarn dev
     volumes:
       - ./translations:/app
-      # - client_user_trans_hosting:/app/dist/client_user:rw
-      # - client_admin_trans_hosting:/app/dist/client_admin:rw
+      # - client_public_trans_hosting:/app/dist/client_public:rw
+      # - client_private_trans_hosting:/app/dist/client_private:rw
     environment:
       - LANGS
 
@@ -107,11 +120,13 @@ services:
     image: dockage/mailcatcher:0.9.0
     ports:
       - 1080:1080
-    networks:
-      - api
+    depends_on:
+      - api_gateway_ws
+      - api_gateway_public
+      - api_gateway_private
 
 # volumes:
-#   client_user_trans_hosting:
+#   client_public_trans_hosting:
 #     driver: local
-#   client_admin_trans_hosting:
+#   client_private_trans_hosting:
 #     driver: local

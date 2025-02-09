@@ -1,6 +1,7 @@
 {
     "name": "core_app",
     "version": "0.0.1",
+    "description": "core components for all gateways APIs",
     "dependencies": {
         "@nestjs/jwt": "^11.0.0",
         "bcryptjs": "^2.4.3",

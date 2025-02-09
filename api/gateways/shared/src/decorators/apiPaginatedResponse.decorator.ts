@@ -21,7 +21,6 @@ const ApiPaginatedResponseDecorator = <TModel extends Type<any>>(model: TModel) 
             },
         }),
         ApiNotAcceptableResponse({
-            status: 406,
             description: 'invalid pagination page',
         }),
         ApiQuery({

@@ -12,7 +12,7 @@ export default class CacheService {
     ) { }
 
     public async resetCache() {
-        await this.cacheManager.reset();
+        await this.cacheManager.clear();
         this.loggerService.info('cache has been reseted');
     }
 }

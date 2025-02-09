@@ -1,6 +1,7 @@
 {
     "name": "shared_app",
     "version": "0.0.1",
+    "description": "shared lib components",
     "dependencies": {
         "uuid": "^10.0.0",
         "pug": "^3.0.3"

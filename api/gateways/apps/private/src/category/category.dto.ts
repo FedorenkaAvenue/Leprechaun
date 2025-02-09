@@ -28,7 +28,7 @@ export class CategoryCreateDTO {
 
     @IsOptional()
     @ApiProperty({
-        type: 'file',
+        type: 'array',
         required: false,
         description: 'only SVG extension',
         default: null,
@@ -73,7 +73,7 @@ export class CategoryUpdateDTO implements CategoryCreateDTO {
 
     @IsOptional()
     @ApiProperty({
-        type: 'file',
+        type: 'array',
         required: false,
         description: 'only SVG extension',
         default: null,

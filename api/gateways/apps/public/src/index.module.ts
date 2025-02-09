@@ -2,16 +2,11 @@ import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { APP_FILTER } from '@nestjs/core';
 import * as session from 'express-session';
+import * as cookieParser from 'cookie-parser';
 
 import CategoryModule from './category/category.module';
-import ProductController from './product/product.controller';
 import AuthModule from './auth/auth.module';
-import OrderController from './order/order.controller';
-import WishlistController from './wishlist/wishlist.controller';
-import WishlistItemController from './wishlistItem/wishlistItem.controller';
-import HistoryProductController from './historyProduct/historyProduct.controller';
 import SubscribeProductModule from './subscribeProduct/subscribeProduct.module';
-import SubscribeProductController from './subscribeProduct/subscribeProduct.controller';
 import ProductModule from './product/product.module';
 import HistoryProductModule from './historyProduct/historyProduct.module';
 import WishlistModule from './wishlist/wishlist.module';
@@ -68,14 +63,9 @@ export default class AppModule implements NestModule {
         }
 
         consumer
-            .apply(session(this.configService.getSessionConfig()))
-            .forRoutes(
-                ProductController,
-                OrderController,
-                WishlistController,
-                WishlistItemController,
-                HistoryProductController,
-                SubscribeProductController,
-            );
+            .apply(session(this.configService.getSessionConfig()) as Function)
+            .forRoutes('*');
+
+        consumer.apply(cookieParser() as Function)
     }
 }

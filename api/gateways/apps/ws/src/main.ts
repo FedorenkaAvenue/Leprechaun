@@ -1,5 +1,4 @@
 import { NestFactory } from '@nestjs/core';
-import * as cookieParser from 'cookie-parser';
 
 import AppModule from './index.module';
 import { RedisIoAdapter } from './event/event.adapter';
@@ -10,7 +9,11 @@ async function runServer() {
     const config = new ConfigService();
     const app = await NestFactory.create(AppModule, { bufferLogs: true });
 
-    app.use(cookieParser()).enableCors(config.getCORSConfig());
+    app.enableCors({
+        origin: [config.getVal('DOMAIN_PUBLIC')],
+        methods: ['GET'],
+        credentials: true,
+    });
     app.useLogger(app.get(LoggerService));
 
     // sockets
@@ -18,7 +21,7 @@ async function runServer() {
     await redisIoAdapter.connectToRedis();
     app.useWebSocketAdapter(redisIoAdapter);
 
-    await app.listen(80);
+    await app.listen(81);
 }
 
 runServer();

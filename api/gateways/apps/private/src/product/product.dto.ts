@@ -86,7 +86,7 @@ export class ProductCreateDTO {
     @IsOptional()
     @ApiProperty({
         description: 'array of binary files',
-        type: 'file',
+        type: 'array',
         isArray: true,
         required: false,
         default: [],
@@ -180,7 +180,7 @@ export class ProductUpdateDTO implements ProductCreateDTO {
     @IsOptional()
     @ApiProperty({
         description: 'array of binary files',
-        type: 'file',
+        type: 'array',
         isArray: true,
         required: false,
         default: [],

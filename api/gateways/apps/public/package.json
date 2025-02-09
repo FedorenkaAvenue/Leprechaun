@@ -1,4 +1,5 @@
 {
     "name": "public_app",
+    "description": "public (customer) RESTFull API",
     "version": "0.0.1"
 }

@@ -16,6 +16,8 @@ services:
     depends_on:
       - api_gateway_private
       - api_gateway_public
+      - api_gateway_ws
+      - client_public
 
   db:
     container_name: leprechaun_db
@@ -50,7 +52,6 @@ services:
       - api
     environment:
       - HOST_NAME
-      - CORS_DOMAINS
       - DOMAIN_PUBLIC
       - DOMAIN_PRIVATE
       - APP_NAME
@@ -75,7 +76,6 @@ services:
       - api
     environment:
       - HOST_NAME
-      - CORS_DOMAINS
       - DOMAIN_PUBLIC
       - DOMAIN_PRIVATE
       - APP_NAME
@@ -92,8 +92,24 @@ services:
       - cache
       - db
 
-  client_user:
-    container_name: leprechaun_client_user
+  api_gateway_ws:
+    container_name: leprechaun_api_gateway_ws
+    networks:
+      - api
+    environment:
+      - SESSION_COOKIE_SECRET
+      - SOCKET_HOST
+      - SOCKET_PORT
+      - SOCKET_USER
+      - SOCKET_PASSWORD
+      - SOCKET_DB_NUMBER
+      - DOMAIN_PUBLIC
+      - DOMAIN_PRIVATE
+    depends_on:
+      - cache
+
+  client_public:
+    container_name: leprechaun_client_public
     networks:
       - client
     environment:
@@ -106,7 +122,7 @@ services:
       - NEXT_PUBLIC_DOMAIN_API=${DOMAIN_API}
       - CURRENCY_SYMBOL
     depends_on:
-      - server
+      - api_gateway_public
 
 volumes:
   image_hosting:

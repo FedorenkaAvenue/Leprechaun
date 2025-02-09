@@ -28,8 +28,9 @@ Boilerplate for web store
     -   http://docs.leprechaun.loc/private _OpenAPI_ private (admin) docs
     -   http://docs.leprechaun.loc/public _OpenAPI_ public (customer) docs
 
-    -   http://api.leprechaun.loc/adm RestFull private (admin) API
+    -   http://api.leprechaun.loc/private RestFull private (admin) API
     -   http://api.leprechaun.loc RestFull public (customer) API
+    -   http://api.leprechaun.loc/socket.io/ websocket public (customer) API
 
     -   http://media.leprechaun.loc media files server
 

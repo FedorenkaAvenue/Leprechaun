@@ -1,6 +1,5 @@
 import { NestFactory } from '@nestjs/core';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
-import * as cookieParser from 'cookie-parser';
 
 import AppModule from './index.module';
 import ConfigService from '@core/config/config.service';
@@ -10,13 +9,12 @@ async function runServer() {
     const config = new ConfigService();
     const app = await NestFactory.create(AppModule, { bufferLogs: true });
 
-    app.use(cookieParser()).enableCors(config.getCORSConfig());
+    app.enableCors({
+        origin: [config.getVal('DOMAIN_PRIVATE')],
+        methods: '*',
+        credentials: true,
+    });
     app.useLogger(app.get(LoggerService));
-
-    // // sockets
-    // const redisIoAdapter = new RedisIoAdapter(app);
-    // await redisIoAdapter.connectToRedis();
-    // app.useWebSocketAdapter(redisIoAdapter);
 
     // OpenAPI
     const docsConfig = new DocumentBuilder()

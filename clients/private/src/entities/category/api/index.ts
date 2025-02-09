@@ -9,20 +9,20 @@ export const categoryApi = rootApi.injectEndpoints({
     endpoints: build => ({
         category: build.query<Category, Category['url']>({
             query: (url: Category['url']) => ({
-                url: `/adm/category/${url}`,
+                url: `/private/category/${url}`,
             }),
             providesTags: (_, __, url) => [{ type: 'category', id: url }],
         }),
         categoryList: build.query<CategoryPreview[], void>({
             query: () => ({
-                url: '/adm/category/list',
+                url: '/private/category/list',
             }),
             providesTags: ['category_list'],
         }),
         createCategory: build.mutation<CategoryPreview, { body: CategoryCreateDTO, successCallback?: () => void }>({
             query: ({ body }) => {
                 return ({
-                    url: '/adm/category',
+                    url: '/private/category',
                     method: 'POST',
                     body: toFormData(body),
                 });
@@ -43,7 +43,7 @@ export const categoryApi = rootApi.injectEndpoints({
         updateCategory: build.mutation<void, { id: Category['id'], updates: CategoryUpdateDTO, successCallback?: () => void }>({
             query: ({ id, updates }) => {
                 return ({
-                    url: `/adm/category/${id}`,
+                    url: `/private/category/${id}`,
                     method: 'PATCH',
                     body: toFormData(updates),
                 });
@@ -70,7 +70,7 @@ export const categoryApi = rootApi.injectEndpoints({
         }),
         removeCategory: build.mutation<void, { id: Category['id']; removeCallback?: () => void }>({
             query: ({ id }) => ({
-                url: `/adm/category/${id}`,
+                url: `/private/category/${id}`,
                 method: 'DELETE',
             }),
             invalidatesTags: (_, __, { id }) => ([{ type: 'category', id }]),

@@ -1,6 +1,7 @@
 import { MiddlewareConsumer, Module, NestModule, RequestMethod } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { APP_FILTER } from '@nestjs/core';
+import * as cookieParser from 'cookie-parser';
 
 import CategoryModule from './category/category.module';
 import AuthModule from './auth/auth.module';
@@ -63,5 +64,7 @@ export default class AppModule implements NestModule {
             .apply(CacheResetMiddleware)
             .exclude({ path: '(.*)', method: RequestMethod.GET })
         // .forRoutes(ProductPrivateController, CategoryPrivateController, PropertyPrivateController);
+
+        consumer.apply(cookieParser() as Function)
     }
 }

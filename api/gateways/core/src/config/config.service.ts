@@ -201,21 +201,6 @@ export default class ConfigService {
     }
 
     /**
-     * @description get CORS config
-     */
-    public getCORSConfig(): CorsOptions {
-        return {
-            origin: [
-                this.getVal('DOMAIN_PUBLIC'),
-                this.getVal('DOMAIN_PRIVATE'),
-                ...this.getVal<string[]>('CORS_DOMAINS'),
-            ],
-            methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
-            credentials: true,
-        };
-    }
-
-    /**
      * @description get JwtModule register config
      * @returns {JwtModuleOptions} config
      */
