@@ -206,8 +206,8 @@ export default class ConfigService {
     public getCORSConfig(): CorsOptions {
         return {
             origin: [
-                this.getVal('DOMAIN'),
-                this.getVal('DOMAIN_ADM'),
+                this.getVal('DOMAIN_PUBLIC'),
+                this.getVal('DOMAIN_PRIVATE'),
                 ...this.getVal<string[]>('CORS_DOMAINS'),
             ],
             methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],

@@ -14,12 +14,14 @@
         "apps/private",
         "apps/public",
         "core",
-        "shared"
+        "shared",
+        "apps/ws"
     ],
     "scripts": {
         "_prepare": "cd .. && husky install api/.husky",
         "dev:private": "nest start private_app --watch",
         "dev:public": "nest start public_app --watch",
+        "dev:ws": "nest start ws_app --watch",
         "migrations:create": "typeorm migration:create -n upd --outputJs",
         "migrations:run": "typeorm migration:run",
         "prebuild": "rimraf dist",
@@ -41,7 +43,6 @@
         "@nestjs/platform-express": "^10.4.15",
         "@nestjs/swagger": "^7.4.2",
         "@nestjs/typeorm": "^10.0.2",
-        "@socket.io/admin-ui": "^0.5.1",
         "cache-manager": "^5.7.6",
         "cache-manager-redis-yet": "^5.1.5",
         "class-transformer": "^0.5.1",

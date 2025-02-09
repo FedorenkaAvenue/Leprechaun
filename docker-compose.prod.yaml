@@ -9,7 +9,7 @@
 #         - HOSTING_PATH
 #         - APP_NAME
 #         - LANGS
-#         - DOMAIN
+#         - DOMAIN_PUBLIC
 #         - DOMAIN_MEDIA
 #         - DOMAIN_API_PUBLIC
 
@@ -37,7 +37,7 @@
   #     args:
   #       - APP_NAME
   #       - LANGS
-  #       - DOMAIN
+  #       - DOMAIN_PUBLIC
   #       - DOMAIN_MEDIA
   #       - DOMAIN_API_PUBLIC
   #       - CURRENCY_SYMBOL

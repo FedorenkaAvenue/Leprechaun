@@ -22,6 +22,15 @@
                 "tsConfigPath": "apps/public/tsconfig.json"
             }
         },
+        "ws_app": {
+            "type": "application",
+            "root": "apps/ws",
+            "entryFile": "main",
+            "sourceRoot": "apps/ws/src",
+            "compilerOptions": {
+                "tsConfigPath": "apps/ws/tsconfig.json"
+            }
+        },
         "core": {
             "type": "library",
             "root": "libs",

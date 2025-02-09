@@ -51,8 +51,8 @@ services:
     environment:
       - HOST_NAME
       - CORS_DOMAINS
-      - DOMAIN
-      - DOMAIN_ADM
+      - DOMAIN_PUBLIC
+      - DOMAIN_PRIVATE
       - APP_NAME
       - LANGS
       - POSTGRES_HOST=${DB_HOST}
@@ -60,37 +60,10 @@ services:
       - POSTGRES_PASSWORD=${DB_PASSWORD}
       - POSTGRES_USER=${DB_USER}
       - POSTGRES_DATABASE=${DB_DATABASE}
-      - SE_HOST
-      - SE_PORT
-      - SE_USER
-      - SE_PASSWORD
-      - CACHE_HOST
-      - CACHE_PORT
-      - CACHE_USER
-      - CACHE_PASSWORD
-      - CACHE_DB_NUMBER
-      - SOCKET_HOST
-      - SOCKET_PORT
-      - SOCKET_USER
-      - SOCKET_PASSWORD
-      - SOCKET_DB_NUMBER
-      - HOSTING_PATH
-      - MAIL_SMTP_HOST
-      - MAIL_SMTP_PORT_PROD
-      - MAIL_SENDER_ACCOUNT
-      - MAIL_SENDER_PASSWORD
-      - DEV_MAIL_RECIEVER
-      - SESSION_COOKIE_SECRET
-      - SESSION_TLL
       - JWT_ACCESS_TOKEN_KEY
       - JWT_ACCESS_TOKEN_TTL
       - JWT_REFRESH_TOKEN_KEY
       - JWT_REFRESH_TOKEN_TTL
-      - DASHBOARD_PORTION
-      - USER_WISHLIST_LENGTH
-      - USER_HISTORY_LENGTH
-      - DEFAULT_CACHE_TTL
-      - PRODUCT_PUBLIC_IMAGE_AMOUNT
     volumes:
       - image_hosting:/var/www/img:rw
     depends_on:
@@ -103,8 +76,8 @@ services:
     environment:
       - HOST_NAME
       - CORS_DOMAINS
-      - DOMAIN
-      - DOMAIN_ADM
+      - DOMAIN_PUBLIC
+      - DOMAIN_PRIVATE
       - APP_NAME
       - LANGS
       - POSTGRES_HOST=${DB_HOST}
@@ -112,37 +85,9 @@ services:
       - POSTGRES_PASSWORD=${DB_PASSWORD}
       - POSTGRES_USER=${DB_USER}
       - POSTGRES_DATABASE=${DB_DATABASE}
-      - SE_HOST
-      - SE_PORT
-      - SE_USER
-      - SE_PASSWORD
-      - CACHE_HOST
-      - CACHE_PORT
-      - CACHE_USER
-      - CACHE_PASSWORD
-      - CACHE_DB_NUMBER
-      - SOCKET_HOST
-      - SOCKET_PORT
-      - SOCKET_USER
-      - SOCKET_PASSWORD
-      - SOCKET_DB_NUMBER
-      - HOSTING_PATH
-      - MAIL_SMTP_HOST
-      - MAIL_SMTP_PORT_PROD
-      - MAIL_SENDER_ACCOUNT
-      - MAIL_SENDER_PASSWORD
-      - DEV_MAIL_RECIEVER
       - SESSION_COOKIE_SECRET
       - SESSION_TLL
-      - JWT_ACCESS_TOKEN_KEY
-      - JWT_ACCESS_TOKEN_TTL
-      - JWT_REFRESH_TOKEN_KEY
-      - JWT_REFRESH_TOKEN_TTL
-      - DASHBOARD_PORTION
-      - USER_WISHLIST_LENGTH
       - USER_HISTORY_LENGTH
-      - DEFAULT_CACHE_TTL
-      - PRODUCT_PUBLIC_IMAGE_AMOUNT
     depends_on:
       - cache
       - db
@@ -155,10 +100,10 @@ services:
       - APP_NAME
       - LANGS
       - NEXT_PUBLIC_LANGS=${LANGS}
-      - DOMAIN
+      - DOMAIN_PUBLIC
       - DOMAIN_MEDIA
-      - DOMAIN_API_PUBLIC
-      - NEXT_PUBLIC_DOMAIN_API=${DOMAIN_API_PUBLIC}
+      - DOMAIN_API
+      - NEXT_PUBLIC_DOMAIN_API=${DOMAIN_API}
       - CURRENCY_SYMBOL
     depends_on:
       - server

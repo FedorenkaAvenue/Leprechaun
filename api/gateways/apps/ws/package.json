@@ -1,0 +1,15 @@
+{
+    "name": "ws_app",
+    "version": "0.0.1",
+    "description": "websocket_api",
+    "author": "August Luzanovsky",
+    "main": "src/main.ts",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "dependencies": {
+        "@nestjs/platform-socket.io": "^11.0.8",
+        "@nestjs/websockets": "^11.0.8",
+        "@socket.io/redis-adapter": "^8.3.0"
+    }
+}

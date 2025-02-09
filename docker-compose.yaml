@@ -46,6 +46,7 @@ services:
       - /app/apps/private # exclude private app
     environment:
       - IS_DEV=true
+      - MAIL_SMPT_PORT_DEV
 
   client_user:
     restart: unless-stopped
@@ -79,8 +80,8 @@ services:
     environment:
       - LANGS
       - VITE_APP_NAME=${APP_NAME}
-      - DOMAIN
-      - VITE_DOMAIN_API=${DOMAIN_API_PRIVATE}
+      - DOMAIN_PUBLIC
+      - VITE_DOMAIN_API=${DOMAIN_API}
       - VITE_DOMAIN_MEDIA=${DOMAIN_MEDIA}
     networks:
       - client
