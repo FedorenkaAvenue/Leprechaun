@@ -11,16 +11,16 @@ services:
       - ./server/conf/leprechaun.conf:/etc/nginx/conf.d/leprechaun.conf
       - ./server/conf/leprechaun.dev.conf:/etc/nginx/conf.d/leprechaun.dev.conf
 
-  db:
+  db_main:
     restart: unless-stopped
     volumes:
-      - ./db/postgresql.conf:/app/postgresql.conf
-      - ./db/pg_hba.conf:/app/pg_hba.conf
+      - ./db/main/postgresql.conf:/app/postgresql.conf
+      - ./db/main/pg_hba.conf:/app/pg_hba.conf
 
-  cache:
+  db_cache:
     restart: unless-stopped
     volumes:
-      - ./cache/redis.conf:/app/redis.conf
+      - ./db/cache/redis.conf:/app/redis.conf
 
   api_gateway_private:
     restart: unless-stopped

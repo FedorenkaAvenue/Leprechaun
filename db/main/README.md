@@ -4,7 +4,7 @@
 
 -   local
 
-    -   **host**: `leprechaun_db`
+    -   **host**: `leprechaun_db_main`
     -   **port**: `5432`
     -   **user**: `postgres`
     -   **password**: `barabaka35`

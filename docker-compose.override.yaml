@@ -19,13 +19,13 @@ services:
       - api_gateway_ws
       - client_public
 
-  db:
-    container_name: leprechaun_db
+  db_main:
+    container_name: leprechaun_db_main
     networks:
       - api
       - db
     build:
-      context: ./db
+      context: ./db/main
       dockerfile: Dockerfile
     ports:
       - ${DB_PORT_EXPOSE}:${DB_PORT}
@@ -34,15 +34,17 @@ services:
       - POSTGRES_USER=${DB_USER}
       - POSTGRES_DATABASE=${DB_DATABASE}
 
-  cache:
-    container_name: leprechaun_cache
+  db_cache:
+    container_name: leprechaun_db_cache
     networks:
       - api
     build:
-      context: ./cache
+      context: ./db/cache
       dockerfile: Dockerfile
       args:
-        - REDIS_PASSWORD:${CACHE_PASSWORD}
+        - REDIS_PASSWORD=${CACHE_PASSWORD}
+    environment:
+      - REDIS_PASSWORD=${CACHE_PASSWORD}
     ports:
       - ${CACHE_PORT_EXPOSE}:${CACHE_PORT}
 
@@ -65,10 +67,16 @@ services:
       - JWT_ACCESS_TOKEN_TTL
       - JWT_REFRESH_TOKEN_KEY
       - JWT_REFRESH_TOKEN_TTL
+      - CACHE_HOST
+      - CACHE_PORT
+      - CACHE_USER
+      - CACHE_PASSWORD
+      - CACHE_DB_NUMBER
+      - DEFAULT_CACHE_TTL
     volumes:
       - image_hosting:/var/www/img:rw
     depends_on:
-      - db
+      - db_main
 
   api_gateway_public:
     container_name: leprechaun_api_gateway_public
@@ -88,9 +96,15 @@ services:
       - SESSION_COOKIE_SECRET
       - SESSION_TLL
       - USER_HISTORY_LENGTH
+      - CACHE_HOST
+      - CACHE_PORT
+      - CACHE_USER
+      - CACHE_PASSWORD
+      - CACHE_DB_NUMBER
+      - DEFAULT_CACHE_TTL
     depends_on:
-      - cache
-      - db
+      - db_cache
+      - db_main
 
   api_gateway_ws:
     container_name: leprechaun_api_gateway_ws
@@ -106,7 +120,7 @@ services:
       - DOMAIN_PUBLIC
       - DOMAIN_PRIVATE
     depends_on:
-      - cache
+      - db_cache
 
   client_public:
     container_name: leprechaun_client_public
@@ -133,7 +147,7 @@ networks:
     name: leprechaun_api
   db:
     driver: bridge
-    name: leprechaun_db
+    name: leprechaun_db_main
   client:
     driver: bridge
     name: leprechaun_client

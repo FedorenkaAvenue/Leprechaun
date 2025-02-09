@@ -17,6 +17,7 @@ import { CategoryI } from '@core/category/category.interface';
 import { UserRoleGuard } from '@core/user/user.guard';
 import { UserRoleDecorator } from '@core/user/user.decorator';
 import FSService from '@core/FS/FS.service';
+import { CacheClearInterceptor } from '@core/cache/cache.interceptor';
 import AffectedResultInterceptor from '@shared/interceptors/affectedResult.interceptor';
 import NotFoundInterceptor from '@shared/interceptors/notFound.interceptor';
 
@@ -28,7 +29,10 @@ export default class CategoryController {
 
     @Post()
     @UserRoleDecorator(UserRole.ADMIN)
-    @UseInterceptors(FileInterceptor('icon', { fileFilter: FSService.fileFilterOption('svg') }))
+    @UseInterceptors(
+        FileInterceptor('icon', { fileFilter: FSService.fileFilterOption('svg') }),
+        CacheClearInterceptor,
+    )
     @ApiOperation({ summary: 'add new category' })
     @ApiBadRequestResponse({ description: 'some of fields are unique' })
     private addCategory(
@@ -40,7 +44,10 @@ export default class CategoryController {
 
     @Patch(':categoryID')
     @UserRoleDecorator(UserRole.ADMIN)
-    @UseInterceptors(FileInterceptor('icon', { fileFilter: FSService.fileFilterOption('svg') }))
+    @UseInterceptors(
+        FileInterceptor('icon', { fileFilter: FSService.fileFilterOption('svg') }),
+        CacheClearInterceptor,
+    )
     @UseInterceptors(AffectedResultInterceptor('category not found'))
     @ApiOperation({ summary: 'update category' })
     @ApiBody({ type: CategoryUpdateDTO })
@@ -72,7 +79,7 @@ export default class CategoryController {
 
     @Delete(':categoryID')
     @UserRoleDecorator(UserRole.ADMIN)
-    @UseInterceptors(AffectedResultInterceptor('category not found'))
+    @UseInterceptors(AffectedResultInterceptor('category not found'), CacheClearInterceptor)
     @ApiOperation({ summary: 'delete category by ID' })
     @ApiOkResponse({ description: 'success' })
     @ApiNotFoundResponse({ description: 'category not found' })

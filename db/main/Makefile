@@ -1,4 +1,4 @@
-CONTAINER_DB_NAME=leprechaun_db
+CONTAINER_DB_NAME=leprechaun_db_main
 
 dump_pull:
 	@echo "Pulling fresh dump..."

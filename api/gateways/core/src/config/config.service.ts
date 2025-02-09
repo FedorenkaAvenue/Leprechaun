@@ -1,10 +1,8 @@
 import { TypeOrmModuleOptions } from '@nestjs/typeorm';
 import { Injectable } from '@nestjs/common';
-import { CorsOptions } from '@nestjs/common/interfaces/external/cors-options.interface';
 import { SessionOptions } from 'express-session';
 import SMTPTransport from 'nodemailer/lib/smtp-transport';
 import * as session from 'express-session';
-import { redisStore } from 'cache-manager-redis-yet';
 import { Pool as PGPool } from 'pg';
 import { PostgresConnectionCredentialsOptions } from 'typeorm/driver/postgres/PostgresConnectionCredentialsOptions';
 import { memoryStorage } from 'multer';
@@ -14,6 +12,7 @@ import { RedisClientOptions } from 'redis';
 import { JwtModuleOptions, JwtSignOptions } from '@nestjs/jwt';
 import { CookieOptions } from 'express';
 import { MulterOptions } from '@nestjs/platform-express/multer/interfaces/multer-options.interface';
+import { createKeyv } from '@keyv/redis';
 const pgConnect = require('connect-pg-simple');
 
 const ENV_ARRAY_SPLIT_SYMBOL = ',';
@@ -126,25 +125,23 @@ export default class ConfigService {
     /**
      * @description get cache manager config
      */
-    public async getCacheStoreConfig(): Promise<CacheOptions> {
+    public getCacheStoreConfig(): CacheOptions {
         return {
-            store: await redisStore({
-                socket: {
-                    host: this.getVal('CACHE_HOST'),
-                    port: Number(this.getVal('CACHE_PORT')),
+            stores: [
+                createKeyv({
+                    url: `redis://${this.getVal('CACHE_HOST')}:${this.getVal('CACHE_PORT')}`,
+                    password: this.getVal('CACHE_PASSWORD'),
                 },
-            }),
-            auth_pass: this.getVal('CACHE_PASSWORD'),
-            ttl: +this.getVal('DEFAULT_CACHE_TTL'),
-            max: 1000,
-            db: +this.getVal('CACHE_DB_NUMBER'),
+                )
+            ],
+            ttl: Number(this.getVal('DEFAULT_CACHE_TTL')),
         };
     }
 
     public getSocketStoreConfig(): RedisClientOptions {
         return {
             url: `redis://${this.getVal('SOCKET_HOST')}:${+this.getVal('SOCKET_PORT')}`,
-            // password: this.getVal('SOCKET_PASSWORD'),
+            password: this.getVal('SOCKET_PASSWORD'),
             database: +this.getVal('SOCKET_DB_NUMBER'),
         };
     }

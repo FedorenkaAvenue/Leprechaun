@@ -6,9 +6,10 @@ import ProductCoreModule from '@core/product/product.module';
 import ImageCoreModule from '@core/image/image.module';
 import FSModule from '@core/FS/FS.module';
 import AuthModule from '@core/auth/auth.module';
+import CacheModule from '@core/cache/cache.module';
 
 @Module({
-    imports: [ProductCoreModule, ImageCoreModule, FSModule, AuthModule],
+    imports: [ProductCoreModule, ImageCoreModule, FSModule, AuthModule, CacheModule],
     controllers: [ProductController],
     providers: [ProductService],
 })

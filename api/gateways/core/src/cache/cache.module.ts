@@ -11,7 +11,7 @@ import LoggerModule from '@shared/modules/logger/logger.module';
         CacheNestModule.registerAsync({
             imports: [ConfigModule],
             inject: [ConfigService],
-            useFactory: async (conf: ConfigService) => !conf.isDev && conf.getCacheStoreConfig(),
+            useFactory: (conf: ConfigService) => conf.isDev ? {} : conf.getCacheStoreConfig(),
         }),
         LoggerModule,
     ],

@@ -1,4 +1,4 @@
-import { MiddlewareConsumer, Module, NestModule, RequestMethod } from '@nestjs/common';
+import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { APP_FILTER } from '@nestjs/core';
 import * as cookieParser from 'cookie-parser';
@@ -13,7 +13,6 @@ import PropertyModule from './property/property.module';
 import ToolsModule from './tools/tools.module';
 import ConfigModule from '@core/config/config.module';
 import ConfigService from '@core/config/config.service';
-import { CacheResetMiddleware } from '@core/cache/cache.middleware';
 import TransModule from '@core/trans/trans.module';
 import HTTPLogMiddleware from '@shared/middlewares/HTTPLog.middleware';
 import LoggerModule from '@shared/modules/logger/logger.module';
@@ -59,11 +58,6 @@ export default class AppModule implements NestModule {
         if (this.configService.isDev) {
             consumer.apply(HTTPLogMiddleware).forRoutes('*');
         }
-
-        consumer
-            .apply(CacheResetMiddleware)
-            .exclude({ path: '(.*)', method: RequestMethod.GET })
-        // .forRoutes(ProductPrivateController, CategoryPrivateController, PropertyPrivateController);
 
         consumer.apply(cookieParser() as Function)
     }

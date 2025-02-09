@@ -37,6 +37,7 @@
         "test:e2e": "jest --config ./test/jest-e2e.json"
     },
     "dependencies": {
+        "@keyv/redis": "^4.2.0",
         "@nestjs/cache-manager": "^3.0.0",
         "@nestjs/common": "^11.0.1",
         "@nestjs/core": "^11.0.1",
@@ -44,7 +45,6 @@
         "@nestjs/swagger": "^11.0.3",
         "@nestjs/typeorm": "^11.0.0",
         "cache-manager": "^6.4.0",
-        "cache-manager-redis-yet": "^5.1.5",
         "class-transformer": "^0.5.1",
         "class-validator": "^0.14.1",
         "cookie-parser": "^1.4.7",
@@ -62,8 +62,6 @@
         "@nestjs/schematics": "^11.0.0",
         "@nestjs/testing": "^11.0.1",
         "@types/cache-manager": "^4.0.6",
-        "@types/cache-manager-redis-store": "^2.0.4",
-        "@types/connect-redis": "^0.0.23",
         "@types/cookie-parser": "^1.4.7",
         "@types/express": "^5.0.0",
         "@types/express-session": "^1.18.0",

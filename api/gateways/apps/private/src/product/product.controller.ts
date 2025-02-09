@@ -35,6 +35,7 @@ import { UserRoleGuard } from '@core/user/user.guard';
 import { AuthJWTAccessGuard } from '@core/auth/auth.guard';
 import { UserRole } from '@core/user/user.enum';
 import { ProductEntity } from '@core/product/product.entity';
+import { CacheClearInterceptor } from '@core/cache/cache.interceptor';
 import QueryDecorator from '@core/queries/query.decorator';
 import { ApiProductListQueriesDecorator } from '@core/product/product.decorator';
 import InvalidPaginationPageInterceptor from '@shared/interceptors/invalidPaginationPage.interceptor';
@@ -51,7 +52,7 @@ export default class ProductController {
 
     @Post()
     @UserRoleDecorator(UserRole.ADMIN)
-    @UseInterceptors(FilesInterceptor('images[]'))
+    @UseInterceptors(FilesInterceptor('images[]'), CacheClearInterceptor)
     @ApiOperation({ summary: 'create new product' })
     @ApiOkResponse({ description: 'success' })
     private createProduct(
@@ -86,7 +87,7 @@ export default class ProductController {
 
     @Patch(':productID')
     @UserRoleDecorator(UserRole.ADMIN)
-    @UseInterceptors(FilesInterceptor('images[]'))
+    @UseInterceptors(FilesInterceptor('images[]'), CacheClearInterceptor)
     @ApiOperation({ summary: 'update product' })
     @ApiBody({ type: ProductUpdateDTO })
     private updateProduct(
@@ -104,7 +105,7 @@ export default class ProductController {
     // !
     @Delete(':productID')
     @UserRoleDecorator(UserRole.ADMIN)
-    @UseInterceptors(AffectedResultInterceptor('product not found'))
+    @UseInterceptors(AffectedResultInterceptor('product not found'), CacheClearInterceptor)
     @ApiOperation({ summary: 'delete product by ID' })
     @ApiOkResponse({ description: 'success' })
     @ApiBadRequestResponse({ description: 'invalid product ID' })
