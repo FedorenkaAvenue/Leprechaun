@@ -1,8 +1,8 @@
 import { Entity, Index, JoinColumn, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
 
 import { HistoryProductI } from './historyProduct.interface';
-import { ProductEntity } from '@core/product/product.entity';
-import SessionEntity from '@core/session/session.entity';
+import SessionEntity from '../session/session.entity';
+import { ProductEntity } from '../product/product.entity';
 
 @Entity('history_product')
 @Index('product_UNIQUE', ['sid', 'product'], { unique: true })

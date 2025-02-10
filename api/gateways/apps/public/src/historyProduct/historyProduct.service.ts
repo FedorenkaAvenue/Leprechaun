@@ -2,18 +2,18 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { DeepPartial, DeleteResult, Repository } from 'typeorm';
 
-import { HistoryProductEntity } from './historyProduct.entity';
-import { HistoryProductI } from './historyProduct.interface';
 import { ProductPreviewPublicI } from '../product/product.interface';
 import { ProductPreviewPublic } from '../product/product.dto';
 import ConfigService from '@core/config/config.service';
 import { ProductI } from '@core/product/product.interface';
 import { QueriesCommonI } from '@core/queries/queries.interface';
 import { SessionI } from '@core/session/session.interface';
+import { HistoryProductEntity } from '@core/historyProduct/historyProduct.entity';
+import { HistoryProductI } from '@core/historyProduct/historyProduct.interface';
 
 @Injectable()
 export default class HistoryProductService {
-    protected readonly historyLength: number;
+    private readonly historyLength: number;
 
     constructor(
         @InjectRepository(HistoryProductEntity) public readonly historyRepo: Repository<HistoryProductEntity>,

@@ -34,6 +34,10 @@ Boilerplate for web store
 
     -   http://media.leprechaun.loc media files server
 
+    -   http://localhost:1080 _Mailcatcher_
+
+    -   http://localhost:15672 _RabbitMQ_ UI client (login: `guest`, pass: `guest`)
+
 <!-- -   remote test server
 
     -   https://leprechaun.space user client

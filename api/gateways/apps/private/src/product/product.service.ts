@@ -15,7 +15,7 @@ import { PaginationResult } from '@shared/dto/pagination.dto';
 @Injectable()
 export default class ProductService {
     constructor(
-        @InjectRepository(ProductEntity) protected readonly productRepo: Repository<ProductEntity>,
+        @InjectRepository(ProductEntity) private readonly productRepo: Repository<ProductEntity>,
         private readonly imageService: ImageService,
         private readonly FSService: FSService,
         private readonly productCoreService: ProductCoreService,

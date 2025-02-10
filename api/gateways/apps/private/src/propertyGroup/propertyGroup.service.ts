@@ -11,7 +11,7 @@ import { CategoryI } from '@core/category/category.interface';
 @Injectable()
 export default class PropertyGroupService {
     constructor(
-        @InjectRepository(PropertyGroupEntity) protected readonly propertyGroupRepo: Repository<PropertyGroupEntity>,
+        @InjectRepository(PropertyGroupEntity) private readonly propertyGroupRepo: Repository<PropertyGroupEntity>,
     ) { }
 
     public async getGroup(id: PropertyGroupI['id']): Promise<PropertyGroupI | null> {

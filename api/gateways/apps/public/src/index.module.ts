@@ -6,6 +6,7 @@ import * as cookieParser from 'cookie-parser';
 
 import CategoryModule from './category/category.module';
 import AuthModule from './auth/auth.module';
+import EventModule from './event/event.module';
 import SubscribeProductModule from './subscribeProduct/subscribeProduct.module';
 import ProductModule from './product/product.module';
 import HistoryProductModule from './historyProduct/historyProduct.module';
@@ -14,9 +15,6 @@ import WishlistItemModule from './wishlistItem/wishlistItem.module';
 import OrderModule from './order/order.module';
 import ConfigModule from '@core/config/config.module';
 import ConfigService from '@core/config/config.service';
-import ImageCoreModule from '@core/image/image.module';
-import PropertyCoreModule from '@core/property/property.module';
-import PropertyGroupCoreModule from '@core/propertyGroup/propertyGroup.module';
 import UncaughtExceptionFilter from '@shared/filters/uncaughtException.filter';
 import HTTPLogMiddleware from '@shared/middlewares/HTTPLog.middleware';
 import MailModule from '@shared/modules/mail/mail.module';
@@ -30,22 +28,20 @@ import MailModule from '@shared/modules/mail/mail.module';
             useFactory: async (conf: ConfigService) => conf.getDBConnectionData(),
             name: 'default',
         }),
-        ImageCoreModule,
-        PropertyCoreModule,
-        PropertyGroupCoreModule,
+        MailModule.forRootAsync({
+            imports: [ConfigModule],
+            inject: [ConfigService],
+            useFactory: async (conf: ConfigService) => conf,
+        }),
+        AuthModule,
         CategoryModule,
         ProductModule,
         HistoryProductModule,
         WishlistModule,
         WishlistItemModule,
         OrderModule,
-        MailModule.forRootAsync({
-            imports: [ConfigModule],
-            inject: [ConfigService],
-            useFactory: async (conf: ConfigService) => conf,
-        }),
         SubscribeProductModule,
-        AuthModule,
+        EventModule,
     ],
     providers: [
         {

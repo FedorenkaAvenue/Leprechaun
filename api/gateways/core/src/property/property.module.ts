@@ -7,4 +7,4 @@ import { PropertyEntity } from "./property.entity";
     imports: [TypeOrmModule.forFeature([PropertyEntity])],
     exports: [TypeOrmModule],
 })
-export default class PropertyCoreModule { }
+export default class PropertyModule { }

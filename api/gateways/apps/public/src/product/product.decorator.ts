@@ -1,5 +1,5 @@
 import { ProductLabel } from "./product.enum";
-import { Label } from "./product.dto";
+import { Label, ProductPublic } from "./product.dto";
 import { ProductI } from "@core/product/product.interface";
 import getPercentDifference from '@shared/utils/getPercentDifference';
 
@@ -10,7 +10,6 @@ import getPercentDifference from '@shared/utils/getPercentDifference';
 export default function WithLabelsDecorator(...labels: ProductLabel[]) {
     return function <T extends { new(...args: any[]): {} }>(constr: T) {
         return class Kozyan extends constr {
-            //@ts-ignore
             labels: ProductPublic['labels'];
 
             constructor(...args: any[]) {

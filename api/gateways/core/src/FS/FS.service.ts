@@ -48,7 +48,7 @@ export default class FSService {
         folderId: string | number,
         files: Express.Multer.File[],
     ): Promise<string[]> {
-        const itemDirPath = `${this.configService.getHostingParams()}/${itemType}/${folderId}`;
+        const itemDirPath = `${this.configService.getHostingParams().HOSTING_PATH}/${itemType}/${folderId}`;
 
         try {
             await promises.mkdir(itemDirPath, { recursive: true });
@@ -58,7 +58,7 @@ export default class FSService {
                     const newFileName = genUUID() + extname(originalname);
                     const imageHref = `${itemType}${folderId}/${newFileName}`;
 
-                    await promises.appendFile(`${this.configService.getHostingParams()}/${imageHref}`, buffer);
+                    await promises.appendFile(`${this.configService.getHostingParams().HOSTING_PATH}/${imageHref}`, buffer);
 
                     return imageHref;
                 }),
@@ -75,7 +75,7 @@ export default class FSService {
      */
     public async removeFiles(files: string[]): Promise<void> {
         try {
-            await Promise.all(files.map(file => promises.rm(this.configService.getHostingParams() + file)));
+            await Promise.all(files.map(file => promises.rm(this.configService.getHostingParams().HOSTING_PATH + file)));
         } catch (err) {
             throw new InternalServerErrorException(err);
         }

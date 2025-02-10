@@ -7,7 +7,7 @@ import { CacheInterceptor } from '@nestjs/cache-manager';
 import ProductService from './product.service';
 import { ProductCardPublic, ProductPublic } from './product.dto';
 import { ProductCardPublicI, ProductPublicI } from './product.interface';
-import HistoryProductInterceptor from './product.interceptor';
+import HistoryProductInterceptor from '../historyProduct/historyProduct.interceptor';
 import { QueriesProductListI } from '@core/queries/queries.interface';
 import { QueriesProductList } from '@core/queries/queries.dto';
 import QueryDecorator from '@core/queries/query.decorator';
@@ -25,7 +25,7 @@ export default class ProductController {
 
     @Get('list')
     @UseInterceptors(CacheInterceptor, InvalidPaginationPageInterceptor)
-    @ApiOperation({ summary: 'get all public products 💾' })
+    @ApiOperation({ summary: 'get product list 💾' })
     @ApiProductListQueriesDecorator()
     @ApiPaginatedResponse(ProductCardPublic)
     private getProducts(
@@ -35,8 +35,8 @@ export default class ProductController {
     }
 
     @Get(':productId')
-    @UseInterceptors(SessionInitInterceptor, CacheInterceptor, HistoryProductInterceptor, NotFoundInterceptor)
-    @ApiOperation({ summary: 'get public product by ID 💾 🧷' })
+    @UseInterceptors(SessionInitInterceptor, HistoryProductInterceptor, CacheInterceptor, NotFoundInterceptor)
+    @ApiOperation({ summary: 'get product full data by ID 💾 🧷' })
     @ApiOkResponse({ type: ProductPublic })
     @ApiBadRequestResponse({ description: 'invalid product ID' })
     @ApiNotFoundResponse({ description: 'product not found' })

@@ -9,4 +9,4 @@ import ImageService from "./image.service";
     providers: [ImageService],
     exports: [ImageService],
 })
-export default class ImageCoreModule { }
+export default class ImageModule { }

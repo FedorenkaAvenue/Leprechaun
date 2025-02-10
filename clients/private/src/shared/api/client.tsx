@@ -1,4 +1,4 @@
-import axios, { AxiosError } from 'axios';
+import axios, { AxiosError, AxiosResponse } from 'axios';
 import { toast } from 'react-toastify';
 import { EnhancedStore } from '@reduxjs/toolkit';
 
@@ -34,6 +34,10 @@ apiClient.interceptors.response.use(
         const originalRequest: any = err.config;
 
         switch (err.response?.status) {
+            case 400:
+            case 406:
+                toast.error((err.response as AxiosResponse<{ message: string }>).data.message)
+                break;
             case 401:
                 if (!originalRequest._retry && !originalRequest.url.includes('/auth/refresh')) {
                     originalRequest._retry = true;

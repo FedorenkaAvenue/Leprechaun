@@ -132,3 +132,21 @@ export class OptionPublic extends PropertyGroupPublic implements OptionPublicI {
         this.properties = properties.map(prop => new PropertyPublic(prop, lang));
     }
 }
+
+export class ProductpublicPreviewFromProductPublic implements ProductPreviewPublicI {
+    id: string;
+    title: string;
+    labels: ProductLabelI[];
+    status: ProductStatus;
+    price: PriceEntity;
+    image: string;
+
+    constructor({ id, title, labels, status, price, images }: ProductPublic) {
+        this.id = id;
+        this.title = title;
+        this.labels = labels;
+        this.status = status;
+        this.image = images.find(({ is_main }) => is_main)?.src as string;
+        this.price = price;
+    }
+}

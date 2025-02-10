@@ -13,6 +13,7 @@ import { JwtModuleOptions, JwtSignOptions } from '@nestjs/jwt';
 import { CookieOptions } from 'express';
 import { MulterOptions } from '@nestjs/platform-express/multer/interfaces/multer-options.interface';
 import { createKeyv } from '@keyv/redis';
+import { ClientProvider, RmqOptions, Transport } from '@nestjs/microservices';
 const pgConnect = require('connect-pg-simple');
 
 const ENV_ARRAY_SPLIT_SYMBOL = ',';
@@ -238,6 +239,16 @@ export default class ConfigService {
             sameSite: this.isDev ? 'lax' : 'none',
             domain: `.${this.getVal('HOST_NAME')}`,
             maxAge: 123123123,
+        });
+    }
+
+    public getBrokerMessageNetConfig(options?: RmqOptions['options']): RmqOptions {
+        return ({
+            options: {
+                urls: [`amqp://${this.getVal('BROKER_NET_HOST')}:${this.getVal('BROKER_NET_PORT')}`],
+                ...options,
+            },
+            transport: Transport.RMQ,
         });
     }
 }

@@ -10,7 +10,7 @@ import { UserDataDTO } from "@core/user/user.dto";
 @Injectable()
 export default class EmployerService {
     constructor(
-        @InjectRepository(UserEntity) protected readonly userRepo: Repository<UserEntity>,
+        @InjectRepository(UserEntity) private readonly userRepo: Repository<UserEntity>,
     ) { }
 
     public async getEmployerOwnData(id: UserI['id']): Promise<UserDataI> {

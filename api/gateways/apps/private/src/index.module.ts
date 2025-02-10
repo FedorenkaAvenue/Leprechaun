@@ -13,7 +13,6 @@ import PropertyModule from './property/property.module';
 import ToolsModule from './tools/tools.module';
 import ConfigModule from '@core/config/config.module';
 import ConfigService from '@core/config/config.service';
-import TransModule from '@core/trans/trans.module';
 import HTTPLogMiddleware from '@shared/middlewares/HTTPLog.middleware';
 import LoggerModule from '@shared/modules/logger/logger.module';
 import UncaughtExceptionFilter from '@shared/filters/uncaughtException.filter';
@@ -34,7 +33,7 @@ import MailModule from '@shared/modules/mail/mail.module';
             useFactory: async (conf: ConfigService) => conf.getDBConnectionData(),
             name: 'default',
         }),
-        TransModule,
+        AuthModule,
         ProductModule,
         CategoryModule,
         PropertyGroupModule,
@@ -42,7 +41,6 @@ import MailModule from '@shared/modules/mail/mail.module';
         EmployerModule,
         OrderModule,
         ToolsModule,
-        AuthModule,
     ],
     providers: [
         {

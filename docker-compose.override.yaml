@@ -48,6 +48,13 @@ services:
     ports:
       - ${CACHE_PORT_EXPOSE}:${CACHE_PORT}
 
+  broker_net:
+    container_name: leprechaun_broker_net
+    ports:
+      - ${BROKER_NET_PORT_EXPOSE}:5672
+    networks:
+      - api
+
   api_gateway_private:
     container_name: leprechaun_api_gateway_private
     networks:
@@ -73,6 +80,9 @@ services:
       - CACHE_PASSWORD
       - CACHE_DB_NUMBER
       - DEFAULT_CACHE_TTL
+      - BROKER_NET_HOST
+      - BROKER_NET_PORT
+      - HOSTING_PATH
     volumes:
       - image_hosting:/var/www/img:rw
     depends_on:
@@ -102,6 +112,8 @@ services:
       - CACHE_PASSWORD
       - CACHE_DB_NUMBER
       - DEFAULT_CACHE_TTL
+      - BROKER_NET_HOST
+      - BROKER_NET_PORT
     depends_on:
       - db_cache
       - db_main
@@ -119,6 +131,8 @@ services:
       - SOCKET_DB_NUMBER
       - DOMAIN_PUBLIC
       - DOMAIN_PRIVATE
+      - BROKER_NET_HOST
+      - BROKER_NET_PORT
     depends_on:
       - db_cache
 

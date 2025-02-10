@@ -9,7 +9,7 @@ import { PropertyEntity } from '@core/property/property.entity';
 @Injectable()
 export default class PropertyService {
     constructor(
-        @InjectRepository(PropertyEntity) protected readonly propertyRepo: Repository<PropertyEntity>
+        @InjectRepository(PropertyEntity) private readonly propertyRepo: Repository<PropertyEntity>
     ) { }
 
     public async createProperty(property: CreatePropertyDTO): Promise<PropertyI> {

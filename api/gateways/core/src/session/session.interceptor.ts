@@ -12,7 +12,6 @@ export class SessionInitInterceptor implements NestInterceptor {
         const req = context.switchToHttp().getRequest() as Request;
 
         // create new session
-        //@ts-ignore
         if (!req.session.ip) {
             const { ip, session } = req;
 

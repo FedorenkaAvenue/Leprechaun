@@ -66,9 +66,20 @@ export const productApi = rootApi.injectEndpoints({
                 url: `/private/product/${productId}`,
                 method: 'DELETE',
             }),
-            invalidatesTags: (_, __, id) => ([{ type: 'product', id }, 'product_list']),
-            async onQueryStarted(_, { queryFulfilled }) {
+            // invalidatesTags: (_, __, id) => ([{ type: 'product', id }, 'product_list']), // ? after removing always triggers invalidate and server returns 404
+            invalidatesTags: () => (['product_list']),
+            async onQueryStarted(productId, { queryFulfilled, dispatch }) {
                 toast.promise(queryFulfilled, { pending: 'Loading', success: 'Product is deleted' });
+
+                const patch = dispatch(productApi.util.updateQueryData('product', productId, () => {
+                    return undefined;
+                }));
+
+                try {
+                    await queryFulfilled;
+                } catch (_) {
+                    patch.undo();
+                }
             }
         }),
     }),

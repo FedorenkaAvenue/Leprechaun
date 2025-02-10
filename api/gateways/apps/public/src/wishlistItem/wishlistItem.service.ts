@@ -15,7 +15,7 @@ import { WishlistItemI } from '@core/wishlistItem/wishlistItem.interface';
 @Injectable()
 export default class WishlistItemService {
     constructor(
-        protected dataSource: DataSource,
+        private readonly dataSource: DataSource,
         @InjectRepository(WishlistEntity) private readonly wishlistRepo: Repository<WishlistEntity>,
         @InjectRepository(WishlistItemEntity) private readonly wishlistItemRepo: Repository<WishlistItemEntity>,
     ) { }

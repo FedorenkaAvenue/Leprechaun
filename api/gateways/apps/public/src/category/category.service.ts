@@ -10,7 +10,7 @@ import { QueriesCommonI } from '@core/queries/queries.interface';
 @Injectable()
 export default class CategoryService {
     constructor(
-        @InjectRepository(CategoryEntity) protected readonly categoryRepo: Repository<CategoryEntity>,
+        @InjectRepository(CategoryEntity) private readonly categoryRepo: Repository<CategoryEntity>,
     ) { }
 
     public async getCategoryList({ lang }: QueriesCommonI): Promise<CategoryPublicI[]> {

@@ -2,14 +2,15 @@
 
 import { useEffect } from 'react';
 
-import { socket } from '@shared/configs/socket';
 import { useUpdateProductHistory } from '@features/history/model/hooks';
+import { Event } from '@shared/models/events';
+import { socket } from '@shared/configs/socket';
 
 export default function Socket() {
     const updateProductHistory = useUpdateProductHistory();
 
     useEffect(() => {
-        socket.on('push_product_history', updateProductHistory);
+        socket.on(Event.HISTORY_PRODUCT_PUSH, updateProductHistory);
     }, []);
 
     return null;

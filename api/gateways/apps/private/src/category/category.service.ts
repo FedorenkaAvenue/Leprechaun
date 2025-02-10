@@ -12,12 +12,12 @@ import { FOLDER_TYPES } from '@core/FS/FS.enum';
 @Injectable()
 export default class CategoryService {
     constructor(
-        @InjectRepository(CategoryEntity) protected readonly categoryRepo: Repository<CategoryEntity>,
-        protected readonly FSService: FSService,
+        @InjectRepository(CategoryEntity) private readonly categoryRepo: Repository<CategoryEntity>,
+        private readonly FSService: FSService,
     ) { }
 
-    getCategoryList(): Promise<CategoryPreviewI[]> {
-        return this.categoryRepo.find({
+    public async getCategoryList(): Promise<CategoryPreviewI[]> {
+        return await this.categoryRepo.find({
             order: {
                 created_at: 'DESC',
             },

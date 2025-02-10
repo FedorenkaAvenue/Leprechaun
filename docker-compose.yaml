@@ -21,6 +21,14 @@ services:
     restart: unless-stopped
     volumes:
       - ./db/cache/redis.conf:/app/redis.conf
+  
+  broker_net:
+    restart: unless-stopped
+    image: rabbitmq:4-management-alpine
+    volumes:
+      - ./broker/net/rabbitmq.config:/etc/rabbitmq/conf.d/rabbitmq.config
+    ports:
+      - ${BROKER_NET_UI_PORT_EXPOSE}:15672
 
   api_gateway_private:
     restart: unless-stopped

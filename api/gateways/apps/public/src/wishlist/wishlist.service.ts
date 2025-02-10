@@ -12,7 +12,7 @@ import { WishlistI } from '@core/wishlist/wishlist.interface';
 @Injectable()
 export default class WishlistService {
     constructor(
-        protected dataSource: DataSource,
+        private readonly dataSource: DataSource,
         @InjectRepository(WishlistEntity) public readonly wishlistRepo: Repository<WishlistEntity>,
     ) { }
 
