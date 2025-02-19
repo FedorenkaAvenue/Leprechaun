@@ -61,14 +61,14 @@ export const productApi = rootApi.injectEndpoints({
                 }
             },
         }),
-        removeProduct: build.mutation<undefined, Product['id']>({
-            query: productId => ({
+        removeProduct: build.mutation<undefined, { productId: Product['id'], successCallback?: () => void }>({
+            query: ({ productId }) => ({
                 url: `/private/product/${productId}`,
                 method: 'DELETE',
             }),
             // invalidatesTags: (_, __, id) => ([{ type: 'product', id }, 'product_list']), // ? after removing always triggers invalidate and server returns 404
             invalidatesTags: () => (['product_list']),
-            async onQueryStarted(productId, { queryFulfilled, dispatch }) {
+            async onQueryStarted({ productId, successCallback }, { queryFulfilled, dispatch }) {
                 toast.promise(queryFulfilled, { pending: 'Loading', success: 'Product is deleted' });
 
                 const patch = dispatch(productApi.util.updateQueryData('product', productId, () => {
@@ -77,6 +77,7 @@ export const productApi = rootApi.injectEndpoints({
 
                 try {
                     await queryFulfilled;
+                    successCallback?.call(null);
                 } catch (_) {
                     patch.undo();
                 }

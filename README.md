@@ -22,21 +22,16 @@ Boilerplate for web store
 -   local
 
     -   http://leprechaun.loc user client
-
     -   http://adm.leprechaun.loc admin client
-
     -   http://docs.leprechaun.loc/private _OpenAPI_ private (admin) docs
     -   http://docs.leprechaun.loc/public _OpenAPI_ public (customer) docs
-
     -   http://api.leprechaun.loc/private RestFull private (admin) API
     -   http://api.leprechaun.loc RestFull public (customer) API
     -   http://api.leprechaun.loc/socket.io/ websocket public (customer) API
-
     -   http://media.leprechaun.loc media files server
-
     -   http://localhost:1080 _Mailcatcher_
-
     -   http://localhost:15672 _RabbitMQ_ UI client (login: `guest`, pass: `guest`)
+    -   http://localhost:9001 _MinIO_ (S3) UI admin panel
 
 <!-- -   remote test server
 
@@ -99,4 +94,3 @@ Boilerplate for web store
 -   other
 
     -   `make translation` move translations
-    -   `make image_hosting` open image hosting GUI folder (_linux_)

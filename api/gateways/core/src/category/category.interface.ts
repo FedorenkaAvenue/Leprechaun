@@ -7,6 +7,7 @@ export interface CategoryI<T = TransI> {
     url: string
     title: T
     icon: string | null
+    icon_id: string | null
     is_public: boolean
     comment: string | null
     created_at: Date

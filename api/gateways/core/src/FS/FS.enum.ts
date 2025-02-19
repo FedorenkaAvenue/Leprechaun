@@ -1,4 +1,4 @@
-export enum FOLDER_TYPES {
-    CATEGORY = 'img/category/',
-    PRODUCT = 'img/product/',
+export enum FSBucket {
+    CATEGORY = 'category',
+    PRODUCT = 'product',
 }

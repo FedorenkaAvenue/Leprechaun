@@ -8,7 +8,6 @@ import {
     ApiTags,
     ApiUnsupportedMediaTypeResponse,
 } from '@nestjs/swagger';
-import { DeleteResult } from 'typeorm';
 import {
     Body,
     Controller,
@@ -39,7 +38,6 @@ import { CacheClearInterceptor } from '@core/cache/cache.interceptor';
 import QueryDecorator from '@core/queries/query.decorator';
 import { ApiProductListQueriesDecorator } from '@core/product/product.decorator';
 import InvalidPaginationPageInterceptor from '@shared/interceptors/invalidPaginationPage.interceptor';
-import AffectedResultInterceptor from '@shared/interceptors/affectedResult.interceptor';
 import { Pagination, PaginationResult } from '@shared/dto/pagination.dto';
 import NotFoundInterceptor from '@shared/interceptors/notFound.interceptor';
 import ApiPaginatedResponse from '@shared/decorators/apiPaginatedResponse.decorator';
@@ -105,12 +103,12 @@ export default class ProductController {
     // !
     @Delete(':productID')
     @UserRoleDecorator(UserRole.ADMIN)
-    @UseInterceptors(AffectedResultInterceptor('product not found'), CacheClearInterceptor)
+    @UseInterceptors(CacheClearInterceptor)
     @ApiOperation({ summary: 'delete product by ID' })
     @ApiOkResponse({ description: 'success' })
     @ApiBadRequestResponse({ description: 'invalid product ID' })
     @ApiNotFoundResponse({ description: 'product not found' })
-    private deleteProduct(@Param('productID', ParseUUIDPipe) productID: string): Promise<DeleteResult> {
+    private deleteProduct(@Param('productID', ParseUUIDPipe) productID: string): Promise<void> {
         return this.productService.deleteProduct(productID);
     }
 }

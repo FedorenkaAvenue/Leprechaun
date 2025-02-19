@@ -1,7 +1,7 @@
 import { TransI } from "../trans/trans.interface";
 import { ProductStatus } from "./product.enum";
 import { CategoryI } from "../category/category.interface";
-import { ImageI } from "../image/image.interface";
+import { ProductImageI } from "../productImage/productImage.interface";
 import { PropertyI } from "../property/property.interface";
 import { PropertyGroupI } from "../propertyGroup/propertyGroup.interface";
 import { PriceI } from "@shared/interfaces/price.interface";
@@ -24,7 +24,7 @@ export interface ProductPreviewI extends ProductBaseI {
 }
 
 export interface ProductI extends ProductBaseI {
-    images: ImageI[];
+    images: ProductImageI[];
     properties: PropertyI[];
     orderCount: number;
     description: TransI;

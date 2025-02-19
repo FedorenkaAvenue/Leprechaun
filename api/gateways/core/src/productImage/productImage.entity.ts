@@ -1,12 +1,12 @@
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { ApiProperty } from '@nestjs/swagger';
 
-import { ImageI } from './image.interface';
+import { ProductImageI } from './productImage.interface';
 import { ProductEntity } from '../product/product.entity';
 import { ProductI } from '../product/product.interface';
 
-@Entity('image')
-export class ImageEntity implements ImageI {
+@Entity('product_image')
+export default class ProductImageEntity implements ProductImageI {
     @PrimaryGeneratedColumn('uuid')
     @ApiProperty()
     id: string;
@@ -14,6 +14,10 @@ export class ImageEntity implements ImageI {
     @Column()
     @ApiProperty()
     src: string;
+
+    @Column({ select: false, nullable: false })
+    @ApiProperty({ description: '3S file id' })
+    src_id: string;
 
     @ManyToOne(() => ProductEntity, ({ images }) => images, { onDelete: 'CASCADE' })
     @JoinColumn({ name: 'product_id', referencedColumnName: 'id' })

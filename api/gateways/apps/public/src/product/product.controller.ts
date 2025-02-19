@@ -7,7 +7,7 @@ import { CacheInterceptor } from '@nestjs/cache-manager';
 import ProductService from './product.service';
 import { ProductCardPublic, ProductPublic } from './product.dto';
 import { ProductCardPublicI, ProductPublicI } from './product.interface';
-import HistoryProductInterceptor from '../historyProduct/historyProduct.interceptor';
+import ProductHistoryInterceptor from '../productHistory/productHistory.interceptor';
 import { QueriesProductListI } from '@core/queries/queries.interface';
 import { QueriesProductList } from '@core/queries/queries.dto';
 import QueryDecorator from '@core/queries/query.decorator';
@@ -35,7 +35,7 @@ export default class ProductController {
     }
 
     @Get(':productId')
-    @UseInterceptors(SessionInitInterceptor, HistoryProductInterceptor, CacheInterceptor, NotFoundInterceptor)
+    @UseInterceptors(SessionInitInterceptor, ProductHistoryInterceptor, CacheInterceptor, NotFoundInterceptor)
     @ApiOperation({ summary: 'get product full data by ID 💾 🧷' })
     @ApiOkResponse({ type: ProductPublic })
     @ApiBadRequestResponse({ description: 'invalid product ID' })

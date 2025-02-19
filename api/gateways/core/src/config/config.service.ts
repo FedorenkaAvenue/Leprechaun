@@ -13,14 +13,11 @@ import { JwtModuleOptions, JwtSignOptions } from '@nestjs/jwt';
 import { CookieOptions } from 'express';
 import { MulterOptions } from '@nestjs/platform-express/multer/interfaces/multer-options.interface';
 import { createKeyv } from '@keyv/redis';
-import { ClientProvider, RmqOptions, Transport } from '@nestjs/microservices';
+import { RmqOptions, Transport } from '@nestjs/microservices';
+import { S3ClientConfig } from '@aws-sdk/client-s3';
 const pgConnect = require('connect-pg-simple');
 
 const ENV_ARRAY_SPLIT_SYMBOL = ',';
-
-interface IHostingParams {
-    HOSTING_PATH: string;
-}
 
 /**
  * @description configuration service (esp working with a environment variables)
@@ -29,7 +26,6 @@ interface IHostingParams {
 @Injectable()
 export default class ConfigService {
     public readonly isDev: boolean;
-    private readonly isLepr: boolean;
 
     constructor() {
         this.isDev = this.getVal('IS_DEV') === 'true';
@@ -62,6 +58,21 @@ export default class ConfigService {
      */
     public getAppName(): string {
         return this.getVal('APP_NAME');
+    }
+
+    /**
+     * @description get S3 client config
+     */
+    public getFSClient(): S3ClientConfig {
+        return ({
+            region: 'us-east-1',
+            endpoint: `${this.getVal('S3_HOST')}:${this.getVal('S3_PORT')}`,
+            credentials: {
+                accessKeyId: this.getVal('S3_USER'),
+                secretAccessKey: this.getVal('S3_PASSWORD'),
+            },
+            forcePathStyle: true,
+        })
     }
 
     /**
@@ -144,15 +155,6 @@ export default class ConfigService {
             url: `redis://${this.getVal('SOCKET_HOST')}:${+this.getVal('SOCKET_PORT')}`,
             password: this.getVal('SOCKET_PASSWORD'),
             database: +this.getVal('SOCKET_DB_NUMBER'),
-        };
-    }
-
-    /**
-     * @description get hosting folder's paths
-     */
-    public getHostingParams(): IHostingParams {
-        return {
-            HOSTING_PATH: this.getVal('HOSTING_PATH'),
         };
     }
 

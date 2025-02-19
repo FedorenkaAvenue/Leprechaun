@@ -18,7 +18,7 @@ const ProductPage = () => {
                     <Button onClick={() => alert("Хуя")} color='primary' variant='contained'>
                         Edit product
                     </Button>
-                    <ProductDeleteButton productID={data?.id} withoutIcon />
+                    {data && <ProductDeleteButton productId={data.id} withoutIcon />}
                 </>
             }
         >

@@ -2,7 +2,7 @@ import { CategoryPublicI } from "../category/category.interface";
 import { ProductLabel } from "./product.enum";
 import { PropertyGroupPublicI } from "../propertyGroup/propertyGroup.interface";
 import { PropertyPublicI } from "../property/property.interface";
-import { ImageI } from "@core/image/image.interface";
+import { ProductImageI } from "@core/productImage/productImage.interface";
 import { ProductI } from "@core/product/product.interface";
 
 export interface ProductPublicBaseI extends Pick<ProductI, 'id' | 'status' | 'price'> {
@@ -15,7 +15,7 @@ export interface ProductPreviewPublicI extends ProductPublicBaseI {
 }
 
 export interface ProductCardPublicI extends ProductPublicBaseI {
-    images: ImageI[];
+    images: ProductImageI[];
     options: OptionPublicI[];
     description: string;
 }

@@ -1,5 +1,13 @@
 import {
-    Column, CreateDateColumn, Entity, JoinColumn, JoinTable, ManyToMany, OneToMany, OneToOne, PrimaryGeneratedColumn,
+    Column,
+    CreateDateColumn,
+    Entity,
+    JoinColumn,
+    JoinTable,
+    ManyToMany,
+    OneToMany,
+    OneToOne,
+    PrimaryGeneratedColumn,
     UpdateDateColumn,
 } from 'typeorm';
 import { ApiProperty } from '@nestjs/swagger';
@@ -38,6 +46,10 @@ export default class CategoryEntity implements CategoryI {
     @Column({ nullable: true })
     @ApiProperty()
     icon: string;
+
+    @Column({ nullable: true, select: false })
+    @ApiProperty({ description: '3S file ID' })
+    icon_id: string;
 
     @Column({ type: 'varchar', nullable: true })
     @ApiProperty()

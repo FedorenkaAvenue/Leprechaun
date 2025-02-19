@@ -3,7 +3,7 @@ import { Observable, tap } from 'rxjs';
 import { Request } from 'express';
 
 import { ProductPublic, ProductpublicPreviewFromProductPublic } from '../product/product.dto';
-import HistoryProductService from '../historyProduct/historyProduct.service';
+import ProductHistoryService from '../productHistory/productHistory.service';
 import EventService from '../event/event.service';
 
 /**
@@ -12,7 +12,7 @@ import EventService from '../event/event.service';
 @Injectable()
 export default class HistoryProductInterceptor implements NestInterceptor {
     constructor(
-        private readonly historyService: HistoryProductService,
+        private readonly historyService: ProductHistoryService,
         private readonly eventService: EventService,
     ) { }
 

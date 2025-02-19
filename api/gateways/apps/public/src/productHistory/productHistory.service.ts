@@ -8,15 +8,15 @@ import ConfigService from '@core/config/config.service';
 import { ProductI } from '@core/product/product.interface';
 import { QueriesCommonI } from '@core/queries/queries.interface';
 import { SessionI } from '@core/session/session.interface';
-import { HistoryProductEntity } from '@core/historyProduct/historyProduct.entity';
-import { HistoryProductI } from '@core/historyProduct/historyProduct.interface';
+import ProductHistoryEntity from '@core/productHistory/productHistory.entity';
+import { ProductHistoryI } from '@core/productHistory/productHistory.interface';
 
 @Injectable()
 export default class HistoryProductService {
     private readonly historyLength: number;
 
     constructor(
-        @InjectRepository(HistoryProductEntity) public readonly historyRepo: Repository<HistoryProductEntity>,
+        @InjectRepository(ProductHistoryEntity) public readonly historyRepo: Repository<ProductHistoryEntity>,
         private readonly configService: ConfigService,
     ) {
         this.historyLength = Number(this.configService.getVal('USER_HISTORY_LENGTH'));
@@ -24,7 +24,7 @@ export default class HistoryProductService {
 
     public async addHistoryProductItem(productId: ProductI['id'], sid: SessionI['sid']): Promise<void> {
         await this.historyRepo.upsert(
-            { product: productId, sid } as DeepPartial<HistoryProductI>,
+            { product: productId, sid } as DeepPartial<ProductHistoryI>,
             {
                 conflictPaths: { product: true, sid: true },
             },

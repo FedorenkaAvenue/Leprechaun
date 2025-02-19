@@ -12,20 +12,17 @@ interface Props extends React.DetailedHTMLProps<React.ImgHTMLAttributes<HTMLImag
     withBorder?: boolean
 }
 
-const IMAGE_DOMAIN = import.meta.env.VITE_DOMAIN_MEDIA;
-
 const Image = forwardRef<HTMLImageElement, Props>((
     { src, avatar, thumbnail, withBorder, withSlider, ...props },
     ref,
 ) => {
-    const ss = `${IMAGE_DOMAIN}/${src}`;
     const img = (
         <img
             className={clsx(
                 "cursor-pointer",
                 { "border-2 border-gray-300": withBorder },
             )}
-            src={thumbnail || ss}
+            src={thumbnail || src}
             ref={ref}
             {...props}
         />
@@ -33,9 +30,9 @@ const Image = forwardRef<HTMLImageElement, Props>((
 
     return (
         avatar
-            ? <Avatar src={ss} sx={{ width: 25, height: 25 }} />
+            ? <Avatar src={src} sx={{ width: 25, height: 25 }} />
             : withSlider
-                ? <PhotoView src={ss}>{img}</PhotoView>
+                ? <PhotoView src={src}>{img}</PhotoView>
                 : img
     );
 });

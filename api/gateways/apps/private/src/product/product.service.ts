@@ -1,40 +1,27 @@
-import { DeleteResult, Repository } from 'typeorm';
-import { Injectable } from '@nestjs/common';
+import { Repository } from 'typeorm';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 
 import { Product, ProductCreateDTO, ProductPreview, ProductUpdateDTO } from './product.dto';
 import { ProductI, ProductPreviewI } from '@core/product/product.interface';
 import { ProductEntity } from '@core/product/product.entity';
-import { FOLDER_TYPES } from '@core/FS/FS.enum';
 import { QueriesProductListI } from '@core/queries/queries.interface';
 import ProductCoreService from '@core/product/product.service';
-import FSService from '@core/FS/FS.service';
-import ImageService from '@core/image/image.service';
+import ProductImageService from '@core/productImage/productImage.service';
 import { PaginationResult } from '@shared/dto/pagination.dto';
 
 @Injectable()
 export default class ProductService {
     constructor(
         @InjectRepository(ProductEntity) private readonly productRepo: Repository<ProductEntity>,
-        private readonly imageService: ImageService,
-        private readonly FSService: FSService,
+        private readonly productImageService: ProductImageService,
         private readonly productCoreService: ProductCoreService,
     ) { }
 
     public async createProduct(newProduct: ProductCreateDTO, images: Express.Multer.File[]): Promise<ProductI> {
         const createdProduct = await this.productRepo.save(new Product(newProduct));
 
-        const {
-            id,
-            title: { id: _titleID, ...titles },
-            description: { id: _descID, ...descriptions },
-        } = createdProduct;
-
-        if (images) {
-            const uploadedImgArr = await this.FSService.saveFiles(FOLDER_TYPES.PRODUCT, id, images);
-
-            this.imageService.addImageArr(id, uploadedImgArr);
-        }
+        if (images.length) await this.productImageService.addImages(createdProduct.id, images);
 
         return createdProduct;
     }
@@ -53,18 +40,21 @@ export default class ProductService {
     }
 
     public async updateProduct(productId: ProductI['id'], updates: ProductUpdateDTO): Promise<void> {
-        try {
-            this.productRepo.save({ id: productId, ...updates }); // ! should use 'save' instead of update
-        } catch (err) {
-            console.log(`while updating product: ${err}`);
-        }
+        await this.productRepo.save({ id: productId, ...updates }); // ! should use 'save' instead of update
     }
 
-    public async deleteProduct(productId: string): Promise<DeleteResult> {
-        const res = await this.productRepo.delete({ id: productId });
+    public async deleteProduct(productId: string): Promise<void> {
+        const product = await this.productRepo.findOne({
+            where: { id: productId },
+            relations: { images: true },
+            select: { images: { src_id: true, id: true } },
+        });
 
-        this.FSService.removeFolder(FOLDER_TYPES.PRODUCT, productId);
+        if (!product) throw new NotFoundException(`product with ID ${productId} not found`);
 
-        return res;
+        await Promise.all([
+            this.productRepo.remove(product),
+            this.productImageService.removeImages(product.images),
+        ]);
     }
 }

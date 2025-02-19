@@ -4,12 +4,15 @@ services:
     build:
       context: ./server
       dockerfile: Dockerfile
-      args:
-        - HOSTING_PATH
     volumes:
       - ./server/conf/nginx.conf:/etc/nginx/nginx.conf
       - ./server/conf/leprechaun.conf:/etc/nginx/conf.d/leprechaun.conf
       - ./server/conf/leprechaun.dev.conf:/etc/nginx/conf.d/leprechaun.dev.conf
+
+  s3:
+    restart: unless-stopped
+    ports:
+      - 9001:9001
 
   db_main:
     restart: unless-stopped
@@ -86,7 +89,6 @@ services:
       - VITE_APP_NAME=${APP_NAME}
       - DOMAIN_PUBLIC
       - VITE_DOMAIN_API=${DOMAIN_API}
-      - VITE_DOMAIN_MEDIA=${DOMAIN_MEDIA}
     networks:
       - client
     depends_on:

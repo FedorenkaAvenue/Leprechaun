@@ -6,6 +6,8 @@ import { useProduct } from '@entities/product/model/hooks';
 import { useRemoveProduct } from '../model/hook';
 import withRoleGuardComponent from '@shared/hocs/withRoleGuardComponent';
 import { UserRole } from '@entities/user/model/enums';
+import { useNavigate } from 'react-router';
+import routerSubConfig from '@shared/config/router';
 
 interface Props extends Omit<DeleteButtonProps, 'buttonTitle' | 'modalTitle' | 'handleAgree' | 'onAgree'> {
     productId: Product['id']
@@ -20,11 +22,19 @@ function ModalContent({ id }: { id: Product['id'] }) {
 }
 
 const ProductDeleteButton = ({ productId, ...props }: Props) => {
+    const navigate = useNavigate();
     const [mutate] = useRemoveProduct();
+
+    function remove() {
+        mutate({
+            productId,
+            successCallback: () => navigate(routerSubConfig.productList.path),
+        });
+    }
 
     return (
         <DeleteButton
-            onAgree={() => mutate(productId)}
+            onAgree={remove}
             modalTitle={(<>Confirm deleting <b>{productId}</b> product?</>)}
             modalContent={<ModalContent id={productId} />}
             buttonTitle='Delete product'

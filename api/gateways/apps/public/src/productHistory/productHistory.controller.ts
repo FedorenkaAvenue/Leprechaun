@@ -2,7 +2,7 @@ import { BadRequestException, Controller, Delete, Get, Session, UseGuards, UseIn
 import { ApiBadRequestResponse, ApiCookieAuth, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { DeleteResult } from 'typeorm';
 
-import HistoryProductService from './historyProduct.service';
+import ProductHistoryService from './productHistory.service';
 import { ProductPreviewPublic } from '../product/product.dto';
 import { ProductPreviewPublicI } from '../product/product.interface';
 import { QueriesCommonI } from '@core/queries/queries.interface';
@@ -13,9 +13,7 @@ import AffectedResultInterceptor from '@shared/interceptors/affectedResult.inter
 @Controller('history')
 @ApiTags('Product history')
 export default class HistoryProductController {
-    constructor(
-        private readonly historyService: HistoryProductService,
-    ) { }
+    constructor(private readonly historyService: ProductHistoryService) { }
 
     @Get('product')
     @ApiOperation({ summary: 'get user product history' })

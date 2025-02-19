@@ -1,12 +1,12 @@
 import { Entity, Index, JoinColumn, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
 
-import { HistoryProductI } from './historyProduct.interface';
+import { ProductHistoryI } from './productHistory.interface';
 import SessionEntity from '../session/session.entity';
 import { ProductEntity } from '../product/product.entity';
 
-@Entity('history_product')
+@Entity('product_history')
 @Index('product_UNIQUE', ['sid', 'product'], { unique: true })
-export class HistoryProductEntity implements HistoryProductI {
+export default class ProductHistoryEntity implements ProductHistoryI {
     @PrimaryGeneratedColumn('uuid')
     id: string;
 

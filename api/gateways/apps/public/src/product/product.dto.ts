@@ -9,7 +9,7 @@ import { ProductLabel } from './product.enum';
 import { PropertyGroupPublic } from '../propertyGroup/propertyGroup.dto';
 import { PropertyPublic } from '../property/property.dto';
 import { PropertyPublicI } from '../property/property.interface';
-import { ImageEntity } from '@core/image/image.entity';
+import ProductImageEntity from '@core/productImage/productImage.entity';
 import { PriceEntity, ProductEntity } from '@core/product/product.entity';
 import { ProductStatus } from '@core/product/product.enum';
 import { QueriesCommonI, QueriesProductListI } from '@core/queries/queries.interface';
@@ -68,8 +68,8 @@ export class ProductPreviewPublic extends Base implements ProductPreviewPublicI 
 
 @WithLabelsDecorator(ProductLabel.NEW, ProductLabel.POPULAR, ProductLabel.DISCOUNT)
 export class ProductCardPublic extends Base implements ProductCardPublicI {
-    @ApiProperty({ type: ImageEntity, isArray: true })
-    images: ImageEntity[];
+    @ApiProperty({ type: ProductImageEntity, isArray: true })
+    images: ProductImageEntity[];
 
     @ApiProperty({ description: 'mapped properties (into property groups)', isArray: true })
     options: OptionPublicI[];
@@ -81,7 +81,7 @@ export class ProductCardPublic extends Base implements ProductCardPublicI {
         super(base, lang);
         this.images = images?.
             sort(({ is_main }) => is_main ? -1 : 1).
-            slice(0, Number(5)) as ImageEntity[];
+            slice(0, Number(5)) as ProductImageEntity[];
         this.options = options
             ? options.filter(({ is_primary }) => is_primary).map(opt => new OptionPublic(opt, lang))
             : [];
@@ -91,8 +91,8 @@ export class ProductCardPublic extends Base implements ProductCardPublicI {
 
 @WithLabelsDecorator(ProductLabel.NEW, ProductLabel.POPULAR, ProductLabel.DISCOUNT)
 export class ProductPublic extends Base implements ProductPublicI {
-    @ApiProperty({ type: ImageEntity, isArray: true })
-    images: ImageEntity[];
+    @ApiProperty({ type: ProductImageEntity, isArray: true })
+    images: ProductImageEntity[];
 
     @ApiProperty({ description: 'mapped properties (into property groups)', isArray: true })
     options: OptionPublicI[];

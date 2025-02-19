@@ -6,7 +6,6 @@
 #       dockerfile: Dockerfile.prod
 #       args:
 #         - ADMIN_CLIENT_PATH
-#         - HOSTING_PATH
 #         - APP_NAME
 #         - LANGS
 #         - DOMAIN_PUBLIC

@@ -7,7 +7,7 @@ import { Category, CategoryCreateDTO, CategoryUpdateDTO } from './category.dto';
 import CategoryEntity from '@core/category/category.entity';
 import { CategoryI } from '@core/category/category.interface';
 import FSService from '@core/FS/FS.service';
-import { FOLDER_TYPES } from '@core/FS/FS.enum';
+import { FSBucket } from '@core/FS/FS.enum';
 
 @Injectable()
 export default class CategoryService {
@@ -24,27 +24,20 @@ export default class CategoryService {
         });
     }
 
-    public async createCategory(newCategory: CategoryCreateDTO, icon: Express.Multer.File): Promise<CategoryI> {
-        // TODO refactoring
+    public async createCategory(
+        newCategory: CategoryCreateDTO, icon: Express.Multer.File | undefined,
+    ): Promise<CategoryI> {
+        let iconData: Awaited<ReturnType<FSService['uploadFile']>> | undefined;
+
+        if (icon) iconData = await this.FSService.uploadFile(icon, FSBucket.CATEGORY, newCategory.url);
+
         try {
-            const createdCategory = await this.categoryRepo.save(new Category(newCategory));
-
-            const {
-                id,
-                title: { id: _, ...titles },
-            } = createdCategory;
-
-            if (icon) {
-                const [uploadedIcon] = await this.FSService.saveFiles(
-                    FOLDER_TYPES.CATEGORY,
-                    id, [icon]
-                );
-
-                await this.categoryRepo.update({ id }, { icon: uploadedIcon });
-            }
-
-            return await this.categoryRepo.findOneByOrFail({ id });
+            return await this.categoryRepo.save({
+                ...new Category(newCategory), icon: iconData?.url, icon_id: iconData?.id,
+            });
         } catch (err) {
+            if (iconData) this.FSService.deleteFile(FSBucket.CATEGORY, iconData.id);
+
             throw new BadRequestException(
                 //@ts-ignore
                 err.code == 23505
@@ -65,10 +58,15 @@ export default class CategoryService {
         return await this.categoryRepo.update({ id: categoryId }, updates);
     }
 
-    public async deleteCategory(categoryId: CategoryI['id']): Promise<DeleteResult> {
-        const res = await this.categoryRepo.delete({ id: categoryId });
+    public async deleteCategory(id: CategoryI['id']): Promise<DeleteResult> {
+        const category = await this.categoryRepo.findOne({
+            where: { id },
+            select: { id: true, icon_id: true },
+        });
 
-        this.FSService.removeFolder(FOLDER_TYPES.CATEGORY, categoryId);
+        const res = await this.categoryRepo.delete({ id });
+
+        if (category?.icon_id) await this.FSService.deleteFile(FSBucket.CATEGORY, category.icon_id);
 
         return res;
     }

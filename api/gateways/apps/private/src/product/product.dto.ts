@@ -17,11 +17,11 @@ import { TransDTO } from '@core/trans/trans.dto';
 import { ProductStatus } from '@core/product/product.enum';
 import { CategoryI } from '@core/category/category.interface';
 import { PropertyI } from '@core/property/property.interface';
-import { ImageI } from '@core/image/image.interface';
+import { ProductImageI } from '@core/productImage/productImage.interface';
 import { ProductI, ProductPreviewI } from '@core/product/product.interface';
 import { TransI } from '@core/trans/trans.interface';
 import { PriceEntity, ProductEntity } from '@core/product/product.entity';
-import { ImageEntity } from '@core/image/image.entity';
+import ProductImageEntity from '@core/productImage/productImage.entity';
 import { PriceDTO } from '@shared/dto/price.dto';
 import { PriceI } from '@shared/interfaces/price.interface';
 
@@ -91,7 +91,7 @@ export class ProductCreateDTO {
         required: false,
         default: [],
     })
-    images: ImageI[];
+    images: ProductImageI[];
 
     @IsOptional()
     @IsNumberString({}, { each: true })
@@ -185,7 +185,7 @@ export class ProductUpdateDTO implements ProductCreateDTO {
         required: false,
         default: [],
     })
-    images: ImageI[];
+    images: ProductImageI[];
 
     @IsOptional()
     @IsNumberString({}, { each: true })
@@ -224,7 +224,7 @@ export class Product implements Omit<ProductI, 'orderCount' | 'wishlistCount' | 
     comment: string;
     is_new: boolean;
     rating: number;
-    images: ImageI[];
+    images: ProductImageI[];
 
     constructor({
         title,
@@ -291,7 +291,7 @@ export class ProductPreview implements ProductPreviewI {
     constructor({
         images, id, title, price, status, category, rating, created_at, is_public, is_new, comment,
     }: ProductEntity) {
-        this.image = (images[0] as ImageEntity)?.src || null;
+        this.image = (images[0] as ProductImageEntity)?.src || null;
         this.id = id;
         this.title = title;
         this.price = price;

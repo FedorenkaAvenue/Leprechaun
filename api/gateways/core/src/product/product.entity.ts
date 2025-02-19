@@ -1,7 +1,19 @@
 import { ApiProperty } from '@nestjs/swagger';
 import {
-    Column, CreateDateColumn, DataSource, Entity, EntitySubscriberInterface, EventSubscriber, JoinColumn, JoinTable,
-    ManyToMany, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn, UpdateEvent,
+    Column,
+    CreateDateColumn,
+    DataSource,
+    Entity,
+    EntitySubscriberInterface,
+    EventSubscriber,
+    JoinColumn,
+    JoinTable,
+    ManyToMany,
+    ManyToOne,
+    OneToMany,
+    OneToOne,
+    PrimaryGeneratedColumn,
+    UpdateEvent,
 } from 'typeorm';
 import { Inject } from '@nestjs/common';
 
@@ -11,7 +23,7 @@ import { TransI } from '../trans/trans.interface';
 import { ProductStatus } from './product.enum';
 import CategoryEntity from '../category/category.entity';
 import { CategoryI } from '../category/category.interface';
-import { ImageEntity } from '../image/image.entity';
+import ProductImageEntity from '../productImage/productImage.entity';
 import { PropertyEntity } from '../property/property.entity';
 import WishlistItemEntity from '../wishlistItem/wishlistItem.entity';
 import SubscribeProductService from '../subscribeProduct/subscribeProduct.service';
@@ -76,9 +88,9 @@ export class ProductEntity implements Omit<ProductI, 'labels' | 'wishlistCount'>
     @ApiProperty()
     comment: string;
 
-    @OneToMany(() => ImageEntity, ({ product_id }) => product_id)
-    @ApiProperty({ type: ImageEntity, isArray: true })
-    images: ImageEntity[];
+    @OneToMany(() => ProductImageEntity, ({ product_id }) => product_id)
+    @ApiProperty({ type: ProductImageEntity, isArray: true })
+    images: ProductImageEntity[];
 
     @ManyToMany(() => PropertyEntity, ({ id }) => id, { cascade: true })
     @JoinTable({
@@ -106,7 +118,7 @@ export class ProductEntity implements Omit<ProductI, 'labels' | 'wishlistCount'>
 export class ProductEntitySubscriber implements EntitySubscriberInterface<ProductEntity> {
     constructor(
         dataSource: DataSource,
-        @Inject(SubscribeProductService) public readonly subscribePublicService: SubscribeProductService,
+        @Inject(SubscribeProductService) private readonly subscribePublicService: SubscribeProductService,
     ) {
         dataSource.subscribers.push(this);
     }

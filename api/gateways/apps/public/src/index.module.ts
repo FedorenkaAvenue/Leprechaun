@@ -9,7 +9,7 @@ import AuthModule from './auth/auth.module';
 import EventModule from './event/event.module';
 import SubscribeProductModule from './subscribeProduct/subscribeProduct.module';
 import ProductModule from './product/product.module';
-import HistoryProductModule from './historyProduct/historyProduct.module';
+import ProductHistoryModule from './productHistory/productHistory.module';
 import WishlistModule from './wishlist/wishlist.module';
 import WishlistItemModule from './wishlistItem/wishlistItem.module';
 import OrderModule from './order/order.module';
@@ -36,7 +36,7 @@ import MailModule from '@shared/modules/mail/mail.module';
         AuthModule,
         CategoryModule,
         ProductModule,
-        HistoryProductModule,
+        ProductHistoryModule,
         WishlistModule,
         WishlistItemModule,
         OrderModule,
