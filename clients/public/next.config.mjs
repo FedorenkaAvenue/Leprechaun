@@ -1,12 +1,14 @@
+const { IS_DEV, DOMAIN_MEDIA } = process.env;
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-    async rewrites() {
-        return [
+    images: {
+        remotePatterns: [
             {
-                source: '/img/:path*',
-                destination: `${process.env.DOMAIN_MEDIA}/img/:path*`,
+                protocol: IS_DEV ? 'http' : 'https',
+                hostname: DOMAIN_MEDIA,
             },
-        ];
+        ],
     },
 };
 

@@ -60,7 +60,7 @@ export default class FSService {
 
             return {
                 id: filePath,
-                url: `${this.configService.getVal('DOMAIN_MEDIA')}/${bucket}/${filePath}`,
+                url: `${this.configService.isDev ? 'http' : 'https'}://${this.configService.getVal('DOMAIN_MEDIA')}/${bucket}/${filePath}`,
             };
         } catch (err) {
             throw new InternalServerErrorException(err);

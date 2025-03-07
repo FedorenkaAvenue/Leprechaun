@@ -26,7 +26,7 @@ const OrderItemCard: FC<Props> = ({ item, renderAmount, renderOptions }) => {
             <div className={cn('flex', !isAvailable && 'opacity-35')}>
                 <AppLink href={`/product/${id}`} className='flex h-full'>
                     <Image
-                        src={'/' + image}
+                        src={image || '/static/no_image.png'}
                         width='100' height='100'
                         alt={title}
                         className='object-contain'

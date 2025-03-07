@@ -19,7 +19,7 @@ interface Props {
 const Item: FC<WishlistItemModel> = ({ product: { image, title, status } }) => (
     <li className='flex h-20 w-20'>
         <Image
-            src={image ? '/' + image : '/static/no_image.png'}
+            src={image || '/static/no_image.png'}
             width={80} height={80}
             alt={title}
             className={cn('object-contain', status !== ProductStatusModel.AVAILABLE && 'opacity-35')}

@@ -42,7 +42,7 @@ const ImageSlider = ({ images, imageTitle, imageSize }: Props) => {
     return (
         <div className='relative flex justify-center min-h-52' onMouseLeave={() => setPostition(0)}>
             <Image
-                src={'/' + images[postition].src}
+                src={images[postition].src}
                 alt={imageTitle}
                 width={imageSize} height={imageSize}
                 className='object-contain'

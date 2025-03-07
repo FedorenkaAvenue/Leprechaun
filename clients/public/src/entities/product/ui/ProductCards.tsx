@@ -108,7 +108,7 @@ export const ProductCardPreview: FC<ProductCardPreviewProps> = props => (
     <Card<ProductPreviewModel>
         renderImages={({ image, title }) => (
             <Image
-                src={image ? '/' + image : '/static/no_image.png'}
+                src={image}
                 alt={title}
                 width={160} height={160}
             />
