@@ -1,12 +1,5 @@
 import { BadRequestException, Injectable, InternalServerErrorException } from '@nestjs/common';
-import {
-    S3Client,
-    PutObjectCommand,
-    HeadBucketCommand,
-    CreateBucketCommand,
-    PutBucketPolicyCommand,
-    DeleteObjectCommand,
-} from '@aws-sdk/client-s3';
+import { S3Client, PutObjectCommand, DeleteObjectCommand } from '@aws-sdk/client-s3';
 import { extname } from 'path';
 import { MulterOptions } from '@nestjs/platform-express/multer/interfaces/multer-options.interface';
 
@@ -19,37 +12,6 @@ export default class FSService {
 
     constructor(private readonly configService: ConfigService) {
         this.s3 = new S3Client(configService.getFSClient());
-    }
-
-    /**
-     * @description check if bucket exists
-     * @param {FSBucket} bucketName bucket name
-     */
-    private async ensureBucketExists(bucketName: FSBucket) {
-        try {
-            await this.s3.send(new HeadBucketCommand({ Bucket: bucketName }));
-        } catch (error) {
-            //@ts-ignore
-            if (error.name === 'NotFound') {
-                await this.s3.send(new CreateBucketCommand({ Bucket: bucketName }));
-                await this.s3.send(new PutBucketPolicyCommand({
-                    Bucket: bucketName,
-                    Policy: JSON.stringify({
-                        Version: "2012-10-17",
-                        Statement: [
-                            {
-                                Effect: "Allow",
-                                Principal: "*",
-                                Action: ["s3:GetObject"],
-                                Resource: [`arn:aws:s3:::${bucketName}/*`]
-                            }
-                        ]
-                    })
-                }));
-            } else {
-                throw error;
-            }
-        }
     }
 
     /**
@@ -84,8 +46,6 @@ export default class FSService {
     public async uploadFile(
         file: Express.Multer.File, bucket: FSBucket, prefix: string | number,
     ): Promise<{ id: string, url: string }> {
-        await this.ensureBucketExists(bucket);
-
         const filePath = `${String(prefix)}_${file.originalname}`;
         const command = new PutObjectCommand({
             Bucket: bucket,
@@ -107,6 +67,11 @@ export default class FSService {
         }
     }
 
+    /**
+     * @description remove files from bucket
+     * @param {FSBucket} bucketName 
+     * @param {String} fileName
+     */
     public async deleteFile(bucketName: FSBucket, fileName: string) {
         try {
             await this.s3.send(new DeleteObjectCommand({ Bucket: bucketName, Key: fileName }));

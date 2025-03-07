@@ -28,7 +28,8 @@ services:
       - MINIO_ROOT_PASSWORD=${S3_PASSWORD}
     volumes:
       - ./s3/data:/data
-    command: server --console-address ":9001" /data
+      - ./s3/entrypoint.sh:/docker-entrypoint-init.d/entrypoint.sh
+    entrypoint: /docker-entrypoint-init.d/entrypoint.sh ${S3_USER} ${S3_PASSWORD} ${S3_PORT} ${S3_PORT_UI}
 
   db_main:
     container_name: leprechaun_db_main

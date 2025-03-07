@@ -1,4 +1,4 @@
 export enum FSBucket {
-    CATEGORY = 'category',
-    PRODUCT = 'product',
+    CATEGORY = 'categories',
+    PRODUCT = 'products',
 }
