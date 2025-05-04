@@ -2,99 +2,81 @@ services:
   server:
     restart: unless-stopped
     build:
-      context: ./server
+      context: ./infra/server
       dockerfile: Dockerfile
     volumes:
-      - ./server/conf/nginx.conf:/etc/nginx/nginx.conf
-      - ./server/conf/leprechaun.conf:/etc/nginx/conf.d/leprechaun.conf
-      - ./server/conf/leprechaun.dev.conf:/etc/nginx/conf.d/leprechaun.dev.conf
+      - ./infra/server/conf/nginx.conf:/etc/nginx/nginx.conf
+      - ./infra/server/conf/leprechaun.conf:/etc/nginx/conf.d/leprechaun.conf
+      - ./infra/server/conf/leprechaun.dev.conf:/etc/nginx/conf.d/leprechaun.dev.conf
 
-  s3:
-    restart: unless-stopped
-    ports:
-      - 9001:9001
+  # s3:
+  #   restart: unless-stopped
+  #   ports:
+  #     - 9001:9001
 
-  db_main:
-    restart: unless-stopped
-    volumes:
-      - ./db/main/postgresql.conf:/app/postgresql.conf
-      - ./db/main/pg_hba.conf:/app/pg_hba.conf
+  # db_main:
+  #   restart: unless-stopped
+  #   volumes:
+  #     - ./db/main/postgresql.conf:/app/postgresql.conf
+  #     - ./db/main/pg_hba.conf:/app/pg_hba.conf
 
-  db_cache:
-    restart: unless-stopped
-    volumes:
-      - ./db/cache/redis.conf:/app/redis.conf
+  # db_cache:
+  #   restart: unless-stopped
+  #   volumes:
+  #     - ./db/cache/redis.conf:/app/redis.conf
   
-  broker_net:
-    restart: unless-stopped
-    image: rabbitmq:4-management-alpine
-    volumes:
-      - ./broker/net/rabbitmq.config:/etc/rabbitmq/conf.d/rabbitmq.config
-    ports:
-      - ${BROKER_NET_UI_PORT_EXPOSE}:15672
+  # broker_net:
+  #   restart: unless-stopped
+  #   image: rabbitmq:4-management-alpine
+  #   volumes:
+  #     - ./broker/net/rabbitmq.config:/etc/rabbitmq/conf.d/rabbitmq.config
+  #   ports:
+  #     - ${BROKER_NET_UI_PORT_EXPOSE}:15672
 
-  api_gateway_private:
+  api:
     restart: unless-stopped
     extends:
       file: docker-compose.shared.yaml
       service: node
-    command: npm run dev:private
+    command: npm run dev
     volumes:
-      - ./api/gateways:/app
-      - /app/apps/public # exclude
-      - /app/apps/ws # exclude
+      - ./apps/api:/app
     environment:
       - IS_DEV=true
       - MAIL_SMPT_PORT_DEV
 
-  api_gateway_public:
-    restart: unless-stopped
-    extends:
-      file: docker-compose.shared.yaml
-      service: node
-    command: npm run dev:public
-    volumes:
-      - ./api/gateways:/app
-      - /app/apps/private # exclude
-      - /app/apps/ws # exclude
-    environment:
-      - IS_DEV=true
-      - MAIL_SMPT_PORT_DEV
+  # api_gateway_ws:
+  #   restart: unless-stopped
+  #   extends:
+  #     file: docker-compose.shared.yaml
+  #     service: node
+  #   command: npm run dev:ws
+  #   volumes:
+  #     - ./api/gateways:/app
+  #     - /app/apps/private # exclude
+  #     - /app/apps/public # exclude
+  #   environment:
+  #     - IS_DEV=true
 
-  api_gateway_ws:
+  app_admin:
     restart: unless-stopped
-    extends:
-      file: docker-compose.shared.yaml
-      service: node
-    command: npm run dev:ws
-    volumes:
-      - ./api/gateways:/app
-      - /app/apps/private # exclude
-      - /app/apps/public # exclude
-    environment:
-      - IS_DEV=true
-
-  client_private:
-    restart: unless-stopped
-    container_name: leprechaun_client_private
+    container_name: leprechaun-app-admin
     build:
-      context: ./clients/private
+      context: ./apps/admin
       dockerfile: Dockerfile
     volumes:
-      # - client_private_trans_hosting:/app/public/locales:rw
-      # - ./translations/dist/client_private:/app/public/locales
-      - ./clients/private:/app
+      - ./apps/admin:/app
     environment:
       - LANGS
       - VITE_APP_NAME=${APP_NAME}
       - DOMAIN_PUBLIC
       - VITE_DOMAIN_API=${DOMAIN_API}
-    networks:
-      - client
-    depends_on:
-      - api_gateway_private
+    # networks:
+    #   - client
+    # depends_on:
+    #   - api_gateway_private
 
-  client_public:
+  app_client:
     restart: unless-stopped
     extends:
       file: docker-compose.shared.yaml
@@ -104,7 +86,7 @@ services:
     volumes:
       # - client_public_trans_hosting:/app/src/public/locales:rw
       # - ./translations/dist/client_public:/app/src/public/locales
-      - ./clients/public:/app
+      - ./apps/client:/app
     environment:
       - IS_DEV=true
       - NODE_ENV=development
@@ -113,30 +95,22 @@ services:
 
   translations:
     restart: unless-stopped
-    container_name: leprechaun_translations
+    container_name: leprechaun-utils-translations
     extends:
       file: docker-compose.shared.yaml
       service: node
     command: yarn dev
     volumes:
-      - ./translations:/app
-      # - client_public_trans_hosting:/app/dist/client_public:rw
-      # - client_private_trans_hosting:/app/dist/client_private:rw
+      - ./utils/translations:/app
     environment:
       - LANGS
 
   mailcatcher:
-    container_name: leprechaun_mailcatcher
+    container_name: leprechaun-utils-mailcatcher
     image: dockage/mailcatcher:0.9.0
     ports:
       - 1080:1080
-    depends_on:
-      - api_gateway_ws
-      - api_gateway_public
-      - api_gateway_private
-
-# volumes:
-#   client_public_trans_hosting:
-#     driver: local
-#   client_private_trans_hosting:
-#     driver: local
+    # depends_on:
+    #   - api_gateway_ws
+    #   - api_gateway_public
+    #   - api_gateway_private

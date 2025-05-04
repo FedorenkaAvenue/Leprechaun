@@ -10,9 +10,5 @@ build_prod:
 build_prod_single:
 	@docker compose ${DOCKER_PROD_CONF_PATH} up --build -d --no-deps --force-recreate $(args)
 
-_cp_admin_client_static:
-	@rm -rf ./server/admin
-	@mkdir -p ./server/admin/ && cp -r ./clients/admin/ ./server/
-
 translation:
-	@cd ./translations && make move
+	@cd ./utils/translations && make move
