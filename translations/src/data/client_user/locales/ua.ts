@@ -9,6 +9,9 @@ const data: Translates = {
             available: 'Є в наявності',
             outOfStock: 'Немає на складі',
         },
+        allAbout: 'Все про товар',
+        characteristics: 'Характеристики',
+        description: 'Опис',
     },
     subscriptions: {
         notifyWhenProductIsAvailable: 'Повідомити коли продукт буде в наявності',
@@ -25,6 +28,8 @@ const data: Translates = {
         summaryProductAmount: 'Кiлькiсть товарiв',
         summaryPrice: 'Сума',
         unvailableItems: 'Недоступні товари',
+        addToCart: 'Добавити в кошик',
+        goToCart: 'Перейти в кошик',
     },
     order: {
         myOrders: 'Мої замовлення',

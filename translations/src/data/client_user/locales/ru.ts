@@ -9,6 +9,9 @@ const data: Translates = {
             available: 'Есть в наличии',
             outOfStock: 'Нет на складе',
         },
+        allAbout: 'Всё про товар',
+        characteristics: 'Характеристики',
+        description: 'Описание',
     },
     subscriptions: {
         notifyWhenProductIsAvailable: 'Уведомить когда продукт будет в наличии',
@@ -25,6 +28,8 @@ const data: Translates = {
         summaryProductAmount: 'Количество товаров',
         summaryPrice: 'Сумма',
         unvailableItems: 'Недоступные товары',
+        addToCart: 'Добавить в корзину',
+        goToCart: 'Перейти в корзину',
     },
     order: {
         myOrders: 'Мои заказы',

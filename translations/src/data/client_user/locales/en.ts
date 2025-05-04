@@ -9,6 +9,9 @@ const data: Translates = {
             available: 'Available',
             outOfStock: 'Out of stock',
         },
+        allAbout: 'All about product',
+        characteristics: 'Characteristics',
+        description: 'Description',
     },
     subscriptions: {
         notifyWhenProductIsAvailable: 'Notify when product will be available',
@@ -25,6 +28,8 @@ const data: Translates = {
         summaryProductAmount: 'Products amount',
         summaryPrice: 'Summary price',
         unvailableItems: 'Unavailable items',
+        addToCart: 'Add to cart',
+        goToCart: 'Go to cart',
     },
     order: {
         myOrders: 'My orders',

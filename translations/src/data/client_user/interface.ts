@@ -7,6 +7,9 @@ type Translates = {
             available: string
             outOfStock: string
         }
+        allAbout: string
+        characteristics: string
+        description: string
     }
     subscriptions: {
         notifyWhenProductIsAvailable: string
@@ -23,6 +26,8 @@ type Translates = {
         summaryProductAmount: string
         summaryPrice: string
         unvailableItems: string
+        addToCart: string
+        goToCart: string
     }
     order: {
         myOrders: string
