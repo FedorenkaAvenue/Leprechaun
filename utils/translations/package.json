@@ -3,16 +3,16 @@
 	"version": "1.0.0",
 	"description": "tools to build translations",
 	"main": "./src/index.ts",
+	"engines": {
+		"node": "20.19.*",
+		"npm": "10.8.*",
+		"yarn": "1.22.*"
+	},
 	"scripts": {
 		"build": "ts-node ./src/index.ts",
 		"dev": "nodemon"
 	},
 	"author": "August Luzanovsky",
-	"engines": {
-		"node": "20.18.*",
-		"npm": "10.8.*",
-		"yarn": "1.22.*"
-	},
 	"dependencies": {
 		"@types/glob": "^7.2.0",
 		"@types/node": "^18.6.1",

@@ -2,6 +2,11 @@
     "name": "client_user",
     "version": "0.1.0",
     "private": true,
+    "engines": {
+        "node": "20.19.*",
+        "npm": "10.8.*",
+        "yarn": "1.22.*"
+    },
     "scripts": {
         "dev": "next dev -p 80 --turbopack",
         "dev_debug": "DEBUG=next:* next dev -p 80 --turbopack",

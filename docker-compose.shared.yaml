@@ -1,4 +1,4 @@
 services:
   node:
-    image: node:20.18.0-alpine
+    image: node:20.19.2-alpine
     working_dir: /app
