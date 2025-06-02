@@ -24,13 +24,7 @@
         "outDir": "./dist",
 
         "baseUrl": "./src",
-        "paths": {
-            "@domains/*": ["./domains/*"],
-            "@modules/*": ["./common/modules/*"],
-            "@utils/*": ["./common/utils/*"],
-            "@middlewares/*": ["./common/middlewares/*"],
-            "@filters/*": ["./common/filters/*"]
-        }
+        "paths": {}
     },
     "include": ["**/*.ts", "**/*.tsx", "**/*.d.ts"],
     "exclude": ["__old", "dist/**/*"]

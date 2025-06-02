@@ -2,8 +2,8 @@ import { NestFactory } from '@nestjs/core';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 
 import AppModule from './index.module';
-import ConfigService from '@core/config/config.service';
-import LoggerService from '@shared/modules/logger/logger.service';
+import ConfigService from '@modules/config/config.service';
+import LoggerService from '@modules/logger/logger.service';
 
 async function runServer() {
     const config = new ConfigService();

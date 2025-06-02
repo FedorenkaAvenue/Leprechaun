@@ -1,22 +1,22 @@
 import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
-import { TypeOrmModule } from '@nestjs/typeorm';
 import { APP_FILTER } from '@nestjs/core';
 import * as cookieParser from 'cookie-parser';
 
-import CategoryModule from './category/category.module';
-import AuthModule from './auth/auth.module';
-import ProductModule from './product/product.module';
-import OrderModule from './order/order.module';
-import EmployerModule from './employer/employer.module';
-import PropertyGroupModule from './propertyGroup/propertyGroup.module';
-import PropertyModule from './property/property.module';
-import ToolsModule from './tools/tools.module';
-import ConfigModule from '@core/config/config.module';
-import ConfigService from '@core/config/config.service';
-import HTTPLogMiddleware from '@shared/middlewares/HTTPLog.middleware';
-import LoggerModule from '@shared/modules/logger/logger.module';
-import UncaughtExceptionFilter from '@shared/filters/uncaughtException.filter';
-import MailModule from '@shared/modules/mail/mail.module';
+// import CategoryModule from '@domains/category/category.module';
+// import ProductModule from '@domains/product/product.module';
+// import OrderModule from '@domains/order/order.module';
+// import EmployerModule from '@domains/employer/employer.module';
+// import PropertyGroupModule from '@domains/propertyGroup/propertyGroup.module';
+// import PropertyModule from '@domains/property/property.module';
+// import ToolsModule from '@domains/tools/tools.module';
+import AuthModule from '@domains/auth/auth.module';
+
+import ConfigService from '@modules/config/config.service';
+import ConfigModule from '@modules/config/config.module';
+import HTTPLogMiddleware from '@middlewares/HTTPLog.middleware';
+import LoggerModule from '@modules/logger/logger.module';
+import UncaughtExceptionFilter from '@filters/UncaughtException.filter';
+import MailModule from '@modules/mail/mail.module';
 
 @Module({
     imports: [
@@ -27,20 +27,14 @@ import MailModule from '@shared/modules/mail/mail.module';
             inject: [ConfigService],
             useFactory: async (conf: ConfigService) => conf,
         }),
-        TypeOrmModule.forRootAsync({
-            imports: [ConfigModule],
-            inject: [ConfigService],
-            useFactory: async (conf: ConfigService) => conf.getDBConnectionData(),
-            name: 'default',
-        }),
         AuthModule,
-        ProductModule,
-        CategoryModule,
-        PropertyGroupModule,
-        PropertyModule,
-        EmployerModule,
-        OrderModule,
-        ToolsModule,
+        // ProductModule,
+        // CategoryModule,
+        // PropertyGroupModule,
+        // PropertyModule,
+        // EmployerModule,
+        // OrderModule,
+        // ToolsModule,
     ],
     providers: [
         {

@@ -8,6 +8,8 @@ services:
       - ./infra/server/conf/nginx.conf:/etc/nginx/nginx.conf
       - ./infra/server/conf/leprechaun.conf:/etc/nginx/conf.d/leprechaun.conf
       - ./infra/server/conf/leprechaun.dev.conf:/etc/nginx/conf.d/leprechaun.dev.conf
+    depends_on:
+      - app_admin
 
   # s3:
   #   restart: unless-stopped
@@ -33,7 +35,9 @@ services:
   #   ports:
   #     - ${BROKER_NET_UI_PORT_EXPOSE}:15672
 
-  api:
+  ### APPS
+
+  app_api:
     restart: unless-stopped
     extends:
       file: docker-compose.shared.yaml
@@ -41,6 +45,7 @@ services:
     command: npm run dev
     volumes:
       - ./apps/api:/app
+      - ./proto:/app/proto
     environment:
       - IS_DEV=true
       - MAIL_SMPT_PORT_DEV
@@ -71,10 +76,10 @@ services:
       - VITE_APP_NAME=${APP_NAME}
       - DOMAIN_PUBLIC
       - VITE_DOMAIN_API=${DOMAIN_API}
-    # networks:
-    #   - client
-    # depends_on:
-    #   - api_gateway_private
+    networks:
+      - server_infra
+    depends_on:
+      - app_api
 
   app_client:
     restart: unless-stopped
@@ -92,6 +97,46 @@ services:
       - NODE_ENV=development
       - CHOKIDAR_USEPOLLING=true
       - WATCHPACK_POLLING=true
+
+  ### SERVICES
+
+  service_auth_client:
+    restart: unless-stopped
+    extends:
+      file: docker-compose.shared.yaml
+      service: node
+    command: npm run start:dev
+    ports:
+      - ${AUTH_SERVICE_CLIENT_PORT_EXPOSE}:${AUTH_SERVICE_CLIENT_PORT}
+    volumes:
+      - ./services/auth/client:/app
+      - ./proto:/app/proto
+    environment:
+      - IS_DEV=true
+
+  service_user_client:
+    restart: unless-stopped
+    extends:
+      file: docker-compose.shared.yaml
+      service: node
+    command: npm run start:dev
+    ports:
+      - ${USER_SERVICE_CLIENT_PORT_EXPOSE}:${USER_SERVICE_CLIENT_PORT}
+    volumes:
+      - ./services/user/client:/app
+      - ./proto:/app/proto
+    environment:
+      - IS_DEV=true
+
+  service_user_db:
+    restart: unless-stopped
+    ports:
+      - ${USER_SERVICE_DB_PORT_EXPOSE}:${USER_SERVICE_DB_PORT}
+    volumes:
+      - ./services/user/db/postgresql.conf:/app/postgresql.conf
+      - ./services/user/db/pg_hba.conf:/app/pg_hba.conf
+
+  ### UTILS
 
   translations:
     restart: unless-stopped

@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+package auth;
+
+option go_package = "./auth;auth_v1";
+
+service AuthService {
+    rpc SignIn (SignInDTO) returns (AuthSuccessDTO);
+}
+
+message SignInDTO {
+    string email = 1;
+    string password = 2;
+}
+
+message AuthSuccessDTO {
+    string accessToken = 1;
+    string refreshToken = 2;
+}
