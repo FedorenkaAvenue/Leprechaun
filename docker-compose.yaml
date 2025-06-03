@@ -49,6 +49,8 @@ services:
     environment:
       - IS_DEV=true
       - MAIL_SMPT_PORT_DEV
+    depends_on:
+      - proto_gen
 
   # api_gateway_ws:
   #   restart: unless-stopped
@@ -80,6 +82,7 @@ services:
       - server_infra
     depends_on:
       - app_api
+      - translations
 
   app_client:
     restart: unless-stopped
@@ -97,6 +100,8 @@ services:
       - NODE_ENV=development
       - CHOKIDAR_USEPOLLING=true
       - WATCHPACK_POLLING=true
+    depends_on:
+      - translations
 
   ### SERVICES
 
@@ -149,6 +154,16 @@ services:
       - ./utils/translations:/app
     environment:
       - LANGS
+
+  proto_gen:
+    restart: unless-stopped
+    container_name: leprechaun-utils-protogen
+    build:
+      context: ./utils/proto_gen
+      dockerfile: Dockerfile
+    volumes:
+      - ./utils/proto_gen:/app
+      - ./proto:/app/proto:rw
 
   mailcatcher:
     container_name: leprechaun-utils-mailcatcher
