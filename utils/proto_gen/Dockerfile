@@ -25,6 +25,14 @@ RUN apk add --no-cache make \
     && apk add protoc \
     && apk add inotify-tools
 
+WORKDIR /proto-setup
+
+RUN wget https://github.com/protocolbuffers/protobuf/archive/refs/heads/main.zip && \
+    unzip main.zip && \
+    mkdir -p /usr/include/google/protobuf && \
+    mv protobuf-main/src/google/protobuf/* /usr/include/google/protobuf/ && \
+    rm -rf main.zip protobuf-main
+
 WORKDIR /app
 
 COPY . .

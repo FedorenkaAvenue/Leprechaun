@@ -7,6 +7,7 @@
 /* eslint-disable */
 import { GrpcMethod, GrpcStreamMethod } from "@nestjs/microservices";
 import { Observable } from "rxjs";
+import { Empty } from "./google/protobuf/empty";
 
 export const protobufPackage = "user";
 
@@ -17,9 +18,6 @@ export enum UserRole {
   ADMIN = 3,
   ROOT = 4,
   UNRECOGNIZED = -1,
-}
-
-export interface Empty {
 }
 
 export interface UserDTO {

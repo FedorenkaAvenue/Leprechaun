@@ -2,14 +2,14 @@ syntax = "proto3";
 
 package user;
 
+import "google/protobuf/empty.proto";
+
 option go_package = "./user;user_v1";
 
 service UserService {
     rpc FindOne (UserDTO) returns (User);
-    rpc GetEmployerList (Empty) returns (UserList);
+    rpc GetEmployerList (google.protobuf.Empty) returns (UserList);
 }
-
-message Empty {}
 
 enum UserRole {
     UNKNOWN = 0;

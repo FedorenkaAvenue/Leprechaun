@@ -11,6 +11,7 @@ import (
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
+	emptypb "google.golang.org/protobuf/types/known/emptypb"
 )
 
 // This is a compile-time assertion to ensure that this generated file
@@ -28,7 +29,7 @@ const (
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type UserServiceClient interface {
 	FindOne(ctx context.Context, in *UserDTO, opts ...grpc.CallOption) (*User, error)
-	GetEmployerList(ctx context.Context, in *Empty, opts ...grpc.CallOption) (*UserList, error)
+	GetEmployerList(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*UserList, error)
 }
 
 type userServiceClient struct {
@@ -48,7 +49,7 @@ func (c *userServiceClient) FindOne(ctx context.Context, in *UserDTO, opts ...gr
 	return out, nil
 }
 
-func (c *userServiceClient) GetEmployerList(ctx context.Context, in *Empty, opts ...grpc.CallOption) (*UserList, error) {
+func (c *userServiceClient) GetEmployerList(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*UserList, error) {
 	out := new(UserList)
 	err := c.cc.Invoke(ctx, UserService_GetEmployerList_FullMethodName, in, out, opts...)
 	if err != nil {
@@ -62,7 +63,7 @@ func (c *userServiceClient) GetEmployerList(ctx context.Context, in *Empty, opts
 // for forward compatibility
 type UserServiceServer interface {
 	FindOne(context.Context, *UserDTO) (*User, error)
-	GetEmployerList(context.Context, *Empty) (*UserList, error)
+	GetEmployerList(context.Context, *emptypb.Empty) (*UserList, error)
 	mustEmbedUnimplementedUserServiceServer()
 }
 
@@ -73,7 +74,7 @@ type UnimplementedUserServiceServer struct {
 func (UnimplementedUserServiceServer) FindOne(context.Context, *UserDTO) (*User, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method FindOne not implemented")
 }
-func (UnimplementedUserServiceServer) GetEmployerList(context.Context, *Empty) (*UserList, error) {
+func (UnimplementedUserServiceServer) GetEmployerList(context.Context, *emptypb.Empty) (*UserList, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetEmployerList not implemented")
 }
 func (UnimplementedUserServiceServer) mustEmbedUnimplementedUserServiceServer() {}
@@ -108,7 +109,7 @@ func _UserService_FindOne_Handler(srv interface{}, ctx context.Context, dec func
 }
 
 func _UserService_GetEmployerList_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(Empty)
+	in := new(emptypb.Empty)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -120,7 +121,7 @@ func _UserService_GetEmployerList_Handler(srv interface{}, ctx context.Context, 
 		FullMethod: UserService_GetEmployerList_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UserServiceServer).GetEmployerList(ctx, req.(*Empty))
+		return srv.(UserServiceServer).GetEmployerList(ctx, req.(*emptypb.Empty))
 	}
 	return interceptor(ctx, in, info, handler)
 }

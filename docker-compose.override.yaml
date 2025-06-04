@@ -86,6 +86,9 @@ services:
       - APP_NAME
     depends_on:
       - service_auth_client
+      - service_propgroup_client
+      - service_user_client
+      - service_trans_client
 
 #   api_gateway_ws:
 #     container_name: leprechaun_api_gateway_ws
@@ -133,7 +136,6 @@ services:
       - JWT_ACCESS_TOKEN_TTL
       - JWT_REFRESH_TOKEN_KEY
       - JWT_REFRESH_TOKEN_TTL
-
     networks:
       - api_domain
       - auth_service
@@ -167,6 +169,64 @@ services:
     networks:
       - user_service
 
+  service_propgroup_client:
+    container_name: leprechaun-service-propgroup-client
+    environment:
+      - PROPGROUP_SERVICE_CLIENT_PORT
+      - POSTGRES_USER=${PROPGROUP_SERVICE_DB_USER}
+      - POSTGRES_PASSWORD=${PROPGROUP_SERVICE_DB_PASSWORD}
+      - POSTGRES_HOST=${PROPGROUP_SERVICE_DB_HOST}
+      - POSTGRES_PORT=${PROPGROUP_SERVICE_DB_PORT}
+      - POSTGRES_DATABASE=${PROPGROUP_SERVICE_DB_DATABASE}
+    networks:
+      - api_domain
+      - propgroup_service
+    depends_on:
+      - service_propgroup_db
+
+  service_propgroup_db:
+    container_name: leprechaun-service-propgroup-db
+    build:
+      context: ./services/prop_group/db
+      dockerfile: Dockerfile
+    environment:
+      - POSTGRES_PASSWORD=${PROPGROUP_SERVICE_DB_PASSWORD}
+      - POSTGRES_USER=${PROPGROUP_SERVICE_DB_USER}
+      - POSTGRES_DATABASE=${PROPGROUP_SERVICE_DB_DATABASE}
+    ports:
+      - ${PROPGROUP_SERVICE_DB_PORT_EXPOSE}:${PROPGROUP_SERVICE_DB_PORT}
+    networks:
+      - propgroup_service
+
+  service_trans_client:
+    container_name: leprechaun-service-trans-client
+    environment:
+      - TRANS_SERVICE_CLIENT_PORT
+      - POSTGRES_USER=${TRANS_SERVICE_DB_USER}
+      - POSTGRES_PASSWORD=${TRANS_SERVICE_DB_PASSWORD}
+      - POSTGRES_HOST=${TRANS_SERVICE_DB_HOST}
+      - POSTGRES_PORT=${TRANS_SERVICE_DB_PORT}
+      - POSTGRES_DATABASE=${TRANS_SERVICE_DB_DATABASE}
+    networks:
+      - api_domain
+      - trans_service
+    depends_on:
+      - service_trans_db
+
+  service_trans_db:
+    container_name: leprechaun-service-trans-db
+    build:
+      context: ./services/trans/db
+      dockerfile: Dockerfile
+    environment:
+      - POSTGRES_PASSWORD=${TRANS_SERVICE_DB_PASSWORD}
+      - POSTGRES_USER=${TRANS_SERVICE_DB_USER}
+      - POSTGRES_DATABASE=${TRANS_SERVICE_DB_DATABASE}
+    ports:
+      - ${TRANS_SERVICE_DB_PORT_EXPOSE}:${TRANS_SERVICE_DB_PORT}
+    networks:
+      - trans_service
+
 networks:
   server_infra:
     driver: bridge
@@ -180,3 +240,9 @@ networks:
   user_service:
     driver: bridge
     name: leprechaun_user_service
+  propgroup_service:
+    driver: bridge
+    name: leprechaun_propgroup_service
+  trans_service:
+    driver: bridge
+    name: leprechaun_trans_service

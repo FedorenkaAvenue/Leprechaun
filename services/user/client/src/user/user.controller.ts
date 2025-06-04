@@ -1,5 +1,5 @@
 import { UserService } from './user.service';
-import { Empty, User, UserDTO, UserList, UserServiceController, UserServiceControllerMethods } from 'gen/ts/user';
+import { User, UserDTO, UserList, UserServiceController, UserServiceControllerMethods } from 'gen/ts/user';
 
 @UserServiceControllerMethods()
 export class UserController implements UserServiceController {
@@ -9,7 +9,7 @@ export class UserController implements UserServiceController {
         return this.userService.getUser(id ? { id } : { email });
     }
 
-    async getEmployerList(request: Empty): Promise<UserList> {
+    async getEmployerList(): Promise<UserList> {
         const items = await this.userService.getEmployerList();
 
         return { items };

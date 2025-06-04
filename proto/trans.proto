@@ -1,0 +1,30 @@
+syntax = "proto3";
+
+package trans;
+
+import "google/protobuf/empty.proto";
+
+option go_package = "./trans;trans_v1";
+
+service TransService {
+    rpc GetTrans (TransDTO) returns (Trans);
+    rpc CreateTrans (TransCreateDTO) returns (Trans);
+    rpc DeleteTrans (TransDTO) returns (google.protobuf.Empty);
+}
+
+message TransDTO {
+    int64 id = 1;
+}
+
+message TransCreateDTO {
+    string en = 1;
+    string ua = 2;
+    string ru = 3;
+}
+
+message Trans {
+    int64 id = 1;
+    string en = 2;
+    string ua = 3;
+    string ru = 4;
+}

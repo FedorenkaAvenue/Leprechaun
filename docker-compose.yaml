@@ -142,6 +142,50 @@ services:
       - ./services/user/db/postgresql.conf:/app/postgresql.conf
       - ./services/user/db/pg_hba.conf:/app/pg_hba.conf
 
+  service_propgroup_client:
+    restart: unless-stopped
+    extends:
+      file: docker-compose.shared.yaml
+      service: node
+    command: npm run start:dev
+    ports:
+      - ${PROPGROUP_SERVICE_CLIENT_PORT_EXPOSE}:${PROPGROUP_SERVICE_CLIENT_PORT}
+    volumes:
+      - ./services/user/client:/app
+      - ./proto:/app/proto
+    environment:
+      - IS_DEV=true
+
+  service_propgroup_db:
+    restart: unless-stopped
+    ports:
+      - ${PROPGROUP_SERVICE_DB_PORT_EXPOSE}:${PROPGROUP_SERVICE_DB_PORT}
+    volumes:
+      - ./services/prop_group/db/postgresql.conf:/app/postgresql.conf
+      - ./services/prop_group/db/pg_hba.conf:/app/pg_hba.conf
+
+  service_trans_client:
+    restart: unless-stopped
+    extends:
+      file: docker-compose.shared.yaml
+      service: node
+    command: npm run start:dev
+    ports:
+      - ${TRANS_SERVICE_CLIENT_PORT_EXPOSE}:${TRANS_SERVICE_CLIENT_PORT}
+    volumes:
+      - ./services/trans/client:/app
+      - ./proto:/app/proto
+    environment:
+      - IS_DEV=true
+
+  service_trans_db:
+    restart: unless-stopped
+    ports:
+      - ${TRANS_SERVICE_DB_PORT_EXPOSE}:${TRANS_SERVICE_DB_PORT}
+    volumes:
+      - ./services/trans/db/postgresql.conf:/app/postgresql.conf
+      - ./services/trans/db/pg_hba.conf:/app/pg_hba.conf
+
   ### UTILS
 
   translations:
