@@ -5,7 +5,7 @@ package auth;
 option go_package = "./auth;auth_v1";
 
 service AuthService {
-    rpc SignIn (SignInDTO) returns (AuthSuccessDTO);
+    rpc SignIn (SignInDTO) returns (AuthJWT);
 }
 
 message SignInDTO {
@@ -13,7 +13,7 @@ message SignInDTO {
     string password = 2;
 }
 
-message AuthSuccessDTO {
+message AuthJWT {
     string accessToken = 1;
     string refreshToken = 2;
 }

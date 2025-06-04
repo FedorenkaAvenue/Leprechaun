@@ -13,7 +13,7 @@ export class UserService {
         @InjectRepository(UserEntity) protected readonly userRepo: Repository<UserEntity>,
     ) { }
 
-    public async getUser(options: FindOptionsWhere<UserEntity>): Promise<User | null> {
+    public async getUser(options: FindOptionsWhere<UserEntity>): Promise<User> {
         const user = await this.userRepo.findOneBy(options);
 
         if (!user) throw new RpcException({ code: status.NOT_FOUND, message: 'User not found' });

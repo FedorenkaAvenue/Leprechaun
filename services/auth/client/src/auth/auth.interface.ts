@@ -1,14 +1,4 @@
-import { User } from "../user/user.interface";
-
-export interface SignInDTO {
-    email: string;
-    password: string;
-}
-
-export interface AuthSuccessDTO {
-    accessToken: string;
-    refreshToken: string;
-}
+import { User } from "gen/ts/user";
 
 export type JWTPayload = Pick<User, 'id' | 'role'>
 

@@ -4,11 +4,12 @@ import { JwtService } from '@nestjs/jwt';
 import { RpcException } from '@nestjs/microservices';
 import { status } from '@grpc/grpc-js';
 
-import { AuthSuccessDTO, JWTPayload, JWTSuccessTokens, SignInDTO } from './auth.interface';
+import { JWTPayload, JWTSuccessTokens } from './auth.interface';
 import UserService from '../user/user.service';
-import { User } from '../user/user.interface';
 import CryptoService from '../crypto/crypto.service';
 import ConfigService from '../config/config.service';
+import { AuthJWT, SignInDTO } from 'gen/ts/auth';
+import { User } from 'gen/ts/user';
 
 @Injectable()
 export class AuthService {
@@ -19,9 +20,9 @@ export class AuthService {
         private readonly configService: ConfigService,
     ) { }
 
-    async sigIn(payload: SignInDTO): Promise<AuthSuccessDTO> {
+    public async sigIn(payload: SignInDTO): Promise<AuthJWT> {
         try {
-            const user = await firstValueFrom(this.userService.getUser(payload));
+            const user = await firstValueFrom(this.userService.getUser({ email: payload.email }));
 
             if (!await this.cryptoService.checkHash(payload.password, user.password)) {
                 throw new RpcException({ code: status.PERMISSION_DENIED, message: 'Invalid password' });

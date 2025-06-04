@@ -3,8 +3,8 @@ import { map, Observable, tap } from "rxjs";
 import { Response } from 'express';
 
 import { AuthSuccessDTO } from "./auth.dto";
-import { JWTSuccessTokensI } from "./auth.interface";
 import ConfigService from "@modules/config/config.service";
+import { AuthJWT } from "@gen/auth";
 
 /**
  * @description set refresh token to cookie and exclude it from body response
@@ -19,12 +19,12 @@ export class AuthJWTMapInterceptor implements NestInterceptor {
         const res = context.switchToHttp().getResponse() as Response;
 
         return next.handle().pipe(
-            tap(({ refreshToken }: JWTSuccessTokensI) => {
+            tap(({ refreshToken }: AuthJWT) => {
                 console.log(this.configService);
 
                 res.cookie('refreshToken', refreshToken, this.configService.getJWTRefreshTokenCookieOptions());
             }),
-            map(({ accessToken }: JWTSuccessTokensI) => ({ accessToken })),
+            map(({ accessToken }: AuthJWT) => ({ accessToken })),
         );
     }
 }

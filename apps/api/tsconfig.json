@@ -23,13 +23,14 @@
         "rootDir": ".",
         "outDir": "./dist",
 
-        "baseUrl": "./src",
+        "baseUrl": ".",
         "paths": {
-            "@domains/*": ["./domains/*"],
-            "@modules/*": ["./common/modules/*"],
-            "@utils/*": ["./common/utils/*"],
-            "@middlewares/*": ["./common/middlewares/*"],
-            "@filters/*": ["./common/filters/*"]
+            "@domains/*": ["./src/domains/*"],
+            "@modules/*": ["./src/common/modules/*"],
+            "@utils/*": ["./src/common/utils/*"],
+            "@middlewares/*": ["./src/common/middlewares/*"],
+            "@filters/*": ["./src/common/filters/*"],
+            "@gen/*": ["./gen/ts/*"]
         }
     },
     "include": ["**/*.ts", "**/*.tsx", "**/*.d.ts"],

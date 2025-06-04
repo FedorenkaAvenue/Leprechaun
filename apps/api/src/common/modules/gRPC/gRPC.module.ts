@@ -4,6 +4,7 @@ import { join } from 'path';
 
 import ConfigModule from '@modules/config/config.module';
 import ConfigService from '@modules/config/config.service';
+import { AUTH_PACKAGE_NAME } from '@gen/auth';
 
 @Module({
     imports: [
@@ -15,7 +16,7 @@ import ConfigService from '@modules/config/config.service';
                 useFactory: (configService: ConfigService) => ({
                     transport: Transport.GRPC,
                     options: {
-                        package: 'auth',
+                        package: AUTH_PACKAGE_NAME,
                         protoPath: join(__dirname, '../../../../../proto/auth.proto'),
                         url: `${configService.getVal('AUTH_SERVICE_CLIENT_HOST')}:${configService.getVal('AUTH_SERVICE_CLIENT_PORT')}`,
                     },

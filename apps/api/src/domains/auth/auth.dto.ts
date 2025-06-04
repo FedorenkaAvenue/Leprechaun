@@ -1,9 +1,9 @@
 import { ApiProperty } from "@nestjs/swagger"
 import { IsNotEmpty, IsString } from "class-validator"
 
-import { JWTSuccessTokensI } from "./auth.interface";
+import { AuthJWT, SignInDTO } from '@gen/auth';
 
-export class AuthSignInDTO {
+export class AuthSignInDTO implements SignInDTO {
     @IsNotEmpty()
     @IsString()
     @ApiProperty({ required: true })
@@ -15,7 +15,7 @@ export class AuthSignInDTO {
     password: string
 }
 
-export class AuthSuccessDTO implements Omit<JWTSuccessTokensI, 'refreshToken'> {
+export class AuthSuccessDTO implements Omit<AuthJWT, 'refreshToken'> {
     @ApiProperty()
     accessToken: string;
 }

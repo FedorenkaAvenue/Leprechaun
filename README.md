@@ -94,3 +94,4 @@ Boilerplate for web store
 -   other
 
     -   `make translation` move translations
+    -   `make protos` move generated `.proto` files

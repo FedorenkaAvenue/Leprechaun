@@ -23,8 +23,10 @@
         "rootDir": ".",
         "outDir": "./dist",
 
-        "baseUrl": "./src",
-        "paths": {}
+        "baseUrl": ".",
+        "paths": {
+            "@gen/*": ["./src/gen/*"]
+        }
     },
     "include": ["**/*.ts", "**/*.tsx", "**/*.d.ts"],
     "exclude": ["__old", "dist/**/*"]

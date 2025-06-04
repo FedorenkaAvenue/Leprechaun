@@ -9,8 +9,8 @@ service UserService {
 }
 
 message UserDTO {
-    string id = 1;
-    string email = 2;
+    optional string id = 1;
+    optional string email = 2;
 }
 
 message User {

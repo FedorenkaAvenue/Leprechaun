@@ -1,16 +1,11 @@
-import { Controller } from '@nestjs/common';
-import { GrpcMethod } from '@nestjs/microservices';
-import { Metadata, ServerUnaryCall } from '@grpc/grpc-js';
-
-import { User, UserDTO } from './user.interface';
 import { UserService } from './user.service';
+import { User, UserDTO, UserServiceController, UserServiceControllerMethods } from 'gen/ts/user';
 
-@Controller()
-export class UserController {
+@UserServiceControllerMethods()
+export class UserController implements UserServiceController {
     constructor(private readonly userService: UserService) { }
 
-    @GrpcMethod('UserService', 'FindOne')
-    findOne({ id, email }: UserDTO, metadata: Metadata, call: ServerUnaryCall<any, any>): Promise<User | null> {
+    findOne({ id, email }: UserDTO): Promise<User> {
         return this.userService.getUser(id ? { id } : { email });
     }
 }

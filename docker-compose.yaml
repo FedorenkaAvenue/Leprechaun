@@ -51,6 +51,7 @@ services:
       - MAIL_SMPT_PORT_DEV
     depends_on:
       - proto_gen
+      - mailcatcher
 
   # api_gateway_ws:
   #   restart: unless-stopped
@@ -163,14 +164,10 @@ services:
       dockerfile: Dockerfile
     volumes:
       - ./utils/proto_gen:/app
-      - ./proto:/app/proto:rw
+      - ./proto:/app/proto
 
   mailcatcher:
     container_name: leprechaun-utils-mailcatcher
     image: dockage/mailcatcher:0.9.0
     ports:
       - 1080:1080
-    # depends_on:
-    #   - api_gateway_ws
-    #   - api_gateway_public
-    #   - api_gateway_private

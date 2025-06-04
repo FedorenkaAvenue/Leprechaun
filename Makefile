@@ -12,3 +12,6 @@ build_prod_single:
 
 translation:
 	@cd ./utils/translations && make move
+
+protos:
+	@cd ./utils/proto_gen && make move

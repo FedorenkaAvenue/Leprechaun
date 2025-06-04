@@ -2,8 +2,8 @@ import { Inject, Injectable, NotFoundException, OnModuleInit } from "@nestjs/com
 import { ClientGrpc } from "@nestjs/microservices";
 import { lastValueFrom } from "rxjs";
 
-import { AuthServiceClient, JWTSuccessTokensI } from "./auth.interface";
 import { AuthSignInDTO } from "./auth.dto";
+import { AUTH_SERVICE_NAME, AuthServiceClient, AuthJWT } from "@gen/auth";
 
 @Injectable()
 export default class AuthService implements OnModuleInit {
@@ -12,12 +12,12 @@ export default class AuthService implements OnModuleInit {
     constructor(@Inject('AUTH_PACKAGE') private client: ClientGrpc) { }
 
     onModuleInit() {
-        this.authServiceClient = this.client.getService<AuthServiceClient>('AuthService');
+        this.authServiceClient = this.client.getService<AuthServiceClient>(AUTH_SERVICE_NAME);
     }
 
-    public async signIn(payload: AuthSignInDTO): Promise<JWTSuccessTokensI> {
+    public async signIn(payload: AuthSignInDTO): Promise<AuthJWT> {
         try {
-            const res = await lastValueFrom(this.authServiceClient.SignIn({ ...payload }));
+            const res = await lastValueFrom(this.authServiceClient.signIn({ ...payload }));
 
             return res;
         } catch (err: any) {

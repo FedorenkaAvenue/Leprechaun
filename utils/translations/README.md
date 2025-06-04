@@ -8,3 +8,7 @@
 ## Tools
 
 -   `yarn build` to build translations
+
+### CMD
+
+-   `make move` move generated translations to client's folders

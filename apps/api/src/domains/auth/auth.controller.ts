@@ -3,7 +3,6 @@ import { ApiNotFoundResponse, ApiOkResponse, ApiOperation, ApiTags } from "@nest
 // import { Request } from "express";
 
 import AuthService from "./auth.service";
-// import { JWTSuccessTokensI } from "./auth.interface";
 import { AuthSignInDTO, AuthSuccessDTO } from "./auth.dto";
 // import { AuthJWTRefreshGuard } from "./auth.guard";
 import { AuthJWTMapInterceptor } from "./auth.interceptor";

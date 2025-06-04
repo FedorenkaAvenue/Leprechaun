@@ -1,16 +1,11 @@
-import { Controller, Inject } from '@nestjs/common';
-import { GrpcMethod } from '@nestjs/microservices';
-import { Metadata, ServerUnaryCall } from '@grpc/grpc-js';
-
-import { AuthSuccessDTO, SignInDTO } from './auth.interface';
 import { AuthService } from './auth.service';
+import { AuthServiceController, AuthJWT, SignInDTO, AuthServiceControllerMethods } from 'gen/ts/auth';
 
-@Controller()
-export class AuthController {
+@AuthServiceControllerMethods()
+export class AuthController implements AuthServiceController {
     constructor(private readonly authService: AuthService) { }
 
-    @GrpcMethod('AuthService', 'SignIn')
-    async signIn(payload: SignInDTO, metadata: Metadata, call: ServerUnaryCall<any, any>): Promise<AuthSuccessDTO> {
+    async signIn(payload: SignInDTO): Promise<AuthJWT> {
         return await this.authService.sigIn(payload);
     }
 }

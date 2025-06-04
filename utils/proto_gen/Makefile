@@ -15,3 +15,8 @@ generate:
 		--go-grpc_out=$(OUT_GO) \
 		--proto_path=$(PROTO_DIR) \
 		$(PROTO_DIR)/*.proto
+
+move:
+	@cp ./gen -r ../../apps/api
+	@cp ./gen -r ../../services/auth/client
+	@cp ./gen -r ../../services/user/client
