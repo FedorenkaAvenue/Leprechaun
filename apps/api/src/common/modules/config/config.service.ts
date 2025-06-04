@@ -200,15 +200,15 @@ export default class ConfigService {
     //     return this.getVal('DEV_MAIL_RECIEVER');
     // }
 
-    // /**
-    //  * @description get JwtModule register config
-    //  * @returns {JwtModuleOptions} config
-    //  */
-    // public getJWTModuleConfig(): JwtModuleOptions {
-    //     return {
-    //         global: true,
-    //     };
-    // }
+    /**
+     * @description get JwtModule register config
+     * @returns {JwtModuleOptions} config
+     */
+    public getJWTModuleConfig(): JwtModuleOptions {
+        return {
+            global: true,
+        };
+    }
 
     /**
      * @description get JWT access token options

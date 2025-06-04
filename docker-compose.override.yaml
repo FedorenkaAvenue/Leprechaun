@@ -77,8 +77,12 @@ services:
       - DOMAIN_PUBLIC
       - DOMAIN_PRIVATE
       - DOMAIN_MEDIA
+      - JWT_ACCESS_TOKEN_KEY
+      - JWT_ACCESS_TOKEN_TTL
       - AUTH_SERVICE_CLIENT_HOST
       - AUTH_SERVICE_CLIENT_PORT
+      - USER_SERVICE_CLIENT_HOST
+      - USER_SERVICE_CLIENT_PORT
       - APP_NAME
     depends_on:
       - service_auth_client

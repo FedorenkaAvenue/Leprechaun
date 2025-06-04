@@ -5,7 +5,18 @@ package user;
 option go_package = "./user;user_v1";
 
 service UserService {
-  rpc FindOne (UserDTO) returns (User);
+    rpc FindOne (UserDTO) returns (User);
+    rpc GetEmployerList (Empty) returns (UserList);
+}
+
+message Empty {}
+
+enum UserRole {
+    UNKNOWN = 0;
+    CUSTOMER = 1;
+    SUPPORT = 2;
+    ADMIN = 3;
+    ROOT = 4;
 }
 
 message UserDTO {
@@ -15,7 +26,11 @@ message UserDTO {
 
 message User {
     string id = 1;
-    int32 role = 2;
+    UserRole role = 2;
     string email = 3;
     string password = 4;
+}
+
+message UserList {
+    repeated User items = 1;
 }

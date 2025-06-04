@@ -1,7 +1,7 @@
 import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 
-import { UserRole } from "./user.enum";
 import { User } from "./user.interface";
+import { UserRole } from "gen/ts/user";
 
 @Entity('user')
 export default class UserEntity implements User {

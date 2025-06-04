@@ -1,4 +1,4 @@
-import { UserRole } from "./user.enum";
+import { UserRole } from "gen/ts/user";
 
 export type UserDTO = Partial<Pick<User, 'id' | 'email'>>;
 

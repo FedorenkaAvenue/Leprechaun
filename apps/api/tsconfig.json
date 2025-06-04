@@ -30,6 +30,7 @@
             "@utils/*": ["./src/common/utils/*"],
             "@middlewares/*": ["./src/common/middlewares/*"],
             "@filters/*": ["./src/common/filters/*"],
+            "@guards/*": ["./src/common/guards/*"],
             "@gen/*": ["./gen/ts/*"]
         }
     },

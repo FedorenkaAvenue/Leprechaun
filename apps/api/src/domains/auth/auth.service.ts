@@ -4,12 +4,13 @@ import { lastValueFrom } from "rxjs";
 
 import { AuthSignInDTO } from "./auth.dto";
 import { AUTH_SERVICE_NAME, AuthServiceClient, AuthJWT } from "@gen/auth";
+import { AUTH_PACKAGE } from "@modules/gRPC/gRPC.constants";
 
 @Injectable()
 export default class AuthService implements OnModuleInit {
     private authServiceClient: AuthServiceClient;
 
-    constructor(@Inject('AUTH_PACKAGE') private client: ClientGrpc) { }
+    constructor(@Inject(AUTH_PACKAGE) private client: ClientGrpc) { }
 
     onModuleInit() {
         this.authServiceClient = this.client.getService<AuthServiceClient>(AUTH_SERVICE_NAME);

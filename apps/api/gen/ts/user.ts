@@ -10,6 +10,18 @@ import { Observable } from "rxjs";
 
 export const protobufPackage = "user";
 
+export enum UserRole {
+  UNKNOWN = 0,
+  CUSTOMER = 1,
+  SUPPORT = 2,
+  ADMIN = 3,
+  ROOT = 4,
+  UNRECOGNIZED = -1,
+}
+
+export interface Empty {
+}
+
 export interface UserDTO {
   id?: string | undefined;
   email?: string | undefined;
@@ -17,24 +29,32 @@ export interface UserDTO {
 
 export interface User {
   id: string;
-  role: number;
+  role: UserRole;
   email: string;
   password: string;
+}
+
+export interface UserList {
+  items: User[];
 }
 
 export const USER_PACKAGE_NAME = "user";
 
 export interface UserServiceClient {
   findOne(request: UserDTO): Observable<User>;
+
+  getEmployerList(request: Empty): Observable<UserList>;
 }
 
 export interface UserServiceController {
   findOne(request: UserDTO): Promise<User> | Observable<User> | User;
+
+  getEmployerList(request: Empty): Promise<UserList> | Observable<UserList> | UserList;
 }
 
 export function UserServiceControllerMethods() {
   return function (constructor: Function) {
-    const grpcMethods: string[] = ["findOne"];
+    const grpcMethods: string[] = ["findOne", "getEmployerList"];
     for (const method of grpcMethods) {
       const descriptor: any = Reflect.getOwnPropertyDescriptor(constructor.prototype, method);
       GrpcMethod("UserService", method)(constructor.prototype[method], method, descriptor);
