@@ -11,25 +11,25 @@ export const propertyGroupApi = rootApi.injectEndpoints({
     endpoints: build => ({
         propertyGroup: build.query<PropertyGroup, PropertyGroup['id']>({
             query: id => ({
-                url: `/private/propertygroup/${id}`,
+                url: `/propertygroup/${id}`,
             }),
             providesTags: (_, __, id) => [{ type: 'property_group', id }],
         }),
         propertyGroupList: build.query<PropertyGroupPreview[], void>({
             query: () => ({
-                url: `/private/propertygroup/list`,
+                url: `/propertygroup/list`,
             }),
             providesTags: ['property_group_list'],
         }),
         propertyGroupListByCategoryId: build.query<PropertyGroupPreview[], Category['id'] | undefined>({
             query: id => ({
-                url: `/private/propertygroup/list/${id}`,
+                url: `/propertygroup/list/${id}`,
             }),
             providesTags: (_, __, id) => [{ type: 'property_group_list', id }],
         }),
         createPropertyGroup: build.mutation<PropertyGroupPreview, { data: PropertyGroupCreateDTO, successCallback?: () => void }>({
             query: ({ data }) => ({
-                url: '/private/propertygroup',
+                url: '/propertygroup',
                 method: 'POST',
                 body: data,
             }),
@@ -48,7 +48,7 @@ export const propertyGroupApi = rootApi.injectEndpoints({
         }),
         updatePropertyGroup: build.mutation<void, { id: PropertyGroup['id'], updates: PropertyGroupUpdateDTO }>({
             query: ({ id, updates }) => ({
-                url: `/private/propertygroup/${id}`,
+                url: `/propertygroup/${id}`,
                 method: 'PATCH',
                 body: updates,
             }),
@@ -73,7 +73,7 @@ export const propertyGroupApi = rootApi.injectEndpoints({
         }),
         removePropertyGroup: build.mutation<PropertyGroupPreview, { id: PropertyGroup['id'], successCallback?: () => void }>({
             query: ({ id }) => ({
-                url: `/private/propertygroup/${id}`,
+                url: `/propertygroup/${id}`,
                 method: 'DELETE',
             }),
             invalidatesTags: (_, __, { id }) => ([{ type: 'property_group', id }]),
@@ -98,7 +98,7 @@ export const propertyGroupApi = rootApi.injectEndpoints({
         }),
         createProperty: build.mutation<Property, { data: PropertyCreateDTO, successCallback?: () => void }>({
             query: ({ data }) => ({
-                url: '/private/property',
+                url: '/property',
                 method: 'POST',
                 body: data,
             }),
@@ -115,7 +115,7 @@ export const propertyGroupApi = rootApi.injectEndpoints({
         }),
         removeProperty: build.mutation<void, { propertyId: Property['id'], propertyGroupId: PropertyGroup['id'] }>({
             query: ({ propertyId }) => ({
-                url: `/private/property/${propertyId}`,
+                url: `/property/${propertyId}`,
                 method: 'DELETE',
             }),
             invalidatesTags: () => (['property_group_list']),

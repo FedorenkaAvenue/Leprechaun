@@ -2,9 +2,9 @@ syntax = "proto3";
 
 package trans;
 
-import "google/protobuf/empty.proto";
-
 option go_package = "./trans;trans_v1";
+
+import "google/protobuf/empty.proto";
 
 service TransService {
     rpc GetTrans (TransDTO) returns (Trans);

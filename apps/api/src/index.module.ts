@@ -2,16 +2,15 @@ import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { APP_FILTER } from '@nestjs/core';
 import * as cookieParser from 'cookie-parser';
 
-import AuthModule from '@domains/auth/auth.module';
-import UserModule from '@domains/user/user.module';
-
 import ConfigService from '@modules/config/config.service';
 import ConfigModule from '@modules/config/config.module';
-import HTTPLogMiddleware from '@middlewares/HTTPLog.middleware';
 import LoggerModule from '@modules/logger/logger.module';
-import UncaughtExceptionFilter from '@filters/UncaughtException.filter';
 import MailModule from '@modules/mail/mail.module';
 import JWTModule from '@modules/JWT/JWT.module';
+import PublicModule from '@domains/public/public.module';
+import PrivateModule from '@domains/private/private.module';
+import UncaughtExceptionFilter from '@filters/UncaughtException.filter';
+import HTTPLogMiddleware from '@middlewares/HTTPLog.middleware';
 
 @Module({
     imports: [
@@ -23,21 +22,11 @@ import JWTModule from '@modules/JWT/JWT.module';
             inject: [ConfigService],
             useFactory: async (conf: ConfigService) => conf,
         }),
-        AuthModule,
-        UserModule,
-        // ProductModule,
-        // CategoryModule,
-        // PropertyGroupModule,
-        // PropertyModule,
-        // EmployerModule,
-        // OrderModule,
-        // ToolsModule,
+        PublicModule,
+        PrivateModule,
     ],
     providers: [
-        {
-            provide: APP_FILTER,
-            useClass: UncaughtExceptionFilter,
-        },
+        { provide: APP_FILTER, useClass: UncaughtExceptionFilter },
     ],
 })
 export default class AppModule implements NestModule {

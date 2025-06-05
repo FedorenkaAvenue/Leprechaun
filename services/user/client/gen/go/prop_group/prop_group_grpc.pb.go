@@ -11,6 +11,7 @@ import (
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
+	emptypb "google.golang.org/protobuf/types/known/emptypb"
 )
 
 // This is a compile-time assertion to ensure that this generated file
@@ -19,14 +20,14 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	PropertyGroupService_GetPropertyGroupList_FullMethodName = "/prop_group.PropertyGroupService/GetPropertyGroupList"
+	PropertyGroupService_GetGroupListPrivate_FullMethodName = "/prop_group.PropertyGroupService/getGroupListPrivate"
 )
 
 // PropertyGroupServiceClient is the client API for PropertyGroupService service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type PropertyGroupServiceClient interface {
-	GetPropertyGroupList(ctx context.Context, in *Empty, opts ...grpc.CallOption) (*PropertyGroupList, error)
+	GetGroupListPrivate(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*PropertyGroupListPreview, error)
 }
 
 type propertyGroupServiceClient struct {
@@ -37,9 +38,9 @@ func NewPropertyGroupServiceClient(cc grpc.ClientConnInterface) PropertyGroupSer
 	return &propertyGroupServiceClient{cc}
 }
 
-func (c *propertyGroupServiceClient) GetPropertyGroupList(ctx context.Context, in *Empty, opts ...grpc.CallOption) (*PropertyGroupList, error) {
-	out := new(PropertyGroupList)
-	err := c.cc.Invoke(ctx, PropertyGroupService_GetPropertyGroupList_FullMethodName, in, out, opts...)
+func (c *propertyGroupServiceClient) GetGroupListPrivate(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*PropertyGroupListPreview, error) {
+	out := new(PropertyGroupListPreview)
+	err := c.cc.Invoke(ctx, PropertyGroupService_GetGroupListPrivate_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -50,7 +51,7 @@ func (c *propertyGroupServiceClient) GetPropertyGroupList(ctx context.Context, i
 // All implementations must embed UnimplementedPropertyGroupServiceServer
 // for forward compatibility
 type PropertyGroupServiceServer interface {
-	GetPropertyGroupList(context.Context, *Empty) (*PropertyGroupList, error)
+	GetGroupListPrivate(context.Context, *emptypb.Empty) (*PropertyGroupListPreview, error)
 	mustEmbedUnimplementedPropertyGroupServiceServer()
 }
 
@@ -58,8 +59,8 @@ type PropertyGroupServiceServer interface {
 type UnimplementedPropertyGroupServiceServer struct {
 }
 
-func (UnimplementedPropertyGroupServiceServer) GetPropertyGroupList(context.Context, *Empty) (*PropertyGroupList, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetPropertyGroupList not implemented")
+func (UnimplementedPropertyGroupServiceServer) GetGroupListPrivate(context.Context, *emptypb.Empty) (*PropertyGroupListPreview, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetGroupListPrivate not implemented")
 }
 func (UnimplementedPropertyGroupServiceServer) mustEmbedUnimplementedPropertyGroupServiceServer() {}
 
@@ -74,20 +75,20 @@ func RegisterPropertyGroupServiceServer(s grpc.ServiceRegistrar, srv PropertyGro
 	s.RegisterService(&PropertyGroupService_ServiceDesc, srv)
 }
 
-func _PropertyGroupService_GetPropertyGroupList_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(Empty)
+func _PropertyGroupService_GetGroupListPrivate_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(emptypb.Empty)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(PropertyGroupServiceServer).GetPropertyGroupList(ctx, in)
+		return srv.(PropertyGroupServiceServer).GetGroupListPrivate(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: PropertyGroupService_GetPropertyGroupList_FullMethodName,
+		FullMethod: PropertyGroupService_GetGroupListPrivate_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(PropertyGroupServiceServer).GetPropertyGroupList(ctx, req.(*Empty))
+		return srv.(PropertyGroupServiceServer).GetGroupListPrivate(ctx, req.(*emptypb.Empty))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -100,8 +101,8 @@ var PropertyGroupService_ServiceDesc = grpc.ServiceDesc{
 	HandlerType: (*PropertyGroupServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "GetPropertyGroupList",
-			Handler:    _PropertyGroupService_GetPropertyGroupList_Handler,
+			MethodName: "getGroupListPrivate",
+			Handler:    _PropertyGroupService_GetGroupListPrivate_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

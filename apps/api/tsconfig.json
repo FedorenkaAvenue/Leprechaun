@@ -25,12 +25,14 @@
 
         "baseUrl": ".",
         "paths": {
+            "@common/*": ["./src/common/*"],
             "@domains/*": ["./src/domains/*"],
-            "@modules/*": ["./src/common/modules/*"],
-            "@utils/*": ["./src/common/utils/*"],
-            "@middlewares/*": ["./src/common/middlewares/*"],
-            "@filters/*": ["./src/common/filters/*"],
-            "@guards/*": ["./src/common/guards/*"],
+            "@modules/*": ["./src/shared/modules/*"],
+            "@utils/*": ["./src/shared/utils/*"],
+            "@middlewares/*": ["./src/shared/middlewares/*"],
+            "@filters/*": ["./src/shared/filters/*"],
+            "@guards/*": ["./src/shared/guards/*"],
+            "@interceptors/*": ["./src/shared/interceptors/*"],
             "@gen/*": ["./gen/ts/*"]
         }
     },

@@ -12,7 +12,7 @@ export const setStoreForAxios = (getStore: EnhancedStore) => {
     storeRef = getStore;
 };
 
-export const apiClient = axios.create({ baseURL: `${import.meta.env.VITE_DOMAIN_API}` });
+export const apiClient = axios.create({ baseURL: `${import.meta.env.VITE_DOMAIN_API}/private` });
 
 apiClient.interceptors.request.use(
     config => {

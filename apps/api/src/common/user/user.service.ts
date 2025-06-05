@@ -3,8 +3,8 @@ import { ClientGrpc } from "@nestjs/microservices";
 import { firstValueFrom } from "rxjs";
 
 import { User, USER_SERVICE_NAME, UserServiceClient } from "@gen/user";
-import { USER_PACKAGE } from "@modules/gRPC/gRPC.constants";
 import { UserDataDTO } from "./user.dto";
+import { USER_PACKAGE } from "./user.constants";
 
 @Injectable()
 export default class UserService implements OnModuleInit {

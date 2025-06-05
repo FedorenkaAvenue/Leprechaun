@@ -1,38 +1,28 @@
-import { ApiProperty } from '@nestjs/swagger';
 import {
-    Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, OneToOne, PrimaryGeneratedColumn, UpdateDateColumn,
+    Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn,
 } from 'typeorm';
 
-import { PropertyI } from './property.interface';
-import { TransEntity } from '../trans/trans.entity';
-import { TransI } from '../trans/trans.interface';
 import { PropertyGroupEntity } from '../propertyGroup/propertyGroup.entity';
+import { Property } from 'gen/ts/prop_group';
+import { Trans } from 'gen/ts/trans';
 
 @Entity('property')
-export class PropertyEntity implements PropertyI {
+export class PropertyEntity implements Property {
     @PrimaryGeneratedColumn('rowid')
-    @ApiProperty()
     id: number;
 
     @CreateDateColumn()
-    @ApiProperty()
-    created_at: Date;
+    createdAt: Date;
 
     @UpdateDateColumn()
-    @ApiProperty()
-    updated_at: Date;
+    updatedAt: Date;
 
-    @OneToOne(() => TransEntity, { cascade: true, eager: true })
-    @JoinColumn({ name: 'title', referencedColumnName: 'id' })
-    @ApiProperty({ type: TransEntity })
-    title: TransI;
+    title: Trans;
 
     @Column({ unique: true })
-    @ApiProperty()
-    alt_name: string;
+    altName: string;
 
     @Column({ nullable: true })
-    @ApiProperty()
     comment: string;
 
     @ManyToOne(() => PropertyGroupEntity, ({ properties }) => properties, { onDelete: 'CASCADE', nullable: false })

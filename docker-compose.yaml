@@ -151,7 +151,7 @@ services:
     ports:
       - ${PROPGROUP_SERVICE_CLIENT_PORT_EXPOSE}:${PROPGROUP_SERVICE_CLIENT_PORT}
     volumes:
-      - ./services/user/client:/app
+      - ./services/prop_group/client:/app
       - ./proto:/app/proto
     environment:
       - IS_DEV=true

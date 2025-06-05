@@ -1,16 +1,16 @@
 import { Body, Controller, HttpCode, HttpStatus, Post, UseInterceptors, ValidationPipe } from "@nestjs/common";
 import { ApiNotFoundResponse, ApiOkResponse, ApiOperation, ApiTags } from "@nestjs/swagger";
+import { FilesInterceptor } from "@nestjs/platform-express/multer";
 // import { Request } from "express";
 
-import AuthService from "./auth.service";
-import { AuthSignInDTO, AuthSuccessDTO } from "./auth.dto";
 // import { AuthJWTRefreshGuard } from "./auth.guard";
-import { AuthJWTMapInterceptor } from "./auth.interceptor";
-import { FilesInterceptor } from "@nestjs/platform-express/multer";
+import { AuthJWTMapInterceptor } from "@common/auth/auth.interceptor";
+import { AuthSignInDTO, AuthSuccessDTO } from "@common/auth/auth.dto";
+import AuthService from "@common/auth/auth.service";
 
 @Controller('auth')
 @ApiTags('Auth')
-export default class AuthController {
+export default class AuthPrivateController {
     constructor(private readonly authService: AuthService) { }
 
     @Post('signin')

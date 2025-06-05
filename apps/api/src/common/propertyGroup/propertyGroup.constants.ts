@@ -1,0 +1,1 @@
+export const PROP_GROUP_PACKAGE = 'PROP_GROUP_PACKAGE';

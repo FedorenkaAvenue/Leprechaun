@@ -8,11 +8,19 @@
 import { GrpcMethod, GrpcStreamMethod } from "@nestjs/microservices";
 import { wrappers } from "protobufjs";
 import { Observable } from "rxjs";
+import { Empty } from "./google/protobuf/empty";
 import { Struct } from "./google/protobuf/struct";
 
 export const protobufPackage = "prop_group";
 
-export interface Empty {
+export interface PropertyGroupPreview {
+  id: number;
+  title: { [key: string]: any } | undefined;
+  altName: string;
+  isPrimary: boolean;
+  comment: string;
+  createdAt: Date | undefined;
+  updatedAt: Date | undefined;
 }
 
 export interface PropertyGroup {
@@ -21,12 +29,13 @@ export interface PropertyGroup {
   altName: string;
   isPrimary: boolean;
   comment: string;
-  createdAt: string;
-  updatedAt: string;
+  createdAt: Date | undefined;
+  updatedAt: Date | undefined;
+  properties: Property[];
 }
 
-export interface PropertyGroupList {
-  items: PropertyGroup[];
+export interface PropertyGroupListPreview {
+  items: PropertyGroupPreview[];
 }
 
 export interface Property {
@@ -34,25 +43,36 @@ export interface Property {
   title: { [key: string]: any } | undefined;
   altName: string;
   comment: string;
-  createdAt: string;
-  updatedAt: string;
+  createdAt: Date | undefined;
+  updatedAt: Date | undefined;
 }
 
 export const PROP_GROUP_PACKAGE_NAME = "prop_group";
 
+wrappers[".google.protobuf.Timestamp"] = {
+  fromObject(value: Date) {
+    return { seconds: value.getTime() / 1000, nanos: (value.getTime() % 1000) * 1e6 };
+  },
+  toObject(message: { seconds: number; nanos: number }) {
+    return new Date(message.seconds * 1000 + message.nanos / 1e6);
+  },
+} as any;
+
 wrappers[".google.protobuf.Struct"] = { fromObject: Struct.wrap, toObject: Struct.unwrap } as any;
 
 export interface PropertyGroupServiceClient {
-  getPropertyGroupList(request: Empty): Observable<PropertyGroupList>;
+  getGroupListPrivate(request: Empty): Observable<PropertyGroupListPreview>;
 }
 
 export interface PropertyGroupServiceController {
-  getPropertyGroupList(request: Empty): Promise<PropertyGroupList> | Observable<PropertyGroupList> | PropertyGroupList;
+  getGroupListPrivate(
+    request: Empty,
+  ): Promise<PropertyGroupListPreview> | Observable<PropertyGroupListPreview> | PropertyGroupListPreview;
 }
 
 export function PropertyGroupServiceControllerMethods() {
   return function (constructor: Function) {
-    const grpcMethods: string[] = ["getPropertyGroupList"];
+    const grpcMethods: string[] = ["getGroupListPrivate"];
     for (const method of grpcMethods) {
       const descriptor: any = Reflect.getOwnPropertyDescriptor(constructor.prototype, method);
       GrpcMethod("PropertyGroupService", method)(constructor.prototype[method], method, descriptor);

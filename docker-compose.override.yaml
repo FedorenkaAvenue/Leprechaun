@@ -83,6 +83,8 @@ services:
       - AUTH_SERVICE_CLIENT_PORT
       - USER_SERVICE_CLIENT_HOST
       - USER_SERVICE_CLIENT_PORT
+      - PROPGROUP_SERVICE_CLIENT_HOST
+      - PROPGROUP_SERVICE_CLIENT_PORT
       - APP_NAME
     depends_on:
       - service_auth_client
