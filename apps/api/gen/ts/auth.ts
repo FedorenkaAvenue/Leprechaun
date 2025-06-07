@@ -10,7 +10,7 @@ import { Observable } from "rxjs";
 
 export const protobufPackage = "auth";
 
-export interface SignInDTO {
+export interface SignInParams {
   email: string;
   password: string;
 }
@@ -23,11 +23,11 @@ export interface AuthJWT {
 export const AUTH_PACKAGE_NAME = "auth";
 
 export interface AuthServiceClient {
-  signIn(request: SignInDTO): Observable<AuthJWT>;
+  signIn(request: SignInParams): Observable<AuthJWT>;
 }
 
 export interface AuthServiceController {
-  signIn(request: SignInDTO): Promise<AuthJWT> | Observable<AuthJWT> | AuthJWT;
+  signIn(request: SignInParams): Promise<AuthJWT> | Observable<AuthJWT> | AuthJWT;
 }
 
 export function AuthServiceControllerMethods() {

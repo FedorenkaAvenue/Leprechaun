@@ -46,7 +46,7 @@ const PropertyGroupTablePage = () => {
                                         </>
                                     )}
                                     renderPublicStatus={group => (
-                                        <PropertyGroupTogglePrimary groupId={group.id} selected={group.is_primary} />
+                                        <PropertyGroupTogglePrimary groupId={group.id} selected={group.isPrimary} />
                                     )}
                                 />
                             ))}

@@ -15,7 +15,7 @@ const PropertyGroupTogglePrimary: FC<Props> = ({ groupId, selected }) => {
     const [mutate] = useUpdatePropertyGroup();
 
     const update = () => {
-        mutate({ id: groupId, updates: { is_primary: !selected } });
+        mutate({ id: groupId, updates: { isPrimary: !selected } });
     }
 
     return <Switch onChange={update} checked={selected} />;

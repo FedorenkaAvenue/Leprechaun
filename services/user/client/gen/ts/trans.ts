@@ -11,11 +11,15 @@ import { Empty } from "./google/protobuf/empty";
 
 export const protobufPackage = "trans";
 
-export interface TransDTO {
+export interface TransSearchParams {
   id: number;
 }
 
-export interface TransCreateDTO {
+export interface TransListSearchParams {
+  ids: number[];
+}
+
+export interface TransCU {
   en: string;
   ua: string;
   ru: string;
@@ -28,27 +32,44 @@ export interface Trans {
   ru: string;
 }
 
+export interface TransList {
+  items: Trans[];
+}
+
+export interface TransUpdateParams {
+  id: number;
+  data: TransCU;
+}
+
 export const TRANS_PACKAGE_NAME = "trans";
 
 export interface TransServiceClient {
-  getTrans(request: TransDTO): Observable<Trans>;
+  getTrans(request: TransSearchParams): Observable<Trans>;
 
-  createTrans(request: TransCreateDTO): Observable<Trans>;
+  getTransList(request: TransListSearchParams): Observable<TransList>;
 
-  deleteTrans(request: TransDTO): Observable<Empty>;
+  createTrans(request: TransCU): Observable<Trans>;
+
+  updateTrans(request: TransUpdateParams): Observable<Empty>;
+
+  deleteTrans(request: TransSearchParams): Observable<Empty>;
 }
 
 export interface TransServiceController {
-  getTrans(request: TransDTO): Promise<Trans> | Observable<Trans> | Trans;
+  getTrans(request: TransSearchParams): Promise<Trans> | Observable<Trans> | Trans;
 
-  createTrans(request: TransCreateDTO): Promise<Trans> | Observable<Trans> | Trans;
+  getTransList(request: TransListSearchParams): Promise<TransList> | Observable<TransList> | TransList;
 
-  deleteTrans(request: TransDTO): void;
+  createTrans(request: TransCU): Promise<Trans> | Observable<Trans> | Trans;
+
+  updateTrans(request: TransUpdateParams): void;
+
+  deleteTrans(request: TransSearchParams): void;
 }
 
 export function TransServiceControllerMethods() {
   return function (constructor: Function) {
-    const grpcMethods: string[] = ["getTrans", "createTrans", "deleteTrans"];
+    const grpcMethods: string[] = ["getTrans", "getTransList", "createTrans", "updateTrans", "deleteTrans"];
     for (const method of grpcMethods) {
       const descriptor: any = Reflect.getOwnPropertyDescriptor(constructor.prototype, method);
       GrpcMethod("TransService", method)(constructor.prototype[method], method, descriptor);

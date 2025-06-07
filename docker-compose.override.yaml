@@ -175,6 +175,8 @@ services:
     container_name: leprechaun-service-propgroup-client
     environment:
       - PROPGROUP_SERVICE_CLIENT_PORT
+      - TRANS_SERVICE_CLIENT_HOST
+      - TRANS_SERVICE_CLIENT_PORT
       - POSTGRES_USER=${PROPGROUP_SERVICE_DB_USER}
       - POSTGRES_PASSWORD=${PROPGROUP_SERVICE_DB_PASSWORD}
       - POSTGRES_HOST=${PROPGROUP_SERVICE_DB_HOST}

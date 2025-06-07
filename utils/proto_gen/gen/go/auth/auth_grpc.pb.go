@@ -26,7 +26,7 @@ const (
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type AuthServiceClient interface {
-	SignIn(ctx context.Context, in *SignInDTO, opts ...grpc.CallOption) (*AuthJWT, error)
+	SignIn(ctx context.Context, in *SignInParams, opts ...grpc.CallOption) (*AuthJWT, error)
 }
 
 type authServiceClient struct {
@@ -37,7 +37,7 @@ func NewAuthServiceClient(cc grpc.ClientConnInterface) AuthServiceClient {
 	return &authServiceClient{cc}
 }
 
-func (c *authServiceClient) SignIn(ctx context.Context, in *SignInDTO, opts ...grpc.CallOption) (*AuthJWT, error) {
+func (c *authServiceClient) SignIn(ctx context.Context, in *SignInParams, opts ...grpc.CallOption) (*AuthJWT, error) {
 	out := new(AuthJWT)
 	err := c.cc.Invoke(ctx, AuthService_SignIn_FullMethodName, in, out, opts...)
 	if err != nil {
@@ -50,7 +50,7 @@ func (c *authServiceClient) SignIn(ctx context.Context, in *SignInDTO, opts ...g
 // All implementations must embed UnimplementedAuthServiceServer
 // for forward compatibility
 type AuthServiceServer interface {
-	SignIn(context.Context, *SignInDTO) (*AuthJWT, error)
+	SignIn(context.Context, *SignInParams) (*AuthJWT, error)
 	mustEmbedUnimplementedAuthServiceServer()
 }
 
@@ -58,7 +58,7 @@ type AuthServiceServer interface {
 type UnimplementedAuthServiceServer struct {
 }
 
-func (UnimplementedAuthServiceServer) SignIn(context.Context, *SignInDTO) (*AuthJWT, error) {
+func (UnimplementedAuthServiceServer) SignIn(context.Context, *SignInParams) (*AuthJWT, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SignIn not implemented")
 }
 func (UnimplementedAuthServiceServer) mustEmbedUnimplementedAuthServiceServer() {}
@@ -75,7 +75,7 @@ func RegisterAuthServiceServer(s grpc.ServiceRegistrar, srv AuthServiceServer) {
 }
 
 func _AuthService_SignIn_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(SignInDTO)
+	in := new(SignInParams)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -87,7 +87,7 @@ func _AuthService_SignIn_Handler(srv interface{}, ctx context.Context, dec func(
 		FullMethod: AuthService_SignIn_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(AuthServiceServer).SignIn(ctx, req.(*SignInDTO))
+		return srv.(AuthServiceServer).SignIn(ctx, req.(*SignInParams))
 	}
 	return interceptor(ctx, in, info, handler)
 }

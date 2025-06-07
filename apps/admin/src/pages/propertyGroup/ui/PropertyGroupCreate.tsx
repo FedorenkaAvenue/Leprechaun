@@ -31,10 +31,10 @@ const PropertyGroupCreatePage = () => {
                     <TextInput {...register('title.ua')} r label="ua" error={errors.title?.ua?.message} />
                 </div>
             </div>
-            <TextInput {...register('alt_name')} r label="alt name" error={errors.alt_name?.message} />
+            <TextInput {...register('altName')} r label="alt name" error={errors.altName?.message} />
             <FormControl>
                 <FormControlLabel control={
-                    <Switch {...register('is_primary')} />
+                    <Switch {...register('isPrimary')} />
                 }
                     label="primary" />
             </FormControl>

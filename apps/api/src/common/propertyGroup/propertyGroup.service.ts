@@ -1,9 +1,13 @@
 import { ClientGrpc } from '@nestjs/microservices';
-import { BadRequestException, Inject, Injectable, OnModuleInit } from '@nestjs/common';
-import { lastValueFrom } from 'rxjs';
+import { BadRequestException, Inject, Injectable, NotFoundException, OnModuleInit } from '@nestjs/common';
+import { catchError, lastValueFrom, throwError } from 'rxjs';
 
-import { PROPERTY_GROUP_SERVICE_NAME, PropertyGroupPreview, PropertyGroupServiceClient } from '@gen/prop_group';
+import {
+    PROPERTY_GROUP_SERVICE_NAME, PropertyGroup, PropertyGroupCU, PropertyGroupPreview, PropertyGroupServiceClient,
+    PropertyGroupUpdateParams,
+} from '@gen/prop_group';
 import { PROP_GROUP_PACKAGE } from './propertyGroup.constants';
+import { Empty } from '@gen/google/protobuf/empty';
 
 @Injectable()
 export default class PropertyGroupService implements OnModuleInit {
@@ -15,13 +19,21 @@ export default class PropertyGroupService implements OnModuleInit {
         this.propGroupService = this.client.getService<PropertyGroupServiceClient>(PROPERTY_GROUP_SERVICE_NAME);
     }
 
-    // public async getGroup(id: PropertyGroupI['id']): Promise<PropertyGroupI | null> {
-    //     return await this.propertyGroupRepo.findOne({
-    //         where: { id },
-    //         relations: { categories: true },
-    //         order: { properties: { created_at: 'DESC' } },
-    //     });
-    // }
+    public async createGroup(newGroup: PropertyGroupCU): Promise<PropertyGroup> {
+        return lastValueFrom(
+            this.propGroupService.createGroup(newGroup).pipe(
+                catchError(({ details }) => throwError(() => new BadRequestException(details)))
+            )
+        );
+    }
+
+    public async getGroupPrivate(id: PropertyGroup['id']): Promise<PropertyGroup> {
+        return await lastValueFrom(
+            this.propGroupService.getGroupPrivate({ id }).pipe(
+                catchError(({ details }) => throwError(() => new NotFoundException(details)))
+            )
+        );
+    }
 
     public async getGroupListPrivate(): Promise<PropertyGroupPreview[]> {
         const { items } = await lastValueFrom(this.propGroupService.getGroupListPrivate({}));
@@ -35,21 +47,9 @@ export default class PropertyGroupService implements OnModuleInit {
     //     });
     // }
 
-    // public async createGroup(newGroup: PropertyGroupCreateDTO): Promise<PropertyGroupI> {
-    //     try {
-    //         const { id } = await this.propertyGroupRepo.save(newGroup);
-
-    //         return this.propertyGroupRepo.findOneOrFail({
-    //             where: { id }, relations: { properties: true },
-    //         });
-    //     } catch (err) {
-    //         throw new BadRequestException(err);
-    //     }
-    // }
-
-    // async updateGroup(id: PropertyGroupI['id'], updates: PropertyGroupUpdateDTO): Promise<UpdateResult> {
-    //     return await this.propertyGroupRepo.update({ id }, updates);
-    // }
+    async updateGroup(updates: PropertyGroupUpdateParams): Promise<Empty> {
+        return await lastValueFrom(this.propGroupService.updateGroup(updates));
+    }
 
     // public async deleteGroup(groupId: number): Promise<DeleteResult> {
     //     return await this.propertyGroupRepo.delete({ id: groupId });

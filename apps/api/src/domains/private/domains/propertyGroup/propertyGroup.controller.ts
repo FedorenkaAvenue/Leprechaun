@@ -1,19 +1,16 @@
 import {
-    Body, Controller, Delete, Get, Param, Patch, Post, UseGuards, UseInterceptors, ValidationPipe,
+    Body, Controller, Delete, Get, Param, Patch, Post, UseGuards, UseInterceptors,
 } from '@nestjs/common';
 import { ApiBadRequestResponse, ApiNotFoundResponse, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
-import { DeleteResult, UpdateResult } from 'typeorm';
 
-// import { PropertyGroupCreateDTO, PropertyGroupUpdateDTO } from './propertyGroup.dto';
-// import { PropertyGroupPreviewI } from './propertyGroup.interface';
 import { AuthJWTAccessGuard } from '@guards/auth.guard';
 import { UserRole } from '@gen/user';
-import { PropertyGroup, PropertyGroupPreview } from '@gen/prop_group';
-import AffectedResultInterceptor from '@interceptors/AffectedResultInterceptorr';
-import { PropertyGroupSchema } from './propertyGroup.schema';
+import { PropertyGroup, PropertyGroupPreview, PropertyGroupUpdateParams } from '@gen/prop_group';
+import { PropertyGroupCUSchema, PropertyGroupSchema } from './propertyGroup.schema';
 import { UserRoleGuard } from '@common/user/user.guard';
 import PropertyGroupService from '@common/propertyGroup/propertyGroup.service';
 import { UserRoleDecorator } from '@common/user/user.decorator';
+import { Empty } from '@gen/google/protobuf/empty';
 
 @Controller('propertygroup')
 @UseGuards(AuthJWTAccessGuard, UserRoleGuard)
@@ -21,27 +18,24 @@ import { UserRoleDecorator } from '@common/user/user.decorator';
 export default class PropertyGroupPrivateController {
     constructor(private readonly propertyGroupService: PropertyGroupService) { }
 
-    // @Post()
-    // @UserRoleDecorator(UserRole.ADMIN)
-    // @ApiOperation({ summary: 'add new property group' })
-    // @ApiBadRequestResponse({ description: 'some of filed is already exists' })
-    // private createGroup(
-    //     @Body(new ValidationPipe({ transform: true })) group: PropertyGroupCreateDTO,
-    // ): Promise<PropertyGroup> {
-    //     return this.propertyGroupService.createGroup(group);
-    // }
+    @Post()
+    @UserRoleDecorator(UserRole.ADMIN)
+    @ApiOperation({ summary: 'add new property group' })
+    @ApiBadRequestResponse({ description: 'some of filed is already exists' })
+    private createGroup(@Body() group: PropertyGroupCUSchema): Promise<PropertyGroup> {
+        return this.propertyGroupService.createGroup(group);
+    }
 
-    // @Patch(':groupID')
-    // @UserRoleDecorator(UserRole.ADMIN)
-    // @UseInterceptors(AffectedResultInterceptor('property group not found'))
-    // @ApiOperation({ summary: 'update property group' })
-    // @ApiNotFoundResponse({ description: 'property group not found' })
-    // updateGroup(
-    //     @Param('groupID') groupID: number,
-    //     @Body(new ValidationPipe({ transform: true })) updates: PropertyGroupUpdateDTO,
-    // ): Promise<UpdateResult> {
-    //     return this.propertyGroupService.updateGroup(groupID, updates);
-    // }
+    @Patch(':groupID')
+    @UserRoleDecorator(UserRole.ADMIN)
+    @ApiOperation({ summary: 'update property group' })
+    @ApiNotFoundResponse({ description: 'property group not found' })
+    updateGroup(
+        @Param('groupID') groupID: PropertyGroupUpdateParams['id'],
+        @Body() updates: PropertyGroupCUSchema,
+    ): Promise<Empty> {
+        return this.propertyGroupService.updateGroup({ id: groupID, data: updates });
+    }
 
     // @Get('list/:categoryID')
     // @UserRoleDecorator(UserRole.SUPPORT)
@@ -61,14 +55,13 @@ export default class PropertyGroupPrivateController {
         return this.propertyGroupService.getGroupListPrivate();
     }
 
-    // @Get(':groupID')
-    // @UserRoleDecorator(UserRole.SUPPORT)
-    // @UseInterceptors(NotFoundInterceptor)
-    // @ApiOperation({ summary: 'get property group by ID' })
-    // @ApiOkResponse({ type: PropertyGroupEntity })
-    // private getGroup(@Param('groupID') groupID: number): Promise<PropertyGroupI | null> {
-    //     return this.propertyGroupService.getGroup(groupID);
-    // }
+    @Get(':groupID')
+    @UserRoleDecorator(UserRole.SUPPORT)
+    @ApiOperation({ summary: 'get property group by ID' })
+    @ApiOkResponse({ type: PropertyGroupSchema })
+    private getGroup(@Param('groupID') groupID: number): Promise<PropertyGroup> {
+        return this.propertyGroupService.getGroupPrivate(groupID);
+    }
 
     // @Delete(':groupID')
     // @UserRoleDecorator(UserRole.ADMIN)

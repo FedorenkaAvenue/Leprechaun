@@ -7,24 +7,39 @@ option go_package = "./trans;trans_v1";
 import "google/protobuf/empty.proto";
 
 service TransService {
-    rpc GetTrans (TransDTO) returns (Trans);
-    rpc CreateTrans (TransCreateDTO) returns (Trans);
-    rpc DeleteTrans (TransDTO) returns (google.protobuf.Empty);
+    rpc GetTrans (TransSearchParams) returns (Trans);
+    rpc GetTransList (TransListSearchParams) returns (TransList);
+    rpc CreateTrans (TransCU) returns (Trans);
+    rpc UpdateTrans (TransUpdateParams) returns (google.protobuf.Empty);
+    rpc DeleteTrans (TransSearchParams) returns (google.protobuf.Empty);
 }
 
-message TransDTO {
-    int64 id = 1;
+message TransSearchParams {
+    int32 id = 1;
 }
 
-message TransCreateDTO {
+message TransListSearchParams {
+    repeated int32 ids = 1;
+}
+
+message TransCU {
     string en = 1;
     string ua = 2;
     string ru = 3;
 }
 
 message Trans {
-    int64 id = 1;
+    int32 id = 1;
     string en = 2;
     string ua = 3;
     string ru = 4;
+}
+
+message TransList {
+    repeated Trans items = 1;
+}
+
+message TransUpdateParams {
+    int32 id = 1;
+    TransCU data = 2;
 }

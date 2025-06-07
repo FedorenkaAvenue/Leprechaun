@@ -1,6 +1,13 @@
-import { Observable } from "rxjs";
-
-import { Trans, TransCreateDTO, TransDTO, TransServiceController, TransServiceControllerMethods } from "gen/ts/trans";
+import {
+    Trans,
+    TransCU,
+    TransList,
+    TransListSearchParams,
+    TransSearchParams,
+    TransServiceController,
+    TransServiceControllerMethods,
+    TransUpdateParams,
+} from "gen/ts/trans";
 import TransService from "./trans.service";
 
 @TransServiceControllerMethods()
@@ -9,15 +16,25 @@ export default class TransController implements TransServiceController {
         private readonly transService: TransService,
     ) { }
 
-    getTrans(request: TransDTO): Promise<Trans> {
-        return this.transService.getTrans(request);
+    getTrans({ id }: TransSearchParams): Promise<Trans> {
+        return this.transService.getTrans(id);
     }
 
-    createTrans(request: TransCreateDTO): Promise<Trans> | Observable<Trans> | Trans {
-        throw new Error("Method not implemented.");
+    async getTransList({ ids }: TransListSearchParams): Promise<TransList> {
+        const res = await this.transService.getTransList(ids);
+
+        return { items: res };
     }
 
-    deleteTrans(request: TransDTO): void {
+    createTrans(data: TransCU): Promise<Trans> {
+        return this.transService.createTrans(data);
+    }
+
+    updateTrans({ id, data }: TransUpdateParams): Promise<void> {
+        return this.transService.updateTrans(id, data);
+    }
+
+    deleteTrans(request: TransSearchParams): void {
         throw new Error("Method not implemented.");
     }
 }

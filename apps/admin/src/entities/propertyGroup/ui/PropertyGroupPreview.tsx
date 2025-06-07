@@ -21,7 +21,7 @@ const PropertyGroupPreviewEntity = ({ group, renderTools, renderPublicStatus }: 
             </TableCell>
             <TableCell align="right">
                 <Link to={String(group.id)}>
-                    <Typography color='primary' component='span'>{group.alt_name}</Typography>
+                    <Typography color='primary' component='span'>{group.altName}</Typography>
                 </Link>
             </TableCell>
             <TableCell align="right">
@@ -29,11 +29,11 @@ const PropertyGroupPreviewEntity = ({ group, renderTools, renderPublicStatus }: 
             </TableCell>
             <TableCell align="right">
                 <TooltipContent
-                    title={group.properties.length || 'none'}
-                    active={Boolean(group.properties.length)}
+                    title={group.properties?.length || 'none'}
+                    active={Boolean(group.properties?.length)}
                     content={
                         <ul>
-                            {group.properties.map(i => (<li key={i.id}>{i.alt_name}</li>))}
+                            {group.properties?.map(i => (<li key={i.id}>{i.alt_name}</li>))}
                         </ul>
                     }
                 />

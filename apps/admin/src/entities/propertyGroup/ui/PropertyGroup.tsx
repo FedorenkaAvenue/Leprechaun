@@ -16,8 +16,8 @@ const PropertyGroupEntity = ({ group, renderCategories, renderProperties }: Prop
             <div className="flex flex-wrap">
                 <div className="flex-1">
                     <div>id: <b>{group?.id}</b></div>
-                    <div>alt name: <b>{group?.alt_name}</b></div>
-                    <div>is primary: <b>{group?.is_primary ? 'yes' : 'no'}</b></div>
+                    <div>alt name: <b>{group?.altName}</b></div>
+                    <div>is primary: <b>{group?.isPrimary ? 'yes' : 'no'}</b></div>
                     <div>comment: <b>{group?.comment}</b></div>
                 </div>
                 <div className="flex-1">

@@ -2,12 +2,15 @@ import {
     Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn,
 } from 'typeorm';
 
-import { Trans } from 'gen/ts/trans';
 import { PropertyGroup } from 'gen/ts/prop_group';
 import { PropertyEntity } from '../property/property.entity';
 
+type Entity = Omit<PropertyGroup, 'title'> & {
+    title: number
+}
+
 @Entity('propertygroup')
-export class PropertyGroupEntity implements PropertyGroup {
+export class PropertyGroupEntity implements Entity {
     @PrimaryGeneratedColumn('rowid')
     id: number;
 
@@ -17,7 +20,8 @@ export class PropertyGroupEntity implements PropertyGroup {
     @UpdateDateColumn()
     updatedAt: Date;
 
-    title: Trans;
+    @Column({ unique: true })
+    title: number;
 
     @Column({ unique: true })
     altName: string;

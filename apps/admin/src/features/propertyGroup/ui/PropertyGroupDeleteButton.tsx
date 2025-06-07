@@ -14,7 +14,7 @@ interface Props extends Omit<DeleteButtonProps, 'buttonTitle' | 'modalTitle' | '
 function ModalContent({ id }: { id: PropertyGroup['id'] }) {
     const { data, isFetching } = usePropertyGroup(id);
     const categoriesLen = data?.categories.length;
-    const propertiesLen = data?.properties.length;
+    const propertiesLen = data?.properties?.length;
 
     if (!categoriesLen || !propertiesLen) return null;
 
@@ -37,7 +37,7 @@ const PropertyGroupDeleteButton = (props: Props) => {
     return (
         <DeleteButton
             onAgree={remove}
-            modalTitle={(<>Confirm deleting <b>{props.group?.alt_name}</b> property group?</>)}
+            modalTitle={(<>Confirm deleting <b>{props.group?.altName}</b> property group?</>)}
             modalContent={<ModalContent id={props.group?.id} />}
             buttonTitle='Delete group'
             {...props}

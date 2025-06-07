@@ -4,50 +4,64 @@ package prop_group;
 
 option go_package = "./prop_group;prop_group_v1";
 
-import "google/protobuf/struct.proto";
 import "google/protobuf/timestamp.proto";
 import "google/protobuf/empty.proto";
+import "trans.proto";
 
 service PropertyGroupService {
+    rpc getGroupPrivate (PropertyGroupSearchParams) returns (PropertyGroup);
     rpc getGroupListPrivate (google.protobuf.Empty) returns (PropertyGroupListPreview);
+    rpc createGroup (PropertyGroupCU) returns (PropertyGroup);
+    rpc updateGroup (PropertyGroupUpdateParams) returns (google.protobuf.Empty);
+}
+
+message PropertyGroupSearchParams {
+    int32 id = 1;
 }
 
 message PropertyGroupPreview {
-    int64 id = 1;
-    google.protobuf.Struct title = 2;
-    string alt_name = 3;
-    bool is_primary = 4;
+    int32 id = 1;
+    trans.TransCU title = 2;
+    string altName = 3;
+    bool isPrimary = 4;
     string comment = 5;
-    google.protobuf.Timestamp created_at = 6;
-    google.protobuf.Timestamp updated_at = 7;
+    google.protobuf.Timestamp createdAt = 6;
+    google.protobuf.Timestamp updatedAt = 7;
 }
 
 message PropertyGroup {
-    int64 id = 1;
-    google.protobuf.Struct title = 2;
-    string alt_name = 3;
-    bool is_primary = 4;
+    int32 id = 1;
+    trans.TransCU title = 2;
+    string altName = 3;
+    bool isPrimary = 4;
     string comment = 5;
-    google.protobuf.Timestamp created_at = 6;
-    google.protobuf.Timestamp updated_at = 7;
+    google.protobuf.Timestamp createdAt = 6;
+    google.protobuf.Timestamp updatedAt = 7;
     repeated Property properties = 8;
+}
+
+message PropertyGroupCU {
+    trans.TransCU title = 1;
+    string altName = 2;
+    bool isPrimary = 3;
+    string comment = 4;
+}
+
+message PropertyGroupUpdateParams {
+    int32 id = 1;
+    PropertyGroupCU data = 2;
 }
 
 message PropertyGroupListPreview {
     repeated PropertyGroupPreview items = 1;
 }
 
-
-
-
-
-
 message Property {
-    int64 id = 1;
-    google.protobuf.Struct title = 2;
-    string alt_name = 3;
+    int32 id = 1;
+    trans.TransCU title = 2;
+    string altName = 3;
     string comment = 4;
-    google.protobuf.Timestamp created_at = 5;
-    google.protobuf.Timestamp updated_at = 6;
+    google.protobuf.Timestamp createdAt = 5;
+    google.protobuf.Timestamp updatedAt = 6;
 }
 

@@ -20,7 +20,7 @@ export enum UserRole {
   UNRECOGNIZED = -1,
 }
 
-export interface UserDTO {
+export interface UserSearchParams {
   id?: string | undefined;
   email?: string | undefined;
 }
@@ -39,13 +39,13 @@ export interface UserList {
 export const USER_PACKAGE_NAME = "user";
 
 export interface UserServiceClient {
-  findOne(request: UserDTO): Observable<User>;
+  findOne(request: UserSearchParams): Observable<User>;
 
   getEmployerList(request: Empty): Observable<UserList>;
 }
 
 export interface UserServiceController {
-  findOne(request: UserDTO): Promise<User> | Observable<User> | User;
+  findOne(request: UserSearchParams): Promise<User> | Observable<User> | User;
 
   getEmployerList(request: Empty): Promise<UserList> | Observable<UserList> | UserList;
 }

@@ -1,9 +1,7 @@
 import { Body, Controller, HttpCode, HttpStatus, Post, UseInterceptors, ValidationPipe } from "@nestjs/common";
 import { ApiNotFoundResponse, ApiOkResponse, ApiOperation, ApiTags } from "@nestjs/swagger";
 import { FilesInterceptor } from "@nestjs/platform-express/multer";
-// import { Request } from "express";
 
-// import { AuthJWTRefreshGuard } from "./auth.guard";
 import { AuthJWTMapInterceptor } from "@common/auth/auth.interceptor";
 import { AuthSignInDTO, AuthSuccessDTO } from "@common/auth/auth.dto";
 import AuthService from "@common/auth/auth.service";
@@ -24,24 +22,4 @@ export default class AuthPrivateController {
     ): Promise<AuthSuccessDTO> {
         return this.authService.signIn({ ...body });
     }
-
-    // @Get('/refresh')
-    // @HttpCode(HttpStatus.OK)
-    // @UseGuards(AuthJWTRefreshGuard)
-    // @UseInterceptors(AuthJWTMapInterceptor)
-    // @ApiOperation({ summary: 'refresh access token and get new tokens' })
-    // @ApiOkResponse({ type: AuthSuccessDTO })
-    // @ApiUnauthorizedResponse({ description: 'refresh token is no longer valid' })
-    // private async refreshToken(@Req() req: Request): Promise<JWTSuccessTokensI> {
-    //     console.log(req.cookies);
-    //     console.log(req.signedCookies);
-
-    //     return await this.authService.refreshAccessToken('');
-    // }
-
-    // @Get('signout')
-    // @ApiOperation({ summary: 'sign out, destroy tokens' })
-    // private async signOut() {
-    //     return 'TODO';
-    // }
 }

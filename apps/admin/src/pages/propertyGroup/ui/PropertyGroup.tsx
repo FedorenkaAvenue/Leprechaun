@@ -81,7 +81,7 @@ const PropertyGroupPage = () => {
                 PaperComponent={Paper}
             >
                 <DialogTitle className="flex items-baseline justify-center">
-                    Create new property for<b>&nbsp;{data?.alt_name}&nbsp;</b>group
+                    Create new property for<b>&nbsp;{data?.altName}&nbsp;</b>group
                 </DialogTitle>
                 <DialogContent>
                     <PropertyCreateWidget

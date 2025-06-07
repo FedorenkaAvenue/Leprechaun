@@ -14,6 +14,9 @@ async function bootstrap() {
             package: TRANS_PACKAGE_NAME,
             protoPath: join(__dirname, '../../proto/trans.proto'),
             url: `0.0.0.0:${config.getVal('TRANS_SERVICE_CLIENT_PORT')}`,
+            loader: {
+                longs: Number,
+            },
         },
     });
 

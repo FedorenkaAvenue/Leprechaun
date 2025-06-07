@@ -7,7 +7,7 @@ option go_package = "./user;user_v1";
 import "google/protobuf/empty.proto";
 
 service UserService {
-    rpc FindOne (UserDTO) returns (User);
+    rpc FindOne (UserSearchParams) returns (User);
     rpc GetEmployerList (google.protobuf.Empty) returns (UserList);
 }
 
@@ -19,7 +19,7 @@ enum UserRole {
     ROOT = 4;
 }
 
-message UserDTO {
+message UserSearchParams {
     optional string id = 1;
     optional string email = 2;
 }

@@ -1,11 +1,11 @@
 import { UserService } from './user.service';
-import { User, UserDTO, UserList, UserServiceController, UserServiceControllerMethods } from 'gen/ts/user';
+import { User, UserSearchParams, UserList, UserServiceController, UserServiceControllerMethods } from 'gen/ts/user';
 
 @UserServiceControllerMethods()
 export class UserController implements UserServiceController {
     constructor(private readonly userService: UserService) { }
 
-    findOne({ id, email }: UserDTO): Promise<User> {
+    findOne({ id, email }: UserSearchParams): Promise<User> {
         return this.userService.getUser(id ? { id } : { email });
     }
 

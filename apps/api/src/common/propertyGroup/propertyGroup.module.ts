@@ -19,6 +19,9 @@ import { PROP_GROUP_PACKAGE_NAME } from '@gen/prop_group';
                         package: PROP_GROUP_PACKAGE_NAME,
                         protoPath: join(__dirname, '../../../../proto/prop_group.proto'),
                         url: `${configService.getVal('PROPGROUP_SERVICE_CLIENT_HOST')}:${configService.getVal('PROPGROUP_SERVICE_CLIENT_PORT')}`,
+                        loader: {
+                            longs: Number,
+                        }
                     },
                 }),
             },

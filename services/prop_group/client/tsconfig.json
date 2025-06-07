@@ -25,7 +25,8 @@
 
         "baseUrl": ".",
         "paths": {
-            "@gen/*": ["./src/gen/ts/*"]
+            "@gen/*": ["./src/gen/ts/*"],
+            "@trans/*": ["./src/trans/*"]
         }
     },
     "include": ["**/*.ts", "**/*.tsx", "**/*.d.ts"],

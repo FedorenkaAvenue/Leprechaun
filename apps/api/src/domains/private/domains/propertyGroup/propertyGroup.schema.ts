@@ -1,8 +1,8 @@
 import { ApiProperty } from "@nestjs/swagger";
 
-import { Property, PropertyGroup } from "@gen/prop_group";
+import { Property, PropertyGroup, PropertyGroupCU } from "@gen/prop_group";
 import { Trans } from "@gen/trans";
-import { TransSchemas } from "@common/trans/trans.schema";
+import { TransCUSchema, TransSchema } from "@common/trans/trans.schema";
 
 export class PropertyGroupSchema implements PropertyGroup {
     @ApiProperty()
@@ -14,7 +14,7 @@ export class PropertyGroupSchema implements PropertyGroup {
     @ApiProperty()
     updatedAt: Date;
 
-    @ApiProperty({ type: TransSchemas })
+    @ApiProperty({ type: TransSchema })
     title: Trans;
 
     @ApiProperty()
@@ -40,12 +40,26 @@ export class PropertySchema implements Property {
     @ApiProperty()
     updatedAt: Date;
 
-    @ApiProperty({ type: TransSchemas })
+    @ApiProperty({ type: TransSchema })
     title: Trans;
 
     @ApiProperty()
     altName: string;
 
     @ApiProperty()
+    comment: string;
+}
+
+export class PropertyGroupCUSchema implements PropertyGroupCU {
+    @ApiProperty()
+    title: TransCUSchema;
+
+    @ApiProperty()
+    altName: string;
+
+    @ApiProperty({ required: false, description: 'visible property for ProductCard', default: false })
+    isPrimary: boolean;
+
+    @ApiProperty({ required: false, default: null })
     comment: string;
 }

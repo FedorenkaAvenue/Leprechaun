@@ -108,7 +108,7 @@ export const propertyGroupApi = rootApi.injectEndpoints({
                 successCallback?.call(null);
                 dispatch(
                     propertyGroupApi.util.updateQueryData('propertyGroup', propertygroup, propertyGroup => {
-                        propertyGroup.properties.unshift(data);
+                        propertyGroup.properties?.unshift(data);
                     })
                 );
             },
@@ -124,9 +124,9 @@ export const propertyGroupApi = rootApi.injectEndpoints({
 
                 const patch = dispatch(
                     propertyGroupApi.util.updateQueryData('propertyGroup', propertyGroupId, propertyGroup => {
-                        const propertyIndex = propertyGroup.properties.findIndex(property => property.id === propertyId);
+                        const propertyIndex = propertyGroup.properties?.findIndex(property => property.id === propertyId);
 
-                        propertyGroup.properties.splice(propertyIndex, 1);
+                        propertyGroup.properties?.splice(propertyIndex, 1);
                     })
                 );
 

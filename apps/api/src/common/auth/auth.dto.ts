@@ -1,9 +1,9 @@
 import { ApiProperty } from "@nestjs/swagger"
 import { IsNotEmpty, IsString } from "class-validator"
 
-import { AuthJWT, SignInDTO } from '@gen/auth';
+import { AuthJWT, SignInParams } from '@gen/auth';
 
-export class AuthSignInDTO implements SignInDTO {
+export class AuthSignInDTO implements SignInParams {
     @IsNotEmpty()
     @IsString()
     @ApiProperty({ required: true })

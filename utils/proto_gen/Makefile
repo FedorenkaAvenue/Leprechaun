@@ -31,7 +31,7 @@ generate:
 	@protoc \
 		--plugin=protoc-gen-ts=./node_modules/.bin/protoc-gen-ts_proto \
 		--ts_proto_out=$(OUT_TS) \
-		--ts_proto_opt=nestJs=true,env=browser,esModuleInterop=true,useProtoFieldName=true,useDate=true \
+		--ts_proto_opt=nestJs=true,env=browser,esModuleInterop=true,useProtoFieldName=true,useDate=true,useOptionals=fields \
 		--proto_path=$(PROTO_DIR) \
 		--proto_path=/usr/include \
 		$(PROTO_FILES)

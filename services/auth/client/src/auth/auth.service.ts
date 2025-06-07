@@ -8,7 +8,7 @@ import { JWTPayload, JWTSuccessTokens } from './auth.interface';
 import UserService from '../user/user.service';
 import CryptoService from '../crypto/crypto.service';
 import ConfigService from '../config/config.service';
-import { AuthJWT, SignInDTO } from 'gen/ts/auth';
+import { AuthJWT, SignInParams } from 'gen/ts/auth';
 import { User } from 'gen/ts/user';
 
 @Injectable()
@@ -20,7 +20,7 @@ export class AuthService {
         private readonly configService: ConfigService,
     ) { }
 
-    public async sigIn(payload: SignInDTO): Promise<AuthJWT> {
+    public async sigIn(payload: SignInParams): Promise<AuthJWT> {
         try {
             const user = await firstValueFrom(this.userService.getUser({ email: payload.email }));
 

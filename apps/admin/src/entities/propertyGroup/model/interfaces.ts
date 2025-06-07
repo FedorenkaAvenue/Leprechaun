@@ -5,9 +5,9 @@ import { Trans } from "@shared/models/interfaces"
 export interface PropertyGroupPreview {
     id: number
     title: Trans
-    alt_name: string
-    is_primary: boolean
-    properties: Property[]
+    altName: string
+    isPrimary: boolean
+    properties: Property[] | undefined
     comment: string
 }
 
