@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
-import { catchError, firstValueFrom, throwError } from 'rxjs';
+import { catchError, firstValueFrom, from, map, Observable, switchMap, throwError } from 'rxjs';
 import { RpcException } from '@nestjs/microservices';
 import { status } from '@grpc/grpc-js';
 
@@ -17,22 +17,20 @@ export default class PropertyGroupService {
         private readonly transService: TransService,
     ) { }
 
-    public async createGroup(newGroup: PropertyGroupCU): Promise<PropertyGroup> {
-        try {
-            const { id, ...title } = await firstValueFrom(
-                this.transService.createTrans(newGroup.title).pipe(
-                    catchError(err => throwError(() => new RpcException(err)))
-                )
-            );
+    public createGroup(newGroup: PropertyGroupCU): Observable<PropertyGroup> {
+        return this.transService.createTrans(newGroup.title).pipe(
+            catchError(err => throwError(() => new RpcException(err))),
+            switchMap(({ id, ...title }) => from(this.propertyGroupRepo.save({ ...newGroup, title: id })).pipe(
+                map(group => ({ ...group, title })),
+                catchError(err => {
+                    if (err.code === '23505') {
+                        return throwError(() => new RpcException({ code: status.UNAVAILABLE, message: err.detail }));
+                    }
 
-            const group = await this.propertyGroupRepo.save({ ...newGroup, title: id });
-
-            return { ...group, title };
-        } catch (err: any) {
-            if (err.code === '23505') throw new RpcException({ code: status.UNAVAILABLE, message: err.detail });
-
-            throw new RpcException({ code: err.code, message: err.message });
-        }
+                    return throwError(() => new RpcException({ code: err.code, message: err.message }));
+                })
+            ))
+        )
     }
 
     public async getGroup(groupId: PropertyGroup['id']): Promise<PropertyGroup> {
@@ -74,7 +72,7 @@ export default class PropertyGroupService {
         }));
     }
 
-    async updateGroup(id: PropertyGroup['id'], { title, ...restUpdates }: PropertyGroupCU): Promise<void> {
+    public async updateGroup(id: PropertyGroup['id'], { title, ...restUpdates }: PropertyGroupCU): Promise<void> {
         const group = await this.propertyGroupRepo.findOneBy({ id });
 
         if (!group) throw new RpcException({ code: status.UNAVAILABLE, message: `unknown group with id ${id}` });
