@@ -19,7 +19,7 @@ export interface TransListSearchParams {
   ids: number[];
 }
 
-export interface TransCU {
+export interface TransData {
   en: string;
   ua: string;
   ru: string;
@@ -27,28 +27,169 @@ export interface TransCU {
 
 export interface Trans {
   id: number;
-  en: string;
-  ua: string;
-  ru: string;
+  data: TransData;
 }
 
 export interface TransList {
   items: Trans[];
 }
 
+export interface TransMap {
+  items: { [key: number]: TransData };
+}
+
+export interface TransMap_ItemsEntry {
+  key: number;
+  value: TransData;
+}
+
 export interface TransUpdateParams {
   id: number;
-  data: TransCU;
+  data: TransData;
 }
 
 export const TRANS_PACKAGE_NAME = "trans";
+
+function createBaseTransSearchParams(): TransSearchParams {
+  return { id: 0 };
+}
+
+export const TransSearchParams: MessageFns<TransSearchParams> = {
+  create<I extends Exact<DeepPartial<TransSearchParams>, I>>(base?: I): TransSearchParams {
+    return TransSearchParams.fromPartial(base ?? ({} as any));
+  },
+  fromPartial<I extends Exact<DeepPartial<TransSearchParams>, I>>(object: I): TransSearchParams {
+    const message = createBaseTransSearchParams();
+    message.id = object.id ?? 0;
+    return message;
+  },
+};
+
+function createBaseTransListSearchParams(): TransListSearchParams {
+  return { ids: [] };
+}
+
+export const TransListSearchParams: MessageFns<TransListSearchParams> = {
+  create<I extends Exact<DeepPartial<TransListSearchParams>, I>>(base?: I): TransListSearchParams {
+    return TransListSearchParams.fromPartial(base ?? ({} as any));
+  },
+  fromPartial<I extends Exact<DeepPartial<TransListSearchParams>, I>>(object: I): TransListSearchParams {
+    const message = createBaseTransListSearchParams();
+    message.ids = object.ids?.map((e) => e) || [];
+    return message;
+  },
+};
+
+function createBaseTransData(): TransData {
+  return { en: "", ua: "", ru: "" };
+}
+
+export const TransData: MessageFns<TransData> = {
+  create<I extends Exact<DeepPartial<TransData>, I>>(base?: I): TransData {
+    return TransData.fromPartial(base ?? ({} as any));
+  },
+  fromPartial<I extends Exact<DeepPartial<TransData>, I>>(object: I): TransData {
+    const message = createBaseTransData();
+    message.en = object.en ?? "";
+    message.ua = object.ua ?? "";
+    message.ru = object.ru ?? "";
+    return message;
+  },
+};
+
+function createBaseTrans(): Trans {
+  return { id: 0, data: undefined };
+}
+
+export const Trans: MessageFns<Trans> = {
+  create<I extends Exact<DeepPartial<Trans>, I>>(base?: I): Trans {
+    return Trans.fromPartial(base ?? ({} as any));
+  },
+  fromPartial<I extends Exact<DeepPartial<Trans>, I>>(object: I): Trans {
+    const message = createBaseTrans();
+    message.id = object.id ?? 0;
+    message.data = (object.data !== undefined && object.data !== null) ? TransData.fromPartial(object.data) : undefined;
+    return message;
+  },
+};
+
+function createBaseTransList(): TransList {
+  return { items: [] };
+}
+
+export const TransList: MessageFns<TransList> = {
+  create<I extends Exact<DeepPartial<TransList>, I>>(base?: I): TransList {
+    return TransList.fromPartial(base ?? ({} as any));
+  },
+  fromPartial<I extends Exact<DeepPartial<TransList>, I>>(object: I): TransList {
+    const message = createBaseTransList();
+    message.items = object.items?.map((e) => Trans.fromPartial(e)) || [];
+    return message;
+  },
+};
+
+function createBaseTransMap(): TransMap {
+  return { items: {} };
+}
+
+export const TransMap: MessageFns<TransMap> = {
+  create<I extends Exact<DeepPartial<TransMap>, I>>(base?: I): TransMap {
+    return TransMap.fromPartial(base ?? ({} as any));
+  },
+  fromPartial<I extends Exact<DeepPartial<TransMap>, I>>(object: I): TransMap {
+    const message = createBaseTransMap();
+    message.items = Object.entries(object.items ?? {}).reduce<{ [key: number]: TransData }>((acc, [key, value]) => {
+      if (value !== undefined) {
+        acc[globalThis.Number(key)] = TransData.fromPartial(value);
+      }
+      return acc;
+    }, {});
+    return message;
+  },
+};
+
+function createBaseTransMap_ItemsEntry(): TransMap_ItemsEntry {
+  return { key: 0, value: undefined };
+}
+
+export const TransMap_ItemsEntry: MessageFns<TransMap_ItemsEntry> = {
+  create<I extends Exact<DeepPartial<TransMap_ItemsEntry>, I>>(base?: I): TransMap_ItemsEntry {
+    return TransMap_ItemsEntry.fromPartial(base ?? ({} as any));
+  },
+  fromPartial<I extends Exact<DeepPartial<TransMap_ItemsEntry>, I>>(object: I): TransMap_ItemsEntry {
+    const message = createBaseTransMap_ItemsEntry();
+    message.key = object.key ?? 0;
+    message.value = (object.value !== undefined && object.value !== null)
+      ? TransData.fromPartial(object.value)
+      : undefined;
+    return message;
+  },
+};
+
+function createBaseTransUpdateParams(): TransUpdateParams {
+  return { id: 0, data: undefined };
+}
+
+export const TransUpdateParams: MessageFns<TransUpdateParams> = {
+  create<I extends Exact<DeepPartial<TransUpdateParams>, I>>(base?: I): TransUpdateParams {
+    return TransUpdateParams.fromPartial(base ?? ({} as any));
+  },
+  fromPartial<I extends Exact<DeepPartial<TransUpdateParams>, I>>(object: I): TransUpdateParams {
+    const message = createBaseTransUpdateParams();
+    message.id = object.id ?? 0;
+    message.data = (object.data !== undefined && object.data !== null) ? TransData.fromPartial(object.data) : undefined;
+    return message;
+  },
+};
 
 export interface TransServiceClient {
   getTrans(request: TransSearchParams): Observable<Trans>;
 
   getTransList(request: TransListSearchParams): Observable<TransList>;
 
-  createTrans(request: TransCU): Observable<Trans>;
+  getTransMap(request: TransListSearchParams): Observable<TransMap>;
+
+  createTrans(request: TransData): Observable<Trans>;
 
   updateTrans(request: TransUpdateParams): Observable<Empty>;
 
@@ -60,7 +201,9 @@ export interface TransServiceController {
 
   getTransList(request: TransListSearchParams): Promise<TransList> | Observable<TransList> | TransList;
 
-  createTrans(request: TransCU): Promise<Trans> | Observable<Trans> | Trans;
+  getTransMap(request: TransListSearchParams): Promise<TransMap> | Observable<TransMap> | TransMap;
+
+  createTrans(request: TransData): Promise<Trans> | Observable<Trans> | Trans;
 
   updateTrans(request: TransUpdateParams): void;
 
@@ -69,7 +212,14 @@ export interface TransServiceController {
 
 export function TransServiceControllerMethods() {
   return function (constructor: Function) {
-    const grpcMethods: string[] = ["getTrans", "getTransList", "createTrans", "updateTrans", "deleteTrans"];
+    const grpcMethods: string[] = [
+      "getTrans",
+      "getTransList",
+      "getTransMap",
+      "createTrans",
+      "updateTrans",
+      "deleteTrans",
+    ];
     for (const method of grpcMethods) {
       const descriptor: any = Reflect.getOwnPropertyDescriptor(constructor.prototype, method);
       GrpcMethod("TransService", method)(constructor.prototype[method], method, descriptor);
@@ -83,3 +233,20 @@ export function TransServiceControllerMethods() {
 }
 
 export const TRANS_SERVICE_NAME = "TransService";
+
+type Builtin = Date | Function | Uint8Array | string | number | boolean | undefined;
+
+export type DeepPartial<T> = T extends Builtin ? T
+  : T extends globalThis.Array<infer U> ? globalThis.Array<DeepPartial<U>>
+  : T extends ReadonlyArray<infer U> ? ReadonlyArray<DeepPartial<U>>
+  : T extends {} ? { [K in keyof T]?: DeepPartial<T[K]> }
+  : Partial<T>;
+
+type KeysOfUnion<T> = T extends T ? keyof T : never;
+export type Exact<P, I extends P> = P extends Builtin ? P
+  : P & { [K in keyof P]: Exact<P[K], I[K]> } & { [K in Exclude<keyof I, KeysOfUnion<P>>]: never };
+
+export interface MessageFns<T> {
+  create<I extends Exact<DeepPartial<T>, I>>(base?: I): T;
+  fromPartial<I extends Exact<DeepPartial<T>, I>>(object: I): T;
+}

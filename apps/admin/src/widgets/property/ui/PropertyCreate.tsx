@@ -22,7 +22,7 @@ const PropertyCreateWidget = ({ groupId, handleClose }: Props) => {
 
     function sendForm(data: PropertyCreateDTO) {
         mutate({
-            data: { ...data, propertygroup: groupId },
+            data: { ...data, propertyGroup: groupId },
             successCallback: handleClose,
         });
     }
@@ -38,7 +38,7 @@ const PropertyCreateWidget = ({ groupId, handleClose }: Props) => {
                         <TextInput {...register('title.ua')} r label="ua" error={errors.title?.ua?.message} />
                     </div>
                 </div>
-                <TextInput {...register('alt_name')} r label="alt name" error={errors.alt_name?.message} />
+                <TextInput {...register('altName')} r label="alt name" error={errors.altName?.message} />
                 <TextInput {...register('comment')} label="comment" multiline />
             </div>
             <div className="w-full flex justify-center">

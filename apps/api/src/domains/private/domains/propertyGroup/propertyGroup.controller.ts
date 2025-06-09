@@ -5,18 +5,18 @@ import { ApiBadRequestResponse, ApiNotFoundResponse, ApiOkResponse, ApiOperation
 
 import { AuthJWTAccessGuard } from '@guards/auth.guard';
 import { UserRole } from '@gen/user';
-import { PropertyGroup, PropertyGroupPreview, PropertyGroupUpdateParams } from '@gen/prop_group';
+import { PropertyGroup, PropertyGroupUpdateParams } from '@gen/prop_group';
 import { PropertyGroupCUSchema, PropertyGroupSchema } from './propertyGroup.schema';
 import { UserRoleGuard } from '@common/user/user.guard';
-import PropertyGroupService from '@common/propertyGroup/propertyGroup.service';
 import { UserRoleDecorator } from '@common/user/user.decorator';
 import { Empty } from '@gen/google/protobuf/empty';
+import PropertyGroupPrivateService from './propertyGroup.service';
 
 @Controller('propertygroup')
 @UseGuards(AuthJWTAccessGuard, UserRoleGuard)
 @ApiTags('Property group')
 export default class PropertyGroupPrivateController {
-    constructor(private readonly propertyGroupService: PropertyGroupService) { }
+    constructor(private readonly propertyGroupService: PropertyGroupPrivateService) { }
 
     @Post()
     @UserRoleDecorator(UserRole.ADMIN)
@@ -51,7 +51,7 @@ export default class PropertyGroupPrivateController {
     @UserRoleDecorator(UserRole.SUPPORT)
     @ApiOperation({ summary: 'get all property groups' })
     @ApiOkResponse({ type: PropertyGroupSchema, isArray: true })
-    private getGroupList(): Promise<PropertyGroupPreview[]> {
+    private getGroupList(): Promise<PropertyGroup[]> {
         return this.propertyGroupService.getGroupListPrivate();
     }
 

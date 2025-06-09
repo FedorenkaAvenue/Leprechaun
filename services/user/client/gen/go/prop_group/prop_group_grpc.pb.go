@@ -31,7 +31,7 @@ const (
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type PropertyGroupServiceClient interface {
 	GetGroupPrivate(ctx context.Context, in *PropertyGroupSearchParams, opts ...grpc.CallOption) (*PropertyGroup, error)
-	GetGroupListPrivate(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*PropertyGroupListPreview, error)
+	GetGroupListPrivate(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*PropertyGroupList, error)
 	CreateGroup(ctx context.Context, in *PropertyGroupCU, opts ...grpc.CallOption) (*PropertyGroup, error)
 	UpdateGroup(ctx context.Context, in *PropertyGroupUpdateParams, opts ...grpc.CallOption) (*emptypb.Empty, error)
 }
@@ -53,8 +53,8 @@ func (c *propertyGroupServiceClient) GetGroupPrivate(ctx context.Context, in *Pr
 	return out, nil
 }
 
-func (c *propertyGroupServiceClient) GetGroupListPrivate(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*PropertyGroupListPreview, error) {
-	out := new(PropertyGroupListPreview)
+func (c *propertyGroupServiceClient) GetGroupListPrivate(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*PropertyGroupList, error) {
+	out := new(PropertyGroupList)
 	err := c.cc.Invoke(ctx, PropertyGroupService_GetGroupListPrivate_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -85,7 +85,7 @@ func (c *propertyGroupServiceClient) UpdateGroup(ctx context.Context, in *Proper
 // for forward compatibility
 type PropertyGroupServiceServer interface {
 	GetGroupPrivate(context.Context, *PropertyGroupSearchParams) (*PropertyGroup, error)
-	GetGroupListPrivate(context.Context, *emptypb.Empty) (*PropertyGroupListPreview, error)
+	GetGroupListPrivate(context.Context, *emptypb.Empty) (*PropertyGroupList, error)
 	CreateGroup(context.Context, *PropertyGroupCU) (*PropertyGroup, error)
 	UpdateGroup(context.Context, *PropertyGroupUpdateParams) (*emptypb.Empty, error)
 	mustEmbedUnimplementedPropertyGroupServiceServer()
@@ -98,7 +98,7 @@ type UnimplementedPropertyGroupServiceServer struct {
 func (UnimplementedPropertyGroupServiceServer) GetGroupPrivate(context.Context, *PropertyGroupSearchParams) (*PropertyGroup, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetGroupPrivate not implemented")
 }
-func (UnimplementedPropertyGroupServiceServer) GetGroupListPrivate(context.Context, *emptypb.Empty) (*PropertyGroupListPreview, error) {
+func (UnimplementedPropertyGroupServiceServer) GetGroupListPrivate(context.Context, *emptypb.Empty) (*PropertyGroupList, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetGroupListPrivate not implemented")
 }
 func (UnimplementedPropertyGroupServiceServer) CreateGroup(context.Context, *PropertyGroupCU) (*PropertyGroup, error) {
@@ -214,6 +214,133 @@ var PropertyGroupService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "updateGroup",
 			Handler:    _PropertyGroupService_UpdateGroup_Handler,
+		},
+	},
+	Streams:  []grpc.StreamDesc{},
+	Metadata: "prop_group.proto",
+}
+
+const (
+	PropertyService_CreateProperty_FullMethodName = "/prop_group.PropertyService/createProperty"
+	PropertyService_DeleteProperty_FullMethodName = "/prop_group.PropertyService/deleteProperty"
+)
+
+// PropertyServiceClient is the client API for PropertyService service.
+//
+// For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
+type PropertyServiceClient interface {
+	CreateProperty(ctx context.Context, in *PropertyCU, opts ...grpc.CallOption) (*Property, error)
+	DeleteProperty(ctx context.Context, in *PropertySearchParams, opts ...grpc.CallOption) (*emptypb.Empty, error)
+}
+
+type propertyServiceClient struct {
+	cc grpc.ClientConnInterface
+}
+
+func NewPropertyServiceClient(cc grpc.ClientConnInterface) PropertyServiceClient {
+	return &propertyServiceClient{cc}
+}
+
+func (c *propertyServiceClient) CreateProperty(ctx context.Context, in *PropertyCU, opts ...grpc.CallOption) (*Property, error) {
+	out := new(Property)
+	err := c.cc.Invoke(ctx, PropertyService_CreateProperty_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *propertyServiceClient) DeleteProperty(ctx context.Context, in *PropertySearchParams, opts ...grpc.CallOption) (*emptypb.Empty, error) {
+	out := new(emptypb.Empty)
+	err := c.cc.Invoke(ctx, PropertyService_DeleteProperty_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+// PropertyServiceServer is the server API for PropertyService service.
+// All implementations must embed UnimplementedPropertyServiceServer
+// for forward compatibility
+type PropertyServiceServer interface {
+	CreateProperty(context.Context, *PropertyCU) (*Property, error)
+	DeleteProperty(context.Context, *PropertySearchParams) (*emptypb.Empty, error)
+	mustEmbedUnimplementedPropertyServiceServer()
+}
+
+// UnimplementedPropertyServiceServer must be embedded to have forward compatible implementations.
+type UnimplementedPropertyServiceServer struct {
+}
+
+func (UnimplementedPropertyServiceServer) CreateProperty(context.Context, *PropertyCU) (*Property, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CreateProperty not implemented")
+}
+func (UnimplementedPropertyServiceServer) DeleteProperty(context.Context, *PropertySearchParams) (*emptypb.Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeleteProperty not implemented")
+}
+func (UnimplementedPropertyServiceServer) mustEmbedUnimplementedPropertyServiceServer() {}
+
+// UnsafePropertyServiceServer may be embedded to opt out of forward compatibility for this service.
+// Use of this interface is not recommended, as added methods to PropertyServiceServer will
+// result in compilation errors.
+type UnsafePropertyServiceServer interface {
+	mustEmbedUnimplementedPropertyServiceServer()
+}
+
+func RegisterPropertyServiceServer(s grpc.ServiceRegistrar, srv PropertyServiceServer) {
+	s.RegisterService(&PropertyService_ServiceDesc, srv)
+}
+
+func _PropertyService_CreateProperty_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(PropertyCU)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(PropertyServiceServer).CreateProperty(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: PropertyService_CreateProperty_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(PropertyServiceServer).CreateProperty(ctx, req.(*PropertyCU))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _PropertyService_DeleteProperty_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(PropertySearchParams)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(PropertyServiceServer).DeleteProperty(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: PropertyService_DeleteProperty_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(PropertyServiceServer).DeleteProperty(ctx, req.(*PropertySearchParams))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+// PropertyService_ServiceDesc is the grpc.ServiceDesc for PropertyService service.
+// It's only intended for direct use with grpc.RegisterService,
+// and not to be introspected or modified (even as a copy)
+var PropertyService_ServiceDesc = grpc.ServiceDesc{
+	ServiceName: "prop_group.PropertyService",
+	HandlerType: (*PropertyServiceServer)(nil),
+	Methods: []grpc.MethodDesc{
+		{
+			MethodName: "createProperty",
+			Handler:    _PropertyService_CreateProperty_Handler,
+		},
+		{
+			MethodName: "deleteProperty",
+			Handler:    _PropertyService_DeleteProperty_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

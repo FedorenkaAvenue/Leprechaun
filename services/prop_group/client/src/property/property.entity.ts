@@ -3,11 +3,10 @@ import {
 } from 'typeorm';
 
 import { PropertyGroupEntity } from '../propertyGroup/propertyGroup.entity';
-import { Property } from 'gen/ts/prop_group';
-import { Trans } from 'gen/ts/trans';
+import { Property, PropertyGroup } from 'gen/ts/prop_group';
 
 @Entity('property')
-export class PropertyEntity implements Property {
+export class PropertyEntity implements Omit<Property, 'title'> {
     @PrimaryGeneratedColumn('rowid')
     id: number;
 
@@ -17,7 +16,8 @@ export class PropertyEntity implements Property {
     @UpdateDateColumn()
     updatedAt: Date;
 
-    title: Trans;
+    @Column()
+    title: number;
 
     @Column({ unique: true })
     altName: string;
@@ -25,7 +25,10 @@ export class PropertyEntity implements Property {
     @Column({ nullable: true })
     comment: string;
 
-    @ManyToOne(() => PropertyGroupEntity, ({ properties }) => properties, { onDelete: 'CASCADE', nullable: false })
-    @JoinColumn({ name: 'propertygroup' })
-    propertygroup?: PropertyGroupEntity;
+    @ManyToOne(
+        () => PropertyGroupEntity,
+        ({ properties }) => properties, { onDelete: 'CASCADE', nullable: false }
+    )
+    @JoinColumn({ name: 'propertyGroup' })
+    propertyGroup: PropertyGroup['id'];
 }

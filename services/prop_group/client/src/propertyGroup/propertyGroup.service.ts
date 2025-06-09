@@ -7,8 +7,7 @@ import { status } from '@grpc/grpc-js';
 
 import { PropertyGroupEntity } from './propertyGroup.entity';
 import { PropertyGroup, PropertyGroupCU } from 'gen/ts/prop_group';
-import TransService from '@trans/trans.service';
-import { Trans } from 'gen/ts/trans';
+import TransService from '@common/trans/trans.service';
 
 @Injectable()
 export default class PropertyGroupService {
@@ -19,17 +18,23 @@ export default class PropertyGroupService {
 
     public createGroup(newGroup: PropertyGroupCU): Observable<PropertyGroup> {
         return this.transService.createTrans(newGroup.title).pipe(
-            catchError(err => throwError(() => new RpcException(err))),
-            switchMap(({ id, ...title }) => from(this.propertyGroupRepo.save({ ...newGroup, title: id })).pipe(
-                map(group => ({ ...group, title })),
+            switchMap(titleTrans => from(this.propertyGroupRepo.save({ ...newGroup, title: titleTrans.id })).pipe(
+                map(group => ({
+                    ...group,
+                    title: titleTrans.data,
+                    properties: [],
+                })),
                 catchError(err => {
+                    this.transService.getTrans({ id: titleTrans.id });
+
                     if (err.code === '23505') {
                         return throwError(() => new RpcException({ code: status.UNAVAILABLE, message: err.detail }));
                     }
 
                     return throwError(() => new RpcException({ code: err.code, message: err.message }));
                 })
-            ))
+            )),
+            catchError(err => throwError(() => new RpcException(err))),
         )
     }
 
@@ -45,9 +50,20 @@ export default class PropertyGroupService {
             message: `property group with id ${groupId} not found`
         });
 
-        const { id, ...title } = await firstValueFrom(this.transService.getTrans({ id: group.title }));
+        const { items: transItems } = await firstValueFrom(
+            this.transService.getTransMap({
+                ids: [
+                    group.title,
+                    ...group.properties.map(({ title }) => title),
+                ],
+            })
+        );
 
-        return { ...group, title };
+        return {
+            ...group,
+            title: transItems[group.title],
+            properties: group.properties.map(prop => ({ ...prop, title: transItems[prop.title] }))
+        };
     }
 
     public async getGroupList(isPreview: boolean, isPublic?: boolean): Promise<PropertyGroup[]> {
@@ -58,17 +74,19 @@ export default class PropertyGroupService {
 
         if (!propGroups.length) return [];
 
-        const { items } = await firstValueFrom(
-            this.transService.getTransList({
-                ids: propGroups.map(p => p.title)
+        const { items: transItems } = await firstValueFrom(
+            this.transService.getTransMap({
+                ids: [
+                    ...propGroups.map(p => p.title),
+                    ...propGroups.map(p => p.properties.map(prop => prop.title)).flat()
+                ],
             })
         );
 
-        const translationMap = new Map(items.map(t => [t.id, t]));
-
         return propGroups.map(propGroup => ({
             ...propGroup,
-            title: translationMap.get(propGroup.title) as Trans,
+            title: transItems[propGroup.title],
+            properties: propGroup.properties.map(prop => ({ ...prop, title: transItems[prop.title] })),
         }));
     }
 
@@ -86,3 +104,4 @@ export default class PropertyGroupService {
         if (!affected) throw new RpcException({ code: status.NOT_FOUND, message: 'Property group doesnt changed' });
     }
 }
+

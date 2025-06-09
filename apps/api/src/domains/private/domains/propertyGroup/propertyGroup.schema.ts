@@ -1,8 +1,8 @@
 import { ApiProperty } from "@nestjs/swagger";
 
 import { Property, PropertyGroup, PropertyGroupCU } from "@gen/prop_group";
-import { Trans } from "@gen/trans";
-import { TransCUSchema, TransSchema } from "@common/trans/trans.schema";
+import { Trans, TransData } from "@gen/trans";
+import { TransSchema } from "@common/trans/trans.schema";
 
 export class PropertyGroupSchema implements PropertyGroup {
     @ApiProperty()
@@ -15,7 +15,7 @@ export class PropertyGroupSchema implements PropertyGroup {
     updatedAt: Date;
 
     @ApiProperty({ type: TransSchema })
-    title: Trans;
+    title: TransData;
 
     @ApiProperty()
     altName: string;
@@ -41,7 +41,7 @@ export class PropertySchema implements Property {
     updatedAt: Date;
 
     @ApiProperty({ type: TransSchema })
-    title: Trans;
+    title: TransData;
 
     @ApiProperty()
     altName: string;
@@ -52,7 +52,7 @@ export class PropertySchema implements Property {
 
 export class PropertyGroupCUSchema implements PropertyGroupCU {
     @ApiProperty()
-    title: TransCUSchema;
+    title: TransSchema;
 
     @ApiProperty()
     altName: string;

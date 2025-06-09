@@ -1,8 +1,9 @@
 import {
     Trans,
-    TransCU,
+    TransData,
     TransList,
     TransListSearchParams,
+    TransMap,
     TransSearchParams,
     TransServiceController,
     TransServiceControllerMethods,
@@ -26,7 +27,13 @@ export default class TransController implements TransServiceController {
         return { items: res };
     }
 
-    createTrans(data: TransCU): Promise<Trans> {
+    async getTransMap({ ids }: TransListSearchParams): Promise<TransMap> {
+        const res = await this.transService.getTransMap(ids);
+
+        return { items: res };
+    }
+
+    createTrans(data: TransData): Promise<Trans> {
         return this.transService.createTrans(data);
     }
 

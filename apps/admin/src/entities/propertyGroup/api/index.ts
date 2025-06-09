@@ -102,12 +102,12 @@ export const propertyGroupApi = rootApi.injectEndpoints({
                 method: 'POST',
                 body: data,
             }),
-            async onQueryStarted({ data: { propertygroup }, successCallback }, { queryFulfilled, dispatch }) {
+            async onQueryStarted({ data: { propertyGroup }, successCallback }, { queryFulfilled, dispatch }) {
                 const { data } = await queryFulfilled;
 
                 successCallback?.call(null);
                 dispatch(
-                    propertyGroupApi.util.updateQueryData('propertyGroup', propertygroup, propertyGroup => {
+                    propertyGroupApi.util.updateQueryData('propertyGroup', propertyGroup, propertyGroup => {
                         propertyGroup.properties?.unshift(data);
                     })
                 );

@@ -20,8 +20,6 @@ export class AuthJWTMapInterceptor implements NestInterceptor {
 
         return next.handle().pipe(
             tap(({ refreshToken }: AuthJWT) => {
-                console.log(this.configService);
-
                 res.cookie('refreshToken', refreshToken, this.configService.getJWTRefreshTokenCookieOptions());
             }),
             map(({ accessToken }: AuthJWT) => ({ accessToken })),

@@ -6,15 +6,15 @@ import { User, USER_SERVICE_NAME, UserSearchParams, UserServiceClient } from "ge
 
 @Injectable()
 export default class UserService implements OnModuleInit {
-    private userService: UserServiceClient;
+    private userClient: UserServiceClient;
 
     constructor(@Inject('USER_PACKAGE') private client: ClientGrpc) { }
 
     onModuleInit() {
-        this.userService = this.client.getService<UserServiceClient>(USER_SERVICE_NAME);
+        this.userClient = this.client.getService<UserServiceClient>(USER_SERVICE_NAME);
     }
 
     getUser(data: UserSearchParams): Observable<User> {
-        return this.userService.findOne(data);
+        return this.userClient.findOne(data);
     }
 }

@@ -16,7 +16,7 @@ interface Props {
 
 const PropertyDeleteButton = ({ property, propertyGroupId, icon = DeleteIcon }: Props) => {
     const [mutate] = useRemoveProperty();
-    const modalTitle = (<>Confirm deleting <b>{property.alt_name}</b> property?</>);
+    const modalTitle = (<>Confirm deleting <b>{property.altName}</b> property?</>);
 
     const remove = () => {
         mutate({ propertyId: property.id, propertyGroupId });

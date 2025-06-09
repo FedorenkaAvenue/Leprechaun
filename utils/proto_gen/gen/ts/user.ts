@@ -38,6 +38,55 @@ export interface UserList {
 
 export const USER_PACKAGE_NAME = "user";
 
+function createBaseUserSearchParams(): UserSearchParams {
+  return {};
+}
+
+export const UserSearchParams: MessageFns<UserSearchParams> = {
+  create<I extends Exact<DeepPartial<UserSearchParams>, I>>(base?: I): UserSearchParams {
+    return UserSearchParams.fromPartial(base ?? ({} as any));
+  },
+  fromPartial<I extends Exact<DeepPartial<UserSearchParams>, I>>(object: I): UserSearchParams {
+    const message = createBaseUserSearchParams();
+    message.id = object.id ?? undefined;
+    message.email = object.email ?? undefined;
+    return message;
+  },
+};
+
+function createBaseUser(): User {
+  return { id: "", role: 0, email: "", password: "" };
+}
+
+export const User: MessageFns<User> = {
+  create<I extends Exact<DeepPartial<User>, I>>(base?: I): User {
+    return User.fromPartial(base ?? ({} as any));
+  },
+  fromPartial<I extends Exact<DeepPartial<User>, I>>(object: I): User {
+    const message = createBaseUser();
+    message.id = object.id ?? "";
+    message.role = object.role ?? 0;
+    message.email = object.email ?? "";
+    message.password = object.password ?? "";
+    return message;
+  },
+};
+
+function createBaseUserList(): UserList {
+  return { items: [] };
+}
+
+export const UserList: MessageFns<UserList> = {
+  create<I extends Exact<DeepPartial<UserList>, I>>(base?: I): UserList {
+    return UserList.fromPartial(base ?? ({} as any));
+  },
+  fromPartial<I extends Exact<DeepPartial<UserList>, I>>(object: I): UserList {
+    const message = createBaseUserList();
+    message.items = object.items?.map((e) => User.fromPartial(e)) || [];
+    return message;
+  },
+};
+
 export interface UserServiceClient {
   findOne(request: UserSearchParams): Observable<User>;
 
@@ -66,3 +115,20 @@ export function UserServiceControllerMethods() {
 }
 
 export const USER_SERVICE_NAME = "UserService";
+
+type Builtin = Date | Function | Uint8Array | string | number | boolean | undefined;
+
+export type DeepPartial<T> = T extends Builtin ? T
+  : T extends globalThis.Array<infer U> ? globalThis.Array<DeepPartial<U>>
+  : T extends ReadonlyArray<infer U> ? ReadonlyArray<DeepPartial<U>>
+  : T extends {} ? { [K in keyof T]?: DeepPartial<T[K]> }
+  : Partial<T>;
+
+type KeysOfUnion<T> = T extends T ? keyof T : never;
+export type Exact<P, I extends P> = P extends Builtin ? P
+  : P & { [K in keyof P]: Exact<P[K], I[K]> } & { [K in Exclude<keyof I, KeysOfUnion<P>>]: never };
+
+export interface MessageFns<T> {
+  create<I extends Exact<DeepPartial<T>, I>>(base?: I): T;
+  fromPartial<I extends Exact<DeepPartial<T>, I>>(object: I): T;
+}

@@ -3,8 +3,8 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 
 import PropertyGroupModule from './propertyGroup/propertyGroup.module';
 import PropertyModule from './property/property.module';
-import ConfigModule from './config/config.module';
-import ConfigService from './config/config.service';
+import ConfigModule from '@common/config/config.module';
+import ConfigService from '@common/config/config.service';
 
 @Module({
     imports: [

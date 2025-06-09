@@ -9,7 +9,8 @@ import "google/protobuf/empty.proto";
 service TransService {
     rpc GetTrans (TransSearchParams) returns (Trans);
     rpc GetTransList (TransListSearchParams) returns (TransList);
-    rpc CreateTrans (TransCU) returns (Trans);
+    rpc GetTransMap (TransListSearchParams) returns (TransMap);
+    rpc CreateTrans (TransData) returns (Trans);
     rpc UpdateTrans (TransUpdateParams) returns (google.protobuf.Empty);
     rpc DeleteTrans (TransSearchParams) returns (google.protobuf.Empty);
 }
@@ -22,7 +23,7 @@ message TransListSearchParams {
     repeated int32 ids = 1;
 }
 
-message TransCU {
+message TransData {
     string en = 1;
     string ua = 2;
     string ru = 3;
@@ -30,16 +31,18 @@ message TransCU {
 
 message Trans {
     int32 id = 1;
-    string en = 2;
-    string ua = 3;
-    string ru = 4;
+    TransData data = 2;
 }
 
 message TransList {
     repeated Trans items = 1;
 }
 
+message TransMap {
+    map<int32, TransData> items = 1;
+}
+
 message TransUpdateParams {
     int32 id = 1;
-    TransCU data = 2;
+    TransData data = 2;
 }

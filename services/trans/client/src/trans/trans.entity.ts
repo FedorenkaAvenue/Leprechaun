@@ -1,13 +1,8 @@
 import { Column, Entity, Generated, PrimaryColumn } from 'typeorm';
 
-import { Trans } from 'gen/ts/trans';
+import { Trans, TransData } from 'gen/ts/trans';
 
-@Entity('trans')
-export class TransEntity implements Trans {
-    @PrimaryColumn('int8', { select: false })
-    @Generated('increment')
-    id: number;
-
+class TransDataEntity implements TransData {
     @Column({ nullable: true })
     en: string;
 
@@ -16,4 +11,14 @@ export class TransEntity implements Trans {
 
     @Column({ nullable: true })
     ru: string;
+}
+
+@Entity('trans')
+export class TransEntity implements Trans {
+    @PrimaryColumn('int8', { select: false })
+    @Generated('increment')
+    id: number;
+
+    @Column(() => TransDataEntity, { prefix: false })
+    data: TransDataEntity;
 }

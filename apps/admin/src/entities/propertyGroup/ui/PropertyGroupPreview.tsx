@@ -33,7 +33,7 @@ const PropertyGroupPreviewEntity = ({ group, renderTools, renderPublicStatus }: 
                     active={Boolean(group.properties?.length)}
                     content={
                         <ul>
-                            {group.properties?.map(i => (<li key={i.id}>{i.alt_name}</li>))}
+                            {group.properties?.map(i => (<li key={i.id}>{i.altName}</li>))}
                         </ul>
                     }
                 />

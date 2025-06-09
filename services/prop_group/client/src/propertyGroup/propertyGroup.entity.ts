@@ -1,16 +1,10 @@
-import {
-    Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn,
-} from 'typeorm';
+import { Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
 
 import { PropertyGroup } from 'gen/ts/prop_group';
 import { PropertyEntity } from '../property/property.entity';
 
-type Entity = Omit<PropertyGroup, 'title'> & {
-    title: number
-}
-
 @Entity('propertygroup')
-export class PropertyGroupEntity implements Entity {
+export class PropertyGroupEntity implements Omit<PropertyGroup, 'title' | 'properties'> {
     @PrimaryGeneratedColumn('rowid')
     id: number;
 
@@ -32,6 +26,6 @@ export class PropertyGroupEntity implements Entity {
     @Column({ default: false })
     isPrimary: boolean;
 
-    @OneToMany(() => PropertyEntity, ({ propertygroup }) => propertygroup, { eager: true })
+    @OneToMany(() => PropertyEntity, ({ propertyGroup }) => propertyGroup, { eager: true })
     properties: PropertyEntity[];
 }

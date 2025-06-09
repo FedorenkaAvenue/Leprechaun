@@ -1,4 +1,4 @@
-import { TableCell, TableRow } from "@mui/material";
+import { TableCell, TableRow, Typography } from "@mui/material";
 import { ReactNode } from "react";
 
 import TooltipContent from "@shared/ui/TooltipContent";
@@ -18,11 +18,13 @@ const PropertyEntity = ({ property, renderTools }: Props) => {
                 <TableCell>
                     {renderTools?.call(null, property)}
                 </TableCell>
-                <TableCell>{property.alt_name}</TableCell>
+                <TableCell>{property.altName}</TableCell>
                 <TableCell>
                     <TooltipContent content={<TransList data={property.title} />} />
                 </TableCell>
-                <TableCell>{property.comment}</TableCell>
+                <TableCell align='right'>
+                    {property.comment || <Typography component='span' color='textDisabled'>empty</Typography>}
+                </TableCell>
             </TableRow>
         </>
     );

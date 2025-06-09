@@ -22,6 +22,7 @@ const _ = grpc.SupportPackageIsVersion7
 const (
 	TransService_GetTrans_FullMethodName     = "/trans.TransService/GetTrans"
 	TransService_GetTransList_FullMethodName = "/trans.TransService/GetTransList"
+	TransService_GetTransMap_FullMethodName  = "/trans.TransService/GetTransMap"
 	TransService_CreateTrans_FullMethodName  = "/trans.TransService/CreateTrans"
 	TransService_UpdateTrans_FullMethodName  = "/trans.TransService/UpdateTrans"
 	TransService_DeleteTrans_FullMethodName  = "/trans.TransService/DeleteTrans"
@@ -33,7 +34,8 @@ const (
 type TransServiceClient interface {
 	GetTrans(ctx context.Context, in *TransSearchParams, opts ...grpc.CallOption) (*Trans, error)
 	GetTransList(ctx context.Context, in *TransListSearchParams, opts ...grpc.CallOption) (*TransList, error)
-	CreateTrans(ctx context.Context, in *TransCU, opts ...grpc.CallOption) (*Trans, error)
+	GetTransMap(ctx context.Context, in *TransListSearchParams, opts ...grpc.CallOption) (*TransMap, error)
+	CreateTrans(ctx context.Context, in *TransData, opts ...grpc.CallOption) (*Trans, error)
 	UpdateTrans(ctx context.Context, in *TransUpdateParams, opts ...grpc.CallOption) (*emptypb.Empty, error)
 	DeleteTrans(ctx context.Context, in *TransSearchParams, opts ...grpc.CallOption) (*emptypb.Empty, error)
 }
@@ -64,7 +66,16 @@ func (c *transServiceClient) GetTransList(ctx context.Context, in *TransListSear
 	return out, nil
 }
 
-func (c *transServiceClient) CreateTrans(ctx context.Context, in *TransCU, opts ...grpc.CallOption) (*Trans, error) {
+func (c *transServiceClient) GetTransMap(ctx context.Context, in *TransListSearchParams, opts ...grpc.CallOption) (*TransMap, error) {
+	out := new(TransMap)
+	err := c.cc.Invoke(ctx, TransService_GetTransMap_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *transServiceClient) CreateTrans(ctx context.Context, in *TransData, opts ...grpc.CallOption) (*Trans, error) {
 	out := new(Trans)
 	err := c.cc.Invoke(ctx, TransService_CreateTrans_FullMethodName, in, out, opts...)
 	if err != nil {
@@ -97,7 +108,8 @@ func (c *transServiceClient) DeleteTrans(ctx context.Context, in *TransSearchPar
 type TransServiceServer interface {
 	GetTrans(context.Context, *TransSearchParams) (*Trans, error)
 	GetTransList(context.Context, *TransListSearchParams) (*TransList, error)
-	CreateTrans(context.Context, *TransCU) (*Trans, error)
+	GetTransMap(context.Context, *TransListSearchParams) (*TransMap, error)
+	CreateTrans(context.Context, *TransData) (*Trans, error)
 	UpdateTrans(context.Context, *TransUpdateParams) (*emptypb.Empty, error)
 	DeleteTrans(context.Context, *TransSearchParams) (*emptypb.Empty, error)
 	mustEmbedUnimplementedTransServiceServer()
@@ -113,7 +125,10 @@ func (UnimplementedTransServiceServer) GetTrans(context.Context, *TransSearchPar
 func (UnimplementedTransServiceServer) GetTransList(context.Context, *TransListSearchParams) (*TransList, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetTransList not implemented")
 }
-func (UnimplementedTransServiceServer) CreateTrans(context.Context, *TransCU) (*Trans, error) {
+func (UnimplementedTransServiceServer) GetTransMap(context.Context, *TransListSearchParams) (*TransMap, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetTransMap not implemented")
+}
+func (UnimplementedTransServiceServer) CreateTrans(context.Context, *TransData) (*Trans, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreateTrans not implemented")
 }
 func (UnimplementedTransServiceServer) UpdateTrans(context.Context, *TransUpdateParams) (*emptypb.Empty, error) {
@@ -171,8 +186,26 @@ func _TransService_GetTransList_Handler(srv interface{}, ctx context.Context, de
 	return interceptor(ctx, in, info, handler)
 }
 
+func _TransService_GetTransMap_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(TransListSearchParams)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(TransServiceServer).GetTransMap(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: TransService_GetTransMap_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(TransServiceServer).GetTransMap(ctx, req.(*TransListSearchParams))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _TransService_CreateTrans_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(TransCU)
+	in := new(TransData)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -184,7 +217,7 @@ func _TransService_CreateTrans_Handler(srv interface{}, ctx context.Context, dec
 		FullMethod: TransService_CreateTrans_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(TransServiceServer).CreateTrans(ctx, req.(*TransCU))
+		return srv.(TransServiceServer).CreateTrans(ctx, req.(*TransData))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -239,6 +272,10 @@ var TransService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetTransList",
 			Handler:    _TransService_GetTransList_Handler,
+		},
+		{
+			MethodName: "GetTransMap",
+			Handler:    _TransService_GetTransMap_Handler,
 		},
 		{
 			MethodName: "CreateTrans",

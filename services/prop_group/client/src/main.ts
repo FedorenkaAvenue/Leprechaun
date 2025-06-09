@@ -3,8 +3,8 @@ import { MicroserviceOptions, Transport } from '@nestjs/microservices';
 import { join } from 'path';
 
 import { AppModule } from './app.module';
-import ConfigService from './config/config.service';
 import { PROP_GROUP_PACKAGE_NAME } from 'gen/ts/prop_group';
+import ConfigService from '@common/config/config.service';
 
 async function bootstrap() {
     const config = new ConfigService();

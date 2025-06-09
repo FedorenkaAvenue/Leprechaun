@@ -7,7 +7,7 @@ export interface PropertyGroupPreview {
     title: Trans
     altName: string
     isPrimary: boolean
-    properties: Property[] | undefined
+    properties: Property[]
     comment: string
 }
 

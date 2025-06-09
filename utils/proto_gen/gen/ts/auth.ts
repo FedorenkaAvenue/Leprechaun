@@ -22,6 +22,38 @@ export interface AuthJWT {
 
 export const AUTH_PACKAGE_NAME = "auth";
 
+function createBaseSignInParams(): SignInParams {
+  return { email: "", password: "" };
+}
+
+export const SignInParams: MessageFns<SignInParams> = {
+  create<I extends Exact<DeepPartial<SignInParams>, I>>(base?: I): SignInParams {
+    return SignInParams.fromPartial(base ?? ({} as any));
+  },
+  fromPartial<I extends Exact<DeepPartial<SignInParams>, I>>(object: I): SignInParams {
+    const message = createBaseSignInParams();
+    message.email = object.email ?? "";
+    message.password = object.password ?? "";
+    return message;
+  },
+};
+
+function createBaseAuthJWT(): AuthJWT {
+  return { accessToken: "", refreshToken: "" };
+}
+
+export const AuthJWT: MessageFns<AuthJWT> = {
+  create<I extends Exact<DeepPartial<AuthJWT>, I>>(base?: I): AuthJWT {
+    return AuthJWT.fromPartial(base ?? ({} as any));
+  },
+  fromPartial<I extends Exact<DeepPartial<AuthJWT>, I>>(object: I): AuthJWT {
+    const message = createBaseAuthJWT();
+    message.accessToken = object.accessToken ?? "";
+    message.refreshToken = object.refreshToken ?? "";
+    return message;
+  },
+};
+
 export interface AuthServiceClient {
   signIn(request: SignInParams): Observable<AuthJWT>;
 }
@@ -46,3 +78,20 @@ export function AuthServiceControllerMethods() {
 }
 
 export const AUTH_SERVICE_NAME = "AuthService";
+
+type Builtin = Date | Function | Uint8Array | string | number | boolean | undefined;
+
+export type DeepPartial<T> = T extends Builtin ? T
+  : T extends globalThis.Array<infer U> ? globalThis.Array<DeepPartial<U>>
+  : T extends ReadonlyArray<infer U> ? ReadonlyArray<DeepPartial<U>>
+  : T extends {} ? { [K in keyof T]?: DeepPartial<T[K]> }
+  : Partial<T>;
+
+type KeysOfUnion<T> = T extends T ? keyof T : never;
+export type Exact<P, I extends P> = P extends Builtin ? P
+  : P & { [K in keyof P]: Exact<P[K], I[K]> } & { [K in Exclude<keyof I, KeysOfUnion<P>>]: never };
+
+export interface MessageFns<T> {
+  create<I extends Exact<DeepPartial<T>, I>>(base?: I): T;
+  fromPartial<I extends Exact<DeepPartial<T>, I>>(object: I): T;
+}

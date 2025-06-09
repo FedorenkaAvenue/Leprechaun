@@ -5,9 +5,10 @@ import { Observable } from "rxjs";
 import {
     Trans,
     TRANS_SERVICE_NAME,
-    TransCU,
+    TransData,
     TransList,
     TransListSearchParams,
+    TransMap,
     TransSearchParams,
     TransServiceClient,
     TransUpdateParams,
@@ -16,27 +17,35 @@ import { Empty } from "gen/ts/google/protobuf/empty";
 
 @Injectable()
 export default class TransService implements OnModuleInit {
-    private transService: TransServiceClient;
+    private transClient: TransServiceClient;
 
     constructor(@Inject('TRANS_PACKAGE') private client: ClientGrpc) { }
 
     onModuleInit() {
-        this.transService = this.client.getService<TransServiceClient>(TRANS_SERVICE_NAME);
+        this.transClient = this.client.getService<TransServiceClient>(TRANS_SERVICE_NAME);
     }
 
     getTrans(data: TransSearchParams): Observable<Trans> {
-        return this.transService.getTrans(data);
+        return this.transClient.getTrans(data);
     }
 
     getTransList(data: TransListSearchParams): Observable<TransList> {
-        return this.transService.getTransList(data);
+        return this.transClient.getTransList(data);
     }
 
-    createTrans(data: TransCU): Observable<Trans> {
-        return this.transService.createTrans(data);
+    getTransMap(data: TransListSearchParams): Observable<TransMap> {
+        return this.transClient.getTransMap(data);
+    }
+
+    createTrans(data: TransData): Observable<Trans> {
+        return this.transClient.createTrans(data);
     }
 
     updateTrans(data: TransUpdateParams): Observable<Empty> {
-        return this.transService.updateTrans(data);
+        return this.transClient.updateTrans(data);
+    }
+
+    deleteTrans(data: TransSearchParams): Observable<Empty> {
+        return this.transClient.deleteTrans(data);
     }
 }

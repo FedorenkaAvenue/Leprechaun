@@ -24,7 +24,7 @@ const PropertyTableWidget: FC<Props> = ({ properties, group }) => {
                             <TableCell sx={{ fontWeight: 700 }} align="left">Tools</TableCell>
                             <TableCell sx={{ fontWeight: 700 }} align="left">Alt name</TableCell>
                             <TableCell sx={{ fontWeight: 700 }} align="left">Titles</TableCell>
-                            <TableCell sx={{ fontWeight: 700 }} align="left">Comment</TableCell>
+                            <TableCell sx={{ fontWeight: 700 }} align="right">Comment</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>

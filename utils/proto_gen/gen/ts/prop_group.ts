@@ -9,7 +9,7 @@ import { GrpcMethod, GrpcStreamMethod } from "@nestjs/microservices";
 import { wrappers } from "protobufjs";
 import { Observable } from "rxjs";
 import { Empty } from "./google/protobuf/empty";
-import { TransCU } from "./trans";
+import { TransData } from "./trans";
 
 export const protobufPackage = "prop_group";
 
@@ -17,19 +17,18 @@ export interface PropertyGroupSearchParams {
   id: number;
 }
 
-export interface PropertyGroupPreview {
+export interface PropertySearchParams {
   id: number;
-  title: TransCU;
-  altName: string;
-  isPrimary: boolean;
-  comment: string;
-  createdAt: Date;
-  updatedAt: Date;
+}
+
+export interface PropertyGroupUpdateParams {
+  id: number;
+  data: PropertyGroupCU;
 }
 
 export interface PropertyGroup {
   id: number;
-  title: TransCU;
+  title: TransData;
   altName: string;
   isPrimary: boolean;
   comment: string;
@@ -38,29 +37,31 @@ export interface PropertyGroup {
   properties: Property[];
 }
 
+export interface PropertyGroupList {
+  items: PropertyGroup[];
+}
+
 export interface PropertyGroupCU {
-  title: TransCU;
+  title: TransData;
   altName: string;
   isPrimary: boolean;
   comment: string;
 }
 
-export interface PropertyGroupUpdateParams {
-  id: number;
-  data: PropertyGroupCU;
-}
-
-export interface PropertyGroupListPreview {
-  items: PropertyGroupPreview[];
-}
-
 export interface Property {
   id: number;
-  title: TransCU;
+  title: TransData;
   altName: string;
   comment: string;
   createdAt: Date;
   updatedAt: Date;
+}
+
+export interface PropertyCU {
+  title: TransData;
+  altName: string;
+  comment: string;
+  propertyGroup: number;
 }
 
 export const PROP_GROUP_PACKAGE_NAME = "prop_group";
@@ -74,10 +75,168 @@ wrappers[".google.protobuf.Timestamp"] = {
   },
 } as any;
 
+function createBasePropertyGroupSearchParams(): PropertyGroupSearchParams {
+  return { id: 0 };
+}
+
+export const PropertyGroupSearchParams: MessageFns<PropertyGroupSearchParams> = {
+  create<I extends Exact<DeepPartial<PropertyGroupSearchParams>, I>>(base?: I): PropertyGroupSearchParams {
+    return PropertyGroupSearchParams.fromPartial(base ?? ({} as any));
+  },
+  fromPartial<I extends Exact<DeepPartial<PropertyGroupSearchParams>, I>>(object: I): PropertyGroupSearchParams {
+    const message = createBasePropertyGroupSearchParams();
+    message.id = object.id ?? 0;
+    return message;
+  },
+};
+
+function createBasePropertySearchParams(): PropertySearchParams {
+  return { id: 0 };
+}
+
+export const PropertySearchParams: MessageFns<PropertySearchParams> = {
+  create<I extends Exact<DeepPartial<PropertySearchParams>, I>>(base?: I): PropertySearchParams {
+    return PropertySearchParams.fromPartial(base ?? ({} as any));
+  },
+  fromPartial<I extends Exact<DeepPartial<PropertySearchParams>, I>>(object: I): PropertySearchParams {
+    const message = createBasePropertySearchParams();
+    message.id = object.id ?? 0;
+    return message;
+  },
+};
+
+function createBasePropertyGroupUpdateParams(): PropertyGroupUpdateParams {
+  return { id: 0, data: undefined };
+}
+
+export const PropertyGroupUpdateParams: MessageFns<PropertyGroupUpdateParams> = {
+  create<I extends Exact<DeepPartial<PropertyGroupUpdateParams>, I>>(base?: I): PropertyGroupUpdateParams {
+    return PropertyGroupUpdateParams.fromPartial(base ?? ({} as any));
+  },
+  fromPartial<I extends Exact<DeepPartial<PropertyGroupUpdateParams>, I>>(object: I): PropertyGroupUpdateParams {
+    const message = createBasePropertyGroupUpdateParams();
+    message.id = object.id ?? 0;
+    message.data = (object.data !== undefined && object.data !== null)
+      ? PropertyGroupCU.fromPartial(object.data)
+      : undefined;
+    return message;
+  },
+};
+
+function createBasePropertyGroup(): PropertyGroup {
+  return {
+    id: 0,
+    title: undefined,
+    altName: "",
+    isPrimary: false,
+    comment: "",
+    createdAt: undefined,
+    updatedAt: undefined,
+    properties: [],
+  };
+}
+
+export const PropertyGroup: MessageFns<PropertyGroup> = {
+  create<I extends Exact<DeepPartial<PropertyGroup>, I>>(base?: I): PropertyGroup {
+    return PropertyGroup.fromPartial(base ?? ({} as any));
+  },
+  fromPartial<I extends Exact<DeepPartial<PropertyGroup>, I>>(object: I): PropertyGroup {
+    const message = createBasePropertyGroup();
+    message.id = object.id ?? 0;
+    message.title = (object.title !== undefined && object.title !== null)
+      ? TransData.fromPartial(object.title)
+      : undefined;
+    message.altName = object.altName ?? "";
+    message.isPrimary = object.isPrimary ?? false;
+    message.comment = object.comment ?? "";
+    message.createdAt = object.createdAt ?? undefined;
+    message.updatedAt = object.updatedAt ?? undefined;
+    message.properties = object.properties?.map((e) => Property.fromPartial(e)) || [];
+    return message;
+  },
+};
+
+function createBasePropertyGroupList(): PropertyGroupList {
+  return { items: [] };
+}
+
+export const PropertyGroupList: MessageFns<PropertyGroupList> = {
+  create<I extends Exact<DeepPartial<PropertyGroupList>, I>>(base?: I): PropertyGroupList {
+    return PropertyGroupList.fromPartial(base ?? ({} as any));
+  },
+  fromPartial<I extends Exact<DeepPartial<PropertyGroupList>, I>>(object: I): PropertyGroupList {
+    const message = createBasePropertyGroupList();
+    message.items = object.items?.map((e) => PropertyGroup.fromPartial(e)) || [];
+    return message;
+  },
+};
+
+function createBasePropertyGroupCU(): PropertyGroupCU {
+  return { title: undefined, altName: "", isPrimary: false, comment: "" };
+}
+
+export const PropertyGroupCU: MessageFns<PropertyGroupCU> = {
+  create<I extends Exact<DeepPartial<PropertyGroupCU>, I>>(base?: I): PropertyGroupCU {
+    return PropertyGroupCU.fromPartial(base ?? ({} as any));
+  },
+  fromPartial<I extends Exact<DeepPartial<PropertyGroupCU>, I>>(object: I): PropertyGroupCU {
+    const message = createBasePropertyGroupCU();
+    message.title = (object.title !== undefined && object.title !== null)
+      ? TransData.fromPartial(object.title)
+      : undefined;
+    message.altName = object.altName ?? "";
+    message.isPrimary = object.isPrimary ?? false;
+    message.comment = object.comment ?? "";
+    return message;
+  },
+};
+
+function createBaseProperty(): Property {
+  return { id: 0, title: undefined, altName: "", comment: "", createdAt: undefined, updatedAt: undefined };
+}
+
+export const Property: MessageFns<Property> = {
+  create<I extends Exact<DeepPartial<Property>, I>>(base?: I): Property {
+    return Property.fromPartial(base ?? ({} as any));
+  },
+  fromPartial<I extends Exact<DeepPartial<Property>, I>>(object: I): Property {
+    const message = createBaseProperty();
+    message.id = object.id ?? 0;
+    message.title = (object.title !== undefined && object.title !== null)
+      ? TransData.fromPartial(object.title)
+      : undefined;
+    message.altName = object.altName ?? "";
+    message.comment = object.comment ?? "";
+    message.createdAt = object.createdAt ?? undefined;
+    message.updatedAt = object.updatedAt ?? undefined;
+    return message;
+  },
+};
+
+function createBasePropertyCU(): PropertyCU {
+  return { title: undefined, altName: "", comment: "", propertyGroup: 0 };
+}
+
+export const PropertyCU: MessageFns<PropertyCU> = {
+  create<I extends Exact<DeepPartial<PropertyCU>, I>>(base?: I): PropertyCU {
+    return PropertyCU.fromPartial(base ?? ({} as any));
+  },
+  fromPartial<I extends Exact<DeepPartial<PropertyCU>, I>>(object: I): PropertyCU {
+    const message = createBasePropertyCU();
+    message.title = (object.title !== undefined && object.title !== null)
+      ? TransData.fromPartial(object.title)
+      : undefined;
+    message.altName = object.altName ?? "";
+    message.comment = object.comment ?? "";
+    message.propertyGroup = object.propertyGroup ?? 0;
+    return message;
+  },
+};
+
 export interface PropertyGroupServiceClient {
   getGroupPrivate(request: PropertyGroupSearchParams): Observable<PropertyGroup>;
 
-  getGroupListPrivate(request: Empty): Observable<PropertyGroupListPreview>;
+  getGroupListPrivate(request: Empty): Observable<PropertyGroupList>;
 
   createGroup(request: PropertyGroupCU): Observable<PropertyGroup>;
 
@@ -89,9 +248,7 @@ export interface PropertyGroupServiceController {
     request: PropertyGroupSearchParams,
   ): Promise<PropertyGroup> | Observable<PropertyGroup> | PropertyGroup;
 
-  getGroupListPrivate(
-    request: Empty,
-  ): Promise<PropertyGroupListPreview> | Observable<PropertyGroupListPreview> | PropertyGroupListPreview;
+  getGroupListPrivate(request: Empty): Promise<PropertyGroupList> | Observable<PropertyGroupList> | PropertyGroupList;
 
   createGroup(request: PropertyGroupCU): Promise<PropertyGroup> | Observable<PropertyGroup> | PropertyGroup;
 
@@ -114,3 +271,49 @@ export function PropertyGroupServiceControllerMethods() {
 }
 
 export const PROPERTY_GROUP_SERVICE_NAME = "PropertyGroupService";
+
+export interface PropertyServiceClient {
+  createProperty(request: PropertyCU): Observable<Property>;
+
+  deleteProperty(request: PropertySearchParams): Observable<Empty>;
+}
+
+export interface PropertyServiceController {
+  createProperty(request: PropertyCU): Promise<Property> | Observable<Property> | Property;
+
+  deleteProperty(request: PropertySearchParams): void;
+}
+
+export function PropertyServiceControllerMethods() {
+  return function (constructor: Function) {
+    const grpcMethods: string[] = ["createProperty", "deleteProperty"];
+    for (const method of grpcMethods) {
+      const descriptor: any = Reflect.getOwnPropertyDescriptor(constructor.prototype, method);
+      GrpcMethod("PropertyService", method)(constructor.prototype[method], method, descriptor);
+    }
+    const grpcStreamMethods: string[] = [];
+    for (const method of grpcStreamMethods) {
+      const descriptor: any = Reflect.getOwnPropertyDescriptor(constructor.prototype, method);
+      GrpcStreamMethod("PropertyService", method)(constructor.prototype[method], method, descriptor);
+    }
+  };
+}
+
+export const PROPERTY_SERVICE_NAME = "PropertyService";
+
+type Builtin = Date | Function | Uint8Array | string | number | boolean | undefined;
+
+export type DeepPartial<T> = T extends Builtin ? T
+  : T extends globalThis.Array<infer U> ? globalThis.Array<DeepPartial<U>>
+  : T extends ReadonlyArray<infer U> ? ReadonlyArray<DeepPartial<U>>
+  : T extends {} ? { [K in keyof T]?: DeepPartial<T[K]> }
+  : Partial<T>;
+
+type KeysOfUnion<T> = T extends T ? keyof T : never;
+export type Exact<P, I extends P> = P extends Builtin ? P
+  : P & { [K in keyof P]: Exact<P[K], I[K]> } & { [K in Exclude<keyof I, KeysOfUnion<P>>]: never };
+
+export interface MessageFns<T> {
+  create<I extends Exact<DeepPartial<T>, I>>(base?: I): T;
+  fromPartial<I extends Exact<DeepPartial<T>, I>>(object: I): T;
+}
