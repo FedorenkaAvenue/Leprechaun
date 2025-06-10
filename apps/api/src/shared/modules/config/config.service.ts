@@ -1,21 +1,8 @@
-// import { TypeOrmModuleOptions } from '@nestjs/typeorm';
 import { Injectable } from '@nestjs/common';
-// import { SessionOptions } from 'express-session';
-// import SMTPTransport from 'nodemailer/lib/smtp-transport';
-// import * as session from 'express-session';
-// import { Pool as PGPool } from 'pg';
-// import { PostgresConnectionCredentialsOptions } from 'typeorm/driver/postgres/PostgresConnectionCredentialsOptions';
-// import { memoryStorage } from 'multer';
-// import { MulterModuleOptions } from '@nestjs/platform-express';
-// import { CacheOptions } from '@nestjs/cache-manager';
-// import { RedisClientOptions } from 'redis';
 import { JwtModuleOptions, JwtSignOptions } from '@nestjs/jwt';
+import { MulterOptions } from '@nestjs/platform-express/multer/interfaces/multer-options.interface';
 import { CookieOptions } from 'express';
-// import { MulterOptions } from '@nestjs/platform-express/multer/interfaces/multer-options.interface';
-// import { createKeyv } from '@keyv/redis';
-// import { RmqOptions, Transport } from '@nestjs/microservices';
-// import { S3ClientConfig } from '@aws-sdk/client-s3';
-// const pgConnect = require('connect-pg-simple');
+import { memoryStorage } from 'multer';
 
 const ENV_ARRAY_SPLIT_SYMBOL = ',';
 
@@ -158,15 +145,15 @@ export default class ConfigService {
     //     };
     // }
 
-    // /**
-    //  * @description get Multer config
-    //  * @returns 
-    //  */
-    // public getMulterConfig(): MulterOptions {
-    //     return ({
-    //         storage: memoryStorage(),
-    //     })
-    // }
+    /**
+     * @description get Multer config
+     * @returns 
+     */
+    public getMulterConfig(): MulterOptions {
+        return ({
+            storage: memoryStorage(),
+        })
+    }
 
     // /**
     //  * @description get Nodemailer config

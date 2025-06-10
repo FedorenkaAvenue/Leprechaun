@@ -17,6 +17,10 @@ export interface PropertyGroupSearchParams {
   id: number;
 }
 
+export interface PropertyGroupListSearchParams {
+  ids: number[];
+}
+
 export interface PropertySearchParams {
   id: number;
 }
@@ -37,8 +41,18 @@ export interface PropertyGroup {
   properties: Property[];
 }
 
+export interface PropertyGroupPreview {
+  id: number;
+  title: TransData;
+  altName: string;
+  isPrimary: boolean;
+  comment: string;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
 export interface PropertyGroupList {
-  items: PropertyGroup[];
+  items: PropertyGroupPreview[];
 }
 
 export interface PropertyGroupCU {
@@ -78,7 +92,7 @@ wrappers[".google.protobuf.Timestamp"] = {
 export interface PropertyGroupServiceClient {
   getGroupPrivate(request: PropertyGroupSearchParams): Observable<PropertyGroup>;
 
-  getGroupListPrivate(request: Empty): Observable<PropertyGroupList>;
+  getGroupListPrivate(request: PropertyGroupListSearchParams): Observable<PropertyGroupList>;
 
   createGroup(request: PropertyGroupCU): Observable<PropertyGroup>;
 
@@ -90,7 +104,9 @@ export interface PropertyGroupServiceController {
     request: PropertyGroupSearchParams,
   ): Promise<PropertyGroup> | Observable<PropertyGroup> | PropertyGroup;
 
-  getGroupListPrivate(request: Empty): Promise<PropertyGroupList> | Observable<PropertyGroupList> | PropertyGroupList;
+  getGroupListPrivate(
+    request: PropertyGroupListSearchParams,
+  ): Promise<PropertyGroupList> | Observable<PropertyGroupList> | PropertyGroupList;
 
   createGroup(request: PropertyGroupCU): Promise<PropertyGroup> | Observable<PropertyGroup> | PropertyGroup;
 

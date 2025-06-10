@@ -1,10 +1,10 @@
 import { ApiProperty } from "@nestjs/swagger";
 
-import { Property, PropertyGroup, PropertyGroupCU } from "@gen/prop_group";
-import { Trans, TransData } from "@gen/trans";
+import { Property, PropertyGroup, PropertyGroupCU, PropertyGroupPreview } from "@gen/prop_group";
+import { TransData } from "@gen/trans";
 import { TransSchema } from "@common/trans/trans.schema";
 
-export class PropertyGroupSchema implements PropertyGroup {
+export class PropertyGroupPreviewSchema implements PropertyGroupPreview {
     @ApiProperty()
     id: number;
 
@@ -23,11 +23,13 @@ export class PropertyGroupSchema implements PropertyGroup {
     @ApiProperty()
     comment: string;
 
-    @ApiProperty({ type: () => PropertySchema, isArray: true })
-    properties: Property[];
-
     @ApiProperty({ description: 'visible property for ProductCard' })
     isPrimary: boolean;
+}
+
+export class PropertyGroupSchema extends PropertyGroupPreviewSchema implements PropertyGroup {
+    @ApiProperty({ type: () => PropertySchema, isArray: true })
+    properties: Property[];
 }
 
 export class PropertySchema implements Property {

@@ -7,12 +7,12 @@ export interface CategoryPreview {
     title: Trans,
     icon: string,
     comment: string,
-    is_public: boolean,
-    created_at: Date;
-    updated_at: Date;
+    isPublic: boolean,
+    createdAt: Date;
+    updatedAt: Date;
 }
 
 export interface Category extends CategoryPreview {
-    propertygroups: PropertyGroupPreview[]
+    propertyGroups: PropertyGroupPreview[]
     products: any[]
 }

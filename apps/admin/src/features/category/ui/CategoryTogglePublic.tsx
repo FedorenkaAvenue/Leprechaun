@@ -15,7 +15,7 @@ const CategoryTogglePublic: FC<Props> = ({ selected, categoryId }) => {
     const [mutate] = useUpdateCategory();
 
     const update = () => {
-        mutate({ id: categoryId, updates: { is_public: !selected } });
+        mutate({ id: categoryId, updates: { isPublic: !selected } });
     }
 
     return <Switch onChange={update} checked={selected} />;

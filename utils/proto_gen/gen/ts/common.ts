@@ -8,9 +8,13 @@
 
 export const protobufPackage = "common";
 
-export interface PayloadDTO {
-  isPreview: boolean;
-  isPublic: boolean;
+export interface File {
+  fieldname: string;
+  originalname: string;
+  encoding: string;
+  mimetype: string;
+  buffer: Uint8Array;
+  size: number;
 }
 
 export const COMMON_PACKAGE_NAME = "common";

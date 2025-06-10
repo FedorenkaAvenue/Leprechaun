@@ -1,0 +1,66 @@
+syntax = "proto3";
+
+package category;
+
+option go_package = "./category;category_v1";
+
+import "google/protobuf/timestamp.proto";
+import "google/protobuf/empty.proto";
+import "trans.proto";
+import "common.proto";
+import "prop_group.proto";
+
+service CategoryService {
+    rpc createCategory(CategoryCU) returns (CategoryPreview);
+    rpc updateCategory(CategoryUpdateParams) returns (google.protobuf.Empty);
+    rpc getCategoryPrivateList(google.protobuf.Empty) returns (CategoryPrivateList);
+    rpc getCategoryPrivate(CategorySearchParams) returns (Category);
+}
+
+message Category {
+    int32 id = 1;
+    string url = 2;
+    trans.TransData title = 3;
+    string icon = 4;
+    string iconId = 5;
+    bool isPublic = 6;
+    string comment = 7;
+    google.protobuf.Timestamp createdAt = 8;
+    google.protobuf.Timestamp updatedAt = 9;
+    // products: ProductPreviewI[] | null
+    repeated prop_group.PropertyGroupPreview propertyGroups = 10;
+}
+
+message CategoryPreview {
+    int32 id = 1;
+    string url = 2;
+    trans.TransData title = 3;
+    string icon = 4;
+    string iconId = 5;
+    bool isPublic = 6;
+    string comment = 7;
+    google.protobuf.Timestamp createdAt = 8;
+    google.protobuf.Timestamp updatedAt = 9;
+}
+
+message CategoryPrivateList {
+    repeated CategoryPreview items = 1;
+}
+
+message CategorySearchParams {
+    string url = 1;
+}
+
+message CategoryCU {
+    string url = 1;
+    trans.TransData title = 2;
+    bool isPublic = 3;
+    optional common.File icon = 4;
+    repeated int32 propertyGroups = 5;
+    string comment = 6;
+}
+
+message CategoryUpdateParams {
+    int32 id = 1;
+    CategoryCU data = 2;
+}

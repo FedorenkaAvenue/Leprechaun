@@ -10,7 +10,7 @@ import "trans.proto";
 
 service PropertyGroupService {
     rpc getGroupPrivate (PropertyGroupSearchParams) returns (PropertyGroup);
-    rpc getGroupListPrivate (google.protobuf.Empty) returns (PropertyGroupList);
+    rpc getGroupListPrivate (PropertyGroupListSearchParams) returns (PropertyGroupList);
     rpc createGroup (PropertyGroupCU) returns (PropertyGroup);
     rpc updateGroup (PropertyGroupUpdateParams) returns (google.protobuf.Empty);
 }
@@ -22,6 +22,10 @@ service PropertyService {
 
 message PropertyGroupSearchParams {
     int32 id = 1;
+}
+
+message PropertyGroupListSearchParams {
+    repeated int32 ids = 1;
 }
 
 message PropertySearchParams {
@@ -44,8 +48,18 @@ message PropertyGroup {
     repeated Property properties = 8;
 }
 
+message PropertyGroupPreview {
+    int32 id = 1;
+    trans.TransData title = 2;
+    string altName = 3;
+    bool isPrimary = 4;
+    string comment = 5;
+    google.protobuf.Timestamp createdAt = 6;
+    google.protobuf.Timestamp updatedAt = 7;
+}
+
 message PropertyGroupList {
-    repeated PropertyGroup items = 1;
+    repeated PropertyGroupPreview items = 1;
 }
 
 message PropertyGroupCU {

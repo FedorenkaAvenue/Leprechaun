@@ -31,7 +31,7 @@ const (
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type PropertyGroupServiceClient interface {
 	GetGroupPrivate(ctx context.Context, in *PropertyGroupSearchParams, opts ...grpc.CallOption) (*PropertyGroup, error)
-	GetGroupListPrivate(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*PropertyGroupList, error)
+	GetGroupListPrivate(ctx context.Context, in *PropertyGroupListSearchParams, opts ...grpc.CallOption) (*PropertyGroupList, error)
 	CreateGroup(ctx context.Context, in *PropertyGroupCU, opts ...grpc.CallOption) (*PropertyGroup, error)
 	UpdateGroup(ctx context.Context, in *PropertyGroupUpdateParams, opts ...grpc.CallOption) (*emptypb.Empty, error)
 }
@@ -53,7 +53,7 @@ func (c *propertyGroupServiceClient) GetGroupPrivate(ctx context.Context, in *Pr
 	return out, nil
 }
 
-func (c *propertyGroupServiceClient) GetGroupListPrivate(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*PropertyGroupList, error) {
+func (c *propertyGroupServiceClient) GetGroupListPrivate(ctx context.Context, in *PropertyGroupListSearchParams, opts ...grpc.CallOption) (*PropertyGroupList, error) {
 	out := new(PropertyGroupList)
 	err := c.cc.Invoke(ctx, PropertyGroupService_GetGroupListPrivate_FullMethodName, in, out, opts...)
 	if err != nil {
@@ -85,7 +85,7 @@ func (c *propertyGroupServiceClient) UpdateGroup(ctx context.Context, in *Proper
 // for forward compatibility
 type PropertyGroupServiceServer interface {
 	GetGroupPrivate(context.Context, *PropertyGroupSearchParams) (*PropertyGroup, error)
-	GetGroupListPrivate(context.Context, *emptypb.Empty) (*PropertyGroupList, error)
+	GetGroupListPrivate(context.Context, *PropertyGroupListSearchParams) (*PropertyGroupList, error)
 	CreateGroup(context.Context, *PropertyGroupCU) (*PropertyGroup, error)
 	UpdateGroup(context.Context, *PropertyGroupUpdateParams) (*emptypb.Empty, error)
 	mustEmbedUnimplementedPropertyGroupServiceServer()
@@ -98,7 +98,7 @@ type UnimplementedPropertyGroupServiceServer struct {
 func (UnimplementedPropertyGroupServiceServer) GetGroupPrivate(context.Context, *PropertyGroupSearchParams) (*PropertyGroup, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetGroupPrivate not implemented")
 }
-func (UnimplementedPropertyGroupServiceServer) GetGroupListPrivate(context.Context, *emptypb.Empty) (*PropertyGroupList, error) {
+func (UnimplementedPropertyGroupServiceServer) GetGroupListPrivate(context.Context, *PropertyGroupListSearchParams) (*PropertyGroupList, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetGroupListPrivate not implemented")
 }
 func (UnimplementedPropertyGroupServiceServer) CreateGroup(context.Context, *PropertyGroupCU) (*PropertyGroup, error) {
@@ -139,7 +139,7 @@ func _PropertyGroupService_GetGroupPrivate_Handler(srv interface{}, ctx context.
 }
 
 func _PropertyGroupService_GetGroupListPrivate_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(emptypb.Empty)
+	in := new(PropertyGroupListSearchParams)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -151,7 +151,7 @@ func _PropertyGroupService_GetGroupListPrivate_Handler(srv interface{}, ctx cont
 		FullMethod: PropertyGroupService_GetGroupListPrivate_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(PropertyGroupServiceServer).GetGroupListPrivate(ctx, req.(*emptypb.Empty))
+		return srv.(PropertyGroupServiceServer).GetGroupListPrivate(ctx, req.(*PropertyGroupListSearchParams))
 	}
 	return interceptor(ctx, in, info, handler)
 }

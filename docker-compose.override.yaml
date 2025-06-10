@@ -76,7 +76,6 @@ services:
       - HOST_NAME
       - DOMAIN_PUBLIC
       - DOMAIN_PRIVATE
-      - DOMAIN_MEDIA
       - JWT_ACCESS_TOKEN_KEY
       - JWT_ACCESS_TOKEN_TTL
       - AUTH_SERVICE_CLIENT_HOST
@@ -85,12 +84,15 @@ services:
       - USER_SERVICE_CLIENT_PORT
       - PROPGROUP_SERVICE_CLIENT_HOST
       - PROPGROUP_SERVICE_CLIENT_PORT
+      - CATEGORY_SERVICE_CLIENT_HOST
+      - CATEGORY_SERVICE_CLIENT_PORT
       - APP_NAME
     depends_on:
       - service_auth_client
       - service_propgroup_client
       - service_user_client
       - service_trans_client
+      - service_category_client
 
 #   api_gateway_ws:
 #     container_name: leprechaun_api_gateway_ws
@@ -119,7 +121,6 @@ services:
       - LANGS
       - NEXT_PUBLIC_LANGS=${LANGS}
       - DOMAIN_PUBLIC
-      - DOMAIN_MEDIA
       - DOMAIN_API
       - NEXT_PUBLIC_DOMAIN_API=${DOMAIN_API}
       - CURRENCY_SYMBOL
@@ -231,6 +232,56 @@ services:
     networks:
       - trans_service
 
+  service_category_client:
+    container_name: leprechaun-service-category-client
+    environment:
+      - CATEGORY_SERVICE_CLIENT_PORT
+      - POSTGRES_USER=${CATEGORY_SERVICE_DB_USER}
+      - POSTGRES_PASSWORD=${CATEGORY_SERVICE_DB_PASSWORD}
+      - POSTGRES_HOST=${CATEGORY_SERVICE_DB_HOST}
+      - POSTGRES_PORT=${CATEGORY_SERVICE_DB_PORT}
+      - POSTGRES_DATABASE=${CATEGORY_SERVICE_DB_DATABASE}
+      - CATEGORY_SERVICE_S3_HOST
+      - CATEGORY_SERVICE_S3_PORT
+      - CATEGORY_SERVICE_S3_PASSWORD
+      - CATEGORY_SERVICE_S3_USER
+      - TRANS_SERVICE_CLIENT_HOST
+      - TRANS_SERVICE_CLIENT_PORT
+      - PROPGROUP_SERVICE_CLIENT_HOST
+      - PROPGROUP_SERVICE_CLIENT_PORT
+    networks:
+      - api_domain
+      - category_service
+    depends_on:
+      - service_category_db
+      - service_category_s3
+
+  service_category_db:
+    container_name: leprechaun-service-category-db
+    build:
+      context: ./services/category/db
+      dockerfile: Dockerfile
+    environment:
+      - POSTGRES_PASSWORD=${CATEGORY_SERVICE_DB_PASSWORD}
+      - POSTGRES_USER=${CATEGORY_SERVICE_DB_USER}
+      - POSTGRES_DATABASE=${CATEGORY_SERVICE_DB_DATABASE}
+    ports:
+      - ${CATEGORY_SERVICE_DB_PORT_EXPOSE}:${CATEGORY_SERVICE_DB_PORT}
+    networks:
+      - category_service
+
+  service_category_s3:
+    image: minio/minio
+    container_name: leprechaun-service-category-s3
+    environment:
+      - MINIO_ROOT_USER=${CATEGORY_SERVICE_S3_USER}
+      - MINIO_ROOT_PASSWORD=${CATEGORY_SERVICE_S3_PASSWORD}
+    entrypoint: /docker-entrypoint-init.d/entrypoint.sh ${CATEGORY_SERVICE_S3_USER} ${CATEGORY_SERVICE_S3_PASSWORD} ${CATEGORY_SERVICE_S3_PORT} ${CATEGORY_SERVICE_S3_UI_PORT}
+    volumes:
+      - ./services/category/s3/data:/data
+    networks:
+      - category_service
+
 networks:
   server_infra:
     driver: bridge
@@ -250,3 +301,6 @@ networks:
   trans_service:
     driver: bridge
     name: leprechaun_trans_service
+  category_service:
+    driver: bridge
+    name: leprechaun_category_service

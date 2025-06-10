@@ -186,6 +186,36 @@ services:
       - ./services/trans/db/postgresql.conf:/app/postgresql.conf
       - ./services/trans/db/pg_hba.conf:/app/pg_hba.conf
 
+  service_category_client:
+    restart: unless-stopped
+    extends:
+      file: docker-compose.shared.yaml
+      service: node
+    command: npm run start:dev
+    ports:
+      - ${CATEGORY_SERVICE_CLIENT_PORT_EXPOSE}:${CATEGORY_SERVICE_CLIENT_PORT}
+    volumes:
+      - ./services/category/client:/app
+      - ./proto:/app/proto
+    environment:
+      - IS_DEV=true
+
+  service_category_db:
+    restart: unless-stopped
+    ports:
+      - ${CATEGORY_SERVICE_DB_PORT_EXPOSE}:${CATEGORY_SERVICE_DB_PORT}
+    volumes:
+      - ./services/category/db/postgresql.conf:/app/postgresql.conf
+      - ./services/category/db/pg_hba.conf:/app/pg_hba.conf
+
+  service_category_s3:
+    restart: unless-stopped
+    volumes:
+      - ./services/category/s3/entrypoint.sh:/docker-entrypoint-init.d/entrypoint.sh
+    ports:
+      - ${CATEGORY_SERVICE_S3_PORT_EXPOSE}:${CATEGORY_SERVICE_S3_PORT}
+      - ${CATEGORY_SERVICE_S3_UI_PORT}:${CATEGORY_SERVICE_S3_UI_PORT}
+
   ### UTILS
 
   translations:

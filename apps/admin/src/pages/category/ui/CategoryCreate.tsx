@@ -15,7 +15,7 @@ const CategoryCreatePage = () => {
     const nav = useNavigate();
     const { register, handleSubmit, getValues, watch, setValue, formState: { errors } } = useForm<CategoryCreateDTO>({
         defaultValues: {
-            propertygroups: [],
+            propertyGroups: [],
         }
     });
     const [create, createState] = useCreateCategory();
@@ -24,7 +24,7 @@ const CategoryCreatePage = () => {
         create({ body, successCallback: () => nav(-1) });
     };
 
-    watch('propertygroups');
+    watch('propertyGroups');
 
     return (
         <form onSubmit={handleSubmit(sendForm)} className="flex gap-4 flex-col items-baseline">
@@ -32,7 +32,7 @@ const CategoryCreatePage = () => {
                 <TextInput {...register('url')} r label="url" error={errors.url?.message} />
                 <FormControl>
                     <FormControlLabel control={
-                        <Switch {...register('is_public')} />
+                        <Switch {...register('isPublic')} />
                     }
                         label="public" />
                 </FormControl>
@@ -55,7 +55,7 @@ const CategoryCreatePage = () => {
                 maxFiles={1}
                 labelIdle={`Drag & Drop category svg icon or <span class="filepond--label-action">Browse</span>`}
             />
-            <PropertyGroupSelectList {...register('propertygroups')} value={getValues('propertygroups')} />
+            <PropertyGroupSelectList {...register('propertyGroups')} value={getValues('propertyGroups')} />
             <div className="w-full flex justify-center">
                 <LoadingButton
                     type='submit'

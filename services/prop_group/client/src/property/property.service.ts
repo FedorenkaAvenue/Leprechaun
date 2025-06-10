@@ -8,6 +8,7 @@ import { status } from '@grpc/grpc-js';
 import { PropertyEntity } from './property.entity';
 import { Property, PropertyCU } from 'gen/ts/prop_group';
 import TransService from '@common/trans/trans.service';
+import PropertyMapper from './property.mapper';
 
 @Injectable()
 export default class PropertyService {
@@ -20,7 +21,7 @@ export default class PropertyService {
         return this.transService.createTrans(title).pipe(
             switchMap(({ id, data }) =>
                 from(this.propertyRepo.save({ ...restProperty, title: id })).pipe(
-                    map(newProp => ({ ...newProp, title: data })),
+                    map(newProp => PropertyMapper.toView(newProp, data)),
                     catchError(err => {
                         this.transService.getTrans({ id });
 

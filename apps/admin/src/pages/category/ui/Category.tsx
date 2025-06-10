@@ -55,7 +55,7 @@ const CategoryPage = () => {
                                             <Chip
                                                 link={`${routerSubConfig.propertyGroupList.path}/${i.id}`}
                                                 tooltip={<TransList data={i.title} />}
-                                                label={i.alt_name}
+                                                label={i.altName}
                                                 tooltipProps={{ placement: 'bottom' }}
                                             />
                                         </li>

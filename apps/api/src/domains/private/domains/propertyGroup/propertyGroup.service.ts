@@ -3,7 +3,7 @@ import { BadRequestException, Inject, Injectable, NotFoundException, OnModuleIni
 import { catchError, lastValueFrom, throwError } from 'rxjs';
 
 import {
-    PROPERTY_GROUP_SERVICE_NAME, PropertyGroup, PropertyGroupCU, PropertyGroupServiceClient,
+    PROPERTY_GROUP_SERVICE_NAME, PropertyGroup, PropertyGroupCU, PropertyGroupPreview, PropertyGroupServiceClient,
     PropertyGroupUpdateParams,
 } from '@gen/prop_group';
 import { Empty } from '@gen/google/protobuf/empty';
@@ -35,8 +35,8 @@ export default class PropertyGroupPrivateService implements OnModuleInit {
         );
     }
 
-    public async getGroupListPrivate(): Promise<PropertyGroup[]> {
-        const { items } = await lastValueFrom(this.propGroupClient.getGroupListPrivate({}));
+    public async getGroupListPrivate(): Promise<PropertyGroupPreview[]> {
+        const { items } = await lastValueFrom(this.propGroupClient.getGroupListPrivate({ ids: [] }));
 
         return items || [];
     }

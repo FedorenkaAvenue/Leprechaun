@@ -7,10 +7,10 @@ export interface PropertyGroupPreview {
     title: Trans
     altName: string
     isPrimary: boolean
-    properties: Property[]
     comment: string
 }
 
 export interface PropertyGroup extends PropertyGroupPreview {
+    properties: Property[]
     categories: CategoryPreview[]
 }

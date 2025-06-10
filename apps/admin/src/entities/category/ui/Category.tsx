@@ -22,7 +22,7 @@ const CategoryEntity = ({ category, renderPropertyGroups, renderProducts }: Prop
                         icon: <b>{category?.icon ? <Image src={category.icon} /> : 'no'}</b>
                     </div>
                     <div className="p-2">comment: <b>{category?.comment}</b></div>
-                    <div className="p-2">is public: <b>{category?.is_public ? 'yes' : 'no'}</b></div>
+                    <div className="p-2">is public: <b>{category?.isPublic ? 'yes' : 'no'}</b></div>
                 </div>
                 <div className="flex-1">
                     title:
@@ -33,7 +33,7 @@ const CategoryEntity = ({ category, renderPropertyGroups, renderProducts }: Prop
                     </ul>
                 </div>
             </div>
-            {renderPropertyGroups?.call(null, category?.propertygroups)}
+            {renderPropertyGroups?.call(null, category?.propertyGroups)}
             {renderProducts?.call(null, category?.products)}
         </div>
     );

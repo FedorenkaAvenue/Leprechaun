@@ -49,7 +49,7 @@ const CategoryTablePage = () => {
                                         renderPublictStatus={category => (
                                             <CategoryTogglePublic
                                                 categoryId={category.id}
-                                                selected={category.is_public}
+                                                selected={category.isPublic}
                                             />
                                         )}
                                     />

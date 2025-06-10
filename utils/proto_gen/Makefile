@@ -9,7 +9,7 @@ generate:
 	@protoc \
 		--plugin=protoc-gen-ts=./node_modules/.bin/protoc-gen-ts_proto \
 		--ts_proto_out=$(OUT_TS) \
-		--ts_proto_opt=nestJs=true,env=browser,esModuleInterop=true,useProtoFieldName=true,useDate=true,useOptionals=fields,outputPartialMethods=true,emitDefaultValues=true \
+		--ts_proto_opt=nestJs=true,env=browser,esModuleInterop=true,useProtoFieldName=true,useDate=true,useOptionals=fields,emitDefaultValues=true \
 		--proto_path=$(PROTO_DIR) \
 		--proto_path=/usr/include \
 		$(PROTO_FILES)
@@ -28,3 +28,4 @@ move:
 	@cp ./gen -r ../../services/user/client
 	@cp ./gen -r ../../services/prop_group/client
 	@cp ./gen -r ../../services/trans/client
+	@cp ./gen -r ../../services/category/client

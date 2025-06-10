@@ -9,7 +9,6 @@
 #         - APP_NAME
 #         - LANGS
 #         - DOMAIN_PUBLIC
-#         - DOMAIN_MEDIA
 #         - DOMAIN_API_PUBLIC
 
 #   db:
@@ -37,7 +36,6 @@
   #       - APP_NAME
   #       - LANGS
   #       - DOMAIN_PUBLIC
-  #       - DOMAIN_MEDIA
   #       - DOMAIN_API_PUBLIC
   #       - CURRENCY_SYMBOL
   #   environment:

@@ -1,4 +1,4 @@
-const { IS_DEV, DOMAIN_MEDIA } = process.env;
+const { IS_DEV } = process.env;
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
@@ -6,7 +6,7 @@ const nextConfig = {
         remotePatterns: [
             {
                 protocol: IS_DEV ? 'http' : 'https',
-                hostname: DOMAIN_MEDIA,
+                // hostname: DOMAIN_MEDIA,
             },
         ],
     },

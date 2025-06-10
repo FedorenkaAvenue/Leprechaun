@@ -27,17 +27,6 @@ const PropertyGroupPreviewEntity = ({ group, renderTools, renderPublicStatus }: 
             <TableCell align="right">
                 <TooltipContent content={<TransList data={group.title} />} />
             </TableCell>
-            <TableCell align="right">
-                <TooltipContent
-                    title={group.properties?.length || 'none'}
-                    active={Boolean(group.properties?.length)}
-                    content={
-                        <ul>
-                            {group.properties?.map(i => (<li key={i.id}>{i.altName}</li>))}
-                        </ul>
-                    }
-                />
-            </TableCell>
             <TableCell align="right">{renderPublicStatus(group)}</TableCell>
             <TableCell align="right">
                 {group.comment || <Typography component='span' color='textDisabled'>empty</Typography>}

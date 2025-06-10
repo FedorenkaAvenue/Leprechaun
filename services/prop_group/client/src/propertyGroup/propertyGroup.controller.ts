@@ -8,6 +8,7 @@ import {
     PropertyGroupSearchParams,
     PropertyGroupUpdateParams,
     PropertyGroupList,
+    PropertyGroupListSearchParams,
 } from "gen/ts/prop_group";
 import PropertyGroupService from "./propertyGroup.service";
 import { PropertyGroupCreateDTO, PropertyGroupUpdateDTO } from "./propertyGroup.dto";
@@ -15,9 +16,13 @@ import { ValidateDTO } from "@shared/decorators/ValidateDTO.decorator";
 
 @PropertyGroupServiceControllerMethods()
 export default class PropertyGroupController implements PropertyGroupServiceController {
-    constructor(
-        private readonly propertyGroupService: PropertyGroupService,
-    ) { }
+    constructor(private readonly propertyGroupService: PropertyGroupService) { }
+
+    public async getGroupListPrivate({ ids }: PropertyGroupListSearchParams): Promise<PropertyGroupList> {
+        const res = await this.propertyGroupService.getGroupList(ids);
+
+        return { items: res };
+    }
 
     @ValidateDTO(PropertyGroupCreateDTO)
     public async createGroup(body: PropertyGroupCU): Promise<PropertyGroup> {
@@ -26,12 +31,6 @@ export default class PropertyGroupController implements PropertyGroupServiceCont
 
     public async getGroupPrivate({ id }: PropertyGroupSearchParams): Promise<PropertyGroup> {
         return this.propertyGroupService.getGroup(id);
-    }
-
-    public async getGroupListPrivate(): Promise<PropertyGroupList> {
-        const res = await this.propertyGroupService.getGroupList(true);
-
-        return { items: res };
     }
 
     @ValidateDTO(PropertyGroupUpdateDTO, 'data')

@@ -1,0 +1,14 @@
+syntax = "proto3";
+
+package common;
+
+option go_package = "./common;common_v1";
+
+message File {
+    string fieldname = 1;
+    string originalname = 2;
+    string encoding = 3;
+    string mimetype = 4;
+    bytes buffer = 5;
+    int32 size = 6;
+}

@@ -1,13 +1,14 @@
 import { Injectable } from '@nestjs/common';
-import { Repository } from 'typeorm';
+import { In, Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { catchError, firstValueFrom, from, map, Observable, switchMap, throwError } from 'rxjs';
 import { RpcException } from '@nestjs/microservices';
 import { status } from '@grpc/grpc-js';
 
 import { PropertyGroupEntity } from './propertyGroup.entity';
-import { PropertyGroup, PropertyGroupCU } from 'gen/ts/prop_group';
+import { PropertyGroup, PropertyGroupCU, PropertyGroupPreview } from 'gen/ts/prop_group';
 import TransService from '@common/trans/trans.service';
+import PropertyGroupMapper from './propertyGroup.mapper';
 
 @Injectable()
 export default class PropertyGroupService {
@@ -50,7 +51,7 @@ export default class PropertyGroupService {
             message: `property group with id ${groupId} not found`
         });
 
-        const { items: transItems } = await firstValueFrom(
+        const { items: transMap } = await firstValueFrom(
             this.transService.getTransMap({
                 ids: [
                     group.title,
@@ -59,22 +60,18 @@ export default class PropertyGroupService {
             })
         );
 
-        return {
-            ...group,
-            title: transItems[group.title],
-            properties: group.properties.map(prop => ({ ...prop, title: transItems[prop.title] }))
-        };
+        return PropertyGroupMapper.toView(group, transMap);
     }
 
-    public async getGroupList(isPreview: boolean, isPublic?: boolean): Promise<PropertyGroup[]> {
+    public async getGroupList(ids?: PropertyGroup['id'][]): Promise<PropertyGroupPreview[]> {
         const propGroups = await this.propertyGroupRepo.find({
             order: { createdAt: 'DESC' },
-            relations: { properties: !isPreview },
+            where: ids ? { id: In(ids) } : {},
         });
 
         if (!propGroups.length) return [];
 
-        const { items: transItems } = await firstValueFrom(
+        const { items: transMap } = await firstValueFrom(
             this.transService.getTransMap({
                 ids: [
                     ...propGroups.map(p => p.title),
@@ -83,11 +80,7 @@ export default class PropertyGroupService {
             })
         );
 
-        return propGroups.map(propGroup => ({
-            ...propGroup,
-            title: transItems[propGroup.title],
-            properties: propGroup.properties.map(prop => ({ ...prop, title: transItems[prop.title] })),
-        }));
+        return propGroups.map(group => PropertyGroupMapper.toPreview(group, transMap));
     }
 
     public async updateGroup(id: PropertyGroup['id'], { title, ...restUpdates }: PropertyGroupCU): Promise<void> {
