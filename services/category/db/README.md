@@ -1,4 +1,4 @@
-# Property and PropertyGroups DB
+# Category DB
 
 ## Tools
 

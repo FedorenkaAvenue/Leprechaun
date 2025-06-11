@@ -19,11 +19,6 @@ enum UserRole {
     ROOT = 4;
 }
 
-message UserSearchParams {
-    optional string id = 1;
-    optional string email = 2;
-}
-
 message User {
     string id = 1;
     UserRole role = 2;
@@ -33,4 +28,9 @@ message User {
 
 message UserList {
     repeated User items = 1;
+}
+
+message UserSearchParams {
+    optional string id = 1;
+    optional string email = 2;
 }

@@ -10,8 +10,8 @@ Boilerplate for web store
 
     -   create `.env` file inside root directory based on `.env.dist` file with own config parameters
     -   install all _npm_ dependencies inside **server**, **client**, **admin** and **translations** folders (using `npm i` or `yarn` commands)
-    -   run `make build` to deploy and start all containers
-    -   add `leprechaun.loc api.leprechaun.loc docs.leprechaun.loc media.leprechaun.loc adm.leprechaun.loc ssr.leprechaun.loc` aliases to Your `/etc/hosts` list
+    -   run `docker compose up --build -d` to deploy and start all containers
+    -   add `leprechaun.loc api.leprechaun.loc docs.leprechaun.loc adm.leprechaun.loc` aliases to Your `/etc/hosts` list
 
 <!-- -   #### remote test server🌐
 
@@ -23,15 +23,11 @@ Boilerplate for web store
 
     -   http://leprechaun.loc user client
     -   http://adm.leprechaun.loc admin client
-    -   http://docs.leprechaun.loc/private _OpenAPI_ private (admin) docs
-    -   http://docs.leprechaun.loc/public _OpenAPI_ public (customer) docs
-    -   http://api.leprechaun.loc/private RestFull private (admin) API
-    -   http://api.leprechaun.loc RestFull public (customer) API
+    -   http://docs.leprechaun.loc/private _OpenAPI_ docs
+    -   http://api.leprechaun.loc RestFull API
     -   http://api.leprechaun.loc/socket.io/ websocket public (customer) API
-    -   http://media.leprechaun.loc media files server
     -   http://localhost:1080 _Mailcatcher_
-    -   http://localhost:15672 _RabbitMQ_ UI client (login: `guest`, pass: `guest`)
-    -   http://localhost:9001 _MinIO_ (S3) UI admin panel
+    -   http://localhost:9010 _MinIO_ (S3) **category** UI admin panel
 
 <!-- -   remote test server
 
@@ -84,14 +80,12 @@ Boilerplate for web store
 
 ## Tools
 
--   container managing
+### dev
 
-    -   `make build` build and run containers (dev)
-    -   `make build_single args="$SERVICE_NAME"` build and run `$SERVICE_NAME` container (dev)
-    -   `make build_prod` build and run containers (prod)
-    -   `make build_prod_single args="$SERVICE_NAME"` build and run `$SERVICE_NAME` container (prod)
+-   `make translation` move translations
+-   `make protos` move generated `.proto` files
 
--   other
+### prod
 
-    -   `make translation` move translations
-    -   `make protos` move generated `.proto` files
+-   `make build_prod` build and run containers (prod)
+-   `make build_prod_single args="$SERVICE_NAME"` build and run `$SERVICE_NAME` container (prod)

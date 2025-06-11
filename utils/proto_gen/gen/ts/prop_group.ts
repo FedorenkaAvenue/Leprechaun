@@ -13,23 +13,6 @@ import { TransData } from "./trans";
 
 export const protobufPackage = "prop_group";
 
-export interface PropertyGroupSearchParams {
-  id: number;
-}
-
-export interface PropertyGroupListSearchParams {
-  ids: number[];
-}
-
-export interface PropertySearchParams {
-  id: number;
-}
-
-export interface PropertyGroupUpdateParams {
-  id: number;
-  data: PropertyGroupCU;
-}
-
 export interface PropertyGroup {
   id: number;
   title: TransData;
@@ -49,10 +32,6 @@ export interface PropertyGroupPreview {
   comment: string;
   createdAt: Date;
   updatedAt: Date;
-}
-
-export interface PropertyGroupList {
-  items: PropertyGroupPreview[];
 }
 
 export interface PropertyGroupCU {
@@ -76,6 +55,27 @@ export interface PropertyCU {
   altName: string;
   comment: string;
   propertyGroup: number;
+}
+
+export interface PropertyGroupSearchParams {
+  id: number;
+}
+
+export interface PropertyGroupListSearchParams {
+  ids: number[];
+}
+
+export interface PropertySearchParams {
+  id: number;
+}
+
+export interface PropertyGroupUpdateParams {
+  id: number;
+  data: PropertyGroupCU;
+}
+
+export interface PropertyGroupList {
+  items: PropertyGroupPreview[];
 }
 
 export const PROP_GROUP_PACKAGE_NAME = "prop_group";

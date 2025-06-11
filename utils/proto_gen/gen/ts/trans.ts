@@ -11,14 +11,6 @@ import { Empty } from "./google/protobuf/empty";
 
 export const protobufPackage = "trans";
 
-export interface TransSearchParams {
-  id: number;
-}
-
-export interface TransListSearchParams {
-  ids: number[];
-}
-
 export interface TransData {
   en: string;
   ua: string;
@@ -46,6 +38,14 @@ export interface TransMap_ItemsEntry {
 export interface TransUpdateParams {
   id: number;
   data: TransData;
+}
+
+export interface TransSearchParams {
+  id: number;
+}
+
+export interface TransListSearchParams {
+  ids: number[];
 }
 
 export const TRANS_PACKAGE_NAME = "trans";

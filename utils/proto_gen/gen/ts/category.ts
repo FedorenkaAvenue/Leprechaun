@@ -41,14 +41,6 @@ export interface CategoryPreview {
   updatedAt: Date;
 }
 
-export interface CategoryPrivateList {
-  items: CategoryPreview[];
-}
-
-export interface CategorySearchParams {
-  url: string;
-}
-
 export interface CategoryCU {
   url: string;
   title: TransData;
@@ -61,6 +53,14 @@ export interface CategoryCU {
 export interface CategoryUpdateParams {
   id: number;
   data: CategoryCU;
+}
+
+export interface CategoryPrivateList {
+  items: CategoryPreview[];
+}
+
+export interface CategorySearchParams {
+  url: string;
 }
 
 export const CATEGORY_PACKAGE_NAME = "category";

@@ -43,14 +43,6 @@ message CategoryPreview {
     google.protobuf.Timestamp updatedAt = 9;
 }
 
-message CategoryPrivateList {
-    repeated CategoryPreview items = 1;
-}
-
-message CategorySearchParams {
-    string url = 1;
-}
-
 message CategoryCU {
     string url = 1;
     trans.TransData title = 2;
@@ -63,4 +55,12 @@ message CategoryCU {
 message CategoryUpdateParams {
     int32 id = 1;
     CategoryCU data = 2;
+}
+
+message CategoryPrivateList {
+    repeated CategoryPreview items = 1;
+}
+
+message CategorySearchParams {
+    string url = 1;
 }

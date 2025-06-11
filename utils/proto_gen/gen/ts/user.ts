@@ -20,11 +20,6 @@ export enum UserRole {
   UNRECOGNIZED = -1,
 }
 
-export interface UserSearchParams {
-  id?: string | undefined;
-  email?: string | undefined;
-}
-
 export interface User {
   id: string;
   role: UserRole;
@@ -34,6 +29,11 @@ export interface User {
 
 export interface UserList {
   items: User[];
+}
+
+export interface UserSearchParams {
+  id?: string | undefined;
+  email?: string | undefined;
 }
 
 export const USER_PACKAGE_NAME = "user";

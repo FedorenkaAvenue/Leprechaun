@@ -15,14 +15,6 @@ service TransService {
     rpc DeleteTrans (TransSearchParams) returns (google.protobuf.Empty);
 }
 
-message TransSearchParams {
-    int32 id = 1;
-}
-
-message TransListSearchParams {
-    repeated int32 ids = 1;
-}
-
 message TransData {
     string en = 1;
     string ua = 2;
@@ -45,4 +37,12 @@ message TransMap {
 message TransUpdateParams {
     int32 id = 1;
     TransData data = 2;
+}
+
+message TransSearchParams {
+    int32 id = 1;
+}
+
+message TransListSearchParams {
+    repeated int32 ids = 1;
 }

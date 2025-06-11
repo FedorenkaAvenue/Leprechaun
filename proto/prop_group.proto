@@ -20,23 +20,6 @@ service PropertyService {
     rpc deleteProperty(PropertySearchParams) returns (google.protobuf.Empty);
 }
 
-message PropertyGroupSearchParams {
-    int32 id = 1;
-}
-
-message PropertyGroupListSearchParams {
-    repeated int32 ids = 1;
-}
-
-message PropertySearchParams {
-    int32 id = 1;
-}
-
-message PropertyGroupUpdateParams {
-    int32 id = 1;
-    PropertyGroupCU data = 2;
-}
-
 message PropertyGroup {
     int32 id = 1;
     trans.TransData title = 2;
@@ -56,10 +39,6 @@ message PropertyGroupPreview {
     string comment = 5;
     google.protobuf.Timestamp createdAt = 6;
     google.protobuf.Timestamp updatedAt = 7;
-}
-
-message PropertyGroupList {
-    repeated PropertyGroupPreview items = 1;
 }
 
 message PropertyGroupCU {
@@ -83,4 +62,25 @@ message PropertyCU {
     string altName = 2;
     string comment = 3;
     int32 propertyGroup = 4;
+}
+
+message PropertyGroupSearchParams {
+    int32 id = 1;
+}
+
+message PropertyGroupListSearchParams {
+    repeated int32 ids = 1;
+}
+
+message PropertySearchParams {
+    int32 id = 1;
+}
+
+message PropertyGroupUpdateParams {
+    int32 id = 1;
+    PropertyGroupCU data = 2;
+}
+
+message PropertyGroupList {
+    repeated PropertyGroupPreview items = 1;
 }
