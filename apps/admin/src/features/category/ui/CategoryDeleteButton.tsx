@@ -19,7 +19,7 @@ interface Props extends Omit<DeleteButtonProps, 'buttonTitle' | 'modalContent' |
 
 function ModalContent({ url }: { url: Category['url'] }) {
     const { data, isFetching } = useCategory(url);
-    const productsLen = data?.products.length;
+    const productsLen = data?.products?.length;
 
     if (!productsLen) return null;
 

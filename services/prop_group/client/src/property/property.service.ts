@@ -19,15 +19,14 @@ export default class PropertyService {
 
     public createProperty({ title, ...restProperty }: PropertyCU): Observable<Property> {
         return this.transService.createTrans(title).pipe(
-            switchMap(({ id, data }) =>
-                from(this.propertyRepo.save({ ...restProperty, title: id })).pipe(
-                    map(newProp => PropertyMapper.toView(newProp, data)),
-                    catchError(err => {
-                        this.transService.getTrans({ id });
+            switchMap(({ id, data }) => from(this.propertyRepo.save({ ...restProperty, title: id })).pipe(
+                map(newProp => PropertyMapper.toView(newProp, data)),
+                catchError(err => {
+                    this.transService.getTrans({ id });
 
-                        return throwError(() => new RpcException({ code: err.code, message: err.message }))
-                    })
-                )
+                    return throwError(() => new RpcException({ code: err.code, message: err.message }))
+                })
+            )
             ),
             catchError(err => throwError(() => new RpcException({ code: err.code, message: err.message })))
         );

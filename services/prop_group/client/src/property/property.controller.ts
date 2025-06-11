@@ -1,4 +1,4 @@
-import { lastValueFrom } from "rxjs";
+import { Observable } from "rxjs";
 
 import PropertyService from "./property.service";
 import {
@@ -14,8 +14,8 @@ export default class PropertyController implements PropertyServiceController {
     ) { }
 
     @ValidateDTO(CreatePropertyDTO)
-    public async createProperty(data: PropertyCU): Promise<Property> {
-        return lastValueFrom(this.propertyService.createProperty(data));
+    public createProperty(data: PropertyCU): Observable<Property> {
+        return this.propertyService.createProperty(data);
     }
 
     deleteProperty({ id }: PropertySearchParams): Promise<void> {

@@ -1,11 +1,11 @@
-import { Repository } from 'typeorm';
+import { Raw, Repository } from 'typeorm';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { catchError, from, lastValueFrom, map, switchMap, throwError } from 'rxjs';
+import { catchError, forkJoin, from, lastValueFrom, map, Observable, of, switchMap, throwError } from 'rxjs';
 import { RpcException } from '@nestjs/microservices';
 import { status } from '@grpc/grpc-js';
 
-import { Category, CategoryCU, CategoryPreview } from 'gen/ts/category';
+import { Category, CategoryCU } from 'gen/ts/category';
 import CategoryEntity from './category.entity';
 import { CategoryCreateDTO } from './category.dto';
 import S3Service from '@common/s3/s3.service';
@@ -13,6 +13,8 @@ import { S3Bucket } from '@common/s3/s3.enum';
 import TransService from '@common/trans/trans.service';
 import CategoryMapper from './category.mapper';
 import PropertyGroupService from '@common/propertyGroup/propertyGroup.service';
+import { PropertyGroup } from 'gen/ts/prop_group';
+import { CategoryPreview } from 'gen/ts/category_preview';
 
 @Injectable()
 export default class CategoryService {
@@ -23,16 +25,18 @@ export default class CategoryService {
         private readonly propertyGroupService: PropertyGroupService,
     ) { }
 
-    public async getCategoryList(): Promise<CategoryPreview[]> {
-        const categories = await this.categoryRepo.find({ order: { createdAt: 'DESC' } });
+    public getCategoryList(): Observable<CategoryPreview[]> {
+        return from(this.categoryRepo.find({ order: { createdAt: 'DESC' } })).pipe(
+            switchMap(categories => {
+                if (!categories.length) return [];
 
-        if (!categories.length) return [];
-
-        const { items: transMap } = await lastValueFrom(
-            this.transService.getTransMap({ ids: categories.map(cat => cat.title) })
+                return from(
+                    this.transService.getTransMap({ ids: categories.map(cat => cat.title) })
+                ).pipe(
+                    map(transMap => categories.map(cat => CategoryMapper.toPreview(cat, transMap.items)))
+                )
+            })
         );
-
-        return categories.map(cat => CategoryMapper.toPreview(cat, transMap));
     }
 
     public async createCategory({ icon, ...newCategory }: CategoryCreateDTO): Promise<CategoryPreview> {
@@ -65,25 +69,30 @@ export default class CategoryService {
         ));
     }
 
-    public async getCategory(categoryUrl: Category['url']): Promise<Category> {
-        const category = await this.categoryRepo.findOne({
+    public getCategory(categoryUrl: Category['url']): Observable<Category> {
+        return from(this.categoryRepo.findOne({
             where: { url: categoryUrl },
-        });
+        })).pipe(
+            switchMap(category => {
+                if (!category) {
+                    return throwError(() =>
+                        new RpcException({
+                            message: `category with url ${categoryUrl} not found`,
+                            code: status.NOT_FOUND,
+                        })
+                    );
+                }
 
-        if (!category) {
-            throw new RpcException({ message: `category with url ${categoryUrl} not found`, code: status.NOT_FOUND });
-        }
+                const transMap$ = this.transService.getTransMap({ ids: [category.title] });
+                const propGroups$ = category.propertyGroups?.length
+                    ? this.propertyGroupService.getGroupListPrivate({ ids: category.propertyGroups })
+                    : of(undefined);
 
-        const [transMap, propGroups] = await Promise.all([
-            lastValueFrom(
-                this.transService.getTransMap({ ids: [category.title] })
-            ),
-            lastValueFrom(
-                this.propertyGroupService.getPropertyGroupList({ ids: category.propertyGroups })
-            )
-        ]);
-
-        return CategoryMapper.toView(category, transMap.items, propGroups.items);
+                return forkJoin([transMap$, propGroups$]).pipe(
+                    map(([transMap, propGroups]) => CategoryMapper.toView(category, transMap.items, propGroups?.items))
+                )
+            }),
+        );
     }
 
     public async updateCategory(id: Category['id'], { title, icon, ...updates }: CategoryCU): Promise<void> {
@@ -101,6 +110,32 @@ export default class CategoryService {
         await this.categoryRepo.update({ id }, updates);
 
         if (title) await lastValueFrom(this.transService.updateTrans({ id: category.title, data: title }));
+    }
+
+    public getCategoryListByPropertyGroups(propertyGroupId: PropertyGroup['id']): Observable<CategoryPreview[]> {
+        return from(
+            this.categoryRepo.find({
+                where: {
+                    propertyGroups: Raw(alias => `:id = ANY(${alias})`, { id: propertyGroupId }),
+                },
+            })
+        ).pipe(
+            switchMap(categories => {
+                if (!categories.length) {
+                    return of([]); // повертаємо порожній масив, як у оригіналі
+                }
+
+                return this.transService.getTransMap({
+                    ids: categories.map(cat => cat.title),
+                }).pipe(
+                    map(titleMap =>
+                        categories.map(cat =>
+                            CategoryMapper.toPreview(cat, titleMap.items)
+                        )
+                    )
+                );
+            })
+        );
     }
 
     // public async deleteCategory(id: CategoryI['id']): Promise<DeleteResult> {

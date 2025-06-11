@@ -1,4 +1,4 @@
-import { firstValueFrom } from "rxjs";
+import { firstValueFrom, map, Observable } from "rxjs";
 
 import {
     PropertyGroup,
@@ -18,10 +18,10 @@ import { ValidateDTO } from "@shared/decorators/ValidateDTO.decorator";
 export default class PropertyGroupController implements PropertyGroupServiceController {
     constructor(private readonly propertyGroupService: PropertyGroupService) { }
 
-    public async getGroupListPrivate({ ids }: PropertyGroupListSearchParams): Promise<PropertyGroupList> {
-        const res = await this.propertyGroupService.getGroupList(ids);
-
-        return { items: res };
+    public getGroupListPrivate({ ids }: PropertyGroupListSearchParams): Observable<PropertyGroupList> {
+        return this.propertyGroupService.getGroupList(ids).pipe(
+            map(res => ({ items: res }))
+        );
     }
 
     @ValidateDTO(PropertyGroupCreateDTO)
@@ -29,12 +29,16 @@ export default class PropertyGroupController implements PropertyGroupServiceCont
         return firstValueFrom(this.propertyGroupService.createGroup(body));
     }
 
-    public async getGroupPrivate({ id }: PropertyGroupSearchParams): Promise<PropertyGroup> {
+    public getGroupPrivate({ id }: PropertyGroupSearchParams): Observable<PropertyGroup> {
         return this.propertyGroupService.getGroup(id);
     }
 
     @ValidateDTO(PropertyGroupUpdateDTO, 'data')
-    public async updateGroup({ id, data }: PropertyGroupUpdateParams): Promise<void> {
+    public updateGroup({ id, data }: PropertyGroupUpdateParams): Observable<void> {
         return this.propertyGroupService.updateGroup(id, data);
+    }
+
+    deleteGroup({ id }: PropertyGroupSearchParams): Observable<void> {
+        return this.propertyGroupService.deleteGroup(id);
     }
 }

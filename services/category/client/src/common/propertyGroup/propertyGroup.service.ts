@@ -16,7 +16,7 @@ export default class PropertyGroupService implements OnModuleInit {
         this.propgroupClient = this.client.getService<PropertyGroupServiceClient>(PROPERTY_GROUP_SERVICE_NAME);
     }
 
-    getPropertyGroupList(params: PropertyGroupListSearchParams): Observable<PropertyGroupList> {
+    getGroupListPrivate(params: PropertyGroupListSearchParams): Observable<PropertyGroupList> {
         return this.propgroupClient.getGroupListPrivate(params);
     }
 }

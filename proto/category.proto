@@ -9,12 +9,14 @@ import "google/protobuf/empty.proto";
 import "trans.proto";
 import "common.proto";
 import "prop_group.proto";
+import "category_preview.proto";
 
 service CategoryService {
-    rpc createCategory(CategoryCU) returns (CategoryPreview);
+    rpc createCategory(CategoryCU) returns (category_preview.CategoryPreview);
     rpc updateCategory(CategoryUpdateParams) returns (google.protobuf.Empty);
     rpc getCategoryPrivateList(google.protobuf.Empty) returns (CategoryPrivateList);
     rpc getCategoryPrivate(CategorySearchParams) returns (Category);
+    rpc getCategoryListByPropertyGroups(CategoryWithPropertyGroupsSearchParams) returns (CategoryPrivateList);
 }
 
 message Category {
@@ -29,18 +31,6 @@ message Category {
     google.protobuf.Timestamp updatedAt = 9;
     // products: ProductPreviewI[] | null
     repeated prop_group.PropertyGroupPreview propertyGroups = 10;
-}
-
-message CategoryPreview {
-    int32 id = 1;
-    string url = 2;
-    trans.TransData title = 3;
-    string icon = 4;
-    string iconId = 5;
-    bool isPublic = 6;
-    string comment = 7;
-    google.protobuf.Timestamp createdAt = 8;
-    google.protobuf.Timestamp updatedAt = 9;
 }
 
 message CategoryCU {
@@ -58,9 +48,13 @@ message CategoryUpdateParams {
 }
 
 message CategoryPrivateList {
-    repeated CategoryPreview items = 1;
+    repeated category_preview.CategoryPreview items = 1;
 }
 
 message CategorySearchParams {
     string url = 1;
+}
+
+message CategoryWithPropertyGroupsSearchParams {
+    int32 propertyGroupId = 1;
 }

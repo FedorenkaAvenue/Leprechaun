@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { firstValueFrom } from 'rxjs';
+import { Observable, switchMap } from 'rxjs';
 import { JwtService } from '@nestjs/jwt';
 import { RpcException } from '@nestjs/microservices';
 import { status } from '@grpc/grpc-js';
@@ -7,9 +7,9 @@ import { status } from '@grpc/grpc-js';
 import { JWTPayload, JWTSuccessTokens } from './auth.interface';
 import UserService from '../user/user.service';
 import CryptoService from '../crypto/crypto.service';
+import { User } from 'gen/ts/user';
 import ConfigService from '../config/config.service';
 import { AuthJWT, SignInParams } from 'gen/ts/auth';
-import { User } from 'gen/ts/user';
 
 @Injectable()
 export class AuthService {
@@ -20,18 +20,16 @@ export class AuthService {
         private readonly configService: ConfigService,
     ) { }
 
-    public async sigIn(payload: SignInParams): Promise<AuthJWT> {
-        try {
-            const user = await firstValueFrom(this.userService.getUser({ email: payload.email }));
+    public sigIn(payload: SignInParams): Observable<AuthJWT> {
+        return this.userService.getUser({ email: payload.email }).pipe(
+            switchMap(async user => {
+                if (!await this.cryptoService.checkHash(payload.password, user.password)) {
+                    throw new RpcException({ code: status.PERMISSION_DENIED, message: 'Invalid password' });
+                }
 
-            if (!await this.cryptoService.checkHash(payload.password, user.password)) {
-                throw new RpcException({ code: status.PERMISSION_DENIED, message: 'Invalid password' });
-            }
-
-            return await this.genAuthTokens(user);
-        } catch (error: any) {
-            throw new RpcException({ code: error.code, message: error.message });
-        }
+                return this.genAuthTokens(user)
+            })
+        );
     }
 
     /**

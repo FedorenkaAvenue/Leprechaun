@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+package category_preview;
+
+option go_package = "./category_preview;category_preview_v1";
+
+import "google/protobuf/timestamp.proto";
+import "trans.proto";
+
+message CategoryPreview {
+    int32 id = 1;
+    string url = 2;
+    trans.TransData title = 3;
+    string icon = 4;
+    string iconId = 5;
+    bool isPublic = 6;
+    string comment = 7;
+    google.protobuf.Timestamp createdAt = 8;
+    google.protobuf.Timestamp updatedAt = 9;
+}

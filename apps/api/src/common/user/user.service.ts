@@ -5,6 +5,7 @@ import { firstValueFrom } from "rxjs";
 import { User, USER_SERVICE_NAME, UserServiceClient } from "@gen/user";
 import { UserDataDTO } from "./user.dto";
 import { USER_PACKAGE } from "./user.constants";
+import { catchResponceError } from "@pipes/operators";
 
 @Injectable()
 export default class UserService implements OnModuleInit {
@@ -17,7 +18,7 @@ export default class UserService implements OnModuleInit {
     }
 
     public async getUser(id: User['id']): Promise<UserDataDTO> {
-        const user = await firstValueFrom(this.userService.findOne({ id }));
+        const user = await firstValueFrom(this.userService.findOne({ id }).pipe(catchResponceError));
 
         if (!user) throw new NotFoundException('user not found');
 
@@ -25,7 +26,7 @@ export default class UserService implements OnModuleInit {
     }
 
     public async getEmployerList(): Promise<UserDataDTO[]> {
-        const { items } = await firstValueFrom(this.userService.getEmployerList({}));
+        const { items } = await firstValueFrom(this.userService.getEmployerList({}).pipe(catchResponceError));
 
         return items.map(user => new UserDataDTO(user));
     }

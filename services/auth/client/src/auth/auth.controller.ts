@@ -1,3 +1,5 @@
+import { Observable } from 'rxjs';
+
 import { AuthService } from './auth.service';
 import { AuthServiceController, AuthJWT, SignInParams, AuthServiceControllerMethods } from 'gen/ts/auth';
 
@@ -5,7 +7,7 @@ import { AuthServiceController, AuthJWT, SignInParams, AuthServiceControllerMeth
 export class AuthController implements AuthServiceController {
     constructor(private readonly authService: AuthService) { }
 
-    async signIn(payload: SignInParams): Promise<AuthJWT> {
-        return await this.authService.sigIn(payload);
+    signIn(payload: SignInParams): Observable<AuthJWT> {
+        return this.authService.sigIn(payload);
     }
 }

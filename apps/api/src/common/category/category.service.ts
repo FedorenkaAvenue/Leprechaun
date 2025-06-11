@@ -1,11 +1,13 @@
-import { BadRequestException, Inject, Injectable, OnModuleInit } from '@nestjs/common';
+import { Inject, Injectable, OnModuleInit } from '@nestjs/common';
 import { ClientGrpc } from '@nestjs/microservices';
-import { catchError, lastValueFrom, throwError } from 'rxjs';
+import { lastValueFrom } from 'rxjs';
 
-import { Category, CATEGORY_SERVICE_NAME, CategoryCU, CategoryPreview, CategoryServiceClient } from '@gen/category';
+import { Category, CATEGORY_SERVICE_NAME, CategoryCU, CategoryServiceClient } from '@gen/category';
 import { CATEGORY_PACKAGE } from './category.constant';
 import { CategoryCUSchema } from '@domains/private/domains/category/category.schema';
 import { Empty } from '@gen/google/protobuf/empty';
+import { CategoryPreview } from '@gen/category_preview';
+import { catchResponceError } from '@pipes/operators';
 
 @Injectable()
 export default class CategoryService implements OnModuleInit {
@@ -18,7 +20,7 @@ export default class CategoryService implements OnModuleInit {
     }
 
     public async getCategoryPrivateList(): Promise<CategoryPreview[]> {
-        const { items } = await lastValueFrom(this.categoryClient.getCategoryPrivateList({}));
+        const { items } = await lastValueFrom(this.categoryClient.getCategoryPrivateList({}).pipe(catchResponceError));
 
         return items;
     }
@@ -26,17 +28,17 @@ export default class CategoryService implements OnModuleInit {
     public async createCategory(
         newCategory: CategoryCUSchema, icon: Express.Multer.File | undefined,
     ): Promise<CategoryPreview> {
-        return lastValueFrom(this.categoryClient.createCategory({ ...newCategory, icon }).pipe(
-            catchError(err => throwError(() => new BadRequestException(err.message))))
-        )
+        return lastValueFrom(this.categoryClient.createCategory({ ...newCategory, icon }).pipe(catchResponceError));
     }
 
     public async getCategoryPrivate(categoryUrl: Category['url']): Promise<Category> {
-        return lastValueFrom(this.categoryClient.getCategoryPrivate({ url: categoryUrl }));
+        return lastValueFrom(this.categoryClient.getCategoryPrivate({ url: categoryUrl }).pipe(catchResponceError));
     }
 
     public async updateCategory(categoryId: Category['id'], updates: CategoryCU): Promise<Empty> {
-        return await lastValueFrom(this.categoryClient.updateCategory({ id: categoryId, data: updates }));
+        return await lastValueFrom(
+            this.categoryClient.updateCategory({ id: categoryId, data: updates }).pipe(catchResponceError)
+        );
     }
 
     // public async deleteCategory(id: CategoryI['id']): Promise<DeleteResult> {

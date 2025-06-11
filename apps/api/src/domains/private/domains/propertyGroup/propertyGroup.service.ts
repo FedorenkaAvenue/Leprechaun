@@ -1,6 +1,6 @@
 import { ClientGrpc } from '@nestjs/microservices';
-import { BadRequestException, Inject, Injectable, NotFoundException, OnModuleInit } from '@nestjs/common';
-import { catchError, lastValueFrom, throwError } from 'rxjs';
+import { Inject, Injectable, OnModuleInit } from '@nestjs/common';
+import { lastValueFrom } from 'rxjs';
 
 import {
     PROPERTY_GROUP_SERVICE_NAME, PropertyGroup, PropertyGroupCU, PropertyGroupPreview, PropertyGroupServiceClient,
@@ -8,6 +8,7 @@ import {
 } from '@gen/prop_group';
 import { Empty } from '@gen/google/protobuf/empty';
 import { PROP_GROUP_PACKAGE } from './propertyGroup.constants';
+import { catchResponceError } from '@pipes/operators';
 
 @Injectable()
 export default class PropertyGroupPrivateService implements OnModuleInit {
@@ -20,25 +21,17 @@ export default class PropertyGroupPrivateService implements OnModuleInit {
     }
 
     public async createGroup(newGroup: PropertyGroupCU): Promise<PropertyGroup> {
-        return lastValueFrom(
-            this.propGroupClient.createGroup(newGroup).pipe(
-                catchError(({ details }) => throwError(() => new BadRequestException(details)))
-            )
-        );
+        return lastValueFrom(this.propGroupClient.createGroup(newGroup).pipe(catchResponceError));
     }
 
     public async getGroupPrivate(id: PropertyGroup['id']): Promise<PropertyGroup> {
-        return await lastValueFrom(
-            this.propGroupClient.getGroupPrivate({ id }).pipe(
-                catchError(({ details }) => throwError(() => new NotFoundException(details)))
-            )
-        );
+        return await lastValueFrom(this.propGroupClient.getGroupPrivate({ id }).pipe(catchResponceError));
     }
 
     public async getGroupListPrivate(): Promise<PropertyGroupPreview[]> {
         const { items } = await lastValueFrom(this.propGroupClient.getGroupListPrivate({ ids: [] }));
 
-        return items || [];
+        return items;
     }
 
     // public async getGroupListByCategoryID(id: CategoryI['id']): Promise<PropertyGroupPreviewI[]> {
@@ -48,10 +41,10 @@ export default class PropertyGroupPrivateService implements OnModuleInit {
     // }
 
     async updateGroup(updates: PropertyGroupUpdateParams): Promise<Empty> {
-        return await lastValueFrom(this.propGroupClient.updateGroup(updates));
+        return await lastValueFrom(this.propGroupClient.updateGroup(updates).pipe(catchResponceError));
     }
 
-    // public async deleteGroup(groupId: number): Promise<DeleteResult> {
-    //     return await this.propertyGroupRepo.delete({ id: groupId });
-    // }
+    public async deleteGroup(groupId: number): Promise<Empty> {
+        return this.propGroupClient.deleteGroup({ id: groupId });
+    }
 }

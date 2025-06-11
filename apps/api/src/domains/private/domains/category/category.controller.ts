@@ -1,5 +1,5 @@
 import {
-    Controller, Get, Param, Body, UseInterceptors, Post, UploadedFile, ValidationPipe, UseGuards, Patch,
+    Controller, Get, Param, Body, UseInterceptors, Post, UploadedFile, ValidationPipe, UseGuards, Patch, Delete,
 } from '@nestjs/common';
 import {
     ApiBadRequestResponse, ApiBody, ApiNotFoundResponse, ApiOkResponse, ApiOperation, ApiTags,
@@ -12,8 +12,9 @@ import { AuthJWTAccessGuard } from '@guards/auth.guard';
 import { UserRoleDecorator } from '@common/user/user.decorator';
 import { UserRole } from '@gen/user';
 import { CategoryCUSchema, CategoryPreviewSchema, CategorySchema, CategoryUpdateSchema } from './category.schema';
-import { Category, CategoryPreview } from '@gen/category';
+import { Category } from '@gen/category';
 import { Empty } from '@gen/google/protobuf/empty';
+import { CategoryPreview } from '@gen/category_preview';
 
 @Controller('category')
 @UseGuards(AuthJWTAccessGuard, UserRoleGuard)
@@ -65,11 +66,10 @@ export default class CategoryController {
 
     // @Delete(':categoryID')
     // @UserRoleDecorator(UserRole.ADMIN)
-    // @UseInterceptors(AffectedResultInterceptor('category not found'), CacheClearInterceptor)
     // @ApiOperation({ summary: 'delete category by ID' })
     // @ApiOkResponse({ description: 'success' })
     // @ApiNotFoundResponse({ description: 'category not found' })
-    // private deleteCategory(@Param('categoryID') categoryID: number): Promise<DeleteResult> {
+    // private deleteCategory(@Param('categoryID') categoryID: number): Promise<void> {
     //     return this.categoryService.deleteCategory(categoryID);
     // }
 }

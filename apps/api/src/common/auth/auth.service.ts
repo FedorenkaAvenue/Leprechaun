@@ -1,10 +1,11 @@
-import { Inject, Injectable, NotFoundException, OnModuleInit } from "@nestjs/common";
+import { Inject, Injectable, OnModuleInit } from "@nestjs/common";
 import { ClientGrpc } from "@nestjs/microservices";
 import { lastValueFrom } from "rxjs";
 
 import { AuthSignInDTO } from "./auth.dto";
 import { AUTH_SERVICE_NAME, AuthServiceClient, AuthJWT } from "@gen/auth";
 import { AUTH_PACKAGE } from "./auth.constants";
+import { catchResponceError } from "@pipes/operators";
 
 @Injectable()
 export default class AuthService implements OnModuleInit {
@@ -17,12 +18,6 @@ export default class AuthService implements OnModuleInit {
     }
 
     public async signIn(payload: AuthSignInDTO): Promise<AuthJWT> {
-        try {
-            const res = await lastValueFrom(this.authServiceClient.signIn({ ...payload }));
-
-            return res;
-        } catch (err: any) {
-            throw new NotFoundException('invalid credentials');
-        }
+        return await lastValueFrom(this.authServiceClient.signIn({ ...payload }).pipe(catchResponceError));
     }
 }

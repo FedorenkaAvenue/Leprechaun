@@ -20,7 +20,7 @@ export default class TransService {
     async getTrans(id: Trans['id']): Promise<Trans> {
         const trans = await this.transRepo.findOneBy({ id });
 
-        if (!trans) throw new RpcException({ code: status.NOT_FOUND, message: 'Trans not found' });
+        if (!trans) throw new RpcException({ code: status.NOT_FOUND, message: `Trans with id ${id}not found` });
 
         return trans;
     }

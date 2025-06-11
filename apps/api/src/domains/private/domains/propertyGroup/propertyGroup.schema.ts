@@ -3,6 +3,8 @@ import { ApiProperty } from "@nestjs/swagger";
 import { Property, PropertyGroup, PropertyGroupCU, PropertyGroupPreview } from "@gen/prop_group";
 import { TransData } from "@gen/trans";
 import { TransSchema } from "@common/trans/trans.schema";
+import { CategoryPreview } from "@gen/category_preview";
+import { CategorySchema } from "../category/category.schema";
 
 export class PropertyGroupPreviewSchema implements PropertyGroupPreview {
     @ApiProperty()
@@ -30,6 +32,9 @@ export class PropertyGroupPreviewSchema implements PropertyGroupPreview {
 export class PropertyGroupSchema extends PropertyGroupPreviewSchema implements PropertyGroup {
     @ApiProperty({ type: () => PropertySchema, isArray: true })
     properties: Property[];
+
+    @ApiProperty({ type: () => CategorySchema, isArray: true })
+    categories: CategoryPreview[];
 }
 
 export class PropertySchema implements Property {

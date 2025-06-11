@@ -14,9 +14,9 @@ interface Props extends Omit<DeleteButtonProps, 'buttonTitle' | 'modalTitle' | '
 function ModalContent({ id }: { id: PropertyGroup['id'] }) {
     const { data, isFetching } = usePropertyGroup(id);
     const categoriesLen = data?.categories.length;
-    const propertiesLen = data?.properties?.length;
+    const propertiesLen = data?.properties.length;
 
-    if (!categoriesLen || !propertiesLen) return null;
+    if (!categoriesLen && !propertiesLen) return null;
 
     return isFetching
         ? <CircularProgress />

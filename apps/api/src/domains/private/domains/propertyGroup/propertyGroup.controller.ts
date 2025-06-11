@@ -1,5 +1,5 @@
 import {
-    Body, Controller, Delete, Get, Param, Patch, Post, UseGuards, UseInterceptors,
+    Body, Controller, Delete, Get, Param, Patch, Post, UseGuards,
 } from '@nestjs/common';
 import { ApiBadRequestResponse, ApiNotFoundResponse, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 
@@ -63,12 +63,11 @@ export default class PropertyGroupPrivateController {
         return this.propertyGroupService.getGroupPrivate(groupID);
     }
 
-    // @Delete(':groupID')
-    // @UserRoleDecorator(UserRole.ADMIN)
-    // @UseInterceptors(AffectedResultInterceptor('property group not found'))
-    // @ApiOperation({ summary: 'delete property group by ID' })
-    // @ApiNotFoundResponse({ description: 'property group not found' })
-    // private deleteGroup(@Param('groupID') groupID: number): Promise<DeleteResult> {
-    //     return this.propertyGroupService.deleteGroup(groupID);
-    // }
+    @Delete(':groupID')
+    @UserRoleDecorator(UserRole.ADMIN)
+    @ApiOperation({ summary: 'delete property group by ID' })
+    @ApiNotFoundResponse({ description: 'property group not found' })
+    private deleteGroup(@Param('groupID') groupID: number): Promise<Empty> {
+        return this.propertyGroupService.deleteGroup(groupID);
+    }
 }

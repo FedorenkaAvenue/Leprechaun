@@ -4,7 +4,7 @@ import { PropertyGroup } from 'gen/ts/prop_group';
 import { PropertyEntity } from '../property/property.entity';
 
 @Entity('propertygroup')
-export class PropertyGroupEntity implements Omit<PropertyGroup, 'title' | 'properties'> {
+export class PropertyGroupEntity implements Omit<PropertyGroup, 'title' | 'properties' | 'categories'> {
     @PrimaryGeneratedColumn('rowid')
     id: number;
 

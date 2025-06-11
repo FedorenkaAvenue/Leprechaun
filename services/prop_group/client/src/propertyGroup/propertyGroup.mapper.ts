@@ -1,6 +1,7 @@
 import { PropertyGroup, PropertyGroupPreview } from "gen/ts/prop_group";
 import { PropertyGroupEntity } from "./propertyGroup.entity";
 import { TransMap } from "gen/ts/trans";
+import { CategoryPreview } from "gen/ts/category_preview";
 
 export default class PropertyGroupMapper {
     static toPreview(group: PropertyGroupEntity, transMap: TransMap['items']): PropertyGroupPreview {
@@ -10,10 +11,14 @@ export default class PropertyGroupMapper {
         };
     }
 
-    static toView(group: PropertyGroupEntity, transMap: TransMap['items']): PropertyGroup {
+    static toView(group: PropertyGroupEntity, transMap: TransMap['items'], categories: CategoryPreview[]): PropertyGroup {
         return {
             ...this.toPreview(group, transMap),
-            properties: group.properties.map(prop => ({ ...prop, title: transMap[prop.title] }))
+            properties: group.properties.map(prop => ({
+                ...prop,
+                title: transMap[prop.title],
+            })),
+            categories,
         };
     }
 }
