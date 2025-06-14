@@ -1,4 +1,7 @@
 services:
+
+  ### INFRA
+
   server:
     restart: unless-stopped
     build:
@@ -10,6 +13,13 @@ services:
       - ./infra/server/conf/leprechaun.dev.conf:/etc/nginx/conf.d/leprechaun.dev.conf
     depends_on:
       - app_admin
+
+  events:
+    restart: unless-stopped
+    volumes:
+      - ./infra/events/rabbitmq.config:/etc/rabbitmq/conf.d/rabbitmq.config
+    ports:
+      - ${EVENTS_PORT_UI_EXPOSE}:15672
 
   # s3:
   #   restart: unless-stopped
@@ -26,14 +36,6 @@ services:
   #   restart: unless-stopped
   #   volumes:
   #     - ./db/cache/redis.conf:/app/redis.conf
-  
-  # broker_net:
-  #   restart: unless-stopped
-  #   image: rabbitmq:4-management-alpine
-  #   volumes:
-  #     - ./broker/net/rabbitmq.config:/etc/rabbitmq/conf.d/rabbitmq.config
-  #   ports:
-  #     - ${BROKER_NET_UI_PORT_EXPOSE}:15672
 
   ### APPS
 

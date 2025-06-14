@@ -64,12 +64,12 @@ export default class CategoryController {
         return this.categoryService.getCategoryPrivate(categoryUrl);
     }
 
-    // @Delete(':categoryID')
-    // @UserRoleDecorator(UserRole.ADMIN)
-    // @ApiOperation({ summary: 'delete category by ID' })
-    // @ApiOkResponse({ description: 'success' })
-    // @ApiNotFoundResponse({ description: 'category not found' })
-    // private deleteCategory(@Param('categoryID') categoryID: number): Promise<void> {
-    //     return this.categoryService.deleteCategory(categoryID);
-    // }
+    @Delete(':categoryID')
+    @UserRoleDecorator(UserRole.ADMIN)
+    @ApiOperation({ summary: 'delete category by ID' })
+    @ApiOkResponse({ description: 'success' })
+    @ApiNotFoundResponse({ description: 'category not found' })
+    private deleteCategory(@Param('categoryID') categoryID: Category['id']): Promise<Empty> {
+        return this.categoryService.deleteCategory(categoryID);
+    }
 }

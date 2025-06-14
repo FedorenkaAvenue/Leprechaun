@@ -14,12 +14,13 @@ import {
     TransUpdateParams,
 } from "gen/ts/trans";
 import { Empty } from "gen/ts/google/protobuf/empty";
+import { TRANS_PACKAGE } from "./trans.constants";
 
 @Injectable()
 export default class TransService implements OnModuleInit {
     private transClient: TransServiceClient;
 
-    constructor(@Inject('TRANS_PACKAGE') private client: ClientGrpc) { }
+    constructor(@Inject(TRANS_PACKAGE) private client: ClientGrpc) { }
 
     onModuleInit() {
         this.transClient = this.client.getService<TransServiceClient>(TRANS_SERVICE_NAME);

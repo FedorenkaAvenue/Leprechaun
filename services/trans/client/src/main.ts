@@ -8,7 +8,9 @@ import { TRANS_PACKAGE_NAME } from 'gen/ts/trans';
 
 async function bootstrap() {
     const config = new ConfigService();
-    const app = await NestFactory.createMicroservice<MicroserviceOptions>(AppModule, {
+    const app = await NestFactory.create(AppModule);
+
+    app.connectMicroservice<MicroserviceOptions>({
         transport: Transport.GRPC,
         options: {
             package: TRANS_PACKAGE_NAME,
@@ -20,7 +22,19 @@ async function bootstrap() {
         },
     });
 
-    await app.listen();
+    app.connectMicroservice<MicroserviceOptions>({
+        transport: Transport.RMQ,
+        options: {
+            ...config.getRMQConnectionData(),
+            queue: 'trans.crud',
+            queueOptions: { durable: false },
+            routingKey: '#',
+            exchange: 'entity.crud',
+            exchangeType: 'topic',
+        },
+    });
+
+    await app.startAllMicroservices();
 }
 
 bootstrap();

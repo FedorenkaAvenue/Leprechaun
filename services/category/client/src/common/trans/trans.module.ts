@@ -2,7 +2,7 @@ import { Module } from "@nestjs/common";
 import { ClientsModule, Transport } from "@nestjs/microservices";
 import { join } from "path";
 
-import TransService from "./trans.service";
+import { TransService } from "./trans.service";
 import ConfigModule from "../config/config.module";
 import ConfigService from "../config/config.service";
 import { TRANS_PACKAGE_NAME } from "gen/ts/trans";

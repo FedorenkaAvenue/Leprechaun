@@ -76,4 +76,14 @@ export default class ConfigService {
             forcePathStyle: true,
         })
     }
+
+    /**
+    * @description get RMQ connection data
+    * @returns 
+    */
+    getRMQConnectionData() {
+        return {
+            urls: [`amqp://${this.getVal('EVENTS_HOST')}:${this.getVal('EVENTS_PORT')}`],
+        };
+    }
 }

@@ -7,6 +7,7 @@ import PropertyGroupService from "./propertyGroup.service";
 import PropertyGroupController from "./propertyGroup.controller";
 import TransModule from "@common/trans/trans.module";
 import CategoryModule from "@common/category/category.module";
+import EventModule from "@common/event/event.module";
 
 @Module({
     imports: [
@@ -14,6 +15,7 @@ import CategoryModule from "@common/category/category.module";
         PropertyModule,
         TransModule,
         CategoryModule,
+        EventModule,
     ],
     controllers: [PropertyGroupController],
     providers: [PropertyGroupService],

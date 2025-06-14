@@ -10,6 +10,7 @@ import { PropertyGroup, PropertyGroupCU, PropertyGroupPreview } from 'gen/ts/pro
 import TransService from '@common/trans/trans.service';
 import PropertyGroupMapper from './propertyGroup.mapper';
 import CategoryService from '@common/category/category.service';
+import EventService from '@common/event/event.service';
 
 @Injectable()
 export default class PropertyGroupService {
@@ -17,6 +18,7 @@ export default class PropertyGroupService {
         @InjectRepository(PropertyGroupEntity) private readonly propertyGroupRepo: Repository<PropertyGroupEntity>,
         private readonly transService: TransService,
         private readonly categoryService: CategoryService,
+        private readonly eventService: EventService,
     ) { }
 
     public createGroup(newGroup: PropertyGroupCU): Observable<PropertyGroup> {
@@ -116,7 +118,6 @@ export default class PropertyGroupService {
     }
 
     public deleteGroup(id: PropertyGroup['id']): Observable<void> {
-        //TODO remove prop groups from category
         return from(this.propertyGroupRepo.findOneBy({ id })).pipe(
             switchMap(group => {
                 if (!group) {
@@ -130,7 +131,7 @@ export default class PropertyGroupService {
 
                 return from(this.propertyGroupRepo.delete({ id })).pipe(
                     map(() => {
-                        this.transService.deleteTrans({ id: group.title })
+                        this.eventService.deleteGroup(group);
                     }),
                     catchError(err => throwError(() => new RpcException(err)))
                 )

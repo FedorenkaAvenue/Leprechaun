@@ -22,7 +22,7 @@ export default class CategoryEntity implements Omit<Category, 'title' | 'propert
     @Column({ nullable: true })
     icon: string;
 
-    @Column({ nullable: true, select: false })
+    @Column({ nullable: true })
     iconId: string;
 
     @Column({ type: 'varchar', nullable: true })

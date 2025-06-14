@@ -1,4 +1,7 @@
 services:
+
+  ### INFRA
+
   server:
     container_name: leprechaun-infra-server
     networks:
@@ -15,6 +18,14 @@ services:
     depends_on:
       - app_api
       - app_client
+
+  events:
+    container_name: leprechaun-infra-events
+    image: rabbitmq:4-management-alpine
+    ports:
+      - ${EVENTS_PORT_EXPOSE}:${EVENTS_PORT}
+    networks:
+      - api_domain
 
 #   s3:
 #     image: minio/minio
@@ -58,13 +69,6 @@ services:
 #     ports:
 #       - ${CACHE_PORT_EXPOSE}:${CACHE_PORT}
 
-#   broker_net:
-#     container_name: leprechaun_broker_net
-#     ports:
-#       - ${BROKER_NET_PORT_EXPOSE}:5672
-#     networks:
-#       - api
-
   ### APSS
 
   app_api:
@@ -88,6 +92,7 @@ services:
       - CATEGORY_SERVICE_CLIENT_PORT
       - APP_NAME
     depends_on:
+      - events
       - service_auth_client
       - service_propgroup_client
       - service_user_client
@@ -185,6 +190,8 @@ services:
       - POSTGRES_DATABASE=${PROPGROUP_SERVICE_DB_DATABASE}
       - CATEGORY_SERVICE_CLIENT_HOST
       - CATEGORY_SERVICE_CLIENT_PORT
+      - EVENTS_HOST
+      - EVENTS_PORT
     networks:
       - api_domain
       - propgroup_service
@@ -214,6 +221,8 @@ services:
       - POSTGRES_HOST=${TRANS_SERVICE_DB_HOST}
       - POSTGRES_PORT=${TRANS_SERVICE_DB_PORT}
       - POSTGRES_DATABASE=${TRANS_SERVICE_DB_DATABASE}
+      - EVENTS_HOST
+      - EVENTS_PORT
     networks:
       - api_domain
       - trans_service
@@ -251,6 +260,8 @@ services:
       - TRANS_SERVICE_CLIENT_PORT
       - PROPGROUP_SERVICE_CLIENT_HOST
       - PROPGROUP_SERVICE_CLIENT_PORT
+      - EVENTS_HOST
+      - EVENTS_PORT
     networks:
       - api_domain
       - category_service

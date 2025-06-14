@@ -1,4 +1,4 @@
-import { Raw, Repository } from 'typeorm';
+import { Raw, Repository, UpdateResult } from 'typeorm';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { catchError, forkJoin, from, lastValueFrom, map, Observable, of, switchMap, throwError } from 'rxjs';
@@ -10,11 +10,12 @@ import CategoryEntity from './category.entity';
 import { CategoryCreateDTO } from './category.dto';
 import S3Service from '@common/s3/s3.service';
 import { S3Bucket } from '@common/s3/s3.enum';
-import TransService from '@common/trans/trans.service';
+import { TransService } from '@common/trans/trans.service';
 import CategoryMapper from './category.mapper';
 import PropertyGroupService from '@common/propertyGroup/propertyGroup.service';
 import { PropertyGroup } from 'gen/ts/prop_group';
 import { CategoryPreview } from 'gen/ts/category_preview';
+import EventService from '@common/event/event.service';
 
 @Injectable()
 export default class CategoryService {
@@ -23,12 +24,13 @@ export default class CategoryService {
         private readonly s3Service: S3Service,
         private readonly transService: TransService,
         private readonly propertyGroupService: PropertyGroupService,
+        private readonly eventService: EventService,
     ) { }
 
     public getCategoryList(): Observable<CategoryPreview[]> {
         return from(this.categoryRepo.find({ order: { createdAt: 'DESC' } })).pipe(
             switchMap(categories => {
-                if (!categories.length) return [];
+                if (!categories.length) return of([]);
 
                 return from(
                     this.transService.getTransMap({ ids: categories.map(cat => cat.title) })
@@ -69,15 +71,13 @@ export default class CategoryService {
         ));
     }
 
-    public getCategory(categoryUrl: Category['url']): Observable<Category> {
-        return from(this.categoryRepo.findOne({
-            where: { url: categoryUrl },
-        })).pipe(
+    public getCategory(id?: Category['id'], url?: Category['url']): Observable<Category> {
+        return from(this.categoryRepo.findOne({ where: { url, id } })).pipe(
             switchMap(category => {
                 if (!category) {
                     return throwError(() =>
                         new RpcException({
-                            message: `category with url ${categoryUrl} not found`,
+                            message: `category with id ${id} not found`,
                             code: status.NOT_FOUND,
                         })
                     );
@@ -121,9 +121,7 @@ export default class CategoryService {
             })
         ).pipe(
             switchMap(categories => {
-                if (!categories.length) {
-                    return of([]); // повертаємо порожній масив, як у оригіналі
-                }
+                if (!categories.length) return of([]);
 
                 return this.transService.getTransMap({
                     ids: categories.map(cat => cat.title),
@@ -138,16 +136,30 @@ export default class CategoryService {
         );
     }
 
-    // public async deleteCategory(id: CategoryI['id']): Promise<DeleteResult> {
-    //     const category = await this.categoryRepo.findOne({
-    //         where: { id },
-    //         select: { id: true, icon_id: true },
-    //     });
+    public async deleteCategory(id: Category['id']): Promise<void> {
+        const category = await this.categoryRepo.findOne({ where: { id } });
 
-    //     const res = await this.categoryRepo.delete({ id });
+        if (!category) throw new RpcException({ code: status.NOT_FOUND, message: `category with id ${id} not found` });
 
-    //     if (category?.icon_id) await this.FSService.deleteFile(FSBucket.CATEGORY, category.icon_id);
+        await this.categoryRepo.delete({ id });
 
-    //     return res;
-    // }
+        if (category?.iconId) this.s3Service.deleteFile(S3Bucket.CATEGORY_ICONS, category.iconId);
+
+        this.eventService.deleteCategory(category);
+    }
+
+    /**
+     * @description remove property group from category.propertyGroups.
+     * triggers by 'propgroup.delete' event
+     */
+    public async removePropertyGroup(id: PropertyGroup['id']): Promise<UpdateResult> {
+        return await this.categoryRepo
+            .createQueryBuilder()
+            .update(CategoryEntity)
+            .set({
+                propertyGroups: () => `array_remove(propertyGroups, ${id})`,
+            })
+            .where(`propertyGroups @> ARRAY[${id}]`)
+            .execute();
+    }
 }

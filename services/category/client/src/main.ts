@@ -8,7 +8,9 @@ import { CATEGORY_PACKAGE_NAME } from 'gen/ts/category';
 
 async function bootstrap() {
     const config = new ConfigService();
-    const app = await NestFactory.createMicroservice<MicroserviceOptions>(AppModule, {
+    const app = await NestFactory.create(AppModule);
+
+    app.connectMicroservice<MicroserviceOptions>({
         transport: Transport.GRPC,
         options: {
             package: CATEGORY_PACKAGE_NAME,
@@ -17,7 +19,20 @@ async function bootstrap() {
         },
     });
 
-    await app.listen();
+    app.connectMicroservice<MicroserviceOptions>({
+        transport: Transport.RMQ,
+        options: {
+            ...config.getRMQConnectionData(),
+            queue: 'category.crud',
+            queueOptions: { durable: false },
+            routingKey: '#',
+            exchange: 'entity.crud',
+            exchangeType: 'topic',
+        },
+    });
+
+    await app.startAllMicroservices();
+    await app.init();
 }
 
 bootstrap();

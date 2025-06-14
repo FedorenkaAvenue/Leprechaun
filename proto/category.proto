@@ -17,6 +17,7 @@ service CategoryService {
     rpc getCategoryPrivateList(google.protobuf.Empty) returns (CategoryPrivateList);
     rpc getCategoryPrivate(CategorySearchParams) returns (Category);
     rpc getCategoryListByPropertyGroups(CategoryWithPropertyGroupsSearchParams) returns (CategoryPrivateList);
+    rpc deleteCategory(CategorySearchParams) returns (google.protobuf.Empty);
 }
 
 message Category {
@@ -52,7 +53,8 @@ message CategoryPrivateList {
 }
 
 message CategorySearchParams {
-    string url = 1;
+    optional int32 id = 1;
+    optional string url = 2;
 }
 
 message CategoryWithPropertyGroupsSearchParams {

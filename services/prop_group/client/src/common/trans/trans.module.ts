@@ -6,12 +6,13 @@ import TransService from "./trans.service";
 import ConfigModule from "../config/config.module";
 import ConfigService from "../config/config.service";
 import { TRANS_PACKAGE_NAME } from "gen/ts/trans";
+import { TRANS_PACKAGE } from "./trans.constants";
 
 @Module({
     imports: [
         ClientsModule.registerAsync([
             {
-                name: 'TRANS_PACKAGE',
+                name: TRANS_PACKAGE,
                 imports: [ConfigModule],
                 inject: [ConfigService],
                 useFactory: (configService: ConfigService) => ({

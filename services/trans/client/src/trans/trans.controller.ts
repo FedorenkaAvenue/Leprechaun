@@ -41,7 +41,7 @@ export default class TransController implements TransServiceController {
         return this.transService.updateTrans(id, data);
     }
 
-    deleteTrans(request: TransSearchParams): void {
-        throw new Error("Method not implemented.");
+    deleteTrans({ id }: TransSearchParams): Promise<void> {
+        return this.transService.deleteTrans(id);
     }
 }

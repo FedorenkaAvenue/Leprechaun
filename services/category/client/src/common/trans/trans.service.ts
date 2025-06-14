@@ -16,7 +16,7 @@ import {
 import { Empty } from "gen/ts/google/protobuf/empty";
 
 @Injectable()
-export default class TransService implements OnModuleInit {
+export class TransService implements OnModuleInit {
     private transClient: TransServiceClient;
 
     constructor(@Inject('TRANS_PACKAGE') private client: ClientGrpc) { }

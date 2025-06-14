@@ -28,6 +28,7 @@ Boilerplate for web store
     -   http://api.leprechaun.loc/socket.io/ websocket public (customer) API
     -   http://localhost:1080 _Mailcatcher_
     -   http://localhost:9010 _MinIO_ (S3) **category** UI admin panel
+    -   http://localhost:15672 events UI panel
 
 <!-- -   remote test server
 

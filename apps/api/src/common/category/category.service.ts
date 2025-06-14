@@ -31,8 +31,8 @@ export default class CategoryService implements OnModuleInit {
         return lastValueFrom(this.categoryClient.createCategory({ ...newCategory, icon }).pipe(catchResponceError));
     }
 
-    public async getCategoryPrivate(categoryUrl: Category['url']): Promise<Category> {
-        return lastValueFrom(this.categoryClient.getCategoryPrivate({ url: categoryUrl }).pipe(catchResponceError));
+    public async getCategoryPrivate(url: Category['url']): Promise<Category> {
+        return lastValueFrom(this.categoryClient.getCategoryPrivate({ url }).pipe(catchResponceError));
     }
 
     public async updateCategory(categoryId: Category['id'], updates: CategoryCU): Promise<Empty> {
@@ -41,16 +41,7 @@ export default class CategoryService implements OnModuleInit {
         );
     }
 
-    // public async deleteCategory(id: CategoryI['id']): Promise<DeleteResult> {
-    //     const category = await this.categoryRepo.findOne({
-    //         where: { id },
-    //         select: { id: true, icon_id: true },
-    //     });
-
-    //     const res = await this.categoryRepo.delete({ id });
-
-    //     if (category?.icon_id) await this.FSService.deleteFile(FSBucket.CATEGORY, category.icon_id);
-
-    //     return res;
-    // }
+    public async deleteCategory(id: Category['id']): Promise<Empty> {
+        return this.categoryClient.deleteCategory({ id }).pipe(catchResponceError);
+    }
 }

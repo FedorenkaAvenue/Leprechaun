@@ -1,3 +1,8 @@
+import { map, Observable } from "rxjs";
+import { Controller } from "@nestjs/common";
+import { RpcException } from "@nestjs/microservices";
+import { status } from "@grpc/grpc-js";
+
 import {
     Category,
     CategoryCU,
@@ -13,16 +18,16 @@ import { ValidateDTO } from "@shared/decorators/ValidateDTO.decorator";
 import { CategoryCreateDTO, CategoryUpdateDTO } from "./category.dto";
 import { Empty } from "gen/ts/google/protobuf/empty";
 import { CategoryPreview } from "gen/ts/category_preview";
-import { map, Observable } from "rxjs";
 
+@Controller()
 @CategoryServiceControllerMethods()
 export default class CategoryController implements CategoryServiceController {
     constructor(
         private readonly categoryService: CategoryService,
     ) { }
 
-    getCategoryPrivate({ url }: CategorySearchParams): Observable<Category> {
-        return this.categoryService.getCategory(url);
+    getCategoryPrivate({ id, url }: CategorySearchParams): Observable<Category> {
+        return this.categoryService.getCategory(id, url);
     }
 
     @ValidateDTO(CategoryCreateDTO)
@@ -47,5 +52,14 @@ export default class CategoryController implements CategoryServiceController {
         return this.categoryService.getCategoryListByPropertyGroups(propertyGroupId).pipe(
             map(items => ({ items }))
         );
+    }
+
+    deleteCategory({ id }: CategorySearchParams): Promise<void> {
+        if (!id) throw new RpcException({
+            code: status.INVALID_ARGUMENT,
+            message: `no category id provided`,
+        });
+
+        return this.categoryService.deleteCategory(id);
     }
 }

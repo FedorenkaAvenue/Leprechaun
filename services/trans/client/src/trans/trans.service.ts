@@ -40,6 +40,12 @@ export default class TransService {
     async updateTrans(id: Trans['id'], data: TransData): Promise<void> {
         const { affected } = await this.transRepo.update({ id }, { data });
 
-        if (!affected) throw new RpcException({ code: status.NOT_FOUND, message: 'Trans doesnt changed' });
+        if (!affected) throw new RpcException({ code: status.NOT_FOUND, message: 'Trans is not changed' });
+    }
+
+    async deleteTrans(id: Trans['id']): Promise<void> {
+        const { affected } = await this.transRepo.delete({ id });
+
+        if (!affected) throw new RpcException({ code: status.NOT_FOUND, message: 'Trans is not deleted' });
     }
 }
