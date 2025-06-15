@@ -6,7 +6,7 @@ import routerSubConfig from "@shared/config/router";
 import TooltipContent from "@shared/ui/TooltipContent";
 import TransList from "@shared/ui/TransList";
 import Image from "@shared/ui/Image";
-import { CategoryPreview } from "../model/interfaces";
+import { CategoryPreview } from "@gen/_category_preview";
 
 interface Props {
     category: CategoryPreview

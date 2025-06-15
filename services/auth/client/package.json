@@ -1,10 +1,8 @@
 {
-    "name": "auth_service_client",
+    "name": "auth_service_client_app",
     "version": "0.0.1",
     "description": "",
     "author": "",
-    "private": true,
-    "license": "UNLICENSED",
     "engines": {
         "node": "20.19.*",
         "npm": "10.8.*",

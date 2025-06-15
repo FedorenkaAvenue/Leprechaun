@@ -1,11 +1,11 @@
 import { toast } from 'react-toastify';
 
-import { PropertyGroup, PropertyGroupPreview } from '../model/interfaces';
-import { Category } from '@entities/category/model/interfaces';
 import { rootApi } from '@shared/api';
 import { PropertyGroupCreateDTO, PropertyGroupUpdateDTO } from '@features/propertyGroup/api/dto';
-import { Property } from '@entities/property/model/interfaces';
 import { PropertyCreateDTO } from '@features/property/api/dto';
+import { PropertyGroup, PropertyGroupPreview } from '@gen/property_group';
+import { Property } from '@gen/_property';
+import { Category } from '@gen/category';
 
 export const propertyGroupApi = rootApi.injectEndpoints({
     endpoints: build => ({

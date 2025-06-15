@@ -1,7 +1,7 @@
 import { FC, ReactNode } from 'react';
 
-import { User } from '@entities/user/model/interfaces';
 import { TableCell, TableRow } from '@mui/material';
+import { User } from '@gen/user';
 
 interface Props {
     user: User

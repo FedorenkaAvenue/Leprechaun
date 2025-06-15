@@ -6,7 +6,7 @@ import { status } from '@grpc/grpc-js';
 
 import UserEntity from './user.entity';
 import { User } from './user.interface';
-import { UserRole } from 'gen/ts/user';
+import { UserRole } from 'gen/user';
 
 @Injectable()
 export class UserService {

@@ -8,22 +8,22 @@ const MAX_FILE_SIZE = 10000000;
 const step1 = z.object({
     title: transSchema,
     description: transSchema,
-    price_current: z.preprocess(val => {
+    priceCurrent: z.preprocess(val => {
         if (val === "") return;
 
         return typeof val === 'string' ? parseFloat(val) : val;
     }, z.number().positive().min(1)),
-    price_old: z.preprocess(val => {
+    priceOld: z.preprocess(val => {
         if (val === "") return;
 
         return typeof val === 'string' ? parseFloat(val) : val;
     }, z.number().positive().optional()),
-    is_public: z.boolean(),
+    isPublic: z.boolean(),
     status: productStatusSchema,
     rating: z.preprocess(val => {
         return typeof val === 'string' ? parseFloat(val) : val;
     }, z.number().positive().min(1).max(100)),
-    is_new: z.boolean(),
+    isNew: z.boolean(),
     comment: z.string().optional(),
 })
 // .refine(

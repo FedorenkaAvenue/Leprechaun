@@ -12,8 +12,8 @@ import {
     TransSearchParams,
     TransServiceClient,
     TransUpdateParams,
-} from "gen/ts/trans";
-import { Empty } from "gen/ts/google/protobuf/empty";
+} from "gen/trans";
+import { Empty } from "gen/google/protobuf/empty";
 import { TRANS_PACKAGE } from "./trans.constants";
 
 @Injectable()

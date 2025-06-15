@@ -3,22 +3,22 @@ import { join } from 'path';
 import { ClientsModule, Transport } from '@nestjs/microservices';
 
 import PropertyGroupPrivateController from './propertyGroup.controller';
-import { PROP_GROUP_PACKAGE } from './propertyGroup.constants';
+import { property_group_PACKAGE } from './propertyGroup.constants';
 import ConfigService from '@modules/config/config.service';
-import { PROP_GROUP_PACKAGE_NAME } from '@gen/prop_group';
 import PropertyGroupPrivateService from './propertyGroup.service';
+import { PROPERTY_GROUP_PACKAGE_NAME } from '@gen/property_group';
 
 @Module({
     imports: [
         ClientsModule.registerAsync([
             {
-                name: PROP_GROUP_PACKAGE,
+                name: property_group_PACKAGE,
                 inject: [ConfigService],
                 useFactory: (configService: ConfigService) => ({
                     transport: Transport.GRPC,
                     options: {
-                        package: PROP_GROUP_PACKAGE_NAME,
-                        protoPath: join(__dirname, '../../../../../../proto/prop_group.proto'),
+                        package: PROPERTY_GROUP_PACKAGE_NAME,
+                        protoPath: join(__dirname, '../../../../../../proto/property_group.proto'),
                         url: `${configService.getVal('PROPGROUP_SERVICE_CLIENT_HOST')}:${configService.getVal('PROPGROUP_SERVICE_CLIENT_PORT')}`,
                         loader: {
                             longs: Number,

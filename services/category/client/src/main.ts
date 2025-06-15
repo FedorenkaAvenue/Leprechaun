@@ -4,7 +4,7 @@ import { join } from 'path';
 
 import { AppModule } from './app.module';
 import ConfigService from '@common/config/config.service';
-import { CATEGORY_PACKAGE_NAME } from 'gen/ts/category';
+import { CATEGORY_PACKAGE_NAME } from 'gen/category';
 
 async function bootstrap() {
     const config = new ConfigService();

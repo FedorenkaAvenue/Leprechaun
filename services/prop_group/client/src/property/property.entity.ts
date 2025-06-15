@@ -3,7 +3,8 @@ import {
 } from 'typeorm';
 
 import { PropertyGroupEntity } from '../propertyGroup/propertyGroup.entity';
-import { Property, PropertyGroup } from 'gen/ts/prop_group';
+import { Property } from 'gen/_property';
+import { PropertyGroup } from 'gen/property_group';
 
 @Entity('property')
 export class PropertyEntity implements Omit<Property, 'title'> {

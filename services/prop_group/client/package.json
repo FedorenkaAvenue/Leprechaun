@@ -1,10 +1,13 @@
 {
-    "name": "prop_group_client",
+    "name": "prop_group_client_app",
     "version": "0.0.1",
     "description": "service client for product properties and product property groups",
     "author": "August Luzanovsky",
-    "private": true,
-    "license": "UNLICENSED",
+    "engines": {
+        "node": "20.19.*",
+        "npm": "10.8.*",
+        "yarn": "1.22.*"
+    },
     "scripts": {
         "build": "nest build",
         "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",

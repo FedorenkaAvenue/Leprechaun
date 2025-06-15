@@ -1,7 +1,7 @@
 import { Observable } from 'rxjs';
 
 import { AuthService } from './auth.service';
-import { AuthServiceController, AuthJWT, SignInParams, AuthServiceControllerMethods } from 'gen/ts/auth';
+import { AuthServiceController, AuthJWT, SignInParams, AuthServiceControllerMethods } from 'gen/auth';
 
 @AuthServiceControllerMethods()
 export class AuthController implements AuthServiceController {

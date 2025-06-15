@@ -7,7 +7,7 @@ import TransList from "@shared/ui/TransList";
 import ProductTogglePublic from "@features/product/ui/ProductTogglePublic";
 import ProductStatusSelect from "@features/product/ui/ProductStatusSelect";
 import Image from '@shared/ui/Image';
-import { ProductPreview } from "../model/interfaces";
+import { ProductPreview } from "@gen/product";
 
 interface Props {
     product: ProductPreview
@@ -42,7 +42,7 @@ const ProductPreviewEntity = ({ product, renderTools }: Props) => {
                 }
             </TableCell>
             <TableCell align="right">
-                <ProductTogglePublic productId={product.id} selected={product.is_public} />
+                <ProductTogglePublic productId={product.id} selected={product.isPublic} />
             </TableCell>
             <TableCell align="right">
                 <ProductStatusSelect productId={product.id} value={product.status} size='small' />

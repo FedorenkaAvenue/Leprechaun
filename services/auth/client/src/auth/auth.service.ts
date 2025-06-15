@@ -5,11 +5,11 @@ import { RpcException } from '@nestjs/microservices';
 import { status } from '@grpc/grpc-js';
 
 import { JWTPayload, JWTSuccessTokens } from './auth.interface';
-import UserService from '../user/user.service';
-import CryptoService from '../crypto/crypto.service';
-import { User } from 'gen/ts/user';
-import ConfigService from '../config/config.service';
-import { AuthJWT, SignInParams } from 'gen/ts/auth';
+import { User } from 'gen/user';
+import { AuthJWT, SignInParams } from 'gen/auth';
+import UserService from '@common/user/user.service';
+import CryptoService from '@common/crypto/crypto.service';
+import ConfigService from '@common/config/config.service';
 
 @Injectable()
 export class AuthService {

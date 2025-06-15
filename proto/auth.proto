@@ -8,12 +8,17 @@ service AuthService {
     rpc SignIn (SignInParams) returns (AuthJWT);
 }
 
-message SignInParams {
-    string email = 1;
-    string password = 2;
-}
+// entities
+
 
 message AuthJWT {
     string accessToken = 1;
     string refreshToken = 2;
+}
+
+// requests
+
+message SignInParams {
+    string email = 1;
+    string password = 2;
 }

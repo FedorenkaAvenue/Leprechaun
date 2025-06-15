@@ -1,6 +1,6 @@
 import { Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
 
-import { PropertyGroup } from 'gen/ts/prop_group';
+import { PropertyGroup } from 'gen/property_group';
 import { PropertyEntity } from '../property/property.entity';
 
 @Entity('propertygroup')

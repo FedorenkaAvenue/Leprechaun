@@ -1,10 +1,13 @@
 {
-  "name": "category",
+  "name": "category_service_client_app",
   "version": "0.0.1",
   "description": "",
-  "author": "",
-  "private": true,
-  "license": "UNLICENSED",
+  "author": "August Luzanovsky",
+  "engines": {
+    "node": "20.19.*",
+    "npm": "10.8.*",
+    "yarn": "1.22.*"
+  },
   "scripts": {
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",

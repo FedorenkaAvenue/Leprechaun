@@ -1,10 +1,10 @@
 import Switch from "@mui/material/Switch";
 import { FC } from "react";
 
-import { Category } from "@entities/category/model/interfaces";
 import { useUpdateCategory } from "../model/hooks";
 import withRoleGuardComponent from "@shared/hocs/withRoleGuardComponent";
-import { UserRole } from "@entities/user/model/enums";
+import { Category } from "@gen/category";
+import { UserRole } from "@gen/user";
 
 interface Props {
     categoryId: Category['id']

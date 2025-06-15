@@ -1,5 +1,5 @@
-import { User } from "@entities/user/model/interfaces";
 import { rootApi } from "@shared/api";
+import { User } from '@gen/user'
 
 export const employerApi = rootApi.injectEndpoints({
     endpoints: build => ({

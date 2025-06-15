@@ -6,13 +6,13 @@ import { UserRole } from '@gen/user';
 import { UserRoleDecorator } from '@common/user/user.decorator';
 import { UserRoleGuard } from '@common/user/user.guard';
 import { AuthJWTAccessGuard } from '@guards/auth.guard';
-import { Property } from '@gen/prop_group';
+import { Property } from '@gen/_property';
 import PropertyPrivateService from './property.service';
 import { Empty } from '@gen/google/protobuf/empty';
 
 @Controller('property')
 @UseGuards(AuthJWTAccessGuard, UserRoleGuard)
-@ApiTags('Property')
+@ApiTags('Property 👨🏿‍💼')
 export default class PropertyPrivateController {
     constructor(private readonly propertyService: PropertyPrivateService) { }
 

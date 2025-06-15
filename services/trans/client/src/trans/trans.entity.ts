@@ -1,6 +1,6 @@
 import { Column, Entity, Generated, PrimaryColumn } from 'typeorm';
 
-import { Trans, TransData } from 'gen/ts/trans';
+import { Trans, TransData } from 'gen/trans';
 
 class TransDataEntity implements TransData {
     @Column({ nullable: true })

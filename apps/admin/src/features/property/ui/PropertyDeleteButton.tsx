@@ -2,11 +2,11 @@ import { FC } from "react";
 import DeleteIcon from '@mui/icons-material/Delete';
 
 import ConfirmButton from "@shared/ui/ConfirmButton";
-import { Property } from "@entities/property/model/interfaces";
 import { useRemoveProperty } from "../models/hook";
 import withRoleGuardComponent from "@shared/hocs/withRoleGuardComponent";
-import { UserRole } from "@entities/user/model/enums";
-import { PropertyGroup } from "@entities/propertyGroup/model/interfaces";
+import { Property } from "@gen/_property";
+import { PropertyGroup } from "@gen/property_group";
+import { UserRole } from "@gen/user";
 
 interface Props {
     property: Property

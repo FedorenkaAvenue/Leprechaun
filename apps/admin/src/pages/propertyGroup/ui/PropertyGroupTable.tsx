@@ -29,6 +29,7 @@ const PropertyGroupTablePage = () => {
                                 <TableCell sx={{ fontWeight: 700 }} align="left">Tools</TableCell>
                                 <TableCell sx={{ fontWeight: 700 }} align="right">Alt name</TableCell>
                                 <TableCell sx={{ fontWeight: 700 }} align='right'>Titles</TableCell>
+                                <TableCell sx={{ fontWeight: 700 }} align='right'>Properties</TableCell>
                                 <TableCell sx={{ fontWeight: 700 }} align="right">Is primary</TableCell>
                                 <TableCell sx={{ fontWeight: 700 }} align="right">Comment</TableCell>
                             </TableRow>

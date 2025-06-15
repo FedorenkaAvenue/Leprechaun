@@ -1,5 +1,5 @@
 import mapPropertyListToOptions from "@entities/property/lib/mapToOptions";
-import { PropertyGroupPreview } from "@entities/propertyGroup/model/interfaces";
+import { PropertyGroupPreview } from "@gen/property_group";
 import Select, { CustomSelectProps } from "@shared/ui/Select";
 
 type Props = {

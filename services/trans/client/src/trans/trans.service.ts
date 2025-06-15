@@ -4,7 +4,7 @@ import { In, Repository } from "typeorm";
 import { RpcException } from "@nestjs/microservices";
 import { status } from '@grpc/grpc-js';
 
-import { Trans, TransData } from "gen/ts/trans";
+import { Trans, TransData } from "gen/trans";
 import { TransEntity } from "./trans.entity";
 
 @Injectable()

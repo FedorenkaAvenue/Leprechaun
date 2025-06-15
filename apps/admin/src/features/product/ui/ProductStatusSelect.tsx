@@ -3,11 +3,10 @@ import { SelectChangeEvent } from "@mui/material";
 
 import Select, { CustomSelectProps } from "@shared/ui/Select";
 import productStatusOptions from "@entities/product/constants/productStatusOptions";
-import { Product } from "@entities/product/model/interfaces";
-import { ProductStatus } from "@entities/product/model/enums";
 import { useUpdateProduct } from "../model/hook";
 import withRoleGuardComponent from "@shared/hocs/withRoleGuardComponent";
-import { UserRole } from "@entities/user/model/enums";
+import { Product, ProductStatus } from "@gen/product";
+import { UserRole } from "@gen/user";
 
 type Props = {
     productId: Product['id']

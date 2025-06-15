@@ -1,4 +1,4 @@
-import { User } from "gen/ts/user";
+import { User } from "gen/user";
 
 export type JWTPayload = Pick<User, 'id' | 'role'>
 

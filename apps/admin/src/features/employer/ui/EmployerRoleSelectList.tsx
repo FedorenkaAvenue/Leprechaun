@@ -1,10 +1,9 @@
 import { forwardRef, ReactNode } from "react";
 
 import Select, { CustomSelectProps } from "@shared/ui/Select";
-import { UserRole } from "@entities/user/model/enums";
 import { USER_ROLE_OPTIONS } from "@entities/user/constants/userRoleOptions";
 import withRoleGuardComponent from "@shared/hocs/withRoleGuardComponent";
-import { User } from "@entities/user/model/interfaces";
+import { User, UserRole } from "@gen/user";
 
 type Props = {
     userId: User['id']

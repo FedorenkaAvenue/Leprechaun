@@ -2,9 +2,9 @@ import Switch from "@mui/material/Switch";
 import { FC } from "react";
 
 import { useUpdatePropertyGroup } from "../models/hooks";
-import { PropertyGroup } from "@entities/propertyGroup/model/interfaces";
 import withRoleGuardComponent from "@shared/hocs/withRoleGuardComponent";
-import { UserRole } from "@entities/user/model/enums";
+import { PropertyGroup } from "@gen/property_group";
+import { UserRole } from "@gen/user";
 
 interface Props {
     groupId: PropertyGroup['id']

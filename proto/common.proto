@@ -12,3 +12,28 @@ message File {
     bytes buffer = 5;
     int32 size = 6;
 }
+
+message Pagination {
+    int32 currentPage = 1;
+    int32 totalCount = 2;
+    int32 pageCount = 3;
+}
+
+message QueryCommonParams {
+    string lang = 1;
+}
+
+message QueryPriceParams {
+    int32 min = 1;
+    int32 max = 2;
+}
+
+message QueryPaginationParams {
+    int32 page =2;
+    int32 portion = 3;
+}
+
+message Image {
+    string id = 1;
+    string src = 2;
+}

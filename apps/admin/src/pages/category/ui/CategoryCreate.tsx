@@ -9,7 +9,7 @@ import PropertyGroupSelectList from '@widgets/propertyGroup/ui/PropertyGroupSele
 import { useCreateCategory } from '@features/category/model/hooks';
 import { CategoryCreateDTO } from '@features/category/api/dto';
 import withRoleGuardPage from '@shared/hocs/withRoleGuardPage';
-import { UserRole } from '@entities/user/model/enums';
+import { UserRole } from '@gen/user';
 
 const CategoryCreatePage = () => {
     const nav = useNavigate();

@@ -3,8 +3,8 @@ import { MicroserviceOptions, Transport } from '@nestjs/microservices';
 import { join } from 'path';
 
 import { AppModule } from './app.module';
-import ConfigService from './config/config.service';
-import { AUTH_PACKAGE_NAME } from 'gen/ts/auth';
+import ConfigService from './common/config/config.service';
+import { AUTH_PACKAGE_NAME } from 'gen/auth';
 
 async function bootstrap() {
     const config = new ConfigService();

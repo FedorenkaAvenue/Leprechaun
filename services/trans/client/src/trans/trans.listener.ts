@@ -16,4 +16,12 @@ export default class TransListener {
     private categoryDeleteListener(@Payload() request: any): void {
         this.transService.deleteTrans(request.title);
     }
+
+    @EventPattern('product.deleted')
+    private productDeleteListener(@Payload() request: any): void {
+        Promise.all([
+            this.transService.deleteTrans(request.title),
+            this.transService.deleteTrans(request.description),
+        ]);
+    }
 }

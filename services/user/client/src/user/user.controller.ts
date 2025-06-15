@@ -1,5 +1,5 @@
 import { UserService } from './user.service';
-import { User, UserSearchParams, UserList, UserServiceController, UserServiceControllerMethods } from 'gen/ts/user';
+import { User, UserSearchParams, UserList, UserServiceController, UserServiceControllerMethods } from 'gen/user';
 
 @UserServiceControllerMethods()
 export class UserController implements UserServiceController {

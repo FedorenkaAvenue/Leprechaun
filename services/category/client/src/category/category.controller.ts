@@ -12,12 +12,12 @@ import {
     CategoryServiceControllerMethods,
     CategoryUpdateParams,
     CategoryWithPropertyGroupsSearchParams,
-} from "gen/ts/category";
+} from "gen/category";
 import CategoryService from "./category.service";
 import { ValidateDTO } from "@shared/decorators/ValidateDTO.decorator";
 import { CategoryCreateDTO, CategoryUpdateDTO } from "./category.dto";
-import { Empty } from "gen/ts/google/protobuf/empty";
-import { CategoryPreview } from "gen/ts/category_preview";
+import { Empty } from "gen/google/protobuf/empty";
+import { CategoryPreview } from "gen/category_preview";
 
 @Controller()
 @CategoryServiceControllerMethods()
@@ -26,8 +26,12 @@ export default class CategoryController implements CategoryServiceController {
         private readonly categoryService: CategoryService,
     ) { }
 
-    getCategoryPrivate({ id, url }: CategorySearchParams): Observable<Category> {
+    getCategory({ id, url }: CategorySearchParams): Observable<Category> {
         return this.categoryService.getCategory(id, url);
+    }
+
+    getCategoryPreview({ id, url }: CategorySearchParams): Observable<CategoryPreview> {
+        return this.categoryService.getCategoryPreview(id, url);
     }
 
     @ValidateDTO(CategoryCreateDTO)
@@ -35,7 +39,7 @@ export default class CategoryController implements CategoryServiceController {
         return this.categoryService.createCategory(body);
     }
 
-    getCategoryPrivateList(request: Empty): Observable<CategoryPrivateList> {
+    getCategoryList(request: Empty): Observable<CategoryPrivateList> {
         return this.categoryService.getCategoryList().pipe(
             map(res => ({ items: res }))
         );

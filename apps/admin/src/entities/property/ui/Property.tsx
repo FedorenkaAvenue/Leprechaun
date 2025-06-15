@@ -3,7 +3,7 @@ import { ReactNode } from "react";
 
 import TooltipContent from "@shared/ui/TooltipContent";
 import TransList from "@shared/ui/TransList";
-import { Property } from "../model/interfaces";
+import { Property } from "@gen/_property";
 
 interface Props {
     property: Property

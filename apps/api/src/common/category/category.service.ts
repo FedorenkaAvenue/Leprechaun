@@ -20,7 +20,7 @@ export default class CategoryService implements OnModuleInit {
     }
 
     public async getCategoryPrivateList(): Promise<CategoryPreview[]> {
-        const { items } = await lastValueFrom(this.categoryClient.getCategoryPrivateList({}).pipe(catchResponceError));
+        const { items } = await lastValueFrom(this.categoryClient.getCategoryList({}).pipe(catchResponceError));
 
         return items;
     }
@@ -32,7 +32,7 @@ export default class CategoryService implements OnModuleInit {
     }
 
     public async getCategoryPrivate(url: Category['url']): Promise<Category> {
-        return lastValueFrom(this.categoryClient.getCategoryPrivate({ url }).pipe(catchResponceError));
+        return lastValueFrom(this.categoryClient.getCategory({ url }).pipe(catchResponceError));
     }
 
     public async updateCategory(categoryId: Category['id'], updates: CategoryCU): Promise<Empty> {

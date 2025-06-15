@@ -9,6 +9,7 @@ import TransModule from '@common/trans/trans.module';
 import PropertyGroupModule from '@common/propertyGroup/propertyGroup.module';
 import EventModule from '@common/event/event.module';
 import CategoryListener from './category.listener';
+import ProductModule from '@common/product/product.module';
 
 @Module({
     imports: [
@@ -17,6 +18,7 @@ import CategoryListener from './category.listener';
         TransModule,
         PropertyGroupModule,
         EventModule,
+        ProductModule,
     ],
     controllers: [CategoryController, CategoryListener],
     providers: [CategoryService],

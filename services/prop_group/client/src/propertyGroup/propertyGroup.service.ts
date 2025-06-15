@@ -1,16 +1,19 @@
 import { Injectable } from '@nestjs/common';
 import { In, Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
-import { catchError, forkJoin, from, map, Observable, of, switchMap, tap, throwError } from 'rxjs';
+import { catchError, forkJoin, from, map, Observable, of, switchMap, throwError } from 'rxjs';
 import { RpcException } from '@nestjs/microservices';
 import { status } from '@grpc/grpc-js';
 
 import { PropertyGroupEntity } from './propertyGroup.entity';
-import { PropertyGroup, PropertyGroupCU, PropertyGroupPreview } from 'gen/ts/prop_group';
+import { PropertyGroup, PropertyGroupCU, PropertyGroupPreview } from 'gen/property_group';
 import TransService from '@common/trans/trans.service';
 import PropertyGroupMapper from './propertyGroup.mapper';
 import CategoryService from '@common/category/category.service';
 import EventService from '@common/event/event.service';
+import { Category } from 'gen/category';
+import { Property } from 'gen/_property';
+import { PropertyEntity } from 'src/property/property.entity';
 
 @Injectable()
 export default class PropertyGroupService {
@@ -93,6 +96,49 @@ export default class PropertyGroupService {
                 )
             })
         )
+    }
+
+    public getGroupListByCategoryID(id: Category['id']): Observable<PropertyGroupPreview[]> {
+        return this.categoryService.getCategory(id).pipe(map(({ propertyGroups }) => propertyGroups));
+    }
+
+    public getGroupListByProperties(ids: Property['id'][]): Observable<PropertyGroupPreview[]> {
+        return from(
+            this.propertyGroupRepo
+                .createQueryBuilder('group')
+                .leftJoinAndSelect(
+                    'group.properties',
+                    'property',
+                    'property.id IN (:...ids)',
+                    { ids }
+                )
+                .where(qb => {
+                    const subQuery = qb
+                        .subQuery()
+                        .select('p.propertyGroup')
+                        .from(PropertyEntity, 'p')
+                        .where('p.id IN (:...ids)', { ids })
+                        .getQuery();
+
+                    return 'group.id IN ' + subQuery;
+                })
+                .getMany()
+        ).pipe(
+            switchMap(propGroups => {
+                if (!propGroups.length) return of([]);
+
+                return from(
+                    this.transService.getTransMap({
+                        ids: [
+                            ...propGroups.map(p => p.title),
+                            ...propGroups.map(p => p.properties.map(prop => prop.title)).flat()
+                        ],
+                    })
+                ).pipe(
+                    map(transMap => propGroups.map(group => PropertyGroupMapper.toPreview(group, transMap.items)))
+                )
+            })
+        );
     }
 
     public updateGroup(id: PropertyGroup['id'], { title, ...restUpdates }: PropertyGroupCU): Observable<void> {

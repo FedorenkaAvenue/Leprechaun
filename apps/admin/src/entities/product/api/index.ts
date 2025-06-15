@@ -1,22 +1,22 @@
 import { toast } from "react-toastify";
 import { toFormData } from "axios";
 
-import { Product, ProductListUrlQueryParams, ProductPreview } from "../model/interfaces";
 import { Pagination } from "@shared/models/interfaces";
 import { rootApi } from "@shared/api";
 import { ProductCreateDTO, ProductUpdateDTO } from "@features/product/api/dto";
+import { Product, ProductPreview } from "@gen/product";
 
 export const productApi = rootApi.injectEndpoints({
     endpoints: build => ({
         product: build.query<Product, Product['id']>({
             query: id => ({
-                url: `/private/product/${id}`,
+                url: `/product/${id}`,
             }),
             providesTags: (_, __, id) => [{ type: 'product', id }],
         }),
-        productList: build.query<Pagination<ProductPreview[]>, ProductListUrlQueryParams>({
-            query: (args: ProductListUrlQueryParams) => ({
-                url: '/private/product/list',
+        productList: build.query<Pagination<ProductPreview[]>, Record<string, string>>({
+            query: (args: Record<string, string>) => ({
+                url: '/product/list',
                 params: args,
             }),
             providesTags: (_, __, args) => args
@@ -28,7 +28,7 @@ export const productApi = rootApi.injectEndpoints({
         }),
         createProduct: build.mutation<void, { newProduct: ProductCreateDTO, successCallback?: () => void }>({
             query: ({ newProduct }) => ({
-                url: '/private/product',
+                url: '/product',
                 method: 'POST',
                 body: toFormData(newProduct),
             }),
@@ -41,7 +41,7 @@ export const productApi = rootApi.injectEndpoints({
         }),
         updateProduct: build.mutation<void, { id: Product['id'], updates: ProductUpdateDTO }>({
             query: ({ id, updates }) => ({
-                url: `/private/product/${id}`,
+                url: `/product/${id}`,
                 method: 'PATCH',
                 body: toFormData(updates),
             }),
@@ -63,7 +63,7 @@ export const productApi = rootApi.injectEndpoints({
         }),
         removeProduct: build.mutation<undefined, { productId: Product['id'], successCallback?: () => void }>({
             query: ({ productId }) => ({
-                url: `/private/product/${productId}`,
+                url: `/product/${productId}`,
                 method: 'DELETE',
             }),
             // invalidatesTags: (_, __, id) => ([{ type: 'product', id }, 'product_list']), // ? after removing always triggers invalidate and server returns 404

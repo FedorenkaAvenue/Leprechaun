@@ -5,7 +5,7 @@ import { join } from "path";
 import TransService from "./trans.service";
 import ConfigModule from "../config/config.module";
 import ConfigService from "../config/config.service";
-import { TRANS_PACKAGE_NAME } from "gen/ts/trans";
+import { TRANS_PACKAGE_NAME } from "gen/trans";
 import { TRANS_PACKAGE } from "./trans.constants";
 
 @Module({

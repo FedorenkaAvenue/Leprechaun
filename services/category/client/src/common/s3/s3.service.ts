@@ -3,7 +3,8 @@ import { S3Client, PutObjectCommand, DeleteObjectCommand } from '@aws-sdk/client
 
 import ConfigService from '../config/config.service';
 import { S3Bucket } from './s3.enum';
-import { File } from 'gen/ts/common';
+import { File } from 'gen/common';
+import { Category } from 'gen/category';
 
 @Injectable()
 export default class S3Service {
@@ -11,6 +12,14 @@ export default class S3Service {
 
     constructor(private readonly configService: ConfigService) {
         this.s3 = new S3Client(configService.getFSClient());
+    }
+
+    public async uploadCategoryIcon(icon: File, categoryUrl: Category['url']): Promise<{ id: string, url: string }> {
+        return await this.uploadFile(icon, S3Bucket.CATEGORY_ICONS, categoryUrl);
+    }
+
+    public async deleteCategoryIcon(iconId: string): Promise<void> {
+        return await this.deleteFile(S3Bucket.CATEGORY_ICONS, iconId);
     }
 
     /**
@@ -23,7 +32,7 @@ export default class S3Service {
      *      url: file URL,
      *  }
      */
-    public async uploadFile(
+    private async uploadFile(
         file: File, bucket: S3Bucket, prefix: string | number,
     ): Promise<{ id: string, url: string }> {
         const filePath = `${String(prefix)}.${file.originalname}`;
@@ -52,7 +61,7 @@ export default class S3Service {
      * @param {FSBucket} bucketName 
      * @param {String} fileName
      */
-    public async deleteFile(bucketName: S3Bucket, fileName: string) {
+    private async deleteFile(bucketName: S3Bucket, fileName: string) {
         try {
             await this.s3.send(new DeleteObjectCommand({ Bucket: bucketName, Key: fileName }));
         } catch (err) {

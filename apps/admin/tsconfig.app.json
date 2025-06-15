@@ -13,7 +13,8 @@
 			"@widgets/*": ["./src/widgets/*"],
 			"@entities/*": ["./src/entities/*"],
 			"@features/*": ["./src/features/*"],
-			"@app/*": ["./src/app/*"]
+			"@app/*": ["./src/app/*"],
+			"@gen/*": ["./gen/*"]
 		},
 
 		/* Bundler mode */
@@ -30,5 +31,6 @@
 		"noUnusedParameters": true,
 		"noFallthroughCasesInSwitch": true
 	},
-	"include": ["src"]
+	"include": ["src"],
+	"exclude": ["gen"]
 }

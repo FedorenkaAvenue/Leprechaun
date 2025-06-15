@@ -12,7 +12,7 @@ import Empty from "@shared/ui/Empty";
 import PropertyTableWidget from "@widgets/property/ui/PropertyTable";
 import PropertyCreateWidget from "@widgets/property/ui/PropertyCreate";
 import { usePropertyGroup } from "@entities/propertyGroup/model/hooks";
-import { PropertyGroupPreview } from "@entities/propertyGroup/model/interfaces";
+import { PropertyGroupPreview } from "@gen/property_group";
 
 const PropertyGroupPage = () => {
     const { id } = useParams();

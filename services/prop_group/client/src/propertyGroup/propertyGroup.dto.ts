@@ -1,6 +1,6 @@
 import { IsBoolean, IsNotEmpty, IsOptional, IsString } from 'class-validator';
 
-import { PropertyGroupCU } from 'gen/ts/prop_group';
+import { PropertyGroupCU } from 'gen/property_group';
 
 export class PropertyGroupCreateDTO implements Omit<PropertyGroupCU, 'title'> {
     @IsNotEmpty()

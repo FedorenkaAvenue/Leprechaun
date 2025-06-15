@@ -1,8 +1,8 @@
 import { ReactNode } from "react";
 
-import { PropertyGroup } from "../model/interfaces";
-import { CategoryPreview } from "@entities/category/model/interfaces";
-import { Property } from "@entities/property/model/interfaces";
+import { CategoryPreview } from "@gen/_category_preview";
+import { Property } from "@gen/_property";
+import { PropertyGroup } from "@gen/property_group";
 
 interface Props {
     group: PropertyGroup | undefined

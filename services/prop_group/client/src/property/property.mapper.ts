@@ -1,6 +1,6 @@
-import { Property } from "gen/ts/prop_group";
+import { Property } from "gen/_property";
 import { PropertyEntity } from "./property.entity";
-import { TransData } from "gen/ts/trans";
+import { TransData } from "gen/trans";
 
 export default class PropertyMapper {
     static toView(property: PropertyEntity, titleTrans: TransData): Property {

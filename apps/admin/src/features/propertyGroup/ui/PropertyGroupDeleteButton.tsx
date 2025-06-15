@@ -1,10 +1,10 @@
 import DeleteButton, { DeleteButtonProps } from '@shared/ui/DeleteButton';
 import { CircularProgress } from "@mui/material";
-import { PropertyGroup, PropertyGroupPreview } from '@entities/propertyGroup/model/interfaces';
 import { usePropertyGroup } from '@entities/propertyGroup/model/hooks';
 import { useRemovePropertyGroup } from '../models/hooks';
 import withRoleGuardComponent from '@shared/hocs/withRoleGuardComponent';
-import { UserRole } from '@entities/user/model/enums';
+import { PropertyGroup, PropertyGroupPreview } from '@gen/property_group';
+import { UserRole } from '@gen/user';
 
 interface Props extends Omit<DeleteButtonProps, 'buttonTitle' | 'modalTitle' | 'handleAgree' | 'onAgree'> {
     group: PropertyGroupPreview

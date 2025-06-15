@@ -1,8 +1,8 @@
 import { IsNotEmpty, IsOptional, IsString, IsBoolean, IsNumber } from 'class-validator';
 
-import { CategoryCU } from 'gen/ts/category';
-import { File } from 'gen/ts/common';
-import { TransData } from 'gen/ts/trans';
+import { CategoryCU } from 'gen/category';
+import { File } from 'gen/common';
+import { TransData } from 'gen/trans';
 
 export class CategoryCreateDTO implements CategoryCU {
     title: TransData;
@@ -27,25 +27,23 @@ export class CategoryCreateDTO implements CategoryCU {
     comment: string;
 }
 
-export class CategoryUpdateDTO implements CategoryCU {
-    title: TransData;
-
+export class CategoryUpdateDTO implements Partial<CategoryCU> {
     @IsOptional()
     @IsString()
-    url: string;
+    url?: string;
 
     @IsOptional()
     @IsBoolean()
-    isPublic: boolean;
+    isPublic?: boolean;
 
     @IsOptional()
     icon?: File;
 
     @IsOptional()
     @IsNumber({}, { each: true })
-    propertyGroups: number[];
+    propertyGroups?: number[];
 
     @IsOptional()
     @IsString()
-    comment: string;
+    comment?: string;
 }

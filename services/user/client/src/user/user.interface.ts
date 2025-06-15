@@ -1,4 +1,4 @@
-import { UserRole } from "gen/ts/user";
+import { UserRole } from "gen/user";
 
 export type UserDTO = Partial<Pick<User, 'id' | 'email'>>;
 

@@ -24,6 +24,7 @@
             "@features/*": ["./src/features/*"],
             "@widgets/*": ["./src/widgets/*"],
             "@public/*": ["./public/*"],
+            "@gen/*": ["./gen/*"],
             "@root/*": ["./*"]
         },
         "target": "ES2017"

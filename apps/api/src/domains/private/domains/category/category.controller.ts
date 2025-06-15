@@ -18,7 +18,7 @@ import { CategoryPreview } from '@gen/category_preview';
 
 @Controller('category')
 @UseGuards(AuthJWTAccessGuard, UserRoleGuard)
-@ApiTags('Category')
+@ApiTags('Category 👨🏿‍💼')
 export default class CategoryController {
     constructor(private readonly categoryService: CategoryService) { }
 

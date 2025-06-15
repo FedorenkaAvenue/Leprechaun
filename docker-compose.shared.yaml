@@ -6,3 +6,6 @@ services:
   # go:
   #   image: golang:1.24.3-alpine
   #   working_dir: /app
+
+  s3:
+    image: minio/minio

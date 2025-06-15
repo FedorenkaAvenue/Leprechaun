@@ -1,17 +1,28 @@
-import { Observable } from "rxjs";
+import { map, Observable } from "rxjs";
 
 import PropertyService from "./property.service";
 import {
-    Property, PropertyCU, PropertySearchParams, PropertyServiceController, PropertyServiceControllerMethods,
-} from "gen/ts/prop_group";
+    Property,
+    PropertyCU,
+    PropertyList,
+    PropertyListSearchParams,
+    PropertySearchParams,
+} from "gen/_property";
 import { CreatePropertyDTO } from "./property.dto";
 import { ValidateDTO } from "@shared/decorators/ValidateDTO.decorator";
+import { PropertyServiceController, PropertyServiceControllerMethods } from "gen/property_group";
 
 @PropertyServiceControllerMethods()
 export default class PropertyController implements PropertyServiceController {
     constructor(
         private readonly propertyService: PropertyService,
     ) { }
+
+    getPropertyList({ ids }: PropertyListSearchParams): Observable<PropertyList> {
+        return this.propertyService.getPropertyList(ids).pipe(
+            map(res => ({ items: res }))
+        );
+    }
 
     @ValidateDTO(CreatePropertyDTO)
     public createProperty(data: PropertyCU): Observable<Property> {

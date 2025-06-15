@@ -15,6 +15,8 @@ service TransService {
     rpc DeleteTrans (TransSearchParams) returns (google.protobuf.Empty);
 }
 
+// entities
+
 message TransData {
     string en = 1;
     string ua = 2;
@@ -26,6 +28,8 @@ message Trans {
     TransData data = 2;
 }
 
+// responces
+
 message TransList {
     repeated Trans items = 1;
 }
@@ -33,6 +37,8 @@ message TransList {
 message TransMap {
     map<int32, TransData> items = 1;
 }
+
+// requests
 
 message TransUpdateParams {
     int32 id = 1;

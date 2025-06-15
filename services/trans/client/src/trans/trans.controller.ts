@@ -8,14 +8,12 @@ import {
     TransServiceController,
     TransServiceControllerMethods,
     TransUpdateParams,
-} from "gen/ts/trans";
+} from "gen/trans";
 import TransService from "./trans.service";
 
 @TransServiceControllerMethods()
 export default class TransController implements TransServiceController {
-    constructor(
-        private readonly transService: TransService,
-    ) { }
+    constructor(private readonly transService: TransService) { }
 
     getTrans({ id }: TransSearchParams): Promise<Trans> {
         return this.transService.getTrans(id);

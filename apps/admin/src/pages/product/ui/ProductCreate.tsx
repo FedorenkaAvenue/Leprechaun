@@ -20,11 +20,11 @@ import useQueryParam from "@shared/lib/useQueryParam";
 import { PRODUCT_CREATE_URL_QUERY_PARAMS } from "@features/product/constants/urlQueryParams";
 import { useCategoryList } from "@entities/category/model/hooks";
 import { usePropertyGroupListByCategoryId } from "@entities/propertyGroup/model/hooks";
-import { ProductStatus } from "@entities/product/model/enums";
 import { useCreateProduct } from "@features/product/model/hook";
 import withRoleGuardPage from "@shared/hocs/withRoleGuardPage";
-import { UserRole } from "@entities/user/model/enums";
 import { ProductCreateDTO } from "@features/product/api/dto";
+import { ProductStatus } from "@gen/product";
+import { UserRole } from "@gen/user";
 
 const STEPS = ["Main info", "Properties", "Images"];
 
@@ -54,17 +54,17 @@ function Step1() {
             <div>
                 <Typography>Price</Typography>
                 <div className="flex gap-2">
-                    <TextInput {...register('price_current')} type='number' r label="current" error={errors.price_current?.message} />
-                    <TextInput {...register('price_old')} type='number' label="old" error={errors.price_old?.message} />
+                    <TextInput {...register('priceCurrent')} type='number' r label="current" error={errors.priceCurrent?.message} />
+                    <TextInput {...register('priceOld')} type='number' label="old" error={errors.priceOld?.message} />
                 </div>
             </div>
             <FormControl sx={{ flexDirection: 'row' }}>
                 <FormControlLabel control={
-                    <Switch {...register('is_public')} defaultChecked={true} />
+                    <Switch {...register('isPublic')} defaultChecked={true} />
                 }
                     label="public" />
                 <FormControlLabel control={
-                    <Switch {...register('is_new')} defaultChecked={true} />
+                    <Switch {...register('isNew')} defaultChecked={true} />
                 }
                     label="new" />
                 <Select {...register('status')} value={getValues('status')} options={productStatusOptions} />

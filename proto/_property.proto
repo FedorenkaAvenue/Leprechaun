@@ -1,0 +1,42 @@
+syntax = "proto3";
+
+package property;
+
+option go_package = "./property;property_v1";
+
+import "google/protobuf/timestamp.proto";
+import "trans.proto";
+
+// entities
+
+message Property {
+    int32 id = 1;
+    trans.TransData title = 2;
+    string altName = 3;
+    string comment = 4;
+    google.protobuf.Timestamp createdAt = 5;
+    google.protobuf.Timestamp updatedAt = 6;
+}
+
+// requests
+
+message PropertyCU {
+    trans.TransData title = 1;
+    string altName = 2;
+    string comment = 3;
+    int32 propertyGroup = 4;
+}
+
+message PropertyListSearchParams {
+    repeated int32 ids = 1;
+}
+
+message PropertySearchParams {
+    int32 id = 1;
+}
+
+// responce
+
+message PropertyList {
+    repeated property.Property items = 1;
+}

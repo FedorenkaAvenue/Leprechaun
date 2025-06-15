@@ -8,17 +8,21 @@ import "google/protobuf/timestamp.proto";
 import "google/protobuf/empty.proto";
 import "trans.proto";
 import "common.proto";
-import "prop_group.proto";
-import "category_preview.proto";
+import "property_group.proto";
+import "_category_preview.proto";
+import "product.proto";
 
 service CategoryService {
     rpc createCategory(CategoryCU) returns (category_preview.CategoryPreview);
     rpc updateCategory(CategoryUpdateParams) returns (google.protobuf.Empty);
-    rpc getCategoryPrivateList(google.protobuf.Empty) returns (CategoryPrivateList);
-    rpc getCategoryPrivate(CategorySearchParams) returns (Category);
+    rpc getCategoryList(google.protobuf.Empty) returns (CategoryPrivateList);
+    rpc getCategory(CategorySearchParams) returns (Category);
+    rpc getCategoryPreview(CategorySearchParams) returns (category_preview.CategoryPreview);
     rpc getCategoryListByPropertyGroups(CategoryWithPropertyGroupsSearchParams) returns (CategoryPrivateList);
     rpc deleteCategory(CategorySearchParams) returns (google.protobuf.Empty);
 }
+
+// entities
 
 message Category {
     int32 id = 1;
@@ -30,9 +34,11 @@ message Category {
     string comment = 7;
     google.protobuf.Timestamp createdAt = 8;
     google.protobuf.Timestamp updatedAt = 9;
-    // products: ProductPreviewI[] | null
-    repeated prop_group.PropertyGroupPreview propertyGroups = 10;
+    repeated product.ProductPreview products = 10;
+    repeated property_group.PropertyGroupPreview propertyGroups = 11;
 }
+
+// requests
 
 message CategoryCU {
     string url = 1;
@@ -48,10 +54,6 @@ message CategoryUpdateParams {
     CategoryCU data = 2;
 }
 
-message CategoryPrivateList {
-    repeated category_preview.CategoryPreview items = 1;
-}
-
 message CategorySearchParams {
     optional int32 id = 1;
     optional string url = 2;
@@ -59,4 +61,11 @@ message CategorySearchParams {
 
 message CategoryWithPropertyGroupsSearchParams {
     int32 propertyGroupId = 1;
+}
+
+
+// responces
+
+message CategoryPrivateList {
+    repeated category_preview.CategoryPreview items = 1;
 }

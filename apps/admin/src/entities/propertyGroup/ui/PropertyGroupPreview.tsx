@@ -4,7 +4,7 @@ import { Link } from "react-router";
 
 import TooltipContent from "@shared/ui/TooltipContent";
 import TransList from "@shared/ui/TransList";
-import { PropertyGroupPreview } from "../model/interfaces";
+import { PropertyGroupPreview } from "@gen/property_group";
 
 interface Props {
     group: PropertyGroupPreview
@@ -26,6 +26,17 @@ const PropertyGroupPreviewEntity = ({ group, renderTools, renderPublicStatus }: 
             </TableCell>
             <TableCell align="right">
                 <TooltipContent content={<TransList data={group.title} />} />
+            </TableCell>
+            <TableCell align="right">
+                <TooltipContent
+                    title={group.properties?.length || 'none'}
+                    active={Boolean(group.properties?.length)}
+                    content={
+                        <ul>
+                            {group.properties?.map(i => (<li key={i.id}>{i.altName}</li>))}
+                        </ul>
+                    }
+                />
             </TableCell>
             <TableCell align="right">{renderPublicStatus(group)}</TableCell>
             <TableCell align="right">

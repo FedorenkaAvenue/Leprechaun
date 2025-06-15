@@ -1,12 +1,12 @@
 import { Injectable } from '@nestjs/common';
-import { Repository } from 'typeorm';
+import { In, Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { RpcException } from '@nestjs/microservices';
 import { catchError, from, map, Observable, switchMap, throwError } from 'rxjs';
 import { status } from '@grpc/grpc-js';
 
 import { PropertyEntity } from './property.entity';
-import { Property, PropertyCU } from 'gen/ts/prop_group';
+import { Property, PropertyCU } from 'gen/_property';
 import TransService from '@common/trans/trans.service';
 import PropertyMapper from './property.mapper';
 
@@ -29,6 +29,14 @@ export default class PropertyService {
             )
             ),
             catchError(err => throwError(() => new RpcException({ code: err.code, message: err.message })))
+        );
+    }
+
+    public getPropertyList(ids?: Property['id'][]): Observable<Property[]> {
+        return from(this.propertyRepo.findBy(ids ? { id: In(ids) } : {})).pipe(
+            switchMap(props => from(this.transService.getTransMap({ ids: props.map(p => p.title) })).pipe(
+                map(transMap => props.map(prop => PropertyMapper.toView(prop, transMap.items[prop.title])))
+            )),
         );
     }
 

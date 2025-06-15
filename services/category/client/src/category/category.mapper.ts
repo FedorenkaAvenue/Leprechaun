@@ -1,26 +1,33 @@
-import { TransMap } from "gen/ts/trans";
+import { TransMap } from "gen/trans";
 import CategoryEntity from "./category.entity";
-import { Category } from "gen/ts/category";
-import { PropertyGroupPreview } from "gen/ts/prop_group";
-import { CategoryPreview } from "gen/ts/category_preview";
+import { Category } from "gen/category";
+import { PropertyGroupPreview } from "gen/property_group";
+import { CategoryPreview } from "gen/category_preview";
+import { ProductPreview } from "gen/product";
+
+interface CategoryViewPayload {
+    transMap: TransMap['items'],
+    propertyGroups?: PropertyGroupPreview[],
+    products: ProductPreview[]
+}
 
 export default class CategoryMapper {
     static toPreview(category: CategoryEntity, transMap: TransMap['items']): CategoryPreview {
         return {
             ...category,
             title: transMap[category.title],
-            icon: `http://localhost:9010${category.icon}`,
+            icon: category.icon && `http://localhost:9010${category.icon}`,
         }
     }
 
     static toView(
         category: CategoryEntity,
-        transMap: TransMap['items'],
-        propertyGroups?: PropertyGroupPreview[],
+        { transMap, propertyGroups, products }: CategoryViewPayload,
     ): Category {
         return {
             ...this.toPreview(category, transMap),
             propertyGroups: propertyGroups || [],
+            products,
         };
     }
 }

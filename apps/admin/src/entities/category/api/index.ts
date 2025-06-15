@@ -1,9 +1,10 @@
 import { toast } from "react-toastify";
 import { toFormData } from "axios";
 
-import { Category, CategoryPreview } from "../model/interfaces";
 import { rootApi } from "@shared/api";
 import { CategoryCreateDTO, CategoryUpdateDTO } from "@features/category/api/dto";
+import { Category } from '@gen/category';
+import { CategoryPreview } from "@gen/_category_preview";
 
 export const categoryApi = rootApi.injectEndpoints({
     endpoints: build => ({

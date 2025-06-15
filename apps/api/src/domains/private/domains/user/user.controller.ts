@@ -11,7 +11,7 @@ import { UserDataDTO } from "@common/user/user.dto";
 
 @Controller('user')
 @UseGuards(AuthJWTAccessGuard)
-@ApiTags('User')
+@ApiTags('User 👨🏿‍💼')
 export default class UserPrivateController {
     constructor(private readonly userService: UserService) { }
 

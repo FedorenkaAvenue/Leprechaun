@@ -5,16 +5,17 @@ import { lastValueFrom } from 'rxjs';
 import {
     PROPERTY_GROUP_SERVICE_NAME, PropertyGroup, PropertyGroupCU, PropertyGroupPreview, PropertyGroupServiceClient,
     PropertyGroupUpdateParams,
-} from '@gen/prop_group';
+} from '@gen/property_group';
 import { Empty } from '@gen/google/protobuf/empty';
-import { PROP_GROUP_PACKAGE } from './propertyGroup.constants';
+import { property_group_PACKAGE } from './propertyGroup.constants';
 import { catchResponceError } from '@pipes/operators';
+import { Category } from '@gen/category';
 
 @Injectable()
 export default class PropertyGroupPrivateService implements OnModuleInit {
     private propGroupClient: PropertyGroupServiceClient;
 
-    constructor(@Inject(PROP_GROUP_PACKAGE) private client: ClientGrpc) { }
+    constructor(@Inject(property_group_PACKAGE) private client: ClientGrpc) { }
 
     onModuleInit() {
         this.propGroupClient = this.client.getService<PropertyGroupServiceClient>(PROPERTY_GROUP_SERVICE_NAME);
@@ -29,22 +30,26 @@ export default class PropertyGroupPrivateService implements OnModuleInit {
     }
 
     public async getGroupListPrivate(): Promise<PropertyGroupPreview[]> {
-        const { items } = await lastValueFrom(this.propGroupClient.getGroupListPrivate({ ids: [] }));
+        const { items } = await lastValueFrom(
+            this.propGroupClient.getGroupListPrivate({ ids: [] }).pipe(catchResponceError)
+        );
 
         return items;
     }
 
-    // public async getGroupListByCategoryID(id: CategoryI['id']): Promise<PropertyGroupPreviewI[]> {
-    //     return await this.propertyGroupRepo.find({
-    //         where: { categories: { id } },
-    //     });
-    // }
+    public async getGroupListByCategoryID(id: Category['id']): Promise<PropertyGroupPreview[]> {
+        const { items } = await lastValueFrom(
+            this.propGroupClient.getGroupListPrivateByCategory({ id }).pipe(catchResponceError)
+        );
+
+        return items;
+    }
 
     async updateGroup(updates: PropertyGroupUpdateParams): Promise<Empty> {
         return await lastValueFrom(this.propGroupClient.updateGroup(updates).pipe(catchResponceError));
     }
 
     public async deleteGroup(groupId: number): Promise<Empty> {
-        return this.propGroupClient.deleteGroup({ id: groupId });
+        return this.propGroupClient.deleteGroup({ id: groupId }).pipe(catchResponceError);
     }
 }

@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-import { ProductStatus } from "./enums";
+import { ProductStatus } from "@gen/product";
 
 export const productStatusSchema = z.nativeEnum(ProductStatus);
 

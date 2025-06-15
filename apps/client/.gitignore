@@ -39,3 +39,6 @@ next-env.d.ts
 src/public/locales
 
 certificates
+
+/gen
+!gen/**/.gitkeep

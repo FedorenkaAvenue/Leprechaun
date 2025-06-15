@@ -1,9 +1,9 @@
 import Switch from "@mui/material/Switch";
 
 import { useUpdateProduct } from "../model/hook";
-import { Product } from "@entities/product/model/interfaces";
 import withRoleGuardComponent from "@shared/hocs/withRoleGuardComponent";
-import { UserRole } from "@entities/user/model/enums";
+import { Product } from "@gen/product";
+import { UserRole } from "@gen/user";
 
 interface Props {
     productId: Product['id']
@@ -14,7 +14,7 @@ const ProductTogglePublic = ({ selected, productId }: Props) => {
     const [mutate] = useUpdateProduct();
 
     const toggle = () => {
-        mutate({ id: productId, updates: { is_public: !selected } });
+        mutate({ id: productId, updates: { isPublic: !selected } });
     };
 
     return <Switch onChange={toggle} checked={selected} />;

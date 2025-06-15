@@ -1,5 +1,5 @@
+import { UserRole } from '@gen/user';
 import { Option } from '@shared/models/interfaces';
-import { UserRole } from '../model/enums';
 
 export default function mapUserRolesToOptions(): Option[] {
     return Object.entries(UserRole)

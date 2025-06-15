@@ -6,6 +6,7 @@ import UserPrivateModule from "./domains/user/user.module";
 import PropertyGroupPrivateModule from "./domains/propertyGroup/propertyGroup.module";
 import PropertyPrivateModule from "./domains/property/property.module";
 import CategoryPrivateModule from "./domains/category/category.module";
+import ProductPrivateModule from "./domains/product/product.module";
 
 @Module({
     imports: [
@@ -14,12 +15,14 @@ import CategoryPrivateModule from "./domains/category/category.module";
         PropertyPrivateModule,
         UserPrivateModule,
         CategoryPrivateModule,
+        ProductPrivateModule,
         RouterModule.register([
             { module: AuthPrivateModule, path: 'private' },
             { module: PropertyGroupPrivateModule, path: 'private' },
             { module: PropertyPrivateModule, path: 'private' },
             { module: UserPrivateModule, path: 'private' },
             { module: CategoryPrivateModule, path: 'private' },
+            { module: ProductPrivateModule, path: 'private' },
         ]),
     ]
 })

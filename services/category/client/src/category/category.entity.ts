@@ -1,9 +1,9 @@
 import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
 
-import { Category } from 'gen/ts/category';
+import { Category } from 'gen/category';
 
 @Entity('category')
-export default class CategoryEntity implements Omit<Category, 'title' | 'propertyGroups'> {
+export default class CategoryEntity implements Omit<Category, 'title' | 'propertyGroups' | 'products'> {
     @PrimaryGeneratedColumn('rowid')
     id: number;
 
@@ -30,9 +30,6 @@ export default class CategoryEntity implements Omit<Category, 'title' | 'propert
 
     @Column({ default: false })
     isPublic: boolean;
-
-    // @OneToMany(() => ProductEntity, ({ category }) => category)
-    // products: ProductPreviewI[];
 
     @Column('int', { array: true, nullable: true })
     propertyGroups: number[];

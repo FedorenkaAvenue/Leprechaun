@@ -33,8 +33,11 @@
             "@filters/*": ["./src/shared/filters/*"],
             "@guards/*": ["./src/shared/guards/*"],
             "@interceptors/*": ["./src/shared/interceptors/*"],
+            "@decorators/*": ["./src/shared/decorators/*"],
+            "@schemas/*": ["./src/shared/schemas/*"],
+            "@dto/*": ["./src/shared/dto/*"],
             "@pipes/*": ["./src/shared/pipes/*"],
-            "@gen/*": ["./gen/ts/*"]
+            "@gen/*": ["./gen/*"]
         }
     },
     "include": ["**/*.ts", "**/*.tsx", "**/*.d.ts"],

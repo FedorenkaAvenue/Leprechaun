@@ -5,17 +5,17 @@ import { catchError, forkJoin, from, lastValueFrom, map, Observable, of, switchM
 import { RpcException } from '@nestjs/microservices';
 import { status } from '@grpc/grpc-js';
 
-import { Category, CategoryCU } from 'gen/ts/category';
+import { Category, CategoryCU } from 'gen/category';
 import CategoryEntity from './category.entity';
 import { CategoryCreateDTO } from './category.dto';
 import S3Service from '@common/s3/s3.service';
-import { S3Bucket } from '@common/s3/s3.enum';
 import { TransService } from '@common/trans/trans.service';
 import CategoryMapper from './category.mapper';
 import PropertyGroupService from '@common/propertyGroup/propertyGroup.service';
-import { PropertyGroup } from 'gen/ts/prop_group';
-import { CategoryPreview } from 'gen/ts/category_preview';
+import { PropertyGroup } from 'gen/property_group';
+import { CategoryPreview } from 'gen/category_preview';
 import EventService from '@common/event/event.service';
+import ProductService from '@common/product/product.service';
 
 @Injectable()
 export default class CategoryService {
@@ -25,6 +25,7 @@ export default class CategoryService {
         private readonly transService: TransService,
         private readonly propertyGroupService: PropertyGroupService,
         private readonly eventService: EventService,
+        private readonly productService: ProductService,
     ) { }
 
     public getCategoryList(): Observable<CategoryPreview[]> {
@@ -44,7 +45,7 @@ export default class CategoryService {
     public async createCategory({ icon, ...newCategory }: CategoryCreateDTO): Promise<CategoryPreview> {
         let iconData: Awaited<ReturnType<S3Service['uploadFile']>> | undefined;
 
-        if (icon) iconData = await this.s3Service.uploadFile(icon, S3Bucket.CATEGORY_ICONS, newCategory.url);
+        if (icon) iconData = await this.s3Service.uploadCategoryIcon(icon, newCategory.url);
 
         return lastValueFrom(this.transService.createTrans(newCategory.title).pipe(
             switchMap(titleTrans => from(this.categoryRepo.save({
@@ -83,14 +84,43 @@ export default class CategoryService {
                     );
                 }
 
-                const transMap$ = this.transService.getTransMap({ ids: [category.title] });
                 const propGroups$ = category.propertyGroups?.length
                     ? this.propertyGroupService.getGroupListPrivate({ ids: category.propertyGroups })
                     : of(undefined);
 
-                return forkJoin([transMap$, propGroups$]).pipe(
-                    map(([transMap, propGroups]) => CategoryMapper.toView(category, transMap.items, propGroups?.items))
+                return forkJoin([
+                    this.transService.getTransMap({ ids: [category.title] }),
+                    this.productService.getProductListByCategory(category.id),
+                    propGroups$,
+                ]).pipe(
+                    map(([transMap, products, propGroups]) => CategoryMapper.toView(
+                        category,
+                        {
+                            transMap: transMap.items,
+                            propertyGroups: propGroups?.items,
+                            products,
+                        },
+                    ))
                 )
+            }),
+        );
+    }
+
+    public getCategoryPreview(id?: Category['id'], url?: Category['url']): Observable<CategoryPreview> {
+        return from(this.categoryRepo.findOne({ where: { url, id } })).pipe(
+            switchMap(category => {
+                if (!category) {
+                    return throwError(() =>
+                        new RpcException({
+                            message: `category with id ${id} not found`,
+                            code: status.NOT_FOUND,
+                        })
+                    );
+                }
+
+                return this.transService.getTransMap({ ids: [category.title] }).pipe(
+                    map(transMap => CategoryMapper.toPreview(category, transMap.items))
+                );
             }),
         );
     }
@@ -143,7 +173,7 @@ export default class CategoryService {
 
         await this.categoryRepo.delete({ id });
 
-        if (category?.iconId) this.s3Service.deleteFile(S3Bucket.CATEGORY_ICONS, category.iconId);
+        if (category?.iconId) this.s3Service.deleteCategoryIcon(category.iconId);
 
         this.eventService.deleteCategory(category);
     }

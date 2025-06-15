@@ -9,7 +9,7 @@ import TextInput from "@shared/ui/TextInput";
 import { useCreatePropertyGroup } from "@features/propertyGroup/models/hooks";
 import { PropertyGroupCreateDTO } from "@features/propertyGroup/api/dto";
 import withRoleGuardPage from "@shared/hocs/withRoleGuardPage";
-import { UserRole } from "@entities/user/model/enums";
+import { UserRole } from "@gen/user";
 
 const PropertyGroupCreatePage = () => {
     const nav = useNavigate();

@@ -4,7 +4,7 @@ import { join } from 'path';
 
 import { AppModule } from './app.module';
 import ConfigService from './config/config.service';
-import { TRANS_PACKAGE_NAME } from 'gen/ts/trans';
+import { TRANS_PACKAGE_NAME } from 'gen/trans';
 
 async function bootstrap() {
     const config = new ConfigService();

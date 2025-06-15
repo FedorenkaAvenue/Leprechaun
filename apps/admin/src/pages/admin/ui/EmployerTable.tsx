@@ -7,7 +7,7 @@ import ContentListManager from '@shared/ui/ContentListManager';
 import EmployerPreviewWidget from '@widgets/employer/ui/EmployerPreview';
 import routerSubConfig from '@shared/config/router';
 import withRoleGuardPage from '@shared/hocs/withRoleGuardPage';
-import { UserRole } from '@entities/user/model/enums';
+import { UserRole } from '@gen/user';
 
 const EmployerTable: FC = () => {
     const { data, isFetching } = useEmployerList();

@@ -3,8 +3,12 @@ import { ClientGrpc } from "@nestjs/microservices";
 import { Observable } from "rxjs";
 
 import {
-    CATEGORY_SERVICE_NAME, CategoryPrivateList, CategoryServiceClient, CategoryWithPropertyGroupsSearchParams,
-} from "gen/ts/category";
+    Category,
+    CATEGORY_SERVICE_NAME,
+    CategoryPrivateList,
+    CategoryServiceClient,
+    CategoryWithPropertyGroupsSearchParams,
+} from "gen/category";
 
 @Injectable()
 export default class CategoryService implements OnModuleInit {
@@ -18,5 +22,9 @@ export default class CategoryService implements OnModuleInit {
 
     getCategoryListByPropertyGroups(data: CategoryWithPropertyGroupsSearchParams): Observable<CategoryPrivateList> {
         return this.categoryClient.getCategoryListByPropertyGroups(data);
+    }
+
+    getCategory(id: Category['id']): Observable<Category> {
+        return this.categoryClient.getCategory({ id });
     }
 }

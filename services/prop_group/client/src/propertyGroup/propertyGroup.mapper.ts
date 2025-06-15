@@ -1,13 +1,14 @@
-import { PropertyGroup, PropertyGroupPreview } from "gen/ts/prop_group";
+import { PropertyGroup, PropertyGroupPreview } from "gen/property_group";
 import { PropertyGroupEntity } from "./propertyGroup.entity";
-import { TransMap } from "gen/ts/trans";
-import { CategoryPreview } from "gen/ts/category_preview";
+import { TransMap } from "gen/trans";
+import { CategoryPreview } from "gen/category_preview";
 
 export default class PropertyGroupMapper {
     static toPreview(group: PropertyGroupEntity, transMap: TransMap['items']): PropertyGroupPreview {
         return {
             ...group,
             title: transMap[group.title],
+            properties: group.properties.map(prop => ({ ...prop, title: transMap[prop.title] })),
         };
     }
 

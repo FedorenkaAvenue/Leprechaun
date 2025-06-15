@@ -4,7 +4,7 @@ import { Observable } from "rxjs";
 
 import {
     PROPERTY_GROUP_SERVICE_NAME, PropertyGroupList, PropertyGroupListSearchParams, PropertyGroupServiceClient,
-} from "gen/ts/prop_group";
+} from "gen/property_group";
 
 @Injectable()
 export default class PropertyGroupService implements OnModuleInit {

@@ -11,6 +11,8 @@ service UserService {
     rpc GetEmployerList (google.protobuf.Empty) returns (UserList);
 }
 
+// entities
+
 enum UserRole {
     UNKNOWN = 0;
     CUSTOMER = 1;
@@ -26,9 +28,13 @@ message User {
     string password = 4;
 }
 
+// responces
+
 message UserList {
     repeated User items = 1;
 }
+
+// requests
 
 message UserSearchParams {
     optional string id = 1;

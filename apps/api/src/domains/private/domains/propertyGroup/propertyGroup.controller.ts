@@ -5,16 +5,17 @@ import { ApiBadRequestResponse, ApiNotFoundResponse, ApiOkResponse, ApiOperation
 
 import { AuthJWTAccessGuard } from '@guards/auth.guard';
 import { UserRole } from '@gen/user';
-import { PropertyGroup, PropertyGroupPreview, PropertyGroupUpdateParams } from '@gen/prop_group';
+import { PropertyGroup, PropertyGroupPreview, PropertyGroupUpdateParams } from '@gen/property_group';
 import { PropertyGroupCUSchema, PropertyGroupPreviewSchema, PropertyGroupSchema } from './propertyGroup.schema';
 import { UserRoleGuard } from '@common/user/user.guard';
 import { UserRoleDecorator } from '@common/user/user.decorator';
 import { Empty } from '@gen/google/protobuf/empty';
 import PropertyGroupPrivateService from './propertyGroup.service';
+import { Category } from '@gen/category';
 
 @Controller('propertygroup')
 @UseGuards(AuthJWTAccessGuard, UserRoleGuard)
-@ApiTags('Property group')
+@ApiTags('Property group 👨🏿‍💼')
 export default class PropertyGroupPrivateController {
     constructor(private readonly propertyGroupService: PropertyGroupPrivateService) { }
 
@@ -37,15 +38,15 @@ export default class PropertyGroupPrivateController {
         return this.propertyGroupService.updateGroup({ id: groupID, data: updates });
     }
 
-    // @Get('list/:categoryID')
-    // @UserRoleDecorator(UserRole.SUPPORT)
-    // @ApiOperation({ summary: 'get property groups by category ID' })
-    // @ApiOkResponse({ type: PropertyGroupEntity, isArray: true })
-    // private getGroupListByCategoryID(
-    //     @Param('categoryID') categoryID: CategoryI['id'],
-    // ): Promise<PropertyGroupPreviewI[]> {
-    //     return this.propertyGroupService.getGroupListByCategoryID(categoryID);
-    // }
+    @Get('list/:categoryID')
+    @UserRoleDecorator(UserRole.SUPPORT)
+    @ApiOperation({ summary: 'get property groups by category ID' })
+    @ApiOkResponse({ type: PropertyGroupPreviewSchema, isArray: true })
+    private getGroupListByCategoryID(
+        @Param('categoryID') categoryID: Category['id'],
+    ): Promise<PropertyGroupPreview[]> {
+        return this.propertyGroupService.getGroupListByCategoryID(categoryID);
+    }
 
     @Get('list')
     @UserRoleDecorator(UserRole.SUPPORT)

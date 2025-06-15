@@ -1,1 +1,1 @@
-export const PROP_GROUP_PACKAGE = 'PROP_GROUP_PACKAGE';
+export const property_group_PACKAGE = 'property_group_PACKAGE';

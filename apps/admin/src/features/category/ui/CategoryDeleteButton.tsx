@@ -5,11 +5,11 @@ import { FC } from 'react';
 import DeleteButton, { DeleteButtonProps } from '@shared/ui/DeleteButton';
 import routerSubConfig from '@shared/config/router';
 import { PRODUCT_LIST_URL_QUERY_PARAMS } from '@features/product/constants/urlQueryParams';
-import { Category } from '@entities/category/model/interfaces';
 import { useCategory } from '@entities/category/model/hooks';
 import { useRemoveCategory } from '../model/hooks';
 import withRoleGuardComponent from '@shared/hocs/withRoleGuardComponent';
-import { UserRole } from '@entities/user/model/enums';
+import { Category } from '@gen/category';
+import { UserRole } from '@gen/user';
 
 interface Props extends Omit<DeleteButtonProps, 'buttonTitle' | 'modalContent' | 'handleAgree' | 'modalTitle' | 'onAgree'> {
     categoryId: Category['id']

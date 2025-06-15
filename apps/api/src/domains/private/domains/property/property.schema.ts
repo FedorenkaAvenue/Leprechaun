@@ -1,7 +1,8 @@
 import { ApiProperty } from '@nestjs/swagger';
 
-import { PropertyCU, PropertyGroup } from '@gen/prop_group';
+import { PropertyCU } from '@gen/_property';
 import { TransSchema } from '@common/trans/trans.schema';
+import { PropertyGroup } from '@gen/property_group';
 
 export class CreatePropertySchema implements PropertyCU {
     @ApiProperty({ type: 'number', description: 'property group ID' })

@@ -22,7 +22,7 @@ const ProductPage = () => {
                 </>
             }
         >
-            <ProductEntity product={data} />
+            {data && <ProductEntity product={data} />}
         </ContentManager>
     );
 };

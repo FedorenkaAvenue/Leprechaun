@@ -3,8 +3,6 @@
     "version": "0.0.1",
     "description": "API gateway application for @Leprechaun project",
     "author": "August Luzanovsky",
-    "private": false,
-    "license": "UNLICENSED",
     "engines": {
         "node": "20.19.*",
         "npm": "10.8.*",

@@ -71,35 +71,7 @@ services:
 
   ### APSS
 
-  app_api:
-    container_name: leprechaun-app-api
-    networks:
-      - server_infra
-      - api_domain
-    environment:
-      - HOST_NAME
-      - DOMAIN_PUBLIC
-      - DOMAIN_PRIVATE
-      - JWT_ACCESS_TOKEN_KEY
-      - JWT_ACCESS_TOKEN_TTL
-      - AUTH_SERVICE_CLIENT_HOST
-      - AUTH_SERVICE_CLIENT_PORT
-      - USER_SERVICE_CLIENT_HOST
-      - USER_SERVICE_CLIENT_PORT
-      - PROPGROUP_SERVICE_CLIENT_HOST
-      - PROPGROUP_SERVICE_CLIENT_PORT
-      - CATEGORY_SERVICE_CLIENT_HOST
-      - CATEGORY_SERVICE_CLIENT_PORT
-      - APP_NAME
-    depends_on:
-      - events
-      - service_auth_client
-      - service_propgroup_client
-      - service_user_client
-      - service_trans_client
-      - service_category_client
-
-#   api_gateway_ws:
+  #   api_gateway_ws:
 #     container_name: leprechaun_api_gateway_ws
 #     networks:
 #       - api
@@ -116,6 +88,38 @@ services:
 #       - BROKER_NET_PORT
 #     depends_on:
 #       - db_cache
+
+  app_api:
+    container_name: leprechaun-app-api
+    networks:
+      - server_infra
+      - api_domain
+    environment:
+      - APP_NAME
+      - HOST_NAME
+      - LANGS
+      - DOMAIN_PUBLIC
+      - DOMAIN_PRIVATE
+      - JWT_ACCESS_TOKEN_KEY
+      - JWT_ACCESS_TOKEN_TTL
+      - AUTH_SERVICE_CLIENT_HOST
+      - AUTH_SERVICE_CLIENT_PORT
+      - USER_SERVICE_CLIENT_HOST
+      - USER_SERVICE_CLIENT_PORT
+      - PROPGROUP_SERVICE_CLIENT_HOST
+      - PROPGROUP_SERVICE_CLIENT_PORT
+      - CATEGORY_SERVICE_CLIENT_HOST
+      - CATEGORY_SERVICE_CLIENT_PORT
+      - PRODUCT_SERVICE_CLIENT_HOST
+      - PRODUCT_SERVICE_CLIENT_PORT
+    depends_on:
+      - events
+      - service_auth_client
+      - service_propgroup_client
+      - service_user_client
+      - service_trans_client
+      - service_category_client
+      - service_product_client
 
   app_client:
     container_name: leprechaun-app-client
@@ -262,6 +266,8 @@ services:
       - PROPGROUP_SERVICE_CLIENT_PORT
       - EVENTS_HOST
       - EVENTS_PORT
+      - PRODUCT_SERVICE_CLIENT_HOST
+      - PRODUCT_SERVICE_CLIENT_PORT
     networks:
       - api_domain
       - category_service
@@ -284,8 +290,10 @@ services:
       - category_service
 
   service_category_s3:
-    image: minio/minio
     container_name: leprechaun-service-category-s3
+    extends:
+      file: docker-compose.shared.yaml
+      service: s3
     environment:
       - MINIO_ROOT_USER=${CATEGORY_SERVICE_S3_USER}
       - MINIO_ROOT_PASSWORD=${CATEGORY_SERVICE_S3_PASSWORD}
@@ -294,6 +302,62 @@ services:
       - ./services/category/s3/data:/data
     networks:
       - category_service
+
+  service_product_client:
+    container_name: leprechaun-service-product-client
+    environment:
+      - PRODUCT_SERVICE_CLIENT_PORT
+      - POSTGRES_USER=${PRODUCT_SERVICE_DB_USER}
+      - POSTGRES_PASSWORD=${PRODUCT_SERVICE_DB_PASSWORD}
+      - POSTGRES_HOST=${PRODUCT_SERVICE_DB_HOST}
+      - POSTGRES_PORT=${PRODUCT_SERVICE_DB_PORT}
+      - POSTGRES_DATABASE=${PRODUCT_SERVICE_DB_DATABASE}
+      - PRODUCT_SERVICE_S3_HOST
+      - PRODUCT_SERVICE_S3_PORT
+      - PRODUCT_SERVICE_S3_PASSWORD
+      - PRODUCT_SERVICE_S3_USER
+      - TRANS_SERVICE_CLIENT_HOST
+      - TRANS_SERVICE_CLIENT_PORT
+      - CATEGORY_SERVICE_CLIENT_HOST
+      - CATEGORY_SERVICE_CLIENT_PORT
+      - PROPGROUP_SERVICE_CLIENT_HOST
+      - PROPGROUP_SERVICE_CLIENT_PORT
+      - EVENTS_HOST
+      - EVENTS_PORT
+    networks:
+      - api_domain
+      - product_service
+    depends_on:
+      - service_product_db
+      - service_product_s3
+
+  service_product_db:
+    container_name: leprechaun-service-product-db
+    build:
+      context: ./services/product/db
+      dockerfile: Dockerfile
+    environment:
+      - POSTGRES_PASSWORD=${PRODUCT_SERVICE_DB_PASSWORD}
+      - POSTGRES_USER=${PRODUCT_SERVICE_DB_USER}
+      - POSTGRES_DATABASE=${PRODUCT_SERVICE_DB_DATABASE}
+    ports:
+      - ${PRODUCT_SERVICE_DB_PORT_EXPOSE}:${PRODUCT_SERVICE_DB_PORT}
+    networks:
+      - product_service
+
+  service_product_s3:
+    container_name: leprechaun-service-product-s3
+    extends:
+      file: docker-compose.shared.yaml
+      service: s3
+    environment:
+      - MINIO_ROOT_USER=${PRODUCT_SERVICE_S3_USER}
+      - MINIO_ROOT_PASSWORD=${PRODUCT_SERVICE_S3_PASSWORD}
+    entrypoint: /docker-entrypoint-init.d/entrypoint.sh ${PRODUCT_SERVICE_S3_USER} ${PRODUCT_SERVICE_S3_PASSWORD} ${PRODUCT_SERVICE_S3_PORT} ${PRODUCT_SERVICE_S3_UI_PORT}
+    volumes:
+      - ./services/product/s3/data:/data
+    networks:
+      - product_service
 
 networks:
   server_infra:
@@ -317,3 +381,6 @@ networks:
   category_service:
     driver: bridge
     name: leprechaun_category_service
+  product_service:
+    driver: bridge
+    name: leprechaun_product_service
