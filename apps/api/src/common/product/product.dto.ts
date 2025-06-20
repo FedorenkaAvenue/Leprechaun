@@ -13,7 +13,7 @@ export class ProductQuerisDTO implements ProductQueryParams {
 
     constructor({ category, lang, sort, page, portion, status, price, ...restQueries }: any) {
         Object.assign(this, restQueries);
-        this.sort = Number(sort) || ProductSort.POPULAR;
+        this.sort = Number(sort) || ProductSort.POPULAR_SORT;
         this.status = availableEnum(status, ProductStatus) ? status : null;
         this.pagination = new QueriesPagination({ page, portion });
         this.category = category;

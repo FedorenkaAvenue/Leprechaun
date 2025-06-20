@@ -1,12 +1,12 @@
 import { Module } from "@nestjs/common";
 import { RouterModule } from "@nestjs/core";
 
-import AuthPrivateModule from "./domains/auth/auth.module";
-import UserPrivateModule from "./domains/user/user.module";
-import PropertyGroupPrivateModule from "./domains/propertyGroup/propertyGroup.module";
-import PropertyPrivateModule from "./domains/property/property.module";
-import CategoryPrivateModule from "./domains/category/category.module";
-import ProductPrivateModule from "./domains/product/product.module";
+import AuthPrivateModule from "./services/auth/auth.module";
+import UserPrivateModule from "./services/user/user.module";
+import PropertyGroupPrivateModule from "./services/propertyGroup/propertyGroup.module";
+import PropertyPrivateModule from "./services/property/property.module";
+import CategoryPrivateModule from "./services/category/category.module";
+import ProductPrivateModule from "./services/product/product.module";
 
 @Module({
     imports: [

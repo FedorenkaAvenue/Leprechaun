@@ -3,7 +3,7 @@ import { join } from 'path';
 import { ClientsModule, Transport } from '@nestjs/microservices';
 
 import PropertyGroupPrivateController from './propertyGroup.controller';
-import { property_group_PACKAGE } from './propertyGroup.constants';
+import { PROPERTY_GROUP_PACKAGE } from './propertyGroup.constants';
 import ConfigService from '@modules/config/config.service';
 import PropertyGroupPrivateService from './propertyGroup.service';
 import { PROPERTY_GROUP_PACKAGE_NAME } from '@gen/property_group';
@@ -12,7 +12,7 @@ import { PROPERTY_GROUP_PACKAGE_NAME } from '@gen/property_group';
     imports: [
         ClientsModule.registerAsync([
             {
-                name: property_group_PACKAGE,
+                name: PROPERTY_GROUP_PACKAGE,
                 inject: [ConfigService],
                 useFactory: (configService: ConfigService) => ({
                     transport: Transport.GRPC,

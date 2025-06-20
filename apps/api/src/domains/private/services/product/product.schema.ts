@@ -9,14 +9,7 @@ import { Category } from '@gen/category';
 import { File } from '@gen/common';
 import { PropertyGroupPreviewSchema } from '../propertyGroup/propertyGroup.schema';
 import { Property } from '@gen/_property';
-
-export class ProductPriceSchema implements ProductPrice {
-    @ApiProperty()
-    current: number;
-
-    @ApiProperty()
-    old: number;
-}
+import { ProductPriceSchema } from '@common/product/product.schema';
 
 class ProductImageSchema {
     @ApiProperty()
@@ -123,7 +116,7 @@ export class ProductCreateSchema implements ProductCU {
     @ApiProperty({
         enum: ProductStatus,
         required: false,
-        default: ProductStatus.AVAILABLE,
+        default: ProductStatus.AVAILABLE_STATUS,
     })
     status: ProductStatus;
 
@@ -188,7 +181,7 @@ export class ProductUpdateSchema implements ProductCU {
     @ApiProperty({
         enum: ProductStatus,
         required: false,
-        default: ProductStatus.AVAILABLE,
+        default: ProductStatus.AVAILABLE_STATUS,
     })
     status: ProductStatus;
 

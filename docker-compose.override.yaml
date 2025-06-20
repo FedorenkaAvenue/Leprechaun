@@ -5,12 +5,10 @@ services:
   server:
     container_name: leprechaun-infra-server
     networks:
-      # client:
-      #   aliases:
-      #     - api.leprechaun.loc
-      #     - media.leprechaun.loc
-      #     - leprechaun.loc
       server_infra:
+        aliases:
+          - api.leprechaun.loc
+          - leprechaun.loc
     ports:
       - ${WEB_SERVER_PORT}:80
     volumes:
@@ -112,6 +110,8 @@ services:
       - CATEGORY_SERVICE_CLIENT_PORT
       - PRODUCT_SERVICE_CLIENT_HOST
       - PRODUCT_SERVICE_CLIENT_PORT
+      - WISHLIST_SERVICE_CLIENT_HOST
+      - WISHLIST_SERVICE_CLIENT_PORT
     depends_on:
       - events
       - service_auth_client
@@ -120,6 +120,7 @@ services:
       - service_trans_client
       - service_category_client
       - service_product_client
+      - service_wishlist_client
 
   app_client:
     container_name: leprechaun-app-client
@@ -359,6 +360,39 @@ services:
     networks:
       - product_service
 
+  service_wishlist_client:
+    container_name: leprechaun-service-wishlist-client
+    environment:
+      - WISHLIST_SERVICE_CLIENT_PORT
+      - POSTGRES_USER=${WISHLIST_SERVICE_DB_USER}
+      - POSTGRES_PASSWORD=${WISHLIST_SERVICE_DB_PASSWORD}
+      - POSTGRES_HOST=${WISHLIST_SERVICE_DB_HOST}
+      - POSTGRES_PORT=${WISHLIST_SERVICE_DB_PORT}
+      - POSTGRES_DATABASE=${WISHLIST_SERVICE_DB_DATABASE}
+      - PRODUCT_SERVICE_CLIENT_HOST
+      - PRODUCT_SERVICE_CLIENT_PORT
+      - EVENTS_HOST
+      - EVENTS_PORT
+    networks:
+      - api_domain
+      - wishlist_service
+    depends_on:
+      - service_wishlist_db
+
+  service_wishlist_db:
+    container_name: leprechaun-service-wishlist-db
+    build:
+      context: ./services/wishlist/db
+      dockerfile: Dockerfile
+    environment:
+      - POSTGRES_PASSWORD=${WISHLIST_SERVICE_DB_PASSWORD}
+      - POSTGRES_USER=${WISHLIST_SERVICE_DB_USER}
+      - POSTGRES_DATABASE=${WISHLIST_SERVICE_DB_DATABASE}
+    ports:
+      - ${WISHLIST_SERVICE_DB_PORT_EXPOSE}:${WISHLIST_SERVICE_DB_PORT}
+    networks:
+      - wishlist_service
+
 networks:
   server_infra:
     driver: bridge
@@ -384,3 +418,6 @@ networks:
   product_service:
     driver: bridge
     name: leprechaun_product_service
+  wishlist_service:
+    driver: bridge
+    name: leprechaun_wishlist_service

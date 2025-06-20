@@ -4,10 +4,10 @@ import { lastValueFrom } from 'rxjs';
 
 import { Category, CATEGORY_SERVICE_NAME, CategoryCU, CategoryServiceClient } from '@gen/category';
 import { CATEGORY_PACKAGE } from './category.constant';
-import { CategoryCUSchema } from '@domains/private/domains/category/category.schema';
 import { Empty } from '@gen/google/protobuf/empty';
-import { CategoryPreview } from '@gen/category_preview';
 import { catchResponceError } from '@pipes/operators';
+import { QueryCommonParams } from '@gen/common';
+import { CategoryPreview, CategoryPreviewPublic } from '@gen/_category_preview';
 
 @Injectable()
 export default class CategoryService implements OnModuleInit {
@@ -19,14 +19,20 @@ export default class CategoryService implements OnModuleInit {
         this.categoryClient = this.client.getService<CategoryServiceClient>(CATEGORY_SERVICE_NAME);
     }
 
-    public async getCategoryPrivateList(): Promise<CategoryPreview[]> {
+    public async getCategoryListPrivate(): Promise<CategoryPreview[]> {
         const { items } = await lastValueFrom(this.categoryClient.getCategoryList({}).pipe(catchResponceError));
 
         return items;
     }
 
+    public async getCategoryListPublic(queries: QueryCommonParams): Promise<CategoryPreviewPublic[]> {
+        const { items } = await lastValueFrom(this.categoryClient.getCategoryListPublic({ queries }).pipe(catchResponceError));
+
+        return items;
+    }
+
     public async createCategory(
-        newCategory: CategoryCUSchema, icon: Express.Multer.File | undefined,
+        newCategory: CategoryCU, icon: Express.Multer.File | undefined,
     ): Promise<CategoryPreview> {
         return lastValueFrom(this.categoryClient.createCategory({ ...newCategory, icon }).pipe(catchResponceError));
     }

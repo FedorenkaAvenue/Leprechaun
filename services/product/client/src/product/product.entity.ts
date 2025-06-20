@@ -22,7 +22,7 @@ export class ProductEntity implements Omit<Product, 'title' | 'description' | 'c
     @Column()
     description: number;
 
-    @Column({ default: ProductStatus.AVAILABLE })
+    @Column({ default: ProductStatus.AVAILABLE_STATUS })
     status: ProductStatus;
 
     @Column(() => PriceEntity, { prefix: false })

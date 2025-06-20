@@ -95,8 +95,6 @@ services:
     working_dir: /app
     command: yarn dev
     volumes:
-      # - client_public_trans_hosting:/app/src/public/locales:rw
-      # - ./translations/dist/client_public:/app/src/public/locales
       - ./apps/client:/app
     environment:
       - IS_DEV=true
@@ -247,6 +245,28 @@ services:
     ports:
       - ${PRODUCT_SERVICE_S3_PORT_EXPOSE}:${PRODUCT_SERVICE_S3_PORT}
       - ${PRODUCT_SERVICE_S3_UI_PORT}:${PRODUCT_SERVICE_S3_UI_PORT}
+
+  service_wishlist_client:
+    restart: unless-stopped
+    extends:
+      file: docker-compose.shared.yaml
+      service: node
+    command: npm run start:dev
+    ports:
+      - ${WISHLIST_SERVICE_CLIENT_PORT_EXPOSE}:${WISHLIST_SERVICE_CLIENT_PORT}
+    volumes:
+      - ./services/wishlist/client:/app
+      - ./proto:/app/proto
+    environment:
+      - IS_DEV=true
+
+  service_wishlist_db:
+    restart: unless-stopped
+    ports:
+      - ${WISHLIST_SERVICE_DB_PORT_EXPOSE}:${WISHLIST_SERVICE_DB_PORT}
+    volumes:
+      - ./services/wishlist/db/postgresql.conf:/app/postgresql.conf
+      - ./services/wishlist/db/pg_hba.conf:/app/pg_hba.conf
 
   ### UTILS
 

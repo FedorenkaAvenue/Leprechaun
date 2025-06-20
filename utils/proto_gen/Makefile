@@ -42,3 +42,4 @@ move:
 	@cp ./gen/ts/server/. -r ../../services/trans/client/gen
 	@cp ./gen/ts/server/. -r ../../services/category/client/gen
 	@cp ./gen/ts/server/. -r ../../services/product/client/gen
+	@cp ./gen/ts/server/. -r ../../services/wishlist/client/gen

@@ -1,0 +1,64 @@
+syntax = "proto3";
+
+package wishlist;
+
+option go_package = "./wishlist;wishlist_v1";
+
+import "google/protobuf/timestamp.proto";
+import "product.proto";
+import "common.proto";
+
+service WishlistService {
+    rpc getWishlistPublic(WishlistSearchParams) returns (WishlistPublic);
+    rpc getWishlistListPublic(WishlistListSearchParamsPublic) returns (WishlistListPublic);
+}
+
+// entities
+
+message Wishlist {
+    string id = 1;
+    string title = 2;
+    string user = 3;
+    bool isDefault = 4;
+    google.protobuf.Timestamp createdAt = 5;
+    google.protobuf.Timestamp itemsUpdatedAt = 6;
+    repeated WishlistItem items = 7;
+}
+
+message WishlistPublic {
+    string id = 1;
+    string title = 2;
+    bool isDefault = 4;
+    google.protobuf.Timestamp createdAt = 5;
+    google.protobuf.Timestamp itemsUpdatedAt = 6;
+    repeated WishlistItemPublic items = 7;
+}
+
+message WishlistItem {
+    string id = 1;
+    product.ProductPreview product = 3;
+    google.protobuf.Timestamp createdAt = 4;
+}
+
+message WishlistItemPublic {
+    string id = 1;
+    product.ProductPreviewPublic product = 3;
+    google.protobuf.Timestamp createdAt = 4;
+}
+
+// requests
+
+message WishlistSearchParams {
+    string id = 1;
+}
+
+message WishlistListSearchParamsPublic {
+    string userId = 1;
+    common.QueryCommonParams queries = 2;
+}
+
+// responces
+
+message WishlistListPublic {
+    repeated WishlistPublic items = 1;
+}

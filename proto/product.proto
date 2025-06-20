@@ -12,9 +12,10 @@ import "common.proto";
 import "property_group.proto";
 
 service ProductService {
-    rpc getProductList(ProductQueryParams) returns (ProductPrivateList);
-    rpc getProductListByCategory(ProductListByCategoryParams) returns (ProductListByCategory);
+    rpc getProductListByParams(ProductQueryParams) returns (ProductList);
+    rpc getProductListByIdsPublic(ProductListByIdsParamsPublic) returns (ProductListPreviewPublic);
     rpc getProduct(ProductSearchParams) returns (Product);
+    rpc getProductListByCategory(ProductListByCategoryParams) returns (ProductListByCategory); // TODO rebuild
     rpc createProduct(ProductCU) returns (ProductPreview);
     rpc updateProduct(ProductUpdateParams) returns (google.protobuf.Empty);
     rpc deleteProduct(ProductSearchParams) returns (google.protobuf.Empty);
@@ -23,17 +24,26 @@ service ProductService {
 // entities
 
 enum ProductStatus {
-    UNKNOWN = 0;
-    AVAILABLE = 1;
-    OUT_OF_STOCK = 2;
+    AVAILABLE_STATUS = 0;
+    OUT_OF_STOCK_STATUS = 1;
+}
+
+enum ProductLabelType {
+    DISCOUNT_LABEL = 0;
+    NEW_LABEL = 1;
+    POPULAR_LABEL = 2;
 }
 
 enum ProductSort {
-    UNKNOW = 0;
-    POPULAR = 1;
-    PRICE_UP = 2;
-    PRICE_DOWN =3;
-    NEW = 4;
+    POPULAR_SORT = 0;
+    PRICE_UP_SORT = 1;
+    PRICE_DOWN_SORT =2;
+    NEW_SORT = 3;
+}
+
+message ProductLabel {
+    ProductLabelType type = 1;
+    optional string value = 2;
 }
 
 message ProductPrice {
@@ -60,6 +70,16 @@ message ProductPreview {
     bool isNew = 9;
     string comment = 10;
     optional string image = 11;
+}
+
+message ProductPreviewPublic {
+    string id = 1;
+    string title = 2;
+    ProductStatus status = 3;
+    ProductPrice price = 4;
+    bool isNew = 5;
+    optional string image = 6;
+    repeated ProductLabel labels = 7;
 }
 
 message Product {
@@ -112,6 +132,11 @@ message ProductListByCategoryParams {
     int32 category = 1;
 }
 
+message ProductListByIdsParamsPublic {
+    repeated string ids = 1;
+    common.QueryCommonParams queries = 2;
+}
+
 message ProductUpdateParams {
     string id = 1;
     ProductCU data = 2;
@@ -119,11 +144,15 @@ message ProductUpdateParams {
 
 // responces
 
-message ProductPrivateList {
+message ProductList {
     repeated ProductPreview data = 1;
     common.Pagination pagination = 2;
 }
 
 message ProductListByCategory {
     repeated ProductPreview items = 1;
+}
+
+message ProductListPreviewPublic {
+    repeated ProductPreviewPublic items = 1;
 }

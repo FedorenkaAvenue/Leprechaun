@@ -11,10 +11,17 @@ message CategoryPreview {
     int32 id = 1;
     string url = 2;
     trans.TransData title = 3;
-    string icon = 4;
-    string iconId = 5;
+    optional string icon = 4;
+    optional string iconId = 5;
     bool isPublic = 6;
     string comment = 7;
     google.protobuf.Timestamp createdAt = 8;
     google.protobuf.Timestamp updatedAt = 9;
+}
+
+message CategoryPreviewPublic {
+    int32 id = 1;
+    string url = 2;
+    string title = 3;
+    optional string icon = 4;
 }

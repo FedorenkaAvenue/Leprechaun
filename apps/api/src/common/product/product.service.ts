@@ -4,12 +4,17 @@ import { lastValueFrom } from 'rxjs';
 
 import {
     Product,
-    PRODUCT_SERVICE_NAME, ProductCU, ProductPreview, ProductPrivateList, ProductQueryParams, ProductServiceClient,
+    PRODUCT_SERVICE_NAME,
+    ProductCU,
+    ProductList,
+    ProductPreview,
+    ProductQueryParams,
+    ProductServiceClient,
+    ProductUpdateParams,
 } from '@gen/product';
 import { PRODUCT_PACKAGE } from './product.constants';
 import { catchResponceError } from '@pipes/operators';
 import { File } from '@gen/common';
-import { ProductUpdateSchema } from '@domains/private/domains/product/product.schema';
 import { Empty } from '@gen/google/protobuf/empty';
 
 @Injectable()
@@ -30,11 +35,11 @@ export default class ProductService implements OnModuleInit {
         return lastValueFrom(this.productClient.getProduct({ id }).pipe(catchResponceError))
     }
 
-    public async getProductPrivateList(searchParams: ProductQueryParams): Promise<ProductPrivateList> {
-        return lastValueFrom(this.productClient.getProductList(searchParams).pipe(catchResponceError));
+    public async getProductPrivateList(searchParams: ProductQueryParams): Promise<ProductList> {
+        return lastValueFrom(this.productClient.getProductListByParams(searchParams).pipe(catchResponceError));
     }
 
-    public async updateProduct(productId: Product['id'], updates: ProductUpdateSchema): Promise<Empty> {
+    public async updateProduct(productId: Product['id'], updates: ProductUpdateParams['data']): Promise<Empty> {
         return lastValueFrom(
             this.productClient.updateProduct({ id: productId, data: updates }).pipe(catchResponceError)
         );

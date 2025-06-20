@@ -14,7 +14,7 @@ import { UserRole } from '@gen/user';
 import { CategoryCUSchema, CategoryPreviewSchema, CategorySchema, CategoryUpdateSchema } from './category.schema';
 import { Category } from '@gen/category';
 import { Empty } from '@gen/google/protobuf/empty';
-import { CategoryPreview } from '@gen/category_preview';
+import { CategoryPreview } from '@gen/_category_preview';
 
 @Controller('category')
 @UseGuards(AuthJWTAccessGuard, UserRoleGuard)
@@ -52,7 +52,7 @@ export default class CategoryController {
     @ApiOperation({ summary: 'get all categories' })
     @ApiOkResponse({ type: CategoryPreviewSchema, isArray: true })
     private getAllCategories(): Promise<CategoryPreview[]> {
-        return this.categoryService.getCategoryPrivateList();
+        return this.categoryService.getCategoryListPrivate();
     }
 
     @Get(':categoryURL')

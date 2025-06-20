@@ -4,10 +4,12 @@ import { Controller } from "@nestjs/common";
 import {
     Product,
     ProductCU,
+    ProductList,
     ProductListByCategory,
     ProductListByCategoryParams,
+    ProductListByIdsParamsPublic,
+    ProductListPreviewPublic,
     ProductPreview,
-    ProductPrivateList,
     ProductQueryParams,
     ProductSearchParams,
     ProductServiceController,
@@ -17,11 +19,14 @@ import {
 import ProductService from "./product.service";
 import { ValidateDTO } from "@shared/decorators/ValidateDTO.decorator";
 import { ProductCreateDTO, ProductUpdateDTO } from "./product.dto";
+import { TransData } from "gen/trans";
 
 @Controller()
 @ProductServiceControllerMethods()
 export class ProductController implements ProductServiceController {
     constructor(private readonly productService: ProductService) { }
+
+    // private
 
     getProduct({ id }: ProductSearchParams): Observable<Product> {
         return this.productService.getProduct(id);
@@ -37,7 +42,7 @@ export class ProductController implements ProductServiceController {
         return this.productService.updateProduct(id, data);
     }
 
-    getProductList(searchParams: ProductQueryParams): Observable<ProductPrivateList> {
+    getProductListByParams(searchParams: ProductQueryParams): Observable<ProductList> {
         return from(this.productService.getProductList(searchParams));
     }
 
@@ -49,5 +54,13 @@ export class ProductController implements ProductServiceController {
 
     deleteProduct({ id }: ProductSearchParams): Observable<void> {
         return this.productService.deleteProduct(id);
+    }
+
+    // public
+
+    getProductListByIdsPublic({ ids, queries }: ProductListByIdsParamsPublic): Observable<ProductListPreviewPublic> {
+        return this.productService.getProductListByIdsPublic(ids, queries.lang as keyof TransData).pipe(
+            map(res => ({ items: res }))
+        )
     }
 }

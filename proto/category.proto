@@ -15,10 +15,11 @@ import "product.proto";
 service CategoryService {
     rpc createCategory(CategoryCU) returns (category_preview.CategoryPreview);
     rpc updateCategory(CategoryUpdateParams) returns (google.protobuf.Empty);
-    rpc getCategoryList(google.protobuf.Empty) returns (CategoryPrivateList);
+    rpc getCategoryList(google.protobuf.Empty) returns (CategoryListPrivate);
+    rpc getCategoryListPublic(CategoryListSearchParamsPublic) returns (CategoryListPublic);
     rpc getCategory(CategorySearchParams) returns (Category);
     rpc getCategoryPreview(CategorySearchParams) returns (category_preview.CategoryPreview);
-    rpc getCategoryListByPropertyGroups(CategoryWithPropertyGroupsSearchParams) returns (CategoryPrivateList);
+    rpc getCategoryListByPropertyGroups(CategoryWithPropertyGroupsSearchParams) returns (CategoryListPrivate);
     rpc deleteCategory(CategorySearchParams) returns (google.protobuf.Empty);
 }
 
@@ -63,9 +64,16 @@ message CategoryWithPropertyGroupsSearchParams {
     int32 propertyGroupId = 1;
 }
 
+message CategoryListSearchParamsPublic {
+    common.QueryCommonParams queries = 1;
+}
 
 // responces
 
-message CategoryPrivateList {
+message CategoryListPrivate {
     repeated category_preview.CategoryPreview items = 1;
+}
+
+message CategoryListPublic {
+    repeated category_preview.CategoryPreviewPublic items = 1;
 }

@@ -1,12 +1,12 @@
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository, SelectQueryBuilder } from 'typeorm';
+import { In, Repository, SelectQueryBuilder } from 'typeorm';
 import { Injectable } from '@nestjs/common';
 import { catchError, forkJoin, from, lastValueFrom, map, Observable, of, switchMap, tap, throwError } from 'rxjs';
 import { status } from '@grpc/grpc-js';
 import { RpcException } from '@nestjs/microservices';
 
 import { ProductEntity } from './product.entity';
-import { Product, ProductCU, ProductPreview, ProductQueryParams, ProductSort } from 'gen/product';
+import { Product, ProductCU, ProductPreview, ProductPreviewPublic, ProductQueryParams, ProductSort } from 'gen/product';
 import { PaginationResult } from '@shared/dto/pagination.dto';
 import ProductMapper from './product.mapper';
 import { TransService } from '@common/trans/trans.service';
@@ -16,6 +16,7 @@ import PropertyGroupService from '@common/propertyGroup/propertyGroup.service';
 import { Category } from 'gen/category';
 import { ProductUpdateDTO } from './product.dto';
 import EventService from '@common/event/event.service';
+import { TransData } from 'gen/trans';
 
 @Injectable()
 export default class ProductService {
@@ -64,7 +65,7 @@ export default class ProductService {
                 }
 
                 return from(this.transService.getTransMap({ ids: [product.title, product.description] })).pipe(
-                    map(transMap => ProductMapper.toPrivatePreview(product, transMap))
+                    map(transMap => ProductMapper.toPreview(product, transMap))
                 );
             })
         )
@@ -93,7 +94,7 @@ export default class ProductService {
                     this.categoryService.getCategoryPreview(product.category),
                     options$,
                 ]).pipe(
-                    map(([transMap, category, options]) => ProductMapper.toPrivateView(
+                    map(([transMap, category, options]) => ProductMapper.toView(
                         product, { transMap, category, options },
                     ))
                 );
@@ -110,7 +111,7 @@ export default class ProductService {
         const transMap = await lastValueFrom(this.transService.getTransMap({ ids: products.map((product) => product.title) }));
 
         return new PaginationResult<ProductPreview>(
-            products.map((product) => ProductMapper.toPrivatePreview(product, transMap, searchParams)),
+            products.map((product) => ProductMapper.toPreview(product, transMap, searchParams)),
             {
                 currentPage: searchParams.pagination.page,
                 itemPortion: searchParams.pagination.portion,
@@ -125,9 +126,19 @@ export default class ProductService {
                 if (!products.length) return of([]);
 
                 return from(this.transService.getTransMap({ ids: products.map((product) => product.title) })).pipe(
-                    map(transMap => products.map((product) => ProductMapper.toPrivatePreview(product, transMap)))
+                    map(transMap => products.map((product) => ProductMapper.toPreview(product, transMap)))
                 )
             })
+        )
+    }
+
+    public getProductListByIdsPrivate(ids: Product['id'][]): Observable<ProductPreview[]> {
+        return this.getProductListByIds(ids);
+    }
+
+    public getProductListByIdsPublic(ids: Product['id'][], lang: keyof TransData): Observable<ProductPreviewPublic[]> {
+        return this.getProductListByIds(ids).pipe(
+            map(products => products.map((product) => ProductMapper.toPreviewPublic(product, lang)))
         )
     }
 
@@ -161,6 +172,18 @@ export default class ProductService {
                 );
             })
         );
+    }
+
+    private getProductListByIds(ids: Product['id'][]): Observable<ProductPreview[]> {
+        return from(this.productRepo.find({ where: { id: In(ids) } })).pipe(
+            switchMap(products => {
+                if (!products.length) return of([]);
+
+                return from(this.transService.getTransMap({ ids: products.map((product) => product.title) })).pipe(
+                    map(transMap => products.map((product) => ProductMapper.toPreview(product, transMap)))
+                )
+            })
+        )
     }
 
     /**
@@ -226,13 +249,13 @@ export default class ProductService {
         if (status) qb.andWhere('p.status = :status', { status });
 
         switch (sort) {
-            case ProductSort.PRICE_UP:
+            case ProductSort.PRICE_UP_SORT:
                 qb.orderBy('p.price.current', 'ASC');
                 break;
-            case ProductSort.PRICE_DOWN:
+            case ProductSort.PRICE_DOWN_SORT:
                 qb.orderBy('p.price.current', 'DESC');
                 break;
-            case ProductSort.NEW:
+            case ProductSort.NEW_SORT:
                 qb.orderBy('p.created_at', 'DESC');
                 break;
             default: // ProductSort.POPULAR

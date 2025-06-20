@@ -34,7 +34,7 @@ import { ApiProductListQueriesDecorator } from '@common/product/product.decorato
 import QueryDecorator from '@common/queries/query.decorator';
 import ProductService from '@common/product/product.service';
 import { ProductQuerisDTO } from '@common/product/product.dto';
-import { Product, ProductPreview, ProductPrivateList } from '@gen/product';
+import { Product, ProductPreview, ProductList } from '@gen/product';
 import { Empty } from '@gen/google/protobuf/empty';
 import { PaginationSchema } from '@schemas/pagination.schema';
 
@@ -61,7 +61,7 @@ export default class ProductPrivateController {
     @ApiOperation({ summary: 'get product list' })
     @ApiProductListQueriesDecorator()
     @ApiPaginatedResponseDecorator(ProductPreviewSchema)
-    private getproducts(@QueryDecorator(ProductQuerisDTO) queries: any): Promise<ProductPrivateList> {
+    private getproducts(@QueryDecorator(ProductQuerisDTO) queries: any): Promise<ProductList> {
         return this.productService.getProductPrivateList(queries);
     }
 

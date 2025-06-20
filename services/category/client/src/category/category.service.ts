@@ -1,4 +1,4 @@
-import { Raw, Repository, UpdateResult } from 'typeorm';
+import { FindOptionsWhere, Raw, Repository, UpdateResult } from 'typeorm';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { catchError, forkJoin, from, lastValueFrom, map, Observable, of, switchMap, throwError } from 'rxjs';
@@ -16,6 +16,9 @@ import { PropertyGroup } from 'gen/property_group';
 import { CategoryPreview } from 'gen/category_preview';
 import EventService from '@common/event/event.service';
 import ProductService from '@common/product/product.service';
+import { QueryCommonParams } from 'gen/common';
+import { TransMap } from 'gen/trans';
+import { CategoryPreviewPublic } from 'gen/_category_preview';
 
 @Injectable()
 export default class CategoryService {
@@ -28,17 +31,14 @@ export default class CategoryService {
         private readonly productService: ProductService,
     ) { }
 
-    public getCategoryList(): Observable<CategoryPreview[]> {
-        return from(this.categoryRepo.find({ order: { createdAt: 'DESC' } })).pipe(
-            switchMap(categories => {
-                if (!categories.length) return of([]);
+    public getCategoryListPrivate(): Observable<CategoryPreview[]> {
+        return this.getCategoryList<CategoryPreview>(CategoryMapper.toPreview);
+    }
 
-                return from(
-                    this.transService.getTransMap({ ids: categories.map(cat => cat.title) })
-                ).pipe(
-                    map(transMap => categories.map(cat => CategoryMapper.toPreview(cat, transMap.items)))
-                )
-            })
+    public getCategoryListPublic(queries: QueryCommonParams): Observable<CategoryPreviewPublic[]> {
+        return this.getCategoryList<CategoryPreviewPublic>(
+            CategoryMapper.toPreviewPublic.bind(queries),
+            { isPublic: true },
         );
     }
 
@@ -191,5 +191,31 @@ export default class CategoryService {
             })
             .where(`propertyGroups @> ARRAY[${id}]`)
             .execute();
+    }
+
+    /**
+     * @description
+     * Gets list of categories with given findOptions,
+     * translates category titles and maps each category to given type T with mapper function
+     * @param mapper function that maps category to type T
+     * @param findOptions options for finding categories
+     * @returns observable of array of type T
+     */
+    private getCategoryList<T>(
+        mapper: (category: CategoryEntity, transMap: TransMap['items']) => T,
+        findOptions?: FindOptionsWhere<CategoryEntity>,
+    ): Observable<T[]> {
+        return from(this.categoryRepo.find({
+            where: findOptions,
+            order: { createdAt: 'DESC' },
+        })).pipe(
+            switchMap(categories => {
+                if (!categories.length) return of([]);
+
+                return this.transService.getTransMap({ ids: categories.map(cat => cat.title) }).pipe(
+                    map(transMap => categories.map(cat => mapper(cat, transMap.items)))
+                )
+            })
+        );
     }
 }

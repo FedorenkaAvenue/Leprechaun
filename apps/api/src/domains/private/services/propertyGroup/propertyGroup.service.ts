@@ -7,7 +7,7 @@ import {
     PropertyGroupUpdateParams,
 } from '@gen/property_group';
 import { Empty } from '@gen/google/protobuf/empty';
-import { property_group_PACKAGE } from './propertyGroup.constants';
+import { PROPERTY_GROUP_PACKAGE } from './propertyGroup.constants';
 import { catchResponceError } from '@pipes/operators';
 import { Category } from '@gen/category';
 
@@ -15,7 +15,7 @@ import { Category } from '@gen/category';
 export default class PropertyGroupPrivateService implements OnModuleInit {
     private propGroupClient: PropertyGroupServiceClient;
 
-    constructor(@Inject(property_group_PACKAGE) private client: ClientGrpc) { }
+    constructor(@Inject(PROPERTY_GROUP_PACKAGE) private client: ClientGrpc) { }
 
     onModuleInit() {
         this.propGroupClient = this.client.getService<PropertyGroupServiceClient>(PROPERTY_GROUP_SERVICE_NAME);

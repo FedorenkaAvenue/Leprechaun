@@ -6,7 +6,9 @@ import { status } from "@grpc/grpc-js";
 import {
     Category,
     CategoryCU,
-    CategoryPrivateList,
+    CategoryListPrivate,
+    CategoryListPublic,
+    CategoryListSearchParamsPublic,
     CategorySearchParams,
     CategoryServiceController,
     CategoryServiceControllerMethods,
@@ -39,10 +41,16 @@ export default class CategoryController implements CategoryServiceController {
         return this.categoryService.createCategory(body);
     }
 
-    getCategoryList(request: Empty): Observable<CategoryPrivateList> {
-        return this.categoryService.getCategoryList().pipe(
+    getCategoryList(request: Empty): Observable<CategoryListPrivate> {
+        return this.categoryService.getCategoryListPrivate().pipe(
             map(res => ({ items: res }))
         );
+    }
+
+    getCategoryListPublic({ queries }: CategoryListSearchParamsPublic): Observable<CategoryListPublic> {
+        return this.categoryService.getCategoryListPublic(queries).pipe(
+            map(res => ({ items: res }))
+        )
     }
 
     @ValidateDTO(CategoryUpdateDTO)
@@ -52,7 +60,7 @@ export default class CategoryController implements CategoryServiceController {
 
     getCategoryListByPropertyGroups(
         { propertyGroupId }: CategoryWithPropertyGroupsSearchParams
-    ): Observable<CategoryPrivateList> {
+    ): Observable<CategoryListPrivate> {
         return this.categoryService.getCategoryListByPropertyGroups(propertyGroupId).pipe(
             map(items => ({ items }))
         );
