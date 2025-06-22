@@ -112,6 +112,8 @@ services:
       - PRODUCT_SERVICE_CLIENT_PORT
       - WISHLIST_SERVICE_CLIENT_HOST
       - WISHLIST_SERVICE_CLIENT_PORT
+      - HISTORY_SERVICE_CLIENT_HOST
+      - HISTORY_SERVICE_CLIENT_PORT
     depends_on:
       - events
       - service_auth_client
@@ -121,6 +123,7 @@ services:
       - service_category_client
       - service_product_client
       - service_wishlist_client
+      - service_history_client
 
   app_client:
     container_name: leprechaun-app-client
@@ -393,6 +396,39 @@ services:
     networks:
       - wishlist_service
 
+  service_history_client:
+    container_name: leprechaun-service-history-client
+    environment:
+      - HISTORY_SERVICE_CLIENT_PORT
+      - POSTGRES_USER=${HISTORY_SERVICE_DB_USER}
+      - POSTGRES_PASSWORD=${HISTORY_SERVICE_DB_PASSWORD}
+      - POSTGRES_HOST=${HISTORY_SERVICE_DB_HOST}
+      - POSTGRES_PORT=${HISTORY_SERVICE_DB_PORT}
+      - POSTGRES_DATABASE=${HISTORY_SERVICE_DB_DATABASE}
+      - PRODUCT_SERVICE_CLIENT_HOST
+      - PRODUCT_SERVICE_CLIENT_PORT
+      - EVENTS_HOST
+      - EVENTS_PORT
+    networks:
+      - api_domain
+      - history_service
+    depends_on:
+      - service_history_db
+
+  service_history_db:
+    container_name: leprechaun-service-history-db
+    build:
+      context: ./services/history/db
+      dockerfile: Dockerfile
+    environment:
+      - POSTGRES_PASSWORD=${HISTORY_SERVICE_DB_PASSWORD}
+      - POSTGRES_USER=${HISTORY_SERVICE_DB_USER}
+      - POSTGRES_DATABASE=${HISTORY_SERVICE_DB_DATABASE}
+    ports:
+      - ${HISTORY_SERVICE_DB_PORT_EXPOSE}:${HISTORY_SERVICE_DB_PORT}
+    networks:
+      - history_service
+
 networks:
   server_infra:
     driver: bridge
@@ -421,3 +457,6 @@ networks:
   wishlist_service:
     driver: bridge
     name: leprechaun_wishlist_service
+  history_service:
+    driver: bridge
+    name: leprechaun_history_service

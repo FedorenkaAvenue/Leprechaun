@@ -268,6 +268,28 @@ services:
       - ./services/wishlist/db/postgresql.conf:/app/postgresql.conf
       - ./services/wishlist/db/pg_hba.conf:/app/pg_hba.conf
 
+  service_history_client:
+    restart: unless-stopped
+    extends:
+      file: docker-compose.shared.yaml
+      service: node
+    command: npm run start:dev
+    ports:
+      - ${HISTORY_SERVICE_CLIENT_PORT_EXPOSE}:${HISTORY_SERVICE_CLIENT_PORT}
+    volumes:
+      - ./services/history/client:/app
+      - ./proto:/app/proto
+    environment:
+      - IS_DEV=true
+
+  service_history_db:
+    restart: unless-stopped
+    ports:
+      - ${HISTORY_SERVICE_DB_PORT_EXPOSE}:${HISTORY_SERVICE_DB_PORT}
+    volumes:
+      - ./services/history/db/postgresql.conf:/app/postgresql.conf
+      - ./services/history/db/pg_hba.conf:/app/pg_hba.conf
+
   ### UTILS
 
   translations:

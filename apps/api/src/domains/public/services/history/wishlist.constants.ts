@@ -1,0 +1,1 @@
+export const HISTORY_PACKAGE = 'HISTORY_PACKAGE';

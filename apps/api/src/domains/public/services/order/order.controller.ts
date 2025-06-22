@@ -20,8 +20,6 @@ export default class OrderPublicController {
         // ): Promise<OrderPublicI | null> {
     ) {
         {
-            console.log('LLLLLLOL');
-
             // return this.orderService.getCart(id, queries);
             return 'loh'; ''; // null;
         }

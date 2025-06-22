@@ -24,6 +24,6 @@ import ProductPrivateModule from "./services/product/product.module";
             { module: CategoryPrivateModule, path: 'private' },
             { module: ProductPrivateModule, path: 'private' },
         ]),
-    ]
+    ],
 })
 export default class PrivateModule { }

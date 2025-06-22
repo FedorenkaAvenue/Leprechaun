@@ -15,9 +15,7 @@ const QueryDecorator = createParamDecorator(
     ): InstanceType<T> | QueriesCommon => {
         const { query }: Request<any, any, any, QueriesCommon> = ctx.switchToHttp().getRequest();
 
-        const queries = construct ? new construct(query) : new QueriesCommon(query);
-
-        return queries;
+        return construct ? new construct(query) : new QueriesCommon(query);
     }
 );
 
