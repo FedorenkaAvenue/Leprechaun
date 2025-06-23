@@ -1,0 +1,31 @@
+syntax = "proto3";
+
+package subscription;
+
+option go_package = "./subscription;subscription_v1";
+
+service SubscriptionService {
+    rpc getSubscriptionListPublic(SubscriptionListPublicSearchParams) returns (SubscriptionListPublic);
+}
+
+// entities
+
+message Subscription {
+    string id = 1;
+    string user = 2;
+    string email = 3;
+    string product = 4;
+    string lang = 5;
+}
+
+// requests
+
+message SubscriptionListPublicSearchParams {
+    string user = 1;
+}
+
+// responces
+
+message SubscriptionListPublic {
+    repeated string items = 1;
+}

@@ -57,7 +57,7 @@ const RootLayout: FC<PropsWithChildren<RouteProps>> = async ({ params, children 
                                 {children}
                             </CartProvider>
                         </I18nProvider>
-                        <Socket />
+                        {/* <Socket /> */}
                     </HydrationBoundary>
                 </QueryClientProvider>
                 <Toaster />

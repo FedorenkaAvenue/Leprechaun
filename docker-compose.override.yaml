@@ -114,6 +114,8 @@ services:
       - WISHLIST_SERVICE_CLIENT_PORT
       - HISTORY_SERVICE_CLIENT_HOST
       - HISTORY_SERVICE_CLIENT_PORT
+      - SUBSCRIPTION_SERVICE_CLIENT_HOST
+      - SUBSCRIPTION_SERVICE_CLIENT_PORT
     depends_on:
       - events
       - service_auth_client
@@ -124,6 +126,7 @@ services:
       - service_product_client
       - service_wishlist_client
       - service_history_client
+      - service_subscription_client
 
   app_client:
     container_name: leprechaun-app-client
@@ -429,6 +432,37 @@ services:
     networks:
       - history_service
 
+  service_subscription_client:
+    container_name: leprechaun-service-subscription-client
+    environment:
+      - SUBSCRIPTION_SERVICE_CLIENT_PORT
+      - POSTGRES_USER=${SUBSCRIPTION_SERVICE_DB_USER}
+      - POSTGRES_PASSWORD=${SUBSCRIPTION_SERVICE_DB_PASSWORD}
+      - POSTGRES_HOST=${SUBSCRIPTION_SERVICE_DB_HOST}
+      - POSTGRES_PORT=${SUBSCRIPTION_SERVICE_DB_PORT}
+      - POSTGRES_DATABASE=${SUBSCRIPTION_SERVICE_DB_DATABASE}
+      - EVENTS_HOST
+      - EVENTS_PORT
+    networks:
+      - api_domain
+      - subscription_service
+    depends_on:
+      - service_subscription_db
+
+  service_subscription_db:
+    container_name: leprechaun-service-subscription-db
+    build:
+      context: ./services/subscription/db
+      dockerfile: Dockerfile
+    environment:
+      - POSTGRES_PASSWORD=${SUBSCRIPTION_SERVICE_DB_PASSWORD}
+      - POSTGRES_USER=${SUBSCRIPTION_SERVICE_DB_USER}
+      - POSTGRES_DATABASE=${SUBSCRIPTION_SERVICE_DB_DATABASE}
+    ports:
+      - ${SUBSCRIPTION_SERVICE_DB_PORT_EXPOSE}:${SUBSCRIPTION_SERVICE_DB_PORT}
+    networks:
+      - subscription_service
+
 networks:
   server_infra:
     driver: bridge
@@ -460,3 +494,6 @@ networks:
   history_service:
     driver: bridge
     name: leprechaun_history_service
+  subscription_service:
+    driver: bridge
+    name: leprechaun_subscription_service

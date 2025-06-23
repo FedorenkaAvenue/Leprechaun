@@ -5,6 +5,7 @@ import OrderPublicModule from "./services/order/order.module";
 import CategoryPublicModule from "./services/category/category.module";
 import HistoryPublicModule from "./services/history/history.module";
 import ProductPublicModule from "./services/product/product.module";
+import SubscriptionPublicModule from "./services/subscription/subscription.module";
 
 @Module({
     imports: [
@@ -13,6 +14,7 @@ import ProductPublicModule from "./services/product/product.module";
         OrderPublicModule,
         CategoryPublicModule,
         HistoryPublicModule,
+        SubscriptionPublicModule,
     ],
 })
 export default class PublicModule { }

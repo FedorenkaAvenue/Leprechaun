@@ -290,6 +290,28 @@ services:
       - ./services/history/db/postgresql.conf:/app/postgresql.conf
       - ./services/history/db/pg_hba.conf:/app/pg_hba.conf
 
+  service_subscription_client:
+    restart: unless-stopped
+    extends:
+      file: docker-compose.shared.yaml
+      service: node
+    command: npm run start:dev
+    ports:
+      - ${SUBSCRIPTION_SERVICE_CLIENT_PORT_EXPOSE}:${SUBSCRIPTION_SERVICE_CLIENT_PORT}
+    volumes:
+      - ./services/subscription/client:/app
+      - ./proto:/app/proto
+    environment:
+      - IS_DEV=true
+
+  service_subscription_db:
+    restart: unless-stopped
+    ports:
+      - ${SUBSCRIPTION_SERVICE_DB_PORT_EXPOSE}:${SUBSCRIPTION_SERVICE_DB_PORT}
+    volumes:
+      - ./services/subscription/db/postgresql.conf:/app/postgresql.conf
+      - ./services/subscription/db/pg_hba.conf:/app/pg_hba.conf
+
   ### UTILS
 
   translations:
