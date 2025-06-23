@@ -6,7 +6,7 @@ import { UserRole } from '@gen/user';
 import { UserRoleDecorator } from '@common/user/user.decorator';
 import { UserRoleGuard } from '@common/user/user.guard';
 import { AuthJWTAccessGuard } from '@guards/auth.guard';
-import { Property } from '@gen/_property';
+import { Property } from '@gen/property';
 import PropertyPrivateService from './property.service';
 import { Empty } from '@gen/google/protobuf/empty';
 

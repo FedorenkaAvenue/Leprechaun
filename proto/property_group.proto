@@ -8,13 +8,16 @@ import "google/protobuf/timestamp.proto";
 import "google/protobuf/empty.proto";
 import "trans.proto";
 import "_category_preview.proto";
-import "_property.proto";
+import "property.proto";
+import "common.proto";
 
 service PropertyGroupService {
     rpc getGroupPrivate (PropertyGroupSearchParams) returns (PropertyGroup);
-    rpc getGroupListPrivate (PropertyGroupListSearchParams) returns (PropertyGroupList);
-    rpc getGroupListPrivateByCategory (PropertyGroupListByCategorySearchParams) returns (PropertyGroupList);
-    rpc getGroupListPrivateByProperties (property.PropertyListSearchParams) returns (PropertyGroupList);
+    rpc getGroupListPrivate (PropertyGroupListSearchParams) returns (PropertyGroupListPrivate);
+    rpc getGroupListByCategoryPrivate (PropertyGroupListByCategorySearchParams) returns (PropertyGroupListPrivate);
+    rpc getGroupListByPropertiesPrivate (property.PropertyListPrivateSearchParams) returns (PropertyGroupListPrivate);
+    rpc getGroupListByPropertiesPublic (property.PropertyListPublicSearchParams) returns (PropertyGroupListPublic);
+    rpc getGroupMapByPropertiesPublic (PropertyGroupMapPublicSearchParams) returns (PropertyGroupPublicMap);
     rpc createGroup (PropertyGroupCU) returns (PropertyGroup);
     rpc updateGroup (PropertyGroupUpdateParams) returns (google.protobuf.Empty);
     rpc deleteGroup (PropertyGroupSearchParams) returns (google.protobuf.Empty);
@@ -22,7 +25,7 @@ service PropertyGroupService {
 
 service PropertyService {
     rpc createProperty(property.PropertyCU) returns (property.Property);
-    rpc getPropertyList(property.PropertyListSearchParams) returns (property.PropertyList);
+    rpc getPropertyList(property.PropertyListPrivateSearchParams) returns (property.PropertyList);
     rpc deleteProperty(property.PropertySearchParams) returns (google.protobuf.Empty);
 }
 
@@ -53,6 +56,14 @@ message PropertyGroupPreview {
     repeated property.Property properties = 8;
 }
 
+message PropertyGroupPreviewPublic {
+    int32 id = 1;
+    string title = 2;
+    string altName = 3;
+    bool isPrimary = 4;
+    repeated property.PropertyPublic properties = 8;
+}
+
 // requests
 
 message PropertyGroupCU {
@@ -79,8 +90,30 @@ message PropertyGroupListByCategorySearchParams {
     int32 id = 1;
 }
 
+message PropertyGroupMapPublicSearchParams {
+    message Entity {
+        string product = 1;
+        repeated int32 properties = 2;
+    }
+
+    repeated Entity entities = 1;
+    common.QueryCommonParams queries = 2;
+}
+
 // responces
 
-message PropertyGroupList {
+message PropertyGroupListPrivate {
     repeated PropertyGroupPreview items = 1;
+}
+
+message PropertyGroupListPublic {
+    repeated PropertyGroupPreviewPublic items = 1;
+}
+
+message PropertyGroupPublicMap {
+    message Entity {
+        repeated PropertyGroupPreviewPublic options = 2;
+    }
+
+    map<string, Entity> items = 1;
 }

@@ -9,7 +9,9 @@ import {
     CategoryListPrivate,
     CategoryListPublic,
     CategoryListSearchParamsPublic,
-    CategorySearchParams,
+    CategoryPrivateSearchParams,
+    CategoryPublic,
+    CategoryPublicSearchParams,
     CategoryServiceController,
     CategoryServiceControllerMethods,
     CategoryUpdateParams,
@@ -19,7 +21,7 @@ import CategoryService from "./category.service";
 import { ValidateDTO } from "@shared/decorators/ValidateDTO.decorator";
 import { CategoryCreateDTO, CategoryUpdateDTO } from "./category.dto";
 import { Empty } from "gen/google/protobuf/empty";
-import { CategoryPreview } from "gen/category_preview";
+import { CategoryPreview, CategoryPreviewPublic } from "gen/_category_preview";
 
 @Controller()
 @CategoryServiceControllerMethods()
@@ -28,12 +30,20 @@ export default class CategoryController implements CategoryServiceController {
         private readonly categoryService: CategoryService,
     ) { }
 
-    getCategory({ id, url }: CategorySearchParams): Observable<Category> {
-        return this.categoryService.getCategory(id, url);
+    getCategoryPrivate({ id, url }: CategoryPrivateSearchParams): Observable<Category> {
+        return this.categoryService.getCategoryPrivate(id, url);
     }
 
-    getCategoryPreview({ id, url }: CategorySearchParams): Observable<CategoryPreview> {
-        return this.categoryService.getCategoryPreview(id, url);
+    getCategoryPublic({ url, id, queries }: CategoryPublicSearchParams): Observable<CategoryPublic> {
+        return this.categoryService.getCategoryPublic({ url, id }, queries);
+    }
+
+    getCategoryPreviewPrivate(params: CategoryPrivateSearchParams): Observable<CategoryPreview> {
+        return this.categoryService.getCategoryPreviewPrivate(params);
+    }
+
+    getCategoryPreviewPublic({ url, id, queries }: CategoryPublicSearchParams): Observable<CategoryPreviewPublic> {
+        return this.categoryService.getCategoryPreviewPublic({ url, id }, queries);
     }
 
     @ValidateDTO(CategoryCreateDTO)
@@ -41,7 +51,7 @@ export default class CategoryController implements CategoryServiceController {
         return this.categoryService.createCategory(body);
     }
 
-    getCategoryList(request: Empty): Observable<CategoryListPrivate> {
+    getCategoryListPrivate(request: Empty): Observable<CategoryListPrivate> {
         return this.categoryService.getCategoryListPrivate().pipe(
             map(res => ({ items: res }))
         );
@@ -66,7 +76,7 @@ export default class CategoryController implements CategoryServiceController {
         );
     }
 
-    deleteCategory({ id }: CategorySearchParams): Promise<void> {
+    deleteCategory({ id }: CategoryPrivateSearchParams): Promise<void> {
         if (!id) throw new RpcException({
             code: status.INVALID_ARGUMENT,
             message: `no category id provided`,

@@ -1,7 +1,8 @@
-import { PropertyGroup, PropertyGroupPreview } from "gen/property_group";
+import { PropertyGroup, PropertyGroupPreview, PropertyGroupPreviewPublic } from "gen/property_group";
 import { PropertyGroupEntity } from "./propertyGroup.entity";
-import { TransMap } from "gen/trans";
-import { CategoryPreview } from "gen/category_preview";
+import { TransData, TransMap } from "gen/trans";
+import { CategoryPreview } from "gen/_category_preview";
+import { QueryCommonParams } from "gen/common";
 
 export default class PropertyGroupMapper {
     static toPreview(group: PropertyGroupEntity, transMap: TransMap['items']): PropertyGroupPreview {
@@ -9,6 +10,22 @@ export default class PropertyGroupMapper {
             ...group,
             title: transMap[group.title],
             properties: group.properties.map(prop => ({ ...prop, title: transMap[prop.title] })),
+        };
+    }
+
+
+    static toPreviewPublic(
+        this: QueryCommonParams,
+        group: PropertyGroupEntity,
+        transMap: TransMap['items'],
+    ): PropertyGroupPreviewPublic {
+        return {
+            ...group,
+            title: transMap[group.title][this.lang as keyof TransData],
+            properties: group.properties.map(prop => ({
+                ...prop,
+                title: transMap[prop.title][this.lang as keyof TransData],
+            })),
         };
     }
 

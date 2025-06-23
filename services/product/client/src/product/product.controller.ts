@@ -9,6 +9,7 @@ import {
     ProductListByCategoryParams,
     ProductListByIdsParamsPublic,
     ProductListPreviewPublic,
+    ProductListPublic,
     ProductPreview,
     ProductQueryParams,
     ProductSearchParams,
@@ -19,7 +20,6 @@ import {
 import ProductService from "./product.service";
 import { ValidateDTO } from "@shared/decorators/ValidateDTO.decorator";
 import { ProductCreateDTO, ProductUpdateDTO } from "./product.dto";
-import { TransData } from "gen/trans";
 
 @Controller()
 @ProductServiceControllerMethods()
@@ -43,7 +43,7 @@ export class ProductController implements ProductServiceController {
     }
 
     getProductListByParams(searchParams: ProductQueryParams): Observable<ProductList> {
-        return from(this.productService.getProductList(searchParams));
+        return from(this.productService.getProductListPrivate(searchParams));
     }
 
     getProductListByCategory({ category }: ProductListByCategoryParams): Observable<ProductListByCategory> {
@@ -59,8 +59,12 @@ export class ProductController implements ProductServiceController {
     // public
 
     getProductListByIdsPublic({ ids, queries }: ProductListByIdsParamsPublic): Observable<ProductListPreviewPublic> {
-        return this.productService.getProductListByIdsPublic(ids, queries.lang as keyof TransData).pipe(
+        return this.productService.getProductListByIdsPublic(ids, queries).pipe(
             map(res => ({ items: res }))
         )
+    }
+
+    getProductListByParamsPublic(queries: ProductQueryParams): Observable<ProductListPublic> {
+        return this.productService.getProductListPublic(queries);
     }
 }

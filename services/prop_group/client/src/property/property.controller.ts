@@ -5,9 +5,9 @@ import {
     Property,
     PropertyCU,
     PropertyList,
-    PropertyListSearchParams,
+    PropertyListPrivateSearchParams,
     PropertySearchParams,
-} from "gen/_property";
+} from "gen/property";
 import { CreatePropertyDTO } from "./property.dto";
 import { ValidateDTO } from "@shared/decorators/ValidateDTO.decorator";
 import { PropertyServiceController, PropertyServiceControllerMethods } from "gen/property_group";
@@ -18,7 +18,7 @@ export default class PropertyController implements PropertyServiceController {
         private readonly propertyService: PropertyService,
     ) { }
 
-    getPropertyList({ ids }: PropertyListSearchParams): Observable<PropertyList> {
+    getPropertyList({ ids }: PropertyListPrivateSearchParams): Observable<PropertyList> {
         return this.propertyService.getPropertyList(ids).pipe(
             map(res => ({ items: res }))
         );

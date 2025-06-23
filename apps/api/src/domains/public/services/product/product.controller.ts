@@ -1,49 +1,41 @@
-// import { Controller, Get, Param, ParseUUIDPipe, UseInterceptors } from '@nestjs/common';
-// import {
-//     ApiBadRequestResponse, ApiNotFoundResponse, ApiOkResponse, ApiOperation, ApiTags,
-// } from '@nestjs/swagger';
-// import { CacheInterceptor } from '@nestjs/cache-manager';
+import { Controller, Get, Param, ParseUUIDPipe, UseInterceptors } from '@nestjs/common';
+import {
+    ApiBadRequestResponse, ApiNotFoundResponse, ApiOkResponse, ApiOperation, ApiTags,
+} from '@nestjs/swagger';
 
-// import ProductService from './product.service';
-// import { ProductCardPublic, ProductPublic } from './product.dto';
-// import { ProductCardPublicI, ProductPublicI } from './product.interface';
-// import ProductHistoryInterceptor from '../productHistory/productHistory.interceptor';
-// import { QueriesProductListI } from '@core/queries/queries.interface';
-// import { QueriesProductList } from '@core/queries/queries.dto';
-// import QueryDecorator from '@core/queries/query.decorator';
-// import { ApiProductListQueriesDecorator } from '@core/product/product.decorator';
-// import { SessionInitInterceptor } from '@core/session/session.interceptor';
-// import { PaginationResult } from '@shared/dto/pagination.dto';
-// import ApiPaginatedResponse from '@shared/decorators/apiPaginatedResponse.decorator';
-// import InvalidPaginationPageInterceptor from '@shared/interceptors/invalidPaginationPage.interceptor';
-// import NotFoundInterceptor from '@shared/interceptors/notFound.interceptor';
+import { ApiProductListQueriesDecorator } from '@common/product/product.decorator';
+import ApiPaginatedResponseDecorator from '@decorators/apiPaginatedResponse.decorator';
+import QueryDecorator from '@common/queries/query.decorator';
+import { ProductListPublic, ProductQueryParams } from '@gen/product';
+import { ProductCardPublicSchema } from './product.schema';
+import ProductService from '@common/product/product.service';
+import { ProductQuerisDTO } from '@common/product/product.dto';
 
-// @Controller('product')
-// @ApiTags('Product')
-// export default class ProductController {
-//     constructor(private readonly productService: ProductService) { }
+@Controller('product')
+@ApiTags('Product 🧑‍💻')
+export default class ProductPublicController {
+    constructor(private readonly productService: ProductService) { }
 
-//     @Get('list')
-//     @UseInterceptors(CacheInterceptor, InvalidPaginationPageInterceptor)
-//     @ApiOperation({ summary: 'get product list 💾' })
-//     @ApiProductListQueriesDecorator()
-//     @ApiPaginatedResponse(ProductCardPublic)
-//     private getProducts(
-//         @QueryDecorator(QueriesProductList) queries: QueriesProductListI,
-//     ): Promise<PaginationResult<ProductCardPublicI>> {
-//         return this.productService.getProductList(queries);
-//     }
+    @Get('list')
+    @ApiOperation({ summary: 'get product list 💾' })
+    @ApiProductListQueriesDecorator()
+    @ApiPaginatedResponseDecorator(ProductCardPublicSchema)
+    private getProducts(
+        @QueryDecorator(ProductQuerisDTO) queries: ProductQueryParams,
+    ): Promise<ProductListPublic> {
+        return this.productService.getProductPublicList(queries);
+    }
 
-//     @Get(':productId')
-//     @UseInterceptors(SessionInitInterceptor, ProductHistoryInterceptor, CacheInterceptor, NotFoundInterceptor)
-//     @ApiOperation({ summary: 'get product full data by ID 💾 🧷' })
-//     @ApiOkResponse({ type: ProductPublic })
-//     @ApiBadRequestResponse({ description: 'invalid product ID' })
-//     @ApiNotFoundResponse({ description: 'product not found' })
-//     private getProduct(
-//         @Param('productId', ParseUUIDPipe) productId: string,
-//         @QueryDecorator(QueriesProductList) queries: QueriesProductListI,
-//     ): Promise<ProductPublicI | null> {
-//         return this.productService.getProduct(productId, queries);
-//     }
-// }
+    // @Get(':productId')
+    // @UseInterceptors(SessionInitInterceptor, ProductHistoryInterceptor, CacheInterceptor, NotFoundInterceptor)
+    // @ApiOperation({ summary: 'get product full data by ID 💾 🧷' })
+    // @ApiOkResponse({ type: ProductPublic })
+    // @ApiBadRequestResponse({ description: 'invalid product ID' })
+    // @ApiNotFoundResponse({ description: 'product not found' })
+    // private getProduct(
+    //     @Param('productId', ParseUUIDPipe) productId: string,
+    //     @QueryDecorator(QueriesProductList) queries: QueriesProductListI,
+    // ): Promise<ProductPublicI | null> {
+    //     return this.productService.getProduct(productId, queries);
+    // }
+}

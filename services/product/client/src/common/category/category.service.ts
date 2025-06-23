@@ -3,7 +3,7 @@ import { ClientGrpc } from "@nestjs/microservices";
 import { Observable } from "rxjs";
 
 import { Category, CATEGORY_SERVICE_NAME, CategoryServiceClient } from "gen/category";
-import { CategoryPreview } from "gen/category_preview";
+import { CategoryPreview } from "gen/_category_preview";
 
 @Injectable()
 export default class CategoryService implements OnModuleInit {
@@ -15,7 +15,7 @@ export default class CategoryService implements OnModuleInit {
         this.categoryClient = this.client.getService<CategoryServiceClient>(CATEGORY_SERVICE_NAME);
     }
 
-    getCategoryPreview(id: Category['id']): Observable<CategoryPreview> {
-        return this.categoryClient.getCategoryPreview({ id });
+    getCategoryPreviewPrivate(id: Category['id']): Observable<CategoryPreview> {
+        return this.categoryClient.getCategoryPreviewPrivate({ id });
     }
 }

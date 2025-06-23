@@ -1,15 +1,10 @@
-// import { Module } from '@nestjs/common';
+import { Module } from '@nestjs/common';
 
-// import ProductController from './product.controller';
-// import ProductService from './product.service';
-// import EventModule from '../event/event.module';
-// import ProductHistoryModule from '../productHistory/productHistory.module';
-// import ProductCoreModule from '@core/product/product.module';
-// import CacheModule from '@core/cache/cache.module';
+import ProductPublicController from './product.controller';
+import ProductModule from '@common/product/product.module';
 
-// @Module({
-//     imports: [ProductCoreModule, CacheModule, ProductHistoryModule, EventModule],
-//     controllers: [ProductController],
-//     providers: [ProductService],
-// })
-// export default class ProductModule { }
+@Module({
+    imports: [ProductModule],
+    controllers: [ProductPublicController],
+})
+export default class ProductPublicModule { }

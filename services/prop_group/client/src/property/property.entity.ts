@@ -3,7 +3,7 @@ import {
 } from 'typeorm';
 
 import { PropertyGroupEntity } from '../propertyGroup/propertyGroup.entity';
-import { Property } from 'gen/_property';
+import { Property } from 'gen/property';
 import { PropertyGroup } from 'gen/property_group';
 
 @Entity('property')

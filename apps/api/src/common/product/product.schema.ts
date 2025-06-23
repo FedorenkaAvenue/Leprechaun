@@ -9,3 +9,11 @@ export class ProductPriceSchema implements ProductPrice {
     @ApiProperty()
     old: number;
 }
+
+export class ProductImageSchema {
+    @ApiProperty()
+    id: string;
+
+    @ApiProperty()
+    src: string;
+}

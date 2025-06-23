@@ -2,7 +2,7 @@ import { Inject, Injectable, OnModuleInit } from '@nestjs/common';
 import { ClientGrpc } from '@nestjs/microservices';
 import { lastValueFrom } from 'rxjs';
 
-import { Category, CATEGORY_SERVICE_NAME, CategoryCU, CategoryServiceClient } from '@gen/category';
+import { Category, CATEGORY_SERVICE_NAME, CategoryCU, CategoryPublic, CategoryServiceClient } from '@gen/category';
 import { CATEGORY_PACKAGE } from './category.constant';
 import { Empty } from '@gen/google/protobuf/empty';
 import { catchResponceError } from '@pipes/operators';
@@ -20,7 +20,7 @@ export default class CategoryService implements OnModuleInit {
     }
 
     public async getCategoryListPrivate(): Promise<CategoryPreview[]> {
-        const { items } = await lastValueFrom(this.categoryClient.getCategoryList({}).pipe(catchResponceError));
+        const { items } = await lastValueFrom(this.categoryClient.getCategoryListPrivate({}).pipe(catchResponceError));
 
         return items;
     }
@@ -38,7 +38,11 @@ export default class CategoryService implements OnModuleInit {
     }
 
     public async getCategoryPrivate(url: Category['url']): Promise<Category> {
-        return lastValueFrom(this.categoryClient.getCategory({ url }).pipe(catchResponceError));
+        return lastValueFrom(this.categoryClient.getCategoryPrivate({ url }).pipe(catchResponceError));
+    }
+
+    public async getCategoryPublic(id: Category['id'], queries: QueryCommonParams): Promise<CategoryPublic> {
+        return lastValueFrom(this.categoryClient.getCategoryPublic({ id, queries }).pipe(catchResponceError));
     }
 
     public async updateCategory(categoryId: Category['id'], updates: CategoryCU): Promise<Empty> {

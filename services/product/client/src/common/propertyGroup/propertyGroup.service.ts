@@ -3,9 +3,16 @@ import { ClientGrpc } from "@nestjs/microservices";
 import { map, Observable } from "rxjs";
 
 import {
-    PROPERTY_GROUP_SERVICE_NAME, PROPERTY_SERVICE_NAME, PropertyGroupPreview, PropertyGroupServiceClient, PropertyServiceClient,
+    PROPERTY_GROUP_SERVICE_NAME,
+    PROPERTY_SERVICE_NAME,
+    PropertyGroupPreview,
+    PropertyGroupPublicMap,
+    PropertyGroupServiceClient,
+    PropertyServiceClient,
 } from "gen/property_group";
-import { Property } from "gen/_property";
+import { Property } from "gen/property";
+import { QueryCommonParams } from "gen/common";
+import { Product } from "gen/product";
 
 @Injectable()
 export default class PropertyGroupService implements OnModuleInit {
@@ -21,15 +28,24 @@ export default class PropertyGroupService implements OnModuleInit {
         this.propertyGroupClient = this.client.getService<PropertyGroupServiceClient>(PROPERTY_GROUP_SERVICE_NAME);
     }
 
-    getPropertyList(ids: Property['id'][]): Observable<Property[]> {
+    public getPropertyList(ids: Property['id'][]): Observable<Property[]> {
         return this.propertyClient.getPropertyList({ ids }).pipe(
             map(res => res.items)
         );
     }
 
-    getOptions(properties: Property['id'][]): Observable<PropertyGroupPreview[]> {
-        return this.propertyGroupClient.getGroupListPrivateByProperties({ ids: properties }).pipe(
+    public getProductPrivateOptions(properties: Property['id'][]): Observable<PropertyGroupPreview[]> {
+        return this.propertyGroupClient.getGroupListByPropertiesPrivate({ ids: properties }).pipe(
             map(res => res.items)
         )
+    }
+
+    public getProductOptionsPublicMap(
+        entities: Array<{ product: Product['id']; properties: Property['id'][] }>,
+        queries: QueryCommonParams,
+    ): Observable<PropertyGroupPublicMap['items']> {
+        return this.propertyGroupClient.getGroupMapByPropertiesPublic({ entities, queries }).pipe(
+            map(res => res.items)
+        );
     }
 }

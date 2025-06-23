@@ -1,7 +1,8 @@
 import { ApiProperty } from '@nestjs/swagger';
 
-import { ProductLabel, ProductLabelType, ProductPreviewPublic, ProductPrice, ProductStatus } from '@gen/product';
-import { ProductPriceSchema } from '@common/product/product.schema';
+import { ProductCardPublic, ProductLabel, ProductLabelType, ProductPreviewPublic, ProductPrice, ProductStatus } from '@gen/product';
+import { ProductImageSchema, ProductPriceSchema } from '@common/product/product.schema';
+import { PropertyGroupPreviewPublic } from '@gen/property_group';
 
 export class ProductLabelSchema implements ProductLabel {
     @ApiProperty({ enum: () => ProductLabelType, required: false })
@@ -29,33 +30,33 @@ export class ProductPreviewPublicSchema implements ProductPreviewPublic {
 
     @ApiProperty()
     image: string;
-
-    @ApiProperty()
-    isNew: boolean;
 }
 
-// @WithLabelsDecorator(ProductLabel.NEW, ProductLabel.POPULAR, ProductLabel.DISCOUNT)
-// export class ProductCardPublic extends Base implements ProductCardPublicI {
-//     @ApiProperty({ type: ProductImageEntity, isArray: true })
-//     images: ProductImageEntity[];
+export class ProductCardPublicSchema implements ProductCardPublic {
+    @ApiProperty()
+    id: string;
 
-//     @ApiProperty({ description: 'mapped properties (into property groups)', isArray: true })
-//     options: OptionPublicI[];
+    @ApiProperty()
+    title: string;
 
-//     @ApiProperty()
-//     description: string;
+    @ApiProperty({ enum: ProductStatus })
+    status: ProductStatus;
 
-//     constructor({ images, options, description, ...base }: ProductEntity, { lang }: QueriesProductListI) {
-//         super(base, lang);
-//         this.images = images?.
-//             sort(({ is_main }) => is_main ? -1 : 1).
-//             slice(0, Number(5)) as ProductImageEntity[];
-//         this.options = options
-//             ? options.filter(({ is_primary }) => is_primary).map(opt => new OptionPublic(opt, lang))
-//             : [];
-//         this.description = description?.[lang];
-//     }
-// }
+    @ApiProperty({ type: ProductPriceSchema })
+    price: ProductPrice;
+
+    @ApiProperty({ type: ProductLabelSchema, isArray: true })
+    labels: ProductLabel[];
+
+    @ApiProperty({ type: ProductImageSchema, isArray: true })
+    images: ProductImageSchema[];
+
+    @ApiProperty({ description: 'mapped properties (into property groups)', isArray: true })
+    options: PropertyGroupPreviewPublic[];
+
+    @ApiProperty()
+    description: string;
+}
 
 // @WithLabelsDecorator(ProductLabel.NEW, ProductLabel.POPULAR, ProductLabel.DISCOUNT)
 // export class ProductPublic extends Base implements ProductPublicI {

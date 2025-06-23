@@ -1,12 +1,14 @@
 import { InjectRepository } from '@nestjs/typeorm';
 import { In, Repository, SelectQueryBuilder } from 'typeorm';
 import { Injectable } from '@nestjs/common';
-import { catchError, forkJoin, from, lastValueFrom, map, Observable, of, switchMap, tap, throwError } from 'rxjs';
+import { catchError, forkJoin, from, map, Observable, of, switchMap, tap, throwError } from 'rxjs';
 import { status } from '@grpc/grpc-js';
 import { RpcException } from '@nestjs/microservices';
 
 import { ProductEntity } from './product.entity';
-import { Product, ProductCU, ProductPreview, ProductPreviewPublic, ProductQueryParams, ProductSort } from 'gen/product';
+import {
+    Product, ProductCardPublic, ProductCU, ProductPreview, ProductPreviewPublic, ProductQueryParams, ProductSort,
+} from 'gen/product';
 import { PaginationResult } from '@shared/dto/pagination.dto';
 import ProductMapper from './product.mapper';
 import { TransService } from '@common/trans/trans.service';
@@ -16,7 +18,7 @@ import PropertyGroupService from '@common/propertyGroup/propertyGroup.service';
 import { Category } from 'gen/category';
 import { ProductUpdateDTO } from './product.dto';
 import EventService from '@common/event/event.service';
-import { TransData } from 'gen/trans';
+import { QueryCommonParams } from 'gen/common';
 
 @Injectable()
 export default class ProductService {
@@ -74,7 +76,6 @@ export default class ProductService {
     public getProduct(id: Product['id']): Observable<Product> {
         return from(this.getProductQueryBulder()
             .andWhere('p.id = :id', { id })
-            // .addSelect('p.orderCount')
             .getOne()
         ).pipe(
             switchMap(product => {
@@ -86,12 +87,12 @@ export default class ProductService {
                 }
 
                 const options$ = product.properties.length
-                    ? this.propGroupService.getOptions(product.properties)
+                    ? this.propGroupService.getProductPrivateOptions(product.properties)
                     : of([]);
 
                 return forkJoin([
                     this.transService.getTransMap({ ids: [product.title, product.description] }),
-                    this.categoryService.getCategoryPreview(product.category),
+                    this.categoryService.getCategoryPreviewPrivate(product.category),
                     options$,
                 ]).pipe(
                     map(([transMap, category, options]) => ProductMapper.toView(
@@ -102,21 +103,57 @@ export default class ProductService {
         )
     }
 
-    public async getProductList(searchParams: ProductQueryParams): Promise<PaginationResult<ProductPreview>> {
+    public getProductListPrivate(searchParams: ProductQueryParams): Observable<PaginationResult<ProductPreview>> {
         const qb = this.getProductQueryBulder();
-        const [products, totalCount] = await this.renderProductList<ProductPreview>(qb, searchParams, false);
+        return from(this.renderProductList(qb, searchParams, false)).pipe(
+            switchMap(([products, totalCount]) => {
+                if (!products.length) {
+                    return of(new PaginationResult<ProductPreview>([], { totalCount, currentPage: 0, itemPortion: 0 }));
+                }
 
-        if (!products.length) return new PaginationResult<ProductPreview>([], { totalCount, currentPage: 0, itemPortion: 0 });
+                return from(this.transService.getTransMap({ ids: products.map((product) => product.title) })).pipe(
+                    map(transMap => new PaginationResult<ProductPreview>(
+                        products.map((product) => ProductMapper.toPreview(product, transMap)),
+                        {
+                            currentPage: searchParams.pagination.page,
+                            itemPortion: searchParams.pagination.portion,
+                            totalCount,
+                        },
+                    ))
+                )
+            })
+        )
+    }
 
-        const transMap = await lastValueFrom(this.transService.getTransMap({ ids: products.map((product) => product.title) }));
+    public getProductListPublic(searchParams: ProductQueryParams): Observable<PaginationResult<ProductCardPublic>> {
+        const qb = this.getProductQueryBulder();
+        return from(this.renderProductList(qb, searchParams, true)).pipe(
+            switchMap(([products, totalCount]) => {
+                if (!products.length) {
+                    return of(new PaginationResult<ProductCardPublic>([], { totalCount, currentPage: 0, itemPortion: 0 }));
+                }
 
-        return new PaginationResult<ProductPreview>(
-            products.map((product) => ProductMapper.toPreview(product, transMap, searchParams)),
-            {
-                currentPage: searchParams.pagination.page,
-                itemPortion: searchParams.pagination.portion,
-                totalCount,
-            },
+                return forkJoin([
+                    from(this.transService.getTransMap({
+                        ids: products.map((product) => [product.title, product.description]).flat(),
+                    })),
+                    this.propGroupService.getProductOptionsPublicMap(
+                        products.map(product => ({ product: product.id, properties: product.properties })),
+                        searchParams.common,
+                    )
+                ]).pipe(
+                    switchMap(([transMap, optionMap]) => of(new PaginationResult<ProductCardPublic>(
+                        products.map((product) => ProductMapper.toCardPublic(
+                            product, transMap, optionMap[product.id].options, searchParams.common
+                        )),
+                        {
+                            currentPage: searchParams.pagination.page,
+                            itemPortion: searchParams.pagination.portion,
+                            totalCount,
+                        },
+                    )))
+                )
+            })
         );
     }
 
@@ -136,9 +173,9 @@ export default class ProductService {
         return this.getProductListByIds(ids);
     }
 
-    public getProductListByIdsPublic(ids: Product['id'][], lang: keyof TransData): Observable<ProductPreviewPublic[]> {
+    public getProductListByIdsPublic(ids: Product['id'][], queries: QueryCommonParams): Observable<ProductPreviewPublic[]> {
         return this.getProductListByIds(ids).pipe(
-            map(products => products.map((product) => ProductMapper.toPreviewPublic(product, lang)))
+            map(products => products.map((product) => ProductMapper.toPreviewPublic(product, queries)))
         )
     }
 
@@ -215,7 +252,7 @@ export default class ProductService {
      * @param isPublic get only pablic data
      * @returns completed search result with pagination
      */
-    private async renderProductList<T>(
+    private async renderProductList(
         qb: SelectQueryBuilder<ProductEntity>,
         searchParams: ProductQueryParams,
         isPublic: boolean,
@@ -227,7 +264,7 @@ export default class ProductService {
         isPublic: boolean
     ): Promise<[ProductEntity[], number]>;
 
-    private async renderProductList<T = ProductEntity>(
+    private async renderProductList(
         qb: SelectQueryBuilder<ProductEntity>,
         searchParams: ProductQueryParams,
         isPublic: boolean,
@@ -240,11 +277,7 @@ export default class ProductService {
 
         if (price) qb.andWhere('p.price.current BETWEEN :min AND :max', { ...price });
 
-        if (category) {
-            qb.leftJoin('p.category', 'cat').where('cat.id = :categoryId', { categoryId: category });
-
-            if (isPublic) qb.andWhere('cat.is_public = true');
-        }
+        if (category && isPublic) qb.andWhere('p.category = :category', { category });
 
         if (status) qb.andWhere('p.status = :status', { status });
 
@@ -262,7 +295,7 @@ export default class ProductService {
                 qb.orderBy('p.rating', 'DESC');
         }
 
-        if (isPublic) qb.andWhere('p.is_public = true');
+        if (isPublic) qb.andWhere('p.isPublic = true');
 
         return await qb
             .take(portion)

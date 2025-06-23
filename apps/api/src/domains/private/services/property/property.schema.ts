@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 
-import { PropertyCU } from '@gen/_property';
+import { PropertyCU } from '@gen/property';
 import { TransSchema } from '@common/trans/trans.schema';
 import { PropertyGroup } from '@gen/property_group';
 

@@ -6,7 +6,7 @@ import { catchError, from, map, Observable, switchMap, throwError } from 'rxjs';
 import { status } from '@grpc/grpc-js';
 
 import { PropertyEntity } from './property.entity';
-import { Property, PropertyCU } from 'gen/_property';
+import { Property, PropertyCU } from 'gen/property';
 import TransService from '@common/trans/trans.service';
 import PropertyMapper from './property.mapper';
 

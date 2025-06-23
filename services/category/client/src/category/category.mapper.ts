@@ -1,20 +1,26 @@
 import { TransData, TransMap } from "gen/trans";
 import CategoryEntity from "./category.entity";
-import { Category } from "gen/category";
+import { Category, CategoryPublic } from "gen/category";
 import { PropertyGroupPreview } from "gen/property_group";
-import { CategoryPreview } from "gen/category_preview";
+import { CategoryPreview, CategoryPreviewPublic } from "gen/_category_preview";
 import { ProductPreview } from "gen/product";
-import { CategoryPreviewPublic } from "gen/_category_preview";
 import { QueryCommonParams } from "gen/common";
 
-interface CategoryViewPayload {
+interface CategoryViewPrivatePayload {
     transMap: TransMap['items'],
     propertyGroups?: PropertyGroupPreview[],
     products: ProductPreview[]
 }
 
+interface CategoryViewPublicPayload {
+    transMap: TransMap['items'],
+}
+
 export default class CategoryMapper {
-    static toPreview(category: CategoryEntity, transMap: TransMap['items']): CategoryPreview {
+    static toPreviewPrivate(
+        category: CategoryEntity,
+        transMap: TransMap['items'],
+    ): CategoryPreview {
         return {
             ...category,
             title: transMap[category.title],
@@ -24,24 +30,36 @@ export default class CategoryMapper {
 
     static toPreviewPublic(
         this: QueryCommonParams,
-        category: CategoryEntity,
+        { id, url, ...category }: CategoryEntity,
         transMap: TransMap['items'],
     ): CategoryPreviewPublic {
         return {
-            ...category,
+            id, url,
             title: transMap[category.title][this.lang as keyof TransData],
             icon: category.icon && `http://localhost:9010${category.icon}`,
         }
     }
 
-    static toView(
+    static toViewPrivate(
         category: CategoryEntity,
-        { transMap, propertyGroups, products }: CategoryViewPayload,
+        { transMap, propertyGroups, products }: CategoryViewPrivatePayload,
     ): Category {
         return {
-            ...this.toPreview(category, transMap),
+            ...category,
+            title: transMap[category.title],
             propertyGroups: propertyGroups || [],
             products,
+        };
+    }
+
+    static toViewPublic(
+        this: QueryCommonParams,
+        { id, icon, url, ...category }: CategoryEntity,
+        { transMap }: CategoryViewPublicPayload,
+    ): CategoryPublic {
+        return {
+            id, url, icon,
+            title: transMap[category.title][this.lang as keyof TransData],
         };
     }
 }

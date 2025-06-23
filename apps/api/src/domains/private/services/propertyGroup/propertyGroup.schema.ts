@@ -3,9 +3,9 @@ import { ApiProperty } from "@nestjs/swagger";
 import { PropertyGroup, PropertyGroupCU, PropertyGroupPreview } from "@gen/property_group";
 import { TransData } from "@gen/trans";
 import { TransSchema } from "@common/trans/trans.schema";
-import { CategoryPreview } from "@gen/category_preview";
+import { CategoryPreview } from "@gen/_category_preview";
 import { CategorySchema } from "../category/category.schema";
-import { Property } from "@gen/_property";
+import { Property } from "@gen/property";
 
 export class PropertyGroupPreviewSchema implements PropertyGroupPreview {
     @ApiProperty()

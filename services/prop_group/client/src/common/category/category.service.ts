@@ -5,7 +5,7 @@ import { Observable } from "rxjs";
 import {
     Category,
     CATEGORY_SERVICE_NAME,
-    CategoryPrivateList,
+    CategoryListPrivate,
     CategoryServiceClient,
     CategoryWithPropertyGroupsSearchParams,
 } from "gen/category";
@@ -20,7 +20,7 @@ export default class CategoryService implements OnModuleInit {
         this.categoryClient = this.client.getService<CategoryServiceClient>(CATEGORY_SERVICE_NAME);
     }
 
-    getCategoryListByPropertyGroups(data: CategoryWithPropertyGroupsSearchParams): Observable<CategoryPrivateList> {
+    getCategoryListByPropertyGroups(data: CategoryWithPropertyGroupsSearchParams): Observable<CategoryListPrivate> {
         return this.categoryClient.getCategoryListByPropertyGroups(data);
     }
 

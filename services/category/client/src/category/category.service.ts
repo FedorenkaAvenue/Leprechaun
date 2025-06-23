@@ -5,7 +5,7 @@ import { catchError, forkJoin, from, lastValueFrom, map, Observable, of, switchM
 import { RpcException } from '@nestjs/microservices';
 import { status } from '@grpc/grpc-js';
 
-import { Category, CategoryCU } from 'gen/category';
+import { Category, CategoryCU, CategoryPublic } from 'gen/category';
 import CategoryEntity from './category.entity';
 import { CategoryCreateDTO } from './category.dto';
 import S3Service from '@common/s3/s3.service';
@@ -13,7 +13,7 @@ import { TransService } from '@common/trans/trans.service';
 import CategoryMapper from './category.mapper';
 import PropertyGroupService from '@common/propertyGroup/propertyGroup.service';
 import { PropertyGroup } from 'gen/property_group';
-import { CategoryPreview } from 'gen/category_preview';
+import { CategoryPreview } from 'gen/_category_preview';
 import EventService from '@common/event/event.service';
 import ProductService from '@common/product/product.service';
 import { QueryCommonParams } from 'gen/common';
@@ -32,7 +32,7 @@ export default class CategoryService {
     ) { }
 
     public getCategoryListPrivate(): Observable<CategoryPreview[]> {
-        return this.getCategoryList<CategoryPreview>(CategoryMapper.toPreview);
+        return this.getCategoryList<CategoryPreview>(CategoryMapper.toPreviewPrivate);
     }
 
     public getCategoryListPublic(queries: QueryCommonParams): Observable<CategoryPreviewPublic[]> {
@@ -72,7 +72,7 @@ export default class CategoryService {
         ));
     }
 
-    public getCategory(id?: Category['id'], url?: Category['url']): Observable<Category> {
+    public getCategoryPrivate(id?: Category['id'], url?: Category['url']): Observable<Category> {
         return from(this.categoryRepo.findOne({ where: { url, id } })).pipe(
             switchMap(category => {
                 if (!category) {
@@ -93,7 +93,7 @@ export default class CategoryService {
                     this.productService.getProductListByCategory(category.id),
                     propGroups$,
                 ]).pipe(
-                    map(([transMap, products, propGroups]) => CategoryMapper.toView(
+                    map(([transMap, products, propGroups]) => CategoryMapper.toViewPrivate(
                         category,
                         {
                             transMap: transMap.items,
@@ -106,23 +106,44 @@ export default class CategoryService {
         );
     }
 
-    public getCategoryPreview(id?: Category['id'], url?: Category['url']): Observable<CategoryPreview> {
-        return from(this.categoryRepo.findOne({ where: { url, id } })).pipe(
+    public getCategoryPublic(
+        params: { id?: Category['id'], url?: Category['url'] },
+        queries: QueryCommonParams,
+    ): Observable<CategoryPublic> {
+        return from(this.categoryRepo.findOne({ where: { ...params, isPublic: true }, })).pipe(
             switchMap(category => {
                 if (!category) {
                     return throwError(() =>
                         new RpcException({
-                            message: `category with id ${id} not found`,
+                            message: `category with id ${params.id} not found`,
                             code: status.NOT_FOUND,
                         })
                     );
                 }
 
-                return this.transService.getTransMap({ ids: [category.title] }).pipe(
-                    map(transMap => CategoryMapper.toPreview(category, transMap.items))
-                );
+                return forkJoin([
+                    this.transService.getTransMap({ ids: [category.title] }),
+                ]).pipe(
+                    map(([transMap]) => CategoryMapper.toViewPublic.call(
+                        queries,
+                        category,
+                        { transMap: transMap.items },))
+                )
             }),
         );
+    }
+
+    public getCategoryPreviewPrivate(
+        params: { id?: Category['id'], url?: Category['url'] },
+    ): Observable<CategoryPreview> {
+        return this.getCategoryPreview<CategoryPreview>(params, CategoryMapper.toPreviewPrivate);
+    }
+
+    public getCategoryPreviewPublic(
+        params: { id?: Category['id'], url?: Category['url'] },
+        queries: QueryCommonParams,
+    ): Observable<CategoryPreviewPublic> {
+        return this.getCategoryPreview<CategoryPreviewPublic>(params, CategoryMapper.toPreviewPublic.bind(queries));
     }
 
     public async updateCategory(id: Category['id'], { title, icon, ...updates }: CategoryCU): Promise<void> {
@@ -158,7 +179,7 @@ export default class CategoryService {
                 }).pipe(
                     map(titleMap =>
                         categories.map(cat =>
-                            CategoryMapper.toPreview(cat, titleMap.items)
+                            CategoryMapper.toPreviewPrivate(cat, titleMap.items)
                         )
                     )
                 );
@@ -216,6 +237,28 @@ export default class CategoryService {
                     map(transMap => categories.map(cat => mapper(cat, transMap.items)))
                 )
             })
+        );
+    }
+
+    private getCategoryPreview<T>(
+        { id, url }: { id?: Category['id'], url?: Category['url'] },
+        mapper: (category: CategoryEntity, transMap: TransMap['items']) => T,
+    ): Observable<T> {
+        return from(this.categoryRepo.findOne({ where: { url, id } })).pipe(
+            switchMap(category => {
+                if (!category) {
+                    return throwError(() =>
+                        new RpcException({
+                            message: `category with id ${id} not found`,
+                            code: status.NOT_FOUND,
+                        })
+                    );
+                }
+
+                return this.transService.getTransMap({ ids: [category.title] }).pipe(
+                    map(transMap => mapper(category, transMap.items))
+                );
+            }),
         );
     }
 }

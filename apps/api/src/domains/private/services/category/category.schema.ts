@@ -6,7 +6,7 @@ import { TransSchema } from '@common/trans/trans.schema';
 import { File } from '@gen/common';
 import { PropertyGroupPreview } from '@gen/property_group';
 import { PropertyGroupSchema } from '../propertyGroup/propertyGroup.schema';
-import { CategoryPreview } from '@gen/category_preview';
+import { CategoryPreview } from '@gen/_category_preview';
 import { ProductPreview } from '@gen/product';
 
 export class CategoryPreviewSchema implements CategoryPreview {

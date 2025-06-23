@@ -1,4 +1,4 @@
-import { firstValueFrom, map, Observable } from "rxjs";
+import { firstValueFrom, map, Observable, switchMap } from "rxjs";
 
 import {
     PropertyGroup,
@@ -7,30 +7,21 @@ import {
     PropertyGroupCU,
     PropertyGroupSearchParams,
     PropertyGroupUpdateParams,
-    PropertyGroupList,
+    PropertyGroupListPrivate,
     PropertyGroupListSearchParams,
     PropertyGroupListByCategorySearchParams,
+    PropertyGroupMapPublicSearchParams,
+    PropertyGroupPublicMap,
+    PropertyGroupListPublic,
 } from "gen/property_group";
 import PropertyGroupService from "./propertyGroup.service";
 import { PropertyGroupCreateDTO, PropertyGroupUpdateDTO } from "./propertyGroup.dto";
 import { ValidateDTO } from "@shared/decorators/ValidateDTO.decorator";
-import { PropertyListSearchParams } from "gen/_property";
+import { PropertyListPrivateSearchParams, PropertyListPublicSearchParams } from "gen/property";
 
 @PropertyGroupServiceControllerMethods()
 export default class PropertyGroupController implements PropertyGroupServiceController {
     constructor(private readonly propertyGroupService: PropertyGroupService) { }
-
-    public getGroupListPrivateByCategory({ id }: PropertyGroupListByCategorySearchParams): Observable<PropertyGroupList> {
-        return this.propertyGroupService.getGroupListByCategoryID(id).pipe(
-            map(res => ({ items: res }))
-        );
-    }
-
-    public getGroupListPrivate({ ids }: PropertyGroupListSearchParams): Observable<PropertyGroupList> {
-        return this.propertyGroupService.getGroupList(ids).pipe(
-            map(res => ({ items: res }))
-        );
-    }
 
     @ValidateDTO(PropertyGroupCreateDTO)
     public async createGroup(body: PropertyGroupCU): Promise<PropertyGroup> {
@@ -38,11 +29,33 @@ export default class PropertyGroupController implements PropertyGroupServiceCont
     }
 
     public getGroupPrivate({ id }: PropertyGroupSearchParams): Observable<PropertyGroup> {
-        return this.propertyGroupService.getGroup(id);
+        return this.propertyGroupService.getGroupPrivate(id);
     }
 
-    public getGroupListPrivateByProperties({ ids }: PropertyListSearchParams): Observable<PropertyGroupList> {
-        return this.propertyGroupService.getGroupListByProperties(ids).pipe(
+    public getGroupListPrivate({ ids }: PropertyGroupListSearchParams): Observable<PropertyGroupListPrivate> {
+        return this.propertyGroupService.getGroupListPrivate(ids).pipe(
+            map(res => ({ items: res }))
+        );
+    }
+
+    public getGroupListByPropertiesPrivate(
+        { ids }: PropertyListPrivateSearchParams,
+    ): Observable<PropertyGroupListPrivate> {
+        return this.propertyGroupService.getGroupListPrivateByProperties(ids).pipe(
+            map(res => ({ items: res }))
+        );
+    }
+
+    getGroupListByPropertiesPublic({ ids, queries }: PropertyListPublicSearchParams): Observable<PropertyGroupListPublic> {
+        return this.propertyGroupService.getGroupListPublicByProperties(ids, queries).pipe(
+            map(res => ({ items: res }))
+        )
+    }
+
+    public getGroupListByCategoryPrivate(
+        { id }: PropertyGroupListByCategorySearchParams,
+    ): Observable<PropertyGroupListPrivate> {
+        return this.propertyGroupService.getGroupListPrivateByCategoryId(id).pipe(
             map(res => ({ items: res }))
         );
     }
@@ -52,7 +65,19 @@ export default class PropertyGroupController implements PropertyGroupServiceCont
         return this.propertyGroupService.updateGroup(id, data);
     }
 
-    deleteGroup({ id }: PropertyGroupSearchParams): Observable<void> {
+    public deleteGroup({ id }: PropertyGroupSearchParams): Observable<void> {
         return this.propertyGroupService.deleteGroup(id);
+    }
+
+    public getGroupMapByPropertiesPublic(
+        { entities, queries }: PropertyGroupMapPublicSearchParams,
+    ): Observable<PropertyGroupPublicMap> {
+        return this.propertyGroupService.getGroupMapPublicByProperties(entities, queries).pipe(
+            map(res => res.reduce((acc, { product, options }) => ({
+                ...acc,
+                [product]: options,
+            }), {})),
+            map(res => ({ items: res }))
+        );
     }
 }

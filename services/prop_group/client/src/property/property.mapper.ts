@@ -1,4 +1,4 @@
-import { Property } from "gen/_property";
+import { Property } from "gen/property";
 import { PropertyEntity } from "./property.entity";
 import { TransData } from "gen/trans";
 

@@ -15,12 +15,14 @@ import "product.proto";
 service CategoryService {
     rpc createCategory(CategoryCU) returns (category_preview.CategoryPreview);
     rpc updateCategory(CategoryUpdateParams) returns (google.protobuf.Empty);
-    rpc getCategoryList(google.protobuf.Empty) returns (CategoryListPrivate);
+    rpc getCategoryListPrivate(google.protobuf.Empty) returns (CategoryListPrivate);
     rpc getCategoryListPublic(CategoryListSearchParamsPublic) returns (CategoryListPublic);
-    rpc getCategory(CategorySearchParams) returns (Category);
-    rpc getCategoryPreview(CategorySearchParams) returns (category_preview.CategoryPreview);
+    rpc getCategoryPrivate(CategoryPrivateSearchParams) returns (Category);
+    rpc getCategoryPublic(CategoryPublicSearchParams) returns (CategoryPublic);
+    rpc getCategoryPreviewPrivate(CategoryPrivateSearchParams) returns (category_preview.CategoryPreview);
+    rpc getCategoryPreviewPublic(CategoryPublicSearchParams) returns (category_preview.CategoryPreviewPublic);
     rpc getCategoryListByPropertyGroups(CategoryWithPropertyGroupsSearchParams) returns (CategoryListPrivate);
-    rpc deleteCategory(CategorySearchParams) returns (google.protobuf.Empty);
+    rpc deleteCategory(CategoryPrivateSearchParams) returns (google.protobuf.Empty);
 }
 
 // entities
@@ -39,6 +41,13 @@ message Category {
     repeated property_group.PropertyGroupPreview propertyGroups = 11;
 }
 
+message CategoryPublic {
+    int32 id = 1;
+    string url = 2;
+    string title = 3;
+    string icon = 4;
+}
+
 // requests
 
 message CategoryCU {
@@ -55,9 +64,15 @@ message CategoryUpdateParams {
     CategoryCU data = 2;
 }
 
-message CategorySearchParams {
+message CategoryPrivateSearchParams {
     optional int32 id = 1;
     optional string url = 2;
+}
+
+message CategoryPublicSearchParams {
+    optional int32 id = 1;
+    optional string url = 2;
+    common.QueryCommonParams queries = 3;
 }
 
 message CategoryWithPropertyGroupsSearchParams {

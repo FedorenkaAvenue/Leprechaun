@@ -13,6 +13,7 @@ import "property_group.proto";
 
 service ProductService {
     rpc getProductListByParams(ProductQueryParams) returns (ProductList);
+    rpc getProductListByParamsPublic(ProductQueryParams) returns (ProductListPublic);
     rpc getProductListByIdsPublic(ProductListByIdsParamsPublic) returns (ProductListPreviewPublic);
     rpc getProduct(ProductSearchParams) returns (Product);
     rpc getProductListByCategory(ProductListByCategoryParams) returns (ProductListByCategory); // TODO rebuild
@@ -77,9 +78,19 @@ message ProductPreviewPublic {
     string title = 2;
     ProductStatus status = 3;
     ProductPrice price = 4;
-    bool isNew = 5;
     optional string image = 6;
     repeated ProductLabel labels = 7;
+}
+
+message ProductCardPublic {
+    string id = 1;
+    string title = 2;
+    ProductStatus status = 3;
+    ProductPrice price = 4;
+    repeated ProductLabel labels = 5;
+    string description = 12;
+    repeated common.Image images = 11;
+    repeated property_group.PropertyGroupPreviewPublic options = 14;
 }
 
 message Product {
@@ -146,6 +157,11 @@ message ProductUpdateParams {
 
 message ProductList {
     repeated ProductPreview data = 1;
+    common.Pagination pagination = 2;
+}
+
+message ProductListPublic {
+    repeated ProductCardPublic data = 1;
     common.Pagination pagination = 2;
 }
 

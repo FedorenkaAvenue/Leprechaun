@@ -4,7 +4,7 @@ import { Transform, Type } from 'class-transformer';
 import { Product, ProductCU, ProductPrice, ProductStatus } from "gen/product";
 import { File } from 'gen/common';
 import { Category } from 'gen/category';
-import { Property } from 'gen/_property';
+import { Property } from 'gen/property';
 
 export class ProductCreateDTO implements Omit<ProductCU, 'title' | 'description'> {
     @IsNotEmpty()

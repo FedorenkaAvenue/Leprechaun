@@ -1,12 +1,21 @@
 import { DeepPartial } from "typeorm";
 
-import { Product, ProductCU, ProductLabel, ProductLabelType, ProductPreview, ProductPreviewPublic, ProductQueryParams } from "gen/product";
+import {
+    Product,
+    ProductCardPublic,
+    ProductCU,
+    ProductLabel,
+    ProductLabelType,
+    ProductPreview,
+    ProductPreviewPublic,
+} from "gen/product";
 import { ProductEntity } from "./product.entity";
 import { Trans, TransData, TransMap } from "gen/trans";
-import { CategoryPreview } from "gen/category_preview";
-import { PropertyGroupPreview } from "gen/property_group";
+import { CategoryPreview } from "gen/_category_preview";
+import { PropertyGroupPreview, PropertyGroupPreviewPublic } from "gen/property_group";
 import ProductImageMapper from "src/productImage/productImage.mapper";
 import getPercentDifference from "@shared/utils/getPercentDifference";
+import { QueryCommonParams } from "gen/common";
 
 interface ProductCUPayload {
     title: Trans['id'];
@@ -22,26 +31,23 @@ interface ProductPrivatePayload {
 
 export default class ProductMapper {
     static toView(
-        { properties, ...product }: ProductEntity,
+        product: ProductEntity,
         { transMap, category, options }: ProductPrivatePayload,
     ): Product {
         return {
-            ...Object.assign(product, this),
+            ...product, category, options,
             title: transMap.items[product.title],
             description: transMap.items[product.description],
             images: product.images.map(ProductImageMapper.toView),
-            category,
-            options,
         }
     }
 
     static toPreview(
         product: ProductEntity,
         transMap: TransMap,
-        searchParams?: ProductQueryParams,
     ): ProductPreview {
         return {
-            ...Object.assign(product, this),
+            ...product,
             image: product.images.length ? `http://localhost:9013${product.images[0].src}` : undefined,
             title: transMap.items[product.title],
         }
@@ -49,14 +55,30 @@ export default class ProductMapper {
 
     @WithLabels(ProductLabelType.DISCOUNT_LABEL)
     static toPreviewPublic(
-        { rating, isPublic, comment, ...product }: ProductPreview,
-        lang: keyof TransData,
+        { id, status, price, ...product }: ProductPreview,
+        { lang }: QueryCommonParams,
     ): ProductPreviewPublic {
         return {
-            ...Object.assign(product, this),
-            title: product.title[lang],
+            id, status, price,
+            title: product.title[lang as keyof TransData],
             labels: [],
         }
+    }
+
+    @WithLabels(ProductLabelType.DISCOUNT_LABEL, ProductLabelType.POPULAR_LABEL, ProductLabelType.NEW_LABEL)
+    static toCardPublic(
+        { id, status, price, ...product }: ProductEntity,
+        transMap: TransMap,
+        options: PropertyGroupPreviewPublic[],
+        { lang }: QueryCommonParams,
+    ): ProductCardPublic {
+        return {
+            id, status, price, options,
+            title: transMap.items[product.title][lang as keyof TransData],
+            description: transMap.items[product.description][lang as keyof TransData],
+            images: product.images.map(ProductImageMapper.toView),
+            labels: [],
+        };
     }
 
     static toEntity(

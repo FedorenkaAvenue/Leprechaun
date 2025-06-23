@@ -8,16 +8,8 @@ import { TransData } from '@gen/trans';
 import { Category } from '@gen/category';
 import { File } from '@gen/common';
 import { PropertyGroupPreviewSchema } from '../propertyGroup/propertyGroup.schema';
-import { Property } from '@gen/_property';
-import { ProductPriceSchema } from '@common/product/product.schema';
-
-class ProductImageSchema {
-    @ApiProperty()
-    id: string;
-
-    @ApiProperty()
-    src: string;
-}
+import { Property } from '@gen/property';
+import { ProductImageSchema, ProductPriceSchema } from '@common/product/product.schema';
 
 export class ProductPreviewSchema implements ProductPreview {
     @ApiProperty()

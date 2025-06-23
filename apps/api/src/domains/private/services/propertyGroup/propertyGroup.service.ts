@@ -39,7 +39,7 @@ export default class PropertyGroupPrivateService implements OnModuleInit {
 
     public async getGroupListByCategoryID(id: Category['id']): Promise<PropertyGroupPreview[]> {
         const { items } = await lastValueFrom(
-            this.propGroupClient.getGroupListPrivateByCategory({ id }).pipe(catchResponceError)
+            this.propGroupClient.getGroupListByCategoryPrivate({ id }).pipe(catchResponceError)
         );
 
         return items;

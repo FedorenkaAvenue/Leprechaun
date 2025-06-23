@@ -5,7 +5,7 @@ import { lastValueFrom } from 'rxjs';
 import { PROPERTY_SERVICE_NAME, PropertyServiceClient } from '@gen/property_group';
 import { Empty } from '@gen/google/protobuf/empty';
 import { catchResponceError } from '@pipes/operators';
-import { Property, PropertyCU } from '@gen/_property';
+import { Property, PropertyCU } from '@gen/property';
 import { PROPERTY_GROUP_PACKAGE } from '../propertyGroup/propertyGroup.constants';
 
 @Injectable()
