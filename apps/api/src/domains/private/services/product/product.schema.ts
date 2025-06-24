@@ -43,7 +43,7 @@ export class ProductPreviewSchema implements ProductPreview {
     comment: string;
 
     @ApiProperty()
-    image: string;
+    image: ProductImageSchema;
 }
 
 export class ProductSchema implements Product {

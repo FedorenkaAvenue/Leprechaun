@@ -10,7 +10,7 @@ const WishList = () => {
     const { dictionary } = useI18n();
 
     const sortedWishlists = data?.sort(
-        (a, b) => new Date(b.items_updated_at).valueOf() - new Date(a.items_updated_at).valueOf()
+        (a, b) => new Date(b.itemsUpdatedAt).valueOf() - new Date(a.itemsUpdatedAt).valueOf()
     );
 
     return data.length > 0

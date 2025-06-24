@@ -1,7 +1,6 @@
 import { FC, ReactNode } from 'react';
 import Image from 'next/image';
 
-import { ProductCardModel, ProductPreviewModel } from '../model/interfaces';
 import Price, { Props as PriceProps } from '@shared/ui/Price';
 import ProductLabel from './ProductLabel';
 import AppLink from '@shared/ui/AppLink';
@@ -9,11 +8,11 @@ import { CardContent, Card as CardUI, CardProps as CardUIProps } from '@primitiv
 import { Skeleton } from '@primitives/ui/skeleton';
 import { cn } from '@primitives/lib/utils';
 import Grid from '@shared/ui/Grid';
-import { ProductStatusModel } from '../model/enums';
-import ProductStatus from './ProductStatus';
+import ProductStatusEntity from './ProductStatus';
 import ImageSlider from '@shared/ui/ImageSlider';
+import { ProductCardPublic, ProductPreviewPublic, ProductStatus } from '@gen/product';
 
-type ProductType = ProductCardModel | ProductPreviewModel
+type ProductType = ProductCardPublic | ProductPreviewPublic
 
 interface CardProps<T> {
     product: T
@@ -21,7 +20,7 @@ interface CardProps<T> {
     renderBottomOptions?: (product: T) => ReactNode // right to price
     renderTopOptions?: (product: T) => ReactNode
     renderAdditionalData?: (product: T) => ReactNode // bottom on card hover
-    renderStatus?: (status: ProductStatusModel) => ReactNode
+    renderStatus?: (status: ProductStatus) => ReactNode
     ui?: {
         card?: CardUIProps
         price?: Partial<PriceProps>
@@ -29,12 +28,12 @@ interface CardProps<T> {
 }
 
 type ProductCardPreviewProps = Pick<
-    CardProps<ProductPreviewModel>,
+    CardProps<ProductPreviewPublic>,
     'product' | 'renderBottomOptions' | 'renderTopOptions'
 >;
 
 type ProductCardProps = Pick<
-    CardProps<ProductCardModel>,
+    CardProps<ProductCardPublic>,
     'product' | 'renderBottomOptions' | 'renderAdditionalData' | 'renderTopOptions'
 >;
 
@@ -42,7 +41,7 @@ const Card = <T extends ProductType>({
     product, renderImages, renderBottomOptions, renderTopOptions, renderAdditionalData, renderStatus, ui,
 }: CardProps<T>) => {
     const { labels, id, title, price, status } = product;
-    const isAvailable = status === ProductStatusModel.AVAILABLE;
+    const isAvailable = status === ProductStatus.AVAILABLE_STATUS;
 
     return (
         <CardUI
@@ -105,10 +104,10 @@ const Card = <T extends ProductType>({
 };
 
 export const ProductCardPreview: FC<ProductCardPreviewProps> = props => (
-    <Card<ProductPreviewModel>
+    <Card<ProductPreviewPublic>
         renderImages={({ image, title }) => (
             <Image
-                src={image}
+                src={image?.src || '/static/no_image.png'}
                 alt={title}
                 width={160} height={160}
             />
@@ -130,11 +129,11 @@ export const ProductCardPreviewSkeleton: FC = () => (
 );
 
 export const ProductCard: FC<ProductCardProps> = props => (
-    <Card<ProductCardModel>
+    <Card<ProductCardPublic>
         renderImages={({ images, title }) => (
             <ImageSlider images={images} imageTitle={title} imageSize={300} />
         )}
-        renderStatus={status => <ProductStatus status={status} />}
+        renderStatus={status => <ProductStatusEntity status={status} />}
         {...props}
     />
 );

@@ -3,9 +3,7 @@
 import { FC, memo, useCallback, useState } from 'react';
 import { Heart, Loader } from 'lucide-react';
 
-import { ProductCardModel } from '@entities/product/model/interfaces';
 import { useI18n } from '@shared/lib/i18n_client';
-import { WishlistModel } from '@entities/wishlist/model/interfaces';
 import AppLink from '@shared/ui/AppLink';
 import IconButton from '@shared/ui/IconButton';
 import { useWishlists } from '@entities/wishlist/model/hooks';
@@ -17,12 +15,14 @@ import { useAddWishlistItem, useRemoveWishlistItem } from '@features/wishlist/mo
 import WishlistItemChangeList from '@features/wishlist/ui/WishlistItemChangeList';
 import { twConfig } from '@root/tailwind.config';
 import { Dialog, DialogContent } from '@primitives/ui/dialog';
+import { ProductCardPublic } from '@gen/product';
+import { WishlistPublic } from '@gen/wishlist';
 
 interface WishlistItemAddProps {
-    productId: ProductCardModel['id']
+    productId: ProductCardPublic['id']
 }
 
-interface WishlistTooltipProps extends Partial<WishlistModel> { }
+interface WishlistTooltipProps extends Partial<WishlistPublic> { }
 
 const WishlistTooltip: FC<WishlistTooltipProps> = memo(
     function Tooltip({ id, title }) {

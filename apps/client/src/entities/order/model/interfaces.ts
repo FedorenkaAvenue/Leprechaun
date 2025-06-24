@@ -1,10 +1,10 @@
+import { ProductPreviewPublic } from '@gen/product';
 import { OrderStatusModel } from './enums'
-import { ProductPreviewModel } from '@entities/product/model/interfaces';
 import { PriceModel } from '@shared/models/Price';
 
 export interface OrderItemModel {
     id: string
-    product: ProductPreviewModel
+    product: ProductPreviewPublic
     summaryPrice: PriceModel
     amount: number
 }

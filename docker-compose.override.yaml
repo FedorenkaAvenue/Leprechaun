@@ -23,7 +23,7 @@ services:
     ports:
       - ${EVENTS_PORT_EXPOSE}:${EVENTS_PORT}
     networks:
-      - api_domain
+      - api_app
 
 #   s3:
 #     image: minio/minio
@@ -91,7 +91,7 @@ services:
     container_name: leprechaun-app-api
     networks:
       - server_infra
-      - api_domain
+      - api_app
     environment:
       - APP_NAME
       - HOST_NAME
@@ -156,7 +156,7 @@ services:
       - JWT_REFRESH_TOKEN_KEY
       - JWT_REFRESH_TOKEN_TTL
     networks:
-      - api_domain
+      - api_app
       - auth_service
 
   service_user_client:
@@ -169,7 +169,7 @@ services:
       - POSTGRES_PORT=${USER_SERVICE_DB_PORT}
       - POSTGRES_DATABASE=${USER_SERVICE_DB_DATABASE}
     networks:
-      - api_domain
+      - api_app
       - user_service
     depends_on:
       - service_user_db
@@ -204,7 +204,7 @@ services:
       - EVENTS_HOST
       - EVENTS_PORT
     networks:
-      - api_domain
+      - api_app
       - propgroup_service
     depends_on:
       - service_propgroup_db
@@ -235,7 +235,7 @@ services:
       - EVENTS_HOST
       - EVENTS_PORT
     networks:
-      - api_domain
+      - api_app
       - trans_service
     depends_on:
       - service_trans_db
@@ -276,7 +276,7 @@ services:
       - PRODUCT_SERVICE_CLIENT_HOST
       - PRODUCT_SERVICE_CLIENT_PORT
     networks:
-      - api_domain
+      - api_app
       - category_service
     depends_on:
       - service_category_db
@@ -332,7 +332,7 @@ services:
       - EVENTS_HOST
       - EVENTS_PORT
     networks:
-      - api_domain
+      - api_app
       - product_service
     depends_on:
       - service_product_db
@@ -380,7 +380,7 @@ services:
       - EVENTS_HOST
       - EVENTS_PORT
     networks:
-      - api_domain
+      - api_app
       - wishlist_service
     depends_on:
       - service_wishlist_db
@@ -413,7 +413,7 @@ services:
       - EVENTS_HOST
       - EVENTS_PORT
     networks:
-      - api_domain
+      - api_app
       - history_service
     depends_on:
       - service_history_db
@@ -444,7 +444,7 @@ services:
       - EVENTS_HOST
       - EVENTS_PORT
     networks:
-      - api_domain
+      - api_app
       - subscription_service
     depends_on:
       - service_subscription_db
@@ -467,9 +467,9 @@ networks:
   server_infra:
     driver: bridge
     name: leprechaun_server_infra
-  api_domain:
+  api_app:
     driver: bridge
-    name: leprechaun_api_domain
+    name: leprechaun_api_app
   auth_service:
     driver: bridge
     name: leprechaun_auth_service

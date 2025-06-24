@@ -37,7 +37,7 @@ const ProductPreviewEntity = ({ product, renderTools }: Props) => {
             <TableCell align="right">
                 {
                     product.image
-                        ? <TooltipContent content={<Image src={product.image} />} />
+                        ? <TooltipContent content={<Image src={product.image.src} />} />
                         : <Typography color='textDisabled'>empty</Typography>
                 }
             </TableCell>

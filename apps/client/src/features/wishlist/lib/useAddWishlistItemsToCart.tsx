@@ -1,10 +1,10 @@
 import { useCallback, useMemo } from 'react';
 
-import { WishlistModel } from '@entities/wishlist/model/interfaces';
 import { OrderItemAddDTO } from '@features/order/api/dto';
 import { useAddOrderItems } from '@features/order/model/hook';
 import { useCart } from '@entities/order/model/hooks';
-import { ProductStatusModel } from '@entities/product/model/enums';
+import { WishlistPublic } from '@gen/wishlist';
+import { ProductStatus } from '@gen/product';
 
 interface Result {
     addWishlistItemsToCart: () => void;
@@ -12,12 +12,12 @@ interface Result {
     isLoading: boolean
 }
 
-export default function useAddWishlistItemsToCart(wishlist: WishlistModel): Result {
+export default function useAddWishlistItemsToCart(wishlist: WishlistPublic): Result {
     const { mutate, isPending: addOrderItemsIsPending } = useAddOrderItems();
     const { data: cart, isFetching: cartIsFetching } = useCart();
 
     const availableWishlistItems = useMemo(
-        () => wishlist?.items?.filter(({ product: { status } }) => status === ProductStatusModel.AVAILABLE),
+        () => wishlist?.items?.filter(({ product: { status } }) => status === ProductStatus.AVAILABLE_STATUS),
         [wishlist],
     );
 

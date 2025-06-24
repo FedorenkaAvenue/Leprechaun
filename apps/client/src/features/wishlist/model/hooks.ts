@@ -4,9 +4,8 @@ import {
     addWishlistItem, createWishlist, removeWishlistItem, removeWishlist, updateWishlist, moveWishlistItem,
 } from '../api';
 import { WISHLISTS_QUERY } from '@entities/wishlist/constants/queryKeys';
-import { WishlistItemModel } from '@entities/wishlist/model/interfaces';
-import { WishlistModel } from '@entities/wishlist/model/interfaces';
 import { CreateWishlistDTO, UpdateWishlistDTO, WishlistItemChangeWishlistDTO } from '../api/dto';
+import { WishlistItemPublic, WishlistPublic } from '@gen/wishlist';
 
 export function useCreateWishlist() {
     const queryClient = useQueryClient();
@@ -14,12 +13,12 @@ export function useCreateWishlist() {
     return useMutation({
         mutationFn: (wishlist: CreateWishlistDTO) => createWishlist(wishlist),
         onSuccess: res => {
-            const wishlists = queryClient.getQueryData<WishlistModel[]>([WISHLISTS_QUERY]);
+            const wishlists = queryClient.getQueryData<WishlistPublic[]>([WISHLISTS_QUERY]);
 
             if (!wishlists) return queryClient.refetchQueries({ queryKey: [WISHLISTS_QUERY] });
 
             if (res.isDefault) {
-                const updatedWishlists = wishlists.reduce<WishlistModel[]>((acc, wishlist) => (
+                const updatedWishlists = wishlists.reduce<WishlistPublic[]>((acc, wishlist) => (
                     [
                         wishlist.isDefault ? { ...wishlist, isDefault: false } : wishlist,
                         ...acc,
@@ -34,13 +33,13 @@ export function useCreateWishlist() {
     });
 }
 
-export function useUpdateWishlist(wishlistId: WishlistModel['id']) {
+export function useUpdateWishlist(wishlistId: WishlistPublic['id']) {
     const queryClient = useQueryClient();
 
     return useMutation({
         mutationFn: (updates: UpdateWishlistDTO) => updateWishlist(wishlistId, updates),
         onMutate: (updates) => {
-            const wishlists = queryClient.getQueryData<WishlistModel[]>([WISHLISTS_QUERY]);
+            const wishlists = queryClient.getQueryData<WishlistPublic[]>([WISHLISTS_QUERY]);
 
             if (!wishlists) {
                 queryClient.refetchQueries({ queryKey: [WISHLISTS_QUERY] });
@@ -48,7 +47,7 @@ export function useUpdateWishlist(wishlistId: WishlistModel['id']) {
                 return;
             }
 
-            const updatedWishlists = wishlists.reduce<WishlistModel[]>((acc, wishlist) => (
+            const updatedWishlists = wishlists.reduce<WishlistPublic[]>((acc, wishlist) => (
                 [
                     wishlist.id === wishlistId
                         ? { ...wishlist, ...updates }
@@ -69,13 +68,13 @@ export function useUpdateWishlist(wishlistId: WishlistModel['id']) {
     });
 }
 
-export function useRemoveWishlist(wishlistId: WishlistModel['id']) {
+export function useRemoveWishlist(wishlistId: WishlistPublic['id']) {
     const queryClient = useQueryClient();
 
     return useMutation({
         mutationFn: () => removeWishlist(wishlistId),
         onMutate: () => {
-            const wishlists = queryClient.getQueryData<WishlistModel[]>([WISHLISTS_QUERY]);
+            const wishlists = queryClient.getQueryData<WishlistPublic[]>([WISHLISTS_QUERY]);
 
             queryClient.setQueryData([WISHLISTS_QUERY], wishlists?.filter(({ id }) => id !== wishlistId));
 
@@ -87,16 +86,16 @@ export function useRemoveWishlist(wishlistId: WishlistModel['id']) {
     });
 }
 
-export function useAddWishlistItem(wishlistItemId: WishlistItemModel['id'], successCallback?: () => void) {
+export function useAddWishlistItem(wishlistItemId: WishlistItemPublic['id'], successCallback?: () => void) {
     const queryClient = useQueryClient();
 
     return useMutation({
         mutationFn: () => addWishlistItem(wishlistItemId),
         onSuccess: async res => {
-            const wishlists = queryClient.getQueryData<WishlistModel[]>([WISHLISTS_QUERY]);
+            const wishlists = queryClient.getQueryData<WishlistPublic[]>([WISHLISTS_QUERY]);
 
             if (wishlists && wishlists.length > 0) { // for existed users
-                const updatedWishlists = wishlists.reduce<WishlistModel[]>((acc, wishlist) => (
+                const updatedWishlists = wishlists.reduce<WishlistPublic[]>((acc, wishlist) => (
                     [
                         wishlist.isDefault
                             ? { ...wishlist, items: [...wishlist.items, res] }
@@ -121,11 +120,11 @@ export function useMoveWishlistItem() {
     return useMutation({
         mutationFn: (updates: WishlistItemChangeWishlistDTO) => moveWishlistItem(updates),
         onMutate: ({ wishlistId, itemId }) => {
-            const wishlists = queryClient.getQueryData<WishlistModel[]>([WISHLISTS_QUERY]);
+            const wishlists = queryClient.getQueryData<WishlistPublic[]>([WISHLISTS_QUERY]);
             const wishlistItem = wishlists?.flatMap(({ items }) => items).find(({ id }) => id === itemId);
 
             if (wishlists && wishlistItem) {
-                const updatedWishlists = wishlists.reduce<WishlistModel[]>((acc, wishlist) => (
+                const updatedWishlists = wishlists.reduce<WishlistPublic[]>((acc, wishlist) => (
                     [
                         wishlistId === wishlist.id
                             ? { ...wishlist, items: [...wishlist.items, wishlistItem] }
@@ -151,10 +150,10 @@ export function useRemoveWishlistItem() {
     const queryClient = useQueryClient();
 
     return useMutation({
-        mutationFn: (wishlistItemId: WishlistItemModel['id']) => removeWishlistItem(wishlistItemId),
+        mutationFn: (wishlistItemId: WishlistItemPublic['id']) => removeWishlistItem(wishlistItemId),
         onMutate: wishlistItemId => {
-            const wishlists = queryClient.getQueryData<WishlistModel[]>([WISHLISTS_QUERY]);
-            const updatedWishlists = wishlists?.map<WishlistModel>(w => ({
+            const wishlists = queryClient.getQueryData<WishlistPublic[]>([WISHLISTS_QUERY]);
+            const updatedWishlists = wishlists?.map<WishlistPublic>(w => ({
                 ...w,
                 items: w.items.filter(({ id }) => id !== wishlistItemId),
             }));

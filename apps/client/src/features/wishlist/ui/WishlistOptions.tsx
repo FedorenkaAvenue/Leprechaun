@@ -1,7 +1,6 @@
 import { FC, useState } from 'react';
 import { EllipsisVertical } from 'lucide-react';
 
-import { WishlistModel } from '@entities/wishlist/model/interfaces';
 import { useI18n } from '@shared/lib/i18n_client';
 import IconButton from '@shared/ui/IconButton';
 import { useRemoveWishlist, useUpdateWishlist } from '../model/hooks';
@@ -10,9 +9,10 @@ import useAddWishlistItemsToCart from '../lib/useAddWishlistItemsToCart';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@primitives/ui/dropdown-menu';
 import { Dialog, DialogContent } from '@primitives/ui/dialog';
 import { CreateWishlistDTO } from '../api/dto';
+import { WishlistPublic } from '@gen/wishlist';
 
 interface Props {
-    wishlist: WishlistModel
+    wishlist: WishlistPublic
 }
 
 const WishlistOptions: FC<Props> = ({ wishlist }) => {

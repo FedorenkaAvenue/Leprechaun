@@ -1,6 +1,6 @@
-import { ProductCardModel } from "@entities/product/model/interfaces";
+import { ProductCardPublic } from '@gen/product';
 import { SubscribeProductStatusSchema } from '../model/schemas';
 
 export interface SubscribeProductStatusDTO extends SubscribeProductStatusSchema {
-    productId: ProductCardModel['id']
+    productId: ProductCardPublic['id']
 }

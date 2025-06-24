@@ -1,6 +1,8 @@
 import { ApiProperty } from '@nestjs/swagger';
 
-import { ProductCardPublic, ProductLabel, ProductLabelType, ProductPreviewPublic, ProductPrice, ProductStatus } from '@gen/product';
+import {
+    ProductCardPublic, ProductLabel, ProductLabelType, ProductPreviewPublic, ProductPrice, ProductStatus,
+} from '@gen/product';
 import { ProductImageSchema, ProductPriceSchema } from '@common/product/product.schema';
 import { PropertyGroupPreviewPublic } from '@gen/property_group';
 
@@ -29,7 +31,7 @@ export class ProductPreviewPublicSchema implements ProductPreviewPublic {
     labels: ProductLabel[];
 
     @ApiProperty()
-    image: string;
+    image: ProductImageSchema;
 }
 
 export class ProductCardPublicSchema implements ProductCardPublic {

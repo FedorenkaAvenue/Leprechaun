@@ -1,8 +1,8 @@
 'use server'
 
+import { ProductPublic } from "@gen/product";
 import serverAPI from "@shared/api/serverApi";
-import { ProductStatusSubscriptionModel } from "../model/interfaces";
 
-export async function getProductStatusSubscriptions(): Promise<ProductStatusSubscriptionModel[]> {
-    return (await serverAPI.get<ProductStatusSubscriptionModel[]>('/subscription')).data;
+export async function getProductStatusSubscriptions(): Promise<ProductPublic['id'][]> {
+    return (await serverAPI.get<ProductPublic['id'][]>('/subscription')).data;
 }

@@ -12,14 +12,14 @@ import "common.proto";
 import "property_group.proto";
 
 service ProductService {
-    rpc getProductListByParams(ProductQueryParams) returns (ProductList);
+    rpc getProductListByParamsPrivate(ProductQueryParams) returns (ProductListPrivate);
     rpc getProductListByParamsPublic(ProductQueryParams) returns (ProductListPublic);
     rpc getProductListByIdsPublic(ProductListByIdsParamsPublic) returns (ProductListPreviewPublic);
-    rpc getProduct(ProductSearchParams) returns (Product);
+    rpc getProductPrivate(ProductPrivateSearchParams) returns (Product);
     rpc getProductListByCategory(ProductListByCategoryParams) returns (ProductListByCategory); // TODO rebuild
     rpc createProduct(ProductCU) returns (ProductPreview);
     rpc updateProduct(ProductUpdateParams) returns (google.protobuf.Empty);
-    rpc deleteProduct(ProductSearchParams) returns (google.protobuf.Empty);
+    rpc deleteProduct(ProductPrivateSearchParams) returns (google.protobuf.Empty);
 }
 
 // entities
@@ -70,7 +70,7 @@ message ProductPreview {
     bool isPublic = 8;
     bool isNew = 9;
     string comment = 10;
-    optional string image = 11;
+    optional common.Image image = 11;
 }
 
 message ProductPreviewPublic {
@@ -78,7 +78,7 @@ message ProductPreviewPublic {
     string title = 2;
     ProductStatus status = 3;
     ProductPrice price = 4;
-    optional string image = 6;
+    optional common.Image image = 6;
     repeated ProductLabel labels = 7;
 }
 
@@ -109,6 +109,18 @@ message Product {
     repeated property_group.PropertyGroupPreview options = 14;
 }
 
+message ProductPublic {
+    string id = 1;
+    string title = 2;
+    ProductStatus status = 3;
+    ProductPrice price = 4;
+    string description = 5;
+    repeated ProductLabel labels = 6;
+    category_preview.CategoryPreviewPublic category = 7;
+    repeated common.Image images = 8;
+    repeated property_group.PropertyGroupPreviewPublic options = 9;
+}
+
 // requests
 
 message ProductCU {
@@ -135,7 +147,7 @@ message ProductQueryParams {
     string category = 6;
 }
 
-message ProductSearchParams {
+message ProductPrivateSearchParams {
     string id = 1;
 }
 
@@ -155,7 +167,7 @@ message ProductUpdateParams {
 
 // responces
 
-message ProductList {
+message ProductListPrivate {
     repeated ProductPreview data = 1;
     common.Pagination pagination = 2;
 }

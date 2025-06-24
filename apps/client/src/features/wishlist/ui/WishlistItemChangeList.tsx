@@ -6,16 +6,16 @@ import { useI18n } from '@shared/lib/i18n_client';
 import { RadioGroup, RadioGroupItem } from '@primitives/ui/radio-group';
 import { Label } from '@primitives/ui/label';
 import { useWishlists } from '@entities/wishlist/model/hooks';
-import { WishlistModel } from '@entities/wishlist/model/interfaces';
 import { useMoveWishlistItem } from '../model/hooks';
+import { WishlistPublic } from '@gen/wishlist';
 
 interface Props {
-    wishlistItemId: WishlistModel['id'] | undefined
+    wishlistItemId: WishlistPublic['id'] | undefined
     handleOpenChange: (state: boolean) => void
 }
 
 const WishlistItemChangeList: FC<Props> = ({ wishlistItemId, handleOpenChange }) => {
-    const [selected, setSelected] = useState<WishlistModel['id']>();
+    const [selected, setSelected] = useState<WishlistPublic['id']>();
     const { dictionary } = useI18n();
     const { data: wishlists } = useWishlists();
     const currentWishlist = useMemo(

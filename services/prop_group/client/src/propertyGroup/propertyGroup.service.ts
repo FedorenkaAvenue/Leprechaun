@@ -102,7 +102,7 @@ export default class PropertyGroupService {
     }
 
     public getGroupListPrivateByCategoryId(id: Category['id']): Observable<PropertyGroupPreview[]> {
-        return this.categoryService.getCategory(id).pipe(map(({ propertyGroups }) => propertyGroups));
+        return this.categoryService.getCategoryPrivate(id).pipe(map(({ propertyGroups }) => propertyGroups));
     }
 
     public getGroupListPrivateByProperties(ids: Property['id'][]): Observable<PropertyGroupPreview[]> {

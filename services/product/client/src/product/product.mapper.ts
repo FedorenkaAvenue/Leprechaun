@@ -48,7 +48,7 @@ export default class ProductMapper {
     ): ProductPreview {
         return {
             ...product,
-            image: product.images.length ? `http://localhost:9013${product.images[0].src}` : undefined,
+            image: product.images.length ? ProductImageMapper.toView(product.images[0]) : undefined,
             title: transMap.items[product.title],
         }
     }

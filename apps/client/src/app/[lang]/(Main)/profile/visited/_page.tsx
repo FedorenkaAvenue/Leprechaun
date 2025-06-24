@@ -15,7 +15,7 @@ const VisitedClient: FC = () => {
 
     return (
         <Grid type='column'>
-            {data.map(i => <li key={i.id}><HistoryProductCard product={i} /></li>)}
+            {data.map(i => <li key={i.id}><HistoryProductCard product={i.product} /></li>)}
         </Grid>
     )
 }

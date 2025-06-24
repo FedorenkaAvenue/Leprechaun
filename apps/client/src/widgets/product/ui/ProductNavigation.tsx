@@ -5,13 +5,13 @@ import Image from 'next/image';
 
 import { Tabs, TabsList, TabsTrigger } from '@primitives/ui/tabs';
 import { useI18n } from '@shared/lib/i18n_client';
-import { ProductOverviewModel } from '@entities/product/model/interfaces';
 import WishlistItemAdd from '@widgets/wishlist/ui/WishlistItemAdd';
 import CartAddItem from '@features/order/ui/CartAddItem';
 import Price from '@shared/ui/Price';
+import { ProductCardPublic } from '@gen/product';
 
 interface Props {
-    product: ProductOverviewModel
+    product: ProductCardPublic
 }
 
 const Nav = forwardRef<HTMLElement>((_, ref) => {
@@ -30,7 +30,7 @@ const Nav = forwardRef<HTMLElement>((_, ref) => {
     );
 })
 
-const TopNavigation: FC<ProductOverviewModel> = ({ id, images, title, price }) => {
+const TopNavigation: FC<ProductCardPublic> = ({ id, images, title, price }) => {
     return (
         <div className='fixed top-0 left-0 w-full flex items-center gap-2 p-2 bg-secondary'>
             <Image width={70} height={70} src={images[0].src} alt={title} />

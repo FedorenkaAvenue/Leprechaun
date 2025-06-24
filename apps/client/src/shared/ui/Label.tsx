@@ -3,7 +3,7 @@ import { LabelModel } from '@shared/models/Label';
 import { cn } from './primitives/lib/utils';
 
 export interface LabelProps {
-    value: LabelModel<unknown>['value']
+    value?: LabelModel<unknown>['value']
     classNames?: string
 }
 

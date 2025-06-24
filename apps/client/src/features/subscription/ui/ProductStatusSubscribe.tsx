@@ -5,7 +5,6 @@ import { FC, useState } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 
-import { ProductCardModel } from '@entities/product/model/interfaces';
 import { Dialog, DialogClose, DialogContent, DialogFooter, DialogTitle, DialogTrigger } from '@primitives/ui/dialog';
 import { Button } from '@primitives/ui/button';
 import { useI18n } from '@shared/lib/i18n_client';
@@ -16,9 +15,10 @@ import { useSubscribeProductStatus } from '../model/hooks';
 import { SubscribeProductStatusSchema } from '../model/schemas';
 import { useProductStatusSubscriptions } from '@entities/subscribtion/model/hooks';
 import { TooltipWrapper } from '@primitives/ui/tooltip';
+import { ProductCardPublic } from '@gen/product';
 
 interface Props {
-    productId: ProductCardModel['id']
+    productId: ProductCardPublic['id']
 }
 
 const SubscribeProductStatus: FC<Props> = ({ productId }) => {

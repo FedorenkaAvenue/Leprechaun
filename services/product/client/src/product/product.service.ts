@@ -271,13 +271,9 @@ export default class ProductService {
     ): Promise<[ProductEntity[], number]> {
         const { pagination: { portion, page }, sort, price, status, category } = searchParams;
 
-        // if (optionsFilter) {
-        //     qb.andWhere('p.properties.alt_name = :value', { value: 'bavovna' }); // Example filter logic
-        // }
-
         if (price) qb.andWhere('p.price.current BETWEEN :min AND :max', { ...price });
 
-        if (category && isPublic) qb.andWhere('p.category = :category', { category });
+        if (category) qb.andWhere('p.category = :category', { category });
 
         if (status) qb.andWhere('p.status = :status', { status });
 

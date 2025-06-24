@@ -3,7 +3,7 @@ import { useMemo } from 'react';
 
 import { getWishLists } from '../api';
 import { WISHLISTS_QUERY } from '../constants/queryKeys';
-import { WishlistModel } from './interfaces';
+import { WishlistPublic } from '@gen/wishlist';
 
 export function useWishlists() {
     return useSuspenseQuery({
@@ -12,9 +12,9 @@ export function useWishlists() {
     });
 }
 
-export function useWishlist(wishlistId: WishlistModel['id']): WishlistModel {
+export function useWishlist(wishlistId: WishlistPublic['id']): WishlistPublic {
     const { data } = useWishlists();
-    const currentWishlist = useMemo(() => data?.find(({ id }) => id === wishlistId) as WishlistModel, [data]);
+    const currentWishlist = useMemo(() => data?.find(({ id }) => id === wishlistId) as WishlistPublic, [data]);
 
     return currentWishlist;
 }

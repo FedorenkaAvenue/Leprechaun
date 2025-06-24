@@ -6,7 +6,7 @@ import {
     Product,
     PRODUCT_SERVICE_NAME,
     ProductCU,
-    ProductList,
+    ProductListPrivate,
     ProductListPublic,
     ProductPreview,
     ProductQueryParams,
@@ -33,11 +33,11 @@ export default class ProductService implements OnModuleInit {
     }
 
     public async getProduct(id: Product['id']): Promise<Product> {
-        return lastValueFrom(this.productClient.getProduct({ id }).pipe(catchResponceError))
+        return lastValueFrom(this.productClient.getProductPrivate({ id }).pipe(catchResponceError))
     }
 
-    public async getProductPrivateList(searchParams: ProductQueryParams): Promise<ProductList> {
-        return lastValueFrom(this.productClient.getProductListByParams(searchParams).pipe(catchResponceError));
+    public async getProductPrivateList(searchParams: ProductQueryParams): Promise<ProductListPrivate> {
+        return lastValueFrom(this.productClient.getProductListByParamsPrivate(searchParams).pipe(catchResponceError));
     }
 
     public async getProductPublicList(searchParams: ProductQueryParams): Promise<ProductListPublic> {

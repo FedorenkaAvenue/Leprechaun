@@ -4,7 +4,7 @@ import { Controller } from "@nestjs/common";
 import {
     Product,
     ProductCU,
-    ProductList,
+    ProductListPrivate,
     ProductListByCategory,
     ProductListByCategoryParams,
     ProductListByIdsParamsPublic,
@@ -12,7 +12,7 @@ import {
     ProductListPublic,
     ProductPreview,
     ProductQueryParams,
-    ProductSearchParams,
+    ProductPrivateSearchParams,
     ProductServiceController,
     ProductServiceControllerMethods,
     ProductUpdateParams,
@@ -28,7 +28,7 @@ export class ProductController implements ProductServiceController {
 
     // private
 
-    getProduct({ id }: ProductSearchParams): Observable<Product> {
+    getProductPrivate({ id }: ProductPrivateSearchParams): Observable<Product> {
         return this.productService.getProduct(id);
     }
 
@@ -42,7 +42,7 @@ export class ProductController implements ProductServiceController {
         return this.productService.updateProduct(id, data);
     }
 
-    getProductListByParams(searchParams: ProductQueryParams): Observable<ProductList> {
+    getProductListByParamsPrivate(searchParams: ProductQueryParams): Observable<ProductListPrivate> {
         return from(this.productService.getProductListPrivate(searchParams));
     }
 
@@ -52,7 +52,7 @@ export class ProductController implements ProductServiceController {
         );
     }
 
-    deleteProduct({ id }: ProductSearchParams): Observable<void> {
+    deleteProduct({ id }: ProductPrivateSearchParams): Observable<void> {
         return this.productService.deleteProduct(id);
     }
 

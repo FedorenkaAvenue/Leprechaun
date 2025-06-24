@@ -1,14 +1,13 @@
 import { FC } from 'react';
 
-import { ProductCardModel } from '@entities/product/model/interfaces';
 import { ProductCard } from '@entities/product/ui/ProductCards';
 import CartAddItem from '@features/order/ui/CartAddItem';
 import AppLink from '@shared/ui/AppLink';
 import WishlistItemAdd from '../../wishlist/ui/WishlistItemAdd';
-import { ProductStatusModel } from '@entities/product/model/enums';
 import SubscribeProductStatus from '@features/subscription/ui/ProductStatusSubscribe';
+import { ProductCardPublic, ProductStatus } from '@gen/product';
 
-type Props = ProductCardModel;
+type Props = ProductCardPublic;
 
 const ProductCatalogueCard: FC<Props> = item => {
     return (
@@ -18,7 +17,7 @@ const ProductCatalogueCard: FC<Props> = item => {
                 <>
                     <WishlistItemAdd productId={product.id} />
                     {
-                        item.status === ProductStatusModel.AVAILABLE
+                        item.status === ProductStatus.AVAILABLE_STATUS
                             ? <CartAddItem productId={product.id} />
                             : <SubscribeProductStatus productId={item.id} />
                     }

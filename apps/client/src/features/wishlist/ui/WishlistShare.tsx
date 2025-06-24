@@ -2,12 +2,12 @@ import { FC, Suspense } from 'react';
 import dynamic from 'next/dynamic';
 
 import IconButton from '@shared/ui/IconButton';
-import { WishlistModel } from '@entities/wishlist/model/interfaces';
+import { WishlistPublic } from '@gen/wishlist';
 
 const Share = dynamic(() => import('@shared/ui/Share'), { ssr: false });
 
 interface Props {
-    wishlistId: WishlistModel['id']
+    wishlistId: WishlistPublic['id']
 }
 
 const WishlistShare: FC<Props> = ({ wishlistId }) => {

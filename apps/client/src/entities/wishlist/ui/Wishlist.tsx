@@ -1,28 +1,27 @@
 import { FC, ReactNode } from 'react';
 import Image from 'next/image';
 
-import { WishlistModel } from '../model/interfaces';
-import { WishlistItemModel } from '../model/interfaces';
 import AppLink from '@shared/ui/AppLink';
 import { useI18n } from '@shared/lib/i18n_client';
 import { Card } from '@primitives/ui/card';
 import { Skeleton } from '@primitives/ui/skeleton';
 import Grid from '@shared/ui/Grid';
 import { cn } from '@primitives/lib/utils';
-import { ProductStatusModel } from '@entities/product/model/enums';
+import { WishlistItemPublic, WishlistPublic } from '@gen/wishlist';
+import { ProductStatus } from '@gen/product';
 
 interface Props {
-    wishlist: WishlistModel
-    renderOption?: (wishlist: WishlistModel) => ReactNode
+    wishlist: WishlistPublic
+    renderOption?: (wishlist: WishlistPublic) => ReactNode
 }
 
-const Item: FC<WishlistItemModel> = ({ product: { image, title, status } }) => (
+const Item: FC<WishlistItemPublic> = ({ product: { image, title, status } }) => (
     <li className='flex h-20 w-20'>
         <Image
-            src={image || '/static/no_image.png'}
+            src={image?.src || '/static/no_image.png'}
             width={80} height={80}
             alt={title}
-            className={cn('object-contain', status !== ProductStatusModel.AVAILABLE && 'opacity-35')}
+            className={cn('object-contain', status !== ProductStatus.AVAILABLE_STATUS && 'opacity-35')}
         />
     </li>
 )

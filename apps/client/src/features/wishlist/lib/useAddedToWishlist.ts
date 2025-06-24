@@ -1,18 +1,19 @@
 import { UseQueryResult } from '@tanstack/react-query';
 import { useMemo } from 'react';
 
-import { ProductCardModel } from '@entities/product/model/interfaces';
 import { useWishlists } from '@entities/wishlist/model/hooks';
-import { WishlistItemModel } from '@entities/wishlist/model/interfaces';
-import { WishlistModel } from '@entities/wishlist/model/interfaces';
+import { WishlistItemPublic, WishlistPublic } from '@gen/wishlist';
+import { ProductCardPublic } from '@gen/product';
 
 interface Result {
     isFetching: UseQueryResult['isFetching']
-    selected: WishlistItemModel | undefined
-    selectedWishlist: WishlistModel | undefined
+    selected: WishlistItemPublic | undefined
+    selectedWishlist: WishlistPublic | undefined
 }
 
-export default function useAddedToWishlist(productId: ProductCardModel['id'], shouldGetSelectedWishlist: boolean): Result {
+export default function useAddedToWishlist(
+    productId: ProductCardPublic['id'], shouldGetSelectedWishlist: boolean,
+): Result {
     const { data, isFetching } = useWishlists();
 
     const selected = useMemo(

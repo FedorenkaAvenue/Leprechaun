@@ -1,12 +1,12 @@
 import { FC } from 'react';
 
-import { WishlistModel } from '@entities/wishlist/model/interfaces';
 import Wishlist from '@entities/wishlist/ui/Wishlist';
 import WishlistShare from '@features/wishlist/ui/WishlistShare';
 import WishlistOptions from '@features/wishlist/ui/WishlistOptions';
+import { WishlistPublic } from '@gen/wishlist';
 
 interface Props {
-    wishlist: WishlistModel
+    wishlist: WishlistPublic
 }
 
 const WishlistCard: FC<Props> = ({ wishlist }) => {

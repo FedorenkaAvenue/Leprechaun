@@ -1,12 +1,12 @@
 'use server';
 
+import { WishlistPublic } from '@gen/wishlist';
 import serverAPI from '@shared/api/serverApi';
-import { WishlistModel } from '../model/interfaces';
 
-export async function getWishLists(): Promise<WishlistModel[]> {
-    return (await serverAPI.get<WishlistModel[]>('/wishlist')).data;
+export async function getWishLists(): Promise<WishlistPublic[]> {
+    return (await serverAPI.get<WishlistPublic[]>('/wishlist')).data;
 }
 
-export async function getWishlist(wishlistId: WishlistModel['id']): Promise<WishlistModel> {
-    return (await serverAPI.get<WishlistModel>(`/wishlist/${wishlistId}`)).data;
+export async function getWishlist(wishlistId: WishlistPublic['id']): Promise<WishlistPublic> {
+    return (await serverAPI.get<WishlistPublic>(`/wishlist/${wishlistId}`)).data;
 }

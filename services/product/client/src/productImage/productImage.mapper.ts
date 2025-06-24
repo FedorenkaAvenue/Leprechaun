@@ -9,8 +9,8 @@ type ImageCUPayload = Awaited<ReturnType<S3Service['uploadFile']>>
 export default class ProductImageMapper {
     static toView({ id, src }: ProductImage): Image {
         return {
-            src: `http://localhost:9013${src}`,
             id,
+            src: `http://host.docker.internal:9013${src}`,
         };
     }
 

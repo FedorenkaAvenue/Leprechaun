@@ -10,13 +10,14 @@ import { getDictionary } from '@shared/lib/i18n_server';
 import ProductSortList from '@widgets/product/ui/ProductSortList';
 import Pagination from '@shared/ui/Pagination';
 import { getProductList } from '@entities/product/api';
-import { CategoryModel } from '@entities/category/model/interfaces';
+import { CategoryPublic } from '@gen/category';
+import { CategoryPreviewPublic } from '@gen/_category_preview';
 
 type Props = RouteProps<{ category: string }, { page: string | undefined }>;
 
 function getCatagory(
-    categoryUrl: CategoryModel['url'], categoryList: CategoryModel[],
-): CategoryModel {
+    categoryUrl: CategoryPublic['url'], categoryList: CategoryPreviewPublic[],
+): CategoryPreviewPublic {
     const cat = categoryList.find(category => category.url === categoryUrl);
 
     if (!cat) notFound();

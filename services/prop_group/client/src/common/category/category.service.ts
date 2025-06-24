@@ -24,7 +24,7 @@ export default class CategoryService implements OnModuleInit {
         return this.categoryClient.getCategoryListByPropertyGroups(data);
     }
 
-    getCategory(id: Category['id']): Observable<Category> {
-        return this.categoryClient.getCategory({ id });
+    getCategoryPrivate(id: Category['id']): Observable<Category> {
+        return this.categoryClient.getCategoryPrivate({ id });
     }
 }
