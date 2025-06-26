@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 
-import { WishlistItemPublic, WishlistPublic } from '@gen/wishlist';
+import { Wishlist, WishlistCreate, WishlistItemMoveParams, WishlistItemPublic, WishlistPublic } from '@gen/wishlist';
 import { ProductPreviewPublicSchema } from '../product/product.schema';
 
 export class WishlistItemPublicSchema implements WishlistItemPublic {
@@ -37,38 +37,26 @@ export class WishlistPublicSchema implements WishlistPublic {
     itemsUpdatedAt: Date;
 }
 
-// export class CreateWishlistDTO {
-//     @IsNotEmpty()
-//     @IsString()
-//     @ApiProperty({ required: true, type: 'string' })
-//     title: WishlistI['title'];
+export class WishlistCreateSchema implements Omit<WishlistCreate, 'user'> {
+    @ApiProperty({ required: true, type: 'string' })
+    title: WishlistPublic['title'];
 
-//     @IsOptional()
-//     @IsBoolean()
-//     @ApiProperty({ required: false, type: 'boolean' })
-//     isDefault: WishlistI['isDefault']
-// }
+    @ApiProperty({ required: false, type: 'boolean' })
+    isDefault: WishlistPublic['isDefault']
+}
 
-// export class UpdateWishlistDTO implements Pick<WishlistPublicI, 'isDefault' | 'title'> {
-//     @IsOptional()
-//     @IsString()
-//     @ApiProperty({ required: false })
-//     title: string;
+export class WishlistUpdateSchema implements Partial<WishlistCreate> {
+    @ApiProperty({ required: false })
+    title: string;
 
-//     @IsOptional()
-//     @IsBoolean()
-//     @ApiProperty({ required: false })
-//     isDefault: boolean;
-// }
+    @ApiProperty({ required: false })
+    isDefault: boolean;
+}
 
-// export class WishlistItemMoveDTO {
-//     @IsUUID()
-//     @IsNotEmpty()
-//     @ApiProperty({ required: true, type: 'string' })
-//     itemId: WishlistItemPublicI['id'];
+export class WishlistItemMoveSchema implements WishlistItemMoveParams {
+    @ApiProperty({ required: true, type: 'string' })
+    itemId: WishlistItemPublic['id'];
 
-//     @IsUUID()
-//     @IsNotEmpty()
-//     @ApiProperty({ required: true, type: 'string' })
-//     wishlistId: WishlistI['id'];
-// }
+    @ApiProperty({ required: true, type: 'string' })
+    wishlistId: Wishlist['id'];
+}

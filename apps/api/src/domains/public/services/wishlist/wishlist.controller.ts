@@ -1,15 +1,19 @@
 import {
-    Body, Controller, Delete, Get, NotFoundException, Param, ParseUUIDPipe, Patch, Post, Session, UseGuards,
-    UseInterceptors, ValidationPipe,
+    Body, Controller, Delete, Get, Param, ParseUUIDPipe, Patch, Post, Req, Session, UseInterceptors,
 } from '@nestjs/common';
-import { ApiCookieAuth, ApiNotFoundResponse, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
+import {
+    ApiBody, ApiCookieAuth, ApiNotAcceptableResponse, ApiNotFoundResponse, ApiOkResponse, ApiOperation, ApiTags,
+} from '@nestjs/swagger';
 
 import WishlistPublicService from './wishlist.service';
-import { WishlistPublic } from '@gen/wishlist';
-import { WishlistPublicSchema } from './wishlist.schema';
+import { WishlistItemMoveParams, WishlistItemPublic, WishlistPublic } from '@gen/wishlist';
+import {
+    WishlistCreateSchema, WishlistItemMoveSchema, WishlistItemPublicSchema, WishlistPublicSchema, WishlistUpdateSchema,
+} from './wishlist.schema';
 import { QueryCommonParams } from '@gen/common';
 import QueryDecorator from '@common/queries/query.decorator';
-
+import SessionInitInterceptor from '@interceptors/sessionInit.interceptor';
+import { Empty } from '@gen/google/protobuf/empty';
 
 @Controller('wishlist')
 @ApiTags('Wishlist 🧑‍💻')
@@ -21,61 +25,93 @@ export default class WishlistPublicController {
     @ApiCookieAuth()
     @ApiOkResponse({ type: WishlistPublicSchema, isArray: true })
     private getWishlists(
-        // @Session() { id }: Record<string, any>,
+        @Session() session: string,
         @QueryDecorator() queries: QueryCommonParams,
     ): Promise<WishlistPublic[]> {
-        return this.wishlistPublicService.getWishlists('asdasd', queries);
+        return this.wishlistPublicService.getWishlists(session, queries);
     }
 
-    // @Get(':wishlistiD')
-    // @UseInterceptors(NotFoundInterceptor)
-    // @ApiOperation({ summary: 'get wishlist by ID (for sharing wishlist)' })
-    // @ApiOkResponse({ type: WishlistPublic })
-    // @ApiNotFoundResponse({ description: 'wishlist not found' })
-    // private getWishlist(
-    //     @Param('wishlistiD', ParseUUIDPipe) wishlistID: string,
-    //     @QueryDecorator() queries: QueriesCommonI,
-    // ): Promise<WishlistPublicI | null> {
-    //     return this.wishlistPublicService.getWishlist(wishlistID, queries);
-    // }
+    @Get(':wishlistiD')
+    @ApiOperation({ summary: 'get wishlist by ID (for sharing wishlist)' })
+    @ApiOkResponse({ type: WishlistPublicSchema })
+    @ApiNotFoundResponse({ description: 'wishlist not found' })
+    private getWishlist(
+        @Param('wishlistiD', ParseUUIDPipe) wishlistID: string,
+        @QueryDecorator() queries: QueryCommonParams,
+    ): Promise<WishlistPublic> {
+        return this.wishlistPublicService.getWishlist(wishlistID, queries);
+    }
 
-    // @Post()
-    // @UseInterceptors(SessionInitInterceptor)
-    // @ApiOperation({ summary: 'create new wishlist 🧷' })
-    // @ApiCookieAuth()
-    // @ApiOkResponse({ type: WishlistPublic })
-    // private createWishlist(
-    //     @Body(new ValidationPipe({ transform: true })) wishlist: CreateWishlistDTO,
-    //     @Session() { id }: Record<string, any>,
-    //     @QueryDecorator() queries: QueriesCommonI,
-    // ): Promise<WishlistPublicI> {
-    //     return this.wishlistPublicService.createWishlist(wishlist, id, queries);
-    // }
+    @Post()
+    @UseInterceptors(SessionInitInterceptor)
+    @ApiOperation({ summary: 'create new wishlist 🧷' })
+    @ApiCookieAuth()
+    @ApiOkResponse({ type: WishlistPublicSchema })
+    private createWishlist(
+        //@ts-ignore
+        @Req() { session }: string,
+        @Body() wishlist: WishlistCreateSchema,
+    ): Promise<WishlistPublic> {
+        return this.wishlistPublicService.createWishlist(wishlist, session);
+    }
 
-    // @Patch(':wishlistID')
-    // @UseGuards(SessionGuard)
-    // @UseInterceptors(AffectedResultInterceptor('wishlist is not found', NotFoundException))
-    // @ApiOperation({ summary: 'update wishlist' })
-    // @ApiCookieAuth()
-    // @ApiNotFoundResponse({ description: 'wishlist is not found' })
-    // private updateWishlist(
-    //     @Param('wishlistID', ParseUUIDPipe) wishlistId: string,
-    //     @Body(new ValidationPipe({ transform: true })) updates: UpdateWishlistDTO,
-    //     @Session() { id }: Record<string, any>,
-    // ): Promise<UpdateResult> {
-    //     return this.wishlistPublicService.updateWishlist(wishlistId, updates, id);
-    // }
+    @Patch('item')
+    @ApiOperation({ summary: 'move wishlist item to another wishlist' })
+    @ApiCookieAuth()
+    @ApiBody({ type: WishlistItemMoveSchema })
+    @ApiNotAcceptableResponse({ description: 'wishlist item or wishlist is not exists' })
+    private moveWishlistItemToAnotherWishlist(
+        @Body() updates: WishlistItemMoveParams,
+        // @Session() session: string, // yes, bug. everyone can delete any wishlist item
+    ): Promise<Empty> {
+        return this.wishlistPublicService.moveWishlistItems(updates);
+    }
 
-    // @Delete(':wishlistID')
-    // @UseGuards(SessionGuard)
-    // @UseInterceptors(AffectedResultInterceptor('wishlist is not found', NotFoundException))
-    // @ApiOperation({ summary: 'delete wishlist' })
-    // @ApiCookieAuth()
-    // @ApiNotFoundResponse({ description: 'wishlist is not found' })
-    // private removeWishlist(
-    //     @Param('wishlistID', ParseUUIDPipe) wishlistId: string,
-    //     @Session() { id }: Record<string, any>,
-    // ): Promise<DeleteResult> {
-    //     return this.wishlistPublicService.removeWishlist(wishlistId, id);
-    // }
+    @Patch(':wishlistID')
+    @ApiOperation({ summary: 'update wishlist' })
+    @ApiCookieAuth()
+    @ApiNotFoundResponse({ description: 'wishlist is not found' })
+    private updateWishlist(
+        @Param('wishlistID', ParseUUIDPipe) wishlistId: string,
+        @Body() updates: WishlistUpdateSchema,
+        @Session() session: string,
+    ): Promise<Empty> {
+        return this.wishlistPublicService.updateWishlist(wishlistId, session, updates);
+    }
+
+    @Delete(':wishlistID')
+    @ApiOperation({ summary: 'delete wishlist' })
+    @ApiCookieAuth()
+    @ApiNotFoundResponse({ description: 'wishlist is not found' })
+    private removeWishlist(
+        @Param('wishlistID', ParseUUIDPipe) wishlistId: string,
+        @Session() session: string,
+    ): Promise<Empty> {
+        return this.wishlistPublicService.deleteWishlist(wishlistId, session);
+    }
+
+    @Post('item/:productID')
+    @UseInterceptors(SessionInitInterceptor)
+    @ApiOperation({ summary: 'add product to default wishlist 🧷' })
+    @ApiCookieAuth()
+    @ApiOkResponse({ type: WishlistItemPublicSchema })
+    @ApiNotAcceptableResponse({ description: 'product is already added to wishlist' })
+    private addWishlistItem(
+        @Param('productID', ParseUUIDPipe) productId: string,
+        @Session() session: string,
+        @QueryDecorator() queries: QueryCommonParams,
+    ): Promise<WishlistItemPublic> {
+        return this.wishlistPublicService.addWishlistItem(session, productId, queries);
+    }
+
+    @Delete('item/:wishlistItemID')
+    @ApiOperation({ summary: 'remove wishlist item from wishlist' })
+    @ApiCookieAuth()
+    @ApiNotFoundResponse({ description: 'wishlist item not found' })
+    private deleteWishlistItem(
+        @Param('wishlistItemID', ParseUUIDPipe) wishlistItemID: string,
+        // @Session() session: string, // yes, bug. everyone can delete any wishlist item
+    ): Promise<Empty> {
+        return this.wishlistPublicService.deleteWishlistItem(wishlistItemID);
+    }
 }

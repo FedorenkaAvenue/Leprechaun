@@ -55,12 +55,12 @@ export default class ProductMapper {
 
     @WithLabels(ProductLabelType.DISCOUNT_LABEL)
     static toPreviewPublic(
-        { id, status, price, ...product }: ProductPreview,
+        { id, status, price, image, title }: ProductPreview,
         { lang }: QueryCommonParams,
     ): ProductPreviewPublic {
         return {
-            id, status, price,
-            title: product.title[lang as keyof TransData],
+            id, status, price, image,
+            title: title[lang as keyof TransData],
             labels: [],
         }
     }

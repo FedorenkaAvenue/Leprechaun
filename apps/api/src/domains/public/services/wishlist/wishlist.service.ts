@@ -3,10 +3,20 @@ import { ClientGrpc } from '@nestjs/microservices';
 import { lastValueFrom, map } from 'rxjs';
 
 import { WISHLIST_PACKAGE } from './wishlist.constants';
-import { WISHLIST_SERVICE_NAME, WishlistPublic, WishlistServiceClient } from '@gen/wishlist';
+import {
+    Wishlist,
+    WISHLIST_SERVICE_NAME,
+    WishlistItem,
+    WishlistItemMoveParams,
+    WishlistItemPublic,
+    WishlistPublic,
+    WishlistServiceClient,
+} from '@gen/wishlist';
 import { catchResponceError } from '@pipes/operators';
 import { User } from '@gen/user';
 import { QueryCommonParams } from '@gen/common';
+import { WishlistCreateSchema, WishlistUpdateSchema } from './wishlist.schema';
+import { Empty } from '@gen/google/protobuf/empty';
 
 @Injectable()
 export default class WishlistPublicService implements OnModuleInit {
@@ -27,47 +37,47 @@ export default class WishlistPublicService implements OnModuleInit {
         );
     }
 
-    // public async getWishlist(id: WishlistI['id'], searchParams: QueriesCommonI): Promise<WishlistPublicI | null> {
-    //     const res = await this.wishlistRepo.findOne({
-    //         where: { id },
-    //         relations: { items: { product: { images: true } } },
-    //     });
+    public async getWishlist(id: Wishlist['id'], queries: QueryCommonParams): Promise<WishlistPublic> {
+        return await lastValueFrom(this.wishlistClient.getWishlistPublic({ id, queries }).pipe(catchResponceError));
+    }
 
-    //     if (!res) return null;
+    public async createWishlist(newWishlist: WishlistCreateSchema, user: User['id']): Promise<WishlistPublic> {
+        return lastValueFrom(
+            this.wishlistClient.createWishlistPublic({ ...newWishlist, user }).pipe(catchResponceError)
+        );
+    }
 
-    //     return new WishlistPublic(res, searchParams);
-    // }
+    public async updateWishlist(
+        wishlist: Wishlist['id'],
+        user: User['id'],
+        updates: WishlistUpdateSchema,
+    ): Promise<Empty> {
+        return await lastValueFrom(
+            this.wishlistClient.updateWishlistPublic({ wishlist, user, updates }).pipe(catchResponceError)
+        )
+    }
 
-    // public async createWishlist(
-    //     wishlist: CreateWishlistDTO,
-    //     sid: SessionI['sid'],
-    //     searchParams: QueriesCommonI,
-    // ): Promise<WishlistPublic> {
-    //     const newWishlist = await this.dataSource.transaction(async manager => {
-    //         if (wishlist.isDefault) await manager.update(WishlistEntity, { sid, isDefault: true }, { isDefault: false });
+    public async deleteWishlist(wishlistId: Wishlist['id'], user: User['id']): Promise<Empty> {
+        return await lastValueFrom(
+            this.wishlistClient.deleteWishlist({ id: wishlistId, user }).pipe(catchResponceError)
+        );
+    }
 
-    //         return await manager.save(WishlistEntity, { ...wishlist, sid });
-    //     });
+    public async addWishlistItem(
+        user: User['id'],
+        product: string,
+        queries: QueryCommonParams,
+    ): Promise<WishlistItemPublic> {
+        return lastValueFrom(
+            this.wishlistClient.addWishlistItemPublic({ product, user, queries }).pipe(catchResponceError)
+        );
+    }
 
-    //     return new WishlistPublic({ ...newWishlist, items: [] }, searchParams);
-    // }
+    public deleteWishlistItem(id: WishlistItem['id']): Promise<Empty> {
+        return lastValueFrom(this.wishlistClient.deleteWishlistItem({ id }).pipe(catchResponceError));
+    }
 
-    // public async updateWishlist(
-    //     wishlistId: WishlistI['id'],
-    //     updates: UpdateWishlistDTO,
-    //     sid: SessionI['sid'],
-    // ): Promise<UpdateResult> {
-    //     return await this.dataSource.transaction(async manager => {
-    //         if (updates.isDefault) await manager.update(WishlistEntity, { sid, isDefault: true }, { isDefault: false });
-
-    //         return await manager.update(WishlistEntity, { sid, id: wishlistId }, { ...updates });
-    //     });
-    // }
-
-    // public async removeWishlist(
-    //     wishlistId: WishlistI['id'],
-    //     sid: SessionI['sid'],
-    // ): Promise<DeleteResult> {
-    //     return await this.wishlistRepo.delete({ sid, id: wishlistId, isDefault: false });
-    // }
+    public moveWishlistItems(updates: WishlistItemMoveParams): Promise<Empty> {
+        return lastValueFrom(this.wishlistClient.moveWishlistItem(updates).pipe(catchResponceError));
+    }
 }

@@ -7,8 +7,9 @@ option go_package = "./user;user_v1";
 import "google/protobuf/empty.proto";
 
 service UserService {
-    rpc FindOne (UserSearchParams) returns (User);
-    rpc GetEmployerList (google.protobuf.Empty) returns (UserList);
+    rpc getUserPrivate (UserSearchParams) returns (User);
+    rpc getEmployerListPrivate (google.protobuf.Empty) returns (UserListPrivate);
+    rpc createSessionUser (google.protobuf.Empty) returns (User);
 }
 
 // entities
@@ -26,12 +27,7 @@ message User {
     UserRole role = 2;
     string email = 3;
     string password = 4;
-}
-
-// responces
-
-message UserList {
-    repeated User items = 1;
+    bool isAuth = 5;
 }
 
 // requests
@@ -39,4 +35,10 @@ message UserList {
 message UserSearchParams {
     optional string id = 1;
     optional string email = 2;
+}
+
+// responces
+
+message UserListPrivate {
+    repeated User items = 1;
 }

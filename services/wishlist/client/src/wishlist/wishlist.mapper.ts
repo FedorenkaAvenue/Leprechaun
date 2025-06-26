@@ -13,10 +13,13 @@ export default class WishlistMapper {
         }
     }
 
-    static toPublicView({ user, ...wishlist }: WishlistEntity, products: ProductPreviewPublic[]): WishlistPublic {
+    static toViewPublic(
+        { id, title, isDefault, createdAt, itemsUpdatedAt, items }: WishlistEntity,
+        products: ProductPreviewPublic[],
+    ): WishlistPublic {
         return {
-            ...wishlist,
-            items: wishlist.items.map(item => ({
+            id, title, isDefault, createdAt, itemsUpdatedAt,
+            items: items.map(item => ({
                 ...item,
                 product: products.find(({ id }) => id === item.product) as ProductPreviewPublic,
             })),

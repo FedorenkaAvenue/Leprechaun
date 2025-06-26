@@ -1,7 +1,7 @@
 'use server'
 
-import { WishlistItemPublic, WishlistPublic } from '@gen/wishlist';
-import { CreateWishlistDTO, UpdateWishlistDTO, WishlistItemChangeWishlistDTO } from './dto';
+import { WishlistItemMoveParams, WishlistItemPublic, WishlistPublic } from '@gen/wishlist';
+import { CreateWishlistDTO, UpdateWishlistDTO } from './dto';
 import serverAPI from '@shared/api/serverApi';
 
 export async function createWishlist(wishlist: CreateWishlistDTO): Promise<WishlistPublic> {
@@ -20,7 +20,7 @@ export async function addWishlistItem(wishlistItemId: WishlistItemPublic['id']):
     return (await serverAPI.post<WishlistItemPublic>(`/wishlist/item/${wishlistItemId}`)).data;
 }
 
-export async function moveWishlistItem(updates: WishlistItemChangeWishlistDTO): Promise<void> {
+export async function moveWishlistItem(updates: WishlistItemMoveParams): Promise<void> {
     return (await serverAPI.patch<void>(`/wishlist/item`, updates)).data;
 }
 

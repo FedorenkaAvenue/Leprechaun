@@ -43,6 +43,6 @@ export default class AppModule implements NestModule {
             consumer.apply(HTTPLogMiddleware).forRoutes('*');
         }
 
-        consumer.apply(cookieParser() as Function)
+        consumer.apply(cookieParser() as Function).forRoutes('*');
     }
 }

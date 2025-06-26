@@ -1,19 +1,21 @@
 import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 
-import { User } from "./user.interface";
-import { UserRole } from "gen/user";
+import { User, UserRole } from "gen/user";
 
 @Entity('user')
 export default class UserEntity implements User {
     @PrimaryGeneratedColumn('uuid')
     id: string;
 
-    @Column()
+    @Column({ default: UserRole.UNKNOWN })
     role: UserRole;
 
-    @Column({ type: 'varchar' })
+    @Column({ type: 'varchar', nullable: true })
     email: string;
 
-    @Column()
+    @Column({ nullable: true })
     password: string;
+
+    @Column({ default: false })
+    isAuth: boolean;
 }

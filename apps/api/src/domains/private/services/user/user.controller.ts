@@ -2,12 +2,12 @@ import { Controller, Get, Req, UseGuards } from "@nestjs/common";
 import { ApiNotFoundResponse, ApiOkResponse, ApiOperation, ApiTags } from "@nestjs/swagger";
 import { Request } from "express";
 
-import { UserRole } from "@gen/user";
+import { User, UserRole } from "@gen/user";
 import { AuthJWTAccessGuard } from "@guards/auth.guard";
 import UserService from "@common/user/user.service";
 import { UserRoleDecorator } from "@common/user/user.decorator";
 import { UserRoleGuard } from "@common/user/user.guard";
-import { UserDataDTO } from "@common/user/user.dto";
+import { UserSchema } from "./user.schema";
 
 @Controller('user')
 @UseGuards(AuthJWTAccessGuard)
@@ -19,18 +19,18 @@ export default class UserPrivateController {
     @UserRoleDecorator(UserRole.SUPPORT)
     @UseGuards(UserRoleGuard)
     @ApiOperation({ summary: 'get employer own data' })
-    @ApiOkResponse({ type: UserDataDTO })
+    @ApiOkResponse({ type: UserSchema })
     @ApiNotFoundResponse({ description: 'user not found' })
-    private async getUserData(@Req() req: Request): Promise<UserDataDTO> {
-        return this.userService.getUser(req.user.id);
+    private async getUserData(@Req() req: Request): Promise<User> {
+        return this.userService.getUserPrivate(req.user.id);
     }
 
     @Get('employer/list')
     @UserRoleDecorator(UserRole.SUPPORT)
     @UseGuards(UserRoleGuard)
     @ApiOperation({ summary: 'get employers list' })
-    @ApiOkResponse({ type: UserDataDTO, isArray: true })
-    private async getEmployerList(): Promise<UserDataDTO[]> {
-        return this.userService.getEmployerList();
+    @ApiOkResponse({ type: UserSchema, isArray: true })
+    private async getEmployerList(): Promise<User[]> {
+        return this.userService.getEmployerListPrivate();
     }
 }

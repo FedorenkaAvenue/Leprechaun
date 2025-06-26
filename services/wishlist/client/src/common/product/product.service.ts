@@ -20,4 +20,12 @@ export default class ProductService implements OnModuleInit {
             map(res => res.items)
         )
     }
+
+    public getProductPreviewPublic(
+        productId: Product['id'], queries: QueryCommonParams,
+    ): Observable<ProductPreviewPublic> {
+        return this.productClient.getProductListByIdsPublic({ ids: [productId], queries }).pipe(
+            map(res => res.items[0])
+        );
+    }
 }

@@ -15,6 +15,6 @@ export default class UserService implements OnModuleInit {
     }
 
     getUser(data: UserSearchParams): Observable<User> {
-        return this.userClient.findOne(data);
+        return this.userClient.getUserPrivate(data);
     }
 }

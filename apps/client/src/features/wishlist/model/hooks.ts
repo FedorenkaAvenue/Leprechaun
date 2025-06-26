@@ -4,8 +4,8 @@ import {
     addWishlistItem, createWishlist, removeWishlistItem, removeWishlist, updateWishlist, moveWishlistItem,
 } from '../api';
 import { WISHLISTS_QUERY } from '@entities/wishlist/constants/queryKeys';
-import { CreateWishlistDTO, UpdateWishlistDTO, WishlistItemChangeWishlistDTO } from '../api/dto';
-import { WishlistItemPublic, WishlistPublic } from '@gen/wishlist';
+import { CreateWishlistDTO, UpdateWishlistDTO } from '../api/dto';
+import { WishlistItemMoveParams, WishlistItemPublic, WishlistPublic } from '@gen/wishlist';
 
 export function useCreateWishlist() {
     const queryClient = useQueryClient();
@@ -118,7 +118,7 @@ export function useMoveWishlistItem() {
     const queryClient = useQueryClient();
 
     return useMutation({
-        mutationFn: (updates: WishlistItemChangeWishlistDTO) => moveWishlistItem(updates),
+        mutationFn: (updates: WishlistItemMoveParams) => moveWishlistItem(updates),
         onMutate: ({ wishlistId, itemId }) => {
             const wishlists = queryClient.getQueryData<WishlistPublic[]>([WISHLISTS_QUERY]);
             const wishlistItem = wishlists?.flatMap(({ items }) => items).find(({ id }) => id === itemId);

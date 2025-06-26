@@ -2,7 +2,7 @@ import { ApiProperty } from "@nestjs/swagger";
 
 import { User, UserRole } from "@gen/user";
 
-export class UserDataDTO implements Omit<User, 'password'> {
+export class UserSchema implements Omit<User, 'password' | 'isAuth'> {
     @ApiProperty()
     id: string;
 
@@ -11,10 +11,4 @@ export class UserDataDTO implements Omit<User, 'password'> {
 
     @ApiProperty({ type: 'string' })
     email: string;
-
-    constructor({ id, role, email }: User) {
-        this.id = id;
-        this.role = role;
-        this.email = email;
-    }
 }
