@@ -5,7 +5,7 @@ import { Request, Response } from 'express';
 import UserService from '@common/user/user.service';
 
 /**
- * @description init session if doesn't exist
+ * @description init session if user credentials dont exist
  */
 @Injectable()
 export default class SessionInitInterceptor implements NestInterceptor {
@@ -16,13 +16,13 @@ export default class SessionInitInterceptor implements NestInterceptor {
         const request = ctx.getRequest<Request>();
         const response = ctx.getResponse<Response>();
 
-        let session = request.session;
+        const { userId } = request;
 
-        if (session) return next.handle();
+        if (userId) return next.handle();
 
         return from(this.userService.createSessionUser()).pipe(
             switchMap(({ id }) => {
-                request.session = id;
+                request.userId = id;
                 response.cookie('session', id, {
                     // httpOnly: true,
                     // secure: true,

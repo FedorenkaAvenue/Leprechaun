@@ -6,7 +6,7 @@ import { status } from "@grpc/grpc-js";
 import { RpcException } from "@nestjs/microservices";
 
 import WishlistEntity from "./wishlist.entity";
-import { Wishlist, WishlistItemPublic, WishlistPublic, WishlistUpdate_Updates } from "gen/wishlist";
+import { Wishlist, WishlistItem, WishlistItemPublic, WishlistPublic, WishlistUpdate_Updates } from "gen/wishlist";
 import { User } from "gen/user";
 import ProductService from "@common/product/product.service";
 import WishlistMapper from "./wishlist.mapper";
@@ -28,7 +28,11 @@ export class WishlistService {
             switchMap(wishlist => {
                 if (!wishlist) throw new RpcException({ code: status.NOT_FOUND, message: 'Wishlist not found' });
 
-                return this.productService.getProductListPublic(wishlist.items.map(({ product }) => product), queries).pipe(
+                const wishlistProducts$ = wishlist.items.length
+                    ? this.productService.getProductListPublic(wishlist.items.map(({ product }) => product), queries)
+                    : of([]);
+
+                return wishlistProducts$.pipe(
                     map(products => WishlistMapper.toViewPublic(wishlist, products))
                 );
             })
@@ -135,6 +139,25 @@ export class WishlistService {
                 return of();
             })
         );
+    }
+
+    public moveWishlitItem(
+        wishlist: Wishlist['id'],
+        item: WishlistItem['id'],
+        user: User['id'],
+    ): Observable<void> {
+        return from(this.wishlistRepo.findOneBy({ id: wishlist, user })).pipe(
+            switchMap(wishlist => {
+                if (!wishlist) {
+                    throw new RpcException({
+                        code: status.PERMISSION_DENIED,
+                        message: `wishlist with id ${wishlist} and user ${user} not found`,
+                    });
+                }
+
+                return this.wishlistItemService.moveWishlistItems(wishlist.id, item);
+            })
+        )
     }
 
     /**

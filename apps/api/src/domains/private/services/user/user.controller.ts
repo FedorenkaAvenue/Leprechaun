@@ -21,8 +21,8 @@ export default class UserPrivateController {
     @ApiOperation({ summary: 'get employer own data' })
     @ApiOkResponse({ type: UserSchema })
     @ApiNotFoundResponse({ description: 'user not found' })
-    private async getUserData(@Req() req: Request): Promise<User> {
-        return this.userService.getUserPrivate(req.user.id);
+    private async getUserData(@Req() { userPayload }: Request): Promise<User> {
+        return this.userService.getUserPrivate(userPayload.id);
     }
 
     @Get('employer/list')

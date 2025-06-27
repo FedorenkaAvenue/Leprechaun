@@ -38,8 +38,8 @@ export default class WishlistController implements WishlistServiceController {
         return this.wishlistService.updateWishlist(wishlist, user, updates);
     }
 
-    public deleteWishlistItem({ id }: WishlistItemSearchParams): Observable<void> {
-        return this.wishlistItemService.deleteWishlistItem(id);
+    public deleteWishlistItem({ id, user }: WishlistItemSearchParams): Observable<void> {
+        return this.wishlistItemService.deleteWishlistItem(id, user);
     }
 
     @ValidateDTO(WishlistCreateDTO)
@@ -61,9 +61,7 @@ export default class WishlistController implements WishlistServiceController {
         return this.wishlistService.deleteWishlist(id, user);
     }
 
-    public moveWishlistItem({ wishlistId, itemId }: WishlistItemMoveParams): Observable<void> {
-        console.log(wishlistId, itemId);
-
-        return this.wishlistItemService.moveWishlistItems(wishlistId, itemId);
+    public moveWishlistItem({ wishlistId, itemId, user }: WishlistItemMoveParams): Observable<void> {
+        return this.wishlistService.moveWishlitItem(wishlistId, itemId, user);
     }
 }

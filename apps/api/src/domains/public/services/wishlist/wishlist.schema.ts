@@ -53,7 +53,7 @@ export class WishlistUpdateSchema implements Partial<WishlistCreate> {
     isDefault: boolean;
 }
 
-export class WishlistItemMoveSchema implements WishlistItemMoveParams {
+export class WishlistItemMoveSchema implements Omit<WishlistItemMoveParams, 'user'> {
     @ApiProperty({ required: true, type: 'string' })
     itemId: WishlistItemPublic['id'];
 

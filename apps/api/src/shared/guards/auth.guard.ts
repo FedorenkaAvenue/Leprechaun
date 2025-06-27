@@ -15,7 +15,7 @@ export class AuthJWTAccessGuard implements CanActivate {
     ) { }
 
     async canActivate(context: ExecutionContext): Promise<boolean> {
-        const request = context.switchToHttp().getRequest();
+        const request = context.switchToHttp().getRequest() as Request;
         const token = this.extractTokenFromHeader(request);
 
         if (!token) throw new UnauthorizedException();
@@ -26,7 +26,8 @@ export class AuthJWTAccessGuard implements CanActivate {
                 { secret: this.configService.getJWTAccessTokenOptions().secret },
             );
 
-            request['user'] = payload;
+            request.userId = payload.id;
+            request.userPayload = payload;
         } catch (err) {
             throw new UnauthorizedException('invalid access token');
         }
@@ -63,7 +64,8 @@ export class AuthJWTRefreshGuard implements CanActivate {
                 { secret: this.configService.getJWTRefreshTokenOptions().secret },
             );
 
-            request['user'] = payload;
+            request.userId = payload.id;
+            request.userPayload = payload;
         } catch (err) {
             throw new UnauthorizedException('invalid refresh token');
         }

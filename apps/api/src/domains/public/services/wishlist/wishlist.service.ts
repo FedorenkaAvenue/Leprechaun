@@ -73,8 +73,8 @@ export default class WishlistPublicService implements OnModuleInit {
         );
     }
 
-    public deleteWishlistItem(id: WishlistItem['id']): Promise<Empty> {
-        return lastValueFrom(this.wishlistClient.deleteWishlistItem({ id }).pipe(catchResponceError));
+    public deleteWishlistItem(id: WishlistItem['id'], user: User['id']): Promise<Empty> {
+        return lastValueFrom(this.wishlistClient.deleteWishlistItem({ id, user }).pipe(catchResponceError));
     }
 
     public moveWishlistItems(updates: WishlistItemMoveParams): Promise<Empty> {

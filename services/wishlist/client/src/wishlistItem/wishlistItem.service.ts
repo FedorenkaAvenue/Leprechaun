@@ -13,6 +13,7 @@ import WishlistItemMapper from "./wishlistItem.mapper";
 import ProductService from "@common/product/product.service";
 import { QueryDeepPartialEntity } from "typeorm/query-builder/QueryPartialEntity";
 import WishlistEntity from "src/wishlist/wishlist.entity";
+import { User } from "gen/user";
 
 @Injectable()
 export default class WishlistItemService {
@@ -54,19 +55,21 @@ export default class WishlistItemService {
         );
     }
 
-    public deleteWishlistItem(id: WishlistItem['id']): Observable<void> {
-        return from(this.wishlistItemRepo.delete({ id })).pipe(
-            switchMap(({ affected }) => {
-                if (!affected) {
+    public deleteWishlistItem(id: WishlistItem['id'], user: User['id']): Observable<void> {
+        return from(this.wishlistItemRepo.findOneBy({ id, wishlist: { user } })).pipe(
+            switchMap(wishlistItem => {
+                if (!wishlistItem) {
                     throw new RpcException({
-                        code: status.NOT_FOUND,
-                        message: `wishlist item with id ${id} not found`,
+                        code: status.PERMISSION_DENIED,
+                        message: `wishlist item with id ${id} and user ${user} not found`,
                     });
                 }
 
-                return of(undefined);
+                return from(this.wishlistItemRepo.delete({ id })).pipe(
+                    switchMap(({ affected }) => of(undefined))
+                )
             })
-        );
+        )
     }
 
     public moveWishlistItems(wishlist: Wishlist['id'], item: WishlistItem['id']): Observable<void> {

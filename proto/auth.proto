@@ -4,12 +4,18 @@ package auth;
 
 option go_package = "./auth;auth_v1";
 
+import "user.proto";
+
 service AuthService {
     rpc SignIn (SignInParams) returns (AuthJWT);
 }
 
 // entities
 
+message JWTPayload {
+    string id = 1;
+    user.UserRole role = 2;
+}
 
 message AuthJWT {
     string accessToken = 1;

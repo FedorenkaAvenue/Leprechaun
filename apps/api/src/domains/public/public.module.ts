@@ -6,7 +6,7 @@ import CategoryPublicModule from "./services/category/category.module";
 import HistoryPublicModule from "./services/history/history.module";
 import ProductPublicModule from "./services/product/product.module";
 import SubscriptionPublicModule from "./services/subscription/subscription.module";
-import { SessionMiddleware } from "@middlewares/session.middleware";
+import { SessionMiddleware } from "@public/shared/middlewares/session.middleware";
 
 @Module({
     imports: [

@@ -8,8 +8,8 @@ import ConfigModule from '@modules/config/config.module';
 import LoggerModule from '@modules/logger/logger.module';
 import MailModule from '@modules/mail/mail.module';
 import JWTModule from '@modules/JWT/JWT.module';
-import PublicModule from '@domains/public/public.module';
-import PrivateModule from '@domains/private/private.module';
+import PublicModule from '@public/public.module';
+import PrivateModule from '@private/private.module';
 import UncaughtExceptionFilter from '@filters/UncaughtException.filter';
 import HTTPLogMiddleware from '@middlewares/HTTPLog.middleware';
 

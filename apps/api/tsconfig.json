@@ -26,7 +26,8 @@
         "baseUrl": ".",
         "paths": {
             "@common/*": ["./src/common/*"],
-            "@domains/*": ["./src/domains/*"],
+            "@public/*": ["./src/domains/public/*"],
+            "@private/*": ["./src/domains/private/*"],
             "@modules/*": ["./src/shared/modules/*"],
             "@utils/*": ["./src/shared/utils/*"],
             "@middlewares/*": ["./src/shared/middlewares/*"],

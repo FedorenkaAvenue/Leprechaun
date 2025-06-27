@@ -1,11 +1,13 @@
 import { SessionDataI } from '@core/session/session.interface';
-import { JWTPayloadI, JWTSuccessTokensI } from '@core/auth/auth.interface';
+
+import { JWTPayload } from '@gen/auth';
+import { User } from '@gen/user';
 
 declare global {
     namespace Express {
         interface Request {
-            user: JWTPayloadI
-            session: string
+            userId: User['id']
+            userPayload: JWTPayload
         }
     }
 }
