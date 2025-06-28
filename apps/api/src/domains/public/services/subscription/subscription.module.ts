@@ -7,6 +7,7 @@ import { SUBSCRIPTION_PACKAGE } from "./subscription.constants";
 import { SUBSCRIPTION_PACKAGE_NAME } from "@gen/subscription";
 import SubscriptionPublicController from "./subscription.controller";
 import SubscriptionPublicService from "./subscription.service";
+import UserModule from "@common/user/user.module";
 
 @Module({
     imports: [
@@ -28,6 +29,7 @@ import SubscriptionPublicService from "./subscription.service";
                 }),
             },
         ]),
+        UserModule,
     ],
     controllers: [SubscriptionPublicController],
     providers: [SubscriptionPublicService],

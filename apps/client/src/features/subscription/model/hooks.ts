@@ -7,17 +7,17 @@ import { useI18n } from "@shared/lib/i18n_client";
 import { toast } from "@primitives/hooks/use-toast";
 import { Product, ProductCardPublic } from "@gen/product";
 
-export function useSubscribeProductStatus(productId: ProductCardPublic['id']) {
+export function useSubscribeProductStatus(product: ProductCardPublic['id']) {
     const client = useQueryClient();
     const { dictionary } = useI18n();
 
     return useMutation({
-        mutationFn: (form: SubscribeProductStatusSchema) => subscribeProductStatus({ ...form, productId }),
+        mutationFn: (form: SubscribeProductStatusSchema) => subscribeProductStatus({ ...form, product }),
         onSuccess() {
             const subscribtions = client.getQueryData<Product['id'][]>([SUBSCRIBTION_PRODUCT_STATUS]);
 
             if (subscribtions) {
-                client.setQueryData([SUBSCRIBTION_PRODUCT_STATUS], [...subscribtions, productId])
+                client.setQueryData([SUBSCRIBTION_PRODUCT_STATUS], [...subscribtions, product])
             } else {
                 client.invalidateQueries({ queryKey: [SUBSCRIBTION_PRODUCT_STATUS] })
             }

@@ -14,9 +14,10 @@ import { QueryCommonParams } from '@gen/common';
 import QueryDecorator from '@common/queries/query.decorator';
 import { Empty } from '@gen/google/protobuf/empty';
 import SessionInitInterceptor from '@public/shared/interceptors/sessionInit.interceptor';
-import CredentialsGuard from '@public/shared/guards/credentials.guard';
+import CredentialsGuard from '@public/shared/guards/Credentials.guard';
 import Credentials from '@public/shared/decorators/credentials.decorator';
 import { User } from '@gen/user';
+import { UnknownUserResponce } from '@public/shared/guards/UnknownUserResponce.guard';
 
 @Controller('wishlist')
 @ApiTags('Wishlist 🧑‍💻')
@@ -24,6 +25,7 @@ export default class WishlistPublicController {
     constructor(private readonly wishlistPublicService: WishlistPublicService) { }
 
     @Get()
+    @UseGuards(UnknownUserResponce([]))
     @ApiOperation({ summary: 'get all wishlists' })
     @ApiCookieAuth()
     @ApiOkResponse({ type: WishlistPublicSchema, isArray: true })

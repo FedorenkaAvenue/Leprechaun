@@ -11,8 +11,10 @@ const serverAPI = axios.create({ baseURL: SERVER_DOMAIN_API });
 serverAPI.interceptors.request.use(
     async conf => {
         const cookieStore = await cookies();
+        const sessionCookie = cookieStore.get('session')?.value;
 
-        conf.headers.set('cookie', `session=${cookieStore.get('session')?.value}`);
+        if (sessionCookie) conf.headers.set('cookie', `session=${sessionCookie}`);
+
         conf.params = {
             lang: cookieStore.get('lang')?.value,
             ...conf.params,
