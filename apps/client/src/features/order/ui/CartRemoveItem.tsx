@@ -2,11 +2,11 @@ import { FC } from 'react';
 import { Trash } from 'lucide-react';
 
 import { useRemoveOrderItem } from '../model/hook';
-import { OrderItemModel } from '@entities/order/model/interfaces';
 import IconButton from '@shared/ui/IconButton';
+import { OrderItemPublic } from '@gen/order';
 
 interface Props {
-    itemId: OrderItemModel['id']
+    itemId: OrderItemPublic['id']
 }
 
 const CartRemoveItem: FC<Props> = ({ itemId }) => {

@@ -314,6 +314,28 @@ services:
       - ./services/subscription/db/postgresql.conf:/app/postgresql.conf
       - ./services/subscription/db/pg_hba.conf:/app/pg_hba.conf
 
+  service_order_client:
+    restart: unless-stopped
+    extends:
+      file: docker-compose.shared.yaml
+      service: node
+    command: npm run start:dev
+    ports:
+      - ${ORDER_SERVICE_CLIENT_PORT_EXPOSE}:${ORDER_SERVICE_CLIENT_PORT}
+    volumes:
+      - ./services/order/client:/app
+      - ./proto:/app/proto
+    environment:
+      - IS_DEV=true
+
+  service_order_db:
+    restart: unless-stopped
+    ports:
+      - ${ORDER_SERVICE_DB_PORT_EXPOSE}:${ORDER_SERVICE_DB_PORT}
+    volumes:
+      - ./services/order/db/postgresql.conf:/app/postgresql.conf
+      - ./services/order/db/pg_hba.conf:/app/pg_hba.conf
+
   ### UTILS
 
   translations:

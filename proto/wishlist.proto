@@ -15,7 +15,9 @@ service WishlistService {
     rpc createWishlistPublic(WishlistCreate) returns (WishlistPublic);
     rpc updateWishlistPublic(WishlistUpdate) returns (google.protobuf.Empty);
     rpc deleteWishlist(WishlistDeleteSearchParams) returns (google.protobuf.Empty);
+}
 
+service WishlistItemService {
     rpc addWishlistItemPublic(WishlistItemCUPublic) returns (WishlistItemPublic);
     rpc deleteWishlistItem(WishlistItemSearchParams) returns (google.protobuf.Empty);
     rpc moveWishlistItem(WishlistItemMoveParams) returns (google.protobuf.Empty);

@@ -2,31 +2,31 @@ import Image from 'next/image';
 import { FC, ReactNode } from 'react';
 
 import ProductLabel from '@entities/product/ui/ProductLabel';
-import { OrderItemModel } from '../model/interfaces';
 import Price from '@shared/ui/Price';
 import { Card } from '@primitives/ui/card';
 import AppLink from '@shared/ui/AppLink';
 import { Skeleton } from '@primitives/ui/skeleton';
-import { ProductStatusModel } from '@entities/product/model/enums';
 import { cn } from '@primitives/lib/utils';
-import ProductStatus from '@entities/product/ui/ProductStatus';
+import ProductStatusEntity from '@entities/product/ui/ProductStatus';
+import { OrderItemPublic } from '@gen/order';
+import { ProductStatus } from '@gen/product';
 
 interface Props {
-    item: OrderItemModel
-    renderAmount?: (item: OrderItemModel) => ReactNode
-    renderOptions?: (item: OrderItemModel) => ReactNode
+    item: OrderItemPublic
+    renderAmount?: (item: OrderItemPublic) => ReactNode
+    renderOptions?: (item: OrderItemPublic) => ReactNode
 }
 
 const OrderItemCard: FC<Props> = ({ item, renderAmount, renderOptions }) => {
     const { product: { id, image, title, labels, status }, summaryPrice } = item;
-    const isAvailable = status === ProductStatusModel.AVAILABLE;
+    const isAvailable = status === ProductStatus.AVAILABLE_STATUS;
 
     return (
         <Card element='article' className='flex gap-2 justify-between h-full min-h-32' size='tiny'>
             <div className={cn('flex', !isAvailable && 'opacity-35')}>
                 <AppLink href={`/product/${id}`} className='flex h-full'>
                     <Image
-                        src={image || '/static/no_image.png'}
+                        src={image?.src || '/static/no_image.png'}
                         width='100' height='100'
                         alt={title}
                         className='object-contain'
@@ -47,7 +47,7 @@ const OrderItemCard: FC<Props> = ({ item, renderAmount, renderOptions }) => {
                         ))}
                     </ul>
                 )}
-                {!isAvailable && <ProductStatus status={status} />}
+                {!isAvailable && <ProductStatusEntity status={status} />}
             </div>
             <div className='flex flex-col items-end justify-between h-full'>
                 {renderOptions?.call(null, item)}

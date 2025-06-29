@@ -13,7 +13,7 @@ const Cart: FC = () => {
     const { data, isUpdating } = useCart();
     const { dictionary } = useI18n();
 
-    if (typeof data === 'object' && (!data || data?.items.length === 0)) {
+    if (!data?.items.length && !data?.unavailableItems.length) {
         return (
             <div>{dictionary?.cart.emptyCart}</div>
         )

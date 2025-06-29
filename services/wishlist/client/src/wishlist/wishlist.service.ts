@@ -6,21 +6,18 @@ import { status } from "@grpc/grpc-js";
 import { RpcException } from "@nestjs/microservices";
 
 import WishlistEntity from "./wishlist.entity";
-import { Wishlist, WishlistItem, WishlistItemPublic, WishlistPublic, WishlistUpdate_Updates } from "gen/wishlist";
+import { Wishlist, WishlistPublic, WishlistUpdate_Updates } from "gen/wishlist";
 import { User } from "gen/user";
 import ProductService from "@common/product/product.service";
 import WishlistMapper from "./wishlist.mapper";
 import { QueryCommonParams } from "gen/common";
 import { WishlistCreateDTO } from "./wishlist.dto";
-import { Product } from "gen/product";
-import WishlistItemService from "../wishlistItem/wishlistItem.service";
 
 @Injectable()
 export class WishlistService {
     constructor(
         @InjectRepository(WishlistEntity) private readonly wishlistRepo: Repository<WishlistEntity>,
         private readonly productService: ProductService,
-        private readonly wishlistItemService: WishlistItemService,
     ) { }
 
     public getWishlistPublic(wishlistId: Wishlist['id'], queries: QueryCommonParams): Observable<WishlistPublic> {
@@ -106,26 +103,6 @@ export class WishlistService {
         )
     }
 
-    public addWishlistItemPublic(
-        user: User['id'],
-        productId: Product['id'],
-        queries: QueryCommonParams,
-    ): Observable<WishlistItemPublic> {
-        return from(this.getDefaultWishlist(user)).pipe(
-            switchMap(defaultWishlist => {
-                const wishlist$ = defaultWishlist
-                    ? of(defaultWishlist)
-                    : from(this.wishlistRepo.save({ isDefault: true, user }))
-
-                return wishlist$.pipe(
-                    switchMap(wishlist => from(
-                        this.wishlistItemService.addWishlistItemPublic(wishlist.id, productId, queries)
-                    ))
-                )
-            })
-        );
-    }
-
     public deleteWishlist(id: Wishlist['id'], user: User['id']): Observable<void> {
         return from(this.wishlistRepo.delete({ id, user })).pipe(
             switchMap(({ affected }) => {
@@ -141,23 +118,13 @@ export class WishlistService {
         );
     }
 
-    public moveWishlitItem(
-        wishlist: Wishlist['id'],
-        item: WishlistItem['id'],
-        user: User['id'],
-    ): Observable<void> {
-        return from(this.wishlistRepo.findOneBy({ id: wishlist, user })).pipe(
-            switchMap(wishlist => {
-                if (!wishlist) {
-                    throw new RpcException({
-                        code: status.PERMISSION_DENIED,
-                        message: `wishlist with id ${wishlist} and user ${user} not found`,
-                    });
-                }
-
-                return this.wishlistItemService.moveWishlistItems(wishlist.id, item);
-            })
-        )
+    public getOrCreateDefaultWishlist(user: User['id']): Observable<WishlistEntity> {
+        return from(this.getDefaultWishlist(user)).pipe(
+            switchMap(defaultWishlist => defaultWishlist
+                ? of(defaultWishlist)
+                : from(this.wishlistRepo.save({ isDefault: true, user }))
+            )
+        );
     }
 
     /**

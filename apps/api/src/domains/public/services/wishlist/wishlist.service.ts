@@ -5,10 +5,12 @@ import { lastValueFrom, map } from 'rxjs';
 import { WISHLIST_PACKAGE } from './wishlist.constants';
 import {
     Wishlist,
+    WISHLIST_ITEM_SERVICE_NAME,
     WISHLIST_SERVICE_NAME,
     WishlistItem,
     WishlistItemMoveParams,
     WishlistItemPublic,
+    WishlistItemServiceClient,
     WishlistPublic,
     WishlistServiceClient,
 } from '@gen/wishlist';
@@ -21,11 +23,13 @@ import { Empty } from '@gen/google/protobuf/empty';
 @Injectable()
 export default class WishlistPublicService implements OnModuleInit {
     private wishlistClient: WishlistServiceClient;
+    private wishlistItemClient: WishlistItemServiceClient;
 
     constructor(@Inject(WISHLIST_PACKAGE) private client: ClientGrpc) { }
 
     onModuleInit() {
         this.wishlistClient = this.client.getService<WishlistServiceClient>(WISHLIST_SERVICE_NAME);
+        this.wishlistItemClient = this.client.getService<WishlistItemServiceClient>(WISHLIST_ITEM_SERVICE_NAME);
     }
 
     public async getWishlists(user: User['id'], params: QueryCommonParams): Promise<WishlistPublic[]> {
@@ -69,15 +73,15 @@ export default class WishlistPublicService implements OnModuleInit {
         queries: QueryCommonParams,
     ): Promise<WishlistItemPublic> {
         return lastValueFrom(
-            this.wishlistClient.addWishlistItemPublic({ product, user, queries }).pipe(catchResponceError)
+            this.wishlistItemClient.addWishlistItemPublic({ product, user, queries }).pipe(catchResponceError)
         );
     }
 
     public deleteWishlistItem(id: WishlistItem['id'], user: User['id']): Promise<Empty> {
-        return lastValueFrom(this.wishlistClient.deleteWishlistItem({ id, user }).pipe(catchResponceError));
+        return lastValueFrom(this.wishlistItemClient.deleteWishlistItem({ id, user }).pipe(catchResponceError));
     }
 
     public moveWishlistItems(updates: WishlistItemMoveParams): Promise<Empty> {
-        return lastValueFrom(this.wishlistClient.moveWishlistItem(updates).pipe(catchResponceError));
+        return lastValueFrom(this.wishlistItemClient.moveWishlistItem(updates).pipe(catchResponceError));
     }
 }

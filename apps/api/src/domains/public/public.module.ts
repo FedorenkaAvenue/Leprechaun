@@ -16,6 +16,7 @@ import { SessionMiddleware } from "@public/shared/middlewares/session.middleware
         CategoryPublicModule,
         HistoryPublicModule,
         SubscriptionPublicModule,
+        OrderPublicModule,
     ],
 })
 export default class PublicModule implements NestModule {

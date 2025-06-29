@@ -1,5 +1,7 @@
 import { status } from "@grpc/grpc-js";
-import { BadRequestException, InternalServerErrorException, NotAcceptableException, NotFoundException, UnauthorizedException } from "@nestjs/common";
+import {
+    BadRequestException, InternalServerErrorException, NotAcceptableException, NotFoundException, UnauthorizedException,
+} from "@nestjs/common";
 import { catchError, Observable, throwError } from "rxjs";
 
 /**

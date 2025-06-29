@@ -45,3 +45,4 @@ move:
 	@cp ./gen/ts/server/. -r ../../services/wishlist/client/gen
 	@cp ./gen/ts/server/. -r ../../services/history/client/gen
 	@cp ./gen/ts/server/. -r ../../services/subscription/client/gen
+	@cp ./gen/ts/server/. -r ../../services/order/client/gen

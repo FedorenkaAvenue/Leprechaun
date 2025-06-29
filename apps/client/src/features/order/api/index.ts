@@ -1,18 +1,16 @@
 'use server'
 
-import { OrderItemAddDTO, OderItemChangeAmountDTO } from '../api/dto';
-import { CartModel } from '@entities/order/model/interfaces';
-import { OrderItemModel } from '@entities/order/model/interfaces';
+import { OrderItemPublic, OrderItemsPublicCreate_Item, OrderItemUpdatePublic_Data, OrderPublic } from '@gen/order';
 import serverAPI from '@shared/api/serverApi';
 
-export async function addToCart(items: OrderItemAddDTO[]) {
-    return (await serverAPI.post<CartModel>(`/order/items`, items)).data;
+export async function addToCart(items: OrderItemsPublicCreate_Item[]) {
+    return (await serverAPI.post<OrderPublic>(`/order/items`, items)).data;
 }
 
-export async function changeOrderItemAmount(orderItemId: OrderItemModel['id'], body: OderItemChangeAmountDTO) {
-    return (await serverAPI.patch<CartModel>(`/order/item/${orderItemId}`, body)).data;
+export async function changeOrderItemAmount(body: OrderItemUpdatePublic_Data) {
+    return (await serverAPI.patch<OrderPublic>('/order/item', body)).data;
 }
 
-export async function removeOrderItem(itemId: OrderItemModel['id']) {
+export async function removeOrderItem(itemId: OrderItemPublic['id']) {
     return (await serverAPI.delete(`/order/item/${itemId}`)).data;
 }

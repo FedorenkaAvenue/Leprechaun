@@ -1,6 +1,6 @@
 import { Optional } from "@nestjs/common";
 import { Type } from "class-transformer";
-import { IsBoolean, IsNotEmpty, IsObject, IsOptional, IsString, ValidateNested } from "class-validator";
+import { IsBoolean, IsNotEmpty, IsObject, IsOptional, IsString, IsUUID, ValidateNested } from "class-validator";
 
 import { User } from "gen/user";
 import { Wishlist, WishlistCreate, WishlistUpdate, WishlistUpdate_Updates } from "gen/wishlist";
@@ -24,7 +24,7 @@ class WishlistUpdatesDTO implements WishlistUpdate_Updates {
     @IsBoolean()
     isDefault: Wishlist['isDefault']
 
-    @Optional()
+    @IsOptional()
     @IsString()
     title: Wishlist['title'];
 }
@@ -36,10 +36,12 @@ export class WishlistUpdateDTO implements WishlistUpdate {
     updates: WishlistUpdate['updates'];
 
     @IsNotEmpty()
+    @IsUUID()
     @IsString()
-    wishlist: string;
+    wishlist: Wishlist['id'];
 
     @IsNotEmpty()
     @IsString()
+    @IsUUID()
     user: User['id'];
 }

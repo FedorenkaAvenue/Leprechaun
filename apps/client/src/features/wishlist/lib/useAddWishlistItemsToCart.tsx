@@ -1,10 +1,10 @@
 import { useCallback, useMemo } from 'react';
 
-import { OrderItemAddDTO } from '@features/order/api/dto';
 import { useAddOrderItems } from '@features/order/model/hook';
 import { useCart } from '@entities/order/model/hooks';
 import { WishlistPublic } from '@gen/wishlist';
 import { ProductStatus } from '@gen/product';
+import { OrderItemsPublicCreate_Item } from '@gen/order';
 
 interface Result {
     addWishlistItemsToCart: () => void;
@@ -23,7 +23,7 @@ export default function useAddWishlistItemsToCart(wishlist: WishlistPublic): Res
 
     // map availableWishlistItems items to OrderItemAddDTO[]
     const orderItems = useMemo(
-        () => availableWishlistItems?.map<OrderItemAddDTO>(({ product: { id } }) => ({ product: id, amount: 1 })),
+        () => availableWishlistItems?.map<OrderItemsPublicCreate_Item>(({ product: { id } }) => ({ product: id, amount: 1 })),
         [availableWishlistItems],
     );
 

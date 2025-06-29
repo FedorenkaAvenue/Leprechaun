@@ -5,15 +5,15 @@ import { FC } from 'react';
 import { useRouter } from 'next/navigation';
 
 import { useAddOrderItems } from '../model/hook';
-import { ProductCardModel } from '@entities/product/model/interfaces';
 import { useCart } from '@entities/order/model/hooks';
 import IconButton from '@shared/ui/IconButton';
 import { twConfig } from '@root/tailwind.config';
 import { Button } from '@primitives/ui/button';
 import { useI18n } from '@shared/lib/i18n_client';
+import { ProductCardPublic } from '@gen/product';
 
 interface Props {
-    productId: ProductCardModel['id']
+    productId: ProductCardPublic['id']
     type?: CartAddItemType
 }
 

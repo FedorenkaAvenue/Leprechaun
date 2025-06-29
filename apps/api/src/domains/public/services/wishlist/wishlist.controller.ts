@@ -1,5 +1,5 @@
 import {
-    Body, Controller, Delete, Get, Param, ParseUUIDPipe, Patch, Post, Req, UseGuards, UseInterceptors,
+    Body, Controller, Delete, Get, Param, Patch, Post, UseGuards, UseInterceptors,
 } from '@nestjs/common';
 import {
     ApiBody, ApiCookieAuth, ApiNotAcceptableResponse, ApiNotFoundResponse, ApiOkResponse, ApiOperation, ApiTags,
@@ -41,7 +41,7 @@ export default class WishlistPublicController {
     @ApiOkResponse({ type: WishlistPublicSchema })
     @ApiNotFoundResponse({ description: 'wishlist not found' })
     private getWishlist(
-        @Param('wishlistiD', ParseUUIDPipe) wishlistID: string,
+        @Param('wishlistiD') wishlistID: string,
         @QueryDecorator() queries: QueryCommonParams,
     ): Promise<WishlistPublic> {
         return this.wishlistPublicService.getWishlist(wishlistID, queries);
@@ -78,7 +78,7 @@ export default class WishlistPublicController {
     @ApiCookieAuth()
     @ApiNotFoundResponse({ description: 'wishlist is not found' })
     private updateWishlist(
-        @Param('wishlistID', ParseUUIDPipe) wishlistId: string,
+        @Param('wishlistID') wishlistId: string,
         @Credentials('userId') user: User['id'],
         @Body() updates: WishlistUpdateSchema,
     ): Promise<Empty> {
@@ -91,7 +91,7 @@ export default class WishlistPublicController {
     @ApiCookieAuth()
     @ApiNotFoundResponse({ description: 'wishlist is not found' })
     private removeWishlist(
-        @Param('wishlistID', ParseUUIDPipe) wishlistId: string,
+        @Param('wishlistID') wishlistId: string,
         @Credentials('userId') user: User['id'],
     ): Promise<Empty> {
         return this.wishlistPublicService.deleteWishlist(wishlistId, user);
@@ -104,7 +104,7 @@ export default class WishlistPublicController {
     @ApiOkResponse({ type: WishlistItemPublicSchema })
     @ApiNotAcceptableResponse({ description: 'product is already added to wishlist' })
     private addWishlistItem(
-        @Param('productID', ParseUUIDPipe) productId: string,
+        @Param('productID') productId: string,
         @Credentials('userId') user: User['id'],
         @QueryDecorator() queries: QueryCommonParams,
     ): Promise<WishlistItemPublic> {
@@ -118,7 +118,7 @@ export default class WishlistPublicController {
     @ApiNotFoundResponse({ description: 'wishlist item not found' })
     private deleteWishlistItem(
         @Credentials('userId') user: User['id'],
-        @Param('wishlistItemID', ParseUUIDPipe) wishlistItemID: string,
+        @Param('wishlistItemID') wishlistItemID: string,
     ): Promise<Empty> {
         return this.wishlistPublicService.deleteWishlistItem(wishlistItemID, user);
     }

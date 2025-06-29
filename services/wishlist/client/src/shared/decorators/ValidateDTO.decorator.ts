@@ -14,7 +14,7 @@ export function ValidateDTO(DTO: any, field: string = 'body'): MethodDecorator {
 
             if (errors.length > 0) {
                 const message = errors.map(e => Object.values(e.constraints || {})).flat().join(', ');
-                throw new RpcException({ status: status.INVALID_ARGUMENT, message });
+                throw new RpcException({ code: status.INVALID_ARGUMENT, message });
             }
 
             return originalMethod.apply(this, args);

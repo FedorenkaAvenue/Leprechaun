@@ -3,11 +3,11 @@
 import { createContext, FC, PropsWithChildren, useState } from 'react';
 import { useSuspenseQuery, UseSuspenseQueryResult } from '@tanstack/react-query';
 
-import { CartModel } from './interfaces';
 import { CART_QUERY } from '../constants/queryKeys';
 import { getCart } from '../api';
+import { OrderPublic } from '@gen/order';
 
-export interface CartContext extends Partial<UseSuspenseQueryResult<CartModel | null, Error>> {
+export interface CartContext extends Partial<UseSuspenseQueryResult<OrderPublic | null, Error>> {
     isUpdating: boolean
     setUpdating: ((state: boolean) => void)
 }

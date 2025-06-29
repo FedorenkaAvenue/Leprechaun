@@ -1,28 +1,27 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 import { addToCart, changeOrderItemAmount, removeOrderItem } from '../api';
-import { OrderItemAddDTO, OderItemChangeAmountDTO } from '../api/dto';
 import { CART_QUERY } from '@entities/order/constants/queryKeys';
-import { OrderItemModel } from '@entities/order/model/interfaces';
 import { useCart } from '@entities/order/model/hooks';
+import { OrderItemPublic, OrderItemsPublicCreate_Item, OrderItemUpdatePublic_Data } from '@gen/order';
 
 export function useAddOrderItems() {
     const qClient = useQueryClient();
 
     return useMutation({
-        mutationFn: (items: OrderItemAddDTO[]) => addToCart(items),
+        mutationFn: (items: OrderItemsPublicCreate_Item[]) => addToCart(items),
         onSuccess: data => {
             qClient.setQueryData([CART_QUERY], data);
         }
     })
 }
 
-export function useChangeOrderItemAmount(orderItemId: OrderItemModel['id']) {
+export function useChangeOrderItemAmount(id: OrderItemPublic['id']) {
     const client = useQueryClient();
     const { setUpdating } = useCart();
 
     return useMutation({
-        mutationFn: (amount: OderItemChangeAmountDTO['amount']) => changeOrderItemAmount(orderItemId, { amount }),
+        mutationFn: (amount: OrderItemUpdatePublic_Data['amount']) => changeOrderItemAmount({ amount, id }),
         onMutate: () => setUpdating(true),
         onSuccess: data => {
             client.setQueryData([CART_QUERY], data);
@@ -31,7 +30,7 @@ export function useChangeOrderItemAmount(orderItemId: OrderItemModel['id']) {
     })
 }
 
-export function useRemoveOrderItem(itemId: OrderItemModel['id']) {
+export function useRemoveOrderItem(itemId: OrderItemPublic['id']) {
     const client = useQueryClient();
     const { setUpdating } = useCart();
 

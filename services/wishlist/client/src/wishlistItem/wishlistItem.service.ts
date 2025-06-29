@@ -12,47 +12,50 @@ import { Wishlist, WishlistItem, WishlistItemPublic } from "gen/wishlist";
 import WishlistItemMapper from "./wishlistItem.mapper";
 import ProductService from "@common/product/product.service";
 import { QueryDeepPartialEntity } from "typeorm/query-builder/QueryPartialEntity";
-import WishlistEntity from "src/wishlist/wishlist.entity";
 import { User } from "gen/user";
+import { WishlistService } from "../wishlist/wishlist.service";
 
 @Injectable()
 export default class WishlistItemService {
     constructor(
         @InjectRepository(WishlistItemEntity) private readonly wishlistItemRepo: Repository<WishlistItemEntity>,
         private readonly productService: ProductService,
+        private readonly wishlistService: WishlistService,
     ) { }
 
     public addWishlistItemPublic(
-        wishlist: Wishlist['id'],
         productId: Product['id'],
+        user: User['id'],
         queries: QueryCommonParams,
     ): Observable<WishlistItemPublic> {
-        return from(this.wishlistItemRepo.upsert(
-            { product: productId, wishlist } as DeepPartial<WishlistItemEntity>,
-            {
-                conflictPaths: { product: true, wishlist: true },
-                skipUpdateIfNoValuesChanged: true,
-            }
-        )).pipe(
-            switchMap(({ raw }) => {
-                if (raw.length === 0) {
-                    throw new RpcException({
-                        status: status.ALREADY_EXISTS,
-                        message: 'wishlist item already exists',
-                    });
+        return this.wishlistService.getOrCreateDefaultWishlist(user).pipe(
+            switchMap(wishlist => from(this.wishlistItemRepo.upsert(
+                { product: productId, wishlist } as DeepPartial<WishlistItemEntity>,
+                {
+                    conflictPaths: { product: true, wishlist: true },
+                    skipUpdateIfNoValuesChanged: true,
                 }
+            )).pipe(
+                switchMap(({ raw }) => {
+                    if (raw.length === 0) {
+                        throw new RpcException({
+                            status: status.ALREADY_EXISTS,
+                            message: 'wishlist item already exists',
+                        });
+                    }
 
-                return forkJoin([
-                    this.wishlistItemRepo.findOne({ where: { id: raw[0].id } }),
-                    this.productService.getProductPreviewPublic(productId, queries),
-                ]).pipe(
-                    map(([wishlistItem, product]) => WishlistItemMapper.toViewPublic(
-                        wishlistItem as WishlistItemEntity,
-                        product,
-                    ))
-                );
-            })
-        );
+                    return forkJoin([
+                        this.wishlistItemRepo.findOne({ where: { id: raw[0].id } }),
+                        this.productService.getProductPreviewPublic(productId, queries),
+                    ]).pipe(
+                        map(([wishlistItem, product]) => WishlistItemMapper.toViewPublic(
+                            wishlistItem as WishlistItemEntity,
+                            product,
+                        ))
+                    );
+                })
+            )),
+        )
     }
 
     public deleteWishlistItem(id: WishlistItem['id'], user: User['id']): Observable<void> {
@@ -66,13 +69,17 @@ export default class WishlistItemService {
                 }
 
                 return from(this.wishlistItemRepo.delete({ id })).pipe(
-                    switchMap(({ affected }) => of(undefined))
+                    switchMap(() => of(undefined))
                 )
             })
         )
     }
 
-    public moveWishlistItems(wishlist: Wishlist['id'], item: WishlistItem['id']): Observable<void> {
+    public moveWishlistItem(
+        wishlist: Wishlist['id'],
+        item: WishlistItem['id'],
+        user: User['id'],
+    ): Observable<void> {
         return from(this.wishlistItemRepo.update(
             { id: item },
             { wishlist } as QueryDeepPartialEntity<WishlistItemEntity>,
@@ -90,7 +97,10 @@ export default class WishlistItemService {
         )
     }
 
-    // for product deleted event
+    /**
+     * @description for 'product.deleted' event
+     * @param productId product ID
+     */
     public deleteItemByProductId(productId: Product['id']): Promise<DeleteResult> {
         return this.wishlistItemRepo.delete({ product: productId });
     }

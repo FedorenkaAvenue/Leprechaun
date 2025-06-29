@@ -1,11 +1,11 @@
 import { FC } from 'react';
 
-import { OrderItemModel } from '@entities/order/model/interfaces';
 import Counter from '@shared/ui/Counter';
 import { useChangeOrderItemAmount } from '../model/hook';
+import { OrderItemPublic } from '@gen/order';
 
 interface Props {
-    orderItem: OrderItemModel
+    orderItem: OrderItemPublic
 }
 
 const CartChangeItemAmount: FC<Props> = ({ orderItem }) => {
