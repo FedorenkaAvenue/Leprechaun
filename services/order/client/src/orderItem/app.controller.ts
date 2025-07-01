@@ -1,5 +1,6 @@
 import { Observable } from "rxjs";
 import { Controller } from "@nestjs/common";
+import { ValidateRPCDTO } from "@fedorenkaavenue/leprechaun_lib_utils/decorators";
 
 import {
     OrderPublic,
@@ -9,7 +10,6 @@ import {
     OrderItemServiceControllerMethods,
     OrderItemServiceController,
 } from "gen/order";
-import { ValidateDTO } from "@shared/decorators/ValidateDTO.decorator";
 import OrderItemService from "./orderItem.service";
 import { OrderItemPublicDeleteDTO, OrderItemsPublicCreateDTO, OrderItemUpdatePublicDTO } from "./orderItem.dto";
 
@@ -18,17 +18,17 @@ import { OrderItemPublicDeleteDTO, OrderItemsPublicCreateDTO, OrderItemUpdatePub
 export default class OrderItemController implements OrderItemServiceController {
     constructor(private readonly orderItemService: OrderItemService) { }
 
-    @ValidateDTO(OrderItemsPublicCreateDTO)
+    @ValidateRPCDTO(OrderItemsPublicCreateDTO)
     public createOrderItemsPublic({ items, user, queries }: OrderItemsPublicCreate): Observable<OrderPublic> {
         return this.orderItemService.addOrderItemsPublic(items, user, queries);
     }
 
-    @ValidateDTO(OrderItemUpdatePublicDTO)
+    @ValidateRPCDTO(OrderItemUpdatePublicDTO)
     public changeOrderItemAmountPublic({ data, user, queries }: OrderItemUpdatePublic): Observable<OrderPublic> {
         return this.orderItemService.changeOrderItemAmountPublic(data, user, queries);
     }
 
-    @ValidateDTO(OrderItemPublicDeleteDTO)
+    @ValidateRPCDTO(OrderItemPublicDeleteDTO)
     public deleteOrderItemPublic({ id, user, queries }: OrderItemPublicDelete): Observable<OrderPublic> {
         return this.orderItemService.deleteOrderItemPublic(id, user, queries);
     }
