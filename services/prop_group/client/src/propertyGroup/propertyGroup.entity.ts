@@ -1,6 +1,6 @@
 import { Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
+import { PropertyGroup } from '@fedorenkaavenue/leprechaun_lib_entities/server/property_group';
 
-import { PropertyGroup } from 'gen/property_group';
 import { PropertyEntity } from '../property/property.entity';
 
 @Entity('propertygroup')

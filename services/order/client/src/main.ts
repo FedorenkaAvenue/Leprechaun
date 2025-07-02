@@ -1,10 +1,10 @@
 import { NestFactory } from '@nestjs/core';
 import { MicroserviceOptions, Transport } from '@nestjs/microservices';
 import { join } from 'path';
+import { ORDER_PACKAGE_NAME } from '@fedorenkaavenue/leprechaun_lib_entities/server/order';
 
 import { AppModule } from './app.module';
 import ConfigService from '@common/config/config.service';
-import { ORDER_PACKAGE_NAME } from 'gen/order';
 
 async function bootstrap() {
     const config = new ConfigService();
@@ -14,7 +14,7 @@ async function bootstrap() {
         transport: Transport.GRPC,
         options: {
             package: ORDER_PACKAGE_NAME,
-            protoPath: join(__dirname, '../../proto/order.proto'),
+            protoPath: join(process.cwd(), 'node_modules/@fedorenkaavenue/leprechaun_lib_entities/src/proto/order.proto'),
             url: `0.0.0.0:${config.getVal('ORDER_SERVICE_CLIENT_PORT')}`,
         },
     });

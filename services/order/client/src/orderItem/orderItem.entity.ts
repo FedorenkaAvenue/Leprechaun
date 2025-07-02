@@ -1,9 +1,9 @@
 import {
     Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn,
 } from 'typeorm';
+import { Order, OrderItem } from '@fedorenkaavenue/leprechaun_lib_entities/server/order';
 
 import OrderEntity from '../order/order.entity';
-import { Order, OrderItem } from 'gen/order';
 
 @Entity('order_item')
 export class OrderItemEntity implements Omit<OrderItem, 'product' | 'summaryPrice'> {

@@ -2,7 +2,6 @@ import { map, Observable } from "rxjs";
 import { Controller } from "@nestjs/common";
 import { RpcException } from "@nestjs/microservices";
 import { status } from "@grpc/grpc-js";
-
 import {
     Category,
     CategoryCU,
@@ -16,12 +15,13 @@ import {
     CategoryServiceControllerMethods,
     CategoryUpdateParams,
     CategoryWithPropertyGroupsSearchParams,
-} from "gen/category";
-import CategoryService from "./category.service";
-import { ValidateDTO } from "@shared/decorators/ValidateDTO.decorator";
+} from "@fedorenkaavenue/leprechaun_lib_entities/server/category";
+import { Empty } from "@fedorenkaavenue/leprechaun_lib_entities/server/google/protobuf/empty";
+import { CategoryPreview, CategoryPreviewPublic } from "@fedorenkaavenue/leprechaun_lib_entities/server/_category_preview";
+import { ValidateRPCDTO } from "@fedorenkaavenue/leprechaun_lib_utils/decorators";
+
 import { CategoryCreateDTO, CategoryUpdateDTO } from "./category.dto";
-import { Empty } from "gen/google/protobuf/empty";
-import { CategoryPreview, CategoryPreviewPublic } from "gen/_category_preview";
+import CategoryService from "./category.service";
 
 @Controller()
 @CategoryServiceControllerMethods()
@@ -46,7 +46,7 @@ export default class CategoryController implements CategoryServiceController {
         return this.categoryService.getCategoryPreviewPublic({ url, id }, queries);
     }
 
-    @ValidateDTO(CategoryCreateDTO)
+    @ValidateRPCDTO(CategoryCreateDTO)
     createCategory(body: CategoryCU): Promise<CategoryPreview> {
         return this.categoryService.createCategory(body);
     }
@@ -63,7 +63,7 @@ export default class CategoryController implements CategoryServiceController {
         )
     }
 
-    @ValidateDTO(CategoryUpdateDTO)
+    @ValidateRPCDTO(CategoryUpdateDTO)
     updateCategory({ id, data }: CategoryUpdateParams): Promise<void> {
         return this.categoryService.updateCategory(id, data);
     }

@@ -1,7 +1,7 @@
 import { Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
+import { Order, OrderStatus } from '@fedorenkaavenue/leprechaun_lib_entities/server/order';
 
 import { OrderItemEntity } from '../orderItem/orderItem.entity';
-import { Order, OrderStatus } from 'gen/order';
 
 // export class OrderCustomerDataEntity implements OrderCustomerDataI {
 //     @Column({ name: 'customer_name', nullable: true })

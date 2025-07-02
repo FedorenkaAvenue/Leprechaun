@@ -1,8 +1,8 @@
 import { Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { Wishlist } from '@fedorenkaavenue/leprechaun_lib_entities/server/wishlist';
+import { User } from '@fedorenkaavenue/leprechaun_lib_entities/server/user';
 
-import { Wishlist } from 'gen/wishlist';
 import WishlistItemEntity from '../wishlistItem/wishlistItem.entity';
-import { User } from 'gen/user';
 
 @Entity('wishlist')
 export default class WishlistEntity implements Omit<Wishlist, 'items'> {

@@ -1,22 +1,22 @@
 import { map, Observable } from "rxjs";
-
-import PropertyService from "./property.service";
 import {
     Property,
     PropertyCU,
     PropertyList,
     PropertyListPrivateSearchParams,
     PropertySearchParams,
-} from "gen/property";
+} from "@fedorenkaavenue/leprechaun_lib_entities/server/property";
+import { ValidateRPCDTO } from "@fedorenkaavenue/leprechaun_lib_utils/decorators";
+import {
+    PropertyServiceController, PropertyServiceControllerMethods,
+} from "@fedorenkaavenue/leprechaun_lib_entities/server/property_group";
+
 import { CreatePropertyDTO } from "./property.dto";
-import { ValidateDTO } from "@shared/decorators/ValidateDTO.decorator";
-import { PropertyServiceController, PropertyServiceControllerMethods } from "gen/property_group";
+import PropertyService from "./property.service";
 
 @PropertyServiceControllerMethods()
 export default class PropertyController implements PropertyServiceController {
-    constructor(
-        private readonly propertyService: PropertyService,
-    ) { }
+    constructor(private readonly propertyService: PropertyService) { }
 
     getPropertyList({ ids }: PropertyListPrivateSearchParams): Observable<PropertyList> {
         return this.propertyService.getPropertyList(ids).pipe(
@@ -24,7 +24,7 @@ export default class PropertyController implements PropertyServiceController {
         );
     }
 
-    @ValidateDTO(CreatePropertyDTO)
+    @ValidateRPCDTO(CreatePropertyDTO)
     public createProperty(data: PropertyCU): Observable<Property> {
         return this.propertyService.createProperty(data);
     }

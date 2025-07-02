@@ -1,7 +1,7 @@
 import { DeepPartial } from "typeorm";
+import { Image } from "@fedorenkaavenue/leprechaun_lib_entities/server/common";
+import { ProductImage } from "@fedorenkaavenue/leprechaun_lib_entities/server/product";
 
-import { Image } from "gen/common";
-import { ProductImage } from "gen/product";
 import S3Service from "@common/s3/s3.service";
 
 type ImageCUPayload = Awaited<ReturnType<S3Service['uploadFile']>>

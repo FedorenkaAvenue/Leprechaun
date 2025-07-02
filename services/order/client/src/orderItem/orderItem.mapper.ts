@@ -1,6 +1,7 @@
-import { OrderItemPublic } from "gen/order";
+import { ProductPreviewPublic } from "@fedorenkaavenue/leprechaun_lib_entities/server/product";
+import { OrderItemPublic } from "@fedorenkaavenue/leprechaun_lib_entities/server/order";
+
 import { OrderItemEntity } from "./orderItem.entity";
-import { ProductPreviewPublic } from "gen/product";
 
 export default class OrderItemMapper {
     public static toViewPublic(

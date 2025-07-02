@@ -1,6 +1,7 @@
-import { Wishlist, WishlistPublic } from "gen/wishlist";
+import { ProductPreview, ProductPreviewPublic } from "@fedorenkaavenue/leprechaun_lib_entities/server/product";
+import { Wishlist, WishlistPublic } from "@fedorenkaavenue/leprechaun_lib_entities/server/wishlist";
+
 import WishlistEntity from "./wishlist.entity";
-import { ProductPreview, ProductPreviewPublic } from "gen/product";
 
 export default class WishlistMapper {
     static toView(wishlist: WishlistEntity, products: ProductPreview[]): Wishlist {

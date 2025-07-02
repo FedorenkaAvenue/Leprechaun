@@ -1,9 +1,9 @@
 import { map, Observable } from "rxjs";
 import { Controller } from "@nestjs/common";
-
 import {
     HistoryListPublic, HistorySearchParamsPublic, HistoryServiceController, HistoryServiceControllerMethods,
-} from "gen/history";
+} from "@fedorenkaavenue/leprechaun_lib_entities/server/history";
+
 import { HistoryService } from "./history/history.service";
 
 @Controller()

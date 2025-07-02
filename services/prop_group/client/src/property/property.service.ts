@@ -4,9 +4,9 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { RpcException } from '@nestjs/microservices';
 import { catchError, from, map, Observable, switchMap, throwError } from 'rxjs';
 import { status } from '@grpc/grpc-js';
+import { Property, PropertyCU } from '@fedorenkaavenue/leprechaun_lib_entities/server/property';
 
 import { PropertyEntity } from './property.entity';
-import { Property, PropertyCU } from 'gen/property';
 import TransService from '@common/trans/trans.service';
 import PropertyMapper from './property.mapper';
 

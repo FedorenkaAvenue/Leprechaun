@@ -1,10 +1,10 @@
 import { NestFactory } from '@nestjs/core';
 import { MicroserviceOptions, Transport } from '@nestjs/microservices';
+import { SUBSCRIPTION_PACKAGE_NAME } from '@fedorenkaavenue/leprechaun_lib_entities/server/subscription';
 import { join } from 'path';
 
 import { AppModule } from './app.module';
 import ConfigService from '@common/config/config.service';
-import { SUBSCRIPTION_PACKAGE_NAME } from 'gen/subscription';
 
 async function bootstrap() {
     const config = new ConfigService();
@@ -14,7 +14,7 @@ async function bootstrap() {
         transport: Transport.GRPC,
         options: {
             package: SUBSCRIPTION_PACKAGE_NAME,
-            protoPath: join(__dirname, '../../proto/subscription.proto'),
+            protoPath: join(process.cwd(), 'node_modules/@fedorenkaavenue/leprechaun_lib_entities/src/proto/subscription.proto'),
             url: `0.0.0.0:${config.getVal('SUBSCRIPTION_SERVICE_CLIENT_PORT')}`,
         },
     });

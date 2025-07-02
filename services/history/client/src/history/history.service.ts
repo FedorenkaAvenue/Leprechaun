@@ -2,14 +2,14 @@ import { Injectable } from "@nestjs/common";
 import { InjectRepository } from '@nestjs/typeorm';
 import { DeleteResult, Repository } from 'typeorm';
 import { from, Observable, of, switchMap } from "rxjs";
+import { User } from "@fedorenkaavenue/leprechaun_lib_entities/server/user";
+import { QueryCommonParams } from "@fedorenkaavenue/leprechaun_lib_entities/server/common";
+import { HistoryPublic } from "@fedorenkaavenue/leprechaun_lib_entities/server/history";
+import { Product } from "@fedorenkaavenue/leprechaun_lib_entities/server/product";
 
 import HistoryEntity from "./history.entity";
-import { HistoryPublic } from "gen/history";
 import ProductService from "@common/product/product.service";
-import { User } from "gen/user";
-import { QueryCommonParams } from "gen/common";
 import HistoryMapper from "./history.mapper";
-import { Product } from "gen/product";
 
 @Injectable()
 export class HistoryService {

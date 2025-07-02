@@ -24,7 +24,9 @@
         "outDir": "./dist",
 
         "baseUrl": ".",
-        "paths": {}
+        "paths": {
+            "@common/*": ["./src/common/*"]
+        }
     },
     "include": ["**/*.ts", "**/*.tsx", "**/*.d.ts"],
     "exclude": ["__old", "dist/**/*"]

@@ -1,8 +1,11 @@
-import { PropertyGroup, PropertyGroupPreview, PropertyGroupPreviewPublic } from "gen/property_group";
+import { TransData, TransMap } from "@fedorenkaavenue/leprechaun_lib_entities/server/trans";
+import {
+    PropertyGroup, PropertyGroupPreview, PropertyGroupPreviewPublic,
+} from "@fedorenkaavenue/leprechaun_lib_entities/server/property_group";
+import { QueryCommonParams } from "@fedorenkaavenue/leprechaun_lib_entities/server/common";
+import { CategoryPreview } from "@fedorenkaavenue/leprechaun_lib_entities/server/_category_preview";
+
 import { PropertyGroupEntity } from "./propertyGroup.entity";
-import { TransData, TransMap } from "gen/trans";
-import { CategoryPreview } from "gen/_category_preview";
-import { QueryCommonParams } from "gen/common";
 
 export default class PropertyGroupMapper {
     static toPreview(group: PropertyGroupEntity, transMap: TransMap['items']): PropertyGroupPreview {

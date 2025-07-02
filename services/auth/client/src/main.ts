@@ -4,7 +4,7 @@ import { join } from 'path';
 
 import { AppModule } from './app.module';
 import ConfigService from './common/config/config.service';
-import { AUTH_PACKAGE_NAME } from 'gen/auth';
+import { AUTH_PACKAGE_NAME } from '@fedorenkaavenue/leprechaun_lib_entities/server/auth';
 
 async function bootstrap() {
     const config = new ConfigService();
@@ -12,7 +12,7 @@ async function bootstrap() {
         transport: Transport.GRPC,
         options: {
             package: AUTH_PACKAGE_NAME,
-            protoPath: join(__dirname, '../../proto/auth.proto'),
+            protoPath: join(process.cwd(), 'node_modules/@fedorenkaavenue/leprechaun_lib_entities/src/proto/auth.proto'),
             url: `0.0.0.0:${config.getVal('AUTH_SERVICE_CLIENT_PORT')}`,
         },
     });

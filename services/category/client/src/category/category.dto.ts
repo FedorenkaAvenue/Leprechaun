@@ -1,8 +1,7 @@
 import { IsNotEmpty, IsOptional, IsString, IsBoolean, IsNumber } from 'class-validator';
-
-import { CategoryCU } from 'gen/category';
-import { File } from 'gen/common';
-import { TransData } from 'gen/trans';
+import { CategoryCU } from '@fedorenkaavenue/leprechaun_lib_entities/server/category';
+import { File } from '@fedorenkaavenue/leprechaun_lib_entities/server/common';
+import { TransData } from '@fedorenkaavenue/leprechaun_lib_entities/server/trans';
 
 export class CategoryCreateDTO implements CategoryCU {
     title: TransData;

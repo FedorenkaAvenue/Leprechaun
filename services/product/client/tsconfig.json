@@ -1,35 +1,34 @@
 {
-  "compilerOptions": {
-    "module": "commonjs",
+    "compilerOptions": {
+        "module": "commonjs",
 
-    "strict": true,
-    "noImplicitAny": true,
-    "strictNullChecks": true,
-    "strictBindCallApply": true,
-    "strictFunctionTypes": false,
-    "strictPropertyInitialization": false,
-    "strictBuiltinIteratorReturn": false,
+        "strict": true,
+        "noImplicitAny": true,
+        "strictNullChecks": true,
+        "strictBindCallApply": true,
+        "strictFunctionTypes": false,
+        "strictPropertyInitialization": false,
+        "strictBuiltinIteratorReturn": false,
 
-    "declaration": true,
-    "removeComments": true,
-    "emitDecoratorMetadata": true,
-    "experimentalDecorators": true,
-    "allowSyntheticDefaultImports": true,
-    "target": "ES2017",
-    "sourceMap": true,
-    "incremental": true,
-    "skipLibCheck": true,
+        "declaration": true,
+        "removeComments": true,
+        "emitDecoratorMetadata": true,
+        "experimentalDecorators": true,
+        "allowSyntheticDefaultImports": true,
+        "target": "ES2017",
+        "sourceMap": true,
+        "incremental": true,
+        "skipLibCheck": true,
 
-    "rootDir": ".",
-    "outDir": "./dist",
+        "rootDir": ".",
+        "outDir": "./dist",
 
-    "baseUrl": ".",
-    "paths": {
-      "@gen/*": ["./src/gen/*"],
-      "@common/*": ["./src/common/*"],
-      "@shared/*": ["./src/shared/*"]
-    }
-  },
-  "include": ["**/*.ts", "**/*.tsx", "**/*.d.ts"],
-  "exclude": ["__old", "dist/**/*"]
+        "baseUrl": ".",
+        "paths": {
+            "@common/*": ["./src/common/*"],
+            "@shared/*": ["./src/shared/*"]
+        }
+    },
+    "include": ["**/*.ts", "**/*.tsx", "**/*.d.ts"],
+    "exclude": ["__old", "dist/**/*"]
 }

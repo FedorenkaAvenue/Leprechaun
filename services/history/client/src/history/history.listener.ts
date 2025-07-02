@@ -1,9 +1,9 @@
 import { Controller } from "@nestjs/common";
 import { EventPattern, Payload } from "@nestjs/microservices";
+import { User } from "@fedorenkaavenue/leprechaun_lib_entities/server/user";
+import { Product } from "@fedorenkaavenue/leprechaun_lib_entities/server/product";
 
-import { User } from "gen/user";
 import { HistoryService } from "./history.service";
-import { Product } from "gen/product";
 
 @Controller()
 export default class HistoryListener {

@@ -1,10 +1,10 @@
 import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import { S3Client, PutObjectCommand, DeleteObjectCommand } from '@aws-sdk/client-s3';
+import { File } from '@fedorenkaavenue/leprechaun_lib_entities/server/common';
+import { Category } from '@fedorenkaavenue/leprechaun_lib_entities/server/category';
 
 import ConfigService from '../config/config.service';
 import { S3Bucket } from './s3.enum';
-import { File } from 'gen/common';
-import { Category } from 'gen/category';
 
 @Injectable()
 export default class S3Service {

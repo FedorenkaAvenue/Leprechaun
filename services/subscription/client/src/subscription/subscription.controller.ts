@@ -1,15 +1,15 @@
 import { map, Observable } from "rxjs";
 import { Controller } from "@nestjs/common";
-
+import { ValidateRPCDTO } from "@fedorenkaavenue/leprechaun_lib_utils/decorators";
 import {
     SubscriptionListPublic,
     SubscriptionListPublicSearchParams,
     SubscriptionProductStatus,
     SubscriptionServiceController,
     SubscriptionServiceControllerMethods,
-} from "gen/subscription";
+} from "@fedorenkaavenue/leprechaun_lib_entities/server/subscription";
+
 import { SubscriptionService } from "./subscription.service";
-import { ValidateDTO } from "@shared/decorators/ValidateDTO.decorator";
 import { SubscriptionProductStatusDTO } from "./subscription.dto";
 
 @Controller()
@@ -23,7 +23,7 @@ export default class SubscriptionController implements SubscriptionServiceContro
         );
     }
 
-    @ValidateDTO(SubscriptionProductStatusDTO)
+    @ValidateRPCDTO(SubscriptionProductStatusDTO)
     public subscribeProductStatus(request: SubscriptionProductStatus): Observable<void> {
         return this.subscriptionService.subscribeProductStatus(request);
     }

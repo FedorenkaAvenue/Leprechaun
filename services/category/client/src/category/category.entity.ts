@@ -1,6 +1,5 @@
 import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
-
-import { Category } from 'gen/category';
+import { Category } from '@fedorenkaavenue/leprechaun_lib_entities/server/category';
 
 @Entity('category')
 export default class CategoryEntity implements Omit<Category, 'title' | 'propertyGroups' | 'products'> {

@@ -1,9 +1,10 @@
+import { CategoryPreview } from "@fedorenkaavenue/leprechaun_lib_entities/server/_category_preview";
+import {
+    Category, CATEGORY_SERVICE_NAME, CategoryServiceClient,
+} from "@fedorenkaavenue/leprechaun_lib_entities/server/category";
 import { Inject, Injectable, OnModuleInit } from "@nestjs/common";
 import { ClientGrpc } from "@nestjs/microservices";
 import { Observable } from "rxjs";
-
-import { Category, CATEGORY_SERVICE_NAME, CategoryServiceClient } from "gen/category";
-import { CategoryPreview } from "gen/_category_preview";
 
 @Injectable()
 export default class CategoryService implements OnModuleInit {

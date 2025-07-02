@@ -1,9 +1,9 @@
-import { Optional } from "@nestjs/common";
+import {
+    Wishlist, WishlistCreate, WishlistUpdate, WishlistUpdate_Updates,
+} from "@fedorenkaavenue/leprechaun_lib_entities/server/wishlist";
+import { User } from '@fedorenkaavenue/leprechaun_lib_entities/server/user'
 import { Type } from "class-transformer";
 import { IsBoolean, IsNotEmpty, IsObject, IsOptional, IsString, IsUUID, ValidateNested } from "class-validator";
-
-import { User } from "gen/user";
-import { Wishlist, WishlistCreate, WishlistUpdate, WishlistUpdate_Updates } from "gen/wishlist";
 
 export class WishlistCreateDTO implements WishlistCreate {
     @IsNotEmpty()

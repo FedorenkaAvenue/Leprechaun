@@ -1,10 +1,10 @@
 import { NestFactory } from '@nestjs/core';
 import { MicroserviceOptions, Transport } from '@nestjs/microservices';
 import { join } from 'path';
+import { WISHLIST_PACKAGE_NAME } from '@fedorenkaavenue/leprechaun_lib_entities/server/wishlist';
 
 import { AppModule } from './app.module';
 import ConfigService from '@common/config/config.service';
-import { WISHLIST_PACKAGE_NAME } from 'gen/wishlist';
 
 async function bootstrap() {
     const config = new ConfigService();
@@ -14,7 +14,7 @@ async function bootstrap() {
         transport: Transport.GRPC,
         options: {
             package: WISHLIST_PACKAGE_NAME,
-            protoPath: join(__dirname, '../../proto/wishlist.proto'),
+            protoPath: join(process.cwd(), 'node_modules/@fedorenkaavenue/leprechaun_lib_entities/src/proto/wishlist.proto'),
             url: `0.0.0.0:${config.getVal('WISHLIST_SERVICE_CLIENT_PORT')}`,
         },
     });

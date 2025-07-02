@@ -1,5 +1,4 @@
-import { firstValueFrom, map, Observable, switchMap } from "rxjs";
-
+import { firstValueFrom, map, Observable } from "rxjs";
 import {
     PropertyGroup,
     PropertyGroupServiceController,
@@ -13,17 +12,20 @@ import {
     PropertyGroupMapPublicSearchParams,
     PropertyGroupPublicMap,
     PropertyGroupListPublic,
-} from "gen/property_group";
+} from "@fedorenkaavenue/leprechaun_lib_entities/server/property_group";
+import {
+    PropertyListPrivateSearchParams, PropertyListPublicSearchParams,
+} from "@fedorenkaavenue/leprechaun_lib_entities/server/property";
+import { ValidateRPCDTO } from "@fedorenkaavenue/leprechaun_lib_utils/decorators";
+
 import PropertyGroupService from "./propertyGroup.service";
 import { PropertyGroupCreateDTO, PropertyGroupUpdateDTO } from "./propertyGroup.dto";
-import { ValidateDTO } from "@shared/decorators/ValidateDTO.decorator";
-import { PropertyListPrivateSearchParams, PropertyListPublicSearchParams } from "gen/property";
 
 @PropertyGroupServiceControllerMethods()
 export default class PropertyGroupController implements PropertyGroupServiceController {
     constructor(private readonly propertyGroupService: PropertyGroupService) { }
 
-    @ValidateDTO(PropertyGroupCreateDTO)
+    @ValidateRPCDTO(PropertyGroupCreateDTO)
     public async createGroup(body: PropertyGroupCU): Promise<PropertyGroup> {
         return firstValueFrom(this.propertyGroupService.createGroup(body));
     }
@@ -60,7 +62,7 @@ export default class PropertyGroupController implements PropertyGroupServiceCont
         );
     }
 
-    @ValidateDTO(PropertyGroupUpdateDTO, 'data')
+    @ValidateRPCDTO(PropertyGroupUpdateDTO, 'data')
     public updateGroup({ id, data }: PropertyGroupUpdateParams): Observable<void> {
         return this.propertyGroupService.updateGroup(id, data);
     }

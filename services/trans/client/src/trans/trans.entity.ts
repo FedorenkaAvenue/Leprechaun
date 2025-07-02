@@ -1,6 +1,5 @@
+import { Trans, TransData } from '@fedorenkaavenue/leprechaun_lib_entities/server/trans';
 import { Column, Entity, Generated, PrimaryColumn } from 'typeorm';
-
-import { Trans, TransData } from 'gen/trans';
 
 class TransDataEntity implements TransData {
     @Column({ nullable: true })

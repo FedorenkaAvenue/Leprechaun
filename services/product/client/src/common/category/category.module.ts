@@ -1,11 +1,11 @@
 import { Module } from "@nestjs/common";
 import { ClientsModule, Transport } from "@nestjs/microservices";
 import { join } from "path";
+import { CATEGORY_PACKAGE_NAME } from "@fedorenkaavenue/leprechaun_lib_entities/server/category";
 
 import ConfigModule from "../config/config.module";
 import ConfigService from "../config/config.service";
 import CategoryService from "./category.service";
-import { CATEGORY_PACKAGE_NAME } from "gen/category";
 
 @Module({
     imports: [
@@ -18,7 +18,7 @@ import { CATEGORY_PACKAGE_NAME } from "gen/category";
                     transport: Transport.GRPC,
                     options: {
                         package: CATEGORY_PACKAGE_NAME,
-                        protoPath: join(__dirname, '../../../../proto/category.proto'),
+                        protoPath: join(process.cwd(), 'node_modules/@fedorenkaavenue/leprechaun_lib_entities/src/proto/category.proto'),
                         url: `${configService.getVal('CATEGORY_SERVICE_CLIENT_HOST')}:${configService.getVal('CATEGORY_SERVICE_CLIENT_PORT')}`,
                         loader: {
                             longs: Number,

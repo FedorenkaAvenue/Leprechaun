@@ -1,10 +1,10 @@
 import {
     Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn,
 } from 'typeorm';
+import { Property } from '@fedorenkaavenue/leprechaun_lib_entities/server/property';
+import { PropertyGroup } from '@fedorenkaavenue/leprechaun_lib_entities/server/property_group';
 
 import { PropertyGroupEntity } from '../propertyGroup/propertyGroup.entity';
-import { Property } from 'gen/property';
-import { PropertyGroup } from 'gen/property_group';
 
 @Entity('property')
 export class PropertyEntity implements Omit<Property, 'title'> {

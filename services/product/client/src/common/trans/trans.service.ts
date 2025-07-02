@@ -1,7 +1,6 @@
 import { Inject, Injectable, OnModuleInit } from "@nestjs/common";
 import { ClientGrpc } from "@nestjs/microservices";
 import { Observable } from "rxjs";
-
 import {
     Trans,
     TRANS_SERVICE_NAME,
@@ -12,8 +11,8 @@ import {
     TransSearchParams,
     TransServiceClient,
     TransUpdateParams,
-} from "gen/trans";
-import { Empty } from "gen/google/protobuf/empty";
+} from "@fedorenkaavenue/leprechaun_lib_entities/server/trans";
+import { Empty } from "@fedorenkaavenue/leprechaun_lib_entities/server/google/protobuf/empty";
 
 @Injectable()
 export class TransService implements OnModuleInit {

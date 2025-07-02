@@ -4,13 +4,13 @@ import { DeleteResult, Repository } from 'typeorm';
 import { from, map, Observable } from "rxjs";
 import { RpcException } from "@nestjs/microservices";
 import { status } from "@grpc/grpc-js";
+import { User } from "@fedorenkaavenue/leprechaun_lib_entities/server/user";
+import { Subscription } from "@fedorenkaavenue/leprechaun_lib_entities/server/subscription";
+import { TransData } from "@fedorenkaavenue/leprechaun_lib_entities/server/trans";
+import { Product } from "@fedorenkaavenue/leprechaun_lib_entities/server/product";
 
 import SubscriptionEntity from "./subscription.entity";
-import { User } from "gen/user";
-import { Subscription } from "gen/subscription";
 import { SubscriptionProductStatusDTO } from "./subscription.dto";
-import { TransData } from "gen/trans";
-import { Product } from "gen/product";
 
 @Injectable()
 export class SubscriptionService {

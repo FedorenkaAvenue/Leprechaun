@@ -4,21 +4,21 @@ import { Injectable } from '@nestjs/common';
 import { catchError, forkJoin, from, map, Observable, of, switchMap, tap, throwError } from 'rxjs';
 import { status } from '@grpc/grpc-js';
 import { RpcException } from '@nestjs/microservices';
-
-import { ProductEntity } from './product.entity';
 import {
     Product, ProductCardPublic, ProductCU, ProductPreview, ProductPreviewPublic, ProductQueryParams, ProductSort,
-} from 'gen/product';
+} from '@fedorenkaavenue/leprechaun_lib_entities/server/product';
+import { Category } from '@fedorenkaavenue/leprechaun_lib_entities/server/category';
+import { QueryCommonParams } from '@fedorenkaavenue/leprechaun_lib_entities/server/common';
+
+import { ProductEntity } from './product.entity';
 import { PaginationResult } from '@shared/dto/pagination.dto';
 import ProductMapper from './product.mapper';
 import { TransService } from '@common/trans/trans.service';
 import S3Service from '@common/s3/s3.service';
 import CategoryService from '@common/category/category.service';
 import PropertyGroupService from '@common/propertyGroup/propertyGroup.service';
-import { Category } from 'gen/category';
 import { ProductUpdateDTO } from './product.dto';
 import EventService from '@common/event/event.service';
-import { QueryCommonParams } from 'gen/common';
 
 @Injectable()
 export default class ProductService {

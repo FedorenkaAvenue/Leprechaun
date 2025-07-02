@@ -1,6 +1,5 @@
 import { Observable } from "rxjs";
 import { Controller } from "@nestjs/common";
-
 import {
     WishlistItemCUPublic,
     WishlistItemMoveParams,
@@ -8,7 +7,8 @@ import {
     WishlistItemSearchParams,
     WishlistItemServiceControllerMethods,
     WishlistItemServiceController,
-} from "gen/wishlist";
+} from "@fedorenkaavenue/leprechaun_lib_entities/server/wishlist";
+
 import WishlistItemService from "./wishlistItem.service";
 
 @Controller()

@@ -4,13 +4,15 @@ import { DeleteResult, Repository } from 'typeorm';
 import { from, map, Observable, of, switchMap, tap } from "rxjs";
 import { status } from "@grpc/grpc-js";
 import { RpcException } from "@nestjs/microservices";
+import { QueryCommonParams } from "@fedorenkaavenue/leprechaun_lib_entities/server/common";
+import {
+    Wishlist, WishlistPublic, WishlistUpdate_Updates,
+} from "@fedorenkaavenue/leprechaun_lib_entities/server/wishlist";
+import { User } from "@fedorenkaavenue/leprechaun_lib_entities/server/user";
 
 import WishlistEntity from "./wishlist.entity";
-import { Wishlist, WishlistPublic, WishlistUpdate_Updates } from "gen/wishlist";
-import { User } from "gen/user";
 import ProductService from "@common/product/product.service";
 import WishlistMapper from "./wishlist.mapper";
-import { QueryCommonParams } from "gen/common";
 import { WishlistCreateDTO } from "./wishlist.dto";
 
 @Injectable()

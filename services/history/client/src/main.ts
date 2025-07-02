@@ -1,10 +1,10 @@
 import { NestFactory } from '@nestjs/core';
 import { MicroserviceOptions, Transport } from '@nestjs/microservices';
 import { join } from 'path';
+import { HISTORY_PACKAGE_NAME } from '@fedorenkaavenue/leprechaun_lib_entities/server/history';
 
 import { AppModule } from './app.module';
 import ConfigService from '@common/config/config.service';
-import { HISTORY_PACKAGE_NAME } from 'gen/history';
 
 async function bootstrap() {
     const config = new ConfigService();
@@ -14,7 +14,7 @@ async function bootstrap() {
         transport: Transport.GRPC,
         options: {
             package: HISTORY_PACKAGE_NAME,
-            protoPath: join(__dirname, '../../proto/history.proto'),
+            protoPath: join(process.cwd(), 'node_modules/@fedorenkaavenue/leprechaun_lib_entities/src/proto/history.proto'),
             url: `0.0.0.0:${config.getVal('HISTORY_SERVICE_CLIENT_PORT')}`,
         },
     });

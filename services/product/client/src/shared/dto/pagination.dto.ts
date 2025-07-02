@@ -1,4 +1,4 @@
-import { Pagination as PaginationI } from "gen/common";
+import { Pagination as PaginationI } from "@fedorenkaavenue/leprechaun_lib_entities/server/common";
 
 interface CreatePagintaion {
     totalCount: number;

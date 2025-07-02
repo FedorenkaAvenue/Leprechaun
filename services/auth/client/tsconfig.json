@@ -25,7 +25,6 @@
 
         "baseUrl": ".",
         "paths": {
-            "@gen/*": ["./src/gen/*"],
             "@common/*": ["./src/common/*"]
         }
     },

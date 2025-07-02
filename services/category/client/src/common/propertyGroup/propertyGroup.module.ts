@@ -5,7 +5,7 @@ import { join } from "path";
 import ConfigModule from "../config/config.module";
 import ConfigService from "../config/config.service";
 import PropertyGroupService from "./propertyGroup.service";
-import { PROPERTY_GROUP_PACKAGE_NAME } from "gen/property_group";
+import { PROPERTY_GROUP_PACKAGE_NAME } from "@fedorenkaavenue/leprechaun_lib_entities/server/property_group";
 
 @Module({
     imports: [
@@ -18,7 +18,7 @@ import { PROPERTY_GROUP_PACKAGE_NAME } from "gen/property_group";
                     transport: Transport.GRPC,
                     options: {
                         package: PROPERTY_GROUP_PACKAGE_NAME,
-                        protoPath: join(__dirname, '../../../../proto/property_group.proto'),
+                        protoPath: join(process.cwd(), 'node_modules/@fedorenkaavenue/leprechaun_lib_entities/src/proto/property_group.proto'),
                         url: `${configService.getVal('PROPGROUP_SERVICE_CLIENT_HOST')}:${configService.getVal('PROPGROUP_SERVICE_CLIENT_PORT')}`,
                         loader: {
                             longs: Number,

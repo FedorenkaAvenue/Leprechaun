@@ -4,13 +4,13 @@ import { DeleteResult, FindOptionsWhere, Not, Repository } from 'typeorm';
 import { from, Observable, of, switchMap } from "rxjs";
 import { status } from "@grpc/grpc-js";
 import { RpcException } from "@nestjs/microservices";
+import { User } from "@fedorenkaavenue/leprechaun_lib_entities/client/user";
+import { QueryCommonParams } from "@fedorenkaavenue/leprechaun_lib_entities/server/common";
+import { OrderPublic, OrderStatus } from "@fedorenkaavenue/leprechaun_lib_entities/server/order";
 
 import OrderEntity from "./order.entity";
-import { OrderPublic, OrderStatus } from "gen/order";
 import ProductService from "@common/product/product.service";
-import { QueryCommonParams } from "gen/common";
 import OrderMapper from "./order.mapper";
-import { User } from "gen/user";
 
 @Injectable()
 export default class OrderService {

@@ -1,9 +1,9 @@
 import { Observable } from 'rxjs';
-
-import { UserService } from './user.service';
 import {
     User, UserSearchParams, UserServiceController, UserServiceControllerMethods, UserListPrivate,
-} from 'gen/user';
+} from '@fedorenkaavenue/leprechaun_lib_entities/server/user';
+
+import { UserService } from './user.service';
 
 @UserServiceControllerMethods()
 export class UserController implements UserServiceController {

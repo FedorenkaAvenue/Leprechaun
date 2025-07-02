@@ -1,5 +1,10 @@
 import { DeepPartial } from "typeorm";
-
+import { QueryCommonParams } from "@fedorenkaavenue/leprechaun_lib_entities/server/common";
+import { Trans, TransData, TransMap } from "@fedorenkaavenue/leprechaun_lib_entities/server/trans";
+import { CategoryPreview } from "@fedorenkaavenue/leprechaun_lib_entities/server/_category_preview";
+import {
+    PropertyGroupPreview, PropertyGroupPreviewPublic,
+} from "@fedorenkaavenue/leprechaun_lib_entities/server/property_group";
 import {
     Product,
     ProductCardPublic,
@@ -8,14 +13,11 @@ import {
     ProductLabelType,
     ProductPreview,
     ProductPreviewPublic,
-} from "gen/product";
+} from "@fedorenkaavenue/leprechaun_lib_entities/server/product";
+
 import { ProductEntity } from "./product.entity";
-import { Trans, TransData, TransMap } from "gen/trans";
-import { CategoryPreview } from "gen/_category_preview";
-import { PropertyGroupPreview, PropertyGroupPreviewPublic } from "gen/property_group";
 import ProductImageMapper from "src/productImage/productImage.mapper";
 import getPercentDifference from "@shared/utils/getPercentDifference";
-import { QueryCommonParams } from "gen/common";
 
 interface ProductCUPayload {
     title: Trans['id'];

@@ -1,11 +1,11 @@
 import { Module } from "@nestjs/common";
 import { ClientsModule, Transport } from "@nestjs/microservices";
 import { join } from "path";
+import { USER_PACKAGE_NAME } from "@fedorenkaavenue/leprechaun_lib_entities/server/user";
 
 import UserService from "./user.service";
 import ConfigModule from "../config/config.module";
 import ConfigService from "../config/config.service";
-import { USER_PACKAGE_NAME } from "gen/user";
 
 @Module({
     imports: [
@@ -18,7 +18,7 @@ import { USER_PACKAGE_NAME } from "gen/user";
                     transport: Transport.GRPC,
                     options: {
                         package: USER_PACKAGE_NAME,
-                        protoPath: join(__dirname, '../../../../proto/user.proto'),
+                        protoPath: join(process.cwd(), 'node_modules/@fedorenkaavenue/leprechaun_lib_entities/src/proto/user.proto'),
                         url: `${configService.getVal('USER_SERVICE_CLIENT_HOST')}:${configService.getVal('USER_SERVICE_CLIENT_PORT')}`,
                     },
                 })

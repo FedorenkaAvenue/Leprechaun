@@ -8,7 +8,7 @@ import {
     TransServiceController,
     TransServiceControllerMethods,
     TransUpdateParams,
-} from "gen/trans";
+} from "@fedorenkaavenue/leprechaun_lib_entities/server/trans";
 import TransService from "./trans.service";
 
 @TransServiceControllerMethods()

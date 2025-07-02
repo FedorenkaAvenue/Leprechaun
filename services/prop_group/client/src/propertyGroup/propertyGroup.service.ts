@@ -4,19 +4,21 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { catchError, forkJoin, from, map, Observable, of, switchMap, throwError } from 'rxjs';
 import { RpcException } from '@nestjs/microservices';
 import { status } from '@grpc/grpc-js';
+import {
+    PropertyGroup, PropertyGroupCU, PropertyGroupPreview, PropertyGroupPreviewPublic,
+} from '@fedorenkaavenue/leprechaun_lib_entities/server/property_group';
+import { Category } from '@fedorenkaavenue/leprechaun_lib_entities/server/category';
+import { Property } from '@fedorenkaavenue/leprechaun_lib_entities/server/property';
+import { QueryCommonParams } from '@fedorenkaavenue/leprechaun_lib_entities/server/common';
+import { Product } from '@fedorenkaavenue/leprechaun_lib_entities/server/product';
+import { TransMap } from '@fedorenkaavenue/leprechaun_lib_entities/server/trans';
 
 import { PropertyGroupEntity } from './propertyGroup.entity';
-import { PropertyGroup, PropertyGroupCU, PropertyGroupPreview, PropertyGroupPreviewPublic } from 'gen/property_group';
 import TransService from '@common/trans/trans.service';
 import PropertyGroupMapper from './propertyGroup.mapper';
 import CategoryService from '@common/category/category.service';
 import EventService from '@common/event/event.service';
-import { Category } from 'gen/category';
-import { Property } from 'gen/property';
 import { PropertyEntity } from 'src/property/property.entity';
-import { QueryCommonParams } from 'gen/common';
-import { Product } from 'gen/product';
-import { TransMap } from 'gen/trans';
 
 @Injectable()
 export default class PropertyGroupService {

@@ -1,10 +1,11 @@
-import { TransData, TransMap } from "gen/trans";
+import { ProductPreview } from "@fedorenkaavenue/leprechaun_lib_entities/server/product";
+import { PropertyGroupPreview } from "@fedorenkaavenue/leprechaun_lib_entities/server/property_group";
+import { TransData, TransMap } from "@fedorenkaavenue/leprechaun_lib_entities/server/trans";
+import { CategoryPreview, CategoryPreviewPublic } from "@fedorenkaavenue/leprechaun_lib_entities/server/_category_preview";
+import { QueryCommonParams } from "@fedorenkaavenue/leprechaun_lib_entities/server/common";
+import { Category, CategoryPublic } from "@fedorenkaavenue/leprechaun_lib_entities/server/category";
+
 import CategoryEntity from "./category.entity";
-import { Category, CategoryPublic } from "gen/category";
-import { PropertyGroupPreview } from "gen/property_group";
-import { CategoryPreview, CategoryPreviewPublic } from "gen/_category_preview";
-import { ProductPreview } from "gen/product";
-import { QueryCommonParams } from "gen/common";
 
 interface CategoryViewPrivatePayload {
     transMap: TransMap['items'],

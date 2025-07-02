@@ -1,7 +1,6 @@
+import { PropertyCU } from '@fedorenkaavenue/leprechaun_lib_entities/server/property';
+import { PropertyGroup } from '@fedorenkaavenue/leprechaun_lib_entities/server/property_group';
 import { IsNotEmpty, IsNumber, IsOptional, IsString } from 'class-validator';
-
-import { PropertyCU } from 'gen/property';
-import { PropertyGroup } from 'gen/property_group';
 
 export class CreatePropertyDTO implements Omit<PropertyCU, 'title'> {
     @IsNotEmpty()

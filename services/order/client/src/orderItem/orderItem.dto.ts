@@ -1,10 +1,16 @@
+import { User } from "@fedorenkaavenue/leprechaun_lib_entities/client/user";
+import { QueryCommonParams } from "@fedorenkaavenue/leprechaun_lib_entities/server/common";
+import {
+    OrderItem,
+    OrderItemPublicDelete,
+    OrderItemsPublicCreate,
+    OrderItemsPublicCreate_Item,
+    OrderItemUpdatePublic,
+    OrderItemUpdatePublic_Data,
+} from "@fedorenkaavenue/leprechaun_lib_entities/server/order";
+import { Product } from "@fedorenkaavenue/leprechaun_lib_entities/server/product";
 import { Type } from "class-transformer";
-import { IsArray, IsNotEmpty, IsNumber, IsObject, IsString, IsUUID, ValidateNested } from "class-validator";
-
-import { QueryCommonParams } from "gen/common";
-import { Order, OrderItem, OrderItemPublicDelete, OrderItemsPublicCreate, OrderItemsPublicCreate_Item, OrderItemUpdatePublic, OrderItemUpdatePublic_Data } from "gen/order";
-import { Product } from "gen/product";
-import { User } from "gen/user";
+import { IsArray, IsNotEmpty, IsNumber, IsObject, IsUUID, ValidateNested } from "class-validator";
 
 class OrderItemsPublicCreateItemDTO implements OrderItemsPublicCreate_Item {
     @IsUUID()

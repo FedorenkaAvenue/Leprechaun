@@ -1,10 +1,9 @@
 import { Inject, Injectable, OnModuleInit } from "@nestjs/common";
 import { ClientGrpc } from "@nestjs/microservices";
 import { Observable } from "rxjs";
-
 import {
     PROPERTY_GROUP_SERVICE_NAME, PropertyGroupListPrivate, PropertyGroupListSearchParams, PropertyGroupServiceClient,
-} from "gen/property_group";
+} from "@fedorenkaavenue/leprechaun_lib_entities/server/property_group";
 
 @Injectable()
 export default class PropertyGroupService implements OnModuleInit {

@@ -1,8 +1,8 @@
 import { Controller } from "@nestjs/common";
 import { EventPattern, Payload } from "@nestjs/microservices";
+import { User } from "@fedorenkaavenue/leprechaun_lib_entities/server/user";
 
 import { WishlistService } from "./wishlist.service";
-import { User } from "gen/user";
 
 @Controller()
 export default class WishlistListener {

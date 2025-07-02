@@ -25,6 +25,8 @@
     "test:e2e": "jest --config ./test/jest-e2e.json"
   },
   "dependencies": {
+    "@fedorenkaavenue/leprechaun_lib_entities": "^0.0.7",
+    "@fedorenkaavenue/leprechaun_lib_utils": "^0.0.3",
     "@grpc/grpc-js": "^1.13.4",
     "@grpc/proto-loader": "^0.7.15",
     "@nestjs/common": "^11.0.1",

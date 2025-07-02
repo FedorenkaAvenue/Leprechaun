@@ -1,10 +1,9 @@
-import { IsEnum, IsNotEmpty, IsOptional, IsString, IsBoolean, IsNumber, IsObject, ValidateNested } from 'class-validator';
-import { Transform, Type } from 'class-transformer';
-
-import { Product, ProductCU, ProductPrice, ProductStatus } from "gen/product";
-import { File } from 'gen/common';
-import { Category } from 'gen/category';
-import { Property } from 'gen/property';
+import { IsEnum, IsNotEmpty, IsOptional, IsString, IsBoolean, IsNumber } from 'class-validator';
+import { Transform } from 'class-transformer';
+import { Product, ProductCU, ProductPrice, ProductStatus } from '@fedorenkaavenue/leprechaun_lib_entities/server/product';
+import { Property } from '@fedorenkaavenue/leprechaun_lib_entities/server/property';
+import { Category } from '@fedorenkaavenue/leprechaun_lib_entities/server/category';
+import { File } from '@fedorenkaavenue/leprechaun_lib_entities/server/common';
 
 export class ProductCreateDTO implements Omit<ProductCU, 'title' | 'description'> {
     @IsNotEmpty()

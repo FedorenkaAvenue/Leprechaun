@@ -4,15 +4,15 @@ import { DeepPartial, DeleteResult, Repository } from "typeorm";
 import { forkJoin, from, map, Observable, of, switchMap } from "rxjs";
 import { RpcException } from "@nestjs/microservices";
 import { status } from "@grpc/grpc-js";
+import { Product } from "@fedorenkaavenue/leprechaun_lib_entities/server/product";
+import { User } from "@fedorenkaavenue/leprechaun_lib_entities/server/user";
+import { QueryCommonParams } from "@fedorenkaavenue/leprechaun_lib_entities/server/common";
+import { Wishlist, WishlistItem, WishlistItemPublic } from "@fedorenkaavenue/leprechaun_lib_entities/server/wishlist";
 
 import WishlistItemEntity from "./wishlistItem.entity";
-import { Product } from "gen/product";
-import { QueryCommonParams } from "gen/common";
-import { Wishlist, WishlistItem, WishlistItemPublic } from "gen/wishlist";
 import WishlistItemMapper from "./wishlistItem.mapper";
 import ProductService from "@common/product/product.service";
 import { QueryDeepPartialEntity } from "typeorm/query-builder/QueryPartialEntity";
-import { User } from "gen/user";
 import { WishlistService } from "../wishlist/wishlist.service";
 
 @Injectable()

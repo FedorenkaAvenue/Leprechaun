@@ -2,7 +2,7 @@ services:
 
   ### INFRA
 
-  server:
+  infra_server:
     container_name: leprechaun-infra-server
     networks:
       server_infra:
@@ -16,8 +16,9 @@ services:
     depends_on:
       - app_api
       - app_client
+      - app_ws
 
-  events:
+  infra_events:
     container_name: leprechaun-infra-events
     image: rabbitmq:4-management-alpine
     ports:
@@ -25,39 +26,21 @@ services:
     networks:
       - api_app
 
-#   db_cache:
-#     container_name: leprechaun_db_cache
-#     networks:
-#       - api
-#     build:
-#       context: ./db/cache
-#       dockerfile: Dockerfile
-#       args:
-#         - REDIS_PASSWORD=${CACHE_PASSWORD}
-#     environment:
-#       - REDIS_PASSWORD=${CACHE_PASSWORD}
-#     ports:
-#       - ${CACHE_PORT_EXPOSE}:${CACHE_PORT}
+  infra_notifications:
+    container_name: leprechaun-infra-notifications
+    networks:
+      - ws_app
+    build:
+      context: ./infra/notifications
+      dockerfile: Dockerfile
+      args:
+        - REDIS_PASSWORD=${NOTIFICATIONS_PASSWORD}
+    environment:
+      - REDIS_PASSWORD=${NOTIFICATIONS_PASSWORD}
+    ports:
+      - ${NOTIFICATIONS_PORT_EXPOSE}:${NOTIFICATIONS_PORT}
 
   ### APSS
-
-  #   api_gateway_ws:
-#     container_name: leprechaun_api_gateway_ws
-#     networks:
-#       - api
-#     environment:
-#       - SESSION_COOKIE_SECRET
-#       - SOCKET_HOST
-#       - SOCKET_PORT
-#       - SOCKET_USER
-#       - SOCKET_PASSWORD
-#       - SOCKET_DB_NUMBER
-#       - DOMAIN_PUBLIC
-#       - DOMAIN_PRIVATE
-#       - BROKER_NET_HOST
-#       - BROKER_NET_PORT
-#     depends_on:
-#       - db_cache
 
   app_api:
     container_name: leprechaun-app-api
@@ -91,7 +74,7 @@ services:
       - ORDER_SERVICE_CLIENT_HOST
       - ORDER_SERVICE_CLIENT_PORT
     depends_on:
-      - events
+      - infra_events
       - service_auth_client
       - service_propgroup_client
       - service_user_client
@@ -117,6 +100,13 @@ services:
       - CURRENCY_SYMBOL
     depends_on:
       - app_api
+
+  app_ws:
+    container_name: leprechaun-app-ws
+    networks:
+      - ws_app
+    depends_on:
+      - infra_notifications
 
   ### SERVICES
 
@@ -478,6 +468,9 @@ networks:
   api_app:
     driver: bridge
     name: leprechaun_api_app
+  ws_app:
+    driver: bridge
+    name: leprechaun_ws_app
   auth_service:
     driver: bridge
     name: leprechaun_auth_service

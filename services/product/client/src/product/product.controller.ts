@@ -1,6 +1,5 @@
 import { from, map, Observable } from "rxjs";
 import { Controller } from "@nestjs/common";
-
 import {
     Product,
     ProductCU,
@@ -16,9 +15,10 @@ import {
     ProductServiceController,
     ProductServiceControllerMethods,
     ProductUpdateParams,
-} from "gen/product";
+} from "@fedorenkaavenue/leprechaun_lib_entities/server/product";
+import { ValidateRPCDTO } from "@fedorenkaavenue/leprechaun_lib_utils/decorators";
+
 import ProductService from "./product.service";
-import { ValidateDTO } from "@shared/decorators/ValidateDTO.decorator";
 import { ProductCreateDTO, ProductUpdateDTO } from "./product.dto";
 
 @Controller()
@@ -32,12 +32,12 @@ export class ProductController implements ProductServiceController {
         return this.productService.getProduct(id);
     }
 
-    @ValidateDTO(ProductCreateDTO)
+    @ValidateRPCDTO(ProductCreateDTO)
     createProduct(body: ProductCU): Observable<ProductPreview> {
         return this.productService.createProduct(body);
     }
 
-    @ValidateDTO(ProductUpdateDTO)
+    @ValidateRPCDTO(ProductUpdateDTO)
     updateProduct({ id, data }: ProductUpdateParams): Observable<void> {
         return this.productService.updateProduct(id, data);
     }

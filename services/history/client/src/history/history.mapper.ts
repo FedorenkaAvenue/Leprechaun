@@ -1,6 +1,7 @@
-import { HistoryPublic } from "gen/history";
+import { ProductPreviewPublic } from "@fedorenkaavenue/leprechaun_lib_entities/server/product";
+import { HistoryPublic } from "@fedorenkaavenue/leprechaun_lib_entities/server/history";
+
 import HistoryEntity from "./history.entity";
-import { ProductPreviewPublic } from "gen/product";
 
 export default class HistoryMapper {
     static toViewPublic(

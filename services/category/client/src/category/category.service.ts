@@ -4,21 +4,22 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { catchError, forkJoin, from, lastValueFrom, map, Observable, of, switchMap, throwError } from 'rxjs';
 import { RpcException } from '@nestjs/microservices';
 import { status } from '@grpc/grpc-js';
+import { Category, CategoryCU, CategoryPublic } from '@fedorenkaavenue/leprechaun_lib_entities/server/category';
 
-import { Category, CategoryCU, CategoryPublic } from 'gen/category';
+import { PropertyGroup } from '@fedorenkaavenue/leprechaun_lib_entities/server/property_group';
+import { CategoryPreview } from '@fedorenkaavenue/leprechaun_lib_entities/server/_category_preview';
+import { QueryCommonParams } from '@fedorenkaavenue/leprechaun_lib_entities/server/common';
+import { TransMap } from '@fedorenkaavenue/leprechaun_lib_entities/server/trans';
+import { CategoryPreviewPublic } from '@fedorenkaavenue/leprechaun_lib_entities/server/_category_preview';
+
+import EventService from '@common/event/event.service';
+import ProductService from '@common/product/product.service';
 import CategoryEntity from './category.entity';
 import { CategoryCreateDTO } from './category.dto';
 import S3Service from '@common/s3/s3.service';
 import { TransService } from '@common/trans/trans.service';
 import CategoryMapper from './category.mapper';
 import PropertyGroupService from '@common/propertyGroup/propertyGroup.service';
-import { PropertyGroup } from 'gen/property_group';
-import { CategoryPreview } from 'gen/_category_preview';
-import EventService from '@common/event/event.service';
-import ProductService from '@common/product/product.service';
-import { QueryCommonParams } from 'gen/common';
-import { TransMap } from 'gen/trans';
-import { CategoryPreviewPublic } from 'gen/_category_preview';
 
 @Injectable()
 export default class CategoryService {

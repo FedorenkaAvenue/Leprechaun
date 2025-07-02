@@ -1,6 +1,5 @@
+import { User, UserRole } from "@fedorenkaavenue/leprechaun_lib_entities/server/user";
 import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
-
-import { User, UserRole } from "gen/user";
 
 @Entity('user')
 export default class UserEntity implements User {

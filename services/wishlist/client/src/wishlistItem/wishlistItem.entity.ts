@@ -1,10 +1,10 @@
 import {
     Column, CreateDateColumn, Entity, Index, JoinColumn, ManyToOne, PrimaryGeneratedColumn,
 } from 'typeorm';
+import { Product } from '@fedorenkaavenue/leprechaun_lib_entities/server/product';
+import { WishlistItem } from '@fedorenkaavenue/leprechaun_lib_entities/server/wishlist';
 
-import { WishlistItem } from 'gen/wishlist';
 import WishlistEntity from '../wishlist/wishlist.entity';
-import { Product } from 'gen/product';
 
 @Entity('wishlist_item')
 @Index('wishlist_item_UNIQUE', ['wishlist', 'product'], { unique: true })

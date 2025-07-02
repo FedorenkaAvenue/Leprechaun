@@ -3,10 +3,10 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { FindOptionsWhere, MoreThanOrEqual, Repository } from 'typeorm';
 import { RpcException } from '@nestjs/microservices';
 import { status } from '@grpc/grpc-js';
-import { from, Observable, of } from 'rxjs';
+import { from, Observable } from 'rxjs';
+import { User, UserRole } from '@fedorenkaavenue/leprechaun_lib_entities/server/user';
 
 import UserEntity from './user.entity';
-import { User, UserRole } from 'gen/user';
 
 @Injectable()
 export class UserService {

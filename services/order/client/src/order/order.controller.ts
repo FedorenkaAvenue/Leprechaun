@@ -1,14 +1,14 @@
 import { map, Observable } from "rxjs";
 import { Controller } from "@nestjs/common";
-
 import {
-    OrderPublic,
     OrderCartPublicSearchParams,
-    OrderServiceController,
-    OrderServiceControllerMethods,
     OrderListPublic,
     OrderListPublicSearchParams,
-} from "gen/order";
+    OrderPublic,
+    OrderServiceController,
+    OrderServiceControllerMethods,
+} from "@fedorenkaavenue/leprechaun_lib_entities/server/order";
+
 import OrderService from "./order.service";
 
 @Controller()

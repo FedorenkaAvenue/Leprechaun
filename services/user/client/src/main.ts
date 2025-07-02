@@ -3,7 +3,7 @@ import { MicroserviceOptions, Transport } from '@nestjs/microservices';
 import { join } from 'path';
 
 import { AppModule } from './app.module';
-import ConfigService from './config/config.service';
+import ConfigService from '@common/config/config.service';
 
 async function bootstrap() {
     const config = new ConfigService();
@@ -11,7 +11,7 @@ async function bootstrap() {
         transport: Transport.GRPC,
         options: {
             package: 'user',
-            protoPath: join(__dirname, '../../proto/user.proto'),
+            protoPath: join(process.cwd(), 'node_modules/@fedorenkaavenue/leprechaun_lib_entities/src/proto/user.proto'),
             url: `0.0.0.0:${config.getVal('USER_SERVICE_CLIENT_PORT')}`,
         },
     });

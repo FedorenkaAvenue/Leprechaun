@@ -2,7 +2,7 @@ services:
 
   ### INFRA
 
-  server:
+  infra_server:
     restart: unless-stopped
     build:
       context: ./infra/server
@@ -14,28 +14,17 @@ services:
     depends_on:
       - app_admin
 
-  events:
+  infra_events:
     restart: unless-stopped
     volumes:
       - ./infra/events/rabbitmq.config:/etc/rabbitmq/conf.d/rabbitmq.config
     ports:
       - ${EVENTS_PORT_UI_EXPOSE}:15672
 
-  # s3:
-  #   restart: unless-stopped
-  #   ports:
-  #     - 9001:9001
-
-  # db_main:
-  #   restart: unless-stopped
-  #   volumes:
-  #     - ./db/main/postgresql.conf:/app/postgresql.conf
-  #     - ./db/main/pg_hba.conf:/app/pg_hba.conf
-
-  # db_cache:
-  #   restart: unless-stopped
-  #   volumes:
-  #     - ./db/cache/redis.conf:/app/redis.conf
+  infra_notifications:
+    restart: unless-stopped
+    volumes:
+      - ./infra/notifications/redis.conf:/app/redis.conf
 
   ### APPS
 
@@ -47,26 +36,22 @@ services:
     command: npm run dev
     volumes:
       - ./apps/api:/app
-      - ./proto:/app/proto
     environment:
       - IS_DEV=true
       - MAIL_SMPT_PORT_DEV
     depends_on:
-      - proto_gen
       - mailcatcher
 
-  # api_gateway_ws:
-  #   restart: unless-stopped
-  #   extends:
-  #     file: docker-compose.shared.yaml
-  #     service: node
-  #   command: npm run dev:ws
-  #   volumes:
-  #     - ./api/gateways:/app
-  #     - /app/apps/private # exclude
-  #     - /app/apps/public # exclude
-  #   environment:
-  #     - IS_DEV=true
+  app_ws:
+    restart: unless-stopped
+    extends:
+      file: docker-compose.shared.yaml
+      service: node
+    command: npm run dev
+    volumes:
+      - ./apps/ws:/app
+    environment:
+      - IS_DEV=true
 
   app_admin:
     restart: unless-stopped
@@ -118,7 +103,6 @@ services:
       - ${AUTH_SERVICE_CLIENT_PORT_EXPOSE}:${AUTH_SERVICE_CLIENT_PORT}
     volumes:
       - ./services/auth/client:/app
-      - ./proto:/app/proto
     environment:
       - IS_DEV=true
 
@@ -132,7 +116,6 @@ services:
       - ${USER_SERVICE_CLIENT_PORT_EXPOSE}:${USER_SERVICE_CLIENT_PORT}
     volumes:
       - ./services/user/client:/app
-      - ./proto:/app/proto
     environment:
       - IS_DEV=true
 
@@ -154,7 +137,6 @@ services:
       - ${PROPGROUP_SERVICE_CLIENT_PORT_EXPOSE}:${PROPGROUP_SERVICE_CLIENT_PORT}
     volumes:
       - ./services/prop_group/client:/app
-      - ./proto:/app/proto
     environment:
       - IS_DEV=true
 
@@ -176,7 +158,6 @@ services:
       - ${TRANS_SERVICE_CLIENT_PORT_EXPOSE}:${TRANS_SERVICE_CLIENT_PORT}
     volumes:
       - ./services/trans/client:/app
-      - ./proto:/app/proto
     environment:
       - IS_DEV=true
 
@@ -198,7 +179,6 @@ services:
       - ${CATEGORY_SERVICE_CLIENT_PORT_EXPOSE}:${CATEGORY_SERVICE_CLIENT_PORT}
     volumes:
       - ./services/category/client:/app
-      - ./proto:/app/proto
     environment:
       - IS_DEV=true
 
@@ -228,7 +208,6 @@ services:
       - ${PRODUCT_SERVICE_CLIENT_PORT_EXPOSE}:${PRODUCT_SERVICE_CLIENT_PORT}
     volumes:
       - ./services/product/client:/app
-      - ./proto:/app/proto
     environment:
       - IS_DEV=true
 
@@ -258,7 +237,6 @@ services:
       - ${WISHLIST_SERVICE_CLIENT_PORT_EXPOSE}:${WISHLIST_SERVICE_CLIENT_PORT}
     volumes:
       - ./services/wishlist/client:/app
-      - ./proto:/app/proto
     environment:
       - IS_DEV=true
 
@@ -280,7 +258,6 @@ services:
       - ${HISTORY_SERVICE_CLIENT_PORT_EXPOSE}:${HISTORY_SERVICE_CLIENT_PORT}
     volumes:
       - ./services/history/client:/app
-      - ./proto:/app/proto
     environment:
       - IS_DEV=true
 
@@ -302,7 +279,6 @@ services:
       - ${SUBSCRIPTION_SERVICE_CLIENT_PORT_EXPOSE}:${SUBSCRIPTION_SERVICE_CLIENT_PORT}
     volumes:
       - ./services/subscription/client:/app
-      - ./proto:/app/proto
     environment:
       - IS_DEV=true
 
@@ -324,7 +300,6 @@ services:
       - ${ORDER_SERVICE_CLIENT_PORT_EXPOSE}:${ORDER_SERVICE_CLIENT_PORT}
     volumes:
       - ./services/order/client:/app
-      - ./proto:/app/proto
     environment:
       - IS_DEV=true
 
@@ -349,16 +324,6 @@ services:
       - ./utils/translations:/app
     environment:
       - LANGS
-
-  proto_gen:
-    restart: unless-stopped
-    container_name: leprechaun-utils-protogen
-    build:
-      context: ./utils/proto_gen
-      dockerfile: Dockerfile
-    volumes:
-      - ./utils/proto_gen:/app
-      - ./proto:/app/proto
 
   mailcatcher:
     container_name: leprechaun-utils-mailcatcher

@@ -1,6 +1,7 @@
-import { Property } from "gen/property";
+import { TransData } from "@fedorenkaavenue/leprechaun_lib_entities/server/trans";
+import { Property } from "@fedorenkaavenue/leprechaun_lib_entities/server/property";
+
 import { PropertyEntity } from "./property.entity";
-import { TransData } from "gen/trans";
 
 export default class PropertyMapper {
     static toView(property: PropertyEntity, titleTrans: TransData): Property {

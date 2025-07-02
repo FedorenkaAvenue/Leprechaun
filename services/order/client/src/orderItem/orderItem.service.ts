@@ -4,13 +4,15 @@ import { DeleteResult, Repository } from 'typeorm';
 import { InjectRepository } from "@nestjs/typeorm";
 import { RpcException } from "@nestjs/microservices";
 import { status } from "@grpc/grpc-js";
+import {
+    OrderItem, OrderItemsPublicCreate_Item, OrderItemUpdatePublic_Data, OrderPublic,
+} from "@fedorenkaavenue/leprechaun_lib_entities/server/order";
+import { QueryCommonParams } from "@fedorenkaavenue/leprechaun_lib_entities/server/common";
+import { User } from "@fedorenkaavenue/leprechaun_lib_entities/client/user";
+import { Product } from "@fedorenkaavenue/leprechaun_lib_entities/server/product";
 
 import { OrderItemEntity } from "./orderItem.entity";
-import { OrderItem, OrderItemsPublicCreate_Item, OrderItemUpdatePublic_Data, OrderPublic } from "gen/order";
-import { User } from "gen/user";
-import { QueryCommonParams } from "gen/common";
 import OrderService from "../order/order.service";
-import { Product } from "gen/product";
 import OrderEntity from "../order/order.entity";
 
 @Injectable()

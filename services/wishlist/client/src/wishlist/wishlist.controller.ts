@@ -1,6 +1,6 @@
 import { map, Observable } from "rxjs";
 import { Controller } from "@nestjs/common";
-
+import { ValidateRPCDTO } from "@fedorenkaavenue/leprechaun_lib_utils/decorators";
 import {
     WishlistCreate,
     WishlistUpdate,
@@ -11,8 +11,8 @@ import {
     WishlistPublicSearchParams,
     WishlistServiceController,
     WishlistServiceControllerMethods,
-} from "gen/wishlist";
-import { ValidateDTO } from "@shared/decorators/ValidateDTO.decorator";
+} from "@fedorenkaavenue/leprechaun_lib_entities/server/wishlist";
+
 import { WishlistService } from "./wishlist.service";
 import { WishlistCreateDTO, WishlistUpdateDTO } from "./wishlist.dto";
 
@@ -21,12 +21,12 @@ import { WishlistCreateDTO, WishlistUpdateDTO } from "./wishlist.dto";
 export default class WishlistController implements WishlistServiceController {
     constructor(private readonly wishlistService: WishlistService) { }
 
-    @ValidateDTO(WishlistUpdateDTO)
+    @ValidateRPCDTO(WishlistUpdateDTO)
     public updateWishlistPublic({ user, wishlist, updates }: WishlistUpdate): Observable<void> {
         return this.wishlistService.updateWishlist(wishlist, user, updates);
     }
 
-    @ValidateDTO(WishlistCreateDTO)
+    @ValidateRPCDTO(WishlistCreateDTO)
     public createWishlistPublic(request: WishlistCreate): Observable<WishlistPublic> {
         return this.wishlistService.createWishlist(request);
     }

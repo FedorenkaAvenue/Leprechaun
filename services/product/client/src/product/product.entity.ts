@@ -1,6 +1,6 @@
 import { Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { Product, ProductPrice, ProductStatus } from '@fedorenkaavenue/leprechaun_lib_entities/server/product';
 
-import { Product, ProductPrice, ProductStatus } from 'gen/product';
 import ProductImageEntity from '../productImage/productImage.entity';
 
 export class PriceEntity implements ProductPrice {

@@ -1,6 +1,6 @@
 import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Product, ProductImage } from '@fedorenkaavenue/leprechaun_lib_entities/server/product';
 
-import { Product, ProductImage } from 'gen/product';
 import { ProductEntity } from 'src/product/product.entity';
 
 @Entity('product_image')

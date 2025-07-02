@@ -1,8 +1,7 @@
 import { Column, Entity, Index, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
-
-import { History } from 'gen/history';
-import { Product } from 'gen/product';
-import { User } from 'gen/user';
+import { History } from '@fedorenkaavenue/leprechaun_lib_entities/server/history';
+import { Product } from '@fedorenkaavenue/leprechaun_lib_entities/server/product';
+import { User } from '@fedorenkaavenue/leprechaun_lib_entities/server/user';
 
 @Entity('history')
 @Index('product_UNIQUE', ['user', 'product'], { unique: true })

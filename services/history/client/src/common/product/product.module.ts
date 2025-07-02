@@ -1,10 +1,10 @@
 import { Module } from "@nestjs/common";
 import { ClientsModule, Transport } from "@nestjs/microservices";
 import { join } from "path";
+import { PRODUCT_PACKAGE_NAME } from "@fedorenkaavenue/leprechaun_lib_entities/server/product";
 
 import ConfigModule from "../config/config.module";
 import ConfigService from "../config/config.service";
-import { PRODUCT_PACKAGE_NAME } from "gen/product";
 import ProductService from "./product.service";
 
 @Module({
@@ -18,7 +18,7 @@ import ProductService from "./product.service";
                     transport: Transport.GRPC,
                     options: {
                         package: PRODUCT_PACKAGE_NAME,
-                        protoPath: join(__dirname, '../../../../proto/product.proto'),
+                        protoPath: join(process.cwd(), 'node_modules/@fedorenkaavenue/leprechaun_lib_entities/src/proto/product.proto'),
                         url: `${configService.getVal('PRODUCT_SERVICE_CLIENT_HOST')}:${configService.getVal('PRODUCT_SERVICE_CLIENT_PORT')}`,
                         loader: {
                             longs: Number,
