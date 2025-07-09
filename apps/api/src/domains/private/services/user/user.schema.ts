@@ -1,6 +1,5 @@
 import { ApiProperty } from "@nestjs/swagger";
-
-import { User, UserRole } from "@gen/user";
+import { User, UserRole } from "@fedorenkaavenue/leprechaun_lib_entities/server/user";
 
 export class UserSchema implements Omit<User, 'password' | 'isAuth'> {
     @ApiProperty()

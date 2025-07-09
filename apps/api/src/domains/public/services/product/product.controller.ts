@@ -2,11 +2,11 @@ import { Controller, Get, Param, ParseUUIDPipe, UseInterceptors } from '@nestjs/
 import {
     ApiBadRequestResponse, ApiNotFoundResponse, ApiOkResponse, ApiOperation, ApiTags,
 } from '@nestjs/swagger';
+import { ProductListPublic, ProductQueryParams } from '@fedorenkaavenue/leprechaun_lib_entities/server/product';
 
 import { ApiProductListQueriesDecorator } from '@common/product/product.decorator';
 import ApiPaginatedResponseDecorator from '@decorators/apiPaginatedResponse.decorator';
 import QueryDecorator from '@common/queries/query.decorator';
-import { ProductListPublic, ProductQueryParams } from '@gen/product';
 import { ProductCardPublicSchema } from './product.schema';
 import ProductService from '@common/product/product.service';
 import { ProductQuerisDTO } from '@common/product/product.dto';

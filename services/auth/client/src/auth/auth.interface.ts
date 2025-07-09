@@ -1,4 +1,4 @@
-import { User } from "gen/user";
+import { User } from "@fedorenkaavenue/leprechaun_lib_entities/server/user";
 
 export type JWTPayload = Pick<User, 'id' | 'role'>
 

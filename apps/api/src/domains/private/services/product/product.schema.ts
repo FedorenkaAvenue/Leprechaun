@@ -1,14 +1,16 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Transform } from 'class-transformer';
+import {
+    Product, ProductCU, ProductPreview, ProductPrice, ProductStatus,
+} from '@fedorenkaavenue/leprechaun_lib_entities/server/product';
+import { TransData } from '@fedorenkaavenue/leprechaun_lib_entities/server/trans';
+import { Category } from '@fedorenkaavenue/leprechaun_lib_entities/server/category';
+import { File } from '@fedorenkaavenue/leprechaun_lib_entities/server/common';
+import { Property } from '@fedorenkaavenue/leprechaun_lib_entities/server/property';
 
-import { Product, ProductCU, ProductPreview, ProductPrice, ProductStatus } from '@gen/product';
 import { TransSchema } from '@common/trans/trans.schema';
 import { CategoryPreviewSchema } from '../category/category.schema';
-import { TransData } from '@gen/trans';
-import { Category } from '@gen/category';
-import { File } from '@gen/common';
 import { PropertyGroupPreviewSchema } from '../propertyGroup/propertyGroup.schema';
-import { Property } from '@gen/property';
 import { ProductImageSchema, ProductPriceSchema } from '@common/product/product.schema';
 
 export class ProductPreviewSchema implements ProductPreview {

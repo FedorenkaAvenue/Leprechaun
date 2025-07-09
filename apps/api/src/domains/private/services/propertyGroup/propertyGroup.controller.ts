@@ -2,16 +2,18 @@ import {
     Body, Controller, Delete, Get, Param, Patch, Post, UseGuards,
 } from '@nestjs/common';
 import { ApiBadRequestResponse, ApiNotFoundResponse, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
+import { UserRole } from '@fedorenkaavenue/leprechaun_lib_entities/server/user';
+import {
+    PropertyGroup, PropertyGroupPreview, PropertyGroupUpdateParams,
+} from '@fedorenkaavenue/leprechaun_lib_entities/server/property_group';
+import { Empty } from '@fedorenkaavenue/leprechaun_lib_entities/server/google/protobuf/empty';
+import { Category } from '@fedorenkaavenue/leprechaun_lib_entities/server/category';
 
 import { AuthJWTAccessGuard } from '@guards/auth.guard';
-import { UserRole } from '@gen/user';
-import { PropertyGroup, PropertyGroupPreview, PropertyGroupUpdateParams } from '@gen/property_group';
 import { PropertyGroupCUSchema, PropertyGroupPreviewSchema, PropertyGroupSchema } from './propertyGroup.schema';
 import { UserRoleGuard } from '@common/user/user.guard';
 import { UserRoleDecorator } from '@common/user/user.decorator';
-import { Empty } from '@gen/google/protobuf/empty';
 import PropertyGroupPrivateService from './propertyGroup.service';
-import { Category } from '@gen/category';
 
 @Controller('propertygroup')
 @UseGuards(AuthJWTAccessGuard, UserRoleGuard)

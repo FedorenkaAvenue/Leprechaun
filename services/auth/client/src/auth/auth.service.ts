@@ -3,10 +3,10 @@ import { Observable, switchMap } from 'rxjs';
 import { JwtService } from '@nestjs/jwt';
 import { RpcException } from '@nestjs/microservices';
 import { status } from '@grpc/grpc-js';
+import { User } from '@fedorenkaavenue/leprechaun_lib_entities/server/user';
+import { AuthJWT, SignInParams } from '@fedorenkaavenue/leprechaun_lib_entities/server/auth';
 
 import { JWTPayload, JWTSuccessTokens } from './auth.interface';
-import { User } from 'gen/user';
-import { AuthJWT, SignInParams } from 'gen/auth';
 import UserService from '@common/user/user.service';
 import CryptoService from '@common/crypto/crypto.service';
 import ConfigService from '@common/config/config.service';

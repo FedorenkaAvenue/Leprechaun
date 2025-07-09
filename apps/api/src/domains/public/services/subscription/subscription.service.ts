@@ -1,15 +1,17 @@
 import { Inject, Injectable, OnModuleInit } from "@nestjs/common";
 import { ClientGrpc } from "@nestjs/microservices";
 import { lastValueFrom, map } from "rxjs";
+import { User } from "@fedorenkaavenue/leprechaun_lib_entities/server/user";
+import { Product } from "@fedorenkaavenue/leprechaun_lib_entities/server/product";
+import {
+    SUBSCRIPTION_SERVICE_NAME, SubscriptionServiceClient,
+} from "@fedorenkaavenue/leprechaun_lib_entities/server/subscription";
+import { Empty } from "@fedorenkaavenue/leprechaun_lib_entities/server/google/protobuf/empty";
 
-import { User } from "@gen/user";
-import { Product } from "@gen/product";
-import { SUBSCRIPTION_SERVICE_NAME, SubscriptionServiceClient } from "@gen/subscription";
 import { SUBSCRIPTION_PACKAGE } from "./subscription.constants";
 import { catchResponceError } from "@pipes/operators";
 import { SubscriptionProductStatusSchema } from "./subscription.schema";
 import { QueriesCommon } from "@common/queries/queries.dto";
-import { Empty } from "@gen/google/protobuf/empty";
 
 @Injectable()
 export default class SubscriptionPublicService implements OnModuleInit {

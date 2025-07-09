@@ -1,7 +1,6 @@
 import { Inject, Injectable, OnModuleInit } from '@nestjs/common';
 import { ClientGrpc } from '@nestjs/microservices';
 import { lastValueFrom, map } from 'rxjs';
-
 import { WISHLIST_PACKAGE } from './wishlist.constants';
 import {
     Wishlist,
@@ -13,12 +12,13 @@ import {
     WishlistItemServiceClient,
     WishlistPublic,
     WishlistServiceClient,
-} from '@gen/wishlist';
+} from '@fedorenkaavenue/leprechaun_lib_entities/server/wishlist';
+import { User } from '@fedorenkaavenue/leprechaun_lib_entities/server/user';
+import { QueryCommonParams } from '@fedorenkaavenue/leprechaun_lib_entities/server/common';
+import { Empty } from '@fedorenkaavenue/leprechaun_lib_entities/server/google/protobuf/empty';
+
 import { catchResponceError } from '@pipes/operators';
-import { User } from '@gen/user';
-import { QueryCommonParams } from '@gen/common';
 import { WishlistCreateSchema, WishlistUpdateSchema } from './wishlist.schema';
-import { Empty } from '@gen/google/protobuf/empty';
 
 @Injectable()
 export default class WishlistPublicService implements OnModuleInit {

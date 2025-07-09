@@ -1,7 +1,6 @@
 import { ApiProperty } from "@nestjs/swagger";
-
-import { CategoryPreviewPublic } from "@gen/_category_preview";
-import { CategoryPublic } from "@gen/category";
+import { CategoryPreviewPublic } from "@fedorenkaavenue/leprechaun_lib_entities/server/_category_preview";
+import { CategoryPublic } from "@fedorenkaavenue/leprechaun_lib_entities/server/category";
 
 export class CategoryPreviewPublicSchema implements CategoryPreviewPublic {
     @ApiProperty()

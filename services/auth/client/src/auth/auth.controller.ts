@@ -1,7 +1,9 @@
 import { Observable } from 'rxjs';
+import {
+    AuthServiceController, AuthJWT, SignInParams, AuthServiceControllerMethods,
+} from '@fedorenkaavenue/leprechaun_lib_entities/server/auth';
 
 import { AuthService } from './auth.service';
-import { AuthServiceController, AuthJWT, SignInParams, AuthServiceControllerMethods } from 'gen/auth';
 
 @AuthServiceControllerMethods()
 export class AuthController implements AuthServiceController {

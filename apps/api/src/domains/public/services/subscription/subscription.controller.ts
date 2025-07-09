@@ -2,17 +2,17 @@ import { Body, Controller, Get, Post, UseGuards, UseInterceptors } from "@nestjs
 import {
     ApiBody, ApiCookieAuth, ApiNotAcceptableResponse, ApiOkResponse, ApiOperation, ApiTags,
 } from "@nestjs/swagger";
+import { Product, ProductStatus } from "@fedorenkaavenue/leprechaun_lib_entities/server/product";
+import { User } from "@fedorenkaavenue/leprechaun_lib_entities/server/user";
+import { Empty } from "@fedorenkaavenue/leprechaun_lib_entities/server/google/protobuf/empty";
 
 import SubscriptionService from "./subscription.service";
-import { Product, ProductStatus } from "@gen/product";
 import { UnknownUserResponce } from "@public/shared/guards/UnknownUserResponce.guard";
 import Credentials from "@public/shared/decorators/credentials.decorator";
-import { User } from "@gen/user";
 import SessionInitInterceptor from "@public/shared/interceptors/sessionInit.interceptor";
 import { SubscriptionProductStatusSchema } from "./subscription.schema";
 import QueryDecorator from "@common/queries/query.decorator";
 import { QueriesCommon } from "@common/queries/queries.dto";
-import { Empty } from "@gen/google/protobuf/empty";
 
 @Controller('subscription')
 @ApiTags('Subscription 🧑‍💻')

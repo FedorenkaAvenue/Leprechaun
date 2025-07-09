@@ -1,10 +1,10 @@
 import { ApiProperty } from '@nestjs/swagger';
-
 import {
     ProductCardPublic, ProductLabel, ProductLabelType, ProductPreviewPublic, ProductPrice, ProductStatus,
-} from '@gen/product';
+} from '@fedorenkaavenue/leprechaun_lib_entities/server/product';
+import { PropertyGroupPreviewPublic } from '@fedorenkaavenue/leprechaun_lib_entities/server/property_group';
+
 import { ProductImageSchema, ProductPriceSchema } from '@common/product/product.schema';
-import { PropertyGroupPreviewPublic } from '@gen/property_group';
 
 export class ProductLabelSchema implements ProductLabel {
     @ApiProperty({ enum: () => ProductLabelType, required: false })

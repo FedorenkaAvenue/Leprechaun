@@ -2,16 +2,15 @@ import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { APP_FILTER } from '@nestjs/core';
 import * as cookieParser from 'cookie-parser';
 import { MulterModule } from '@nestjs/platform-express';
+import { LoggerModule, MailModule } from '@fedorenkaavenue/leprechaun_lib_utils/modules';
+import { UncaughtExceptionFilter } from '@fedorenkaavenue/leprechaun_lib_utils/filters';
+import { HTTPLogMiddleware } from '@fedorenkaavenue/leprechaun_lib_utils/middlewares';
 
 import ConfigService from '@modules/config/config.service';
 import ConfigModule from '@modules/config/config.module';
-import LoggerModule from '@modules/logger/logger.module';
-import MailModule from '@modules/mail/mail.module';
 import JWTModule from '@modules/JWT/JWT.module';
 import PublicModule from '@public/public.module';
 import PrivateModule from '@private/private.module';
-import UncaughtExceptionFilter from '@filters/UncaughtException.filter';
-import HTTPLogMiddleware from '@middlewares/HTTPLog.middleware';
 
 @Module({
     imports: [

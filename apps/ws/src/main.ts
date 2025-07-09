@@ -29,7 +29,7 @@ async function runServer() {
     app.useWebSocketAdapter(redisIoAdapter);
 
     await app.startAllMicroservices();
-    await app.listen(81);
+    await app.listen(80);
 }
 
 runServer();

@@ -1,6 +1,8 @@
 import { ApiProperty } from '@nestjs/swagger';
+import {
+    Wishlist, WishlistCreate, WishlistItemMoveParams, WishlistItemPublic, WishlistPublic,
+} from '@fedorenkaavenue/leprechaun_lib_entities/server/wishlist';
 
-import { Wishlist, WishlistCreate, WishlistItemMoveParams, WishlistItemPublic, WishlistPublic } from '@gen/wishlist';
 import { ProductPreviewPublicSchema } from '../product/product.schema';
 
 export class WishlistItemPublicSchema implements WishlistItemPublic {

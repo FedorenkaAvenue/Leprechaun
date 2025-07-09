@@ -1,15 +1,15 @@
 import { ClientGrpc } from '@nestjs/microservices';
 import { Inject, Injectable, OnModuleInit } from '@nestjs/common';
 import { lastValueFrom } from 'rxjs';
-
 import {
     PROPERTY_GROUP_SERVICE_NAME, PropertyGroup, PropertyGroupCU, PropertyGroupPreview, PropertyGroupServiceClient,
     PropertyGroupUpdateParams,
-} from '@gen/property_group';
-import { Empty } from '@gen/google/protobuf/empty';
+} from '@fedorenkaavenue/leprechaun_lib_entities/server/property_group';
+import { Empty } from '@fedorenkaavenue/leprechaun_lib_entities/server/google/protobuf/empty';
+import { Category } from '@fedorenkaavenue/leprechaun_lib_entities/server/category';
+
 import { PROPERTY_GROUP_PACKAGE } from './propertyGroup.constants';
 import { catchResponceError } from '@pipes/operators';
-import { Category } from '@gen/category';
 
 @Injectable()
 export default class PropertyGroupPrivateService implements OnModuleInit {

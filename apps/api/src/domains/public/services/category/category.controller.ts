@@ -1,12 +1,12 @@
 import { Controller, Get, Param } from '@nestjs/common';
 import { ApiNotFoundResponse, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
+import { CategoryPreviewPublic } from '@fedorenkaavenue/leprechaun_lib_entities/server/_category_preview';
+import { QueryCommonParams } from '@fedorenkaavenue/leprechaun_lib_entities/server/common';
+import { CategoryPublic } from '@fedorenkaavenue/leprechaun_lib_entities/server/category';
 
 import { CategoryPreviewPublicSchema, CategoryPublicSchema } from './category.schema';
-import { CategoryPreviewPublic } from '@gen/_category_preview';
 import CategoryService from '@common/category/category.service';
 import QueryDecorator from '@common/queries/query.decorator';
-import { QueryCommonParams } from '@gen/common';
-import { CategoryPublic } from '@gen/category';
 
 @Controller('category')
 @ApiTags('Category')

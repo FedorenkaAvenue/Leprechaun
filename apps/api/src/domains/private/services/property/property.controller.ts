@@ -1,14 +1,14 @@
 import { Body, Controller, Delete, Param, Post, UseGuards } from '@nestjs/common';
 import { ApiNotFoundResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
+import { UserRole } from '@fedorenkaavenue/leprechaun_lib_entities/server/user';
+import { Property } from '@fedorenkaavenue/leprechaun_lib_entities/server/property';
+import { Empty } from '@fedorenkaavenue/leprechaun_lib_entities/server/google/protobuf/empty';
 
 import { CreatePropertySchema } from './property.schema';
-import { UserRole } from '@gen/user';
 import { UserRoleDecorator } from '@common/user/user.decorator';
 import { UserRoleGuard } from '@common/user/user.guard';
 import { AuthJWTAccessGuard } from '@guards/auth.guard';
-import { Property } from '@gen/property';
 import PropertyPrivateService from './property.service';
-import { Empty } from '@gen/google/protobuf/empty';
 
 @Controller('property')
 @UseGuards(AuthJWTAccessGuard, UserRoleGuard)

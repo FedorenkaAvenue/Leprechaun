@@ -23,19 +23,19 @@ import {
     ValidationPipe,
 } from '@nestjs/common';
 import { FilesInterceptor } from '@nestjs/platform-express';
+import { UserRole } from '@fedorenkaavenue/leprechaun_lib_entities/server/user';
+import { Product, ProductPreview, ProductListPrivate } from '@fedorenkaavenue/leprechaun_lib_entities/server/product';
+import { Empty } from '@fedorenkaavenue/leprechaun_lib_entities/server/google/protobuf/empty';
 
 import { UserRoleGuard } from '@common/user/user.guard';
 import { AuthJWTAccessGuard } from '@guards/auth.guard';
 import { UserRoleDecorator } from '@common/user/user.decorator';
-import { UserRole } from '@gen/user';
 import ApiPaginatedResponseDecorator from '@decorators/apiPaginatedResponse.decorator'
 import { ProductCreateSchema, ProductPreviewSchema, ProductSchema, ProductUpdateSchema } from './product.schema';
 import { ApiProductListQueriesDecorator } from '@common/product/product.decorator';
 import QueryDecorator from '@common/queries/query.decorator';
 import ProductService from '@common/product/product.service';
 import { ProductQuerisDTO } from '@common/product/product.dto';
-import { Product, ProductPreview, ProductListPrivate } from '@gen/product';
-import { Empty } from '@gen/google/protobuf/empty';
 import { PaginationSchema } from '@schemas/pagination.schema';
 
 @Controller('product')

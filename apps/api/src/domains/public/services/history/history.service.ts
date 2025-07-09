@@ -1,12 +1,14 @@
 import { Inject, Injectable, OnModuleInit } from '@nestjs/common';
 import { ClientGrpc } from '@nestjs/microservices';
 import { lastValueFrom, map } from 'rxjs';
+import {
+    HISTORY_SERVICE_NAME, HistoryPublic, HistoryServiceClient,
+} from '@fedorenkaavenue/leprechaun_lib_entities/server/history';
+import { User } from '@fedorenkaavenue/leprechaun_lib_entities/server/user';
+import { QueryCommonParams } from '@fedorenkaavenue/leprechaun_lib_entities/server/common';
 
-import { catchResponceError } from '@pipes/operators';
-import { User } from '@gen/user';
-import { QueryCommonParams } from '@gen/common';
 import { HISTORY_PACKAGE } from './wishlist.constants';
-import { HISTORY_SERVICE_NAME, HistoryPublic, HistoryServiceClient } from '@gen/history';
+import { catchResponceError } from '@pipes/operators';
 
 @Injectable()
 export default class HistoryPublicService implements OnModuleInit {

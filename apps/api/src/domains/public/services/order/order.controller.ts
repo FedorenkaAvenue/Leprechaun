@@ -2,13 +2,13 @@ import {
     Body, Controller, Delete, Get, Param, Patch, Post, UseGuards, UseInterceptors,
 } from '@nestjs/common';
 import { ApiBody, ApiCookieAuth, ApiNotFoundResponse, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
+import { QueryCommonParams } from '@fedorenkaavenue/leprechaun_lib_entities/server/common';
+import { User } from '@fedorenkaavenue/leprechaun_lib_entities/server/user';
+import { OrderPublic } from '@fedorenkaavenue/leprechaun_lib_entities/server/order';
 
 import OrderService from '@common/order/order.service';
 import QueryDecorator from '@common/queries/query.decorator';
-import { QueryCommonParams } from '@gen/common';
-import { User } from '@gen/user';
 import Credentials from '@public/shared/decorators/credentials.decorator';
-import { OrderPublic } from '@gen/order';
 import { OrderPublicSchema } from './order.schema';
 import { UnknownUserResponce } from '@public/shared/guards/UnknownUserResponce.guard';
 import SessionInitInterceptor from '@public/shared/interceptors/sessionInit.interceptor';

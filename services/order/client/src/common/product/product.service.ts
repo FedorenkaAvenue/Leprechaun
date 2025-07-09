@@ -1,9 +1,10 @@
 import { Inject, Injectable, OnModuleInit } from "@nestjs/common";
 import { ClientGrpc } from "@nestjs/microservices";
 import { map, Observable } from "rxjs";
-
-import { Product, PRODUCT_SERVICE_NAME, ProductPreviewPublic, ProductServiceClient } from "gen/product";
-import { QueryCommonParams } from "gen/common";
+import {
+    Product, PRODUCT_SERVICE_NAME, ProductPreviewPublic, ProductServiceClient,
+} from "@fedorenkaavenue/leprechaun_lib_entities/server/product";
+import { QueryCommonParams } from "@fedorenkaavenue/leprechaun_lib_entities/server/common";
 
 @Injectable()
 export default class ProductService implements OnModuleInit {

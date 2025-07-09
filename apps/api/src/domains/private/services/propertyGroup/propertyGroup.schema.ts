@@ -1,11 +1,13 @@
 import { ApiProperty } from "@nestjs/swagger";
+import {
+    PropertyGroup, PropertyGroupCU, PropertyGroupPreview,
+} from "@fedorenkaavenue/leprechaun_lib_entities/server/property_group";
+import { TransData } from "@fedorenkaavenue/leprechaun_lib_entities/server/trans";
+import { CategoryPreview } from "@fedorenkaavenue/leprechaun_lib_entities/server/_category_preview";
+import { Property } from "@fedorenkaavenue/leprechaun_lib_entities/server/property";
 
-import { PropertyGroup, PropertyGroupCU, PropertyGroupPreview } from "@gen/property_group";
-import { TransData } from "@gen/trans";
 import { TransSchema } from "@common/trans/trans.schema";
-import { CategoryPreview } from "@gen/_category_preview";
 import { CategorySchema } from "../category/category.schema";
-import { Property } from "@gen/property";
 
 export class PropertyGroupPreviewSchema implements PropertyGroupPreview {
     @ApiProperty()

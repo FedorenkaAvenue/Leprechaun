@@ -1,7 +1,7 @@
 import { TypeOrmModuleOptions } from '@nestjs/typeorm';
 import { Injectable } from '@nestjs/common';
 import { PostgresConnectionCredentialsOptions } from 'typeorm/driver/postgres/PostgresConnectionCredentialsOptions';
-import { ConfigService as SharedConfigService } from '@fedorenkaavenue/leprechaun_lib_utils/services';
+import { ConfigService as SharedConfigService } from '@fedorenkaavenue/leprechaun_lib_utils/modules';
 
 @Injectable()
 export default class ConfigService extends SharedConfigService {

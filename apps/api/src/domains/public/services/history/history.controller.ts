@@ -1,11 +1,11 @@
 import { Controller, Delete, Get } from '@nestjs/common';
 import { ApiCookieAuth, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
+import { QueryCommonParams } from '@fedorenkaavenue/leprechaun_lib_entities/server/common';
+import { HistoryPublic } from '@fedorenkaavenue/leprechaun_lib_entities/server/history';
 
 import HistoryPublicService from './history.service';
 import HistoryPublicSchema from './history.schema';
 import QueryDecorator from '@common/queries/query.decorator';
-import { QueryCommonParams } from '@gen/common';
-import { HistoryPublic } from '@gen/history';
 
 @Controller('history')
 @ApiTags('Product history 🧑‍💻')

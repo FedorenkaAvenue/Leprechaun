@@ -25,9 +25,10 @@
 
         "baseUrl": ".",
         "paths": {
-            "@common/*": ["./src/common/*"],
+            "@common/*": ["./src/domains/common/*"],
             "@public/*": ["./src/domains/public/*"],
             "@private/*": ["./src/domains/private/*"],
+
             "@modules/*": ["./src/shared/modules/*"],
             "@utils/*": ["./src/shared/utils/*"],
             "@middlewares/*": ["./src/shared/middlewares/*"],
@@ -37,8 +38,7 @@
             "@decorators/*": ["./src/shared/decorators/*"],
             "@schemas/*": ["./src/shared/schemas/*"],
             "@dto/*": ["./src/shared/dto/*"],
-            "@pipes/*": ["./src/shared/pipes/*"],
-            "@gen/*": ["./gen/*"]
+            "@pipes/*": ["./src/shared/pipes/*"]
         }
     },
     "include": ["**/*.ts", "**/*.tsx", "**/*.d.ts"],

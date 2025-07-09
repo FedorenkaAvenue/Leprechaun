@@ -5,16 +5,16 @@ import {
     ApiBadRequestResponse, ApiBody, ApiNotFoundResponse, ApiOkResponse, ApiOperation, ApiTags,
 } from '@nestjs/swagger';
 import { FileInterceptor } from '@nestjs/platform-express';
+import { UserRole } from '@fedorenkaavenue/leprechaun_lib_entities/server/user';
+import { Category } from '@fedorenkaavenue/leprechaun_lib_entities/server/category';
+import { Empty } from '@fedorenkaavenue/leprechaun_lib_entities/server/google/protobuf/empty';
+import { CategoryPreview } from '@fedorenkaavenue/leprechaun_lib_entities/server/_category_preview';
 
 import CategoryService from '@common/category/category.service';
 import { UserRoleGuard } from '@common/user/user.guard';
 import { AuthJWTAccessGuard } from '@guards/auth.guard';
 import { UserRoleDecorator } from '@common/user/user.decorator';
-import { UserRole } from '@gen/user';
 import { CategoryCUSchema, CategoryPreviewSchema, CategorySchema, CategoryUpdateSchema } from './category.schema';
-import { Category } from '@gen/category';
-import { Empty } from '@gen/google/protobuf/empty';
-import { CategoryPreview } from '@gen/_category_preview';
 
 @Controller('category')
 @UseGuards(AuthJWTAccessGuard, UserRoleGuard)

@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { OrderItemPublic, OrderPublic, OrderStatus } from "@fedorenkaavenue/leprechaun_lib_entities/server/order";
 
-import { OrderItemPublic, OrderPublic, OrderStatus } from "@gen/order";
 import { ProductPreviewPublicSchema } from '../product/product.schema';
 import { ProductPriceSchema } from '@common/product/product.schema';
 import { OrderSummarySchema } from '@common/order/order.schema';

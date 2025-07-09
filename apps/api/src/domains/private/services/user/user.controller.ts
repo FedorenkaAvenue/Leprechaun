@@ -1,8 +1,8 @@
 import { Controller, Get, Req, UseGuards } from "@nestjs/common";
 import { ApiNotFoundResponse, ApiOkResponse, ApiOperation, ApiTags } from "@nestjs/swagger";
 import { Request } from "express";
+import { User, UserRole } from "@fedorenkaavenue/leprechaun_lib_entities/server/user";
 
-import { User, UserRole } from "@gen/user";
 import { AuthJWTAccessGuard } from "@guards/auth.guard";
 import UserService from "@common/user/user.service";
 import { UserRoleDecorator } from "@common/user/user.decorator";

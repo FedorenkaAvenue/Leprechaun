@@ -4,19 +4,21 @@ import {
 import {
     ApiBody, ApiCookieAuth, ApiNotAcceptableResponse, ApiNotFoundResponse, ApiOkResponse, ApiOperation, ApiTags,
 } from '@nestjs/swagger';
+import {
+    WishlistItemMoveParams, WishlistItemPublic, WishlistPublic,
+} from '@fedorenkaavenue/leprechaun_lib_entities/server/wishlist';
+import { QueryCommonParams } from '@fedorenkaavenue/leprechaun_lib_entities/server/common';
+import { Empty } from '@fedorenkaavenue/leprechaun_lib_entities/server/google/protobuf/empty';
+import { User } from '@fedorenkaavenue/leprechaun_lib_entities/server/user';
 
 import WishlistPublicService from './wishlist.service';
-import { WishlistItemMoveParams, WishlistItemPublic, WishlistPublic } from '@gen/wishlist';
 import {
     WishlistCreateSchema, WishlistItemMoveSchema, WishlistItemPublicSchema, WishlistPublicSchema, WishlistUpdateSchema,
 } from './wishlist.schema';
-import { QueryCommonParams } from '@gen/common';
 import QueryDecorator from '@common/queries/query.decorator';
-import { Empty } from '@gen/google/protobuf/empty';
 import SessionInitInterceptor from '@public/shared/interceptors/sessionInit.interceptor';
 import CredentialsGuard from '@public/shared/guards/Credentials.guard';
 import Credentials from '@public/shared/decorators/credentials.decorator';
-import { User } from '@gen/user';
 import { UnknownUserResponce } from '@public/shared/guards/UnknownUserResponce.guard';
 
 @Controller('wishlist')

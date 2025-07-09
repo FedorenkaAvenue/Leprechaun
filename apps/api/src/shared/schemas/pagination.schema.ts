@@ -1,4 +1,4 @@
-import { Pagination } from "@gen/common";
+import { Pagination } from "@fedorenkaavenue/leprechaun_lib_entities/server/common";
 import { ApiProperty } from "@nestjs/swagger";
 
 export class PaginationSchema implements Pagination {
