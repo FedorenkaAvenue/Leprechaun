@@ -5,13 +5,14 @@ import { catchError, forkJoin, from, map, Observable, of, switchMap, tap, throwE
 import { status } from '@grpc/grpc-js';
 import { RpcException } from '@nestjs/microservices';
 import {
-    Product, ProductCardPublic, ProductCU, ProductPreview, ProductPreviewPublic, ProductQueryParams, ProductSort,
+    Product, ProductCardPublic, ProductCU, ProductPreview, ProductPreviewPublic, ProductPublic, ProductQueryParams, ProductSort,
 } from '@fedorenkaavenue/leprechaun_lib_entities/server/product';
 import { Category } from '@fedorenkaavenue/leprechaun_lib_entities/server/category';
 import { QueryCommonParams } from '@fedorenkaavenue/leprechaun_lib_entities/server/common';
+import { PaginationResult } from '@fedorenkaavenue/leprechaun_lib_utils/dto';
+import { User } from '@fedorenkaavenue/leprechaun_lib_entities/server/user';
 
 import { ProductEntity } from './product.entity';
-import { PaginationResult } from '@shared/dto/pagination.dto';
 import ProductMapper from './product.mapper';
 import { TransService } from '@common/trans/trans.service';
 import S3Service from '@common/s3/s3.service';
@@ -73,7 +74,7 @@ export default class ProductService {
         )
     }
 
-    public getProduct(id: Product['id']): Observable<Product> {
+    public getProductPrivate(id: Product['id']): Observable<Product> {
         return from(this.getProductQueryBulder()
             .andWhere('p.id = :id', { id })
             .getOne()
@@ -95,9 +96,46 @@ export default class ProductService {
                     this.categoryService.getCategoryPreviewPrivate(product.category),
                     options$,
                 ]).pipe(
-                    map(([transMap, category, options]) => ProductMapper.toView(
+                    map(([transMap, category, options]) => ProductMapper.toViewPrivate(
                         product, { transMap, category, options },
                     ))
+                );
+            })
+        )
+    }
+
+    public getProductPublic(
+        id: Product['id'],
+        user: User['id'],
+        queries: QueryCommonParams,
+    ): Observable<ProductPublic> {
+        return from(this.getProductQueryBulder()
+            .andWhere('p.id = :id', { id })
+            .andWhere('p.isPublic = true')
+            .getOne()
+        ).pipe(
+            switchMap(product => {
+                if (!product) {
+                    return throwError(() => new RpcException({
+                        code: status.NOT_FOUND,
+                        message: `product with id ${id} not found`
+                    }));
+                }
+
+                const options$ = product.properties.length
+                    ? this.propGroupService.getProductPublicOptions(product.properties, queries)
+                    : of([]);
+
+                return forkJoin([
+                    this.transService.getTransMap({ ids: [product.title, product.description] }),
+                    this.categoryService.getCategoryPreviewPublic(product.category, queries),
+                    options$,
+                ]).pipe(
+                    map(
+                        ([transMap, category, options]) => ProductMapper.toViewPublic.call(
+                            queries, product, { transMap, category, options })
+                    ),
+                    tap(product => this.eventSerivice.emitVisiteProduct({ product, user }))
                 );
             })
         )
@@ -203,7 +241,7 @@ export default class ProductService {
                     tap(() => {
                         if (product.images.length) this.s3Service.deleteImages(product.images.map((image) => image.srcId))
 
-                        this.eventSerivice.deleteProduct(product);
+                        this.eventSerivice.emitDeleteProduct(product);
                     }),
                     map(() => undefined)
                 );

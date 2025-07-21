@@ -36,6 +36,12 @@ export class HistoryService {
         )
     }
 
+    public addHistoryItem(user: User['id'], product: Product['id']): Observable<void> {
+        return from(this.historyRepo.upsert({ user, product }, ['user', 'product'])).pipe(
+            switchMap(() => of(void 0))
+        )
+    }
+
     /**
      * @description for 'product.deleted' event. remove all history by product ID
      * @param product product ID

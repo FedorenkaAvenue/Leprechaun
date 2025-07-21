@@ -5,6 +5,7 @@ import {
     PROPERTY_GROUP_SERVICE_NAME,
     PROPERTY_SERVICE_NAME,
     PropertyGroupPreview,
+    PropertyGroupPreviewPublic,
     PropertyGroupPublicMap,
     PropertyGroupServiceClient,
     PropertyServiceClient,
@@ -35,6 +36,15 @@ export default class PropertyGroupService implements OnModuleInit {
 
     public getProductPrivateOptions(properties: Property['id'][]): Observable<PropertyGroupPreview[]> {
         return this.propertyGroupClient.getGroupListByPropertiesPrivate({ ids: properties }).pipe(
+            map(res => res.items)
+        )
+    }
+
+    public getProductPublicOptions(
+        properties: Property['id'][],
+        queries: QueryCommonParams,
+    ): Observable<PropertyGroupPreviewPublic[]> {
+        return this.propertyGroupClient.getGroupListByPropertiesPublic({ ids: properties, queries }).pipe(
             map(res => res.items)
         )
     }

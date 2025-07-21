@@ -72,7 +72,7 @@ export default class ProductPrivateController {
     @ApiBadRequestResponse({ description: 'invalid product ID' })
     @ApiNotFoundResponse({ description: 'product not found' })
     private getProduct(@Param('productID', ParseUUIDPipe) productID: string): Promise<Product> {
-        return this.productService.getProduct(productID);
+        return this.productService.getProductPrivate(productID);
     }
 
     @Patch(':productID')

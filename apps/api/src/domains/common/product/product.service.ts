@@ -8,15 +8,17 @@ import {
     ProductListPrivate,
     ProductListPublic,
     ProductPreview,
+    ProductPublic,
     ProductQueryParams,
     ProductServiceClient,
     ProductUpdateParams,
 } from '@fedorenkaavenue/leprechaun_lib_entities/server/product';
-import { File } from '@fedorenkaavenue/leprechaun_lib_entities/server/common';
+import { File, QueryCommonParams } from '@fedorenkaavenue/leprechaun_lib_entities/server/common';
 import { Empty } from '@fedorenkaavenue/leprechaun_lib_entities/server/google/protobuf/empty';
 
 import { PRODUCT_PACKAGE } from './product.constants';
 import { catchResponceError } from '@pipes/operators';
+import { User } from '@fedorenkaavenue/leprechaun_lib_entities/server/user';
 
 @Injectable()
 export default class ProductService implements OnModuleInit {
@@ -32,8 +34,16 @@ export default class ProductService implements OnModuleInit {
         return lastValueFrom(this.productClient.createProduct({ ...newProduct, images }).pipe(catchResponceError));
     }
 
-    public async getProduct(id: Product['id']): Promise<Product> {
+    public async getProductPrivate(id: Product['id']): Promise<Product> {
         return lastValueFrom(this.productClient.getProductPrivate({ id }).pipe(catchResponceError))
+    }
+
+    public async getProductPublic(
+        id: Product['id'],
+        user: User['id'],
+        queries: QueryCommonParams,
+    ): Promise<ProductPublic> {
+        return lastValueFrom(this.productClient.getProductPublic({ id, user, queries }).pipe(catchResponceError))
     }
 
     public async getProductPrivateList(searchParams: ProductQueryParams): Promise<ProductListPrivate> {

@@ -15,6 +15,8 @@ import {
     ProductServiceController,
     ProductServiceControllerMethods,
     ProductUpdateParams,
+    ProductPublic,
+    ProductPublicSearchParams,
 } from "@fedorenkaavenue/leprechaun_lib_entities/server/product";
 import { ValidateRPCDTO } from "@fedorenkaavenue/leprechaun_lib_utils/decorators";
 
@@ -24,12 +26,14 @@ import { ProductCreateDTO, ProductUpdateDTO } from "./product.dto";
 @Controller()
 @ProductServiceControllerMethods()
 export class ProductController implements ProductServiceController {
-    constructor(private readonly productService: ProductService) { }
+    constructor(
+        private readonly productService: ProductService,
+    ) { }
 
     // private
 
     getProductPrivate({ id }: ProductPrivateSearchParams): Observable<Product> {
-        return this.productService.getProduct(id);
+        return this.productService.getProductPrivate(id);
     }
 
     @ValidateRPCDTO(ProductCreateDTO)
@@ -66,5 +70,9 @@ export class ProductController implements ProductServiceController {
 
     getProductListByParamsPublic(queries: ProductQueryParams): Observable<ProductListPublic> {
         return this.productService.getProductListPublic(queries);
+    }
+
+    getProductPublic({ id, user, queries }: ProductPublicSearchParams): Observable<ProductPublic> {
+        return this.productService.getProductPublic(id, user, queries);
     }
 }

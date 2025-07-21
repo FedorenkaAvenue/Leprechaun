@@ -1,46 +1,33 @@
 {
-  "compilerOptions": {
-    "module": "commonjs",
+    "compilerOptions": {
+        "module": "commonjs",
 
-    "strict": true,
-    "noImplicitAny": true,
-    "strictNullChecks": true,
-    "strictBindCallApply": true,
-    "strictFunctionTypes": false,
-    "strictPropertyInitialization": false,
-    "strictBuiltinIteratorReturn": false,
+        "strict": true,
+        "noImplicitAny": true,
+        "strictNullChecks": true,
+        "strictBindCallApply": true,
+        "strictFunctionTypes": false,
+        "strictPropertyInitialization": false,
+        "strictBuiltinIteratorReturn": false,
 
-    "declaration": true,
-    "removeComments": true,
-    "emitDecoratorMetadata": true,
-    "experimentalDecorators": true,
-    "allowSyntheticDefaultImports": true,
-    "target": "ES2017",
-    "sourceMap": true,
-    "incremental": true,
-    "skipLibCheck": true,
+        "declaration": true,
+        "removeComments": true,
+        "emitDecoratorMetadata": true,
+        "experimentalDecorators": true,
+        "allowSyntheticDefaultImports": true,
+        "target": "ES2017",
+        "sourceMap": true,
+        "incremental": true,
+        "skipLibCheck": true,
 
-    "rootDir": ".",
-    "outDir": "./dist",
+        "rootDir": ".",
+        "outDir": "./dist",
 
-    "baseUrl": ".",
-    "paths": {
-      "@common/*": ["./src/common/*"],
-      "@public/*": ["./src/domains/public/*"],
-      "@private/*": ["./src/domains/private/*"],
-      "@modules/*": ["./src/shared/modules/*"],
-      "@utils/*": ["./src/shared/utils/*"],
-      "@middlewares/*": ["./src/shared/middlewares/*"],
-      "@filters/*": ["./src/shared/filters/*"],
-      "@guards/*": ["./src/shared/guards/*"],
-      "@interceptors/*": ["./src/shared/interceptors/*"],
-      "@decorators/*": ["./src/shared/decorators/*"],
-      "@schemas/*": ["./src/shared/schemas/*"],
-      "@dto/*": ["./src/shared/dto/*"],
-      "@pipes/*": ["./src/shared/pipes/*"],
-      "@gen/*": ["./gen/*"]
-    }
-  },
-  "include": ["**/*.ts", "**/*.tsx", "**/*.d.ts"],
-  "exclude": ["__old", "dist/**/*"]
+        "baseUrl": ".",
+        "paths": {
+            "@common/*": ["./src/common/*"]
+        }
+    },
+    "include": ["**/*.ts", "**/*.tsx", "**/*.d.ts"],
+    "exclude": ["__old", "dist/**/*"]
 }

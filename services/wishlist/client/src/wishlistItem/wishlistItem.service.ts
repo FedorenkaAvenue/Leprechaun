@@ -1,7 +1,7 @@
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { DeepPartial, DeleteResult, Repository } from "typeorm";
-import { forkJoin, from, map, Observable, of, switchMap } from "rxjs";
+import { forkJoin, from, map, Observable, of, switchMap, tap } from "rxjs";
 import { RpcException } from "@nestjs/microservices";
 import { status } from "@grpc/grpc-js";
 import { Product } from "@fedorenkaavenue/leprechaun_lib_entities/server/product";
@@ -14,6 +14,7 @@ import WishlistItemMapper from "./wishlistItem.mapper";
 import ProductService from "@common/product/product.service";
 import { QueryDeepPartialEntity } from "typeorm/query-builder/QueryPartialEntity";
 import { WishlistService } from "../wishlist/wishlist.service";
+import { EventService } from "@common/event/event.service";
 
 @Injectable()
 export default class WishlistItemService {
@@ -21,6 +22,7 @@ export default class WishlistItemService {
         @InjectRepository(WishlistItemEntity) private readonly wishlistItemRepo: Repository<WishlistItemEntity>,
         private readonly productService: ProductService,
         private readonly wishlistService: WishlistService,
+        private readonly eventService: EventService,
     ) { }
 
     public addWishlistItemPublic(
@@ -51,7 +53,8 @@ export default class WishlistItemService {
                         map(([wishlistItem, product]) => WishlistItemMapper.toViewPublic(
                             wishlistItem as WishlistItemEntity,
                             product,
-                        ))
+                        )),
+                        tap(() => this.eventService.addToStatistics(productId)),
                     );
                 })
             )),

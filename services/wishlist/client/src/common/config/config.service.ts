@@ -31,7 +31,24 @@ export default class ConfigService extends SharedConfigService {
     */
     getRMQConnectionData() {
         return {
-            urls: [`amqp://${this.getVal('EVENTS_HOST')}:${this.getVal('EVENTS_PORT')}`],
+            urls: [
+                `amqp://${this.getVal('MESSAGING_RABBITMQ_HOST')}:${this.getVal('MESSAGING_RABBITMQ_PORT')}`
+            ],
+        };
+    }
+
+    /**
+  * @description get Kafka connection data
+  * @returns 
+  */
+    getKafkaConnectionData() {
+        return {
+            client: {
+                clientId: 'nestjs-client',
+                brokers: [
+                    `${this.getVal('MESSAGING_KAFKA_HOST')}:${this.getVal('MESSAGING_KAFKA_PORT')}`
+                ],
+            }
         };
     }
 }

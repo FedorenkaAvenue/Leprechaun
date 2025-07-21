@@ -14,17 +14,35 @@ services:
     depends_on:
       - app_admin
 
-  infra_events:
+  infra_messaging_rabbitmq:
     restart: unless-stopped
     volumes:
-      - ./infra/events/rabbitmq.config:/etc/rabbitmq/conf.d/rabbitmq.config
+      - ./infra/messaging/rabbitMQ/rabbitmq.config:/etc/rabbitmq/conf.d/rabbitmq.config
     ports:
-      - ${EVENTS_PORT_UI_EXPOSE}:15672
+      - ${MESSAGING_RABBITMQ_PORT_UI_EXPOSE}:15672
 
-  infra_notifications:
+  infra_messaging_kafka:
     restart: unless-stopped
-    volumes:
-      - ./infra/notifications/redis.conf:/app/redis.conf
+    ports:
+      - ${MESSAGING_KAFKA_PORT_EXPOSE}:${MESSAGING_KAFKA_PORT}
+
+  infra_messaging_kafka-ui:
+    container_name: leprechaun-infra-messaging-kafka-ui
+    image: provectuslabs/kafka-ui:latest
+    ports:
+      - "${MESSAGING_KAFKA_PORT_UI_EXPOSE:-8080}:8080"
+    environment:
+      KAFKA_CLUSTERS_0_NAME: local
+      KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: ${MESSAGING_KAFKA_HOST}:${MESSAGING_KAFKA_PORT}
+    networks:
+      - api_app
+    depends_on:
+      - infra_messaging_kafka
+
+  # infra_notifications:
+  #   restart: unless-stopped
+  #   volumes:
+  #     - ./infra/notifications/redis.conf:/app/redis.conf
 
   ### APPS
 

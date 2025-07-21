@@ -18,27 +18,44 @@ services:
       - app_client
       - app_ws
 
-  infra_events:
-    container_name: leprechaun-infra-events
+  infra_messaging_rabbitmq:
+    container_name: leprechaun-infra-messaging-rabbitmq
     image: rabbitmq:4-management-alpine
     ports:
-      - ${EVENTS_PORT_EXPOSE}:${EVENTS_PORT}
+      - ${MESSAGING_RABBITMQ_PORT_EXPOSE}:${MESSAGING_RABBITMQ_PORT}
     networks:
       - api_app
 
-  infra_notifications:
-    container_name: leprechaun-infra-notifications
-    networks:
-      - ws_app
-    build:
-      context: ./infra/notifications
-      dockerfile: Dockerfile
-      args:
-        - REDIS_PASSWORD=${NOTIFICATIONS_PASSWORD}
+  infra_messaging_kafka:
+    container_name: leprechaun-infra-messaging-kafka
+    image: confluentinc/cp-kafka:7.5.0
     environment:
-      - REDIS_PASSWORD=${NOTIFICATIONS_PASSWORD}
-    ports:
-      - ${NOTIFICATIONS_PORT_EXPOSE}:${NOTIFICATIONS_PORT}
+      KAFKA_PROCESS_ROLES: broker,controller
+      KAFKA_NODE_ID: 1
+      KAFKA_CONTROLLER_QUORUM_VOTERS: 1@${MESSAGING_KAFKA_HOST}:9093
+      KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:${MESSAGING_KAFKA_PORT},CONTROLLER://0.0.0.0:9093
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,CONTROLLER:PLAINTEXT
+      KAFKA_CONTROLLER_LISTENER_NAMES: CONTROLLER
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://${MESSAGING_KAFKA_HOST}:${MESSAGING_KAFKA_PORT}
+      KAFKA_AUTO_CREATE_TOPICS_ENABLE: "true"
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      CLUSTER_ID: xJcJL5eSTcO1pQAjPC7hNg
+    networks:
+      - api_app
+
+  # infra_notifications:
+  #   container_name: leprechaun-infra-notifications
+  #   networks:
+  #     - ws_app
+  #   build:
+  #     context: ./infra/notifications
+  #     dockerfile: Dockerfile
+  #     args:
+  #       - REDIS_PASSWORD=${NOTIFICATIONS_PASSWORD}
+  #   environment:
+  #     - REDIS_PASSWORD=${NOTIFICATIONS_PASSWORD}
+  #   ports:
+  #     - ${NOTIFICATIONS_PORT_EXPOSE}:${NOTIFICATIONS_PORT}
 
   ### APSS
 
@@ -74,7 +91,7 @@ services:
       - ORDER_SERVICE_CLIENT_HOST
       - ORDER_SERVICE_CLIENT_PORT
     depends_on:
-      - infra_events
+      - infra_messaging_rabbitmq
       - service_auth_client
       - service_propgroup_client
       - service_user_client
@@ -105,8 +122,12 @@ services:
     container_name: leprechaun-app-ws
     networks:
       - ws_app
-    depends_on:
-      - infra_notifications
+    environment:
+      - DOMAIN_PUBLIC
+      - MESSAGING_RABBITMQ_HOST
+      - MESSAGING_RABBITMQ_PORT
+    # depends_on:
+    #   - infra_notifications
 
   ### SERVICES
 
@@ -166,8 +187,8 @@ services:
       - POSTGRES_DATABASE=${PROPGROUP_SERVICE_DB_DATABASE}
       - CATEGORY_SERVICE_CLIENT_HOST
       - CATEGORY_SERVICE_CLIENT_PORT
-      - EVENTS_HOST
-      - EVENTS_PORT
+      - MESSAGING_RABBITMQ_HOST
+      - MESSAGING_RABBITMQ_PORT
     networks:
       - api_app
       - propgroup_service
@@ -197,8 +218,8 @@ services:
       - POSTGRES_HOST=${TRANS_SERVICE_DB_HOST}
       - POSTGRES_PORT=${TRANS_SERVICE_DB_PORT}
       - POSTGRES_DATABASE=${TRANS_SERVICE_DB_DATABASE}
-      - EVENTS_HOST
-      - EVENTS_PORT
+      - MESSAGING_RABBITMQ_HOST
+      - MESSAGING_RABBITMQ_PORT
     networks:
       - api_app
       - trans_service
@@ -236,8 +257,8 @@ services:
       - TRANS_SERVICE_CLIENT_PORT
       - PROPGROUP_SERVICE_CLIENT_HOST
       - PROPGROUP_SERVICE_CLIENT_PORT
-      - EVENTS_HOST
-      - EVENTS_PORT
+      - MESSAGING_RABBITMQ_HOST
+      - MESSAGING_RABBITMQ_PORT
       - PRODUCT_SERVICE_CLIENT_HOST
       - PRODUCT_SERVICE_CLIENT_PORT
     networks:
@@ -294,8 +315,8 @@ services:
       - CATEGORY_SERVICE_CLIENT_PORT
       - PROPGROUP_SERVICE_CLIENT_HOST
       - PROPGROUP_SERVICE_CLIENT_PORT
-      - EVENTS_HOST
-      - EVENTS_PORT
+      - MESSAGING_RABBITMQ_HOST
+      - MESSAGING_RABBITMQ_PORT
     networks:
       - api_app
       - product_service
@@ -342,8 +363,10 @@ services:
       - POSTGRES_DATABASE=${WISHLIST_SERVICE_DB_DATABASE}
       - PRODUCT_SERVICE_CLIENT_HOST
       - PRODUCT_SERVICE_CLIENT_PORT
-      - EVENTS_HOST
-      - EVENTS_PORT
+      - MESSAGING_RABBITMQ_HOST
+      - MESSAGING_RABBITMQ_PORT
+      - MESSAGING_KAFKA_HOST
+      - MESSAGING_KAFKA_PORT
     networks:
       - api_app
       - wishlist_service
@@ -375,8 +398,8 @@ services:
       - POSTGRES_DATABASE=${HISTORY_SERVICE_DB_DATABASE}
       - PRODUCT_SERVICE_CLIENT_HOST
       - PRODUCT_SERVICE_CLIENT_PORT
-      - EVENTS_HOST
-      - EVENTS_PORT
+      - MESSAGING_RABBITMQ_HOST
+      - MESSAGING_RABBITMQ_PORT
     networks:
       - api_app
       - history_service
@@ -406,8 +429,8 @@ services:
       - POSTGRES_HOST=${SUBSCRIPTION_SERVICE_DB_HOST}
       - POSTGRES_PORT=${SUBSCRIPTION_SERVICE_DB_PORT}
       - POSTGRES_DATABASE=${SUBSCRIPTION_SERVICE_DB_DATABASE}
-      - EVENTS_HOST
-      - EVENTS_PORT
+      - MESSAGING_RABBITMQ_HOST
+      - MESSAGING_RABBITMQ_PORT
     networks:
       - api_app
       - subscription_service
@@ -439,8 +462,8 @@ services:
       - POSTGRES_DATABASE=${ORDER_SERVICE_DB_DATABASE}
       - PRODUCT_SERVICE_CLIENT_HOST
       - PRODUCT_SERVICE_CLIENT_PORT
-      - EVENTS_HOST
-      - EVENTS_PORT
+      - MESSAGING_RABBITMQ_HOST
+      - MESSAGING_RABBITMQ_PORT
     networks:
       - api_app
       - order_service

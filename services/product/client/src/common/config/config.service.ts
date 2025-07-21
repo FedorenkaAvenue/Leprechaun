@@ -2,7 +2,7 @@ import { TypeOrmModuleOptions } from '@nestjs/typeorm';
 import { Injectable } from '@nestjs/common';
 import { PostgresConnectionCredentialsOptions } from 'typeorm/driver/postgres/PostgresConnectionCredentialsOptions';
 import { S3ClientConfig } from '@aws-sdk/client-s3';
-import { ConfigService as SharedConfigService } from '@fedorenkaavenue/leprechaun_lib_utils/services';
+import { ConfigService as SharedConfigService } from '@fedorenkaavenue/leprechaun_lib_utils/modules';
 
 @Injectable()
 export default class ConfigServic extends SharedConfigService {
@@ -43,7 +43,7 @@ export default class ConfigServic extends SharedConfigService {
     */
     getRMQConnectionData() {
         return {
-            urls: [`amqp://${this.getVal('EVENTS_HOST')}:${this.getVal('EVENTS_PORT')}`],
+            urls: [`amqp://${this.getVal('MESSAGING_RABBITMQ_HOST')}:${this.getVal('MESSAGING_RABBITMQ_PORT')}`],
         };
     }
 }

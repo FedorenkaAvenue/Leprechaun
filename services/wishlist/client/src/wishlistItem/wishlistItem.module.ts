@@ -7,12 +7,14 @@ import WishlistItemListener from "./wishlistItem.listener";
 import ProductModule from "@common/product/product.module";
 import WishlistModule from "../wishlist/wishlist.module";
 import WishlistItemController from "./wishlistItem.controller";
+import EventModule from "@common/event/event.module";
 
 @Module({
     imports: [
         TypeOrmModule.forFeature([WishlistItemEntity]),
         ProductModule,
         WishlistModule,
+        EventModule,
     ],
     controllers: [WishlistItemController],
     providers: [WishlistItemService, WishlistItemListener],

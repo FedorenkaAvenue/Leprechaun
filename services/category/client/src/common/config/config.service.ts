@@ -43,7 +43,7 @@ export default class ConfigService extends SharedConfigService {
     */
     getRMQConnectionData() {
         return {
-            urls: [`amqp://${this.getVal('EVENTS_HOST')}:${this.getVal('EVENTS_PORT')}`],
+            urls: [`amqp://${this.getVal('MESSAGING_RABBITMQ_HOST')}:${this.getVal('MESSAGING_RABBITMQ_PORT')}`],
         };
     }
 }

@@ -31,6 +31,18 @@ async function bootstrap() {
         },
     });
 
+    app.connectMicroservice<MicroserviceOptions>({
+        transport: Transport.RMQ,
+        options: {
+            ...config.getRMQConnectionData(),
+            queue: 'history.add',
+            routingKey: '#',
+            queueOptions: { durable: false },
+            exchange: 'product.visit',
+            exchangeType: 'fanout',
+        },
+    });
+
     await app.startAllMicroservices();
     await app.init();
 }

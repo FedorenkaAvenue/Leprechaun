@@ -1,7 +1,7 @@
 import { DeepPartial } from "typeorm";
 import { QueryCommonParams } from "@fedorenkaavenue/leprechaun_lib_entities/server/common";
 import { Trans, TransData, TransMap } from "@fedorenkaavenue/leprechaun_lib_entities/server/trans";
-import { CategoryPreview } from "@fedorenkaavenue/leprechaun_lib_entities/server/_category_preview";
+import { CategoryPreview, CategoryPreviewPublic } from "@fedorenkaavenue/leprechaun_lib_entities/server/_category_preview";
 import {
     PropertyGroupPreview, PropertyGroupPreviewPublic,
 } from "@fedorenkaavenue/leprechaun_lib_entities/server/property_group";
@@ -13,11 +13,12 @@ import {
     ProductLabelType,
     ProductPreview,
     ProductPreviewPublic,
+    ProductPublic,
 } from "@fedorenkaavenue/leprechaun_lib_entities/server/product";
+import { getPercentDifference } from "@fedorenkaavenue/leprechaun_lib_utils/utils";
 
 import { ProductEntity } from "./product.entity";
 import ProductImageMapper from "src/productImage/productImage.mapper";
-import getPercentDifference from "@shared/utils/getPercentDifference";
 
 interface ProductCUPayload {
     title: Trans['id'];
@@ -31,8 +32,14 @@ interface ProductPrivatePayload {
     options: PropertyGroupPreview[],
 }
 
+interface ProductPublicPayload {
+    transMap: TransMap,
+    category: CategoryPreviewPublic,
+    options: PropertyGroupPreviewPublic[],
+}
+
 export default class ProductMapper {
-    static toView(
+    static toViewPrivate(
         product: ProductEntity,
         { transMap, category, options }: ProductPrivatePayload,
     ): Product {
@@ -41,6 +48,20 @@ export default class ProductMapper {
             title: transMap.items[product.title],
             description: transMap.items[product.description],
             images: product.images.map(ProductImageMapper.toView),
+        }
+    }
+
+    static toViewPublic(
+        this: QueryCommonParams,
+        product: ProductEntity,
+        { transMap, category, options }: ProductPublicPayload,
+    ): ProductPublic {
+        return {
+            ...product, category, options,
+            title: transMap.items[product.title][this.lang as keyof TransData],
+            description: transMap.items[product.description][this.lang as keyof TransData],
+            images: product.images.map(ProductImageMapper.toView),
+            labels: [],
         }
     }
 

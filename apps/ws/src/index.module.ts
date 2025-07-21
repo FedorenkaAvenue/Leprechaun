@@ -1,25 +1,24 @@
 import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { APP_FILTER } from '@nestjs/core';
 import * as cookieParser from 'cookie-parser';
+import { UncaughtExceptionFilter } from '@fedorenkaavenue/leprechaun_lib_utils/filters';
+import { MailModule, LoggerModule } from '@fedorenkaavenue/leprechaun_lib_utils/modules';
+import { HTTPLogMiddleware } from '@fedorenkaavenue/leprechaun_lib_utils/middlewares';
 
-import EventModule from './event/event.module';
-import ConfigModule from '@core/config/config.module';
-import ConfigService from '@core/config/config.service';
-import UncaughtExceptionFilter from '@shared/filters/uncaughtException.filter';
-import MailModule from '@shared/modules/mail/mail.module';
-import LoggerModule from '@shared/modules/logger/logger.module';
-import HTTPLogMiddleware from '@shared/middlewares/HTTPLog.middleware';
+import ConfigModule from '@common/config/config.module';
+import ConfigService from '@common/config/config.service';
+import GateModule from './gate/gate.module';
 
 @Module({
     imports: [
         ConfigModule,
-        EventModule,
         LoggerModule,
         MailModule.forRootAsync({
             imports: [ConfigModule],
             inject: [ConfigService],
             useFactory: async (conf: ConfigService) => conf,
         }),
+        GateModule,
     ],
     providers: [
         {
