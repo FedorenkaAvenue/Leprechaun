@@ -1,0 +1,51 @@
+[submodule "services/wishlist"]
+	path = services/wishlist
+	url = git@github.com:FedorenkaAvenue/Leprechaun_service_wishlist.git
+[submodule "services/user"]
+	path = services/user
+	url = git@github.com:FedorenkaAvenue/Leprechaun_service_user.git
+[submodule "services/trans"]
+	path = services/trans
+	url = git@github.com:FedorenkaAvenue/Leprechaun_service_trans.git
+[submodule "services/subscription"]
+	path = services/subscription
+	url = git@github.com:FedorenkaAvenue/Leprechaun_service_subscription.git
+[submodule "services/propgroup"]
+	path = services/propgroup
+	url = git@github.com:FedorenkaAvenue/Leprechaun_service_propgroup.git
+[submodule "services/product"]
+	path = services/product
+	url = git@github.com:FedorenkaAvenue/Leprechaun_service_product.git
+[submodule "services/order"]
+	path = services/order
+	url = git@github.com:FedorenkaAvenue/Leprechaun_service_order.git
+[submodule "services/history"]
+	path = services/history
+	url = git@github.com:FedorenkaAvenue/Leprechaun_service_history.git
+[submodule "services/category"]
+	path = services/category
+	url = git@github.com:FedorenkaAvenue/Leprechaun_service_category.git
+[submodule "services/auth"]
+	path = services/auth
+	url = git@github.com:FedorenkaAvenue/Leprechaun_service_auth.git
+[submodule "apps/api"]
+	path = apps/api
+	url = git@github.com:FedorenkaAvenue/Leprechaun_app_api.git
+[submodule "apps/customer"]
+	path = apps/customer
+	url = git@github.com:FedorenkaAvenue/Leprechaun_app_customer.git
+[submodule "apps/ws"]
+	path = apps/ws
+	url = git@github.com:FedorenkaAvenue/Leprechaun_app_ws.git
+[submodule "utils"]
+	path = utils
+	url = git@github.com:FedorenkaAvenue/Leprechaun_utils.git
+[submodule "infra"]
+	path = infra
+	url = git@github.com:FedorenkaAvenue/Leprechaun_infra.git
+[submodule "libs/utils"]
+	path = libs/utils
+	url = git@github.com:FedorenkaAvenue/Leprechaun_lib_utils.git
+[submodule "libs/entities"]
+	path = libs/entities
+	url = git@github.com:FedorenkaAvenue/Leprechaun_lib_entities.git
