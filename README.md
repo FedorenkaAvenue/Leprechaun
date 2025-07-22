@@ -4,19 +4,6 @@
 
 Boilerplate for web store
 
-## Deploy
-
--   #### local
-
-    -   create `.env` file inside root directory based on `.env.dist` file with own config parameters
-    -   install all _npm_ dependencies inside **server**, **client**, **admin** and **translations** folders (using `npm i` or `yarn` commands)
-    -   run `docker compose up --build -d` to deploy and start all containers
-    -   add `leprechaun.loc api.leprechaun.loc docs.leprechaun.loc adm.leprechaun.loc` aliases to Your `/etc/hosts` list
-
-<!-- -   #### remote test server🌐
-
-    -   push changes to **test** branch and check [action](https://github.com/FedorenkaAvenue/Leprechaun/actions) result -->
-
 ## Links
 
 -   local
@@ -80,14 +67,27 @@ Boilerplate for web store
 
         -   `HISTORY` user product history
 
+## Deploy
+
+### local
+
+-   run `chmod +x ./scripts/*`
+-   create `.env` file inside root directory based on `.env.dist` file with own config parameters
+-   install all _npm_ dependencies inside all apps, utils and services folders (using `npm i` or `yarn` commands)
+-   run `sh docker.sh build` to deploy and start all containers
+-   add `leprechaun.loc api.leprechaun.loc docs.leprechaun.loc adm.leprechaun.loc` aliases to Your `/etc/hosts` list
+
+<!-- -   #### remote test server🌐
+
+    -   push changes to **test** branch and check [action](https://github.com/FedorenkaAvenue/Leprechaun/actions) result -->
+
 ## Tools
 
 ### dev
 
+-   `make build` build and run containers
+-   `make start` start all containers
+-   `make stop` stop all containers
+-   `make down` remove all containers
 -   `make translation` move translations
 -   `make protos` move generated `.proto` files
-
-### prod
-
--   `make build_prod` build and run containers (prod)
--   `make build_prod_single args="$SERVICE_NAME"` build and run `$SERVICE_NAME` container (prod)
