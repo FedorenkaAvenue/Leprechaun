@@ -1,1 +1,0 @@
-export const WISHLIST_TITLE_MIN_TEXT_LENGHT = 1;

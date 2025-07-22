@@ -1,3 +1,0 @@
-{
-    "*.{ts,json,md,yaml}": "yarn --cwd ./api format"
-}

@@ -1,1 +1,0 @@
-export const CATEGORY_PACKAGE = 'CATEGORY_PACKAGE';

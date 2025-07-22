@@ -1,1 +1,0 @@
-export const TRANS_PACKAGE = 'TRANS_PACKAGE';

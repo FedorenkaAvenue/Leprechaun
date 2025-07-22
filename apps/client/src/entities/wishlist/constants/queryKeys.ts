@@ -1,1 +1,0 @@
-export const WISHLISTS_QUERY = 'WISHLISTS';

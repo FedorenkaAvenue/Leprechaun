@@ -1,1 +1,0 @@
-export const PRODUCT_PACKAGE = 'PRODUCT_PACKAGE';

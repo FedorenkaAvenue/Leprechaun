@@ -1,1 +1,0 @@
-export const WISHLIST_PACKAGE = 'WISHLIST_PACKAGE';

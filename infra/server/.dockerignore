@@ -1,6 +1,0 @@
-Dockerfile
-Dockerfile.prod
-.dockerignore
-
-README.md
-Makefile
