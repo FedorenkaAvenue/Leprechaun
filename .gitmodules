@@ -1,9 +1,6 @@
 [submodule "services/wishlist"]
 	path = services/wishlist
 	url = git@github.com:FedorenkaAvenue/Leprechaun_service_wishlist.git
-[submodule "services/user"]
-	path = services/user
-	url = git@github.com:FedorenkaAvenue/Leprechaun_service_user.git
 [submodule "services/trans"]
 	path = services/trans
 	url = git@github.com:FedorenkaAvenue/Leprechaun_service_trans.git
@@ -52,3 +49,6 @@
 [submodule "apps/admin"]
 	path = apps/admin
 	url = git@github.com:FedorenkaAvenue/Leprechaun_app_admin.git
+[submodule "services/user"]
+	path = services/user
+	url = git@github.com:FedorenkaAvenue/Leprechaun_service_user.git

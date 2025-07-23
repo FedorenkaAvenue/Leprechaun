@@ -71,6 +71,7 @@ Boilerplate for web store
 
 ### local
 
+-   run `git submodule update --init --recursive` to install all submodules
 -   run `chmod +x ./scripts/*`
 -   create `.env` file inside root directory based on `.env.dist` file with own config parameters
 -   install all _npm_ dependencies inside all apps, utils and services folders (using `npm i` or `yarn` commands)
