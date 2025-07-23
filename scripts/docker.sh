@@ -6,7 +6,7 @@ ACTION=$1
 NETWORK_NAME="leprechaun-shared"
 ROOT_ENV_FILE="$(pwd)/.env"
 
-if [[ "$ACTION" != "start" && "$ACTION" != "stop" && "$ACTION" != "build" ]]; then
+if [[ "$ACTION" != "start" && "$ACTION" != "stop" && "$ACTION" != "build" && "$ACTION" != "down" ]]; then
   echo "❌ Unknown command: $ACTION"
   exit 1
 fi
