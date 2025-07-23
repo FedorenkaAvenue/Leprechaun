@@ -6,7 +6,7 @@ ACTION=$1
 NETWORK_NAME="leprechaun-shared"
 ROOT_ENV_FILE="$(pwd)/.env"
 
-if [[ "$ACTION" != "start" && "$ACTION" != "stop" && "$ACTION" != "build" && "$ACTION" != "down" ]]; then
+if [[ "$ACTION" != "start" && "$ACTION" != "stop" && "$ACTION" != "build" && "$ACTION" != "down" && "$ACTION" != "restart" ]]; then
   echo "❌ Unknown command: $ACTION"
   exit 1
 fi
@@ -29,6 +29,9 @@ find . -maxdepth 3 -type f \( -name "docker-compose.yml" -o -name "docker-compos
         ;;
       stop)
         docker compose --env-file "$ROOT_ENV_FILE" stop
+        ;;
+      restart)
+        docker compose --env-file "$ROOT_ENV_FILE" restart
         ;;
       build)
         docker compose --env-file "$ROOT_ENV_FILE" up --build -d

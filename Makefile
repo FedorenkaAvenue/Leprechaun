@@ -1,17 +1,17 @@
 start:
-	@./scripts/docker.sh start
+	@./scripts/docker.loc.sh start
 
 stop:
-	@./scripts/docker.sh stop
+	@./scripts/docker.loc.sh stop
+
+restart:
+	@./scripts/docker.loc.sh restart
 
 build:
-	@./scripts/docker.sh build
+	@./scripts/docker.loc.sh build
 
 down:
-	@./scripts/docker.sh down
+	@./scripts/docker.loc.sh down
 
 translation:
 	@cd ./utils/translations && make move
-
-protos:
-	@cd ./utils/proto_gen && make move
