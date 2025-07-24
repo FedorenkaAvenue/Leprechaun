@@ -16,7 +16,8 @@ Boilerplate for web store
     -   http://localhost:1080 _Mailcatcher_
     -   http://localhost:9010 _MinIO_ (S3) **category** UI admin panel
     -   http://localhost:9014 _MinIO_ (S3) **product** UI admin panel
-    -   http://localhost:15672 events UI panel
+    -   http://localhost:15672 RabbitMQ UI panel
+    -   http://localhost:9024 Kafka UI panel
 
 <!-- -   remote test server
 
